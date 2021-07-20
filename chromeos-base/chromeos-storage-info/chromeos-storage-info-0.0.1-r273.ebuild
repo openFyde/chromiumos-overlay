@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9eb30f9bd7ea687b61411060d3e70c8b4d35c466"
+CROS_WORKON_COMMIT="c0e683d8438d284cdb3d757fd4dfe21cbaa003e3"
 CROS_WORKON_TREE=("cc8ae75ea68e5c37c867b396c0540c8a109ed460" "8d5d5e575da16bb48f735ef93feedcfae4b1586e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="+mmc nvme +sata test"
+IUSE="mmc nvme +sata test"
 
 DEPEND=""
 

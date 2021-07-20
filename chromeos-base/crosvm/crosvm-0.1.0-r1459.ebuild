@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c950eb92c5f8debd6e7fa581ae54cef35786491c"
-CROS_WORKON_TREE="bc2806a5c1eaf9f80278fad3a31c4c836b7988d1"
+CROS_WORKON_COMMIT="1eb7712652edf609d70f633f0c75074643961702"
+CROS_WORKON_TREE="0bcb9db43fc8a31ad461327fc772114a6998daf0"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -128,11 +128,11 @@ FUZZERS=(
 	crosvm_zimage_fuzzer
 )
 
-# Array of "<features>/<binary name>"
+# Array of binary names.
 VHOST_USER_BINARIES=(
-	"console/vhost-user-console-device"
-	"net/vhost-user-net-device"
-	"wl/vhost-user-wl-device"
+	"vhost-user-console-device"
+	"vhost-user-net-device"
+	"vhost-user-wl-device"
 )
 
 src_unpack() {
@@ -204,11 +204,9 @@ src_compile() {
 
 	if use vhost-user-devices; then
 		cd vhost_user_devices || die "failed to move directory"
-		for tuple in "${VHOST_USER_BINARIES[@]}"; do
-			local vhost_features="${tuple%/*}"
-			local binary="${tuple#*/}"
+		local binary
+		for binary in "${VHOST_USER_BINARIES[@]}"; do
 			ecargo_build -v \
-				--features "${vhost_features}" \
 				--bin "${binary}" \
 				|| die "cargo build failed"
 		done
@@ -355,8 +353,8 @@ src_install() {
 	# Install vhost-user device executable.
 	if use vhost-user-devices; then
 		local build_dir="$(cros-rust_get_build_dir)"
-		for tuple in "${VHOST_USER_BINARIES[@]}"; do
-			local binary="${tuple#*/}"
+		local binary
+		for binary in "${VHOST_USER_BINARIES[@]}"; do
 			dobin "${build_dir}/${binary}"
 		done
 	fi
