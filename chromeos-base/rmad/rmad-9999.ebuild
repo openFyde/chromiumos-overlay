@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk rmad .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
@@ -19,9 +19,14 @@ HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cr50_onboard ti50_onboard"
+IUSE="cr50_onboard ti50_onboard generated_cros_config unibuild"
 
 COMMON_DEPEND="
+	unibuild? (
+		!generated_cros_config? ( chromeos-base/chromeos-config:= )
+		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
+	)
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
 "
 
