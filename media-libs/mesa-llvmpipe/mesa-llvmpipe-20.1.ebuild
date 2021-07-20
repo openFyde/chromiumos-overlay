@@ -6,8 +6,8 @@ EAPI=6
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="ac105a8e6e9f108902c54c69792d64fecd426240"
-CROS_WORKON_TREE="a3f45c0300977502a0a9a969f3445b5fc09a642d"
+CROS_WORKON_COMMIT="663fa46287dc7c3c03b784ac2162ee5081083e3a"
+CROS_WORKON_TREE="b8d78e509c717d068a0199e10811bffd817f2dd4"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
@@ -111,6 +111,16 @@ src_prepare() {
 			configure.ac || die
 	fi
 
+	# Current meson 'auto' method does not work properly with cross
+	# compiling, so revert back to hard-coded 'config-tool' method.
+	# This should be fixed in a future meson release.  See:
+	# https://github.com/mesonbuild/meson/issues/7276
+	epatch "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-egl-Allow-software-rendering-for-vgem-virtio_gpu-in-.patch
+
+	epatch "${FILESDIR}"/UPSTREAM-st-mesa-set-compressed_data-to-NULL-when-freed.patch
+
 	default
 }
 
@@ -153,7 +163,6 @@ src_configure() {
 	fi
 
 	if use vulkan; then
-		vulkan_enable video_cards_llvmpipe swrast
 		vulkan_enable video_cards_intel intel
 		vulkan_enable video_cards_amdgpu amd
 	fi
@@ -167,6 +176,8 @@ src_configure() {
 
 	local egl_platforms=""
 	if use egl; then
+		egl_platforms="surfaceless"
+
 		if use drm; then
 			egl_platforms="${egl_platforms},drm"
 		fi
@@ -179,7 +190,6 @@ src_configure() {
 			egl_platforms="${egl_platforms},x11"
 		fi
 	fi
-	egl_platforms="${egl_platforms##,}"
 
 	if use X; then
 		glx="dri"
