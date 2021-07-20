@@ -84,3 +84,4 @@ rt_sigreturn: 1
 setitimer: 1
 wait4: 1
 sched_yield: 1
+fstatfs64: 1
