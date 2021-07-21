@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="02f8a0d2c905532d9b0c9d7ccd1a52382bc40f01"
-CROS_WORKON_TREE="b15797e37c111b9c23504c88305df2a7dc9e440f"
+CROS_WORKON_COMMIT="d85bcfbb60bb2c453276b7dc8db04f7d97e3e278"
+CROS_WORKON_TREE="7225853d12fe57d2d6dbf8197057c408aaeaad5f"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -27,6 +27,7 @@ RDEPEND="
 	media-libs/minigbm
 	fuzzer? (
 		virtual/opengles
+		vulkan? ( virtual/vulkan-icd )
 	)
 	vulkan? (
 		media-libs/vulkan-loader
@@ -85,6 +86,12 @@ src_install() {
 	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
 		"${WORKDIR}/${P}-build"/vtest/vtest_fuzzer \
 		--options "${FILESDIR}/vtest_fuzzer.options"
+
+	if use vulkan; then
+		fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
+			"${WORKDIR}/${P}-build"/tests/fuzzer/virgl_venus_fuzzer \
+			--options "${FILESDIR}/virgl_venus_fuzzer.options"
+	fi
 
 	find "${ED}"/usr -name 'lib*.la' -delete
 }
