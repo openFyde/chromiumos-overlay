@@ -17,15 +17,15 @@ KEYWORDS="*"
 
 LICENSE="LGPL-3"
 SLOT="4"
-IUSE="apparmor +caps doc man pam selinux +ssl +tools verify-sig"
+IUSE="apparmor +caps doc man pam seccomp selinux +ssl +tools verify-sig"
 
 RDEPEND="app-misc/pax-utils
 	sys-apps/util-linux
 	sys-libs/libcap
-	sys-libs/libseccomp
 	virtual/awk
 	caps? ( sys-libs/libcap )
 	pam? ( sys-libs/pam )
+	seccomp? ( sys-libs/libseccomp )
 	selinux? ( sys-libs/libselinux )
 	ssl? (
 		dev-libs/openssl:0=
@@ -117,7 +117,6 @@ src_configure() {
 		--enable-bash
 		--enable-commands
 		--enable-memfd-rexec
-		--enable-seccomp
 		--enable-thread-safety
 
 		$(use_enable apparmor)
@@ -126,6 +125,7 @@ src_configure() {
 		$(use_enable doc examples)
 		$(use_enable man doc)
 		$(use_enable pam)
+		$(use_enable seccomp)
 		$(use_enable selinux)
 		$(use_enable ssl openssl)
 		$(use_enable tools)

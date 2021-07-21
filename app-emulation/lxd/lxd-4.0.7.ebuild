@@ -43,6 +43,7 @@ DEPEND="app-arch/xz-utils
 	>=app-emulation/lxc-3.0.0:4[apparmor?,seccomp(+)]
 	dev-db/sqlite
 	dev-libs/libuv
+	app-arch/lz4
 	dev-libs/lzo
 	net-dns/dnsmasq[dhcp,ipv6?]
 	virtual/libudev"
@@ -121,7 +122,7 @@ src_compile() {
 	export CGO_CFLAGS="-I${DEPS}/raft/include/ -I${DEPS}/dqlite/include/"
 	export CGO_LDFLAGS="-L${DEPS}/raft/.libs -L${DEPS}/dqlite/.libs/"
 	export LD_LIBRARY_PATH="${DEPS}/raft/.libs/:${DEPS}/dqlite/.libs/"
-	export CGO_LDFLAGS_ALLOW="-Wl,-wrap,pthread_create"
+	export CGO_LDFLAGS_ALLOW="(-Wl,-wrap,pthread_create)|(-Wl,-z,now)"
 
 	# TODO(crbug/1097610) Because we're installing everything to different
 	# paths, we need to tell pkg-config and cgo where to find it. This can
@@ -174,7 +175,7 @@ src_install() {
 	# TODO(crbug/1097610) Remove this once we no longer need to do weird
 	# things with PATH
 	insinto /etc/bash/bashrc.d
-	newins "${FILESDIR}/${P}-set-path.sh" ".set-path-for-lxd-next.sh"
+	newins "${FILESDIR}/set-path.sh" ".set-path-for-lxd-next.sh"
 	newins "$(mktemp)" "set-path-for-lxd-next.sh"
 }
 
