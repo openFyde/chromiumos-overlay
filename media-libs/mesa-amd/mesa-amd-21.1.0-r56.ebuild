@@ -24,7 +24,7 @@ for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
-IUSE="${IUSE_VIDEO_CARDS} debug vulkan"
+IUSE="${IUSE_VIDEO_CARDS} debug vulkan libglvnd"
 
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
@@ -33,6 +33,7 @@ RDEPEND="
 	dev-libs/expat
 	x11-libs/libdrm
 	!media-libs/mesa
+	libglvnd? ( media-libs/libglvnd:= )
 "
 
 DEPEND="${RDEPEND}
@@ -76,6 +77,7 @@ src_configure() {
 	append-flags "-UENABLE_SHADER_CACHE"
 
 	emesonargs+=(
+		-Dglvnd=$(usex libglvnd true false)
 		-Dglx=disabled
 		-Dllvm=true
 		-Dshared-llvm=false
