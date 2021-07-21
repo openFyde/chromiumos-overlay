@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8ef61253500cf81b5627d0142f076d40bdc57ea4"
-CROS_WORKON_TREE="a5191b3142c60e3544a6ad688867eaa784873c31"
+CROS_WORKON_COMMIT="94cff17da47df59f567b64fd8e87795fcae055d4"
+CROS_WORKON_TREE="e51dc4ff405fe22db7112aa2665a27e9d6f3c5ee"
 inherit cros-constants
 
 CROS_WORKON_MANUAL_UPREV=1
@@ -28,7 +28,9 @@ HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan cros-debug +seccomp test"
+IUSE="asan cros-debug default-ret-log +seccomp test"
+
+REQUIRED_USE="default-ret-log? ( cros-debug )"
 
 COMMON_DEPEND="sys-libs/libcap:=
 	!<chromeos-base/chromeos-minijail-1"
@@ -48,6 +50,7 @@ src_configure() {
 	export LIBDIR="/$(get_libdir)"
 	export USE_seccomp=$(usex seccomp)
 	export ALLOW_DEBUG_LOGGING=$(usex cros-debug)
+	export SECCOMP_DEFAULT_RET_LOG=$(usex default-ret-log)
 	export USE_SYSTEM_GTEST=yes
 	export DEFAULT_PIVOT_ROOT=/mnt/empty
 }
