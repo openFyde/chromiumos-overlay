@@ -64,7 +64,7 @@ IUSE="
 	missive
 	mist
 	minios
-	+mmc
+	mmc
 	secanomalyd
 	modemfwd
 	ml_service
