@@ -65,6 +65,7 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer
 }
 
 platform_pkg_test() {
