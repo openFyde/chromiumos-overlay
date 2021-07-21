@@ -166,7 +166,7 @@ ALL_BOARDS=(
 	eve-kernelnext
 	eve-kvm
 	eve-lacros
-	eve-manatee
+	#eve-manatee
 	eve-swap
 	eve-userdebug
 	excelsior
