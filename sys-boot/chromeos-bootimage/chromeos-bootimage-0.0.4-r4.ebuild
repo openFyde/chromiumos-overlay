@@ -24,6 +24,7 @@ IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 # this option.
 IUSE="${IUSE} ec_ro_sync"
 IUSE="${IUSE} +depthcharge"
+IUSE="${IUSE} payload-align-64"
 
 BDEPEND="chromeos-base/vboot_reference"
 
@@ -109,14 +110,20 @@ add_payloads() {
 	local ro_payload=$2
 	local rw_payload=$3
 
+	local -a args=(-n fallback/payload -c lzma)
+
+	if use payload-align-64; then
+		args+=(-a 64)
+	fi
+
 	if [ -n "${ro_payload}" ]; then
 		do_cbfstool "${fw_image}" add-payload \
-			-f "${ro_payload}" -n fallback/payload -c lzma
+			-f "${ro_payload}" "${args[@]}"
 	fi
 
 	if [ -n "${rw_payload}" ]; then
 		do_cbfstool "${fw_image}" add-payload -f "${rw_payload}" \
-			-n fallback/payload -c lzma -r FW_MAIN_A,FW_MAIN_B
+			"${args[@]}" -r FW_MAIN_A,FW_MAIN_B
 	fi
 }
 
