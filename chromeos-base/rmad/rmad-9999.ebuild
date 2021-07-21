@@ -29,6 +29,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/croslog
 	chromeos-base/runtime_probe
 "
 
