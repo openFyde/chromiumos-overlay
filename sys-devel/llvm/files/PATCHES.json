@@ -843,5 +843,107 @@
         "rel_patch_path": "cherry/6d33362dafb66b3af4717990d9a06450ec13f367.patch",
         "start_version": 428724,
         "end_version": 430140
+    },
+    {
+        "comment": "Revert \"Add workaround for false positive in -Wfree-nonheap-object\"",
+        "rel_patch_path": "cherry/0082764605cc0e7e0363a41ffa77d214c3157aa6.patch",
+        "start_version": 423544,
+        "end_version": 433358
+    },
+    {
+        "comment": "[X86] Remove incorrect use of known bits in shuffle simplification.",
+        "rel_patch_path": "cherry/6601be441974cb1b91c47ee20bf9a284076cf6dd.patch",
+        "start_version": 425001,
+        "end_version": 432955
+    },
+    {
+        "comment": "Revert \"[cmake] [compiler-rt] Call llvm_setup_rpath() when adding shared libraries.\"",
+        "rel_patch_path": "cherry/21c008d5a5b1e0c2ec3c1659cff961f4b0ccea2c.patch",
+        "start_version": 428724,
+        "end_version": 430742
+    },
+    {
+        "comment": "Revert \"Revert \"DirectoryWatcher: add an implementation for Windows\"\"",
+        "rel_patch_path": "cherry/76f1baa7875acd88bdd4b431eed6e2d2decfc0fe.patch",
+        "start_version": 428724,
+        "end_version": 429922
+    },
+    {
+        "comment": "Revert \"[lldb] Add support for evaluating expressions in static member functions\"",
+        "rel_patch_path": "cherry/4125b46232caf6a558470670f87b56ccb46d61aa.patch",
+        "start_version": 425233,
+        "end_version": 429832
+    },
+    {
+        "comment": "Revert \"3rd Reapply \"[DebugInfo] Use variadic debug values to salvage BinOps and GEP instrs with non-const operands\"\"",
+        "rel_patch_path": "cherry/386b66b2fc297cda121a3cc8a36887a6ecbcfc68.patch",
+        "start_version": 428070,
+        "end_version": 429480
+    },
+    {
+        "comment": "Revert \"[LoopUnrollAndJam] Change LoopUnrollAndJamPass to LoopNest pass\"",
+        "rel_patch_path": "cherry/0a9d0799316c7a601a0b20a123bd99922ac6455b.patch",
+        "start_version": 428636,
+        "end_version": 429323
+    },
+    {
+        "comment": "Revert \"[clang-tidy] Simplify static assert check\"",
+        "rel_patch_path": "cherry/be6b9e8ae71768d2e09ec14619ca4ecfdef553fa.patch",
+        "start_version": 428724,
+        "end_version": 428788
+    },
+    {
+        "comment": "Revert \"[clang][Parse] Add parsing support for C++ attributes on using-declarations\"",
+        "rel_patch_path": "cherry/f63adf5b67f7a25b15f81d3a1a207aba4f226dc4.patch",
+        "start_version": 428722,
+        "end_version": 428737
+    },
+    {
+        "comment": "Revert \"[libc++] NFC: Move unwrap_iter to its own header\"",
+        "rel_patch_path": "cherry/b13edf6e907b32d0b8da09dfe08fa271638eca3c.patch",
+        "start_version": 428724,
+        "end_version": 428763
+    },
+    {
+        "comment": "Revert \"[NFCI][LoopDeletion] Do not call complex analysis for known non-zero BTC\"",
+        "rel_patch_path": "cherry/dd226803c220f02a5987f0ee9f9ac3ffe2b35c09.patch",
+        "start_version": 428588,
+        "end_version": 428728
+    },
+    {
+        "comment": "Revert \"[NFC] Reuse existing variables instead of re-requesting successors\"",
+        "rel_patch_path": "cherry/807fc7cdc97fc172b4967707a7718e7333351bff.patch",
+        "start_version": 428587,
+        "end_version": 428729
+    },
+    {
+        "comment": "Revert \"[NFC] Formatting fix\"",
+        "rel_patch_path": "cherry/fd553312031c7d8085fa6ee0755a957796eadf05.patch",
+        "start_version": 428581,
+        "end_version": 428730
+    },
+    {
+        "comment": "Revert \"[NFCI][LoopDeletion] Only query SCEV about loop successor if another successor is also in loop\"",
+        "rel_patch_path": "cherry/24bd657202379595b514ee17241f019294e86bc9.patch",
+        "start_version": 428580,
+        "end_version": 428731
+    },
+    {
+        "comment": "Revert \"Return \"[LoopDeletion] Break backedge if we can prove that the loop is exited on 1st iteration\" (try 2)\"",
+        "rel_patch_path": "cherry/0159652058ca555b05db6a209fe9cf660c3bf8e6.patch",
+        "start_version": 428490,
+        "end_version": 428732
+    },
+    {
+        "comment": "Revert \"[NFC] Use ArgListEntry indirect types more in ISel lowering\"",
+        "rel_patch_path": "cherry/3a6f12f9156bcebf38965d96007bd942024c75be.patch",
+        "start_version": 427793,
+        "end_version": 428781
+    },
+    {
+       "comment": "Revert \"[TargetLowering] Only inspect attributes in the arguments for ArgListEntry\"",
+	"rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
+	"start_version": 427792,
+	"end_version": 428782
     }
 ]

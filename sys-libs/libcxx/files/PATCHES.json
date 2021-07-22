@@ -39,5 +39,11 @@
         "rel_patch_path": "6d33362dafb66b3af4717990d9a06450ec13f367.patch",
         "start_version": 428724,
         "end_version": 430140
+    },
+    {
+        "comment": "Revert \"[libc++] NFC: Move unwrap_iter to its own header\"",
+        "rel_patch_path": "b13edf6e907b32d0b8da09dfe08fa271638eca3c.patch",
+        "start_version": 428724,
+        "end_version": 428763
     }
 ]

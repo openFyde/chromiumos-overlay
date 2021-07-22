@@ -43,5 +43,11 @@
         "rel_patch_path": "d7ec48d71bd67118e7996c45e9c7fb1b09d4f59a.patch",
         "start_version": 422132,
         "end_version": 426368
+    },
+    {
+        "comment": "Revert \"[cmake] [compiler-rt] Call llvm_setup_rpath() when adding shared libraries.\"",
+        "rel_patch_path": "21c008d5a5b1e0c2ec3c1659cff961f4b0ccea2c.patch",
+        "start_version": 428724,
+        "end_version": 430742
     }
 ]
