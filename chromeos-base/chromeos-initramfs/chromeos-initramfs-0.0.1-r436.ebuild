@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="f5c1812c9f9dff4cdb25ac045a7eac5bf3604665"
-CROS_WORKON_TREE="e474a8d55d1dbd6d2975c85ded8086386f2036ab"
+CROS_WORKON_COMMIT="71e0a8691d3607eaa0d8870c91faed1b761bdcf6"
+CROS_WORKON_TREE="e740e7c07e9333f9a2696808b617885e5ea12ed7"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
