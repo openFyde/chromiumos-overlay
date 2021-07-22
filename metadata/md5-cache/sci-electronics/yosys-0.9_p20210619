@@ -1,0 +1,11 @@
+DEFINED_PHASES=configure test unpack
+DESCRIPTION=A framework for Verilog RTL synthesis.
+EAPI=7
+HOMEPAGE=http://www.clifford.at/yosys/
+KEYWORDS=*
+LICENSE=ISC
+RDEPEND=sci-electronics/iverilog
+SLOT=0
+SRC_URI=https://github.com/YosysHQ/yosys/archive/862e84eb3d85dfaacc7025b33c7dbe038bfff2d5.tar.gz -> yosys-862e84eb3d85dfaacc7025b33c7dbe038bfff2d5.tar.gz https://github.com/YosysHQ/abc/archive/4f5f73d.tar.gz -> yosys-abc-4f5f73d.tar.gz
+_eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_md5_=67fbc234a4474b42a4f571fc21101997
