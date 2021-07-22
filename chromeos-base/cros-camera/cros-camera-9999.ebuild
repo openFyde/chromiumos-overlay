@@ -71,13 +71,3 @@ pkg_preinst() {
 	enewuser "arc-camera"
 	enewgroup "arc-camera"
 }
-
-platform_pkg_test() {
-	local tests=(
-		zsl_helper_test
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test run "${OUT}/${test_bin}"
-	done
-}

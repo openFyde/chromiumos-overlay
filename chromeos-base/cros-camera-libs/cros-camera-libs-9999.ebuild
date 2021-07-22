@@ -115,6 +115,7 @@ platform_pkg_test() {
 		cbm_test
 		embed_file_toc_test
 		future_test
+		zsl_helper_test
 	)
 	local test_bin
 	for test_bin in "${cros_camera_tests[@]}"; do
