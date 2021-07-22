@@ -72,6 +72,8 @@ libpayload_compile() {
 	local OPTS=(
 		obj="${objdir}"
 		DOTCONFIG="${dotconfig}"
+		HOSTCC="$(tc-getBUILD_CC)"
+		HOSTCXX="$(tc-getBUILD_CXX)"
 	)
 	use verbose && OPTS+=( "V=1" )
 

@@ -266,20 +266,25 @@ make_coreboot() {
 
 	rm -rf "${builddir}" .xcompile
 
-	local CB_OPTS=( "DOTCONFIG=${config_fname}" )
+	local CB_OPTS=(
+		obj="${builddir}"
+		DOTCONFIG="${config_fname}"
+		HOSTCC="$(tc-getBUILD_CC)"
+		HOSTCXX="$(tc-getBUILD_CXX)"
+		HOSTPKGCONFIG="$(tc-getBUILD_PKG_CONFIG)"
+	)
 	use quiet && CB_OPTS+=( "V=0" )
 	use verbose && CB_OPTS+=( "V=1" )
 	use quiet && REDIR="/dev/null" || REDIR="/dev/stdout"
 
 	# Configure and build coreboot.
-	yes "" | emake oldconfig "${CB_OPTS[@]}" obj="${builddir}" >${REDIR}
+	yes "" | emake oldconfig "${CB_OPTS[@]}" >${REDIR}
 	if grep -q "CONFIG_VENDOR_EMULATION=y" "${config_fname}"; then
 		local config_file
 		config_file="${FILESDIR}/configs/config.$(get_board)"
 		die "Working with a default configuration. ${config_file} incorrect?"
 	fi
-	emake "${CB_OPTS[@]}" obj="${builddir}" HOSTCC="$(tc-getBUILD_CC)" \
-		HOSTPKGCONFIG="$(tc-getBUILD_PKG_CONFIG)"
+	emake "${CB_OPTS[@]}"
 
 	# Expand FW_MAIN_* since we might add some files
 	cbfstool "${builddir}/coreboot.rom" expand -r FW_MAIN_A,FW_MAIN_B
