@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ee51e8f6e7d474bf990ba840972a80c6a7d55c6a"
-CROS_WORKON_TREE="4f570b6770ab57ec0d70319dafc98cef6a6c6062"
+CROS_WORKON_COMMIT="b0722587a777fa585c1557a47d6bcfeb8280abb4"
+CROS_WORKON_TREE="4ca2d2a5acfaeee87c56a2055543ac95b3ecbe34"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqrtr-glib"
 CROS_WORKON_EGIT_BRANCH="master"
 
