@@ -6,4 +6,4 @@
 
 # Assumes the first 'version =' line in the Cargo.toml is the version for the
 # crate.
-awk '/^version = / { print $3 }' "$1/cros-fuzz/Cargo.toml" | head -n1 | tr -d '"'
+awk '/^version = / { print $3 }' "$1/common/cros-fuzz/Cargo.toml" | head -n1 | tr -d '"'

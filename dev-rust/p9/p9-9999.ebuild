@@ -3,12 +3,12 @@
 
 EAPI=7
 
-CROS_RUST_SUBDIR="vm_tools/p9"
+CROS_RUST_SUBDIR="common/p9"
 
-CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform/crosvm"
+CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE=""  # TODO(b/195126527): limit subtree to common/
 
 inherit cros-fuzzer cros-workon cros-rust
 
@@ -78,7 +78,7 @@ src_install() {
 	cros-rust_publish p9 "${version}"
 
 	if use fuzzer; then
-		fuzzer_install "${S}/fuzz/OWNERS" \
+		fuzzer_install "${S}/OWNERS" \
 			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
 	fi
 }

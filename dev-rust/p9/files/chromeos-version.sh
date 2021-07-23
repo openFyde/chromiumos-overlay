@@ -6,4 +6,4 @@
 
 # Assumes the first 'version =' line in the Cargo.toml is the version for the
 # crate.
-awk '/^version = / { print $3 }' "$1/vm_tools/p9/Cargo.toml" | head -n1 | tr -d '"'
+awk '/^version = / { print $3 }' "$1/common/p9/Cargo.toml" | head -n1 | tr -d '"'
