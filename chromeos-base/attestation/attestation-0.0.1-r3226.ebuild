@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e1136864b979876f04722d251d65bc1cd6b8b1fd"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "62b2b95b11c909d8729ac79b3b3be886f7dcc463" "8640df3a4aff4084b644aeefc4d31752a1d97665" "a5b3f3f13173ad5a1e82a4746f668f86607e7158" "c6491a3e3692d915bc2409534fa3cdef384c7795" "752da74c978acc326ac19fadf2189caf56f74586" "908a31c9e6471fc55ca8abe89375132863754dfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="51aad997a4a67bb62228eb1beef8f9e94615b2fe"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "1ef1fa74f498ba7eb2b044df7535ce4755ed50e5" "8640df3a4aff4084b644aeefc4d31752a1d97665" "a5b3f3f13173ad5a1e82a4746f668f86607e7158" "2491ae678d5e3e45669d39a7c0c349073b8fbd47" "c6491a3e3692d915bc2409534fa3cdef384c7795" "0b57e0adf55dd85a1eeade97873e0aff5ad4bbf0" "908a31c9e6471fc55ca8abe89375132863754dfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk attestation chaps libhwsec metrics tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk attestation chaps libhwsec libhwsec-foundation metrics tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="attestation"
 
@@ -21,9 +21,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attest
 
 LICENSE="Apache-2.0"
 KEYWORDS="*"
-IUSE="generic_tpm2 test tpm tpm2"
+IUSE="generic_tpm2 test tpm tpm_dynamic tpm2"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
 	tpm? (
@@ -33,6 +36,7 @@ RDEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/chaps:=
+	chromeos-base/libhwsec-foundation:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/minijail:=

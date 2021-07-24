@@ -3,14 +3,14 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e1136864b979876f04722d251d65bc1cd6b8b1fd"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "a5b3f3f13173ad5a1e82a4746f668f86607e7158" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "c6491a3e3692d915bc2409534fa3cdef384c7795" "752da74c978acc326ac19fadf2189caf56f74586" "908a31c9e6471fc55ca8abe89375132863754dfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="51aad997a4a67bb62228eb1beef8f9e94615b2fe"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "a5b3f3f13173ad5a1e82a4746f668f86607e7158" "2491ae678d5e3e45669d39a7c0c349073b8fbd47" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "c6491a3e3692d915bc2409534fa3cdef384c7795" "0b57e0adf55dd85a1eeade97873e0aff5ad4bbf0" "908a31c9e6471fc55ca8abe89375132863754dfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libhwsec libtpmcrypto metrics tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation libtpmcrypto metrics tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="tpm_manager"
 
@@ -22,12 +22,15 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="pinweaver_csme test tpm tpm2 fuzzer"
+IUSE="pinweaver_csme test tpm tpm_dynamic tpm2 fuzzer"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
-	!tpm2? ( app-crypt/trousers )
+	tpm? ( app-crypt/trousers )
 	tpm2? (
 		chromeos-base/trunks
 	)
