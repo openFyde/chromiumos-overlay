@@ -9,7 +9,7 @@ CROS_WORKON_EGIT_BRANCH="chromeos"
 
 PYTHON_COMPAT=( python2_7 )
 
-inherit cros-debug cros-workon libchrome-version autotools fdo-mime gnome2-utils flag-o-matic linux-info multilib multilib-minimal pam python-single-r1 user versionator java-pkg-opt-2 systemd toolchain-funcs cros-fuzzer cros-sanitizers
+inherit cros-debug cros-workon libchrome-version autotools fdo-mime gnome2-utils flag-o-matic multilib multilib-minimal pam python-single-r1 user versionator java-pkg-opt-2 systemd toolchain-funcs cros-fuzzer cros-sanitizers
 
 MY_P=${P/_rc/rc}
 MY_P=${MY_P/_beta/b}
@@ -95,42 +95,6 @@ pkg_setup() {
 	enewuser cups -1 -1 -1 cups
 
 	use python && python-single-r1_pkg_setup
-
-	if use kernel_linux; then
-		linux-info_pkg_setup
-		if  ! linux_config_exists; then
-			ewarn "Can't check the linux kernel configuration."
-			ewarn "You might have some incompatible options enabled."
-		else
-			# recheck that we don't have usblp to collide with libusb
-			if use usb; then
-				if linux_chkconfig_present USB_PRINTER; then
-					eerror "Your usb printers will be managed via libusb. In this case, "
-					eerror "${P} requires the USB_PRINTER support disabled."
-					eerror "Please disable it:"
-					eerror "    CONFIG_USB_PRINTER=n"
-					eerror "in /usr/src/linux/.config or"
-					eerror "    Device Drivers --->"
-					eerror "        USB support  --->"
-					eerror "            [ ] USB Printer support"
-					eerror "Alternatively, just disable the usb useflag for cups (your printer will still work)."
-				fi
-			else
-				#here we should warn user that he should enable it so he can print
-				if ! linux_chkconfig_present USB_PRINTER; then
-					ewarn "If you plan to use USB printers you should enable the USB_PRINTER"
-					ewarn "support in your kernel."
-					ewarn "Please enable it:"
-					ewarn "    CONFIG_USB_PRINTER=y"
-					ewarn "in /usr/src/linux/.config or"
-					ewarn "    Device Drivers --->"
-					ewarn "        USB support  --->"
-					ewarn "            [*] USB Printer support"
-					ewarn "Alternatively, enable the usb useflag for cups and use the libusb code."
-				fi
-			fi
-		fi
-	fi
 }
 
 src_prepare() {
