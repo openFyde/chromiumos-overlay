@@ -273,6 +273,13 @@ platform_src_configure() {
 	cros-debug-add-NDEBUG
 	append-lfs-flags
 	sanitizers-setup-env
+	if use test && use amd64 && platform_is_native && tc-is-cross-compiler; then
+		# Do not use target specific flags when building for unit tests.
+		# As the build machine may not support the generated instructions.
+		# This only helps the code being rebuilt during unit tests, e.g.
+		# libraries that are not rebuilt can still cause SIGILLs etc.
+		append-flags '-march=corei7'
+	fi
 	platform_configure "$@"
 }
 
