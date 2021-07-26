@@ -27,6 +27,7 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:=
 	sys-apps/dbus:=
 "
 
