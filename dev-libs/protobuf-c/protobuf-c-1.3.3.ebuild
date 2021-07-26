@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -18,7 +18,7 @@ SLOT="0/1.0.0"
 KEYWORDS="*"
 IUSE="static-libs test"
 
-RDEPEND=">=dev-libs/protobuf-2.6.0:0=[${MULTILIB_USEDEP}]"
+RDEPEND=">=dev-libs/protobuf-3:0=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig[${MULTILIB_USEDEP}]"
 
