@@ -6,7 +6,7 @@
 # VERSION=REVBUMP-0.0.17
 
 EAPI=7
-CROS_WORKON_COMMIT="e9db83f28907d12577636eaf3431d046e1294ce1"
+CROS_WORKON_COMMIT="f8e37ce19fccf0a1b931bcad18653f392bc64250"
 CROS_WORKON_TREE=("2b6ec2acaae0e9313df787b1a1389197d2e8cb7a" "705ef94c6144066c732bc3b44a3fed2e79debfd5" "3866d5128a8888a5cbbf8e2ea4a546537e16d2ce")
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
@@ -74,6 +74,8 @@ libpayload_compile() {
 	local OPTS=(
 		obj="${objdir}"
 		DOTCONFIG="${dotconfig}"
+		HOSTCC="$(tc-getBUILD_CC)"
+		HOSTCXX="$(tc-getBUILD_CXX)"
 	)
 	use verbose && OPTS+=( "V=1" )
 
