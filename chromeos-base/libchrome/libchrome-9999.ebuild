@@ -63,21 +63,6 @@ RDEPEND="${RDEPEND}
 REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
-	# epatch "${FILESDIR}"/${PN}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
-	# epatch "${FILESDIR}"/${PN}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
-	# epatch "${FILESDIR}"/${PN}-dbus-Make-MockObjectManager-useful.patch
-	# epatch "${FILESDIR}"/${PN}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
-	# epatch "${FILESDIR}"/${PN}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
-
-	# Disable custom memory allocator when asan is used.
-	# https://crbug.com/807685
-	use_sanitizers && epatch "${FILESDIR}"/${PN}-Disable-memory-allocator.patch
-
-	# Disable object lifetime tracking since it cuases memory leaks in
-	# sanitizer builds, https://crbug.com/908138
-	# TODO
-	# epatch "${FILESDIR}"/${PN}-Disable-object-tracking.patch
-
 	# Apply patches
 	while read -r patch; do
 		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
