@@ -248,6 +248,7 @@ ALL_BOARDS=(
 	kevin64
 	#kevin-arcnext
 	#kevin-bertha
+	kevin-kernelnext
 	kevin-tpm2
 	kevin-userdebug
 	kidd
