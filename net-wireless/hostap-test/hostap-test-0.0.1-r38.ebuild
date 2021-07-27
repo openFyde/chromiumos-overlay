@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI="7"
-CROS_WORKON_COMMIT="8ac12f2cec9b9c227e8719fca00d4d6c75cf7270"
-CROS_WORKON_TREE="76ef3707eefe49ae08b8c889ada1c4a987fbaa6e"
+CROS_WORKON_COMMIT="112d4f509901d7de3dc3f8f6533cad487ce67f56"
+CROS_WORKON_TREE="982936790e4edc3320774f5e5e7bb4dbafd32f53"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
 CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.9"
 
