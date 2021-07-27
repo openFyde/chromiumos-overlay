@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk cups_proxy .gn"
 
 PLATFORM_SUBDIR="cups_proxy"
 
-inherit cros-workon platform user
+inherit tmpfiles cros-workon platform user
 
 DESCRIPTION="CUPS Proxy Daemon for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cups_proxy/"
@@ -40,6 +40,8 @@ src_install() {
 	# Install upstart configuration.
 	insinto /etc/init
 	doins init/*.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
