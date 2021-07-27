@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="9438ad86bb620c84ff6737b2176517efadcaf431"
-CROS_WORKON_TREE="8018c468a61ecf71c9ba992f19ff710a7068b6ff"
+CROS_WORKON_COMMIT="e49f52a0d003bc8ed656094003a917a51f10f27e"
+CROS_WORKON_TREE="a0168e91f3d103b8024c4f6b2d12ed4c735db53e"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest libchrome
+inherit cros-workon autotest libchrome cros-sanitizers
 
 DESCRIPTION="Security autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
@@ -52,3 +52,7 @@ IUSE_TESTS="
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+cros_pre_src_configure_use_sanitizers() {
+	sanitizers-setup-env
+}
