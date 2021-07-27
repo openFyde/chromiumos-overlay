@@ -15,10 +15,11 @@ KEYWORDS="*"
 
 PATCHES=(
 	"${FILESDIR}"/regdb-ar-5ghz.patch
+	"${FILESDIR}"/regdb-Ensure-outfile-is-written.patch
 )
 
 src_compile() {
-	emake REGDB_AUTHOR=chromium
+	emake -j1 REGDB_AUTHOR=chromium
 }
 
 src_install() {
