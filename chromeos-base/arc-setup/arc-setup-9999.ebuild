@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
 
-inherit cros-workon platform
+inherit tmpfiles cros-workon platform
 
 DESCRIPTION="Set up environment to run ARC."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup"
@@ -87,6 +87,8 @@ src_install() {
 	doins init/arc-prepare-host-generated-dir.conf
 	doins init/arc-remove-data.conf
 	doins init/arc-stale-directory-remover.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
