@@ -3,7 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
-CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-2.9"
+CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-cros/current"
 CROS_WORKON_EGIT_BRANCH="wpa_supplicant-2.9"
 
 inherit cros-sanitizers cros-workon eutils flag-o-matic qmake-utils systemd toolchain-funcs user
