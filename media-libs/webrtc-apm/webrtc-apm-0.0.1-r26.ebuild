@@ -9,7 +9,7 @@ CROS_WORKON_TREE="d7913d87dd4ea6cee195ad27b94ce6ad23840b87"
 CROS_WORKON_PROJECT="chromiumos/third_party/webrtc-apm"
 CROS_WORKON_LOCALNAME="webrtc-apm"
 
-inherit cros-workon multilib
+inherit cros-workon multilib cros-sanitizers
 
 DESCRIPTION="Standalone WebRTC APM library"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/webrtc-apm"
@@ -27,6 +27,8 @@ DEPEND="dev-libs/iniparser:=
 RDEPEND="${DEPEND}"
 
 src_configure() {
+	sanitizers-setup-env
+
 	export USE_NEON=$(usex neon 1 0)
 	export USE_SSE2=$(usex cpu_flags_x86_sse2 1 0)
 }

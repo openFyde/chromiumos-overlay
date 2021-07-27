@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e1136864b979876f04722d251d65bc1cd6b8b1fd"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "a5b3f3f13173ad5a1e82a4746f668f86607e7158" "2491ae678d5e3e45669d39a7c0c349073b8fbd47" "908a31c9e6471fc55ca8abe89375132863754dfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="45472dc1ebd637103eeca4e835f50af4234ded30"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "021bd4692c9a4297103ea849692668a63df1b670" "2491ae678d5e3e45669d39a7c0c349073b8fbd47" "908a31c9e6471fc55ca8abe89375132863754dfe" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,13 +21,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhws
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test tpm2"
+IUSE="test fuzzer tpm tpm2 tpm_dynamic"
 
 COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
 	dev-libs/openssl:0=
-	!tpm2? ( app-crypt/trousers:= )
 	tpm2? ( chromeos-base/trunks:= )
+	tpm? ( app-crypt/trousers:= )
+	fuzzer? (
+		app-crypt/trousers:=
+		chromeos-base/trunks:=
+	)
 "
 
 RDEPEND="${COMMON_DEPEND}"
@@ -44,12 +48,13 @@ src_install() {
 	insinto /usr/include/chromeos/libhwsec/error
 	doins ./error/tpm_error.h
 
-	if ! use tpm2; then
+	if use tpm || use fuzzer; then
 		insinto /usr/include/chromeos/libhwsec/test_utils/tpm1
 		doins ./test_utils/tpm1/*.h
 		insinto /usr/include/chromeos/libhwsec/error
 		doins ./error/tpm1_error.h
-	else
+	fi
+	if use tpm2 || use fuzzer; then
 		insinto /usr/include/chromeos/libhwsec/error
 		doins ./error/tpm2_error.h
 	fi

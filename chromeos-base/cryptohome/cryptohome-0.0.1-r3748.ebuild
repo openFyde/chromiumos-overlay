@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="51aad997a4a67bb62228eb1beef8f9e94615b2fe"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "70459f5a2ccf8b17a7b613bfa89c1fb538e71e5d" "a5b3f3f13173ad5a1e82a4746f668f86607e7158" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="45472dc1ebd637103eeca4e835f50af4234ded30"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "a6ed5795137c9ab3d076c728a78d703fd9eb3e40" "021bd4692c9a4297103ea849692668a63df1b670" "2491ae678d5e3e45669d39a7c0c349073b8fbd47" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec secure_erase_file .gn"
+CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec libhwsec-foundation secure_erase_file .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="cryptohome"
@@ -28,12 +28,13 @@ IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generated_cros_config generic_tpm2 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm2 tpm2_simulator unibuild uprev-4-to-5
+	test tpm tpm_dynamic tpm2 tpm2_simulator unibuild uprev-4-to-5
 	user_session_isolation +vault_legacy_mount vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
-	tpm2? ( !tpm )
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
 "
 
 COMMON_DEPEND="
