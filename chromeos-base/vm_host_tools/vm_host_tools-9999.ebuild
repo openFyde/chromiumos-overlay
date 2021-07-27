@@ -25,6 +25,7 @@ PLATFORM2_PATHS=(
 	vm_tools/pstore_dump
 	vm_tools/seneschal
 	vm_tools/syslog
+	vm_tools/tmpfiles.d
 	vm_tools/udev
 	vm_tools/vsh
 
@@ -35,7 +36,7 @@ CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
 PLATFORM_SUBDIR="vm_tools"
 
-inherit cros-workon platform udev user arc-build-constants
+inherit tmpfiles cros-workon platform udev user arc-build-constants
 
 DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
@@ -133,6 +134,8 @@ src_install() {
 	doins init/seneschal.conf
 	doins init/vm_cicerone.conf
 	doins init/vm_concierge.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Modify vmlog_forwarder starting and stopping conditions based on USE flags.
 	sed \
