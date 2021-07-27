@@ -54,6 +54,8 @@ src_configure() {
 	local name
 	local target
 
+	export GENERIC_COMPILER_PREFIX="invalid"
+
 	while read -r name && read -r target; do
 		LIBPAYLOAD_BUILD_NAMES+=("${name}")
 		LIBPAYLOAD_BUILD_TARGETS+=("${target}")

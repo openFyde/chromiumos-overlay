@@ -217,6 +217,8 @@ src_prepare() {
 
 	default
 
+	export GENERIC_COMPILER_PREFIX="invalid"
+
 	mkdir "$(cros-workon_get_build_dir)"
 
 	if [[ -d "${privdir}" ]]; then
