@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="68e117523d746bc617b98117e962e5614ba4b95d"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "d23b181e8ec2536ab86e71a2885009091a696297" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d70af60a35cd2d805a8289e1de004a80973279ae"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "cc62c82279d771f74872e896fe0463ae63f91fda" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="ChromeOS RMA daemon."
 HOMEPAGE=""
@@ -48,6 +48,8 @@ pkg_preinst() {
 
 src_install() {
 	dosbin "${OUT}/rmad"
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Install upstart configs and scripts.
 	insinto /etc/init
