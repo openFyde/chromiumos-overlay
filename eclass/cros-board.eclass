@@ -27,14 +27,14 @@ BOARD_USE_PREFIX="board_use_"
 # Obsolete boards' names are commented-out but retained in this list so
 # they won't be accidentally recycled in the future.
 ALL_BOARDS=(
-	acorn
+	#acorn
 	adlrvp
 	ambassador
-	amd64-corei7
+	#amd64-corei7
 	#amd64-drm
 	amd64-generic
 	amd64-generic-cheets
-	amd64-generic-goofy
+	#amd64-generic-goofy
 	amd64-generic_embedded
 	#amd64-generic_freon
 	#amd64-generic_mobbuild
@@ -42,8 +42,8 @@ ALL_BOARDS=(
 	#anglar
 	aplrvp
 	#app-shell-panther
-	aries
-	arkham
+	#aries
+	#arkham
 	arm-generic
 	#arm-generic_freon
 	arm64-generic
@@ -53,46 +53,46 @@ ALL_BOARDS=(
 	atlas
 	atlas-blueznext
 	atlas-kernelnext
-	atlas-kvm
+	#atlas-kvm
 	aurora
 	aurora-borealis
 	auron
 	auron_paine
-	auron_pearlvalley
+	#auron_pearlvalley
 	auron_yuna
 	banjo
 	banon
-	bayleybay
+	#bayleybay
 	beaglebone
 	beaglebone_servo
-	beaglebone_vv1
-	beltino
+	#beaglebone_vv1
+	#beltino
 	betty
 	betty-arc-r
 	betty-arc-s
 	betty-arc64
-	betty-arcmaster
-	betty-arcnext
+	#betty-arcmaster
+	#betty-arcnext
 	betty-arcvm-master
 	#betty-arcvm-pi
 	betty-pi-arc
 	#betty-qt-arc
 	#bettyvirgl
-	blackwall
+	#blackwall
 	bob
-	bobcat
-	bolt
+	#bobcat
+	#bolt
 	borealis
 	brask
-	bruteus
+	#bruteus
 	brya
 	brya-manatee
 	bubs
 	buddy
 	buddy-cfm
 	#buranku
-	butterfly
-	bwtm2
+	#butterfly
+	#bwtm2
 	#bxt-rvp
 	candy
 	capri
@@ -104,51 +104,51 @@ ALL_BOARDS=(
 	caroline-kernelnext
 	caroline-ndktranslation
 	caroline-userdebug
-	cardhu
+	#cardhu
 	cave
 	celes
-	celes-cheets
+	#celes-cheets
 	chell
-	chell-cheets
+	#chell-cheets
 	cherry
-	cheza
-	cheza-freedreno
-	cheza64
-	cheza64-freedreno
+	#cheza
+	#cheza-freedreno
+	#cheza64
+	#cheza64-freedreno
 	#chronos
-	cid
-	clapper
-	cmlrvp
+	#cid
+	#clapper
+	#cmlrvp
 	#cnlrvp
 	cobblepot
 	coral
-	coral-kernelnext
-	cosmos
-	cranky
+	#coral-kernelnext
+	#cosmos
+	#cranky
 	cyan
 	cyan-cheets
 	cyan-kernelnext
-	cyclone
-	daisy
+	#cyclone
+	#daisy
 	#daisy-drm
-	daisy_embedded
-	daisy_skate
-	daisy_snow
-	daisy_spring
-	daisy_winter
-	dalmore
-	danger
-	danger_embedded
+	#daisy_embedded
+	#daisy_skate
+	#daisy_snow
+	#daisy_spring
+	#daisy_winter
+	#dalmore
+	#danger
+	#danger_embedded
 	dedede
 	deltaur
 	#derwent
 	#dragonegg
 	drallion
-	duck
+	#duck
 	edgar
 	elm
 	elm-arc64
-	elm-cheets
+	#elm-cheets
 	elm-kernelnext
 	#emeraldlake2
 	endeavour
@@ -156,13 +156,13 @@ ALL_BOARDS=(
 	#envoy-jerry
 	eve
 	#eve-arcdual
-	eve-arcnext
+	#eve-arcnext
 	eve-arc-r
 	eve-arcvm
 	eve-arcvm-mesa-virgl-next
 	eve-arm64
 	#eve-bertha
-	eve-campfire
+	#eve-campfire
 	eve-kernelnext
 	eve-kvm
 	eve-lacros
@@ -171,18 +171,18 @@ ALL_BOARDS=(
 	eve-userdebug
 	excelsior
 	expresso
-	falco
-	falco_gles
-	falco_li
-	fb1
+	#falco
+	#falco_gles
+	#falco_li
+	#fb1
 	fizz
-	fizz-accelerator
+	#fizz-accelerator
 	fizz-cfm
 	fizz-labstation
 	fizz-moblab
 	fizz-satlab
-	flapjack
-	foster
+	#flapjack
+	#foster
 	#fox
 	#fox_baskingridge
 	#fox_wtm1
@@ -190,21 +190,21 @@ ALL_BOARDS=(
 	galaxy
 	gale
 	gandof
-	genesis
+	#genesis
 	#gizmo
 	glados
-	glados-cheets
+	#glados-cheets
 	glimmer
-	glimmer-cheets
+	#glimmer-cheets
 	glkrvp
 	gnawty
 	gonzo
-	gru
+	#gru
 	grunt
 	grunt-arc-r
 	grunt-kernelnext
 	guado
-	guado-accelerator
+	#guado-accelerator
 	guado-cfm
 	guado-macrophage
 	guado_moblab
@@ -217,19 +217,19 @@ ALL_BOARDS=(
 	hatch
 	hatch-arc-r
 	hatch-arc-r-ack
-	hatch-arc-r-signed
+	#hatch-arc-r-signed
 	hatch-arc-r-userdebug
 	hatch-arc-s
-	hatch-blueznext
+	#hatch-blueznext
 	hatch-borealis
 	hatch-diskswap
 	hatch-kernelnext
 	hatch-manatee
 	heli
 	herobrine
-	hsb
+	#hsb
 	#iclrvp
-	ironhide
+	#ironhide
 	jacuzzi
 	jacuzzi-kernelnext
 	#jadeite
@@ -238,7 +238,7 @@ ALL_BOARDS=(
 	#kahlee
 	kalista
 	kalista-cfm
-	kayle
+	#kayle
 	kblrvp
 	keeby
 	kefka
@@ -249,66 +249,66 @@ ALL_BOARDS=(
 	#kevin-arcnext
 	#kevin-bertha
 	kevin-kernelnext
-	kevin-tpm2
+	#kevin-tpm2
 	kevin-userdebug
-	kidd
+	#kidd
 	#kiev
 	kip
-	klang
+	#klang
 	kukui
 	kukui-arc-r
-	kukui-arc-r-signed
+	#kukui-arc-r-signed
 	kukui-kernelnext
-	kumo
+	#kumo
 	kunimitsu
 	lakitu
-	lakitu-arm64
-	lakitu-gpu
+	#lakitu-arm64
+	#lakitu-gpu
 	#lakitu_mobbuild
-	lakitu-nc
-	lakitu_next
-	lakitu-slice
-	lakitu-st
+	#lakitu-nc
+	#lakitu_next
+	#lakitu-slice
+	#lakitu-st
 	lars
 	lars-kernelnext
-	laser
+	#laser
 	lasilla-ground
 	#lasilla-sky
-	lassen
+	#lassen
 	#lemmings
 	#lemmings_external
-	leon
-	link
+	#leon
+	#link
 	littlejoe
 	loonix
 	lulu
-	lulu-cheets
-	lumpy
+	#lulu-cheets
+	#lumpy
 	#macchiato-ground
 	majolica
 	mancomb
-	mappy
+	#mappy
 	#mappy-envoy
-	mappy_flashstation
-	marble
-	mccloud
+	#mappy_flashstation
+	#marble
+	#mccloud
 	#meowth
 	metis
-	minnowboard
-	mipseb-n32-generic
-	mipseb-n64-generic
-	mipseb-o32-generic
-	mipsel-n32-generic
-	mipsel-n64-generic
-	mipsel-o32-generic
+	#minnowboard
+	#mipseb-n32-generic
+	#mipseb-n64-generic
+	#mipseb-o32-generic
+	#mipsel-n32-generic
+	#mipsel-n64-generic
+	#mipsel-o32-generic
 	mistral
 	moblab-generic-vm
-	monroe
-	moose
+	#monroe
+	#moose
 	mushu
 	nami
 	nami-kernelnext
-	nami-kvm
+	#nami-kvm
 	nautilus
 	#nefario
 	#newbie
@@ -318,48 +318,48 @@ ALL_BOARDS=(
 	novato
 	novato-arc64
 	novato-arcnext
-	nyan
-	nyan_big
-	nyan_blaze
+	#nyan
+	#nyan_big
+	#nyan_blaze
 	#nyan_blaze-freon
 	#nyan_freon
-	nyan_kitty
+	#nyan_kitty
 	oak
-	oak-cheets
+	#oak-cheets
 	octavius
 	octopus
 	#optimus
 	orco
 	palkia
-	panda
-	panther
-	panther_embedded
-	panther_goofy
-	panther_moblab
-	parrot
-	parrot32
-	parrot64
-	parrot_ivb
+	#panda
+	#panther
+	#panther_embedded
+	#panther_goofy
+	#panther_moblab
+	#parrot
+	#parrot32
+	#parrot64
+	#parrot_ivb
 	#parry
 	#pbody
-	peach
-	peach_kirby
-	peach_pi
-	peach_pit
+	#peach
+	#peach_kirby
+	#peach_pi
+	#peach_pit
 	#pedra
-	peppy
-	plaso
+	#peppy
+	#plaso
 	poppy
-	ppcbe-32-generic
-	ppcbe-64-generic
-	ppcle-32-generic
-	ppcle-64-generic
+	#ppcbe-32-generic
+	#ppcbe-64-generic
+	#ppcle-32-generic
+	#ppcle-64-generic
 	puff
 	puff-borealis
 	puff-macrophage
 	puff-moblab
-	puppy
-	purin
+	#puppy
+	#purin
 	pyro
 	quawks
 	rainier
@@ -367,7 +367,7 @@ ALL_BOARDS=(
 	rammus
 	rammus-arc-r
 	rammus-arc-r-userdebug
-	raspberrypi
+	#raspberrypi
 	reef
 	relm
 	reks
@@ -376,51 +376,51 @@ ALL_BOARDS=(
 	#ricochet
 	rikku
 	rikku-cfm
-	rizer
+	#rizer
 	romer
-	rotor
-	rowan
-	rush
-	rush_ryu
-	sama5d3
+	#rotor
+	#rowan
+	#rush
+	#rush_ryu
+	#sama5d3
 	samus
-	samus-cheets
+	#samus-cheets
 	#samus-kernelnext
 	sand
 	sarien
-	sarien-kvm
+	#sarien-kvm
 	scarlet
 	#scarlet-arcnext
 	senor
 	sentry
 	setzer
 	shadowkeep
-	shogun
+	#shogun
 	sklrvp
 	#slippy
-	smaug
-	smaug-cheets
-	smaug-kasan
+	#smaug
+	#smaug-cheets
+	#smaug-kasan
 	snappy
 	snappy-kernelnext
-	sonic
+	#sonic
 	soraka
 	soraka-libcamera
 	#space
 	squawks
-	stelvio
-	storm
-	storm_nand
-	stout
+	#stelvio
+	#storm
+	#storm_nand
+	#stout
 	#stout32
-	strago
+	#strago
 	strongbad
-	stumpy
-	stumpy_moblab
-	stumpy_pico
+	#stumpy
+	#stumpy_moblab
+	#stumpy_pico
 	sumo
 	swanky
-	tails
+	#tails
 	tatl
 	tael
 	#tegra2
@@ -432,38 +432,38 @@ ALL_BOARDS=(
 	#tegra2_kaen
 	#tegra2_seaboard
 	#tegra2_wario
-	tegra3-generic
+	#tegra3-generic
 	terra
 	tglrvp
 	tidus
-	tricky
+	#tricky
 	trogdor
 	trogdor-arc-r
 	trogdor-kernelnext
 	trogdor64
 	trogdor64-manatee
 	ultima
-	umaro
+	#umaro
 	#urara
 	veyron
 	veyron_fievel
-	veyron_gus
+	#veyron_gus
 	veyron_jaq
 	veyron_jerry
 	#veyron_jerry-kernelnext
 	veyron_mickey
 	veyron_mighty
 	veyron_minnie
-	veyron_minnie-cheets
+	#veyron_minnie-cheets
 	#veyron_minnie-kernelnext
-	veyron_nicky
-	veyron_pinky
-	veyron_remy
+	#veyron_nicky
+	#veyron_pinky
+	#veyron_remy
 	veyron_rialto
-	veyron_shark
+	#veyron_shark
 	veyron_speedy
-	veyron_speedy-cheets
-	veyron_thea
+	#veyron_speedy-cheets
+	#veyron_thea
 	veyron_tiger
 	viking
 	viking-poc2
@@ -472,38 +472,38 @@ ALL_BOARDS=(
 	volteer-kernelnext
 	volteer-manatee
 	#waluigi
-	whirlwind
-	whlrvp
+	#whirlwind
+	#whlrvp
 	winky
 	wizpig
-	wolf
+	#wolf
 	#wooten
 	wristpin
-	wsb
-	x30evb
+	#wsb
+	#x30evb
 	x32-generic
-	x86-agz
-	x86-alex
-	x86-alex32
-	x86-alex32_he
-	x86-alex_he
-	x86-alex_hubble
-	x86-dogfood
+	#x86-agz
+	#x86-alex
+	#x86-alex32
+	#x86-alex32_he
+	#x86-alex_he
+	#x86-alex_hubble
+	#x86-dogfood
 	#x86-drm
 	#x86-fruitloop
 	x86-generic
 	x86-generic_embedded
 	#x86-generic_freon
-	x86-mario
-	x86-mario64
+	#x86-mario
+	#x86-mario64
 	#x86-pineview
 	#x86-wayland
-	x86-zgb
-	x86-zgb32
-	x86-zgb32_he
-	x86-zgb_he
-	zako
-	zoombini
+	#x86-zgb
+	#x86-zgb32
+	#x86-zgb32_he
+	#x86-zgb_he
+	#zako
+	#zoombini
 	zork
 	zork-arc-r
 	zork-borealis
