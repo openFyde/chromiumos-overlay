@@ -15,7 +15,11 @@ LICENSE="GPL-2"
 KEYWORDS="~*"
 IUSE="coreboot-sdk unibuild verbose"
 
-DEPEND="unibuild? ( chromeos-base/chromeos-config:= )"
+# No pre-unibuild boards build firmware on ToT anymore.  Assume
+# unibuild to keep ebuild clean.
+REQUIRED_USE="unibuild"
+
+DEPEND="chromeos-base/chromeos-config:="
 
 CROS_WORKON_LOCALNAME="coreboot"
 
@@ -27,7 +31,7 @@ CROS_WORKON_SUBTREE="payloads/libpayload util/kconfig util/xcompile"
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
 
-inherit cros-workon cros-board toolchain-funcs coreboot-sdk
+inherit cros-workon toolchain-funcs coreboot-sdk
 
 LIBPAYLOAD_BUILD_NAMES=()
 LIBPAYLOAD_BUILD_TARGETS=()
@@ -41,20 +45,10 @@ src_configure() {
 	local name
 	local target
 
-	if use unibuild; then
-		while read -r name && read -r target; do
-			LIBPAYLOAD_BUILD_NAMES+=("${name}")
-			LIBPAYLOAD_BUILD_TARGETS+=("${target}")
-		done < <(cros_config_host get-firmware-build-combinations libpayload)
-	else
-		local board="$(get_current_board_with_variant)"
-		if [[ ! -s "${FILESDIR}/configs/config.${board}" ]]; then
-			board="$(get_current_board_no_variant)"
-		fi
-
-		LIBPAYLOAD_BUILD_NAMES=(legacy)
-		LIBPAYLOAD_BUILD_TARGETS=("${board}")
-	fi
+	while read -r name && read -r target; do
+		LIBPAYLOAD_BUILD_NAMES+=("${name}")
+		LIBPAYLOAD_BUILD_TARGETS+=("${target}")
+	done < <(cros_config_host get-firmware-build-combinations libpayload)
 
 	for target in "${LIBPAYLOAD_BUILD_TARGETS[@]}"; do
 		if [[ ! -s "${FILESDIR}/configs/config.${target}" ]]; then
