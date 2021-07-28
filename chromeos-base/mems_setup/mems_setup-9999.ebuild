@@ -35,6 +35,9 @@ DEPEND="${COMMON_DEPEND}
 src_install() {
 	udev_dorules 99-mems_setup.rules
 	dosbin "${OUT}"/mems_setup
+	if use iioservice; then
+		dosbin "${OUT}"/mems_remove
+	fi
 }
 
 platform_pkg_test() {
