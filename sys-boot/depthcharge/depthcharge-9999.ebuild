@@ -14,11 +14,15 @@ KEYWORDS="~*"
 IUSE="detachable fwconsole mocktpm pd_sync unibuild verbose debug
 	physical_presence_power physical_presence_recovery"
 
+# No pre-unibuild boards build firmware on ToT anymore.  Assume
+# unibuild to keep ebuild clean.
+REQUIRED_USE="unibuild"
+
 DEPEND="
 	sys-boot/coreboot:=
 	chromeos-base/chromeos-ec-headers:=
 	sys-boot/libpayload:=
-	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/chromeos-config:=
 "
 
 BDEPEND="
@@ -32,19 +36,7 @@ CROS_WORKON_DESTDIR=("${S}/depthcharge" "${VBOOT_REFERENCE_DESTDIR}")
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
 
-inherit cros-workon cros-board cros-unibuild
-
-# Get the depthcharge board config to build for.
-# Checks the current board with/without variant. Echoes the board config file
-# that should be used to build depthcharge.
-get_board() {
-	local board=$(get_current_board_with_variant)
-	if [[ ! -d "board/${board}" ]]; then
-		board=$(get_current_board_no_variant)
-	fi
-
-	echo "${board}"
-}
+inherit cros-workon cros-unibuild
 
 # Build depthcharge with common options.
 # Usage example: dc_make dev "${BUILD_DIR}" "${LIBPAYLOAD_DIR}"
@@ -163,26 +155,17 @@ src_compile() {
 	pushd depthcharge >/dev/null || \
 		die "Failed to change into ${PWD}/depthcharge"
 
-	if use unibuild; then
 		local name
 		local depthcharge
 
-		while read -r name && read -r depthcharge; do
-			libpayload="${SYSROOT}/firmware/${name}/libpayload"
-			builddir="$(cros-workon_get_build_dir)/${depthcharge}"
-			mkdir -p "${builddir}"
-
-			_copy_fwconfig "${libpayload}" "${builddir}"
-			make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}"
-		done < <(cros_config_host get-firmware-build-combinations depthcharge)
-	else
-		libpayload="${SYSROOT}/firmware/legacy/libpayload"
-		builddir="$(cros-workon_get_build_dir)"
+	while read -r name && read -r depthcharge; do
+		libpayload="${SYSROOT}/firmware/${name}/libpayload"
+		builddir="$(cros-workon_get_build_dir)/${depthcharge}"
 		mkdir -p "${builddir}"
 
 		_copy_fwconfig "${libpayload}" "${builddir}"
-		make_depthcharge "$(get_board)" "${builddir}" "${libpayload}"
-	fi
+		make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}"
+	done < <(cros_config_host get-firmware-build-combinations depthcharge)
 
 	popd >/dev/null || die
 }
@@ -213,17 +196,13 @@ do_install() {
 }
 
 src_install() {
-	if use unibuild; then
-		local build_target
-		local builddir
+	local build_target
+	local builddir
 
-		for build_target in $(cros_config_host \
-				get-firmware-build-targets depthcharge); do
-			builddir="$(cros-workon_get_build_dir)/${build_target}"
+	for build_target in $(cros_config_host \
+			get-firmware-build-targets depthcharge); do
+		builddir="$(cros-workon_get_build_dir)/${build_target}"
 
-			do_install "${build_target}" "${builddir}"
-		done
-	else
-		do_install "$(get_board)" "$(cros-workon_get_build_dir)"
-	fi
+		do_install "${build_target}" "${builddir}"
+	done
 }
