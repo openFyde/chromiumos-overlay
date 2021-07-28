@@ -9,7 +9,7 @@ CROS_WORKON_SUBTREE=".gn camera/build camera/features camera/include camera/gpu 
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
-PLATFORM_SUBDIR="camera/features/hdrnet"
+PLATFORM_SUBDIR="camera/features/hdrnet/tests"
 
 inherit cros-workon platform
 
