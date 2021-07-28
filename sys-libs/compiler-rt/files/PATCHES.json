@@ -49,5 +49,11 @@
         "rel_patch_path": "21c008d5a5b1e0c2ec3c1659cff961f4b0ccea2c.patch",
         "start_version": 428724,
         "end_version": 430742
+    },
+    {
+        "comment": "[compiler-rt] [builtins] [AArch64] Add missing AArch64 data synchronization barrier (dsb) to __clear_cache",
+        "rel_patch_path": "6455418d3d2a2de1a8251cc2ccf2e87b9ae3112d.patch",
+        "start_version": 428724,
+        "end_version": 429795
     }
 ]

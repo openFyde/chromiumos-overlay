@@ -950,5 +950,23 @@
        "comment": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\"",
        "rel_patch_path": "revert-f5446b769a7929806f72256fccd4826d66502e59.patch",
        "start_version": 425181
+    },
+    {
+        "comment": "[compiler-rt] [builtins] [AArch64] Add missing AArch64 data synchronization barrier (dsb) to __clear_cache",
+        "rel_patch_path": "cherry/6455418d3d2a2de1a8251cc2ccf2e87b9ae3112d.patch",
+        "start_version": 428724,
+        "end_version": 429795
+    },
+    {
+        "comment": "[ELF] --fortran-common: prefer STB_WEAK to COMMON",
+        "rel_patch_path": "cherry/7de2173c2a4c45711831cfee3ccf53690c76ff07.patch",
+        "start_version": 428724,
+        "end_version": 432575
+    },
+    {
+        "comment": "[NewPM] Add CrossDSOCFI pass irrespective of LTO optimization level",
+        "rel_patch_path": "cherry/c45e17f11f508d1aea97eded3f1bda2a448f2032.patch",
+        "start_version": 428724,
+        "end_version": 433637
     }
 ]
