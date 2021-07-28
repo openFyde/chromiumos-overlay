@@ -44,7 +44,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 )
 
-inherit cros-board cros-workon toolchain-funcs cros-unibuild coreboot-sdk
+inherit cros-workon toolchain-funcs cros-unibuild coreboot-sdk
 
 DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
@@ -59,6 +59,11 @@ IUSE="${IUSE} chipset_cezanne"
 # overlays, and avoid creating virtual packages.
 # See b/178642474
 IUSE="${IUSE} coreboot-private-files-board coreboot-private-files-chipset"
+
+# No pre-unibuild boards build firmware on ToT anymore.  Assume
+# unibuild to keep ebuild clean.
+REQUIRED_USE="unibuild"
+
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
 # stripping the .debug symbols
@@ -74,21 +79,8 @@ DEPEND="
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_picasso? ( >=sys-boot/amd-picasso-fsp-0.0.2:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
-	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/chromeos-config:=
 	"
-
-# Get the coreboot board config to build for.
-# Checks the current board with/without variant, and also whether an FSP
-# is in use. Echoes the board config file that should be used to build
-# coreboot.
-get_board() {
-	local board=$(get_current_board_with_variant)
-
-	if [[ ! -s "${FILESDIR}/configs/config.${board}" ]]; then
-		board=$(get_current_board_no_variant)
-	fi
-	echo "${board}"
-}
 
 set_build_env() {
 	local board="$1"
@@ -104,7 +96,7 @@ set_build_env() {
 # creates a standard config and a serial config.
 # Args:
 #   $1: board name
-#   $2: Base board name, if any (used for unified builds)
+#   $2: libpayload build target (for config.baseboard files)
 create_config() {
 	local board="$1"
 	local base_board="$2"
@@ -229,18 +221,16 @@ src_prepare() {
 
 	cp -a "${FILESDIR}/3rdparty/"* 3rdparty
 
-	if use unibuild; then
-		local build_target
-
-		while read -r name; do
-			read -r coreboot
-			set_build_env "${coreboot}"
-			create_config "${coreboot}" "$(get_board)"
-		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
-	else
-		set_build_env "$(get_board)"
-		create_config "$(get_board)"
-	fi
+	local name
+	local coreboot
+	local libpayload
+	while read -r name; do
+		read -r coreboot
+		read -r libpayload
+		set_build_env "${coreboot}"
+		create_config "${coreboot}" "${libpayload}"
+	done < <(cros_config_host "get-firmware-build-combinations" \
+		coreboot,libpayload || die)
 }
 
 add_fw_blob() {
@@ -259,7 +249,7 @@ add_fw_blob() {
 # Build coreboot with a supplied configuration and output directory.
 #   $1: Build directory to use (e.g. "build_serial")
 #   $2: Config file to use (e.g. ".config_serial")
-#   $3: Build target build (e.g. "pyro"), for USE=unibuild only.
+#   $3: Build target build (e.g. "pyro")
 make_coreboot() {
 	local builddir="$1"
 	local config_fname="$2"
@@ -279,11 +269,6 @@ make_coreboot() {
 
 	# Configure and build coreboot.
 	yes "" | emake oldconfig "${CB_OPTS[@]}" >${REDIR}
-	if grep -q "CONFIG_VENDOR_EMULATION=y" "${config_fname}"; then
-		local config_file
-		config_file="${FILESDIR}/configs/config.$(get_board)"
-		die "Working with a default configuration. ${config_file} incorrect?"
-	fi
 	emake "${CB_OPTS[@]}"
 
 	# Expand FW_MAIN_* since we might add some files
@@ -302,16 +287,12 @@ make_coreboot() {
 
 # Add fw blobs to the coreboot.rom.
 #   $1: Build directory to use (e.g. "build_serial")
-#   $2: Build target build (e.g. "pyro"), for USE=unibuild only.
+#   $2: Build target build (e.g. "pyro")
 add_fw_blobs() {
 	local builddir="$1"
 	local build_target="$2"
-	local froot="${SYSROOT}/firmware"
+	local froot="${SYSROOT}/firmware/${build_target}"
 	local fblobroot="${SYSROOT}/firmware"
-
-	if use unibuild; then
-		froot+="/${build_target}"
-	fi
 
 	local blob
 	local cbname
@@ -319,7 +300,7 @@ add_fw_blobs() {
 		local blobfile="${fblobroot}/${blob}"
 
 		# Use per-board blob if available
-		if use unibuild && [[ -e "${froot}/${blob}" ]]; then
+		if [[ -e "${froot}/${blob}" ]]; then
 			blobfile="${froot}/${blob}"
 		fi
 
@@ -362,27 +343,17 @@ src_compile() {
 
 	use verbose && elog "Toolchain:\n$(sh util/xcompile/xcompile)\n"
 
-	if use unibuild; then
-		while read -r name; do
-			read -r coreboot
+	while read -r name; do
+		read -r coreboot
 
-			set_build_env "${coreboot}"
-			make_coreboot "${BUILD_DIR}" "${CONFIG}"
-			add_fw_blobs "${BUILD_DIR}" "${coreboot}"
-
-			# Build a second ROM with serial support for developers.
-			make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
-			add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
-		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
-	else
-		set_build_env "$(get_board)"
+		set_build_env "${coreboot}"
 		make_coreboot "${BUILD_DIR}" "${CONFIG}"
-		add_fw_blobs "${BUILD_DIR}"
+		add_fw_blobs "${BUILD_DIR}" "${coreboot}"
 
 		# Build a second ROM with serial support for developers.
 		make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
-		add_fw_blobs "${BUILD_DIR_SERIAL}"
-	fi
+		add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
+	done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 }
 
 # Install files into /firmware
@@ -443,25 +414,16 @@ do_install() {
 
 	# coreboot's static_fw_config.h is copied into libpayload include
 	# directory.
-	local libpayload_subdir=legacy
-	if use unibuild; then
-		libpayload_subdir="${build_combination}"
-	fi
-	insinto "/firmware/${libpayload_subdir}/libpayload/libpayload/include"
+	insinto "/firmware/${build_combination}/libpayload/libpayload/include"
 	doins "${BUILD_DIR}/static_fw_config.h"
 	einfo "Installed static_fw_config.h into libpayload include directory"
 }
 
 src_install() {
-	if use unibuild; then
-		while read -r name; do
-			read -r coreboot
+	while read -r name; do
+		read -r coreboot
 
-			set_build_env "${coreboot}"
-			do_install "${name}" "${coreboot}"
-		done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
-	else
-		set_build_env "$(get_board)"
-		do_install
-	fi
+		set_build_env "${coreboot}"
+		do_install "${name}" "${coreboot}"
+	done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 }
