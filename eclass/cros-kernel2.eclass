@@ -36,6 +36,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_x86_jsl_ucode? ( chromeos-base/jsl-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
 	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
+	builtin_fw_x86_tgl_ucode? ( chromeos-base/tgl-ucode-firmware-private )
 	builtin_fw_x86_whl_ucode? ( chromeos-base/whl-ucode-firmware-private )
 "
 
@@ -1155,6 +1156,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_jsl_ucode
 	builtin_fw_x86_kbl_ucode
 	builtin_fw_x86_skl_ucode
+	builtin_fw_x86_tgl_ucode
 	builtin_fw_x86_whl_ucode
 )
 
@@ -1406,6 +1408,12 @@ builtin_fw_x86_kbl_ucode_files=(
 builtin_fw_x86_skl_ucode_desc="Intel ucode for SKL"
 builtin_fw_x86_skl_ucode_files=(
 	intel-ucode/06-4e-03
+)
+
+builtin_fw_x86_tgl_ucode_desc="Intel ucode for TGL"
+builtin_fw_x86_tgl_ucode_files=(
+	intel-ucode/06-8c-00
+	intel-ucode/06-8c-01
 )
 
 builtin_fw_x86_whl_ucode_desc="Intel ucode for WHL"
