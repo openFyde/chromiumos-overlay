@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular dhcpv6 fuzzer pppoe systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular dhcpv6 fuzzer pppoe supplicant-next systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -129,6 +129,14 @@ src_install() {
 			"s,@libdir@,/usr/$(get_libdir)", \
 			shims/wpa_supplicant.conf.in \
 			> "${D}/${shims_dir}/wpa_supplicant.conf"
+	fi
+
+	if use supplicant-next; then
+		# If supplicant's version is recent enough (July 2021 rebase
+		# or newer), change the default value of sae_pwe to support both
+		# hunting-and-pecking and hash-to-element, which is required
+		# for newer standards.
+		echo "sae_pwe=2" >> "${D}/${shims_dir}/wpa_supplicant.conf"
 	fi
 
 	dosym /run/shill/resolv.conf /etc/resolv.conf
