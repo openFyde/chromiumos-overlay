@@ -238,12 +238,13 @@ src_test() {
 		"--env" "CROSVM_CARGO_TEST_ROOTFS_IMAGE=${rootfs_image}"
 	)
 
-	# crosvm does not work on kernel versions between 5.1 and 5.10 due to
-	# io_uring bugs. Skip the integration tests on these platforms.
-	# See b/189879899
+	# TODO(b/194848000): Reenable when /dev/log starts working inside cros_sdk.
+	test_opts+=( --exclude "integration_tests" )
+
+	# kernel versions between 5.1 and 5.10 have io_uring bugs, skip the io_uring
+	# integration test on these platforms.  See b/189879899
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
 	if ver_test 5.10 -gt "${cut_version}"; then
-		test_opts+=( --exclude "integration_tests" )
 		test_opts+=( --exclude "io_uring" )
 	fi
 
