@@ -24,6 +24,10 @@ IUSE="${IUSE} ec_ro_sync"
 IUSE="${IUSE} +depthcharge"
 IUSE="${IUSE} payload-align-64"
 
+# No pre-unibuild boards build firmware on ToT anymore.  Assume
+# unibuild to keep ebuild clean.
+REQUIRED_USE="unibuild"
+
 BDEPEND="chromeos-base/vboot_reference"
 
 DEPEND="
@@ -32,7 +36,7 @@ DEPEND="
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	tianocore? ( sys-boot/edk2:= )
 	seabios? ( sys-boot/chromeos-seabios:= )
-	unibuild? ( chromeos-base/chromeos-config:= )
+	chromeos-base/chromeos-config:=
 	u-boot? ( sys-boot/u-boot:= )
 	cros_ec? ( chromeos-base/chromeos-ec:= )
 	zephyr_ec? ( chromeos-base/chromeos-zephyr:= )
@@ -566,24 +570,12 @@ build_images() {
 	fi
 
 	if use cros_ec || use wilco_ec || use zephyr_ec; then
-		if use unibuild; then
-			einfo "Adding EC for ${ec_build_target}"
-			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
-			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "ec" "${froot}/${ec_build_target}"
-		else
-			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}"
-			add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "ec" "${froot}"
-		fi
+		einfo "Adding EC for ${ec_build_target}"
+		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
+		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "ec" "${froot}/${ec_build_target}"
 	fi
 
-	local pd_folder="${froot}/"
-	if use unibuild; then
-		pd_folder+="${ec_build_target}_pd"
-	else
-		# For non-unibuild boards this must match PD_FIRMWARE in board
-		# overlay make.defaults.
-		pd_folder+="${PD_FIRMWARE:-$(basename "${ROOT}")_pd}"
-	fi
+	local pd_folder="${froot}/${ec_build_target}_pd"
 
 	if use pd_sync; then
 		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "pd" "${pd_folder}"
@@ -645,41 +637,33 @@ src_compile() {
 
 	compress_assets "${froot}"
 
-	if use unibuild; then
-		local fields="coreboot,depthcharge,ec"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
-		while read -r name; do
-			read -r coreboot
-			read -r depthcharge
-			read -r ec
-			einfo "Compressing target assets for: ${name}"
-			compress_assets "${froot}" "${name}"
-			einfo "Building image for: ${name}"
-			if use zephyr_ec; then
-				# Zephyr installs under ${froot}/${name}/zephyr.bin,
-				# instead of using the EC build target name.
-				ec="${name}"
-			fi
-			build_images "${froot}" "${name}" "${coreboot}" "${depthcharge}" "${ec}"
-		done
-	else
-		build_images "${froot}" "" "" "" ""
-	fi
+	local fields="coreboot,depthcharge,ec"
+	local cmd="get-firmware-build-combinations"
+	(cros_config_host "${cmd}" "${fields}" || die) |
+	while read -r name; do
+		read -r coreboot
+		read -r depthcharge
+		read -r ec
+		einfo "Compressing target assets for: ${name}"
+		compress_assets "${froot}" "${name}"
+		einfo "Building image for: ${name}"
+		if use zephyr_ec; then
+			# Zephyr installs under ${froot}/${name}/zephyr.bin,
+			# instead of using the EC build target name.
+			ec="${name}"
+		fi
+		build_images "${froot}" "${name}" "${coreboot}" "${depthcharge}" "${ec}"
+	done
 }
 
 src_install() {
 	insinto "${CROS_FIRMWARE_IMAGE_DIR}"
-	if use unibuild; then
-		local fields="coreboot,depthcharge"
-		local cmd="get-firmware-build-combinations"
-		(cros_config_host "${cmd}" "${fields}" || die) |
-		while read -r name; do
-			read -r coreboot
-			read -r depthcharge
-			doins "${name}"/image-${name}*.bin
-		done
-	else
-		doins image*.bin
-	fi
+	local fields="coreboot,depthcharge"
+	local cmd="get-firmware-build-combinations"
+	(cros_config_host "${cmd}" "${fields}" || die) |
+	while read -r name; do
+		read -r coreboot
+		read -r depthcharge
+		doins "${name}"/image-${name}*.bin
+	done
 }
