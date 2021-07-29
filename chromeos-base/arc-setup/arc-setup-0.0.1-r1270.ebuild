@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="62641de0922703c1eed82c8796a18c667b937470"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "ff3b2417a7a45f40eb586d26894f81f89eaef286" "ae6600f71926839ad21dc5a96abfb4269bfd7b3f" "86c393728c91ab045ff4d432bdc9681bcb469436" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c95efddf2d5103f4b8b79f1a5f2a40ea8f39c109"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "e2d70dcbb259da058fd8208aec8644475e09908c" "ae6600f71926839ad21dc5a96abfb4269bfd7b3f" "86c393728c91ab045ff4d432bdc9681bcb469436" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
 
-inherit cros-workon platform
+inherit tmpfiles cros-workon platform
 
 DESCRIPTION="Set up environment to run ARC."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup"
@@ -89,6 +89,8 @@ src_install() {
 	doins init/arc-prepare-host-generated-dir.conf
 	doins init/arc-remove-data.conf
 	doins init/arc-stale-directory-remover.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
