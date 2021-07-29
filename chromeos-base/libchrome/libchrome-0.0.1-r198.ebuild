@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("e1136864b979876f04722d251d65bc1cd6b8b1fd" "0bc3b24f9ff362367e0631c9dc25f205e62d6b79")
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d3cf2a560ad7cb1fcaab8a3bbca48e336732ffb9")
+CROS_WORKON_COMMIT=("dfead30518e1276d14121f75e10ecf12594f8c30" "ef9906aa72864037939e4050f8f531f94a8e8f4b")
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a40f01f7839d9136804190c8b91743f379da137e")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -65,21 +65,6 @@ RDEPEND="${RDEPEND}
 REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
-	# epatch "${FILESDIR}"/${PN}-Replace-std-unordered_map-with-std-map-for-dbus-Prop.patch
-	# epatch "${FILESDIR}"/${PN}-dbus-Filter-signal-by-the-sender-we-are-interested-i.patch
-	# epatch "${FILESDIR}"/${PN}-dbus-Make-MockObjectManager-useful.patch
-	# epatch "${FILESDIR}"/${PN}-dbus-Don-t-DCHECK-unexpected-message-type-but-ignore.patch
-	# epatch "${FILESDIR}"/${PN}-Mock-more-methods-of-dbus-Bus-in-dbus-MockBus.patch
-
-	# Disable custom memory allocator when asan is used.
-	# https://crbug.com/807685
-	use_sanitizers && epatch "${FILESDIR}"/${PN}-Disable-memory-allocator.patch
-
-	# Disable object lifetime tracking since it cuases memory leaks in
-	# sanitizer builds, https://crbug.com/908138
-	# TODO
-	# epatch "${FILESDIR}"/${PN}-Disable-object-tracking.patch
-
 	# Apply patches
 	while read -r patch; do
 		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
