@@ -4,11 +4,11 @@ DEPEND=>=dev-rust/bitflags-1.0.1:= >=dev-rust/libc-0.2.39:= dev-rust/sys_util:= 
 DESCRIPTION=A crate to support vhost backend drivers for virtio devices.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/rust-vmm/vhost/
-IUSE=cros_host cros_workon_tree_c4513d000e87f9f277d477026748e0a909cf1a22 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_1e43055525256be34701de8af1833dcb20c97f80 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=Apache-2.0 BSD
 PROPERTIES=live
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r3
+SLOT=0/0.1.0-r4
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	a794790c0755e3a572288a453416797b	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=0df19e731b0e341ad630ac0d147b553a
+_md5_=c8b6888b6a15b2aad8322b41399d432a
