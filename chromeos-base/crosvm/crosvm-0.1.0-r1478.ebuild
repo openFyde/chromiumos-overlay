@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f1dd5afb9addd9b5ac977da96ef6c523e0372bb7"
-CROS_WORKON_TREE="5d6252b3485861ace09d91c6fdeebb435a4e2eca"
+CROS_WORKON_COMMIT="50a58f93728b30e128644ab1d7d6b088538eebe3"
+CROS_WORKON_TREE="fe45dc0c4189b72986a059111033ae3b52d4f148"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -94,7 +94,6 @@ DEPEND="${COMMON_DEPEND}
 		chromeos-base/trunks:=
 		=dev-rust/dbus-0.6*:=
 	)
-	media-sound/audio_streams:=
 	media-sound/libcras:=
 	crosvm-power-monitor-powerd? (
 		chromeos-base/system_api
