@@ -24,6 +24,7 @@ IUSE="generated_cros_config iioservice unibuild"
 COMMON_DEPEND="
 	chromeos-base/libmems:=
 	net-libs/libiio:=
+	dev-libs/re2:=
 	unibuild? (
 		!generated_cros_config? ( chromeos-base/chromeos-config )
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
