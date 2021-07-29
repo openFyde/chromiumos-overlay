@@ -50,7 +50,7 @@ DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="~*"
-IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mtc mma"
+IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma"
 IUSE="${IUSE} +bmpblk quiet unibuild verbose"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} chipset_cezanne"
@@ -71,7 +71,6 @@ RESTRICT="strip"
 
 RDEPEND=""
 DEPEND="
-	mtc? ( sys-boot/mtc:= )
 	coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= )
 	coreboot-private-files-chipset? ( sys-boot/coreboot-private-files-chipset:= )
 	virtual/coreboot-private-files
