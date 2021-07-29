@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="62641de0922703c1eed82c8796a18c667b937470"
+CROS_WORKON_COMMIT="dfead30518e1276d14121f75e10ecf12594f8c30"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "86c393728c91ab045ff4d432bdc9681bcb469436" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "6cc8142709f550cd8731cfa326e033c5c2df64f5" "4af85a9646fd36ecd7fbe17446b2407d0ca8996f" "53808284f3a6fee80dbcd473fff26f5056766d57" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "77d69659cf481a4d0917b7c100630f3c969b5720" "903fe92b2526a414ef04db27fd52554a9693158a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -113,6 +113,7 @@ src_install() {
 platform_pkg_test() {
 	local cros_camera_tests=(
 		camera_face_detection_test
+		camera_hal3_helpers_test
 		cbm_test
 		embed_file_toc_test
 		future_test

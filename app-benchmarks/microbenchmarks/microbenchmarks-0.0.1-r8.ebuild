@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="a3c495a9f5657c3778e5179d1c1ba073ad26020b"
-CROS_WORKON_TREE="73cce14d35b05e518d243f94d8466463cdce4ead"
+CROS_WORKON_COMMIT="beefcc767427751cf1343c1a944c5dbce7aabfa2"
+CROS_WORKON_TREE="d2f7a20eeeca7497d1af6de7e1afcb217fc28aae"
 CROS_WORKON_PROJECT="chromiumos/platform/microbenchmarks"
 CROS_WORKON_LOCALNAME="../platform/microbenchmarks"
 
