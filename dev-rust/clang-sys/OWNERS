@@ -1,1 +1,1 @@
-include chromiumos/overlays/chromiumos-overlay:/dev-rust/bindgen/OWNERS
+include /dev-rust/bindgen/OWNERS

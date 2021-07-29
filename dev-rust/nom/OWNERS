@@ -1,1 +1,1 @@
-include chromiumos/overlays/chromiumos-overlay:/dev-rust/cexpr/OWNERS
+include /dev-rust/cexpr/OWNERS

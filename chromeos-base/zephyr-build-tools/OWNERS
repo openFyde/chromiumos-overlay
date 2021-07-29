@@ -1,1 +1,1 @@
-include chromiumos/overlays/chromiumos-overlay:/chromeos-base/chromeos-zephyr/OWNERS
+include /chromeos-base/chromeos-zephyr/OWNERS

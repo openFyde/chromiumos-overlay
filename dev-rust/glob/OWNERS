@@ -1,1 +1,1 @@
-include chromiumos/overlays/chromiumos-overlay:/dev-rust/clang-sys/OWNERS
+include /dev-rust/clang-sys/OWNERS
