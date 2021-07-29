@@ -20,4 +20,4 @@ CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/brya/csme-taeko.bin"
 ### CONFIG_SOC_INTEL_CSE_RW_VERSION="a.b.c.d"
 
 # Video Blob
-CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt.bin"
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt-taeko.bin"
