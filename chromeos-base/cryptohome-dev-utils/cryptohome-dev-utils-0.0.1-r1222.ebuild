@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="45472dc1ebd637103eeca4e835f50af4234ded30"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "a6ed5795137c9ab3d076c728a78d703fd9eb3e40" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="507239517f2b9996d5e091c690dddb42c5f78056"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "8e5caab1e373f4fff484060ea78e87153b619b6c" "6abe79c9b7bae15014577db733dc9486df6ddad9" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk cryptohome secure_erase_file .gn"
+CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec secure_erase_file .gn"
 
 PLATFORM_SUBDIR="cryptohome/dev-utils"
 
@@ -36,6 +36,7 @@ COMMON_DEPEND="
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
 	chromeos-base/chaps:=
+	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/tpm_manager:=
 	chromeos-base/secure-erase-file:=
