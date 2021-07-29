@@ -7,123 +7,36 @@ CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_USE_VCSID="1"
 
-# TODO(hungte) When "tweaking ebuilds by source repository" is implemented, we
-# can generate this list by some script inside source repo.
-CROS_BOARDS=(
-	ambassador
-	asurada
-	atlas
-	auron_paine
-	auron_yuna
-	banjo
-	brya
-	buddy
-	butterfly
-	candy
-	chell
-	cherry
-	cid
-	clapper
-	cranky
-	daisy
-	daisy_snow
-	daisy_spring
-	daisy_skate
-	dedede
-	deltaur
-	dragonegg
-	drallion
-	endeavour
-	enguarde
-	expresso
-	eve
-	falco
-	fizz
-	flapjack
-	glados
-	glimmer
-	gnawty
-	grunt
-	guado
-	hatch
-	jacuzzi
-	kalista
-	keeby
-	kevin
-	kip
-	kukui
-	lars
-	leon
-	link
-	lulu
-	lumpy
-	mccloud
-	meowth
-	monroe
-	mushu
-	nami
-	nautilus
-	ninja
-	nocturne
-	nyan
-	nyan_big
-	octopus
-	orco
-	palkia
-	panther
-	parrot
-	peach_pi
-	peach_pit
-	peppy
-	poppy
-	puff
-	quawks
-	rammus
-	reks
-	rikku
-	sarien
-	scarlet
-	soraka
-	squawks
-	stout
-	strongbad
-	stumpy
-	sumo
-	swanky
-	tglrvp
-	tidus
-	tricky
-	trogdor
-	veyron_brain
-	veyron_danger
-	veyron_jerry
-	veyron_mickey
-	veyron_minnie
-	veyron_pinky
-	veyron_romy
-	volteer
-	winky
-	wolf
-	zako
-	zoombini
-	zork
-)
-
 PYTHON_COMPAT=( python3_{6..8} )
-inherit cros-workon cros-board python-any-r1
+inherit cros-workon python-any-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="detachable physical_presence_power physical_presence_recovery"
+IUSE="detachable physical_presence_power physical_presence_recovery unibuild"
+REQUIRED_USE="unibuild"
 
 BDEPEND="${PYTHON_DEPS}"
-DEPEND=""
+DEPEND="chromeos-base/chromeos-config:="
+
+BMPBLK_BUILD_NAMES=()
+BMPBLK_BUILD_TARGETS=()
 
 src_prepare() {
-	export BOARD="$(get_current_board_with_variant "${ARCH}-generic")"
+	local name
+	local bmpblk_target
+
+	while read -r name && read -r bmpblk_target; do
+		if [[ -z "${bmpblk_target}" ]]; then
+			# Use ${ARCH}-generic to get a fallback configuration.
+			bmpblk_target="${ARCH}-generic"
+		fi
+		BMPBLK_BUILD_NAMES+=("${name}")
+		BMPBLK_BUILD_TARGETS+=("${bmpblk_target}")
+	done < <(cros_config_host get-firmware-build-combinations bmpblk)
+
 	export VCSID
 
 	default
@@ -150,7 +63,11 @@ src_prepare() {
 	fc-cache -v
 }
 
-src_compile() {
+# Compile bmpblk for a certain build target.
+#   $1: bmpblk build target name
+compile_bmpblk() {
+	local build_target="$1"
+
 	if use detachable ; then
 		export DETACHABLE=1
 	fi
@@ -162,11 +79,26 @@ src_compile() {
 	else
 		export PHYSICAL_PRESENCE="keyboard"
 	fi
-	emake OUTPUT="${WORKDIR}" BOARD="${BOARD}"
-	emake OUTPUT="${WORKDIR}/${BOARD}" ARCHIVER="/usr/bin/archive" archive
-	if [[ "${BOARD}" == "${ARCH}-generic" ]]; then
-		printf "1" > "${WORKDIR}/${BOARD}/vbgfx_not_scaled"
+
+	emake OUTPUT="${WORKDIR}" BOARD="${build_target}" || \
+		die "Unable to compile bmpblk for ${build_target}."
+	emake OUTPUT="${WORKDIR}/${build_target}" ARCHIVER="/usr/bin/archive" archive || \
+		die "Unable to archive bmpblk for ${build_target}."
+	if [[ "${build_target}" == "${ARCH}-generic" ]]; then
+		printf "1" > "${WORKDIR}/${build_target}/vbgfx_not_scaled"
 	fi
+}
+
+src_compile() {
+	local build_target
+
+	for build_target in "${BMPBLK_BUILD_TARGETS[@]}"; do
+		# Check we haven't already compiled this target.
+		if [[ -e "${WORKDIR}/${build_target}" ]]; then
+			continue
+		fi
+		compile_bmpblk "${build_target}"
+	done
 }
 
 doins_if_exist() {
@@ -178,24 +110,43 @@ doins_if_exist() {
 	done
 }
 
-src_install() {
+# Compile bmpblk for a certain build target.
+#   $1: build combination name
+#   $2: bmpblk build target name
+install_bmpblk() {
+	local build_combination="$1"
+	local build_target="$2"
+
 	# Most bitmaps need to reside in the RO CBFS only. Many boards do
 	# not have enough space in the RW CBFS regions to contain all
 	# image files.
-	insinto /firmware/cbfs-ro-compress
+	insinto "/firmware/cbfs-ro-compress/${build_combination}"
 	# These files aren't necessary for debug builds. When these files
 	# are missing, Depthcharge will render text-only screens. They look
 	# obviously not ready for release.
-	doins_if_exist "${WORKDIR}/${BOARD}"/vbgfx.bin
-	doins_if_exist "${WORKDIR}/${BOARD}"/locales
-	doins_if_exist "${WORKDIR}/${BOARD}"/locale/ro/locale_*.bin
-	doins_if_exist "${WORKDIR}/${BOARD}"/font.bin
+	doins_if_exist "${WORKDIR}/${build_target}"/vbgfx.bin
+	doins_if_exist "${WORKDIR}/${build_target}"/locales
+	doins_if_exist "${WORKDIR}/${build_target}"/locale/ro/locale_*.bin
+	doins_if_exist "${WORKDIR}/${build_target}"/font.bin
 	# This flag tells the firmware_Bmpblk test to flag this build as
 	# not ready for release.
-	doins_if_exist "${WORKDIR}/${BOARD}"/vbgfx_not_scaled
+	doins_if_exist "${WORKDIR}/${build_target}"/vbgfx_not_scaled
 
 	# However, if specific bitmaps need to be updated via RW update,
 	# we should also install here.
-	insinto /firmware/cbfs-rw-compress-override
-	doins_if_exist "${WORKDIR}/${BOARD}"/locale/rw/rw_locale_*.bin
+	insinto "/firmware/cbfs-rw-compress-override/${build_target}"
+	doins_if_exist "${WORKDIR}/${build_target}"/locale/rw/rw_locale_*.bin
+}
+
+src_install() {
+	local i
+	local name
+	local target
+
+	for i in "${!BMPBLK_BUILD_TARGETS[@]}"; do
+		name="${BMPBLK_BUILD_NAMES[${i}]}"
+		target="${BMPBLK_BUILD_TARGETS[${i}]}"
+
+		install_bmpblk "${name}" "${target}"
+	done
 }
