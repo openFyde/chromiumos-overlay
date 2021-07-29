@@ -62,7 +62,7 @@ dev-libs/openssl bindist
 net-misc/openssh bindist
 # We want WPA3 features, which currently aren't available with openssl's
 # USE=bindist.
-net-wireless/wpa_supplicant-2_9 bindist
+net-wireless/wpa_supplicant-cros bindist
 
 # Resolve circular dependency between libcap and pam.
 # http://crbug.com/508630 (see #8)

@@ -48,7 +48,7 @@ MINIOS_DEPENDS="
 	net-misc/curl
 	net-misc/dhcp
 	net-misc/dhcpcd
-	net-wireless/wpa_supplicant-2_9
+	net-wireless/wpa_supplicant-cros
 	chromeos-base/minijail
 	chromeos-base/chromeos-installer
 	chromeos-base/factory_installer

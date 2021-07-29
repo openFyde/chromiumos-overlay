@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("112d4f509901d7de3dc3f8f6533cad487ce67f56" "e78674b0744e0b8fe35943232fcec4a17fe64790")
-CROS_WORKON_TREE=("982936790e4edc3320774f5e5e7bb4dbafd32f53" "2bbe1bace100415cebe2e38ece1f3e613756d939")
 CROS_WORKON_PROJECT=("chromiumos/third_party/hostap" "chromiumos/third_party/hostap")
 CROS_WORKON_LOCALNAME=("../third_party/wpa_supplicant-cros/current" "../third_party/wpa_supplicant-cros/next")
 CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9" "wpa_supplicant-2.9.1")
@@ -17,7 +15,7 @@ HOMEPAGE="https://w1.fi/wpa_supplicant/"
 LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
@@ -48,6 +46,7 @@ DEPEND="${CDEPEND}
 RDEPEND="${CDEPEND}
 	!net-wireless/wpa_supplicant
 	!net-wireless/wpa_supplicant-2_8
+	!net-wireless/wpa_supplicant-2_9
 	selinux? ( sec-policy/selinux-networkmanager )
 "
 
