@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2c22585ae3b677eddc44c3f765335eaf4c52996b"
-CROS_WORKON_TREE="b47f5c0dc4c30f5e0d8dd1c910278946c334ecad"
+CROS_WORKON_COMMIT="fccee72d255dd2bddc96bc85f9cbd725c2d1b14b"
+CROS_WORKON_TREE="d0dcd44158e823b4fb880e92cdb2b974809cd4db"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
 CROS_WORKON_SUBTREE="util/crossgcc"
@@ -19,12 +19,12 @@ KEYWORDS="*"
 # Needs to be synced with changes in the coreboot repo,
 # then pruned to the minimum required set (eg. no gdb, python, expat, llvm)
 CROSSGCC_URIS="
-https://ftpmirror.gnu.org/gmp/gmp-6.2.0.tar.xz
+https://ftpmirror.gnu.org/gmp/gmp-6.2.1.tar.xz
 https://ftpmirror.gnu.org/mpfr/mpfr-4.1.0.tar.xz
-https://ftpmirror.gnu.org/mpc/mpc-1.2.0.tar.gz
+https://ftpmirror.gnu.org/mpc/mpc-1.2.1.tar.gz
 https://ftpmirror.gnu.org/gcc/gcc-8.3.0/gcc-8.3.0.tar.xz
 https://ftpmirror.gnu.org/binutils/binutils-2.35.1.tar.xz
-https://acpica.org/sites/acpica/files/acpica-unix2-20200925.tar.gz
+https://acpica.org/sites/acpica/files/acpica-unix2-20210331.tar.gz
 "
 
 SRC_URI="
