@@ -2,15 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e8add996d81d96bed2fcb05a86ee49db1ef11804"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "da429bf93f7fde3adaec6296405ee0d1ec9d2da3" "6abe79c9b7bae15014577db733dc9486df6ddad9" "c6491a3e3692d915bc2409534fa3cdef384c7795" "a9b3111736966b7f12384ead9f6376eeeb94a5b4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a96afa456f27b49b2406557c358afd12a039c450"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "f0b69e28747454ab08788f08ff069d9b0533fbca" "6abe79c9b7bae15014577db733dc9486df6ddad9" "c6491a3e3692d915bc2409534fa3cdef384c7795" "b85da14f516cd4b5dd1d08a21f0fec1278829d3e" "2491ae678d5e3e45669d39a7c0c349073b8fbd47" "6abe79c9b7bae15014577db733dc9486df6ddad9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics u2fd .gn"
+CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics u2fd libhwsec-foundation libhwsec .gn"
 
 PLATFORM_SUBDIR="u2fd"
 
@@ -66,6 +66,7 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer
 }
 
 platform_pkg_test() {
