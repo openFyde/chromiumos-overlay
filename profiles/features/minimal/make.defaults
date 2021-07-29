@@ -57,6 +57,9 @@ USE="${USE} -video_capture_use_gpu_memory_buffer"
 # Don't run Camera v3 stack.
 USE="${USE} -arc-camera3"
 
+# Disable document scanning.
+USE="${USE} -ondevice_document_scanner"
+
 # Disable oobe config.
 USE="${USE} -oobe_config"
 

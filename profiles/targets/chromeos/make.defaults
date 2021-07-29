@@ -88,6 +88,9 @@ USE="${USE} video_capture_use_gpu_memory_buffer"
 # Run Camera v3 stack by default.
 USE="${USE} arc-camera3"
 
+# Enable document scanning by default.
+USE="${USE} ondevice_document_scanner"
+
 # Enable Downloadable Content (DLC).
 USE="${USE} dlc"
 
