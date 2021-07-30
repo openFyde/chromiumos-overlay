@@ -420,9 +420,10 @@ set_build_args() {
 		fi
 	fi
 
-	if use chrome_dcheck; then
-		BUILD_ARGS+=("dcheck_always_on=true")
-	fi
+	# dcheck_always_on may default to true depending on the value of args
+	# above, which we might not want. So let the chrome_dcheck USE flag
+	# determine its value.
+	BUILD_ARGS+=("dcheck_always_on=$(usetf chrome_dcheck)")
 }
 
 unpack_chrome() {
