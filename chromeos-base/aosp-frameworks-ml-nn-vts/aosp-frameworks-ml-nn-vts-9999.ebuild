@@ -32,11 +32,11 @@ CROS_WORKON_DESTDIR=(
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk .gn"
-	"nn"
+	""
 	""
 )
 
-PLATFORM_SUBDIR="aosp/frameworks/ml/nn/chromeos/tests"
+PLATFORM_SUBDIR="aosp/frameworks/ml/chromeos/tests"
 
 inherit cros-workon platform flag-o-matic
 
