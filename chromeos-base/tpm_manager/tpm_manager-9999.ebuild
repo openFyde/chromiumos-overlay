@@ -42,6 +42,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	tpm2? ( chromeos-base/trunks[test?] )
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	"
 
 pkg_preinst() {
@@ -87,6 +88,11 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
+
+	# Install fuzzer.
+	if use tpm2; then
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
+	fi
 }
 
 platform_pkg_test() {
