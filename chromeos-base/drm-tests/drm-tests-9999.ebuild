@@ -3,6 +3,7 @@
 
 EAPI=5
 CROS_WORKON_PROJECT="chromiumos/platform/drm-tests"
+CROS_WORKON_LOCALNAME="platform/drm-tests"
 
 inherit cros-sanitizers cros-workon toolchain-funcs
 

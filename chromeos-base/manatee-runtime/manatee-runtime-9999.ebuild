@@ -5,7 +5,7 @@ EAPI=7
 
 CROS_RUST_SUBDIR="sirenia/manatee-runtime"
 
-CROS_WORKON_LOCALNAME="../platform2"
+CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 

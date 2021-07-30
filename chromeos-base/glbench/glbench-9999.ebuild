@@ -4,6 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform/glbench"
+CROS_WORKON_LOCALNAME="platform/glbench"
 
 inherit cros-workon
 
