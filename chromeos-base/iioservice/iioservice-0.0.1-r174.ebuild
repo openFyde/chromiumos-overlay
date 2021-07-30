@@ -3,13 +3,26 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c95efddf2d5103f4b8b79f1a5f2a40ea8f39c109"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "182049a9f6ec856eb4bc61ac76506c744705f496" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "86c393728c91ab045ff4d432bdc9681bcb469436")
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_COMMIT=("22fd8f87968db2a35cc88d5ebaab34dab8f1eda2" "23e2bf511667b4fa5859812a4e7945c8638f6603")
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "ca260e8b24e922f9c88bb57a46a9de7e8c47b941" "359903647899af99fb1bc9ba9d666b0e78fcb3a8" "5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "86c393728c91ab045ff4d432bdc9681bcb469436" "d0c498cd8aacda36a50685194a4f11a5538c36ec")
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform2"
+	"aosp/platform/frameworks/native"
+)
+CROS_WORKON_LOCALNAME=(
+	"platform2"
+	"aosp/frameworks/native"
+)
+CROS_WORKON_REPO=(
+	"${CROS_GIT_HOST_URL}"
+	"${CROS_GIT_AOSP_URL}"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform2"
+	"${S}/platform2/aosp/frameworks/native"
+)
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE=".gn iioservice libmems common-mk metrics"
-CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_SUBTREE=(".gn iioservice libmems common-mk metrics" "")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="iioservice/daemon"
