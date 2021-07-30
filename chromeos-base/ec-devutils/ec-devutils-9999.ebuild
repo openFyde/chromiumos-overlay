@@ -35,8 +35,10 @@ BDEPEND="
 
 set_board() {
 	# No need to be board specific, no tools below build code that is
-	# EC specific. bds works for forst side compilation.
-	export BOARD="bds"
+	# EC specific. However, the EC build system must ensure that all
+	# utilities in this package are built for a given board. We ensure this
+	# for the host board.
+	export BOARD="host"
 }
 
 src_configure() {
