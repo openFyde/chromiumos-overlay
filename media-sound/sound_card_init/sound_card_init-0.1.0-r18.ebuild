@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4adb42db9ad5eadf04f5755a294ba8f6538d4074"
-CROS_WORKON_TREE="bbabf117ce1fac3718c2d641b9e289fddde8cbae"
+CROS_WORKON_COMMIT="8b9b7daa0da407f14ab9f3df95346dd1751b9e59"
+CROS_WORKON_TREE="040b8f004736bc06cafbd1eb20cd0239f33914f9"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since sound_card_init/Cargo.toml
