@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fe9c66088da9904c4530aa3352e32b0a781ace76"
-CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "86c393728c91ab045ff4d432bdc9681bcb469436" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7ef75a42aba67052842459f221271e681184cc89" "51e23faccbf0837b6f228c2d4c265f34d15f0bb8" "c1bde153626532428bf7409bc0597e79452c5eb8" "01162da167ac566d9126a032da1b74f8889e9fa2" "677b897350cff90653cf6a87c93d84e7171d00b2" "1780a540acb435bb7583751430df696e44eef2e3" "32e92898e20a7642da55c81e2bea3c3e9ad0e959" "edcdfbcab4b3c4525ccb60500aa145d24cafd7f7" "27d31e84486e3c2a8fcf2deb13b46af8311bbae9" "82e4b5c7e0ce0efa9061a09d81555845183e8d63" "4fdbb5f293e71bc3a0ad0e8b1b04b49a131ae8d0" "4b930736bc7da8c301f27c7a82718e7d605de289" "04812f95a99341b51d5b838c9470f7915b2a5f11" "d0bf87d1a53ee7e33eb547179efa5b2a5e535f84")
+CROS_WORKON_COMMIT="77a23213483df123f477b2c0e993ded0f96cfb25"
+CROS_WORKON_TREE=("5d60482b48f8f1830a6ee93a1eccf295fd3bd41a" "86c393728c91ab045ff4d432bdc9681bcb469436" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7ef75a42aba67052842459f221271e681184cc89" "51e23faccbf0837b6f228c2d4c265f34d15f0bb8" "c1bde153626532428bf7409bc0597e79452c5eb8" "01162da167ac566d9126a032da1b74f8889e9fa2" "677b897350cff90653cf6a87c93d84e7171d00b2" "1780a540acb435bb7583751430df696e44eef2e3" "bc722475019132e68ab6768c34fed04868a90b9a" "edcdfbcab4b3c4525ccb60500aa145d24cafd7f7" "27d31e84486e3c2a8fcf2deb13b46af8311bbae9" "82e4b5c7e0ce0efa9061a09d81555845183e8d63" "4fdbb5f293e71bc3a0ad0e8b1b04b49a131ae8d0" "ebe7f3c15c4c115a37c744393df92b6c58b795f5" "4b930736bc7da8c301f27c7a82718e7d605de289" "04812f95a99341b51d5b838c9470f7915b2a5f11" "d0bf87d1a53ee7e33eb547179efa5b2a5e535f84")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -27,6 +27,7 @@ PLATFORM2_PATHS=(
 	vm_tools/pstore_dump
 	vm_tools/seneschal
 	vm_tools/syslog
+	vm_tools/tmpfiles.d
 	vm_tools/udev
 	vm_tools/vsh
 
@@ -37,7 +38,7 @@ CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
 PLATFORM_SUBDIR="vm_tools"
 
-inherit cros-workon platform udev user arc-build-constants
+inherit tmpfiles cros-workon platform udev user arc-build-constants
 
 DESCRIPTION="VM host tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
@@ -135,6 +136,8 @@ src_install() {
 	doins init/seneschal.conf
 	doins init/vm_cicerone.conf
 	doins init/vm_concierge.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Modify vmlog_forwarder starting and stopping conditions based on USE flags.
 	sed \
