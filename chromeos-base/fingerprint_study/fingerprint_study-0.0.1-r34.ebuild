@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1cef82ded7a1070cf28ce4d943521566ce674cd7"
-CROS_WORKON_TREE="f2f25c1a0479d41a04952db03f739242c0dd26ac"
+CROS_WORKON_COMMIT="9772cecae6e842260cc55c830dba139e443f4af1"
+CROS_WORKON_TREE="e275c3e4d0a8b6ed16f47fb48c7c788feddc30b6"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
