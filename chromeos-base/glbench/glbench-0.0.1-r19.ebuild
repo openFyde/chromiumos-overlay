@@ -6,6 +6,7 @@ EAPI=7
 CROS_WORKON_COMMIT="89527ad3741a2663f28358e60fb1c6d89e9dda76"
 CROS_WORKON_TREE="f7769d123fc0d52c639ac9a65294b29e2180c30a"
 CROS_WORKON_PROJECT="chromiumos/platform/glbench"
+CROS_WORKON_LOCALNAME="platform/glbench"
 
 inherit cros-workon
 
