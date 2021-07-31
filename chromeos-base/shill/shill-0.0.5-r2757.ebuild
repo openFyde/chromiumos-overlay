@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c558afc61ead81bf4f4b9d18a16da2046b36a0f1"
+CROS_WORKON_COMMIT="cf7013857b93f0027100137b53d39f10927cc414"
 CROS_WORKON_TREE=("b2e87d3910785f0483157ecf4a2941ac2809e907" "eae0546f4ee5132d4544af4770755eb05f60cba6" "86c393728c91ab045ff4d432bdc9681bcb469436" "a4b99bb54cf365bb635e817c4e4e91505522474b" "e8faa5c7cf05c55a9c1bc419d2dcdc3720721892" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular dhcpv6 fuzzer pppoe systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular dhcpv6 fuzzer pppoe supplicant-next systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -131,6 +131,14 @@ src_install() {
 			"s,@libdir@,/usr/$(get_libdir)", \
 			shims/wpa_supplicant.conf.in \
 			> "${D}/${shims_dir}/wpa_supplicant.conf"
+	fi
+
+	if use supplicant-next; then
+		# If supplicant's version is recent enough (July 2021 rebase
+		# or newer), change the default value of sae_pwe to support both
+		# hunting-and-pecking and hash-to-element, which is required
+		# for newer standards.
+		echo "sae_pwe=2" >> "${D}/${shims_dir}/wpa_supplicant.conf"
 	fi
 
 	dosym /run/shill/resolv.conf /etc/resolv.conf
