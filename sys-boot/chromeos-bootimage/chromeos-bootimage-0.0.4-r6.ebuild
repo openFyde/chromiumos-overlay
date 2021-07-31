@@ -24,7 +24,10 @@ IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 # this option.
 IUSE="${IUSE} ec_ro_sync"
 IUSE="${IUSE} +depthcharge"
-IUSE="${IUSE} payload-align-64"
+IUSE="${IUSE} payload-align-64 +payload-compress-lzma payload-compress-lz4"
+
+REQUIRED_USE="^^ ( payload-compress-lzma payload-compress-lz4 )"
+
 
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
@@ -114,7 +117,13 @@ add_payloads() {
 	local ro_payload=$2
 	local rw_payload=$3
 
-	local -a args=(-n fallback/payload -c lzma)
+	local -a args=(-n fallback/payload)
+
+	if use payload-compress-lzma; then
+		args+=(-c lzma)
+	elif use payload-compress-lz4; then
+		args+=(-c lz4)
+	fi
 
 	if use payload-align-64; then
 		args+=(-a 64)
@@ -402,7 +411,7 @@ add_compressed_assets() {
 	while IFS= read -r -d '' file; do
 		do_cbfstool "${rom}" add -r "${cbfs_regions}" -f "${file}" \
 			-n "$(basename "${file}")" -t raw -c precompression
-	done < <(find "${asset_path}" -maxdepth 1 -type f -print0)
+	done < <(find "${asset_path}" -maxdepth 1 -type f -print0 | sort -z)
 
 	# Pre uni-builds have build_name not set. So check to avoid adding
 	# duplicate assets.
@@ -410,7 +419,8 @@ add_compressed_assets() {
 		while IFS= read -r -d '' file; do
 			do_cbfstool "${rom}" add -r "${cbfs_regions}" -f "${file}" \
 				-n "$(basename "${file}")" -t raw -c precompression
-		done < <(find "${asset_path}/${build_name}" -maxdepth 1 -type f -print0)
+		done < <(find "${asset_path}/${build_name}" -maxdepth 1 -type f -print0 \
+				| sort -z)
 	fi
 }
 
@@ -442,7 +452,7 @@ add_assets() {
 	while IFS= read -r -d '' file; do
 		do_cbfstool "${rom}" add -r COREBOOT,FW_MAIN_A,FW_MAIN_B \
 			-f "${file}" -n "$(basename "${file}")" -t raw
-	done < <(find "raw-assets-rw/${build_name}" -type f -print0)
+	done < <(find "raw-assets-rw/${build_name}" -type f -print0 | sort -z)
 }
 
 # Compress static and firmware target specific assets:
@@ -586,6 +596,9 @@ build_images() {
 
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
+
+	# Keeps the find commands from failing with directory not found
+	mkdir -p "raw-assets-rw/${build_name}"
 
 	check_assets "${coreboot_file}.serial" "${depthcharge_dev}"
 	add_assets "${coreboot_file}"
