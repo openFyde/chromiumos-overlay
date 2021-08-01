@@ -15,6 +15,7 @@ stat64: 1
 statx: 1
 fstat64: 1
 fstatfs64: 1
+fstatfs: 1
 getrandom: 1
 readlink: 1
 readlinkat: 1

@@ -45,6 +45,7 @@ sigreturn: 1
 lseek: 1
 _llseek: 1
 fstatfs64: 1
+fstatfs: 1
 writev: 1
 rt_sigprocmask: 1
 gettid: 1

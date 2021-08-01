@@ -48,6 +48,7 @@ mmap2: 1
 clock_gettime64: 1
 fstat64: 1
 fstatfs64: 1
+fstatfs: 1
 stat64: 1
 fcntl64: 1
 _newselect: 1

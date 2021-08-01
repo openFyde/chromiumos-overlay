@@ -10,6 +10,8 @@ exit: 1
 exit_group: 1
 fcntl64: 1
 fstat64: 1
+fstatfs64: 1
+fstatfs: 1
 futex: 1
 futex_time64: 1
 getdents64: 1
@@ -36,4 +38,3 @@ read: 1
 stat64: 1
 uname: 1
 write: 1
-fstatfs64: 1
