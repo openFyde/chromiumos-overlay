@@ -1,11 +1,17 @@
-If the CC environment variable is set, use its value instead of hardcoding "cc".
-This fixes crbug.com/1090829.
+From 2b042cce4bd22392acf013f10a7effcfbaf8b513 Mon Sep 17 00:00:00 2001
+From: George Burgess IV <gbiv@google.com>
+Date: Fri, 30 Jul 2021 01:01:54 +0000
+Subject: [PATCH 4/8] cc.patch
 
-diff --git a/src/librustc_codegen_ssa/back/link.rs b/src/librustc_codegen_ssa/back/link.rs
-index 8725bfa..5984569 100644
---- a/src/librustc_codegen_ssa/back/link.rs
-+++ b/src/librustc_codegen_ssa/back/link.rs
-@@ -752,12 +752,12 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
+---
+ compiler/rustc_codegen_ssa/src/back/link.rs | 25 ++++++++++++---------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
+
+diff --git a/compiler/rustc_codegen_ssa/src/back/link.rs b/compiler/rustc_codegen_ssa/src/back/link.rs
+index 0be107fee..58db0df71 100644
+--- a/compiler/rustc_codegen_ssa/src/back/link.rs
++++ b/compiler/rustc_codegen_ssa/src/back/link.rs
+@@ -1191,12 +1191,12 @@ pub fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
              (Some(linker), Some(flavor)) => Some((linker, flavor)),
              // only the linker flavor is known; use the default linker for the selected flavor
              (None, Some(flavor)) => Some((
@@ -21,7 +27,7 @@ index 8725bfa..5984569 100644
                          }
                      }
                      LinkerFlavor::Gcc => {
-@@ -768,16 +768,19 @@ fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
+@@ -1207,17 +1207,20 @@ pub fn linker_and_flavor(sess: &Session) -> (PathBuf, LinkerFlavor) {
                              // and many modern illumos distributions today
                              // ship GCC as "gcc" without also making it
                              // available as "cc".
@@ -31,7 +37,7 @@ index 8725bfa..5984569 100644
 -                            "cc"
 +                            match env::var_os("CC") {
 +                                Some(path) => path.into(),
-+                                None => "cc".into()
++                                None => "cc".into(),
 +                            }
                          }
                      }
@@ -39,12 +45,17 @@ index 8725bfa..5984569 100644
 -                    LinkerFlavor::Msvc => "link.exe",
 -                    LinkerFlavor::Lld(_) => "lld",
 -                    LinkerFlavor::PtxLinker => "rust-ptx-linker",
+-                    LinkerFlavor::BpfLinker => "bpf-linker",
 -                }),
 +                    LinkerFlavor::Ld => "ld".into(),
 +                    LinkerFlavor::Msvc => "link.exe".into(),
 +                    LinkerFlavor::Lld(_) => "lld".into(),
 +                    LinkerFlavor::PtxLinker => "rust-ptx-linker".into(),
++                    LinkerFlavor::BpfLinker => "bpf-linker".into(),
 +                },
                  flavor,
              )),
              (Some(linker), None) => {
+-- 
+2.32.0.554.ge1b32706d8-goog
+

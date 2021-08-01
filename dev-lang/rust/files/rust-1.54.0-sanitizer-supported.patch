@@ -1,22 +1,23 @@
-Ensure that sanitizer runtimes are built for all our supported x86_64
-platforms.
+From df69226da48c7f5b47e95c5652ba445673caf1d1 Mon Sep 17 00:00:00 2001
+From: George Burgess IV <gbiv@google.com>
+Date: Sun, 1 Aug 2021 07:26:34 +0000
+Subject: [PATCH 3/8] sanitizer-supported.patch
 
-Now that we patch in our own custom -cros and -pc targets instead
-of falling back to -unknown, we need to add builds for those
-targets as well to allow the linker to find the correct versions
-of the librustc_[almt]san static libraries.
+---
+ src/bootstrap/native.rs | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/src/bootstrap/native.rs b/src/bootstrap/native.rs
-index 97d9dbdd63f..d81c5e60608 100644
+index 449fdb87b..d50ad87e3 100644
 --- a/src/bootstrap/native.rs
 +++ b/src/bootstrap/native.rs
-@@ -790,13 +790,16 @@ fn supported_sanitizers(
- 
+@@ -805,13 +805,16 @@ fn supported_sanitizers(
      match &*target.triple {
+         "aarch64-apple-darwin" => darwin_libs("osx", &["asan", "lsan", "tsan"]),
          "aarch64-fuchsia" => common_libs("fuchsia", "aarch64", &["asan"]),
 -        "aarch64-unknown-linux-gnu" => {
-+        "aarch64-unknown-linux-gnu" | "aarch64-cros-linux-gnu" => {
-             common_libs("linux", "aarch64", &["asan", "lsan", "msan", "tsan"])
++        "aarch64-unknown-linux-gnu" | "aarch64-cros-linux-gnu"=> {
+             common_libs("linux", "aarch64", &["asan", "lsan", "msan", "tsan", "hwasan"])
          }
 +        "armv7a-cros-linux-gnueabihf" => {
 +            common_libs("linux", "armhf", &["asan"])
@@ -28,4 +29,7 @@ index 97d9dbdd63f..d81c5e60608 100644
 +        "x86_64-unknown-linux-gnu" | "x86_64-cros-linux-gnu" | "x86_64-pc-linux-gnu" => {
              common_libs("linux", "x86_64", &["asan", "lsan", "msan", "tsan"])
          }
-         _ => Vec::new(),
+         "x86_64-unknown-linux-musl" => {
+-- 
+2.32.0.554.ge1b32706d8-goog
+

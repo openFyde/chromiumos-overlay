@@ -1,13 +1,17 @@
-Our cross-compilers and related tooling are executed via ld.so trickery, which
-makes /proc/self/exe not point to the right place. If we detect that we're in
-that situation in `current_exe()`, we _should_ have `LD_ARGV0_REL` in an env
-var. This is the path to the _original_ binary, relative to ld.so.
+From 7f8a36c0a9d997d625ba887e3ae492bc2fa2888b Mon Sep 17 00:00:00 2001
+From: George Burgess IV <gbiv@google.com>
+Date: Sun, 1 Aug 2021 07:12:17 +0000
+Subject: [PATCH 7/8] ld-argv0.patch
+
+---
+ library/std/src/sys/unix/os.rs | 35 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
 diff --git a/library/std/src/sys/unix/os.rs b/library/std/src/sys/unix/os.rs
-index a9cd509..92dd6b9 100644
+index 41ca97623..ffe3b99cd 100644
 --- a/library/std/src/sys/unix/os.rs
 +++ b/library/std/src/sys/unix/os.rs
-@@ -327,12 +327,45 @@ pub fn current_exe() -> io::Result<PathBuf> {
+@@ -333,12 +333,45 @@ pub fn current_exe() -> io::Result<PathBuf> {
  
  #[cfg(any(target_os = "linux", target_os = "android", target_os = "emscripten"))]
  pub fn current_exe() -> io::Result<PathBuf> {
@@ -26,9 +30,9 @@ index a9cd509..92dd6b9 100644
 +    };
 +
      match crate::fs::read_link("/proc/self/exe") {
-         Err(ref e) if e.kind() == io::ErrorKind::NotFound => Err(io::Error::new(
+         Err(ref e) if e.kind() == io::ErrorKind::NotFound => Err(io::Error::new_const(
              io::ErrorKind::Other,
-             "no /proc/self/exe available. Is /proc mounted?",
+             &"no /proc/self/exe available. Is /proc mounted?",
          )),
 -        other => other,
 +        Err(x) => Err(x),
@@ -54,3 +58,6 @@ index a9cd509..92dd6b9 100644
      }
  }
  
+-- 
+2.32.0.554.ge1b32706d8-goog
+
