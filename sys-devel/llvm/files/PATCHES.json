@@ -942,8 +942,13 @@
     },
     {
        "comment": "Revert \"[TargetLowering] Only inspect attributes in the arguments for ArgListEntry\"",
-	"rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
-	"start_version": 427792,
-	"end_version": 428782
+       "rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
+       "start_version": 427792,
+       "end_version": 428782
+    },
+    {
+       "comment": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\"",
+       "rel_patch_path": "revert-f5446b769a7929806f72256fccd4826d66502e59.patch",
+       "start_version": 425181
     }
 ]
