@@ -6,4 +6,4 @@ KEYWORDS=*
 LICENSE=ISC
 SLOT=0
 SRC_URI=https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2021.04.21.tar.xz
-_md5_=5a6c5e283329c6debafdbe322f3116d7
+_md5_=2e7f8a733ef8690cd63c5e93161c31ff
