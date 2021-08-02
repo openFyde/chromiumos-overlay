@@ -1,6 +1,27 @@
 These patches build the label_image and benchmark_model tools with the
 GPU delegate enabled via OpenGL.
 
+diff --git a/tensorflow/lite/BUILD b/tensorflow/lite/BUILD
+index 41bd12ab..decabb0f 100644
+--- a/tensorflow/lite/BUILD
++++ b/tensorflow/lite/BUILD
+@@ -268,6 +268,7 @@ cc_library(
+         ":string",
+         ":type_to_tflitetype",
+         ":util",
++        "//tensorflow/lite/delegates/gpu:delegate",
+         "//tensorflow/lite/delegates/nnapi:nnapi_delegate",
+         "//tensorflow/lite/nnapi:nnapi_implementation",
+         "//tensorflow/lite/c:common",
+@@ -900,6 +901,8 @@ tflite_cc_shared_object(
+         "//conditions:default": [
+             "-Wl,-z,defs",
+             "-Wl,--version-script,$(location //tensorflow/lite:tflite_version_script.lds)",
++            "-lEGL",
++            "-lGLESv2",
+         ],
+     }),
+     per_os_targets = True,
 diff --git a/tensorflow/lite/examples/label_image/BUILD b/tensorflow/lite/examples/label_image/BUILD
 index 1c770a83..7cd7a13b 100644
 --- a/tensorflow/lite/examples/label_image/BUILD

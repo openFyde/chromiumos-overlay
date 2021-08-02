@@ -57,6 +57,7 @@ SRC_URI="
 	"
 
 RDEPEND="
+	virtual/opengles:=
 	!minimal? (
 		app-arch/snappy
 		dev-db/lmdb
