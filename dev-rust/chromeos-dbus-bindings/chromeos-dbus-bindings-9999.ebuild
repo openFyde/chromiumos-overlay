@@ -18,6 +18,8 @@ LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
 
-RDEPEND="!chromeos-base/chromeos-dbus-bindings-rust"
+DEPEND="=dev-rust/which-4*:="
+RDEPEND="!chromeos-base/chromeos-dbus-bindings-rust
+	${DEPEND}"
 
 BDEPEND=">=dev-rust/dbus-codegen-0.5.0"
