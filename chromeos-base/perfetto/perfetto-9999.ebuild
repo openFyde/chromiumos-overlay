@@ -47,6 +47,7 @@ src_configure() {
 	local warn_flags=(
 		"-Wno-suggest-destructor-override"
 		"-Wno-suggest-override"
+		"-Wno-reserved-identifier"
 	)
 	# Specify the linker to be used, this will be invoked by
 	# perfetto build as link argument "-fuse-ld=<>" so it needs to be
