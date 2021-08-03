@@ -8,8 +8,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2453b1fc097f3a995be8bcc0a2ada1fba616f287"
-CROS_WORKON_TREE="1121f5e2d4d75def167b19e54a7e03264df8a7f7"
+CROS_WORKON_COMMIT="74296b3ba8ca5b2e464f741e309d937be0e444e7"
+CROS_WORKON_TREE="e6b188c4ca56267d21b7d141452302c066f38709"
 inherit cros-constants
 
 CROS_RUST_SUBDIR="rust/minijail-sys"
@@ -19,7 +19,6 @@ CROS_WORKON_LOCALNAME="../aosp/external/minijail"
 CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
@@ -36,9 +35,16 @@ DEPEND="
 	chromeos-base/minijail:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
+	=dev-rust/which-4*:=
 	sys-libs/libcap:=
 	virtual/bindgen:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	cros-rust_src_prepare
+	# Do not skip regeneration of libminijail.rs.
+	export CROS_RUST=0
+}
