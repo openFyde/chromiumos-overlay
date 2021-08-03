@@ -992,5 +992,11 @@
         "rel_patch_path": "cherry/08a5ac36b956edeb989b4a65269a829eac26a5a2.patch",
         "start_version": 428724,
         "end_version": 435201
+    },
+    {
+        "comment": "[MBP] findBestLoopTopHelper should exit if OldTop is not a chain header",
+        "rel_patch_path": "cherry/50b62731452cb83979bbf3c06e828d26a4698dca.patch",
+        "start_version": 422132,
+        "end_version": 434174
     }
 ]
