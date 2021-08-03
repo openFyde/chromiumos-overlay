@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="9b49062af90a27ae0883516880a40a3b2cfe1c32"
-CROS_WORKON_TREE=("d9c21c3b0f24d480773fdba553eb9db4ee252072" "2349e541084376093311c3d0efeebc1a89314eb9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="130db14b7db70457ce01899da09064df69c93f91"
+CROS_WORKON_TREE=("d9c21c3b0f24d480773fdba553eb9db4ee252072" "31cce84f9eb4d87660fd268c9666e2dcc8979132" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk cups_proxy .gn"
 
 PLATFORM_SUBDIR="cups_proxy"
 
-inherit cros-workon platform user
+inherit tmpfiles cros-workon platform user
 
 DESCRIPTION="CUPS Proxy Daemon for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cups_proxy/"
@@ -42,6 +42,8 @@ src_install() {
 	# Install upstart configuration.
 	insinto /etc/init
 	doins init/*.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Install seccomp policy file.
 	insinto /usr/share/policy
