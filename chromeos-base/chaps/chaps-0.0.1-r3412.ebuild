@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b49062af90a27ae0883516880a40a3b2cfe1c32"
-CROS_WORKON_TREE=("d9c21c3b0f24d480773fdba553eb9db4ee252072" "8640df3a4aff4084b644aeefc4d31752a1d97665" "86c393728c91ab045ff4d432bdc9681bcb469436" "f0b69e28747454ab08788f08ff069d9b0533fbca" "5f623f7c6ed8b6a1ecc6715d1663de667092a85d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="03cbf3bf815ca127ee7dc9ec52e76510db3479dd"
+CROS_WORKON_TREE=("d9c21c3b0f24d480773fdba553eb9db4ee252072" "d8d31635d4d2ee328be6f7462eb30ee3e937cd3c" "6abe79c9b7bae15014577db733dc9486df6ddad9" "dbc8d081855c0484233b6714812dbed037dfe8db" "86c393728c91ab045ff4d432bdc9681bcb469436" "f0b69e28747454ab08788f08ff069d9b0533fbca" "5f623f7c6ed8b6a1ecc6715d1663de667092a85d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps metrics trunks tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics trunks tpm_manager .gn"
 
 PLATFORM_SUBDIR="chaps"
 
@@ -23,12 +23,15 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="systemd test tpm tpm2 fuzzer"
+IUSE="systemd test tpm tpm_dynamic tpm2 fuzzer"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
-	!tpm2? (
+	tpm? (
 		app-crypt/trousers:=
 	)
 	tpm2? (
