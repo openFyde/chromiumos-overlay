@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b49062af90a27ae0883516880a40a3b2cfe1c32"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d9c21c3b0f24d480773fdba553eb9db4ee252072" "86c393728c91ab045ff4d432bdc9681bcb469436" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "d0091aca1447080383486dabe53730567318cd17" "4af85a9646fd36ecd7fbe17446b2407d0ca8996f" "53808284f3a6fee80dbcd473fff26f5056766d57" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "77d69659cf481a4d0917b7c100630f3c969b5720" "903fe92b2526a414ef04db27fd52554a9693158a")
+CROS_WORKON_COMMIT="d1608f333090096dbf058ef3a9b72812b5b48dd8"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d9c21c3b0f24d480773fdba553eb9db4ee252072" "86c393728c91ab045ff4d432bdc9681bcb469436" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "fc2667a712cf46da80591f8356034a116d8a6fab" "bfc4a1f53ff70b45701bd9433f2e76db22d0a585" "53808284f3a6fee80dbcd473fff26f5056766d57" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "77d69659cf481a4d0917b7c100630f3c969b5720" "903fe92b2526a414ef04db27fd52554a9693158a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo iioservice/libiioservice_ipc iioservice/mojo"
@@ -117,6 +117,7 @@ platform_pkg_test() {
 		cbm_test
 		embed_file_toc_test
 		future_test
+		zsl_helper_test
 	)
 	local test_bin
 	for test_bin in "${cros_camera_tests[@]}"; do

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b49062af90a27ae0883516880a40a3b2cfe1c32"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "d0091aca1447080383486dabe53730567318cd17" "641b5da2d3d518b522e61d055496cb967cdc8453" "40d19c4193309dfbb93c9554d652777976044356" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "d9c21c3b0f24d480773fdba553eb9db4ee252072")
+CROS_WORKON_COMMIT="d1608f333090096dbf058ef3a9b72812b5b48dd8"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "fc2667a712cf46da80591f8356034a116d8a6fab" "641b5da2d3d518b522e61d055496cb967cdc8453" "ed99bb4bdff28f895f4f5ee57c7bed912e4515dc" "334c8e0caef41ce68b04849338004bd466bd75a5" "6cdd3e4e16d9890ff8b5fe897e4cf5a94620c315" "d9c21c3b0f24d480773fdba553eb9db4ee252072")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
@@ -72,14 +72,4 @@ src_install() {
 pkg_preinst() {
 	enewuser "arc-camera"
 	enewgroup "arc-camera"
-}
-
-platform_pkg_test() {
-	local tests=(
-		zsl_helper_test
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test run "${OUT}/${test_bin}"
-	done
 }
