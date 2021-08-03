@@ -125,7 +125,6 @@ src_install() {
 	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership.proto
 	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
 	doins "${WORKDIR}"/cloud_policy.proto
-	dobin "${FILESDIR}"/policy_reader
 	insinto /usr/share/policy_resources
 	doins "${POLICY_DIR}"/resources/policy_templates.json
 	doins "${FILESDIR}"/VERSION
