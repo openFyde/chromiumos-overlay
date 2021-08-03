@@ -28,6 +28,9 @@ src_install() {
 	insinto "${document_scanning_lib_path}"
 	# Specified architecture use flag check should be put before amd64, arm, and
 	# arm64.
+	# TODO(b/195618587): Install corresponding .so for newly added x86_64 archs
+	# once we have performance metrics so that we can understand the performance
+	# improvement.
 	insopts -m0755
 	if use march_goldmont; then
 		newins "x86_64-goldmont/libdocumentscanner.so" "libdocumentscanner.so"
