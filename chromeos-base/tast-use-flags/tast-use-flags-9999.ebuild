@@ -103,6 +103,7 @@ IUSE="
 	ocr
 	octopus
 	ondevice_handwriting
+	pinweaver_csme
 	pita
 	racc
 	rialto
