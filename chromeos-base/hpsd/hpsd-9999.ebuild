@@ -5,7 +5,7 @@ EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn hps common-mk"
+CROS_WORKON_SUBTREE=".gn hps common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -23,6 +23,7 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
+	chromeos-base/metrics:=
 	chromeos-base/system_api:=
 	dev-embedded/libftdi:=
 "
@@ -48,6 +49,7 @@ platform_pkg_test() {
 	local tests=(
 		dev_test
 		hps_test
+		hps_metrics_test
 	)
 
 	local test_bin
