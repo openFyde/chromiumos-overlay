@@ -32,6 +32,7 @@ DEPEND="
 "
 
 PATCHES=(
+	"${FILESDIR}"/${P}-gb-colemak.patch
 	"${FILESDIR}"/${P}-gb-dvorak-deadkey.patch
 	"${FILESDIR}"/${P}-neo-capslock-remap.patch
 	"${FILESDIR}"/${P}-disable-level5-lock.patch
