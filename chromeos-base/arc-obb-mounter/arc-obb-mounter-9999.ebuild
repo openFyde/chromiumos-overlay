@@ -34,17 +34,7 @@ BDEPEND="
 CONTAINER_DIR="/opt/google/containers/arc-obb-mounter"
 
 src_install() {
-	dobin "${OUT}"/arc-obb-mounter
-	dobin "${OUT}"/mount-obb
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.ArcObbMounter.conf
-
-	insinto /etc/init
-	doins init/arc-obb-mounter.conf
-
-	insinto "${CONTAINER_DIR}"
-	doins "${OUT}"/rootfs.squashfs
+	platform_install
 
 	# Keep the parent directory of mountpoints inaccessible from non-root
 	# users because mountpoints themselves are often world-readable but we
@@ -61,5 +51,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc-obb-mounter_testrunner"
+	platform test_all
 }
