@@ -1,0 +1,61 @@
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+EAPI=7
+
+CROS_WORKON_COMMIT="e5c6cd634fdc0dbaac47e376c3cb53c417acb7df"
+CROS_WORKON_TREE=("cce79a57ba307fc1c523998fe1f876c88d0481df" "d9c21c3b0f24d480773fdba553eb9db4ee252072" "d30dd681757b9cf6648ddaaa4dba4d195832cf71" "f3523058f5c15ce72cc61ab31323f718381cb695" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils trunks .gn"
+
+PLATFORM_SUBDIR="hwsec-test-utils"
+
+inherit cros-workon platform
+
+DESCRIPTION="Hwsec-related test-only features. This package resides in test images only."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hwsec-test-utils/"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="test tpm tpm2"
+REQUIRED_USE="tpm2? ( !tpm )"
+
+RDEPEND="
+	tpm2? (
+		chromeos-base/trunks:=
+	)
+	!tpm2? (
+		app-crypt/trousers:=
+	)
+"
+
+DEPEND="${RDEPEND}
+	tpm2? (
+		chromeos-base/trunks:=[test?]
+	)
+	chromeos-base/attestation:=
+	chromeos-base/system_api:=
+	dev-libs/openssl:=
+	dev-libs/protobuf:=
+"
+
+src_install() {
+
+	# Installs attestation-injected-keys
+	dobin "${OUT}/attestation-injected-keys"
+
+	# Installs hwsec-test-va
+	dobin "${OUT}/hwsec-test-va"
+
+	# Install fake pca agent
+	dobin "${OUT}"/fake_pca_agentd
+
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/hwsec-test-utils_testrunner"
+}
