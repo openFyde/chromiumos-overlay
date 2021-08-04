@@ -542,8 +542,9 @@ _ecargo_write_clippy() {
 	# FIXME(crbug.com/1195313): rustc sysroot may not contain dependencies
 	local sysroot_old="${SYSROOT}"
 	SYSROOT=$(rustc --print sysroot)
+	echo "{\"package_path\":\"${S}\"}" > "${clippy_output_base}/${PF}.json"
 	ecargo clippy ---message-format json --target="${CHOST}" --release \
-		--manifest-path="${S}/Cargo.toml" > "${clippy_output_base}/${PF}.json"
+		--manifest-path="${S}/Cargo.toml" >> "${clippy_output_base}/${PF}.json"
 	export SYSROOT="${sysroot_old}"
 }
 
