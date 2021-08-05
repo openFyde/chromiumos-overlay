@@ -17,7 +17,9 @@ DESCRIPTION="Chrome OS camera HDRnet integration tests"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="ipu6ep"
+
+# 'ipu6' and 'ipu6ep' are passed to and used in BUILD.gn files.
+IUSE="ipu6 ipu6ep"
 
 BDEPEND="virtual/pkgconfig"
 
