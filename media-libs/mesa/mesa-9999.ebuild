@@ -71,7 +71,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
-	libglvnd? ( media-libs/libglvnd:= )
+	libglvnd? ( media-libs/libglvnd )
+	!libglvnd? ( !media-libs/libglvnd )
 "
 
 DEPEND="${COMMON_DEPEND}

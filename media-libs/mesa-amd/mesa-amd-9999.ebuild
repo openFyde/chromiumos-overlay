@@ -27,11 +27,12 @@ IUSE="${IUSE_VIDEO_CARDS} debug vulkan libglvnd"
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
+	libglvnd? ( media-libs/libglvnd )
+	!libglvnd? ( !media-libs/libglvnd )
 	virtual/libelf
 	dev-libs/expat
 	x11-libs/libdrm
 	!media-libs/mesa
-	libglvnd? ( media-libs/libglvnd:= )
 "
 
 DEPEND="${RDEPEND}
@@ -75,6 +76,7 @@ src_configure() {
 	append-flags "-UENABLE_SHADER_CACHE"
 
 	emesonargs+=(
+		-Dexecmem=false
 		-Dglvnd=$(usex libglvnd true false)
 		-Dglx=disabled
 		-Dllvm=true

@@ -52,7 +52,8 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X"
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X
+	libglvnd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
@@ -62,6 +63,8 @@ REQUIRED_USE="video_cards_amdgpu? ( llvm )
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
 RDEPEND="
+	libglvnd? ( media-libs/libglvnd )
+	!libglvnd? ( !media-libs/libglvnd )
 	X? (
 		!<x11-base/xorg-server-1.7
 		>=x11-libs/libX11-1.3.99.901
@@ -193,6 +196,8 @@ src_configure() {
 	fi
 
 	emesonargs+=(
+		-Dexecmem=false
+		-Dglvnd=$(usex libglvnd true false)
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"

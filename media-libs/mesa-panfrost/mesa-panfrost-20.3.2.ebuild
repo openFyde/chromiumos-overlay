@@ -22,7 +22,7 @@ HOMEPAGE="http://mesa3d.org/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 
-IUSE="debug vulkan"
+IUSE="debug vulkan libglvnd"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
@@ -43,6 +43,8 @@ BDEPEND="
 
 src_configure() {
 	emesonargs+=(
+		-Dexecmem=false
+		-Dglvnd=$(usex libglvnd true false)
 		-Dllvm=disabled
 		-Ddri3=disabled
 		-Dshader-cache=disabled

@@ -26,7 +26,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
-	libglvnd? ( media-libs/libglvnd:= )
+	libglvnd? ( media-libs/libglvnd )
+	!libglvnd? ( !media-libs/libglvnd )
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -40,6 +41,8 @@ BDEPEND="
 
 src_configure() {
 	emesonargs+=(
+		-Dexecmem=false
+		-Dglvnd=$(usex libglvnd true false)
 		-Dllvm=disabled
 		-Ddri3=disabled
 		-Dshader-cache=disabled

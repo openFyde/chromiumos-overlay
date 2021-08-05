@@ -33,6 +33,12 @@ BDEPEND="${PYTHON_DEPS}
 	test? ( X? ( ${VIRTUALX_DEPEND} ) )"
 RDEPEND="
 	!media-libs/mesa[-libglvnd(-)]
+	!media-libs/mesa-amd[-libglvnd(-)]
+	!media-libs/mesa-freedreno[-libglvnd(-)]
+	!media-libs/mesa-img[-libglvnd(-)]
+	!media-libs/mesa-iris[-libglvnd(-)]
+	!media-libs/mesa-llvmpipe[-libglvnd(-)]
+	!media-libs/mesa-panfrost[-libglvnd(-)]
 	X? (
 		x11-libs/libX11[${MULTILIB_USEDEP}]
 		x11-libs/libXext[${MULTILIB_USEDEP}]
