@@ -104,6 +104,7 @@ src_configure() {
 		--enable-sixaxis \
 		--disable-network \
 		--disable-datafiles \
+		--enable-admin \
 		$(use_enable fuzzer) \
 		$(use_enable hid2hci) \
 		$(use_enable bt_deprecated_tools deprecated)
