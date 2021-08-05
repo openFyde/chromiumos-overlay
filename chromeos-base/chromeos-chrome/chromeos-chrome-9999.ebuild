@@ -59,7 +59,7 @@ IUSE="
 	msan
 	+nacl
 	neon
-	+oobe_config
+	oobe_config
 	opengl
 	opengles
 	orderfile_generate
