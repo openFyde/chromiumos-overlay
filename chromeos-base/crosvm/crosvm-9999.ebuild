@@ -62,7 +62,8 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
 	dev-rust/intrusive-collections:=
-	=dev-rust/gdbstub-0.4*:=
+	=dev-rust/gdbstub-0.5*:=
+	>=dev-rust/gdbstub_arch-0.1.1:= <dev-rust/gdbstub_arch-0.2
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	dev-rust/minijail:=
