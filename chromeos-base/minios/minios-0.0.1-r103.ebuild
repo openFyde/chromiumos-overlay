@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b49062af90a27ae0883516880a40a3b2cfe1c32"
+CROS_WORKON_COMMIT="0dc356eb7b2d9ae7d71bdee8c7d00080502e2173"
 CROS_WORKON_TREE=("d9c21c3b0f24d480773fdba553eb9db4ee252072" "3f38800cba23234fb5a6f2edd948b1de8ef8c04c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,6 +45,6 @@ src_install() {
 	# D-Bus configuration
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.MiniOs.conf
-	insinto "/build/initramfs"
+	insinto "/build/initramfs/etc/init"
 	doins init/*.conf
 }
