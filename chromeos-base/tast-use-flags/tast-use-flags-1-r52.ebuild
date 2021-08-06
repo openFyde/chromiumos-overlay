@@ -41,7 +41,7 @@ IUSE="
 	borealis_host
 	cdm_factory_daemon
 	cert_provision
-	+cheets_user
+	cheets_user
 	cheets_user_64
 	cheets_userdebug
 	cheets_userdebug_64

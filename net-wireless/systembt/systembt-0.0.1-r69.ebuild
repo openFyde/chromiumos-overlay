@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("4d099cee2590cde0d0fc8e580f1ad4e376e028d9" "a4bada3466735f5a7d945c94af4d677845487010" "48b28b8680caa31da7b5c4d3d44425a221b0c3ee")
-CROS_WORKON_TREE=("39f1a7f0ec7c21bbbd48ca4dc192213b5fd7e5f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c61f5281d05d7ac5f5057408c1a7ca2194627dbf" "1e793181081ea50dec9407274b86bde3dfe50a71")
+CROS_WORKON_COMMIT=("45ef3e21d6a8191846bcb1c8d0d2906c1667d6e2" "465cfa4f83e7b3ba33766a8115051b0fb9ec3ae4" "48b28b8680caa31da7b5c4d3d44425a221b0c3ee")
+CROS_WORKON_TREE=("39f1a7f0ec7c21bbbd48ca4dc192213b5fd7e5f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a5f7a0bcf1e65b191d897071622cea0d5020e418" "1e793181081ea50dec9407274b86bde3dfe50a71")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/bt" "aosp/platform/system/bt")
 CROS_WORKON_LOCALNAME=("../platform2" "../aosp/system/bt/upstream" "../aosp/system/bt/bringup")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/bt" "${S}/platform2/bt")
