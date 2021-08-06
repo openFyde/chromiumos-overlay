@@ -46,6 +46,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/perfetto
 	dev-util/meson
 	dev-util/ninja
 "
