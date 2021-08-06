@@ -105,6 +105,10 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-EL2-fix-4-Support-PID-tracing-in-config.patch"
 	"${FILESDIR}/5.3.7-EL2-fix-5-Add-cs-etm-helper.patch"
 	"${FILESDIR}/5.3.7-EL2-fix-6-Detect-pid-in-VMID.patch"
+	"${FILESDIR}/5.3.7-cs-etm-Move-synth_opts-initialisation.patch"
+	"${FILESDIR}/5.3.7-auxtrace-Add-Z-itrace-option-for-timeless-decod.patch"
+	"${FILESDIR}/5.3.7-cs-etm-Start-reading-Z-itrace-option.patch"
+	"${FILESDIR}/5.3.7-cs-etm-Prevent-and-warn-on-underflows-during-ti.patch"
 )
 
 pkg_setup() {
