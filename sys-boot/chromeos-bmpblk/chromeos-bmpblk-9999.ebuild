@@ -134,7 +134,7 @@ install_bmpblk() {
 
 	# However, if specific bitmaps need to be updated via RW update,
 	# we should also install here.
-	insinto "/firmware/cbfs-rw-compress-override/${build_target}"
+	insinto "/firmware/cbfs-rw-compress-override/${build_combination}"
 	doins_if_exist "${WORKDIR}/${build_target}"/locale/rw/rw_locale_*.bin
 }
 
