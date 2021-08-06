@@ -4,7 +4,7 @@
 
 EAPI=7
 
-ZEPHYR_VERSIONS=( v2.5 v2.6 )
+ZEPHYR_VERSIONS=( v2.6 )
 
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
@@ -67,9 +67,8 @@ get_zephyr_version() {
 			return 0
 		fi
 	done
-	ewarn "Defaulting to Zephyr v2.5. Please specify a zephyr_vX_X use flag."
-	ewarn "This will error in the future."
-	echo "v2.5"
+
+	die "Please specify a zephyr_vX_X USE flag."
 }
 
 src_configure() {
