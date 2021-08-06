@@ -78,6 +78,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-225-udevadm-add-ping-option-to-control-command.patch
 	"${FILESDIR}"/${PN}-225-fix-joystick-with-mouse-identification.patch
 	"${FILESDIR}"/${PN}-225-bypass-v4l_id-query-for-mipi-camera-related-dev.patch
+	"${FILESDIR}"/${PN}-225-sd-device-udev-db-handle-properties-with-empty-value.patch
 )
 
 check_default_rules() {
