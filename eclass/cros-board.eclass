@@ -78,7 +78,7 @@ ALL_BOARDS=(
 	asuka
 	asurada
 	atlas
-	atlas-blueznext
+	atlas-connectivitynext
 	atlas-kernelnext
 	#atlas-kvm
 	aurora
