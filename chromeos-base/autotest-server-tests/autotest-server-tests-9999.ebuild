@@ -191,6 +191,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECThermal
 	+tests_firmware_ECUpdateId
 	+tests_firmware_ECUsbPorts
+	+tests_firmware_ECWakeFromULP
 	+tests_firmware_ECWakeSource
 	+tests_firmware_ECWatchdog
 	+tests_firmware_EmmcWriteLoad
