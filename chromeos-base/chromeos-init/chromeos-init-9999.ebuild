@@ -23,8 +23,8 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
 	arcpp arcvm cros_embedded +encrypted_stateful +encrypted_reboot_vault
-	frecon lvm_stateful_partition kernel-3_18 +midi -s3halt +syslog systemd
-	+udev vivid vtconsole"
+	frecon lvm_stateful_partition kernel-3_18 +midi +oobe_config -s3halt +syslog
+	systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 COMMON_DEPEND="
@@ -50,6 +50,7 @@ RDEPEND="${COMMON_DEPEND}
 	!chromeos-base/chromeos-disableecho
 	chromeos-base/chromeos-common-script
 	chromeos-base/tty
+	oobe_config? ( chromeos-base/oobe_config )
 	sys-apps/upstart
 	!systemd? ( sys-apps/systemd-tmpfiles )
 	sys-process/lsof
