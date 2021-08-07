@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="45ef3e21d6a8191846bcb1c8d0d2906c1667d6e2"
+CROS_WORKON_COMMIT="9dac30bb5d4959c023cf0cd1f7ef07c8541e5b7c"
 CROS_WORKON_TREE=("39f1a7f0ec7c21bbbd48ca4dc192213b5fd7e5f1" "079af7ebe9ece6a677203ae2d143cafc93df8225" "7f2d0530e333c2cfe5106b335fc2bff22ee483ca" "b0c3c09975d9029f238c34608a19cd3e5b38cd13" "2039790ae4b7d468b1b56b26a1c374055c8f2882" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular dhcpv6 fuzzer pppoe supplicant-next systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e supplicant-next systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -60,6 +60,11 @@ DEPEND="${COMMON_DEPEND}
 	vpn? ( chromeos-base/vpn-manager:= )
 "
 PDEPEND="chromeos-base/patchpanel"
+
+# TODO(b/193926134): remove the dependency on supplicant-next once all boards
+# have been upgraded to use a recent wpa_supplicant (newer than July 2021) that
+# supports H2E.
+REQUIRED_USE="sae_h2e? ( supplicant-next )"
 
 pkg_setup() {
 	enewgroup "shill"
@@ -133,7 +138,7 @@ src_install() {
 			> "${D}/${shims_dir}/wpa_supplicant.conf"
 	fi
 
-	if use supplicant-next; then
+	if use sae_h2e; then
 		# If supplicant's version is recent enough (July 2021 rebase
 		# or newer), change the default value of sae_pwe to support both
 		# hunting-and-pecking and hash-to-element, which is required
