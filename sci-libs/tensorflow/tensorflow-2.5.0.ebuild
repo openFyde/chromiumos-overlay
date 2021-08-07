@@ -57,6 +57,7 @@ SRC_URI="
 	"
 
 RDEPEND="
+	x11-drivers/opengles-headers:=
 	virtual/opengles:=
 	!minimal? (
 		app-arch/snappy
