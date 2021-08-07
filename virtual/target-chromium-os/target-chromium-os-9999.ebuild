@@ -87,6 +87,7 @@ IUSE="
 	+shill
 	sirenia
 	smbprovider
+	+spaced
 	+syslog
 	+system_locales
 	system_proxy
@@ -232,6 +233,7 @@ RDEPEND="
 	shill? ( >=chromeos-base/shill-0.0.1-r2205 )
 	manatee? ( chromeos-base/sirenia )
 	sirenia? ( chromeos-base/sirenia )
+	spaced? ( chromeos-base/spaced )
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
 	vpn? ( chromeos-base/vpn-manager )
