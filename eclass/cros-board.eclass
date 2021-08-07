@@ -247,7 +247,7 @@ ALL_BOARDS=(
 	#hatch-arc-r-signed
 	hatch-arc-r-userdebug
 	hatch-arc-s
-	#hatch-blueznext
+	hatch-connectivitynext
 	hatch-borealis
 	hatch-diskswap
 	hatch-kernelnext
