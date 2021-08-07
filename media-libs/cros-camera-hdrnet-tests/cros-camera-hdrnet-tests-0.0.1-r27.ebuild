@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c241d43e276d9a92eae3d5923cc936b3b382706d"
+CROS_WORKON_COMMIT="9dac30bb5d4959c023cf0cd1f7ef07c8541e5b7c"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "88b5e381b2a5944f3f3b6e1a4f6b74c330312ae0" "334c8e0caef41ce68b04849338004bd466bd75a5" "53808284f3a6fee80dbcd473fff26f5056766d57" "6621b31058e916dd70e9af45df6600cca97002f3" "39f1a7f0ec7c21bbbd48ca4dc192213b5fd7e5f1")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -19,7 +19,9 @@ DESCRIPTION="Chrome OS camera HDRnet integration tests"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="ipu6ep"
+
+# 'ipu6' and 'ipu6ep' are passed to and used in BUILD.gn files.
+IUSE="ipu6 ipu6ep"
 
 BDEPEND="virtual/pkgconfig"
 
