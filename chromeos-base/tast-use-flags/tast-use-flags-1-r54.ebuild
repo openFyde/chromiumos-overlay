@@ -104,6 +104,7 @@ IUSE="
 	nyan_kitty
 	ocr
 	octopus
+	ondevice_document_scanner
 	ondevice_handwriting
 	pinweaver_csme
 	pita
