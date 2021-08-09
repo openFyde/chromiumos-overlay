@@ -22,6 +22,33 @@ case "${EAPI:-0}" in
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
+# This eclass is being deprecated and should not be used in new
+# ebuilds.  Below is a prune-list of ebuilds that need migrated away
+# from this eclass.  Do not add new ebuilds to this list.
+case "${CATEGORY}/${PN}" in
+	chromeos-base/chromeos-assets ) ;;
+	chromeos-base/chromeos-initramfs ) ;;
+	chromeos-base/gestures-conf ) ;;
+	net-misc/chrony ) ;;
+	sys-apps/systemd ) ;;
+
+	# cros-kernel2.eclass uses cros-board.eclass.  Exempt all kernel
+	# packages for now.
+	sys-kernel/* ) ;;
+
+	# Disallow all other packages.
+	* )
+		eerror
+		eerror "cros-board.eclass is deprecated, and will eventually be removed."
+		eerror "It should not be used in any new packages."
+		eerror "Please remove cros-board from the inherit line in your ebuild."
+		eerror "See https://chromium.googlesource.com/chromiumos/docs/+/HEAD/os_config.md#cros_board_eclass for more info."
+		eerror
+
+		die "${CATEGORY}/${PN} is not allowed to use cros-board.eclass."
+		;;
+esac
+
 BOARD_USE_PREFIX="board_use_"
 
 # Obsolete boards' names are commented-out but retained in this list so
