@@ -94,6 +94,7 @@ SERVER_IUSE_TESTS="
 		)
 	)
 	+tests_cellular_Callbox_AssertCellularData
+	+tests_cellular_Callbox_AssertSMS
 	+tests_cheets_LabDependencies
 	debugd? ( +tests_debugd_DevTools )
 	+tests_crosperf_Wrapper
