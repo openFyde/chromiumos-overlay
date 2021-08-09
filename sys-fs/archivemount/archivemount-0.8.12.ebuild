@@ -32,8 +32,11 @@ BDEPEND="virtual/pkgconfig"
 # $ sha256sum archivemount.c
 # 2835d91544f6e1a9f07475b4b729262da8dd8d96402052fa51cfbd43268b4455  archivemount.c
 PATCHES=(
+	# https://github.com/cybernoid/archivemount/pull/20
 	"${FILESDIR}/archivemount-0.8.12-dev-fd.patch"
+	# https://github.com/cybernoid/archivemount/pull/18
 	"${FILESDIR}/archivemount-0.8.12-raw-pathname.patch"
+	# https://github.com/cybernoid/archivemount/pull/19
 	"${FILESDIR}/archivemount-0.8.12-fchdir.patch"
 )
 
