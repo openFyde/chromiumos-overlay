@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="925b13afc316be7e90305aac189a2df27893fb1b"
-CROS_WORKON_TREE=("65d130298a29a5753f5a10122abad6b735ce2501" "29fc0391cae18a93aa2e4d6341ba6c4411fa9e02" "7f2d0530e333c2cfe5106b335fc2bff22ee483ca" "b8f72a0e660bae92be22cdcd378a09def1f97c89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2badb18dbdba8a1d50ca92bc57d7293d9a0f1b24"
+CROS_WORKON_TREE=("65d130298a29a5753f5a10122abad6b735ce2501" "c2b47fbdc9a597f32493a88165a696f4b16a7c78" "7f2d0530e333c2cfe5106b335fc2bff22ee483ca" "b8f72a0e660bae92be22cdcd378a09def1f97c89" "8897b5e81fd24f5f861042faab74aad40c4ffe21" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dns-proxy metrics shill/dbus/client .gn"
+CROS_WORKON_SUBTREE="common-mk dns-proxy metrics shill/dbus/client shill/net .gn"
 
 PLATFORM_SUBDIR="dns-proxy"
 
@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
 	chromeos-base/shill-dbus-client:=
+	chromeos-base/shill-net:=
 	dev-libs/protobuf:=
 	dev-libs/dbus-glib:=
 	sys-apps/dbus:=
