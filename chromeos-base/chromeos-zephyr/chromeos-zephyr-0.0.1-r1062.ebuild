@@ -4,9 +4,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c3bd2094f92d574377f7af2aec147ae181aa5f8e" "f8ff8d25aa0a9e65948040c7b47ec67f3fa300df" "871c4115c23ee7ad79131d55edfb178237f9327f" "a5e8410aaaf29d6ac486e3d935b18580248b0247" "656dcdda8d730d4bbf637b9fd431092663f2545c")
-CROS_WORKON_TREE=("781df7da13c4275a2328c09e75fd937991d80e29" "abc18d92d55a64403269f84c59e6db14875edb34" "c0bc74822ff6533c5d0bd53000f6fe026d2caa10" "314bb2e240850a5571eb37f2055e9d5214e52972" "8da768dde14eae840f608f84536a068842d55a2d")
-ZEPHYR_VERSIONS=( v2.5 v2.6 )
+CROS_WORKON_COMMIT=("c3bd2094f92d574377f7af2aec147ae181aa5f8e" "f8ff8d25aa0a9e65948040c7b47ec67f3fa300df" "871c4115c23ee7ad79131d55edfb178237f9327f" "656dcdda8d730d4bbf637b9fd431092663f2545c")
+CROS_WORKON_TREE=("781df7da13c4275a2328c09e75fd937991d80e29" "abc18d92d55a64403269f84c59e6db14875edb34" "c0bc74822ff6533c5d0bd53000f6fe026d2caa10" "8da768dde14eae840f608f84536a068842d55a2d")
+ZEPHYR_VERSIONS=( v2.6 )
 
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
@@ -69,9 +69,8 @@ get_zephyr_version() {
 			return 0
 		fi
 	done
-	ewarn "Defaulting to Zephyr v2.5. Please specify a zephyr_vX_X use flag."
-	ewarn "This will error in the future."
-	echo "v2.5"
+
+	die "Please specify a zephyr_vX_X USE flag."
 }
 
 src_configure() {
