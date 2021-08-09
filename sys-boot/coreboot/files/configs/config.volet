@@ -11,3 +11,7 @@ CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/baseboard-volteer/me_rw-volet.bin"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/baseboard-volteer/vbt-volet.bin"
+
+# Wifi SAR
+CONFIG_CHROMEOS_WIFI_SAR=y
+CONFIG_WIFI_SAR_CBFS_FILEPATH="3rdparty/blobs/baseboard-volteer/wifi_sar/wifi_sar-volet.hex"
