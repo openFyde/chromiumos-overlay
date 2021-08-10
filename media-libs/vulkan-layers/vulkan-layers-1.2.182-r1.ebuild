@@ -4,7 +4,8 @@
 EAPI=7
 
 MY_PN=Vulkan-ValidationLayers
-CMAKE_ECLASS="cmake"
+CMAKE_ECLASS="cmake-utils"
+CMAKE_MAKEFILE_GENERATOR="emake"
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 inherit cmake-multilib python-any-r1
 
@@ -26,9 +27,11 @@ SLOT="0"
 IUSE="wayland X"
 
 BDEPEND=">=dev-util/cmake-3.10.2"
-RDEPEND=">=dev-util/spirv-tools-2020.6:=[${MULTILIB_USEDEP}]"
-DEPEND="${RDEPEND} ${PYTHON_DEPS}
-	>=dev-util/glslang-10.11.0.0_pre20201216:=[${MULTILIB_USEDEP}]
+RDEPEND=">=dev-util/spirv-tools-2021.0_pre20210526:=[${MULTILIB_USEDEP}]"
+DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
+	dev-cpp/robin-hood-hashing
+	>=dev-util/glslang-11.4.0:=[${MULTILIB_USEDEP}]
 	>=dev-util/vulkan-headers-${PV}
 	wayland? ( dev-libs/wayland:=[${MULTILIB_USEDEP}] )
 	X? (
@@ -37,9 +40,9 @@ DEPEND="${RDEPEND} ${PYTHON_DEPS}
 	)
 "
 
-PATCHES=(
-	"${FILESDIR}/BACKPORT-cmake-Enable-reenable-compilation-with-RTTI.patch"
-)
+src_prepare() {
+	cmake-utils_src_prepare
+}
 
 multilib_src_configure() {
 	local mycmakeargs=(
@@ -53,5 +56,5 @@ multilib_src_configure() {
 		-DCMAKE_INSTALL_INCLUDEDIR="${ESYSROOT}/usr/include/vulkan/"
 		-DSPIRV_HEADERS_INSTALL_DIR="${ESYSROOT}/usr/include/spirv"
 	)
-	cmake_src_configure
+	cmake-utils_src_configure
 }
