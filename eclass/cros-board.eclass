@@ -328,6 +328,7 @@ ALL_BOARDS=(
 	#oak-cheets
 	octavius
 	octopus
+	octopus-kernelnext
 	#optimus
 	orco
 	palkia
