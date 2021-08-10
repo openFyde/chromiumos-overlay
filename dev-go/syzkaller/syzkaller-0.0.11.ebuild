@@ -27,6 +27,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/0001-cros-syzkaller-do-not-use-go.sum-and-go.mod.patch
 	eapply "${FILESDIR}"/0002-cros-syzkaller-turn-off-vhci-injection.patch
 	eapply "${FILESDIR}"/0003-cros-syzkaller-use-arm-toolchain-available-within-ch.patch
+	eapply "${FILESDIR}"/0004-cros-syzkaller-add-hub-flag.patch
 	eapply_user
 }
 
