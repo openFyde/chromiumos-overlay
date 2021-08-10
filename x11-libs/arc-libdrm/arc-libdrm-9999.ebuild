@@ -59,6 +59,8 @@ src_configure() {
 }
 
 multilib_src_configure() {
+	arc-build-create-cross-file
+
 	local emesonargs=(
 		-Dinstall-test-programs=false
 		$(meson_use video_cards_amdgpu amdgpu)
@@ -76,6 +78,7 @@ multilib_src_configure() {
 		-Dintel=false
 		--prefix="${ARC_PREFIX}/vendor"
 		--datadir="${ARC_PREFIX}/vendor/usr/share"
+		--cross-file="${ARC_CROSS_FILE}"
 	)
 	meson_src_configure
 }
