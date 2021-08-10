@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="ml"
 inherit cros-workon platform user
 
 DESCRIPTION="Machine learning service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/ml"
 
 # Clients of the ML service should place the URIs of their model files into
 # MODELS_TO_INSTALL if they are installed into rootfs (built-in models), or

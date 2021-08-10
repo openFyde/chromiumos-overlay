@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="ml"
 inherit cros-workon platform
 
 DESCRIPTION="Command line interface to machine learning service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ml"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/ml"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
