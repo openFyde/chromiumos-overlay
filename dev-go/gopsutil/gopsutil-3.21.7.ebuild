@@ -37,5 +37,11 @@ KEYWORDS="*"
 IUSE="test"
 RESTRICT="binchecks strip"
 
-DEPEND="test? ( dev-go/go-sys )"
-RDEPEND="dev-go/go-sys"
+DEPEND="
+	test? ( dev-go/go-sys )
+	dev-go/go-sysconf
+"
+RDEPEND="
+	dev-go/go-sys
+	dev-go/go-sysconf
+"
