@@ -4,7 +4,7 @@ DEPEND=dev-libs/elfutils dev-libs/glib:2 sys-apps/kmod:= sys-libs/llvm-libunwind
 DESCRIPTION=Intel GPU userland tools
 EAPI=7
 HOMEPAGE=https://01.org/linuxgraphics https://gitlab.freedesktop.org/drm/igt-gpu-tools
-IUSE=chamelium doc man overlay runner tests unwind valgrind video_cards_amdgpu video_cards_intel video_cards_nouveau video_cards_msm X xv cros_host cros_workon_tree_4c9f92a4b0c02afa3e9f70080cc4372f1c498a16
+IUSE=chamelium doc man overlay runner tests unwind valgrind video_cards_amdgpu video_cards_intel video_cards_nouveau video_cards_msm X xv cros_host cros_workon_tree_dd193c9ac003d8586daaace82f4e27a262f816af
 KEYWORDS=*
 LICENSE=MIT
 PROPERTIES=live
@@ -14,4 +14,4 @@ RESTRICT=test
 SLOT=0
 SRC_URI=https://www.x.org/releases/individual/app/igt-gpu-tools-1.25.tar.xz
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	5ec14fdbc5446b8767e87e186e3b1a52	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=a6edd3803f374f5b1f19c8165163a5c6
+_md5_=5c1b28d11f2b49357213fc778be918b3
