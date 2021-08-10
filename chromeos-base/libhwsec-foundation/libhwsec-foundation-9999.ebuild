@@ -33,6 +33,7 @@ src_install() {
 	insinto /usr/include/libhwsec-foundation
 	doins ./hwsec-foundation_export.h
 	doins ./signature_traits.h
+	doins ./fuzzed_trousers_utils.h
 
 	insinto /usr/include/libhwsec-foundation/syscaller
 	doins ./syscaller/syscaller.h
