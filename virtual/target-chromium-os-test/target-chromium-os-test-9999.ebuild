@@ -34,6 +34,7 @@ IUSE="
 	ml_service
 	hps
 	nnapi
+	ondevice_document_scanner
 	opengl
 	opengles
 	p2p
@@ -109,6 +110,9 @@ CROS_COMMON_RDEPEND="
 	nnapi? (
 		chromeos-base/aosp-frameworks-ml-nn-vts
 		chromeos-base/ml-test-assets
+	)
+	ondevice_document_scanner? (
+		media-libs/cros-camera-document-scanning-test
 	)
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
