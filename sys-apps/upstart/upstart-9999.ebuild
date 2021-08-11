@@ -15,7 +15,7 @@ HOMEPAGE="http://upstart.ubuntu.com/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug direncryption examples nls selinux udev_bridge"
+IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge"
 
 RDEPEND=">=sys-apps/dbus-1.2.16
 	>=sys-libs/libnih-1.0.2
@@ -58,18 +58,28 @@ src_configure() {
 
 	append-lfs-flags
 
-	econf \
-		--prefix=/ \
-		--exec-prefix= \
-		--includedir='${prefix}/usr/include' \
-		--disable-rpath \
-		$(use_with direncryption dircrypto-keyring) \
-		$(use_enable selinux) \
+	local myconf=(
+		--prefix=/
+		--exec-prefix=
+		--includedir="${prefix}/usr/include"
+		--disable-rpath
+		$(use_with direncryption dircrypto-keyring)
+		$(use_enable selinux)
 		$(use_enable nls)
+	)
+
+	if use global_seccomp; then
+		myconf+=(
+		--with-seccomp-constants="${SYSROOT}/build/share/constants.json"
+		)
+	fi
+
+	econf "${myconf[@]}"
 }
 
 src_compile() {
-	emake NIH_DBUS_TOOL=$(which nih-dbus-tool)
+	emake clean
+	emake "NIH_DBUS_TOOL=$(which nih-dbus-tool)"
 }
 
 src_install() {
