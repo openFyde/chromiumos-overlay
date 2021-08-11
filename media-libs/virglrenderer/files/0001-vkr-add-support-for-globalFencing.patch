@@ -1,11 +1,11 @@
-From 71142e046e9070870bc2d4ff309abdcb7bf9c686 Mon Sep 17 00:00:00 2001
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Tue, 10 Aug 2021 03:09:24 +0000
+From e5f7fbe619a3fc3a44a6a3ab14ef1a06ab366075 Mon Sep 17 00:00:00 2001
+From: Yiwei Zhang <zzyiwei@chromium.org>
+Date: Wed, 11 Aug 2021 22:58:50 +0000
 Subject: [PATCH] vkr: add support for globalFencing
 
 Squashed commit of the following:
 
-commit 9c520d96bf71a790c7c5f174dcc122c2b4308c38
+commit 5fc00825a5f1392633e5f8f48150210936b0da04
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Jun 8 12:39:00 2021 -0700
 
@@ -14,7 +14,7 @@ Date:   Tue Jun 8 12:39:00 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 5be93e6dc957da3cb7e4faa6b527c6ea69878548
+commit 0b378f0886dedd2ad937440f01eda83610b96b04
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:22:18 2021 -0700
 
@@ -38,7 +38,7 @@ Date:   Tue Mar 16 16:22:18 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 425cc62df041b43c1b9545a0c2a475e9735305af
+commit ab61813ffc972f12fd0c9d8ba09a3809f9c1c8c2
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:50:02 2021 -0700
 
@@ -46,12 +46,12 @@ Date:   Tue Mar 16 16:50:02 2021 -0700
 
     Becase we advertise only a single VkQueue per-context, we can treat
     queue id 0 as the single VkQueue.  When the queue hasn't been created,
-    all fences are treated as cpu fences.
+    all fences are treated as cpu fences added to ctx->signaled_syncs.
 
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 157810e01e46f5a1bc170ff601acae3effd38964
+commit 97c0fcbab631c84f8022e7394201e9384af762ad
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:33:44 2021 -0700
 
@@ -63,7 +63,7 @@ Date:   Fri Jun 11 14:33:44 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 6fb753924f01023a31fb93ebcc3fbad9fc3b77f0
+commit 8b609f330a5f9d8f07fcbb021c05bb2b6dbb857d
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:41:52 2021 -0700
 
@@ -77,7 +77,7 @@ Date:   Fri Jun 11 14:41:52 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit b95ef06b65c9aee21480cf036632c1843cde3235
+commit 5aac27b0b9028f0b8cc23167d0c1009c4b938875
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:21:35 2021 -0700
 
@@ -89,7 +89,7 @@ Date:   Tue Mar 16 16:21:35 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 4a488d9680d34ed3dedab0544491d78caf8c254c
+commit c2294366e6bd90dfb3e4e748c73b177672751fb8
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 4 12:24:02 2021 -0700
 
@@ -101,25 +101,25 @@ Date:   Fri Jun 4 12:24:02 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 ---
- src/venus/vkr_context.c         | 116 +++++++++++++-
- src/venus/vkr_context.h         |   3 +
- src/venus/vkr_device.c          |  26 +++
+ src/venus/vkr_context.c         | 112 ++++++++++++-
+ src/venus/vkr_context.h         |   2 +
+ src/venus/vkr_device.c          |  27 ++++
  src/venus/vkr_physical_device.c |  17 ++
  src/venus/vkr_physical_device.h |   2 +
- src/venus/vkr_queue.c           |  14 +-
+ src/venus/vkr_queue.c           |  16 +-
  src/venus/vkr_transport.c       |   1 +
  src/virgl_context.h             |   6 +
  src/virglrenderer.c             | 272 +++++++++++++++++++++++++++++++-
  src/vrend_decode.c              |   6 +-
  src/vrend_renderer.c            |   4 +-
  src/vrend_renderer.h            |   3 +-
- 12 files changed, 453 insertions(+), 17 deletions(-)
+ 12 files changed, 448 insertions(+), 20 deletions(-)
 
 diff --git a/src/venus/vkr_context.c b/src/venus/vkr_context.c
-index 2b8a1c9..8f70012 100644
+index f4f3d95..13cbb51 100644
 --- a/src/venus/vkr_context.c
 +++ b/src/venus/vkr_context.c
-@@ -94,7 +94,29 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
+@@ -94,7 +94,30 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
     struct vkr_queue *queue;
     VkResult result;
  
@@ -138,8 +138,9 @@ index 2b8a1c9..8f70012 100644
 +
 +      sync->fence = VK_NULL_HANDLE;
 +      sync->flags = flags;
++      sync->queue_id = 0;
 +      sync->fence_cookie = fence_cookie;
-+      list_addtail(&sync->head, &ctx->cpu_syncs);
++      list_addtail(&sync->head, &ctx->signaled_syncs);
 +
 +      if (ctx->fence_eventfd >= 0)
 +         write_eventfd(ctx->fence_eventfd, 1);
@@ -150,7 +151,7 @@ index 2b8a1c9..8f70012 100644
     if (!queue)
        return -EINVAL;
     struct vkr_device *dev = queue->device;
-@@ -139,6 +161,82 @@ vkr_context_submit_fence(struct virgl_context *base,
+@@ -140,6 +163,82 @@ vkr_context_submit_fence(struct virgl_context *base,
     return ret;
  }
  
@@ -193,7 +194,7 @@ index 2b8a1c9..8f70012 100644
 +   }
 +
 +   if (!sync)
-+      sync = find_sync(&ctx->cpu_syncs, fence_cookie);
++      sync = find_sync(&ctx->signaled_syncs, fence_cookie);
 +
 +   if (!sync)
 +      return -EINVAL;
@@ -231,43 +232,35 @@ index 2b8a1c9..8f70012 100644
 +}
 +
  static void
- vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+ vkr_context_retire_fences_locked(struct virgl_context *base)
  {
-@@ -148,6 +246,12 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
+@@ -149,10 +248,13 @@ vkr_context_retire_fences_locked(struct virgl_context *base)
  
     assert(!(vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB));
  
-+   LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &ctx->cpu_syncs, head) {
-+      ctx->base.fence_retire(&ctx->base, sync->flags, 0, sync->fence_cookie);
-+      list_del(&sync->head);
-+      free(sync);
-+   }
-+
-    /* flush first and once because the per-queue sync threads might write to
-     * it any time
-     */
-@@ -162,7 +266,8 @@ vkr_context_retire_fences_locked(UNUSED struct virgl_context *base)
-       vkr_queue_retire_syncs(queue, &retired_syncs, &queue_empty);
+-   /* retire syncs from destroyed devices */
++   /* ctx->signaled_syncs consists of:
++    * 1. sw syncs created before the existance of queue_id_0 queue
++    * 2. not yet retired syncs from destroyed devices
++    */
+    LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &ctx->signaled_syncs, head) {
+       /* queue_id might have already get reused but is opaque to the clients */
+-      ctx->base.fence_retire(&ctx->base, sync->queue_id, sync->fence_cookie);
++      ctx->base.fence_retire(&ctx->base, sync->flags, sync->queue_id, sync->fence_cookie);
+       free(sync);
+    }
+    list_inithead(&ctx->signaled_syncs);
+@@ -171,7 +273,8 @@ vkr_context_retire_fences_locked(struct virgl_context *base)
+       vkr_queue_get_signaled_syncs(queue, &retired_syncs, &queue_empty);
  
        LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &retired_syncs, head) {
--         ctx->base.fence_retire(&ctx->base, queue->base.id, sync->fence_cookie);
-+         ctx->base.fence_retire(&ctx->base, sync->flags, queue->base.id,
+-         ctx->base.fence_retire(&ctx->base, sync->queue_id, sync->fence_cookie);
++         ctx->base.fence_retire(&ctx->base, sync->flags, sync->queue_id,
 +                                sync->fence_cookie);
           vkr_device_free_queue_sync(dev, sync);
        }
  
-@@ -513,6 +618,10 @@ vkr_context_destroy(struct virgl_context *base)
-    util_hash_table_destroy(ctx->resource_table);
-    util_hash_table_destroy_u64(ctx->object_table);
- 
-+   struct vkr_queue_sync *sync, *tmp;
-+   LIST_FOR_EACH_ENTRY_SAFE (sync, tmp, &ctx->cpu_syncs, head)
-+      free(sync);
-+
-    if (ctx->fence_eventfd >= 0)
-       close(ctx->fence_eventfd);
- 
-@@ -537,6 +646,7 @@ vkr_context_init_base(struct vkr_context *ctx)
+@@ -550,6 +653,7 @@ vkr_context_init_base(struct vkr_context *ctx)
     ctx->base.get_fencing_fd = vkr_context_get_fencing_fd;
     ctx->base.retire_fences = vkr_context_retire_fences;
     ctx->base.submit_fence = vkr_context_submit_fence;
@@ -275,34 +268,24 @@ index 2b8a1c9..8f70012 100644
  }
  
  static void
-@@ -621,6 +731,8 @@ vkr_context_create(size_t debug_len, const char *debug_name)
- 
-    list_inithead(&ctx->busy_queues);
- 
-+   list_inithead(&ctx->cpu_syncs);
-+
-    return &ctx->base;
- 
- fail:
 diff --git a/src/venus/vkr_context.h b/src/venus/vkr_context.h
-index 47b302a..af73c81 100644
+index 9e3aba8..df82ba0 100644
 --- a/src/venus/vkr_context.h
 +++ b/src/venus/vkr_context.h
-@@ -60,6 +60,9 @@ struct vkr_context {
-    int fence_eventfd;
+@@ -61,6 +61,8 @@ struct vkr_context {
     struct list_head busy_queues;
+    struct list_head signaled_syncs;
  
 +   struct vkr_queue *queue_id_0_queue;
-+   struct list_head cpu_syncs;
 +
     struct vkr_instance *instance;
  };
  
 diff --git a/src/venus/vkr_device.c b/src/venus/vkr_device.c
-index f8f2914..9ebd8bb 100644
+index f8f2914..09af159 100644
 --- a/src/venus/vkr_device.c
 +++ b/src/venus/vkr_device.c
-@@ -152,6 +152,26 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+@@ -152,6 +152,27 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
     struct vkr_physical_device *physical_dev =
        (struct vkr_physical_device *)args->physicalDevice;
  
@@ -316,20 +299,21 @@ index f8f2914..9ebd8bb 100644
 +          !strcmp(args->pCreateInfo->ppEnabledExtensionNames[i],
 +                  VK_KHR_EXTERNAL_FENCE_FD_EXTENSION_NAME) ||
 +          !strcmp(args->pCreateInfo->ppEnabledExtensionNames[i],
-+                  VK_KHR_EXTERNAL_SEMAPHORE_FD_EXTENSION_NAME))
++                  VK_KHR_EXTERNAL_SEMAPHORE_FD_EXTENSION_NAME)) {
 +         use_queue_id_0 = true;
++         break;
++      }
 +   }
 +
 +   if (use_queue_id_0 && physical_dev->queue_id_0_device) {
-+      vrend_printf(
-+         "more than one logical device with external memory/fence/semaphore enabled\n");
-+      vrend_printf("external fencing might not work\n");
++      vkr_log("external fencing might not work since more than one logical device were "
++              "created with external memory/fence/semaphore enabled");
 +   }
 +
     /* append extensions for our own use */
     const char **exts = NULL;
     uint32_t ext_count = args->pCreateInfo->enabledExtensionCount;
-@@ -220,6 +240,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+@@ -220,6 +241,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
     list_add(&dev->base.track_head, &physical_dev->devices);
  
     vkr_context_add_object(ctx, &dev->base);
@@ -339,7 +323,7 @@ index f8f2914..9ebd8bb 100644
  }
  
  static void
-@@ -358,6 +381,9 @@ vkr_device_destroy(struct vkr_context *ctx, struct vkr_device *dev)
+@@ -358,6 +382,9 @@ vkr_device_destroy(struct vkr_context *ctx, struct vkr_device *dev)
  
     list_del(&dev->base.track_head);
  
@@ -412,10 +396,19 @@ index a309e49..37bc822 100644
  
  void
 diff --git a/src/venus/vkr_queue.c b/src/venus/vkr_queue.c
-index 591ff55..24c5527 100644
+index 4d7f011..64fa0f4 100644
 --- a/src/venus/vkr_queue.c
 +++ b/src/venus/vkr_queue.c
-@@ -149,6 +149,9 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
+@@ -129,7 +129,7 @@ vkr_queue_sync_retire(struct vkr_context *ctx,
+                       struct vkr_queue_sync *sync)
+ {
+    if (vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB) {
+-      ctx->base.fence_retire(&ctx->base, sync->queue_id, sync->fence_cookie);
++      ctx->base.fence_retire(&ctx->base, sync->flags, sync->queue_id, sync->fence_cookie);
+       vkr_device_free_queue_sync(dev, sync);
+    } else {
+       vkDestroyFence(dev->base.handle.device, sync->fence, NULL);
+@@ -175,6 +175,9 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
     list_del(&queue->busy_head);
     list_del(&queue->base.track_head);
  
@@ -425,17 +418,17 @@ index 591ff55..24c5527 100644
     if (queue->base.id)
        vkr_context_remove_object(ctx, &queue->base);
     else
-@@ -191,7 +194,8 @@ vkr_queue_thread(void *arg)
+@@ -217,7 +220,8 @@ vkr_queue_thread(void *arg)
        list_del(&sync->head);
  
        if (vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB) {
--         ctx->base.fence_retire(&ctx->base, queue->base.id, sync->fence_cookie);
-+         ctx->base.fence_retire(&ctx->base, sync->flags, queue->base.id,
+-         ctx->base.fence_retire(&ctx->base, sync->queue_id, sync->fence_cookie);
++         ctx->base.fence_retire(&ctx->base, sync->flags, sync->queue_id,
 +                                sync->fence_cookie);
           vkr_device_free_queue_sync(queue->device, sync);
        } else {
           list_addtail(&sync->head, &queue->signaled_syncs);
-@@ -262,6 +266,7 @@ vkr_queue_create(struct vkr_context *ctx,
+@@ -288,6 +292,7 @@ vkr_queue_create(struct vkr_context *ctx,
  
  static void
  vkr_queue_assign_object_id(struct vkr_context *ctx,
@@ -443,7 +436,7 @@ index 591ff55..24c5527 100644
                             struct vkr_queue *queue,
                             vkr_object_id id)
  {
-@@ -273,6 +278,9 @@ vkr_queue_assign_object_id(struct vkr_context *ctx,
+@@ -299,6 +304,9 @@ vkr_queue_assign_object_id(struct vkr_context *ctx,
  
     queue->base.id = id;
  
@@ -453,7 +446,7 @@ index 591ff55..24c5527 100644
     vkr_context_add_object(ctx, &queue->base);
  }
  
-@@ -309,7 +317,7 @@ vkr_dispatch_vkGetDeviceQueue(struct vn_dispatch_context *dispatch,
+@@ -335,7 +343,7 @@ vkr_dispatch_vkGetDeviceQueue(struct vn_dispatch_context *dispatch,
  
     const vkr_object_id id =
        vkr_cs_handle_load_id((const void **)args->pQueue, VK_OBJECT_TYPE_QUEUE);
@@ -462,7 +455,7 @@ index 591ff55..24c5527 100644
  }
  
  static void
-@@ -330,7 +338,7 @@ vkr_dispatch_vkGetDeviceQueue2(struct vn_dispatch_context *dispatch,
+@@ -356,7 +364,7 @@ vkr_dispatch_vkGetDeviceQueue2(struct vn_dispatch_context *dispatch,
  
     const vkr_object_id id =
        vkr_cs_handle_load_id((const void **)args->pQueue, VK_OBJECT_TYPE_QUEUE);
@@ -932,5 +925,5 @@ index ac4031b..be2f225 100644
  
  struct vrend_if_cbs {
 -- 
-2.32.0.605.g8dce9f2422-goog
+2.31.0
 
