@@ -52,6 +52,11 @@ src_install() {
 	newbin cros_config_mock.sh cros_config_mock
 	dosbin "${OUT}"/cros_configfs
 
+	if use test; then
+		exeinto "/usr/local/gtest/cros_config"
+		doexe  "${OUT}/cros_config_functional_test"
+	fi
+
 	# Install init scripts.
 	insinto /etc/init
 	doins init/*.conf
