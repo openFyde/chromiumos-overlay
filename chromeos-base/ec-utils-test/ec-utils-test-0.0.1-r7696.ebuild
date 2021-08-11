@@ -46,7 +46,8 @@ src_install() {
 	fi
 
 	if use biod; then
-		einfo "Installing flash_fp_mcu"
+		einfo "Installing flash_fp_mcu and fptool"
 		dobin "util/flash_fp_mcu"
+		newbin "util/fptool.py" "fptool"
 	fi
 }
