@@ -4,12 +4,12 @@ DEPEND=dev-rust/libc:= =dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= =dev-rust
 DESCRIPTION=Server implementation of the 9P file system protocol
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/p9/
-IUSE=fuzzer test fuzzer cros_host cros_workon_tree_a334c668ef3610917f1f561163ef496b7d3d61c2 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=fuzzer test fuzzer cros_host cros_workon_tree_d296700223ce1bb68e02a23d02d90b68f39ef257 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-rust/libc:= =dev-rust/proc-macro2-1*:= =dev-rust/quote-1*:= =dev-rust/syn-1*:= dev-rust/sys_util:= fuzzer? ( dev-rust/cros_fuzz:= ) !!<=dev-rust/p9-0.1.0-r14
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r46
+SLOT=0/0.1.0-r47
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	b480bfcdd51a928c9a2254c6641649a2	cros-rust	c627866b3a4eb1d7313535253ebd6d69	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=710af915f5e4d5b0f96775093e0d56ff
+_md5_=06bb5063d7372fe4691cca074912c7d7
