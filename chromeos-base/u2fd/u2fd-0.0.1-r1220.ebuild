@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="60d1fad8686e56d4e6ae78fc5041ab6540542564"
-CROS_WORKON_TREE=("1f02e90df08e7f8c0093b14f2660828e06d87ef7" "bdd489c3c376247c2dd516e2e28d3a4bdc718eb6" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "7f2d0530e333c2cfe5106b335fc2bff22ee483ca" "935a7c10e6d5aca87c2492012cc13fbb4ec62e91" "d1652e9fb58a3cbe06ef8d82574a2cb02d61799d" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="76ffc3b854c8c0ac0d928bf9fa6607597f80da72"
+CROS_WORKON_TREE=("1f02e90df08e7f8c0093b14f2660828e06d87ef7" "bdd489c3c376247c2dd516e2e28d3a4bdc718eb6" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "7f2d0530e333c2cfe5106b335fc2bff22ee483ca" "06da035b090b189c1003295305c51b8e63d41b9c" "d1652e9fb58a3cbe06ef8d82574a2cb02d61799d" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -67,6 +67,7 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer
 }
 
 platform_pkg_test() {
