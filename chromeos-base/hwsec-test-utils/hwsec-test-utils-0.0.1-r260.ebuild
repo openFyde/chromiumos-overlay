@@ -4,13 +4,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="416bbc632306c288e0c1d9a3e9aeeec147f38d42"
-CROS_WORKON_TREE=("cce79a57ba307fc1c523998fe1f876c88d0481df" "508cf7a0cbe92241c6bbdfd45a0547005902b442" "d30dd681757b9cf6648ddaaa4dba4d195832cf71" "bdd489c3c376247c2dd516e2e28d3a4bdc718eb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
+CROS_WORKON_TREE=("cce79a57ba307fc1c523998fe1f876c88d0481df" "508cf7a0cbe92241c6bbdfd45a0547005902b442" "f864cc78ddb7b33f44b3ed6a47c0df1c53e2d07a" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "092bd07d5419aa527ad8b7df2938ed7ec704594b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils trunks .gn"
+CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils libhwsec libhwsec-foundation trunks .gn"
 
 PLATFORM_SUBDIR="hwsec-test-utils"
 
@@ -21,14 +21,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hwsec-
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test tpm tpm2"
-REQUIRED_USE="tpm2? ( !tpm )"
+IUSE="test tpm tpm_dynamic tpm2"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 RDEPEND="
 	tpm2? (
 		chromeos-base/trunks:=
 	)
-	!tpm2? (
+	tpm? (
 		app-crypt/trousers:=
 	)
 "
@@ -38,6 +41,7 @@ DEPEND="${RDEPEND}
 		chromeos-base/trunks:=[test?]
 	)
 	chromeos-base/attestation:=
+	chromeos-base/libhwsec-foundation:=
 	chromeos-base/system_api:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=

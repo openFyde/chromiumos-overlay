@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="01124618dbefa38c9cc4902fdf213c0d78154b4a"
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
 CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "2d81f8e5fd27045c3895e74ef0ec0472ef88e031" "78962e3d2a3c90053e8fdeac3bc261921399557b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,8 +21,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/oobe_c
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="tpm tpm2"
-REQUIRED_USE="?? ( tpm tpm2 )"
+IUSE="tpm tpm_dynamic tpm2"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=

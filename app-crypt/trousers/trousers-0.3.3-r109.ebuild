@@ -4,8 +4,8 @@
 # $Header$
 
 EAPI="5"
-CROS_WORKON_COMMIT="62767715f6facafc72d4d01092960fe7c4ea8ce9"
-CROS_WORKON_TREE="6738ccf2275ff384d2a7101f2b213df20b5b741c"
+CROS_WORKON_COMMIT="94b104689ccf050c5e4860d121c8d5cf99b35771"
+CROS_WORKON_TREE="b205d070b4acaa3a991248dcc4ef88a4947f0552"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
 CROS_WORKON_EGIT_BRANCH="chromeos-0.3.13"
 
@@ -16,7 +16,7 @@ HOMEPAGE="http://trousers.sf.net"
 LICENSE="CPL-1.0"
 KEYWORDS="*"
 SLOT="0"
-IUSE="asan doc mocktpm systemd tss_trace"
+IUSE="asan doc mocktpm systemd tpm_dynamic tss_trace"
 
 COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
@@ -72,6 +72,12 @@ src_install() {
 	else
 		insinto /etc/init
 		doins init/*.conf
+
+		if use tpm_dynamic; then
+			sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
+				"${D}/etc/init/tpm-probe.conf" ||
+				die "Can't activate tpm_dynamic in tpm-probe.conf"
+		fi
 	fi
 	exeinto /usr/share/cros/init
 	doexe init/tcsd-pre-start.sh

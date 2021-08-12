@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="01124618dbefa38c9cc4902fdf213c0d78154b4a"
-CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "d1652e9fb58a3cbe06ef8d82574a2cb02d61799d" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "78962e3d2a3c90053e8fdeac3bc261921399557b" "6733b809438104f01a408255912613f01dbec418" "bdd489c3c376247c2dd516e2e28d3a4bdc718eb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
+CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "26e3713c1f2916a87c54f5aa50da42d121f1a5a3" "78962e3d2a3c90053e8fdeac3bc261921399557b" "6733b809438104f01a408255912613f01dbec418" "092bd07d5419aa527ad8b7df2938ed7ec704594b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -59,7 +59,20 @@ src_install() {
 	# Install upstart config file.
 	insinto /etc/init
 	doins server/tpm_managerd.conf
-	if use tpm2; then
+	if use tpm_dynamic; then
+		conds=()
+		if use tpm; then
+			conds+=("started tcsd")
+		fi
+		if use tpm2; then
+			conds+=("started trunksd")
+		fi
+		cond=$(printf " or %s" "${conds[@]}")
+		cond=${cond:4}
+		sed -i "s/started tcsd/(${cond})/" \
+			"${D}/etc/init/tpm_managerd.conf" ||
+			die "Can't replace 'started tcsd' with '${cond}' in tpm_managerd.conf"
+	elif use tpm2; then
 		dep_job="trunksd"
 		if use pinweaver_csme; then
 			dep_job="tpm_tunneld"

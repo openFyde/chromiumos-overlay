@@ -192,7 +192,7 @@ RDEPEND="
 	bluetooth? ( net-wireless/bluez )
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
-		!tpm2? ( app-crypt/trousers )
+		app-crypt/trousers
 		chromeos-base/chaps
 	)
 	tpm2? ( chromeos-base/trunks )

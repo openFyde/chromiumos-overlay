@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="416bbc632306c288e0c1d9a3e9aeeec147f38d42"
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
 CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "713604b1a9f10b5e7eb0fd914fb1b0bac387f53b" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,9 +22,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crypto
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="tpm tpm2"
+IUSE="tpm tpm_dynamic tpm2"
 
-REQUIRED_USE="tpm2? ( !tpm )"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 COMMON_DEPEND="
 	tpm? (

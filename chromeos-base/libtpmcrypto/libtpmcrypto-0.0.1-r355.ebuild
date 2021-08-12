@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="416bbc632306c288e0c1d9a3e9aeeec147f38d42"
-CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "5d77de997847c22cb783cc11cd0fab4f6fae59f0" "bdd489c3c376247c2dd516e2e28d3a4bdc718eb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
+CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "26e3713c1f2916a87c54f5aa50da42d121f1a5a3" "092bd07d5419aa527ad8b7df2938ed7ec704594b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libtpmcrypto trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation libtpmcrypto trunks .gn"
 
 PLATFORM_SUBDIR="libtpmcrypto"
 
@@ -21,8 +21,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libtpm
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="tpm tpm2"
-REQUIRED_USE="tpm2? ( !tpm )"
+IUSE="tpm tpm_dynamic tpm2"
+REQUIRED_USE="
+	tpm_dynamic? ( tpm tpm2 )
+	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
+"
 
 # This depends on protobuf because it uses protoc and needs to be rebuilt
 # whenever the protobuf library is updated since generated source files may be
@@ -31,9 +34,10 @@ COMMON_DEPEND="
 	tpm2? (
 		chromeos-base/trunks:=
 	)
-	!tpm2? (
+	tpm? (
 		app-crypt/trousers:=
 	)
+	chromeos-base/libhwsec-foundation:=
 	dev-libs/protobuf:=
 "
 

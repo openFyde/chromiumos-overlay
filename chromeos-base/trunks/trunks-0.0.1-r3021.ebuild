@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="01124618dbefa38c9cc4902fdf213c0d78154b4a"
-CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "d1652e9fb58a3cbe06ef8d82574a2cb02d61799d" "78962e3d2a3c90053e8fdeac3bc261921399557b" "bdd489c3c376247c2dd516e2e28d3a4bdc718eb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
+CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "78962e3d2a3c90053e8fdeac3bc261921399557b" "092bd07d5419aa527ad8b7df2938ed7ec704594b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,6 +31,7 @@ IUSE="
 	pinweaver_csme
 	test
 	ti50_onboard
+	tpm_dynamic
 	tpm2_simulator
 	vtpm_proxy
 "
@@ -58,7 +59,7 @@ RDEPEND="
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	generic_tpm2? ( chromeos-base/chromeos-cr50-scripts )
-	!app-crypt/tpm-tools
+	!tpm_dynamic? ( !app-crypt/tpm-tools )
 	chromeos-base/libhwsec-foundation
 	"
 
@@ -80,6 +81,12 @@ src_install() {
 		doins trunksd.conf
 	fi
 
+	if use tpm_dynamic; then
+		sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
+			"${D}/etc/init/trunksd.conf" ||
+			die "Can't activate tpm_dynamic in trunksd.conf"
+	fi
+
 	if use pinweaver_csme && use generic_tpm2; then
 		newins csme/tpm_tunneld.conf tpm_tunneld.conf
 	fi
@@ -87,7 +94,11 @@ src_install() {
 	dosbin "${OUT}"/pinweaver_client
 	dosbin "${OUT}"/trunks_client
 	dosbin "${OUT}"/trunks_send
-	dosbin tpm_version
+	if use tpm_dynamic; then
+		newsbin tpm_version tpm2_version
+	else
+		dosbin tpm_version
+	fi
 	dosbin "${OUT}"/trunksd
 	dolib.so "${OUT}"/lib/libtrunks.so
 	# trunks_test library implements trunks mocks which
@@ -102,10 +113,10 @@ src_install() {
 	fi
 
 	insinto /usr/share/policy
-	newins trunksd-seccomp-${ARCH}.policy trunksd-seccomp.policy
+	newins "trunksd-seccomp-${ARCH}.policy" trunksd-seccomp.policy
 
 	if use pinweaver_csme && use generic_tpm2; then
-		newins csme/tpm_tunneld-seccomp-${ARCH}.policy tpm_tunneld-seccomp.policy
+		newins "csme/tpm_tunneld-seccomp-${ARCH}.policy" tpm_tunneld-seccomp.policy
 	fi
 
 	insinto /usr/include/trunks

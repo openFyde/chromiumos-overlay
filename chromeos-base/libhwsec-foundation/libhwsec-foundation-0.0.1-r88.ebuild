@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="01124618dbefa38c9cc4902fdf213c0d78154b4a"
-CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "78962e3d2a3c90053e8fdeac3bc261921399557b" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "d1652e9fb58a3cbe06ef8d82574a2cb02d61799d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e61b0e016752e4558f0504cca512da8223bfa75a"
+CROS_WORKON_TREE=("508cf7a0cbe92241c6bbdfd45a0547005902b442" "78962e3d2a3c90053e8fdeac3bc261921399557b" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -61,6 +61,10 @@ src_install() {
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 
 	dosbin "${OUT}"/tpm_version_client
+
+	if use tpm_dynamic; then
+		dosbin tool/tpm_version
+	fi
 }
 
 platform_pkg_test() {
