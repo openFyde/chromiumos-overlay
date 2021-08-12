@@ -97,6 +97,9 @@ pkg_setup() {
 	enewgroup crosvm
 	enewuser pluginvm
 	cros-workon_pkg_setup
+
+	enewuser crosvm-root
+	enewgroup crosvm-root
 }
 
 src_install() {
