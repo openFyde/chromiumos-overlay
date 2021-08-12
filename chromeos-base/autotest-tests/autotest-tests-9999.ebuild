@@ -144,11 +144,9 @@ CLIENT_IUSE_TESTS="
 	+tests_kernel_Memory_Ramoop
 	+tests_kernel_SchedBandwith
 	crash_reporting? (
-		+tests_logging_CrashSender
 		+tests_logging_KernelCrash
 		+tests_logging_UdevCrash
 		+tests_logging_UserCrash
-		+tests_platform_AnomalyDetector
 	)
 	+tests_network_EthCaps
 	+tests_network_EthernetStressPlug
