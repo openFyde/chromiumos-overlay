@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="2a3fa0a018438124c532224d2407226a61afb824"
-CROS_WORKON_TREE="938f25b82314644582d9740972423ecb673005e8"
+CROS_WORKON_COMMIT="e6cb41a5eb8371556c82b97e10c8f4ac3ff2a262"
+CROS_WORKON_TREE="6059e454233c045e964759413bd713fd09d0c6f0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -96,6 +96,7 @@ SERVER_IUSE_TESTS="
 		)
 	)
 	+tests_cellular_Callbox_AssertCellularData
+	+tests_cellular_Callbox_AssertSMS
 	+tests_cheets_LabDependencies
 	debugd? ( +tests_debugd_DevTools )
 	+tests_crosperf_Wrapper
