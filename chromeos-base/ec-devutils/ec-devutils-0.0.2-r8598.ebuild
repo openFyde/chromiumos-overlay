@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="72ccf07b499c6faa553d3da39db90a263618d2fa"
-CROS_WORKON_TREE="c355615bb4f4fd39a78321c68a78a37ee666c1d8"
+CROS_WORKON_COMMIT="6860b17eb949b1fb51f0e26c368d0750bd7fd321"
+CROS_WORKON_TREE="f878524f310c2f77606ac3c8ba20d849ab6685f0"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 PYTHON_COMPAT=( python3_6 )
@@ -37,8 +37,10 @@ BDEPEND="
 
 set_board() {
 	# No need to be board specific, no tools below build code that is
-	# EC specific. bds works for forst side compilation.
-	export BOARD="bds"
+	# EC specific. However, the EC build system must ensure that all
+	# utilities in this package are built for a given board. We ensure this
+	# for the host board.
+	export BOARD="host"
 }
 
 src_configure() {
