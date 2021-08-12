@@ -52,6 +52,8 @@ src_configure() {
 multilib_src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
+	arc-build-create-cross-file
+
 	emesonargs+=(
 		--prefix="${ARC_PREFIX}/vendor"
 		--sysconfdir="/system/vendor/etc"
@@ -75,6 +77,7 @@ multilib_src_configure() {
 		-Dgles-lib-suffix=_mesa
 		--buildtype $(usex debug debug release)
 		-Dvulkan-drivers=$(usex vulkan freedreno '')
+		--cross-file="${ARC_CROSS_FILE}"
 	)
 
 	meson_src_configure
