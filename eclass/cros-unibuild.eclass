@@ -225,7 +225,8 @@ _unibuild_common_install() {
 		# in the source directory, but the installed file should not be
 		# a link especially since the installed folder structure is
 		# different.
-		origfile="$(readlink -f "${config_files_path}/${source}")"
+		origfile="$(readlink -f "${config_files_path}/${source}")" ||
+			die "readlink -f ${config_files_path}/${source} failed"
 		newins "${origfile}" "$(basename "${dest}")"
 	done
 }
