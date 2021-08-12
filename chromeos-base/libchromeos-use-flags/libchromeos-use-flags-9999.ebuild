@@ -29,7 +29,6 @@ IUSE="
 	arc_force_2x_scaling
 	arc_native_bridge_64bit_support_experiment
 	arc_transition_m_to_n
-	arc_uses_cros_video_decoder
 	arcpp
 	arcvm
 	asan
