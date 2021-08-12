@@ -128,6 +128,7 @@ IUSE_LINUX_FIRMWARE=(
 	rtw8852a
 	venus-52
 	venus-54
+	venus-vpu-2
 	"${IUSE_ATH3K[@]}"
 	"${IUSE_IWLWIFI[@]}"
 	"${IUSE_BRCMWIFI[@]}"
@@ -210,6 +211,7 @@ LICENSE="
 	linux_firmware_rtw8852a? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_venus-52? ( LICENSE.qcom )
 	linux_firmware_venus-54? ( LICENSE.qcom )
+	linux_firmware_venus-vpu-2? ( LICENSE.qcom )
 	$(printf 'linux_firmware_%s? ( LICENCE.iwlwifi_firmware ) ' "${IUSE_IWLWIFI[@]}")
 	$(printf 'linux_firmware_%s? ( LICENCE.broadcom_bcm43xx ) ' "${IUSE_BRCMWIFI[@]}")
 	video_cards_radeon? ( LICENSE.radeon )
@@ -389,6 +391,7 @@ src_install() {
 	use_fw rtw8852a && doins_subdir rtw89/rtw8852a*.bin
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
 	use_fw venus-54 && doins_subdir qcom/venus-5.4/*
+	use_fw venus-vpu-2 && doins_subdir qcom/vpu-2.0/*
 	use video_cards_radeon && doins_subdir radeon/*
 
 	local ignore_legacy_amdgpu=0
