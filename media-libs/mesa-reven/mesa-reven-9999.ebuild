@@ -35,7 +35,7 @@ fi
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 KEYWORDS="~*"
 
-INTEL_CARDS="intel"
+INTEL_CARDS="intel iris"
 RADEON_CARDS="amdgpu radeon"
 VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno llvmpipe mach64 mga nouveau r128 radeonsi savage sis softpipe tdfx via virgl vmware"
 for card in ${VIDEO_CARDS}; do
@@ -128,6 +128,9 @@ src_configure() {
 	# Configurable gallium drivers
 		gallium_enable video_cards_llvmpipe swrast
 		gallium_enable video_cards_softpipe swrast
+
+		# Intel code
+		gallium_enable video_cards_iris iris
 
 		# Nouveau code
 		gallium_enable video_cards_nouveau nouveau
