@@ -109,6 +109,8 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-auxtrace-Add-Z-itrace-option-for-timeless-decod.patch"
 	"${FILESDIR}/5.3.7-cs-etm-Start-reading-Z-itrace-option.patch"
 	"${FILESDIR}/5.3.7-cs-etm-Prevent-and-warn-on-underflows-during-ti.patch"
+	"${FILESDIR}/5.3.7-session-Add-facility-to-peek-at-all-events.patch"
+	"${FILESDIR}/5.3.7-cs-etm-Split-Coresight-decode-by-aux-records.patch"
 )
 
 pkg_setup() {
