@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="65599f7ca758b43b0c8658b8b364837ac782cd8b"
+CROS_WORKON_COMMIT="1e676e3712f89c464747838ff6a51d8a415e199a"
 CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "939f04ed68e40ceb0d4710116153a991da5d3ca7" "78962e3d2a3c90053e8fdeac3bc261921399557b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,8 +25,8 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	arcpp arcvm cros_embedded +encrypted_stateful +encrypted_reboot_vault
-	frecon lvm_stateful_partition kernel-3_18 +midi -s3halt +syslog systemd
-	+udev vivid vtconsole"
+	frecon lvm_stateful_partition kernel-3_18 +midi +oobe_config -s3halt +syslog
+	systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
 COMMON_DEPEND="
@@ -52,6 +52,7 @@ RDEPEND="${COMMON_DEPEND}
 	!chromeos-base/chromeos-disableecho
 	chromeos-base/chromeos-common-script
 	chromeos-base/tty
+	oobe_config? ( chromeos-base/oobe_config )
 	sys-apps/upstart
 	!systemd? ( sys-apps/systemd-tmpfiles )
 	sys-process/lsof
