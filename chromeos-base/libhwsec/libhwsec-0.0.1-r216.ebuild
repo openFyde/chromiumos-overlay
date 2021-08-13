@@ -1,0 +1,75 @@
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+EAPI=7
+
+CROS_WORKON_COMMIT="65599f7ca758b43b0c8658b8b364837ac782cd8b"
+CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "092bd07d5419aa527ad8b7df2938ed7ec704594b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation trunks .gn"
+
+PLATFORM_SUBDIR="libhwsec"
+
+inherit cros-workon platform
+
+DESCRIPTION="Crypto and utility functions used in TPM related daemons."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhwsec/"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="test fuzzer tpm tpm2 tpm_dynamic"
+
+COMMON_DEPEND="
+	chromeos-base/libhwsec-foundation
+	dev-libs/openssl:0=
+	tpm2? ( chromeos-base/trunks:= )
+	tpm? ( app-crypt/trousers:= )
+	fuzzer? (
+		app-crypt/trousers:=
+		chromeos-base/trunks:=
+	)
+"
+
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
+
+src_install() {
+	insinto /usr/include/chromeos/libhwsec
+	doins ./*.h
+
+	insinto /usr/include/chromeos/libhwsec/overalls
+	doins ./overalls/overalls.h
+	doins ./overalls/overalls_api.h
+
+	insinto /usr/include/chromeos/libhwsec/error
+	doins ./error/tpm_error.h
+
+	if use tpm || use fuzzer; then
+		insinto /usr/include/chromeos/libhwsec/test_utils/tpm1
+		doins ./test_utils/tpm1/*.h
+		insinto /usr/include/chromeos/libhwsec/error
+		doins ./error/tpm1_error.h
+	fi
+	if use tpm2 || use fuzzer; then
+		insinto /usr/include/chromeos/libhwsec/error
+		doins ./error/tpm2_error.h
+	fi
+
+	dolib.so "${OUT}"/lib/libhwsec.so
+	dolib.a "${OUT}"/libhwsec_test.a
+}
+
+
+platform_pkg_test() {
+	local tests=(
+		hwsec_testrunner
+	)
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
+	done
+}
