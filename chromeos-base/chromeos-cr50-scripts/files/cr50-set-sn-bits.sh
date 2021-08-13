@@ -137,9 +137,9 @@ cr50_check_sn_bits() {
 
 generic_tpm2_set_sn_bits() {
   local sn_bits="$1"
-  # `FFFFFE refers to the version for generic TPM2, which has a stand-alone RMA
+  # `0FFFFE refers to the version for generic TPM2, which has a stand-alone RMA
   # byte; `80` is a chosen value that GSC never uses.
-  local SN_BITS_HEADER="FFFFFE80"
+  local SN_BITS_HEADER="0FFFFE80"
 
   "${TPM_WRITESPACE}" 013FFF01 "${SN_BITS_HEADER}${sn_bits}" || \
     die "Failed to write SN Bits space."
@@ -200,4 +200,3 @@ main() {
 }
 
 main "$@"
-
