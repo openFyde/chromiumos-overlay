@@ -3,11 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="416bbc632306c288e0c1d9a3e9aeeec147f38d42"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "fe0426620bd1b29a6f7ff5514a86aed62eebf4a0" "508cf7a0cbe92241c6bbdfd45a0547005902b442")
+CROS_WORKON_COMMIT="de4d79edb4bf9eb06839a15b68cd0096c04bc451"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "ba63056bcee5a5d8b03e15418dfc65c24b763c48" "508cf7a0cbe92241c6bbdfd45a0547005902b442" "78962e3d2a3c90053e8fdeac3bc261921399557b")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn hps common-mk"
+CROS_WORKON_SUBTREE=".gn hps common-mk metrics"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -25,6 +25,7 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
+	chromeos-base/metrics:=
 	chromeos-base/system_api:=
 	dev-embedded/libftdi:=
 "
@@ -50,6 +51,7 @@ platform_pkg_test() {
 	local tests=(
 		dev_test
 		hps_test
+		hps_metrics_test
 	)
 
 	local test_bin
