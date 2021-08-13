@@ -941,15 +941,15 @@
         "end_version": 428781
     },
     {
-       "comment": "Revert \"[TargetLowering] Only inspect attributes in the arguments for ArgListEntry\"",
-       "rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
-       "start_version": 427792,
-       "end_version": 428782
+        "comment": "Revert \"[TargetLowering] Only inspect attributes in the arguments for ArgListEntry\"",
+        "rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
+        "start_version": 427792,
+        "end_version": 428782
     },
     {
-       "comment": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\"",
-       "rel_patch_path": "revert-f5446b769a7929806f72256fccd4826d66502e59.patch",
-       "start_version": 425181
+        "comment": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\"",
+        "rel_patch_path": "revert-f5446b769a7929806f72256fccd4826d66502e59.patch",
+        "start_version": 425181
     },
     {
         "comment": "[compiler-rt] [builtins] [AArch64] Add missing AArch64 data synchronization barrier (dsb) to __clear_cache",
@@ -968,5 +968,23 @@
         "rel_patch_path": "cherry/c45e17f11f508d1aea97eded3f1bda2a448f2032.patch",
         "start_version": 428724,
         "end_version": 433637
+    },
+    {
+        "comment": "[Unwind] Split unwind.h",
+        "rel_patch_path": "cherry/9ed1c7e4964382b95a5886279c0dfc7147a57b17.patch",
+        "start_version": 422132,
+        "end_version": 435268
+    },
+    {
+        "comment": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI.",
+        "rel_patch_path": "cherry/db126ae243cd70e4f68fd50a7c619740e90e1dc6.patch",
+        "start_version": 422132,
+        "end_version": 435269
+    },
+    {
+        "comment": "[libunwind] Compile with -Wunused-but-set-variable",
+        "rel_patch_path": "cherry/6b6d3447317673015f62206b2669c2d0a74132dc.patch",
+        "start_version": 422132,
+        "end_version": 435270
     }
 ]
