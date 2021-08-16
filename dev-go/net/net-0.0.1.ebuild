@@ -3,24 +3,28 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/net:golang.org/x/net 0ed95abb35c445290478a5348a7b38bb154135fd"
+CROS_GO_SOURCE="go.googlesource.com/net:golang.org/x/net 6f5299370f2bb1ac5d41c561fd1e5da511c2a3db"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/net/bpf"
 	"golang.org/x/net/context"
 	"golang.org/x/net/context/ctxhttp"
+	"golang.org/x/net/dns/dnsmessage"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
+	"golang.org/x/net/http/httpguts"
+	"golang.org/x/net/http/httpproxy"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/hpack"
 	"golang.org/x/net/idna"
 	"golang.org/x/net/internal/iana"
 	"golang.org/x/net/internal/socket"
+	"golang.org/x/net/internal/socks"
 	"golang.org/x/net/internal/timeseries"
 	"golang.org/x/net/ipv4"
 	"golang.org/x/net/ipv6"
-	"golang.org/x/net/lex/httplex"
 	"golang.org/x/net/netutil"
+	"golang.org/x/net/proxy"
 	"golang.org/x/net/publicsuffix"
 	"golang.org/x/net/trace"
 )
