@@ -38,6 +38,11 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-3.5.0-darwin-strnlen.patch  # drop on next release
+	# There was a security vulnerability in libarchive's rar5 support. We don't
+	# have a fix yet, but we also don't use it (unlike libarchive's support for
+	# other formats). Just disable it.
+	# https://bugs.chromium.org/p/chromium/issues/detail?id=1233932
+	"${FILESDIR}"/${PN}-3.5.1-disable-rar5.patch
 )
 
 src_prepare() {
