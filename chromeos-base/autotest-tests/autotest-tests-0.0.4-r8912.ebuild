@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="31f8332e66d2acd0600ede183ef9d64ee874f92f"
-CROS_WORKON_TREE="bc1feed48cb8c94e7dc50b20f5e0e200a5bd00a0"
+CROS_WORKON_COMMIT="3d00325ebd8ea92baa383ea0d25f9f20d5f28457"
+CROS_WORKON_TREE="5bd706c4a43118dbff51f726a32d1e860f94b46e"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -146,11 +146,9 @@ CLIENT_IUSE_TESTS="
 	+tests_kernel_Memory_Ramoop
 	+tests_kernel_SchedBandwith
 	crash_reporting? (
-		+tests_logging_CrashSender
 		+tests_logging_KernelCrash
 		+tests_logging_UdevCrash
 		+tests_logging_UserCrash
-		+tests_platform_AnomalyDetector
 	)
 	+tests_network_EthCaps
 	+tests_network_EthernetStressPlug
