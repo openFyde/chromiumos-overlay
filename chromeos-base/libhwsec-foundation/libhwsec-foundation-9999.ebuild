@@ -62,6 +62,9 @@ src_install() {
 
 	if use tpm_dynamic; then
 		dosbin tool/tpm_version
+
+		insinto /etc/init
+		doins init/no-tpm-checker.conf
 	fi
 }
 
