@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="300691d6433eabb1c1cd7030b2da81fd6bc16726"
-CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "0f8fb45d866da77180748303083a41eb07c30b8c" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="46c7be34f8b946795d3762d89257adf3b9fccf89"
+CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "763ffa8422b518337f6685b14a1ef58d2371efd1" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -145,6 +145,8 @@ src_install() {
 		doins init/send-mount-encrypted-metrics.conf
 		if use tpm2_simulator && ! use vtpm_proxy; then
 			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
+		elif use tpm_dynamic; then
+			newins init/lockbox-cache.conf.tpm_dynamic lockbox-cache.conf
 		else
 			doins init/lockbox-cache.conf
 		fi
@@ -183,6 +185,8 @@ src_install() {
 	exeinto /usr/share/cros/init
 	if use tpm2_simulator && ! use vtpm_proxy; then
 		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
+	elif use tpm_dynamic; then
+		newexe init/lockbox-cache.sh.tpm_dynamic lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
 	fi
