@@ -58,7 +58,7 @@ src_install() {
 	insinto /etc/init
 	doins server/tpm_managerd.conf
 	if use tpm_dynamic; then
-		conds=()
+		conds=("started no-tpm-checker")
 		if use tpm; then
 			conds+=("started tcsd")
 		fi
