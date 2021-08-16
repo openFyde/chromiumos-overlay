@@ -1,7 +1,7 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -123,6 +123,9 @@ DEPEND="
 	chromeos-base/chromeos-config-tools"
 
 RDEPEND=""
+
+BDEPEND="
+	hypervisor_ramfs? ( chromeos-base/sirenia-tools )"
 
 src_prepare() {
 	export BUILD_LIBRARY_DIR="${CHROOT_SOURCE_ROOT}/src/scripts/build_library"
