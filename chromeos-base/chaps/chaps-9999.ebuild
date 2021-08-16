@@ -90,24 +90,12 @@ src_install() {
 
 	# Install init scripts.
 	if use systemd; then
-		if use tpm2; then
-			sed 's/tcsd.service/trunksd.service' \
-				init/chapsd.service \
-				> "${T}/chapsd.service"
-			systemd_dounit "${T}/chapsd.service"
-		else
-			systemd_dounit init/chapsd.service
-		fi
+		systemd_dounit init/chapsd.service
 		systemd_enable_service boot-services.target chapsd.service
 		systemd_dotmpfilesd init/chapsd_directories.conf
 	else
 		insinto /etc/init
 		doins init/chapsd.conf
-		if use tpm2; then
-			sed -i 's/started tcsd/started trunksd/' \
-				"${D}/etc/init/chapsd.conf" ||
-				die "Can't replace tcsd with trunksd in chapsd.conf"
-		fi
 	fi
 	exeinto /usr/share/cros/init
 
