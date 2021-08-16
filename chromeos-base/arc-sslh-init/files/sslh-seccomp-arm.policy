@@ -4,6 +4,8 @@
 
 write: 1
 _newselect: 1
+pselect6: 1
+pselect6_time64: 1
 read: 1
 close: 1
 getpeername: 1

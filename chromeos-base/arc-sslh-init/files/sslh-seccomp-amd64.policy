@@ -4,6 +4,7 @@
 
 write: 1
 select: 1
+pselect6: 1
 read: 1
 close: 1
 getpeername: 1

@@ -6,6 +6,7 @@ clock_gettime: 1
 gettimeofday: 1
 sendmsg: 1
 select: 1
+pselect6: 1
 ioctl: arg1 == TIOCOUTQ || arg1 == SIOCGIFNAME || arg1 == TCGETS || \
        arg1 == SIOCSIFFLAGS || arg1 == SIOCGIFHWADDR || \
        arg1 == SIOCGIFFLAGS || arg1 == SIOCGIFINDEX || arg1 == SIOCGIFADDR

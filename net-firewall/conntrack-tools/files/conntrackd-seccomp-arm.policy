@@ -53,6 +53,7 @@ stat64: 1
 fcntl64: 1
 _newselect: 1
 pselect6: 1
+pselect6_time64: 1
 prctl: 1
 gettimeofday: 1
 _llseek: 1
