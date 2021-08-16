@@ -74,6 +74,7 @@ fcntl64:  arg1 == F_GETFD || arg1 == F_SETFD || arg1 == F_GETFL || arg1 == F_SET
 # Check /etc/ld.so.preload
 access: 1
 faccessat: 1
+faccessat2: 1
 # ARCH_SETFS
 prctl: 1
 

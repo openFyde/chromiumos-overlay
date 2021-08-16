@@ -29,6 +29,7 @@ rt_sigreturn: 1
 setgid: 1
 setuid: 1
 faccessat: 1
+faccessat2: 1
 getpid: 1
 listen: 1
 setgroups: 1

@@ -33,6 +33,7 @@ setsockopt: 1
 socket: arg0 == AF_NETLINK || arg0 == AF_UNIX
 exit: 1
 faccessat: 1
+faccessat2: 1
 madvise: 1
 pselect6: 1
 bind: 1

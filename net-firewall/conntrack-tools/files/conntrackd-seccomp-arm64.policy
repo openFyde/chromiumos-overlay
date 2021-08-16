@@ -14,6 +14,7 @@ clock_gettime: 1
 futex: 1
 brk: 1
 faccessat: 1
+faccessat2: 1
 rt_sigaction: 1
 getsockname: 1
 bind: 1

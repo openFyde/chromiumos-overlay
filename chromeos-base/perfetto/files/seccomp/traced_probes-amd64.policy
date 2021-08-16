@@ -54,6 +54,7 @@ kill: arg0 == 0
 fcntl: arg1 == F_GETFD || arg1 == F_SETFD || arg1 == F_GETFL || arg1 == F_SETFL || arg1 == 1033 || arg1 == 1034
 access: 1
 faccessat: 1
+faccessat2: 1
 arch_prctl: 1
 
 clone: 1

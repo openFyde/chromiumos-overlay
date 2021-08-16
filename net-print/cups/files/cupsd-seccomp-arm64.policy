@@ -18,6 +18,7 @@ execve: 1
 exit: 1
 exit_group: 1
 faccessat: 1
+faccessat2: 1
 fadvise64: 1
 fchmod: 1
 fchmodat: 1
