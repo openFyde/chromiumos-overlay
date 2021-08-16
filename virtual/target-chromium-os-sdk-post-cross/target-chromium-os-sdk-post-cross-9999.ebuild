@@ -30,4 +30,5 @@ RDEPEND="
 	sys-apps/ripgrep
 	dev-embedded/coreboot-sdk
 	dev-embedded/ti50-sdk
+	chromeos-base/sirenia-tools
 "
