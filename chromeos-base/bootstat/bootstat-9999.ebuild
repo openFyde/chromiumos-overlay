@@ -33,17 +33,9 @@ DEPEND="
 "
 
 src_install() {
-	dosbin "${OUT}"/bootstat
-	dosbin bootstat_archive
-	dosbin bootstat_get_last
-	dobin bootstat_summary
-
-	dolib.so "${OUT}"/lib/libbootstat.so
-
-	insinto /usr/include/metrics
-	doins bootstat.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libbootstat_unittests"
+	platform test_all
 }
