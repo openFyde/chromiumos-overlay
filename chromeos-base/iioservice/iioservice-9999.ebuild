@@ -3,6 +3,8 @@
 
 EAPI=7
 
+inherit cros-constants
+
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/frameworks/native"
@@ -13,11 +15,15 @@ CROS_WORKON_LOCALNAME=(
 )
 CROS_WORKON_REPO=(
 	"${CROS_GIT_HOST_URL}"
-	"${CROS_GIT_AOSP_URL}"
+	"${CROS_GIT_HOST_URL}"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/aosp/frameworks/native"
+)
+CROS_WORKON_EGIT_BRANCH=(
+	"main"
+	"master"
 )
 # TODO(crbug.com/809389): Remove libmems from this list.
 CROS_WORKON_SUBTREE=(".gn iioservice libmems common-mk metrics" "")
