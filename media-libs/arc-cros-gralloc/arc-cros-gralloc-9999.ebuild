@@ -17,7 +17,7 @@ KEYWORDS="~*"
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 # shellcheck disable=SC2086
 IUSE="kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
-MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 )
+MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 sc7280 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
 RDEPEND="
@@ -65,6 +65,7 @@ src_configure() {
 	fi
 
 	if use video_cards_msm; then
+		use minigbm_platform_sc7280 && append-cppflags -DSC_7280
 		export DRV_MSM=1
 		append-cppflags -DDRV_MSM
 	fi
