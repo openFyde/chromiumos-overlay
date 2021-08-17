@@ -90,9 +90,7 @@ src_install() {
 	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
 
 	# Install fuzzer.
-	if use tpm2; then
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
-	fi
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
 }
 
 platform_pkg_test() {
