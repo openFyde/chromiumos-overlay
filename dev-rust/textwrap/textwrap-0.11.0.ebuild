@@ -17,6 +17,6 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 DEPEND="
 	=dev-rust/unicode-width-0.1*:=
-	dev-rust/hyphenation:=
-	dev-rust/term_size:=
+	=dev-rust/hyphenation-0.7*:=
+	=dev-rust/term_size-0.3*:=
 "
