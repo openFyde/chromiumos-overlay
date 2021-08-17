@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e654a38749e5b2a1145d879e6862bf2d827ca519"
+CROS_WORKON_COMMIT="9993ab24f91e161db25ec50af6ef9b87b865f456"
 CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "7e169789b1406544b9dc33e146676b796d078a2f" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,16 +29,21 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 )
 
-# TODO(alanlxl): Remove the deprecated 20201022 link after crbug.com/1136331.
 DOWNLOADABLE_MODELS=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20200206-downloadable.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20201022-downloadable.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20210201-downloadable.tflite"
+)
+
+# Preprocessor config pb files that are used in unit test should be placed into
+# PREPROCESSOR_PB_FOR_TEST.
+PREPROCESSOR_PB_FOR_TEST=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-preprocessor.pb"
 )
 
 SRC_URI="
 	${DOWNLOADABLE_MODELS[*]}
 	${MODELS_TO_INSTALL[*]}
+	${PREPROCESSOR_PB_FOR_TEST[*]}
 "
 
 LICENSE="BSD-Google"
@@ -141,7 +146,7 @@ platform_pkg_test() {
 	# MODELS_TO_INSTALL and DOWNLOADABLE_MODELS into it for use in unit
 	# tests.
 	mkdir "${T}/ml_models" || die
-	local all_test_models=( "${DOWNLOADABLE_MODELS[@]}" "${MODELS_TO_INSTALL[@]}" )
+	local all_test_models=( "${DOWNLOADABLE_MODELS[@]}" "${MODELS_TO_INSTALL[@]}" "${PREPROCESSOR_PB_FOR_TEST[@]}" )
 	local distfile_uri
 	for distfile_uri in "${all_test_models[@]}"; do
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
