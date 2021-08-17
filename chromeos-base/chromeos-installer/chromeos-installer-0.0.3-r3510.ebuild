@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="65599f7ca758b43b0c8658b8b364837ac782cd8b"
-CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "fb47871a8c7e4fa892d9698dd0ccc76e1dae075b" "33de53739dbe0fd2911d58694b622539ef0a2416" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7fb02f17925f5ebd3083a6def23c6d823569f980"
+CROS_WORKON_TREE=("73fb751c9106f337f066c9d61b57a04de20d80c0" "663f5c985bfabb6569019ca433ffbda4acf9a108" "33de53739dbe0fd2911d58694b622539ef0a2416" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -23,7 +23,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd +oobe_config lvm_stateful_partition"
+IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd lvm_stateful_partition"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
@@ -39,7 +39,6 @@ RDEPEND="${COMMON_DEPEND}
 	pam? ( app-admin/sudo )
 	chromeos-base/chromeos-common-script
 	!cros_embedded? ( chromeos-base/chromeos-storage-info )
-	oobe_config? ( chromeos-base/oobe_config )
 	dev-libs/openssl:0=
 	dev-util/shflags
 	sys-apps/rootdev
@@ -52,7 +51,7 @@ platform_pkg_test() {
 }
 
 src_install() {
-	dobin "${OUT}"/{cros_installer,cros_oobe_crypto}
+	dobin "${OUT}"/cros_installer
 	if use mtd ; then
 		dobin "${OUT}"/nand_partition
 	fi
