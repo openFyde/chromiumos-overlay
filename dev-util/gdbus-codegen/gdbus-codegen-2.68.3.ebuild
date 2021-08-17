@@ -1,4 +1,4 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,7 +16,6 @@ HOMEPAGE="https://www.gtk.org/"
 LICENSE="LGPL-2+"
 SLOT="0"
 KEYWORDS="*"
-IUSE=""
 
 RDEPEND="${PYTHON_DEPS}"
 DEPEND="${RDEPEND}"
@@ -54,7 +53,7 @@ do_xsltproc_command() {
 		--stringparam man.copyright.section.enabled 0 \
 		-o "${2}" \
 		http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
-		"${1}" || ewarn "manpage generation failed"
+		"${1}" || die "manpage generation failed"
 }
 
 src_compile() {

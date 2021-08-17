@@ -1,10 +1,10 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 
-inherit flag-o-matic gnome.org gnome2-utils linux-info meson multilib multilib-minimal python-any-r1 toolchain-funcs xdg
+inherit flag-o-matic gnome.org gnome2-utils linux-info meson-multilib multilib python-any-r1 toolchain-funcs xdg
 
 DESCRIPTION="The GLib library of C routines"
 HOMEPAGE="https://www.gtk.org/"
@@ -13,13 +13,10 @@ LICENSE="LGPL-2.1+"
 SLOT="2"
 IUSE="cros_host dbus debug doc elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs sysprof systemtap test utils xattr"
 RESTRICT="!test? ( test )"
+REQUIRED_USE="gtk-doc? ( test )" # Bug #777636
 
 KEYWORDS="*"
 
-# * libelf isn't strictly necessary, but makes gresource tool more useful, and
-# the check is automagic in gio/meson.build. gresource is not a multilib tool
-# right now, thus it doesn't matter if non-native ABI libelf exists or not
-# (non-native binary is overwritten, it doesn't matter if libelf was linked to).
 # * elfutils (via libelf) does not build on Windows. gresources are not embedded
 # within ELF binaries on that platform anyway and inspecting ELF binaries from
 # other platforms is not that useful so exclude the dependency in this case.
@@ -33,7 +30,7 @@ RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
 	>=dev-libs/libpcre-8.31:3[${MULTILIB_USEDEP},static-libs?]
-	>=virtual/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
+	>=dev-libs/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]
 	kernel_linux? ( >=sys-apps/util-linux-2.23[${MULTILIB_USEDEP}] )
@@ -41,7 +38,7 @@ RDEPEND="
 	xattr? ( !elibc_glibc? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] ) )
 	cros_host? ( virtual/libelf:0= )
 	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
-	sysprof? ( >=dev-util/sysprof-capture-3.38:4[${MULTILIB_USEDEP}] )
+	sysprof? ( >=dev-util/sysprof-capture-3.40.1:4[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}"
 # libxml2 used for optional tests that get automatically skipped
@@ -73,7 +70,9 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 PATCHES=(
+	"${FILESDIR}"/${PN}-2.64.1-mark-gdbus-server-auth-test-flaky.patch
 	"${FILESDIR}/glib-2.66.7-CHROMIUM-gdbus-system-bus-address.patch"
+	"${FILESDIR}"/${PN}-2.68.3-glibc-2.34-close_range.patch
 )
 
 pkg_setup() {
@@ -171,17 +170,16 @@ multilib_src_configure() {
 		-Dman=$(multilib_native_usex doc true false)
 		$(meson_use systemtap dtrace)
 		$(meson_use systemtap)
-		-Dgtk_doc=$(multilib_native_usex gtk-doc true false)
+		$(meson_feature sysprof)
+		$(meson_native_use_bool gtk-doc gtk_doc)
 		$(meson_use fam)
+		$(meson_use test tests)
 		-Dinstalled_tests=false
 		-Dnls=enabled
 		-Doss_fuzz=disabled
+		$(meson_native_use_feature cros_host libelf)
 	)
 	meson_src_configure
-}
-
-multilib_src_compile() {
-	meson_src_compile
 }
 
 multilib_src_test() {
@@ -272,6 +270,13 @@ pkg_postinst() {
 		ewarn "your final image for performance reasons and re-run it when packages"
 		ewarn "installing GIO modules get upgraded or added to the image."
 	fi
+
+	for v in ${REPLACING_VERSIONS}; do
+		if ver_test "$v" "-lt" "2.63.6"; then
+			ewarn "glib no longer installs the gio-launch-desktop binary. You may need"
+			ewarn "to restart your session for \"Open With\" dialogs to work."
+		fi
+	done
 }
 
 pkg_postrm() {
