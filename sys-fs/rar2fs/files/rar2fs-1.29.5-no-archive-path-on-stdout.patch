@@ -1,4 +1,4 @@
-From a23a3cbcf9c888d8bd9453f6ddbffd095604734c Mon Sep 17 00:00:00 2001
+From 7dcd0612973759ac66fc5ed9a3ef53aa6b1eac5e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Wed, 20 Jan 2021 14:39:58 +1100
 Subject: [PATCH] Don't print archive file path on stdout
@@ -7,14 +7,14 @@ Messages printed by rar2fs on stdout or stderr can be logged in system
 logs by the calling system. The file path can contain PII and should not
 be logged in system logs readable by everyone on the system.
 ---
- src/rar2fs.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ src/rar2fs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/src/rar2fs.c b/src/rar2fs.c
-index f28493d..e1a1a20 100644
+index 5728548..122f653 100644
 --- a/src/rar2fs.c
 +++ b/src/rar2fs.c
-@@ -5728,18 +5728,18 @@ int main(int argc, char *argv[])
+@@ -5771,8 +5771,8 @@ int main(int argc, char *argv[])
                  const int ret = collect_files(src_path_full);
                  if (ret < 0) {
                          const int err = -ret;
@@ -24,20 +24,7 @@ index f28493d..e1a1a20 100644
 +                               error_to_string(err));
                          return err;
                  }
-                 if (ret == 0) {
--                        printf("%s: cannot find primary file for multipart archive '%s'\n",
--                               argv[0], src_path_full);
-+                        printf(
-+                            "%s: cannot find primary file for multipart RAR\n",
-+                            argv[0]);
-                         return 1;
-                 }
          }
- 
--
-         /* Check I/O buffer and history size */
-         if (check_iob(argv[0], 1))
-                 return -1;
 -- 
-2.30.0.284.gd98b1dd5eaa7-goog
+2.33.0.rc1.237.g0d66db33f3-goog
 
