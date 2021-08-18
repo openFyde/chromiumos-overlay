@@ -24,6 +24,7 @@ PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0003-Fix-MMD-Device-Init-Fail-issue.patch
+	"${FILESDIR}"/0004-reset-brc-when-frame-rate-changes-for-VP8e.patch
 )
 
 src_configure() {
