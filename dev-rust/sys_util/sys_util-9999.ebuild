@@ -27,6 +27,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
+	=dev-rust/remain-0.2*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/syn-1*:=
