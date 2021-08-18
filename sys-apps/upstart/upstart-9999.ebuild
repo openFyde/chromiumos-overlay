@@ -5,7 +5,7 @@ EAPI="7"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_EGIT_BRANCH="chromeos-1.2"
 
 inherit cros-workon autotools flag-o-matic
 
