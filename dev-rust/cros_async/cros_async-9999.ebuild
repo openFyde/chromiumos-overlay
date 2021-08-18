@@ -25,6 +25,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3
 	=dev-rust/paste-1*:=
 	=dev-rust/pin-utils-0.1*:=
+	=dev-rust/remain-0.2*:=
 	=dev-rust/slab-0.4*:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
