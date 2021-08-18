@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="654b332b9cd328190ccf40472a96b0c85a6cbeac"
-CROS_WORKON_TREE=("4fdfdbe461ccedeaaf176391c0bbb0f74943be45" "73fb751c9106f337f066c9d61b57a04de20d80c0" "a3dcb40e63595e43a144f3827526973d5ef13f6e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "77ce2143d7be73b5e3c27af5215449290e8d4621")
+CROS_WORKON_COMMIT="220a5137042aac1222529dcd02411343178d1d51"
+CROS_WORKON_TREE=("4fdfdbe461ccedeaaf176391c0bbb0f74943be45" "73fb751c9106f337f066c9d61b57a04de20d80c0" "314368ded7f4a6d52391665522ae1fa892416557" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "77ce2143d7be73b5e3c27af5215449290e8d4621")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
@@ -53,6 +53,11 @@ src_install() {
 	dobin "${OUT}"/cros_config
 	newbin cros_config_mock.sh cros_config_mock
 	dosbin "${OUT}"/cros_configfs
+
+	if use test; then
+		exeinto "/usr/local/gtest/cros_config"
+		doexe  "${OUT}/cros_config_functional_test"
+	fi
 
 	# Install init scripts.
 	insinto /etc/init
