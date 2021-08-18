@@ -10,7 +10,7 @@ HOMEPAGE="https://github.com/istopwg/ippsample/blob/master/README.md"
 
 LICENSE="Apache-2.0"
 
-GIT_SHA1="ecfd14a4b6198a360e2b2ff48acc95ddde501019"
+GIT_SHA1="df83ad39d54f05aab39dab013464bea3514034d6"
 SRC_URI="https://github.com/istopwg/ippsample/archive/${GIT_SHA1}.zip -> ${P}.zip"
 
 SLOT="0"
@@ -30,7 +30,7 @@ RDEPEND="${CDEPEND}"
 
 PATCHES=(
 	"${FILESDIR}/ippsample-1.0.0-do-not-force-local-BinDir-directory.patch"
-	"${FILESDIR}/ippsample-1.0.0-use-PKG_CONFIG.patch"
+	"${FILESDIR}/ippsample-1.1.0-use-PKG_CONFIG.patch"
 )
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
@@ -42,7 +42,7 @@ src_configure() {
 	tc-export PKG_CONFIG
 
 	local myeconfargs=(
-		--enable-gnutls \
+		--with-tls=gnutls \
 		--includedir=/usr/local/include
 	)
 	econf "${myeconfargs[@]}"
