@@ -32,6 +32,7 @@ DEPEND="
 	dev-go/cmp
 	dev-go/crypto
 	dev-go/dbus
+	dev-go/docker
 	dev-go/dst
 	dev-go/exif
 	dev-go/fscrypt
