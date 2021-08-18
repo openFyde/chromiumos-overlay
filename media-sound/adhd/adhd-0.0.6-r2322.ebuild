@@ -135,4 +135,5 @@ src_install() {
 pkg_preinst() {
 	enewuser "cras"
 	enewgroup "cras"
+	enewgroup "bluetooth-audio"
 }
