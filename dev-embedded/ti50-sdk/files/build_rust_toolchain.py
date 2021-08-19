@@ -123,6 +123,7 @@ extended = true
 vendor = true
 python = "{must_getenv('EPYTHON')}"
 submodules = false
+profiler = true
 {optional_bootstrap_configuration}
 
 [llvm]
