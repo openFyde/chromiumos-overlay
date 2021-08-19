@@ -490,8 +490,42 @@ exit 1
 EOF
 		chmod a+rx "${dir}/${tool}"
 	done
-	PATH="${dir}:${PATH}"
+
+	# Block uses of unallowed GCC/Binutils usage in ${ABI}-tool format.
+	# Temporarily allow haskell, ffmpeg (for ranlib) and bootstub (for objcopy)
+	# packages.
+	local prefixed_tool gnu_gcc_binutils_tools
+	mkdir -p "${dir}/gnu_tools"
+	gnu_gcc_binutils_tools=(ar gcc ld nm objcopy ranlib strip)
+	for tool in "${gnu_gcc_binutils_tools[@]}"; do
+		case ${CATEGORY}/${PN}:${PV} in
+			app-admin/haskell-updater:*|\
+			dev-haskell/*:*|\
+			dev-lang/ghc:*|\
+			dev-util/shellcheck:*|\
+			media-video/ffmpeg:*|\
+			sys-boot/bootstub:*|\
+			*/linux-headers:*) continue
+			;;
+		esac
+		for prefixed_tool in "${CHOST}-${tool}" "${CBUILD}-${tool}"; do
+			cat <<EOF2 > "${dir}/gnu_tools/${prefixed_tool}"
+#!/bin/sh
+$(which eerror) "\$(
+err() { echo "${prefixed_tool}: ERROR: \$*"; }
+err "Unexpected use of GCC/GNU Binutils."
+err "If this use is necessary, please call cros_allow_gnu_build_tools in the ebuild"
+pstree -a -A -s -l \$\$
+)"
+$(which die) "Unexpected ${prefixed_tool} [\$*] invocation"
+exit 1
+EOF2
+			chmod a+rx "${dir}/gnu_tools/${prefixed_tool}"
+		done
+	done
+	PATH="${dir}:${dir}/gnu_tools:${PATH}"
 }
+
 cros_post_src_install_build_toolchain_catch() {
 	# Some portage install hooks will run tools.  We probably want to change
 	# those, but at least for now, we'll undo the wrappers.
@@ -629,6 +663,11 @@ cros_enable_cxx_exceptions() {
 	CXXEXCEPTIONS=1
 }
 
+# Allow usages of gcc/binutils tools.
+cros_allow_gnu_build_tools() {
+	rm -rf "${T}/build-toolchain-wrappers/gnu_tools"
+}
+
 # We still use gcc to build packages even the CC or CXX is set to
 # something else.
 cros_use_gcc() {
@@ -644,6 +683,7 @@ cros_use_gcc() {
 	fi
 	filter_unsupported_gcc_flags
 	filter_sanitizers
+	cros_allow_gnu_build_tools
 }
 
 # Use a frozen 4.9.2 GCC for packages that can't use latest GCC
