@@ -134,9 +134,7 @@ BDEPEND="
 	>=dev-libs/protobuf-3.8.0
 	dev-java/java-config
 	dev-lang/swig
-	!minimal? (
-		=dev-util/bazel-3*
-	)
+	=dev-util/bazel-3*
 	cuda? (
 		>=dev-util/nvidia-cuda-toolkit-9.1[profiler]
 	)
