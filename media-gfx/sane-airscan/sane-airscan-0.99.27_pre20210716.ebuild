@@ -10,7 +10,7 @@ HOMEPAGE="https://github.com/alexpevzner/sane-airscan"
 LICENSE="GPL-2"
 SLOT="0/${PVR}"
 KEYWORDS="*"
-IUSE="asan fuzzer"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	dev-libs/libxml2:=
@@ -40,7 +40,6 @@ PATCHES=(
 
 src_configure() {
 	sanitizers-setup-env || die
-	fuzzer-setup-binary || die
 	meson_src_configure
 }
 
