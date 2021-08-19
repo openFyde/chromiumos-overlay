@@ -4,11 +4,11 @@ DEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpaylo
 DESCRIPTION=coreboot's depthcharge payload
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=detachable fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery cros_host cros_workon_tree_3ea9e9713dde143a086709d3adcaf9e68493da36_6c226df070e04ac4cf72e6752c3732812f8d6ca1
+IUSE=detachable fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery cros_host cros_workon_tree_756789e217ea9a1c2a714d30e8769a88a755885b_6c226df070e04ac4cf72e6752c3732812f8d6ca1
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 REQUIRED_USE=unibuild
-SLOT=0/0.0.1-r3357
+SLOT=0/0.0.1-r3358
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	22d944495601d544f708d032e23c20f4	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=93bcc99c088daa67b67046d1aa95a7b3
+_md5_=0d8121a9e56d532ec8cfc4b623af29c7
