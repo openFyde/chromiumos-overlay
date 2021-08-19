@@ -99,6 +99,7 @@ IUSE="
 	ndk_translation
 	ndk_translation64
 	nnapi
+	no_factory_flow
 	nvme
 	nyan_kitty
 	ocr
