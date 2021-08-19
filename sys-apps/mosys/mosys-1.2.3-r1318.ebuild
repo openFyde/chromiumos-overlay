@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("8da5794b7f8d4c5b7597effac594ce4664c5545c" "40c5a29d9cd36bec424fafa684c5b5e8a9bb5e6b")
-CROS_WORKON_TREE=("36abcf818b30e23dcd5eb99dc81916cb4af6ec56" "882faf049a9bde512c78df4493ae6034564cae02")
+CROS_WORKON_COMMIT=("56cc7c74cc42a4c1097b6e7faec15821df020751" "577b14ac73693dc8eff2ca02b25a8ad792e90a67")
+CROS_WORKON_TREE=("36abcf818b30e23dcd5eb99dc81916cb4af6ec56" "c8ff410c0ec1ea14bfbcf52b0b5f27ff0aef2309")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
