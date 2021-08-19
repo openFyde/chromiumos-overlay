@@ -25,7 +25,6 @@ src_prepare() {
 	epatch "${FILESDIR}/0001-Forward-port-ChromeOS-specific-GRUB-environment-vari.patch"
 	epatch "${FILESDIR}/0002-Forward-port-gptpriority-command-to-GRUB-2.00.patch"
 	epatch "${FILESDIR}/0003-Add-configure-option-to-reduce-visual-clutter-at-boo.patch"
-	epatch "${FILESDIR}/b189992601-no-soft-float.patch"
 
 	bash autogen.sh || die
 }
