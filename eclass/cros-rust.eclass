@@ -359,12 +359,12 @@ cros-rust_src_prepare() {
 	default
 }
 
-# @FUNCTION: cros-rust_src_configure
+# @FUNCTION: cros-rust_configure_cargo
 # @DESCRIPTION:
-# Configures the source and exports any environment variables needed during the
-# build.
-cros-rust_src_configure() {
-	debug-print-function "${FUNCNAME[0]}" "$@"
+# Sets up cargo configuration and exports any environment variables needed
+# during the build.
+cros-rust_configure_cargo() {
+	debug-print-function "${FUNCNAME[0]}"
 	sanitizers-setup-env
 	cros-debug-add-NDEBUG
 
@@ -471,6 +471,21 @@ cros-rust_src_configure() {
 		addwrite "$(cros-rust_get_sccache_dir)"
 	fi
 
+	# Add EXTRA_RUSTFLAGS to the current rustflags. This lets us emerge rust
+	# packages with locally exported flags for testing purposes as:
+	# `EXTRA_RUSTFLAGS="<flags>" emerge-$BOARD <package>`
+	rustflags+=( "${EXTRA_RUSTFLAGS:=}" )
+
+	export RUSTFLAGS="${rustflags[*]}"
+}
+
+# @FUNCTION: cros-rust_update_cargo_lock
+# @DESCRIPTION:
+# Regenerates/removes the Cargo.lock file to ensure cargo uses the dependency
+# versions from our local registry.
+cros-rust_update_cargo_lock() {
+	debug-print-function "${FUNCNAME[0]}"
+
 	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
 		# Force an update the Cargo.lock file.
 		ecargo generate-lockfile
@@ -489,13 +504,16 @@ cros-rust_src_configure() {
 		# Remove 3rd party lockfiles.
 		rm -f Cargo.lock
 	fi
+}
 
-	# Add EXTRA_RUSTFLAGS to the current rustflags. This lets us emerge rust
-	# packages with locally exported flags for testing purposes as:
-	# `EXTRA_RUSTFLAGS="<flags>" emerge-$BOARD <package>`
-	rustflags+=( "${EXTRA_RUSTFLAGS:=}" )
-
-	export RUSTFLAGS="${rustflags[*]}"
+# @FUNCTION: cros-rust_src_configure
+# @DESCRIPTION:
+# Configures the source and exports any environment variables needed during the
+# build.
+cros-rust_src_configure() {
+	debug-print-function "${FUNCNAME[0]}"
+	cros-rust_configure_cargo
+	cros-rust_update_cargo_lock
 	default
 }
 
