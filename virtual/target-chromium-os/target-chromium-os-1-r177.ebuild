@@ -45,6 +45,7 @@ IUSE="
 	dns-proxy
 	dptf
 	eclog
+	featured
 	+fonts
 	fpstudy
 	fuzzer
@@ -307,6 +308,7 @@ RDEPEND="
 	secanomalyd? ( chromeos-base/secanomalyd )
 	lacros_rootfs? ( chromeos-base/chromeos-lacros )
 	dns-proxy? ( chromeos-base/dns-proxy )
+	featured? ( chromeos-base/featured )
 "
 
 ################################################################################
