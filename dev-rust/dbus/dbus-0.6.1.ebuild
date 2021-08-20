@@ -1,7 +1,7 @@
 # Copyright 2019 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit cros-rust
 
@@ -17,3 +17,4 @@ DEPEND=">=dev-rust/libc-0.2.7:=
 	>=dev-rust/libdbus-sys-0.1.2:= <dev-rust/libdbus-sys-0.2
 	>=dev-rust/tempdir-0.3.0:=
 "
+RDEPEND="${DEPEND}"
