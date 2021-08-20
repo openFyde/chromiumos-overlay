@@ -23,6 +23,7 @@ RDEPEND="
 	>=chromeos-base/autotest-deps-0.0.3
 	!<=chromeos-base/autotest-factory-0.0.1-r4445
 	dev-python/numpy
+	dev-python/pillow
 	dev-python/pygobject
 	dev-python/pytest
 	dev-python/python-uinput
