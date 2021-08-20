@@ -129,14 +129,21 @@ src_install() {
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/trunks/libtrunks.pc
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer
+	local fuzzer_component_id="886041"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer \
+		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/trunks_hmac_authorization_delegate_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_key_blob_fuzzer
+		"${OUT}"/trunks_hmac_authorization_delegate_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_key_blob_fuzzer \
+		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/trunks_password_authorization_delegate_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_resource_manager_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_tpm_pinweaver_fuzzer
+		"${OUT}"/trunks_password_authorization_delegate_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_resource_manager_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_tpm_pinweaver_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

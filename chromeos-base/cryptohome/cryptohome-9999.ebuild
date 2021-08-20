@@ -199,15 +199,19 @@ src_install() {
 
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
+	local fuzzer_component_id="886041"
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
+		--comp "${fuzzer_component_id}" \
 		fuzzers/data/*
 
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer
+		"${OUT}"/cryptohome_cryptolib_blob_to_hex_fuzzer \
+		--comp "${fuzzer_component_id}"
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
+		--comp "${fuzzer_component_id}" \
 		fuzzers/data/*
 }
 

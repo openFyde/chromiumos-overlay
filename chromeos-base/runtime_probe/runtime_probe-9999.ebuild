@@ -79,7 +79,9 @@ src_install() {
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
-		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+		local fuzzer_component_id="606088"
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+			--comp "${fuzzer_component_id}"
 	done
 }
 

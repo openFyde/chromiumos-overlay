@@ -48,8 +48,11 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Modemfwd.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer
+	local fuzzer_component_id="167157"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

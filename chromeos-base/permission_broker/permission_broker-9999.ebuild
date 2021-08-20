@@ -49,7 +49,9 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-hidraw.rules"
 
 	# Fuzzer.
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/port_tracker_fuzzer
+	local fuzzer_component_id="156085"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/port_tracker_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

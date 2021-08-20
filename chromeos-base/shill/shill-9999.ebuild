@@ -207,10 +207,15 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners shill:shill "${daemon_store}"
 
-	local fuzzer
-	for fuzzer in "${OUT}"/*_fuzzer; do
-		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
-	done
+	local cellular_fuzzer_component_id="167157"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/cellular_pco_fuzzer" \
+		--comp "${cellular_fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/verizon_subscription_state_fuzzer" \
+		--comp "${cellular_fuzzer_component_id}"
+
+	local wifi_ies_fuzzer_component_id="893827"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_ies_fuzzer" \
+		--comp "${wifi_ies_fuzzer_component_id}"
 }
 
 platform_pkg_test() {

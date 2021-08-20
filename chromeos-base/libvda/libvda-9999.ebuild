@@ -36,7 +36,9 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/arc/vm/libvda/libvda.pc
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libvda_fuzzer
+	local fuzzer_component_id="632502"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libvda_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

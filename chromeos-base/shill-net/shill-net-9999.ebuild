@@ -38,10 +38,16 @@ src_install() {
 	insinto /usr/include/shill/net
 	doins ./*.h
 
-	local fuzzer
-	for fuzzer in "${OUT}"/*_fuzzer; do
-		platform_fuzzer_install "${S}"/../OWNERS "${fuzzer}"
-	done
+	# These each have different listed component ids.
+	local arp_client_fuzzer_component_id="167325"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/arp_client_fuzzer" \
+		--comp "${arp_client_fuzzer_component_id}"
+	local nl80211_message_fuzzer_component_id="893827"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/nl80211_message_fuzzer" \
+		--comp "${nl80211_message_fuzzer_component_id}"
+	local rtnl_handler_fuzzer_component_id="156085"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/rtnl_handler_fuzzer" \
+		--comp "${rtnl_handler_fuzzer_component_id}"
 }
 
 platform_pkg_test() {

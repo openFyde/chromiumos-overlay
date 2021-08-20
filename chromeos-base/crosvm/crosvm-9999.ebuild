@@ -368,8 +368,10 @@ src_install() {
 		cd fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
+			local fuzzer_component_id="982362"
 			fuzzer_install "${S}/fuzz/OWNERS" \
-				"${build_dir}/${f}"
+				"${build_dir}/${f}" \
+				--comp "${fuzzer_component_id}"
 		done
 		cd .. || die "failed to move directory"
 	fi

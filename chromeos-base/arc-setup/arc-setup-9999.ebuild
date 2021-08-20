@@ -137,9 +137,13 @@ src_install() {
 		keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
 		keepdir /opt/google/containers/arc-art/mountpoints/vendor
 
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_property_util_expand_property_contents_fuzzer
+		local fuzzer_component_id="488493"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer \
+			--comp "${fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer \
+			--comp "${fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_property_util_expand_property_contents_fuzzer \
+			--comp "${fuzzer_component_id}"
 	fi
 }
 

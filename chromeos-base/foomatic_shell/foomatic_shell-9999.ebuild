@@ -23,7 +23,9 @@ src_install() {
 	dobin "${OUT}/foomatic_shell"
 
 	# Install fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/foomatic_shell_fuzzer
+	local fuzzer_component_id="167231"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/foomatic_shell_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

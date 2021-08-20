@@ -49,7 +49,11 @@ src_compile() {
 
 src_install() {
 	local build_dir="$(cros-workon_get_build_dir)"
-	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ppdopen_fuzzer
-	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ippreadio_fuzzer
-	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ipp_t_fuzzer
+	local fuzzer_component_id="167231"
+	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ppdopen_fuzzer \
+		--comp "${fuzzer_component_id}"
+	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ippreadio_fuzzer \
+		--comp "${fuzzer_component_id}"
+	fuzzer_install "${S}"/fuzzers/OWNERS "${build_dir}"/cups_ipp_t_fuzzer \
+		--comp "${fuzzer_component_id}"
 }

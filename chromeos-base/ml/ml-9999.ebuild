@@ -121,7 +121,9 @@ src_install() {
 
 	# Install fuzzer targets.
 	for fuzzer in "${OUT}"/*_fuzzer; do
-		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+		local fuzzer_component_id="187682"
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+			--comp "${fuzzer_component_id}"
 	done
 
 	if use ml_benchmark_drivers; then

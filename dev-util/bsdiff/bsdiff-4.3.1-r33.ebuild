@@ -50,7 +50,9 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins libbsdiff.pc libbspatch.pc
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bspatch_fuzzer
+	local fuzzer_component_id="31714"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/bspatch_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

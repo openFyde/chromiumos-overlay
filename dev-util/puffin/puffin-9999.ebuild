@@ -48,7 +48,9 @@ src_install() {
 	doins libpuffdiff.pc libpuffpatch.pc
 
 	for f in "huff" "puff" "puffpatch"; do
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}/puffin_${f}_fuzzer"
+		local fuzzer_component_id="31714"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/puffin_${f}_fuzzer" \
+			--comp "${fuzzer_component_id}"
 	done
 }
 

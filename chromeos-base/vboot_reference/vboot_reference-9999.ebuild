@@ -102,8 +102,12 @@ src_install() {
 
 	if use fuzzer; then
 		einfo "Installing fuzzers"
-		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/cgpt_fuzzer
-		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/vb2_keyblock_fuzzer
-		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/vb2_preamble_fuzzer
+		local fuzzer_component_id="167186"
+		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/cgpt_fuzzer \
+			--comp "${fuzzer_component_id}"
+		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/vb2_keyblock_fuzzer \
+			--comp "${fuzzer_component_id}"
+		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/vb2_preamble_fuzzer \
+			--comp "${fuzzer_component_id}"
 	fi
 }

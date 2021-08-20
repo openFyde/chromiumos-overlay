@@ -131,7 +131,9 @@ src_install() {
 	dolib.so "${OUT}/lib/libkeymaster.so"
 	dosbin "${OUT}/arc-keymasterd"
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_keymasterd_fuzzer
+	local fuzzer_component_id="157100"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_keymasterd_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 pkg_preinst() {

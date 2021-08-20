@@ -30,7 +30,9 @@ src_install() {
 			ipp_export.h ipp_operations.h ipp_package.h
 
 	# Install fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libipp_fuzzer
+	local fuzzer_component_id="167231"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libipp_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

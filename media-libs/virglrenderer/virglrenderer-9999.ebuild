@@ -78,17 +78,21 @@ src_configure() {
 src_install() {
 	meson_src_install
 
+	local fuzzer_component_id="964076"
 	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
 		"${WORKDIR}/${P}-build"/tests/fuzzer/virgl_fuzzer \
-		--options "${FILESDIR}/virgl_fuzzer.options"
+		--options "${FILESDIR}/virgl_fuzzer.options" \
+		--comp "${fuzzer_component_id}"
 	fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
 		"${WORKDIR}/${P}-build"/vtest/vtest_fuzzer \
-		--options "${FILESDIR}/vtest_fuzzer.options"
+		--options "${FILESDIR}/vtest_fuzzer.options" \
+		--comp "${fuzzer_component_id}"
 
 	if use vulkan; then
 		fuzzer_install "${FILESDIR}/fuzzer-OWNERS" \
 			"${WORKDIR}/${P}-build"/tests/fuzzer/virgl_venus_fuzzer \
-			--options "${FILESDIR}/virgl_venus_fuzzer.options"
+			--options "${FILESDIR}/virgl_venus_fuzzer.options" \
+			--comp "${fuzzer_component_id}"
 	fi
 
 	find "${ED}"/usr -name 'lib*.la' -delete

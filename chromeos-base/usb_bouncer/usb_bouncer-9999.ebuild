@@ -57,7 +57,9 @@ src_install() {
 	fowners usb_bouncer:usb_bouncer "${daemon_store}"
 
 	local f="${OUT}/usb_bouncer_fuzzer"
-	fuzzer_install "${S}/OWNERS" "${f}"
+	local fuzzer_component_id="1048474"
+	fuzzer_install "${S}/OWNERS" "${f}" \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

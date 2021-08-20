@@ -82,9 +82,12 @@ src_install() {
 	insinto /usr/include/metrics/proto
 	doins uploader/proto/*.proto
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/metrics_library_consent_id_fuzzer
+	local fuzzer_component_id="1087262"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/metrics_library_consent_id_fuzzer \
+		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS \
-		"${OUT}"/metrics_serialization_utils_fuzzer
+		"${OUT}"/metrics_serialization_utils_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

@@ -72,8 +72,10 @@ src_install() {
 		# names ended up being different from our naming scheme.
 		local compat_name="airscan_${fuzzer#fuzzer-}_fuzzer"
 		mv "${BUILD_DIR}/${fuzzer}" "${BUILD_DIR}/${compat_name}"
+		local fuzzer_component_id="860616"
 		fuzzer_install "${FILESDIR}/fuzzers.owners" \
-			"${BUILD_DIR}/${compat_name}"
+			"${BUILD_DIR}/${compat_name}" \
+			--comp "${fuzzer_component_id}"
 	done
 
 	# Include sane-airscan/airscan.h in header

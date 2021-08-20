@@ -52,9 +52,13 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp/dns-proxy-seccomp-"${ARCH}".policy dns-proxy-seccomp.policy
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/doh_curl_client_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/resolver_fuzzer
+	local fuzzer_component_id="156085"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/doh_curl_client_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/resolver_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

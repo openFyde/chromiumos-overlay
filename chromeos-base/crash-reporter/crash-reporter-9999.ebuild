@@ -133,17 +133,21 @@ src_install() {
 	# Install metrics/OWNERS as the owners file for the fuzzers.
 	# The owners files need to have actual email addresses, not
 	# an include-link.
+	local fuzzer_component_id="1032705"
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/crash_sender_fuzzer \
-		--dict "${S}"/crash_sender_fuzzer.dict
+		--dict "${S}"/crash_sender_fuzzer.dict \
+		--comp "${fuzzer_component_id}"
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/chrome_collector_fuzzer \
-		--dict "${S}"/chrome_collector_fuzzer.dict
+		--dict "${S}"/chrome_collector_fuzzer.dict \
+		--comp "${fuzzer_component_id}"
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/anomaly_detector_fuzzer \
-		--dict "${S}"/anomaly_detector_fuzzer.dict
+		--dict "${S}"/anomaly_detector_fuzzer.dict \
+		--comp "${fuzzer_component_id}"
 
 	# Install crash_serializer into /usr/local/sbin, which is only present
 	# on test images. See:

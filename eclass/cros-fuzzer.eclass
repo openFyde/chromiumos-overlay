@@ -39,10 +39,10 @@ fuzzer-setup-binary() {
 # @DESCRIPTION:
 # Installs fuzzer targets in one common location for all fuzzing projects.
 # @USAGE: <owners file> <fuzzer binary> [--dict dict_file] \
-#   [--options options_file] [extra files ...]
+#   [--comp componentid] [--options options_file] [extra files ...]
 fuzzer_install() {
-	[[ $# -lt 2 ]] && die "usage: ${FUNCNAME} <OWNERS> <program> [options]" \
-		"[extra files...]"
+	[[ $# -lt 2 ]] && die "usage: ${FUNCNAME} <OWNERS> <program> " \
+		"[--comp componentid] [options] [extra files...]"
 	# Don't do anything without USE="fuzzer"
 	! use fuzzer && return 0
 
@@ -52,6 +52,7 @@ fuzzer_install() {
 	shift 2
 
 	# Fuzzer option strings.
+	local opt_component="comp"
 	local opt_dict="dict"
 	local opt_option="options"
 
@@ -66,7 +67,7 @@ fuzzer_install() {
 		# Install other fuzzer files (dict, options file etc.) if provided.
 		[[ $# -eq 0 ]] && return 0
 		# Parse the arguments.
-		local opts=$(getopt -o '' -l "${opt_dict}:,${opt_option}:" -- "$@")
+		local opts=$(getopt -o '' -l "${opt_dict}:,${opt_option}:,${opt_component}:" -- "$@")
 		[[ $? -ne 0 ]] && die "fuzzer_install: Incorrect options: $*"
 		eval set -- "${opts}"
 
@@ -77,6 +78,9 @@ fuzzer_install() {
 				shift 2 ;;
 			"--${opt_option}")
 				newins "$2" "${name}.options"
+				shift 2 ;;
+			"--${opt_component}")
+				echo "$2" | newins - "${name}.components"
 				shift 2 ;;
 			--)
 				shift ;;

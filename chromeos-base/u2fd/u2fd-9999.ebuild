@@ -62,10 +62,15 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer
+	local fuzzer_component_id="886041"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

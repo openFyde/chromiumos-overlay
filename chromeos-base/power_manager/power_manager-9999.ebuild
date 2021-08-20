@@ -172,7 +172,9 @@ src_install() {
 	# Install fuzz targets.
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
-		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}"
+		local fuzzer_component_id="167191"
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+			--comp "${fuzzer_component_id}"
 	done
 }
 

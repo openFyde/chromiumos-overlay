@@ -156,8 +156,11 @@ src_install() {
 	doins "${FILESDIR}/input.conf"
 
 	# Install the fuzzer binaries.
-	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_match_fuzzer
-	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_new_fuzzer
+	local fuzzer_component_id="167317"
+	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_match_fuzzer \
+		--comp "${fuzzer_component_id}"
+	fuzzer_install "${S}/fuzzer/OWNERS" fuzzer/bluez_pattern_new_fuzzer \
+		--comp "${fuzzer_component_id}"
 
 	# We don't preserve /var/lib in images, so nuke anything we preseed.
 	rm -rf "${D}"/var/lib/bluetooth

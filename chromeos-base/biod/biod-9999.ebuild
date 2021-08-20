@@ -109,9 +109,10 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners biod:biod "${daemon_store}"
 
-	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_storage_fuzzer
+	local fuzzer_component_id="782045"
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_storage_fuzzer --comp "${fuzzer_component_id}"
 
-	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_crypto_validation_value_fuzzer
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/biod_crypto_validation_value_fuzzer --comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

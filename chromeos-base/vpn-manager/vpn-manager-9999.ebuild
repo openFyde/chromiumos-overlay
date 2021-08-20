@@ -33,7 +33,9 @@ src_install() {
 	exeinto /usr/libexec/l2tpipsec_vpn
 	doexe bin/pluto_updown
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_service_manager_fuzzer
+	local fuzzer_component_id="156085"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_service_manager_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
