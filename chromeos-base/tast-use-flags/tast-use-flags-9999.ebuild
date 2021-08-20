@@ -130,7 +130,6 @@ IUSE="
 	vaapi
 	veyron_mickey
 	veyron_rialto
-	vhost-user-devices
 	video_cards_amdgpu
 	video_cards_intel
 	video_cards_msm
