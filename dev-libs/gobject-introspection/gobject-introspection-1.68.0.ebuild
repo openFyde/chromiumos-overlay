@@ -3,16 +3,16 @@
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{6..9} )
 PYTHON_REQ_USE="xml"
-inherit gnome.org meson python-single-r1 xdg
+inherit cros-constants gnome.org meson python-single-r1 xdg
 
 DESCRIPTION="Introspection system for GObject-based libraries"
 HOMEPAGE="https://wiki.gnome.org/Projects/GObjectIntrospection"
 
 LICENSE="LGPL-2+ GPL-2+"
 SLOT="0"
-IUSE="doctool gtk-doc test"
+IUSE="cros_host doctool gtk-doc test"
 RESTRICT="!test? ( test )"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 KEYWORDS="*"
@@ -48,6 +48,13 @@ DEPEND="${RDEPEND}
 	)
 "
 
+BDEPEND="
+	!cros_host? (
+		>=dev-libs/gobject-introspection-${PV}
+		app-emulation/qemu
+	)
+"
+
 pkg_setup() {
 	python-single-r1_pkg_setup
 }
@@ -62,7 +69,26 @@ src_configure() {
 		-Dpython="${EPYTHON}"
 		#-Dgir_dir_prefix
 	)
+
+	if ! use cros_host ; then
+		emesonargs+=(
+			-Dgi_cross_pkgconfig_sysroot_path="${SYSROOT}"
+			-Dgi_cross_use_prebuilt_gi=true
+			-Dgi_cross_binary_wrapper="${FILESDIR}/exec_wrapper"
+			-Dgi_cross_ldd_wrapper="${FILESDIR}/ldd_wrapper"
+		)
+		# The ldd & binary wrappers rely on these locations being defined via
+		# the values in cros-constants.eclass
+		export CHROMITE_BIN_DIR CHROOT_SOURCE_ROOT
+	fi
+
+	tc-export PKG_CONFIG
 	meson_src_configure
+}
+
+src_compile() {
+	tc-export PKG_CONFIG
+	meson_src_compile
 }
 
 src_install() {
