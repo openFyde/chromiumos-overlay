@@ -313,7 +313,7 @@ ALL_BOARDS=(
 	#lumpy
 	#macchiato-ground
 	majolica
-	mancomb
+	#mancomb
 	#mappy
 	#mappy-envoy
 	#mappy_flashstation
