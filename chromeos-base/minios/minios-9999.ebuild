@@ -37,11 +37,12 @@ platform_pkg_test() {
 }
 
 src_install() {
+	into "/build/initramfs"
 	dobin "${OUT}/minios"
 	dobin scripts/root_partition_for_recovery
 
 	# D-Bus configuration
-	insinto /etc/dbus-1/system.d
+	insinto "/build/initramfs/etc/dbus-1/system.d"
 	doins org.chromium.MiniOs.conf
 	insinto "/build/initramfs/etc/init"
 	doins init/*.conf
