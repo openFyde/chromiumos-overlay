@@ -124,6 +124,8 @@ src_install() {
 src_test() {
 	# Run the autotest unit tests.
 	./utils/unittest_suite.py --debug || die "Autotest unit tests failed."
+	python3 ./utils/unittest_suite.py --debug --py_version=3 || die "Autotest unit tests failed in Python 3."
+
 }
 
 # Packages client.
