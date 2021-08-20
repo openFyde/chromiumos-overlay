@@ -67,6 +67,7 @@ RDEPEND="
 		dev-libs/icu
 		>=dev-libs/jsoncpp-1.9.2
 	)
+	>=dev-libs/flatbuffers-1.12.0:=
 	dev-libs/libpcre
 	!minimal? (
 		dev-libs/nsync
@@ -99,7 +100,6 @@ RDEPEND="
 	mpi? ( virtual/mpi )
 	python? (
 		${PYTHON_DEPS}
-		>=dev-libs/flatbuffers-1.12.0:=
 		dev-python/absl-py[${PYTHON_USEDEP}]
 		>=dev-python/astor-0.7.1[${PYTHON_USEDEP}]
 		dev-python/astunparse[${PYTHON_USEDEP}]
