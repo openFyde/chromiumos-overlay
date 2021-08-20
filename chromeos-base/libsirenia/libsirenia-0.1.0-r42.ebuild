@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9762836325983111907f8aa4537edfb8fd5ce61"
+CROS_WORKON_COMMIT="8f53c2a3ba5ea25eee0fbe72ea22ad1310fd768f"
 CROS_WORKON_TREE="65a95aa9f2565bc9f5a2af0d6afb130a77f20ede"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -28,7 +28,7 @@ DEPEND="
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
 	dev-rust/libchromeos:=
-	dev-rust/minijail:=
+	>=dev-rust/minijail-0.2.3:=
 	>=dev-rust/openssl-0.10.25:= <dev-rust/openssl-0.11.0
 	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
 	=dev-rust/serde_derive-1*:=

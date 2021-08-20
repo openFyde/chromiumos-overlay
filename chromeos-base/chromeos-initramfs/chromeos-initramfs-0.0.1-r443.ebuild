@@ -1,9 +1,9 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-CROS_WORKON_COMMIT="585eb6b911dfb671aadb1422e2d935b7a45748c9"
-CROS_WORKON_TREE="277bc90df85dad092c4e6795d4ef92233288a030"
+EAPI="7"
+CROS_WORKON_COMMIT="4896dcafaa2d8ca22e6fea182cc865dc6c7334b2"
+CROS_WORKON_TREE="cd34fa8975341b2efdd463b807b3ae285cdc5784"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -125,6 +125,9 @@ DEPEND="
 	chromeos-base/chromeos-config-tools"
 
 RDEPEND=""
+
+BDEPEND="
+	hypervisor_ramfs? ( chromeos-base/sirenia-tools )"
 
 src_prepare() {
 	export BUILD_LIBRARY_DIR="${CHROOT_SOURCE_ROOT}/src/scripts/build_library"
