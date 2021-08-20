@@ -90,6 +90,7 @@ src_install() {
 		dobin "${OUT}"/x11_demo
 	fi
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_desktop_file_fuzzer \
 		--dict "${S}"/testdata/garcon_desktop_file_fuzzer.dict
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_icon_index_file_fuzzer \

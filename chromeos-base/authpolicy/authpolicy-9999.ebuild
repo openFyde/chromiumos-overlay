@@ -70,6 +70,7 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners authpolicyd:authpolicyd "${daemon_store}"
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/preg_parser_fuzzer \
 		--dict "${S}"/policy/testdata/preg_parser_fuzzer.dict
 }

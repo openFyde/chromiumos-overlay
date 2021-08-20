@@ -194,6 +194,7 @@ multilib_src_install() {
 		doins avahi.devhelp
 	fi
 
+	# fuzzer_component_id is unknown/unlisted
 	fuzzer_install "${FILESDIR}/OWNERS" "examples/.libs/recv_fuzzer"
 
 	# The build system creates an empty "/run" directory, so we clean it up here

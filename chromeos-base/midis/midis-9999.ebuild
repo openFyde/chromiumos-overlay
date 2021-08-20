@@ -58,6 +58,7 @@ src_install() {
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp/midis-seccomp-${ARCH}.policy" midis-seccomp.policy
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/midis_seq_handler_fuzzer
 }
 

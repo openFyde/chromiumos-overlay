@@ -110,6 +110,7 @@ src_install() {
 
 	local fuzzer
 	for fuzzer in "${fuzzers[@]}"; do
+		# fuzzer_component_id is unknown/unlisted
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}/${PN}_${fuzzer}"
 	done
 }

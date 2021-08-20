@@ -60,6 +60,7 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp_filters/smbprovider-seccomp-"${ARCH}".policy smbprovider-seccomp.policy
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer
 
 	local daemon_store="/etc/daemon-store/smbproviderd"

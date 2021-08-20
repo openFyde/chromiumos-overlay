@@ -54,6 +54,7 @@ DEPEND="
 src_install() {
 	dobin "${OUT}"/sommelier
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
 }
 

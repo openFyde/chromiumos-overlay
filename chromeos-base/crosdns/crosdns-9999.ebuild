@@ -48,6 +48,7 @@ src_install() {
 	insinto /etc/init
 	doins init/crosdns.conf
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hosts_modifier_fuzzer
 }
 

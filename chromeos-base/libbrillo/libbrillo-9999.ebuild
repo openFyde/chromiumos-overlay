@@ -72,6 +72,7 @@ src_install() {
 	insinto /usr/include/install_attributes
 	doins install_attributes/libinstallattributes.h
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_data_encoding_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/libbrillo_dbus_data_serialization_fuzzer
