@@ -84,12 +84,12 @@ src_configure() {
 		local build_dir="build-${board}"
 
 		local zephyr_base="${S}/zephyr-base/$(get_zephyr_version)"
-		zmake \
+		zmake -D \
 			--modules-dir "${S}/modules" \
 			--zephyr-base "${zephyr_base}" \
 			configure \
 			"modules/ec/zephyr/${path}" \
-			-B "${build_dir}"
+			-B "${build_dir}" || die "Failed to configure ${build_dir}."
 
 		ZEPHYR_EC_BUILD_DIRECTORIES+=("${build_dir}")
 	done < <(cros_config_host "get-firmware-build-combinations" zephyr-ec || die)
@@ -99,11 +99,11 @@ src_compile() {
 	tc-export CC
 
 	for build_dir in "${ZEPHYR_EC_BUILD_DIRECTORIES[@]}"; do
-		zmake \
+		zmake -D \
 			--modules-dir "${S}/modules" \
 			--zephyr-base "${S}/zephyr-base" \
 			build \
-			"${build_dir}"
+			"${build_dir}" || die "Failed to build ${build_dir}."
 	done
 }
 
