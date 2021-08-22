@@ -16,7 +16,7 @@ DESCRIPTION="Sound Card Initializer"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/sound_card_init"
 
 LICENSE="BSD-Google"
-KEYWORDS="-* ~amd64"
+KEYWORDS="-* ~amd64 ~arm"
 
 DEPEND="
 	dev-rust/cc:=
