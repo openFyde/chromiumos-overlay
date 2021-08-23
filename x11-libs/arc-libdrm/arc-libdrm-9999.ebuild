@@ -4,8 +4,8 @@
 EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT="40f73d0b0b3936ccadc693edc25aad70c1225766"
-	CROS_WORKON_TREE="7d7f7823d7a6c217122b4402ed8c8b77bdec4952"
+	CROS_WORKON_COMMIT="9cef5dee3cd817728c83aeb3c2010c1954e4c402"
+	CROS_WORKON_TREE="25ac2f44628d93835f86f30b10d797a652f34cea"
 fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_LOCALNAME="libdrm"
