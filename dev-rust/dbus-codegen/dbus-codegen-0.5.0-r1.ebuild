@@ -16,7 +16,7 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/clap-2.20.0:= <dev-rust/clap-3.0.0
+	>=dev-rust/clap-2.20.0:= <dev-rust/clap-3
 	>=dev-rust/dbus-0.8.0:= <dev-rust/dbus-0.9.0
 	>=dev-rust/xml-rs-0.3.0:= <dev-rust/xml-rs-0.4.0
 "
