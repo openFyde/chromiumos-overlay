@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/clap-2.33:= <dev-rust/clap-3
-	>=dev-rust/codespan-reporting-0.11:= <dev-rust/codespan-reporting-0.12
-	>=dev-rust/proc-macro2-1.0.26:= <dev-rust/proc-macro2-2
-	>=dev-rust/quote-1.0:= <dev-rust/quote-2
-	>=dev-rust/syn-1.0.68:= <dev-rust/syn-2
+	>=dev-rust/clap-2.33:= <dev-rust/clap-3.0.0_alpha
+	>=dev-rust/codespan-reporting-0.11:= <dev-rust/codespan-reporting-0.12.0_alpha
+	>=dev-rust/proc-macro2-1.0.26:= <dev-rust/proc-macro2-2.0.0_alpha
+	>=dev-rust/quote-1.0:= <dev-rust/quote-2.0.0_alpha
+	>=dev-rust/syn-1.0.68:= <dev-rust/syn-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 
