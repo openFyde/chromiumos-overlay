@@ -305,7 +305,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_RotationFps
 	+tests_platform_ServoPowerStateController
 	+tests_platform_StageAndRecover
-	+tests_platform_SuspendResumeTiming
 	+tests_platform_SyncCrash
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_platform_Vpd
