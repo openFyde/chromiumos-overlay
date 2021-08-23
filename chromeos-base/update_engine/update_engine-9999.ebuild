@@ -9,7 +9,7 @@ CROS_WORKON_EGIT_BRANCH=("main" "master")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/update_engine")
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=("common-mk .gn" "")
+CROS_WORKON_SUBTREE=("common-mk diagnostics .gn" "")
 
 PLATFORM_SUBDIR="update_engine"
 
@@ -21,11 +21,12 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer -hwid_override minios +power_management systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override minios +power_management systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
 	chromeos-base/chromeos-ca-certificates:=
+	hw_details? ( chromeos-base/diagnostics:= )
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/vboot_reference:=
 	cros_p2p? ( chromeos-base/p2p:= )
