@@ -6,6 +6,8 @@ access: 1
 brk: 1
 close: 1
 exit_group: 1
+faccessat: 1
+faccessat2: 1
 fcntl: 1
 fstat: 1
 futex: 1

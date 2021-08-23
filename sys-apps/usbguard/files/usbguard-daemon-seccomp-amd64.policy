@@ -35,6 +35,8 @@ setsockopt: 1
 socket: arg0 == AF_NETLINK || arg0 == AF_UNIX
 access: 1
 exit: 1
+faccessat: 1
+faccessat2: 1
 madvise: 1
 restart_syscall: 1
 select: 1
