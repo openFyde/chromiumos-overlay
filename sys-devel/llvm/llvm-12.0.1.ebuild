@@ -11,10 +11,9 @@ PYTHON_COMPAT=( python3_{6..9} )
 inherit cmake-utils flag-o-matic multilib-minimal \
 	multiprocessing pax-utils python-any-r1 toolchain-funcs eapi7-ver
 
-MY_P=${P}.src
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="https://llvm.org/"
-SRC_URI="https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/${MY_P}.tar.xz
+SRC_URI="https://github.com/llvm/llvm-project/archive/llvmorg-${PV/_/-}.tar.gz
 	!doc? ( https://dev.gentoo.org/~mgorny/dist/llvm/${P}-manpages.tar.bz2 )"
 
 # Keep in sync with CMakeLists.txt
@@ -80,7 +79,7 @@ PDEPEND="sys-devel/llvm-common
 
 REQUIRED_USE="|| ( ${ALL_LLVM_TARGETS[*]} )"
 
-S=${WORKDIR}/${MY_P}
+S=${WORKDIR}/llvm-project-llvmorg-${PV}/llvm
 
 HOST_DIR="${WORKDIR}/${PF}-${CBUILD}"
 
@@ -98,9 +97,6 @@ src_prepare() {
 	# Fix llvm-config for shared linking and sane flags
 	# https://bugs.gentoo.org/show_bug.cgi?id=565358
 	eapply "${FILESDIR}"/9999/0007-llvm-config-Clean-up-exported-values-update-for-shar.patch
-
-	# Vulkan hang fix with AMDGPU, can be removed when upreving to >= 10.0
-	eapply "${FILESDIR}"/cherry/5f6fec2404c5135247ae9e4e515e8d9d3242f790.patch
 
 	# disable use of SDK on OSX, bug #568758
 	sed -i -e 's/xcrun/false/' utils/lit/lit/util.py || die

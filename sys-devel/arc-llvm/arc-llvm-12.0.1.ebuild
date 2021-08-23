@@ -17,7 +17,7 @@ inherit cmake-utils flag-o-matic multilib-minimal \
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="https://llvm.org/"
-SRC_URI="https://github.com/llvm/llvm-project/releases/download/llvmorg-${PV}/${MY_P}.src.tar.xz
+SRC_URI="https://github.com/llvm/llvm-project/archive/llvmorg-${PV/_/-}.tar.gz
 	!doc? ( https://dev.gentoo.org/~mgorny/dist/llvm/${MY_P}-manpages.tar.bz2 )"
 
 # Keep in sync with CMakeLists.txt
@@ -51,7 +51,7 @@ RDEPEND="${RDEPEND}
 
 REQUIRED_USE="|| ( ${ALL_LLVM_TARGETS[*]} )"
 
-S=${WORKDIR}/${MY_P}.src
+S=${WORKDIR}/llvm-project-llvmorg-${PV}/llvm
 
 HOST_DIR="${WORKDIR}/${PF}-${CBUILD}"
 
