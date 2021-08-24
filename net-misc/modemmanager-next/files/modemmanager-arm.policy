@@ -10,6 +10,7 @@ poll: 1
 read: 1
 recv: 1
 futex: 1
+futex_time64: 1
 lstat64: 1
 stat64: 1
 statx: 1
