@@ -50,6 +50,7 @@ platform_pkg_test() {
 		dev_test
 		hps_test
 		hps_metrics_test
+		hps_daemon_test
 	)
 
 	local test_bin
