@@ -7,19 +7,23 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
+	"chromiumos/platform/dev-util"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform2"
+	"platform/dev"
 )
 CROS_WORKON_SUBTREE=(
 	".clang-format common-mk chromeos-config .gn power_manager"
+	"test/gtest"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
+	"${S}/platform/dev"
 )
 PLATFORM_SUBDIR="chromeos-config"
 
-inherit cros-workon platform
+inherit cros-workon platform gtest
 
 DESCRIPTION="Chrome OS configuration tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-config"
@@ -28,6 +32,12 @@ LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
 IUSE=""
+
+GTEST_METADATA=(
+	libcros_config/cros_config_functional_test.yaml
+)
+
+GTEST_TEST_INSTALL_DIR="/usr/local/gtest/cros_config"
 
 RDEPEND=""
 
@@ -53,8 +63,10 @@ src_install() {
 	dosbin "${OUT}"/cros_configfs
 
 	if use test; then
-		exeinto "/usr/local/gtest/cros_config"
+		exeinto "${GTEST_TEST_INSTALL_DIR}"
 		doexe  "${OUT}/cros_config_functional_test"
+
+		install_gtest_metadata "${GTEST_METADATA[@]}"
 	fi
 
 	# Install init scripts.
