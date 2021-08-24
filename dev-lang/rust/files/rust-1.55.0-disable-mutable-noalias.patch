@@ -1,0 +1,21 @@
+For the moment, we'd like to live without the mutable_noalias feature. This
+sounds like a great benefit, but upstream is still working on some fine details
+of it.
+
+There're a few bugs about this upstream;
+https://github.com/rust-lang/rust/issues/84958 is recent and relevant.
+
+Use `false &&` since it should optimize to the same thing, and it keeps the diff
+more self-contained (llvm_util is unused otherwise)
+
+--- a/compiler/rustc_codegen_llvm/src/abi.rs
++++ b/compiler/rustc_codegen_llvm/src/abi.rs
+@@ -60,7 +60,7 @@ fn should_use_mutable_noalias(cx: &CodegenCx<'_, '_>) -> bool {
+         .opts
+         .debugging_opts
+         .mutable_noalias
+-        .unwrap_or_else(|| llvm_util::get_version() >= (12, 0, 0))
++        .unwrap_or_else(|| false && llvm_util::get_version() >= (12, 0, 0))
+ }
+ 
+ impl ArgAttributesExt for ArgAttributes {
