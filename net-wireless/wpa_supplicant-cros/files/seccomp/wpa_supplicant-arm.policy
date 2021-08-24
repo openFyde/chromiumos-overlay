@@ -38,6 +38,8 @@ openat: 1
 mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 sendto: 1
 fstat64: 1
+fstatat64: 1
+statx: 1
 lstat64: 1
 stat64: 1
 brk: 1

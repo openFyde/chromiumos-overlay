@@ -44,11 +44,13 @@ listen: 1
 recvmsg: 1
 chdir: 1
 getpid: 1
+statx: 1
 
 # architecture-dependent syscalls:
 mmap2: 1
 clock_gettime64: 1
 fstat64: 1
+fstatat64: 1
 fstatfs64: 1
 fstatfs: 1
 stat64: 1

@@ -12,6 +12,7 @@ exit: 1
 exit_group: 1
 flock: 1
 fstat64: 1
+fstatat64: 1
 getpeername: 1
 getpid: 1
 getsockname: 1
@@ -42,6 +43,7 @@ setsockopt: 1
 set_tid_address: 1
 socket: arg0 == AF_INET6 || arg0 == AF_UNIX || arg0 == AF_INET || arg0 == AF_NETLINK
 stat64: 1
+statx: 1
 ugetrlimit: 1
 umask: 1
 uname: 1
