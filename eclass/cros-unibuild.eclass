@@ -1,10 +1,59 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-# Check for EAPI 4+
+# Check for EAPI 5+
 case "${EAPI:-0}" in
-4|5|6|7) ;;
+5|6|7) ;;
 *) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+esac
+
+# In order to rebuild packages when config changes happen, we need a
+# subslot dependency on on the bsp packages that provide the actual
+# configs.  We do this here instead of in the ebuilds so that we don't
+# pollute the tree with this complex dependency syntax.
+case "${CATEGORY}/${PN}" in
+	# Can't depend on ourselves, special case this away.
+	chromeos-base/chromeos-config-bsp* ) ;;
+	* )
+		IUSE="
+			has_chromeos_config_bsp
+			has_chromeos_config_bsp_private
+			has_chromeos_config_bsp_baseboard
+			has_chromeos_config_bsp_baseboard_private
+		"
+		DEPEND="
+			has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= )
+			has_chromeos_config_bsp_private? (
+				chromeos-base/chromeos-config-bsp-private:=
+			)
+			has_chromeos_config_bsp_baseboard? (
+				chromeos-base/chromeos-config-bsp-baseboard:=
+			)
+			has_chromeos_config_bsp_baseboard_private? (
+				chromeos-base/chromeos-config-bsp-baseboard-private:=
+			)
+		"
+		# Again, can't depend on ourselves.
+		if [[ "${CATEGORY}/${PN}" != "chromeos-base/chromeos-config" ]]; then
+			IUSE+=" unibuild "
+			DEPEND+="
+				unibuild? ( chromeos-base/chromeos-config:= )
+			"
+		fi
+		RDEPEND="${DEPEND}"
+
+		# Let's also provide an environment variable that
+		# cros_config_host can use, that way it can validate we got
+		# the proper dependencies to use it.
+		export CROS_UNIBUILD_ECLASS=1
+esac
+
+# Additionally, if we support EAPI=7, let's be proper and add a
+# BDEPEND.
+case "${EAPI}" in
+	7 )
+		BDEPEND="chromeos-base/chromeos-config-host:="
+		;;
 esac
 
 # @ECLASS-VARIABLE: UNIBOARD_CROS_CONFIG_DIR
