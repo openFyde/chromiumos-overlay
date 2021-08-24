@@ -25,6 +25,15 @@ DEPEND="
 	chromeos-base/chromeos-config:=
 "
 
+# While this package is never actually executed, we still need to specify
+# RDEPEND. A binary version of this package could exist that was built using an
+# outdated version of chromeos-config. Without the RDEPEND this stale binary
+# package is considered valid by the package manager. This is problematic
+# because we could have two binary packages installed having been build with
+# different versions of chromeos-config. By specifying the RDEPEND we force
+# the package manager to ensure the two versions use the same chromeos-config.
+RDEPEND="${DEPEND}"
+
 BDEPEND="
 	dev-python/kconfiglib
 "
