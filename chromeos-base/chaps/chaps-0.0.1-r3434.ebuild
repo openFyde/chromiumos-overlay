@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f7fc321f3d4e4893f3550ce1ad8b1c5e01c130cf"
-CROS_WORKON_TREE=("9f4c41ee6c8d3df72cc35bf4a0b4fe2d862591fa" "569cc0dd6927f9732bf51915aaa88ab8a48b0bbf" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "c32154ddfff8e0ed06738bee2835526d9d4d339b" "05925a6b283684f09bb648e1a5d8ad431f3a667a" "d2415395c6e1a7c646fc490d178022d3aab4decc" "b8586bd3de5c154d9d24aa4aa7215aef31990eef" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="268b420294b8f5c86718997e7721ad73b3a594ce"
+CROS_WORKON_TREE=("9f4c41ee6c8d3df72cc35bf4a0b4fe2d862591fa" "e615f913dd4c5de137952d95d1c7e8c9a8267e33" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "2141556fef8198cc45b354a458e6dbefadb07d44" "05925a6b283684f09bb648e1a5d8ad431f3a667a" "d2415395c6e1a7c646fc490d178022d3aab4decc" "77503d07e8399e261f3ecae3f770e2008312f35a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -92,24 +92,12 @@ src_install() {
 
 	# Install init scripts.
 	if use systemd; then
-		if use tpm2; then
-			sed 's/tcsd.service/trunksd.service' \
-				init/chapsd.service \
-				> "${T}/chapsd.service"
-			systemd_dounit "${T}/chapsd.service"
-		else
-			systemd_dounit init/chapsd.service
-		fi
+		systemd_dounit init/chapsd.service
 		systemd_enable_service boot-services.target chapsd.service
 		systemd_dotmpfilesd init/chapsd_directories.conf
 	else
 		insinto /etc/init
 		doins init/chapsd.conf
-		if use tpm2; then
-			sed -i 's/started tcsd/started trunksd/' \
-				"${D}/etc/init/chapsd.conf" ||
-				die "Can't replace tcsd with trunksd in chapsd.conf"
-		fi
 	fi
 	exeinto /usr/share/cros/init
 
