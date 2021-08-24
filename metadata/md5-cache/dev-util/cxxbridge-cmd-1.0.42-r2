@@ -8,7 +8,7 @@ KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 )
 RDEPEND=>=dev-rust/clap-2.33:= <dev-rust/clap-3.0.0_alpha >=dev-rust/codespan-reporting-0.11:= <dev-rust/codespan-reporting-0.12.0_alpha >=dev-rust/proc-macro2-1.0.26:= <dev-rust/proc-macro2-2.0.0_alpha >=dev-rust/quote-1.0:= <dev-rust/quote-2.0.0_alpha >=dev-rust/syn-1.0.68:= <dev-rust/syn-2.0.0_alpha
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=1.0.42/r0
+SLOT=1.0.42/r2
 SRC_URI=https://crates.io/api/v1/crates/cxxbridge-cmd/1.0.42/download -> cxxbridge-cmd-1.0.42.crate
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	92c15a343e975aeea64e0aa859fcd339	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
 _md5_=f5d266bb79a1d42cf1e4a2ae1e21f4bb
