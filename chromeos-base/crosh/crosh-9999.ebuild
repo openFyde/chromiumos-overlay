@@ -55,7 +55,14 @@ src_compile() {
 src_test() {
 	./run_tests.sh || die
 
-	cros-rust_src_test
+	local args=()
+	# (b/197637613) reduce the number of futex calls to reduce the risk of a hang
+	# when running inside qemu.
+	if ! cros_rust_is_direct_exec; then
+		args+=( -- --test-threads=1 )
+	fi
+
+	cros-rust_src_test "${args[@]}"
 }
 
 src_install() {
