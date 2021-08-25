@@ -17,28 +17,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="
-	fuzzer
-	has_chromeos_config_bsp
-	has_chromeos_config_bsp_private
-	has_chromeos_config_bsp_baseboard
-	has_chromeos_config_bsp_baseboard_private
-	zephyr_ec
-"
+IUSE="fuzzer zephyr_ec"
 
-DEPEND="
-	has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= )
-	has_chromeos_config_bsp_private? (
-		chromeos-base/chromeos-config-bsp-private:=
-	)
-	has_chromeos_config_bsp_baseboard? (
-		chromeos-base/chromeos-config-bsp-baseboard:=
-	)
-	has_chromeos_config_bsp_baseboard_private? (
-		chromeos-base/chromeos-config-bsp-baseboard-private:=
-	)
-	!fuzzer? ( virtual/chromeos-config-bsp:= )
-"
+# TODO(b/197038156): dependency on virtual package can go away once we
+# do away with them.
+DEPEND="!fuzzer? ( virtual/chromeos-config-bsp:= )"
 RDEPEND="${DEPEND}"
 
 # This ebuild creates the Chrome OS master configuration file stored in
