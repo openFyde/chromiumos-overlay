@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("abf6daab00aee9f7e2d8c155785bc9779bae8ef1" "2406220ec224dcee378f0b61c2c1cf0fbd3de5ef")
-CROS_WORKON_TREE=("97bdcefe463bb514ecfb75bb81a7b653b11a9fbd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "11103cabcfd2ff12babde390e04875de56dfb2b6")
+CROS_WORKON_COMMIT=("bbe500f9bca574594b8a4b14b75008e3fcf37d45" "34ab3e4e2f18b354c998611ddec95cb38623865c")
+CROS_WORKON_TREE=("97bdcefe463bb514ecfb75bb81a7b653b11a9fbd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4c03a4792d86e571397fd0459d79c3594af890cb")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -49,8 +49,12 @@ platform_pkg_test() {
 }
 
 src_install() {
+	# Install main files into /usr/local even though the ebuild is being
+	# installed on the rootfs.
+	into /usr/local
 	dobin "${OUT}"/virtual-usb-printer
-	insinto /etc/virtual-usb-printer
+
+	insinto /usr/local/etc/virtual-usb-printer
 	doins config/escl_capabilities.json
 	doins config/escl_capabilities_left_justified.json
 	doins config/escl_capabilities_center_justified.json
@@ -58,4 +62,9 @@ src_install() {
 	doins config/ipp_attributes.json
 	doins config/ippusb_printer.json
 	doins config/usb_printer.json
+
+	# Install upstart files into rootfs, since upstart won't look in
+	# /usr/local/etc.
+	insinto /etc/init
+	doins init/virtual-usb-printer.conf
 }
