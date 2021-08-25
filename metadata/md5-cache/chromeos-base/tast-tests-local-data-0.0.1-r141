@@ -1,13 +1,12 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=info install setup unpack
-DESCRIPTION=Data files for remote Tast tests
+DESCRIPTION=Data files for local Tast tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast-tests
-IUSE=cros_host cros_workon_tree_dc865bff440e397a6d6bcb5bab79c9c9e3062907
+IUSE=cros_host cros_workon_tree_cd81a71acfc937bd8ee273424d0ca9e7c93a9eaf
 KEYWORDS=*
 LICENSE=BSD-Google GPL-3
 PROPERTIES=live
-RDEPEND=!<chromeos-base/tast-remote-tests-cros-0.0.2
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	tast-bundle-data	ef88a7e9f5bdae18d315f1be72bb8510	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
-_md5_=04941f9e8cfb0ac6af1df380c83ba287
+_md5_=d8bbbf3ad2d8b7f0612b8696f5bff7ec
