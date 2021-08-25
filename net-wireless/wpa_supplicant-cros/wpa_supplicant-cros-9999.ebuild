@@ -8,7 +8,7 @@ CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9" "wpa_supplicant-2.9.1")
 CROS_WORKON_DESTDIR=("${S}/wpa_supplicant-cros/current" "${S}/wpa_supplicant-cros/next")
 CROS_WORKON_OPTIONAL_CHECKOUT=("use !supplicant-next" "use supplicant-next")
 
-inherit cros-sanitizers cros-workon eutils flag-o-matic qmake-utils systemd toolchain-funcs user
+inherit cros-sanitizers cros-workon cros-fuzzer eutils flag-o-matic qmake-utils systemd toolchain-funcs user
 
 DESCRIPTION="IEEE 802.1X/WPA supplicant for secure wireless transfers"
 HOMEPAGE="https://w1.fi/wpa_supplicant/"
@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap bindist dbus debug eap-sim fuzzer +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -49,6 +49,24 @@ RDEPEND="${CDEPEND}
 	!net-wireless/wpa_supplicant-2_9
 	selinux? ( sec-policy/selinux-networkmanager )
 "
+
+# All the available fuzzers.
+# TODO(b/197270874): enable them gradually to avoid a bug storm.
+FUZZERS=(
+	#"ap-mgmt"
+	#"asn1"
+	#"eap-aka-peer"
+	"eapol-key-auth"
+	"eapol-key-supp"
+	"eapol-supp"
+	#"eap-sim-peer"
+	#"json"
+	#"p2p"
+	"tls-client"
+	"tls-server"
+	#"wnm"
+	"x509"
+)
 
 # S="${WORKDIR}/${P}/${PN}"
 src_unpack() {
@@ -333,6 +351,20 @@ src_configure() {
 }
 
 src_compile() {
+	# Fuzzers have to be built alone
+	if use fuzzer ; then
+		for f in "${FUZZERS[@]}"; do
+			einfo "Building ${f} fuzzer"
+			cd "../tests/fuzzing/${f}" || die
+			# Override the FUZZ_FLAGS to ensure we'll be able to build with
+			# address and memory sanitizer.
+			emake LIBFUZZER=1 FUZZ_FLAGS=-fsanitize=fuzzer
+			mv "${f}" "supplicant_${f}_fuzzer"
+			cd "${S}" || die
+		done
+		return
+	fi
+
 	einfo "Building wpa_supplicant"
 	emake V=1 BINDIR=/usr/sbin
 
@@ -348,6 +380,16 @@ src_compile() {
 }
 
 src_install() {
+	if use fuzzer ; then
+		local fuzzer_component_id="893827"
+		for f in "${FUZZERS[@]}"; do
+			fuzzer_install ../OWNERS \
+				"../tests/fuzzing/${f}/supplicant_${f}_fuzzer" \
+				--comp "${fuzzer_component_id}"
+		done
+		return
+	fi
+
 	dosbin wpa_supplicant
 	dobin wpa_cli wpa_passphrase
 
