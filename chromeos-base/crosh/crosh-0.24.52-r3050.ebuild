@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ea05489a7fcaccef13f72f0a1e66aa36d59e75be"
+CROS_WORKON_COMMIT="bab256a9831e5fcbd099462e331e5bbe1f52ea37"
 CROS_WORKON_TREE="434c4ecd86ef9d00fde6909e9a876919066388f5"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -57,7 +57,14 @@ src_compile() {
 src_test() {
 	./run_tests.sh || die
 
-	cros-rust_src_test
+	local args=()
+	# (b/197637613) reduce the number of futex calls to reduce the risk of a hang
+	# when running inside qemu.
+	if ! cros_rust_is_direct_exec; then
+		args+=( -- --test-threads=1 )
+	fi
+
+	cros-rust_src_test "${args[@]}"
 }
 
 src_install() {
