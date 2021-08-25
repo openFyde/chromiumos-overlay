@@ -7,7 +7,7 @@ CROS_WORKON_COMMIT="e4f259d6183dffeb87964f469fbc6a2538377082"
 CROS_WORKON_TREE="94372cfc3b1206844cb7740e106675fa7862f41c"
 CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_EGIT_BRANCH="chromeos-1.2"
 
 inherit cros-workon autotools flag-o-matic
 
