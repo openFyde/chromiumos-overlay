@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="abf6daab00aee9f7e2d8c155785bc9779bae8ef1"
+CROS_WORKON_COMMIT="bbe500f9bca574594b8a4b14b75008e3fcf37d45"
 CROS_WORKON_TREE=("97bdcefe463bb514ecfb75bb81a7b653b11a9fbd" "a43f93c29ec78b939cb6e7f0b1aac49d244c49e6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,11 +39,12 @@ platform_pkg_test() {
 }
 
 src_install() {
+	into "/build/initramfs"
 	dobin "${OUT}/minios"
 	dobin scripts/root_partition_for_recovery
 
 	# D-Bus configuration
-	insinto /etc/dbus-1/system.d
+	insinto "/build/initramfs/etc/dbus-1/system.d"
 	doins org.chromium.MiniOs.conf
 	insinto "/build/initramfs/etc/init"
 	doins init/*.conf

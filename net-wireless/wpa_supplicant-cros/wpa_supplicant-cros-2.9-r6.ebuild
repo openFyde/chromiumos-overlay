@@ -18,7 +18,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap bindist dbus debug eap-sim +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -291,6 +291,10 @@ src_configure() {
 		Kconfig_style_config WPS_ER n
 		Kconfig_style_config WPS_UPNP n
 		Kconfig_style_config WPS_NFC n
+	fi
+
+	if use wep ; then
+		Kconfig_style_config WEP
 	fi
 
 	# Wi-Fi Direct (WiDi)
