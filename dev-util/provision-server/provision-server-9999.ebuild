@@ -33,6 +33,7 @@ CROS_GO_VET=(
 
 DEPEND="
 	dev-util/lro-server
+	dev-util/lroold-server
 	dev-go/genproto-rpc
 	dev-go/mock
 	dev-go/protobuf
