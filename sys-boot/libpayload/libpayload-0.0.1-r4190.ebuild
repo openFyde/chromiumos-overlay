@@ -6,7 +6,7 @@
 # VERSION=REVBUMP-0.0.17
 
 EAPI=7
-CROS_WORKON_COMMIT="401c70c84a54a5846903b54b8a844a8991d7dc47"
+CROS_WORKON_COMMIT="3c7535ac76054aa7699f0590ba41ad34097f1689"
 CROS_WORKON_TREE=("4de6d359714a666ba5f218b1666d04e221cb58c3" "73fd0aca5324c9cb8adac8f5a8c73583d8e14eb0" "bacdab8734794201bdb8ad183f79bab4051584db")
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
@@ -22,6 +22,15 @@ IUSE="coreboot-sdk unibuild verbose"
 REQUIRED_USE="unibuild"
 
 DEPEND="chromeos-base/chromeos-config:="
+
+# While this package is never actually executed, we still need to specify
+# RDEPEND. A binary version of this package could exist that was built using an
+# outdated version of chromeos-config. Without the RDEPEND this stale binary
+# package is considered valid by the package manager. This is problematic
+# because we could have two binary packages installed having been build with
+# different versions of chromeos-config. By specifying the RDEPEND we force
+# the package manager to ensure the two versions use the same chromeos-config.
+RDEPEND="${DEPEND}"
 
 CROS_WORKON_LOCALNAME="coreboot"
 
