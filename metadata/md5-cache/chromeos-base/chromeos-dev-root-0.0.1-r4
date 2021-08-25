@@ -1,9 +1,9 @@
 DEFINED_PHASES=-
 DESCRIPTION=Install packages that must live in the rootfs in dev images.
-EAPI=4
+EAPI=7
 HOMEPAGE=http://www.chromium.org/
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=chromeos-base/openssh-server-init virtual/chromeos-bsp-dev-root
+RDEPEND=chromeos-base/openssh-server-init chromeos-base/virtual-usb-printer virtual/chromeos-bsp-dev-root
 SLOT=0
-_md5_=f4774a1d68777d4a7dbb6fc3f7511485
+_md5_=3e90243f4b2738c9fb729517a60f6edf
