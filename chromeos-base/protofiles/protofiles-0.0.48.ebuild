@@ -68,6 +68,10 @@ SLOT="0/${PV}"
 KEYWORDS="*"
 IUSE=""
 
+PATCHES=(
+	"${FILESDIR}/${PN}-pci-peripheral-data-access-enabled-v2.patch"
+)
+
 POLICY_DIR="${S}/cloud/policy"
 
 PRIVATE_MEMBERSHIP_DIR="${S}/private_membership/src"
