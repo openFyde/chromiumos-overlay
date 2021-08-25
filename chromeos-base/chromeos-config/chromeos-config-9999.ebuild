@@ -15,11 +15,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer zephyr_ec"
+IUSE="zephyr_ec"
 
 # TODO(b/197038156): dependency on virtual package can go away once we
 # do away with them.
-DEPEND="!fuzzer? ( virtual/chromeos-config-bsp:= )"
+DEPEND="virtual/chromeos-config-bsp:="
 RDEPEND="${DEPEND}"
 
 # This ebuild creates the Chrome OS master configuration file stored in
