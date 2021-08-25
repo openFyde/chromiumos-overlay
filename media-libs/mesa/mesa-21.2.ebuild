@@ -6,13 +6,13 @@ EAPI=7
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="e2889fb2d14e5d440941bdc76b6588359d579323"
-CROS_WORKON_TREE="1972ec61637a2ec1152ac8d8fdb91c8df68f2df2"
+CROS_WORKON_COMMIT="f5d4509d3648ddfa2849c350a9eb580fb1631479"
+CROS_WORKON_TREE="4990bb4b958cda4cee02dac3d6115328e1d3dd45"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_EGIT_BRANCH="mesa-21.2"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
@@ -40,7 +40,7 @@ fi
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -102,7 +102,6 @@ src_prepare() {
 			-e "s/-DHAVE_POSIX_MEMALIGN//" \
 			configure.ac || die
 	fi
-
 	default
 }
 
