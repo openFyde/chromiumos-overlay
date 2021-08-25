@@ -1,7 +1,9 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+
+inherit toolchain-funcs
 
 DESCRIPTION="Libraries for standards-based RTP/RTCP/RTSP multimedia streaming"
 HOMEPAGE="http://www.live555.com/"
@@ -9,33 +11,34 @@ SRC_URI="http://www.live555.com/liveMedia/public/${P/-/.}.tar.gz"
 
 LICENSE="LGPL-2.1"
 KEYWORDS="*"
-IUSE="libressl ssl"
+IUSE="ssl"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-${PV}-Expose-RTP-Timestamp-in-RTPSource.patch"
 )
 
+BDEPEND="virtual/pkgconfig"
 DEPEND="
 	ssl? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:0= )
+		dev-libs/openssl:0=
 	)
 "
 RDEPEND="${DEPEND}"
 
 DOCS=( "live-shared/README" )
 
-# Alexis Ballier <aballier@gentoo.org>, Sam James <sam@cmpct.info>
+# Alexis Ballier <aballier@gentoo.org>, Sam James <sam@gentoo.org>
 # Be careful, bump this everytime you bump the package and the ABI has changed.
 # If you don't know, ask someone.
 # You may wish to use a site like https://abi-laboratory.pro/index.php?view=timeline&l=live555
-LIVE_ABI_VERSION=8
+LIVE_ABI_VERSION=9
 SLOT="0/${LIVE_ABI_VERSION}"
 
 S="${WORKDIR}/live"
 
 src_prepare() {
 	default
+
 	cp "${FILESDIR}/config.gentoo-so-r3" "${S}/config.gentoo-so-r1" || die
 
 	# This is all legacy stuff which needs to be cleaned up
@@ -55,7 +58,7 @@ src_prepare() {
 				-e '/^LIBRARY_LINK_OPTS /s:-shared.*$:-undefined suppress -flat_namespace -dynamiclib -install_name '"${EPREFIX}/usr/$(get_libdir)/"'$@:' \
 				-e '/^LIB_SUFFIX /s/so/dylib/' \
 				live/config.gentoo-so-r1 \
-				|| die shared
+				|| die
 		;;
 	esac
 }
@@ -64,9 +67,12 @@ src_configure() {
 	# This ebuild uses its own build system
 	# We don't want to call ./configure or anything here.
 	# The only thing we can do is honour the user's SSL preference.
-	if use ssl; then
+	if use ssl ; then
 		sed -i 's/-DNO_OPENSSL=1//' "${S}/config.gentoo-so-r1" || die
 	fi
+
+	# Bug 718912
+	tc-export CC CXX
 
 	# And defer to the scripts that upstream provide.
 	./genMakefiles gentoo-so-r1 || die
@@ -74,7 +80,7 @@ src_configure() {
 
 src_compile() {
 	export suffix="${LIVE_ABI_VERSION}.so"
-	local link_opts="$(usex ssl '-lssl' '') -L. ${LDFLAGS}"
+	local link_opts="$(usex ssl "$($(tc-getPKG_CONFIG) --libs libssl libcrypto)" '') -L. ${LDFLAGS}"
 	local lib_suffix="${suffix#.}"
 
 	einfo "Beginning shared library build"
@@ -93,7 +99,7 @@ src_compile() {
 }
 
 src_install() {
-	for library in UsageEnvironment liveMedia BasicUsageEnvironment groupsock; do
+	for library in UsageEnvironment liveMedia BasicUsageEnvironment groupsock ; do
 		dolib.so "${S}/${library}/lib${library}.${suffix}"
 		dosym "lib${library}.${suffix}" "/usr/$(get_libdir)/lib${library}.so"
 

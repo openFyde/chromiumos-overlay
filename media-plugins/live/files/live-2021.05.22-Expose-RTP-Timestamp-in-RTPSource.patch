@@ -35,8 +35,8 @@ More details in:
    u_int16_t curPacketRTPSeqNum() const { return fCurPacketRTPSeqNum; }
 -private: friend class MediaSubsession; // "MediaSubsession" is the only outside class that ever needs to see RTP timestamps!
    u_int32_t curPacketRTPTimestamp() const { return fCurPacketRTPTimestamp; }
- 
+
  protected:
--- 
+--
 2.21.0
 
