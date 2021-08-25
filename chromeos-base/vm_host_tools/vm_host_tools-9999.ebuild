@@ -115,12 +115,9 @@ src_install() {
 	dobin "${OUT}"/vmlog_forwarder
 	dobin "${OUT}"/vsh
 
-	# TODO(b/153934386): Add back arm64 when pstore works.
-	if use arcvm && use amd64; then
-		dobin "${OUT}"/vm_pstore_dump
-	fi
-
 	if use arcvm; then
+		dobin "${OUT}"/vm_pstore_dump
+
 		arc-build-constants-configure
 		exeinto "${ARC_VM_VENDOR_DIR}/bin"
 		doexe "${OUT}"/vshd
