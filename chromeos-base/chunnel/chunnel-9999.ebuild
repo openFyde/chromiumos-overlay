@@ -23,7 +23,8 @@ DEPEND="
 	chromeos-base/system_api:=
 	dev-rust/libchromeos:=
 	dev-rust/sys_util:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
+	=dev-rust/dbus-tree-0.9*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=

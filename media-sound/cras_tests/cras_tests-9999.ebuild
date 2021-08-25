@@ -22,7 +22,7 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
 	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
 	dev-rust/sys_util:=

@@ -59,6 +59,7 @@ DEPEND="${COMMON_DEPEND}
 	~dev-rust/cc-1.0.25:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
+	=dev-rust/dbus-0.8*:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
 	dev-rust/intrusive-collections:=

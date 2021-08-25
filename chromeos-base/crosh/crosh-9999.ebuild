@@ -19,7 +19,7 @@ IUSE="+rust-crosh"
 
 DEPEND="
 	=dev-rust/chrono-0.4*:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
 	=dev-rust/rand-0.7*:=

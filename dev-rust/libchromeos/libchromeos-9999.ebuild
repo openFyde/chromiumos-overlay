@@ -23,6 +23,7 @@ COMMON_DEPEND="chromeos-base/vboot_reference:="
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/data_model:=
+	=dev-rust/dbus-0.9*:=
 	=dev-rust/futures-0.3*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/intrusive-collections-0.9*:=

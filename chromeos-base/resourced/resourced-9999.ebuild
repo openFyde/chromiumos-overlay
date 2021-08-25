@@ -22,7 +22,8 @@ IUSE="+seccomp"
 
 DEPEND="
 	=dev-rust/anyhow-1*:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
+	=dev-rust/dbus-tree-0.9*:=
 	=dev-rust/once_cell-1.7*:=
 	dev-rust/sys_util:=
 "

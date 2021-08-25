@@ -20,7 +20,7 @@ RDEPEND="sys-apps/dbus"
 
 DEPEND="
 	chromeos-base/libsirenia:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
 	>=dev-rust/openssl-0.10.25:= <dev-rust/openssl-0.11.0

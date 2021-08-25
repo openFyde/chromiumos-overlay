@@ -22,4 +22,4 @@ DEPEND="=dev-rust/which-4*:="
 RDEPEND="!chromeos-base/chromeos-dbus-bindings-rust
 	${DEPEND}"
 
-BDEPEND=">=dev-rust/dbus-codegen-0.5.0"
+BDEPEND=">=dev-rust/dbus-codegen-0.9.0"

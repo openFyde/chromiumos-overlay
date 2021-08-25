@@ -23,7 +23,8 @@ DEPEND="
 	=dev-rust/anyhow-1*:=
 	=dev-rust/base64-0.13*:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
+	=dev-rust/dbus-tree-0.9*:=
 	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2.0
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=

@@ -23,7 +23,7 @@ RDEPEND="sys-apps/dbus"
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
