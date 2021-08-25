@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("463dda83e2e9bd71d2d0b51c96cab9b6c7e469ca" "a50597dc59d010e95806a0698d652c0cd78221a9" "e1968b7c4b9a234c7b7689d8cfc3f944eb212dd2")
+CROS_WORKON_COMMIT=("463dda83e2e9bd71d2d0b51c96cab9b6c7e469ca" "90d4f459c63255aa6192a8b5939891b9a953243b" "e1968b7c4b9a234c7b7689d8cfc3f944eb212dd2")
 CROS_WORKON_TREE=("918ac2e9f3e295671a3ee7c081dc633f788de801" "caab496361f3dc2b0b1b666164a4a033efeede0c" "bd1cca6ffaf9363f82fd37f6adca985aff86e442")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
@@ -126,6 +126,8 @@ src_install() {
 src_test() {
 	# Run the autotest unit tests.
 	./utils/unittest_suite.py --debug || die "Autotest unit tests failed."
+	python3 ./utils/unittest_suite.py --debug --py_version=3 || die "Autotest unit tests failed in Python 3."
+
 }
 
 # Packages client.
