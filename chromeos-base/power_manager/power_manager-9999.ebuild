@@ -65,6 +65,7 @@ pkg_setup() {
 src_install() {
 	# Binaries for production
 	dobin "${OUT}"/backlight_tool  # boot-splash, chromeos-boot-alert
+	dobin "${OUT}"/cpufreq_config
 	dobin "${OUT}"/dump_power_status  # crosh's battery_test command
 	dobin "${OUT}"/powerd
 	dobin "${OUT}"/powerd_setuid_helper
@@ -86,7 +87,6 @@ src_install() {
 
 	# Scripts for production
 	dobin powerd/powerd_suspend
-	dobin tools/cpufreq_config
 	dobin tools/print_sysfs_power_supply_data  # feedback
 	dobin tools/send_metrics_on_resume
 	dobin tools/thermal_zone_config
