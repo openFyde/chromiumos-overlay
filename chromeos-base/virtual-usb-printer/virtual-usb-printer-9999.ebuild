@@ -54,6 +54,7 @@ src_install() {
 
 	insinto /usr/local/etc/virtual-usb-printer
 	doins config/escl_capabilities.json
+	doins config/escl_capabilities_large_paper_sizes.json
 	doins config/escl_capabilities_left_justified.json
 	doins config/escl_capabilities_center_justified.json
 	doins config/escl_capabilities_right_justified.json
