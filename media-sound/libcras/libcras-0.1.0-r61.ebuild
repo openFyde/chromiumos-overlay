@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="3865a0095fa9a4669659ddeb436eb6cf9fab908d"
+CROS_WORKON_COMMIT="294b50a2044964e5cca01f6585fdcc01ce66adaa"
 CROS_WORKON_TREE="55de47bf21efc40cd50d53f891cace11dffb434d"
 CROS_RUST_SUBDIR="cras/client/libcras"
 
@@ -25,6 +25,7 @@ IUSE="test"
 
 DEPEND="
 	>=dev-rust/libc-0.2.44:=
+	>=dev-rust/async-trait-0.1.36:= <dev-rust/async-trait-0.2
 	dev-rust/cros_async:=
 	dev-rust/data_model:=
 	dev-rust/sys_util:=
