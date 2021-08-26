@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e10d00d65b9825c3ecc6a45bf67c43adf5632c96"
-CROS_WORKON_TREE=("986ae0adb1a5ce20599ecc5274e85ef908862acd" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "2141556fef8198cc45b354a458e6dbefadb07d44" "26e3713c1f2916a87c54f5aa50da42d121f1a5a3" "2e70595826ad86b826c299379e82987a3061dc9b" "77503d07e8399e261f3ecae3f770e2008312f35a" "d2415395c6e1a7c646fc490d178022d3aab4decc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="dbfc4f162601c5c407f929113ca194d353ce3071"
+CROS_WORKON_TREE=("986ae0adb1a5ce20599ecc5274e85ef908862acd" "d0745d1765ae4f3bcb274b0b2ea28b4d78c666f8" "2141556fef8198cc45b354a458e6dbefadb07d44" "26e3713c1f2916a87c54f5aa50da42d121f1a5a3" "2e70595826ad86b826c299379e82987a3061dc9b" "050f682415ec06dceef0e60baa636a40134a646f" "d2415395c6e1a7c646fc490d178022d3aab4decc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -44,6 +44,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	tpm2? ( chromeos-base/trunks[test?] )
+	fuzzer? ( dev-libs/libprotobuf-mutator )
 	"
 
 pkg_preinst() {
@@ -89,6 +90,11 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
+
+	# Install fuzzer.
+	if use tpm2; then
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
+	fi
 }
 
 platform_pkg_test() {
