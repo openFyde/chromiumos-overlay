@@ -115,6 +115,6 @@ src_install() {
 		board="${board#build-}"
 
 		insinto "/firmware/${board}"
-		doins "${build_dir}/output/zephyr.bin"
+		doins "${build_dir}"/output/*
 	done
 }
