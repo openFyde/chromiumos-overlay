@@ -3,10 +3,10 @@
 
 # Change this version number when any change is made to configs/files under
 # libpayload and an auto-revbump is required.
-# VERSION=REVBUMP-0.0.17
+# VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_COMMIT="3c7535ac76054aa7699f0590ba41ad34097f1689"
+CROS_WORKON_COMMIT="3bafdf5c45878332db8291d78f4f07c46e0ad1e8"
 CROS_WORKON_TREE=("4de6d359714a666ba5f218b1666d04e221cb58c3" "73fd0aca5324c9cb8adac8f5a8c73583d8e14eb0" "bacdab8734794201bdb8ad183f79bab4051584db")
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
