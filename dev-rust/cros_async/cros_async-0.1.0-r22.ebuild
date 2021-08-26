@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bd9b1bc45b79d8a1699da60f285d0e73a68e84d8"
-CROS_WORKON_TREE="4d178d0e8845a80368e012a4c8ae2a6ead2bc65a"
+CROS_WORKON_COMMIT="ddcf7bd2ab4a1cd06ef2fe3da601591437e8e86f"
+CROS_WORKON_TREE="4c4ea4997e99a103b0032807e7eababe40d54ed6"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -27,6 +27,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3
 	=dev-rust/paste-1*:=
 	=dev-rust/pin-utils-0.1*:=
+	=dev-rust/remain-0.2*:=
 	=dev-rust/slab-0.4*:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
