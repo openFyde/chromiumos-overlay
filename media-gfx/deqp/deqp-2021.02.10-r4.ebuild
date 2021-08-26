@@ -8,21 +8,25 @@ CMAKE_MAKEFILE_GENERATOR="ninja"
 inherit cmake-utils cros-sanitizers
 
 DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
-HOMEPAGE="https://github.com/KhronosGroup/VK-GL-CTS"
+HOMEPAGE="https://android.googlesource.com/platform/external/deqp"
 
-# This corresponds to a commit for the chosen tag/branch.
-MY_DEQP_COMMIT='34639fb3f8b467b261624a1b2863b5e808bb7aef'
+# This corresponds to a commit near ToT.
+MY_DEQP_COMMIT='e58b0b2e5075855482dc7d9991b0db35f9afe0c4'
+
+# To uprev deqp, follow these commands:
+# wget https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz
+# gsutil cp -a public-read deqp-${MY_DEQP_COMMIT}.tar.gz gs://chromeos-localmirror/distfiles/
 
 # When building the Vulkan CTS, dEQP requires that certain external
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_AMBER_COMMIT='8797ee109e7a6ea4d1f58f387f757545fa35325b'
-MY_GLSLANG_COMMIT='9158061398a96033c990e69156bd28c67114544b'
-MY_SPIRV_TOOLS_COMMIT='11cd875ed88484f93943071083b4821b4c3d2193'
-MY_SPIRV_HEADERS_COMMIT='cf653e4ca4858583802b0d1656bc934edff6bd7f'
+MY_AMBER_COMMIT='4d0115cccfcb3b73d20b6513b1c40748e6403c50'
+MY_GLSLANG_COMMIT='ffccefddfd9a02ec0c0b6dd04ef5e1042279c97f'
+MY_SPIRV_TOOLS_COMMIT='cd590fa3341284cd6d1ee82366155786cfd44c96'
+MY_SPIRV_HEADERS_COMMIT='104ecc356c1bea4476320faca64440cd1df655a3'
 
-SRC_URI="https://github.com/KhronosGroup/VK-GL-CTS/archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
+SRC_URI="https://android.googlesource.com/platform/external/deqp/+archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/SPIRV-Tools/archive/${MY_SPIRV_TOOLS_COMMIT}.tar.gz -> SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/SPIRV-Headers/archive/${MY_SPIRV_HEADERS_COMMIT}.tar.gz -> SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}.tar.gz
@@ -50,7 +54,6 @@ S="${WORKDIR}"
 src_unpack() {
 	default_src_unpack || die
 
-	mv "VK-GL-CTS-${MY_DEQP_COMMIT}/"* .
 	mkdir -p external/{amber,glslang,spirv-tools,spirv-headers}
 	mv "amber-${MY_AMBER_COMMIT}" external/amber/src || die
 	mv "glslang-${MY_GLSLANG_COMMIT}" external/glslang/src || die
