@@ -40,7 +40,9 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/cbor/cbor.pc
 
-	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/reader_fuzzer
+	local fuzzer_component_id="923964"
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}"/reader_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

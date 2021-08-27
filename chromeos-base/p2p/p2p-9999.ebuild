@@ -61,6 +61,8 @@ src_install() {
 	doins data/p2p.conf
 
 	# Install fuzzer
+	local fuzzer_component_id="908319"
 	platform_fuzzer_install "${S}"/OWNERS \
-			"${OUT}"/p2p_http_server_fuzzer
+			"${OUT}"/p2p_http_server_fuzzer \
+			--comp "${fuzzer_component_id}"
 }

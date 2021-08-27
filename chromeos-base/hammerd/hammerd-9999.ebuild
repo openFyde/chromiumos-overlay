@@ -55,8 +55,11 @@ src_install() {
 	insinto /etc/rsyslog.d
 	doins rsyslog/rsyslog.hammerd.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_update_fw_fuzzer
+	local fuzzer_component_id="167114"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_update_fw_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

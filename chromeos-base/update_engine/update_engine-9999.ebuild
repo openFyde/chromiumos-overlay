@@ -133,9 +133,12 @@ src_install() {
 		doins scripts/update_payload/update-payload-key.pub.pem
 	fi
 
+	local fuzzer_component_id="908319"
 	platform_fuzzer_install "${S}"/OWNERS \
 				"${OUT}"/update_engine_omaha_request_action_fuzzer \
-				--dict "${S}"/fuzz/xml.dict
+				--dict "${S}"/fuzz/xml.dict \
+				--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS \
-				"${OUT}"/update_engine_delta_performer_fuzzer
+				"${OUT}"/update_engine_delta_performer_fuzzer \
+				--comp "${fuzzer_component_id}"
 }

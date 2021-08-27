@@ -55,9 +55,12 @@ src_install() {
 	doins init/imageloader-init.conf
 	doins init/imageloader-shutdown.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer
+	local fuzzer_component_id="188251"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer \
+		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_manifest_fuzzer \
-		--dict "${S}"/fuzz/manifest.dict
+		--dict "${S}"/fuzz/manifest.dict \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

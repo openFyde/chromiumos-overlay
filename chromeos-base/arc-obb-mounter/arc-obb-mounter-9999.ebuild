@@ -55,7 +55,9 @@ src_install() {
 	keepdir "${CONTAINER_DIR}"/mountpoints/
 	keepdir "${CONTAINER_DIR}"/mountpoints/container-root
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer
+	local fuzzer_component_id="516669"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

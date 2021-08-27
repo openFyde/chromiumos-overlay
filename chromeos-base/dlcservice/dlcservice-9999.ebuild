@@ -52,8 +52,11 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.DlcService.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_device_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer
+	local fuzzer_component_id="908242"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_device_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer \
+		--comp "${fuzzer_component_id}"
 
 	into /usr/local
 	dobin "${S}/tools/dlctool"

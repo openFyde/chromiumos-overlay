@@ -321,6 +321,8 @@ cros-ec_src_install() {
 			else
 				newins "${S}/OWNERS" "${fuzzer}.owners"
 			fi
+			local fuzzer_component_id="167114"
+			echo "${fuzzer_component_id}" | newins - "${fuzzer}.components"
 		done
 	fi
 }
