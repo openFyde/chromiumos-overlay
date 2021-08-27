@@ -95,6 +95,7 @@ IUSE="
 	ml_service
 	moblab
 	mocktpm
+	modemfwd
 	msan
 	+nacl
 	ndk_translation
