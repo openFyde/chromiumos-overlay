@@ -12,53 +12,70 @@
 
 EAPI="7"
 
-# We don't need the history at all.
-EGIT_CLONE_TYPE="shallow"
-
-# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
-PYTHON_COMPAT=( python2_7 )
-
-inherit cros-constants eutils git-r3 python-any-r1
-
-# Every 3 strings in this array indicates a repository to checkout:
-#   - A unique name (to avoid checkout conflits)
-#   - The repository URL
-#   - The commit to checkout
-EGIT_REPO_URIS=(
-	"cloud/policy"
-	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"9ea04b6b4a550de9ab94aaa0f0bd8f35abea1ba8"
-
-	# If you uprev these repos, please also:
-	# - Update files/VERSION to the corresponding revision of
-	#   chromium/src/chrome/VERSION in the Chromium code base.
-	#   Only the MAJOR version matters, really. This is necessary so policy
-	#   code builders have the right set of policies.
-	# - Update authpolicy/policy/device_policy_encoder[_unittest].cc to
-	#   include new device policies. The unit test tells you missing ones:
-	#     FEATURES=test emerge-$BOARD authpolicy
-	#   If you see unrelated test failures, make sure to rebuild the
-	#   authpolicy package and its dependencies (in particular, libbrillo
-	#   which provides libpolicy for accessing device policy) against the
-	#   updated protofiles package.
-	#   User policy is generated and doesn't have to be updated manually.
-	# - Bump the package version:
-	#     git mv protofiles-0.0.N.ebuild protofiles-0.0.N+1.ebuild
-	# - Bump the DEPEND version number for protofiles in all ebuilds for
-	#   packages that rely on the new policies. If you added new device
-	#   policy encodings above that will at least be authpolicy.
+CROS_WORKON_PROJECT=(
+	"chromium/src/components/policy"
 
 	# private_membership and shell_encryption are not used in Chrome OS at
 	# the moment. They are just required to compile the proto files. An
 	# uprev will only be necessary if the respective proto files change.
-	"private_membership"
-	"${CROS_GIT_HOST_URL}/chromium/src/third_party/private_membership.git"
-	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
+	"chromium/src/third_party/private_membership"
+	"chromium/src/third_party/shell-encryption"
+)
 
-	"shell_encryption"
-	"${CROS_GIT_HOST_URL}/chromium/src/third_party/shell-encryption.git"
+CROS_WORKON_LOCALNAME=(
+	"chromium/src/components/policy"
+	"chromium/src/third_party/private_membership"
+	"chromium/src/third_party/shell-encryption"
+)
+
+CROS_WORKON_DESTDIR=(
+	"${S}/cloud/policy"
+	"${S}/private_membership"
+	"${S}/shell_encryption"
+)
+
+CROS_WORKON_EGIT_BRANCH=(
+	"main"
+	"main"
+	"main"
+)
+
+CROS_WORKON_MANUAL_UPREV=1
+
+# If you uprev these repos, please also:
+# - Update files/VERSION to the corresponding revision of
+#   chromium/src/chrome/VERSION in the Chromium code base.
+#   Only the MAJOR version matters, really. This is necessary so policy
+#   code builders have the right set of policies.
+# - Update authpolicy/policy/device_policy_encoder[_unittest].cc to
+#   include new device policies. The unit test tells you missing ones:
+#     FEATURES=test emerge-$BOARD authpolicy
+#   If you see unrelated test failures, make sure to rebuild the
+#   authpolicy package and its dependencies (in particular, libbrillo
+#   which provides libpolicy for accessing device policy) against the
+#   updated protofiles package.
+#   User policy is generated and doesn't have to be updated manually.
+# - Bump the package version:
+#     git mv protofiles-0.0.N.ebuild protofiles-0.0.N+1.ebuild
+# - Bump the DEPEND version number for protofiles in all ebuilds for
+#   packages that rely on the new policies. If you added new device
+#   policy encodings above that will at least be authpolicy.
+CROS_WORKON_COMMIT=(
+	"9ea04b6b4a550de9ab94aaa0f0bd8f35abea1ba8"
+	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
 	"4b66a57bf81ff88fb94113426f2f4ffbbd66cb95"
 )
+# git rev-parse $HASH:./
+CROS_WORKON_TREE=(
+	"9067e1cfe385d62b9a95621e0f155393c4ded25f"
+	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
+	"0a338e5413026da123118a2f40d1edc660de1039"
+)
+
+# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
+PYTHON_COMPAT=( python2_7 )
+
+inherit cros-constants cros-workon eutils python-any-r1
 
 DESCRIPTION="Protobuf installer for the device policy proto definitions."
 HOMEPAGE="https://chromium.googlesource.com/chromium/src/components/policy"
@@ -84,17 +101,6 @@ POLICY_DIR_PROTO_FILES=(
 )
 
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
-
-src_unpack() {
-	set -- "${EGIT_REPO_URIS[@]}"
-	while [[ $# -gt 0 ]]; do
-		EGIT_CHECKOUT_DIR="${S}/$1" \
-		EGIT_REPO_URI=$2 \
-		EGIT_COMMIT=$3 \
-		git-r3_src_unpack
-		shift 3
-	done
-}
 
 src_compile() {
 	# Generate cloud_policy.proto.
