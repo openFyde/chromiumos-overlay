@@ -28,7 +28,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_graphics_dEQP
 	+tests_graphics_Gbm
 	+tests_graphics_GLAPICheck
 	+tests_graphics_GLBench
