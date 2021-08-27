@@ -19,4 +19,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 DEPEND=""
-RDEPEND=""
+
+# data files were pulled from chromeos-base/tast-local-tests-cros in
+# https://crrev.com/c/2975193.
+RDEPEND="!<chromeos-base/tast-local-tests-cros-0.0.2"
