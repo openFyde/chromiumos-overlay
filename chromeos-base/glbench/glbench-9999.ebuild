@@ -35,8 +35,8 @@ src_install() {
 	# Install the executable.
 	exeinto "${glbench_dir}/bin"
 	doexe glbench windowmanagertest
-	insinto "${glbench_dir}/src"
-	doins src/image.yuv
+	insinto "${glbench_dir}/bin"
+	doins -r runtime
 
 	# Install the list files.
 	insinto "${glbench_dir}/files"
