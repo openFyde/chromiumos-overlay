@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="eb92e9902a5570864757daad3a386b8a042dfb85"
-CROS_WORKON_TREE="bf805d2c896aecd3a8a98312cbc8c12ab7a43915"
+CROS_WORKON_COMMIT="fd977e94054b76d4d095e1edcb535e7b6f2607b7"
+CROS_WORKON_TREE="93e9f6eeafee4a020b209d43b67ff45c8876733f"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit libchrome cros-workon autotest
@@ -25,6 +25,7 @@ RDEPEND="
 	>=chromeos-base/autotest-deps-0.0.3
 	!<=chromeos-base/autotest-factory-0.0.1-r4445
 	dev-python/numpy
+	dev-python/pillow
 	dev-python/pygobject
 	dev-python/pytest
 	dev-python/python-uinput
