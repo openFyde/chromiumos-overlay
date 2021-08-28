@@ -295,7 +295,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		net-dns/dnsmasq|\
 		net-misc/dhcpcd|\
 		net-misc/improxy|\
-		net-print/cups|\
 		sys-apps/cavium-n3fips-driver|\
 		sys-apps/fwupd|\
 		sys-apps/loadpin-trigger|\
