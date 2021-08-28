@@ -2418,11 +2418,7 @@ cros-kernel2_src_install() {
 		esac
 	fi
 	if use arm || use arm64 || use mips; then
-		# TODO(vbendeb): remove the below .uimg link creation code
-		# after the build scripts have been modified to use the base
-		# image name.
 		pushd "$(dirname "${kernel_bin}")" > /dev/null
-		ln -sf $(basename "${kernel_bin}") vmlinux.uimg || die
 		case ${kernel_arch} in
 			arm)
 				ln -sf $(basename "${zimage_bin}") zImage || die
