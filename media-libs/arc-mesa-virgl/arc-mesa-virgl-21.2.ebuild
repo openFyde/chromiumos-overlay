@@ -136,6 +136,15 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-venus-fix-all-missing-vn_object_base_fini.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-refactor-failure-path-for-sets-allocation.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-add-vn_descriptor_set_layout_init.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-layout-to-track-more-binding-infos.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-layout-to-track-variable-descriptor-count-bind.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-pool-to-track-pool-state.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-set-to-track-descriptor-count-of-la.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-check-descriptor-allocations-against-pool-reso.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-conditionally-enable-async-descriptor-set-allo.patch
 	default
 }
 
