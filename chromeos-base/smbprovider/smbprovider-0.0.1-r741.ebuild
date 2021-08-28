@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "3eaa912af66665afc34ec4f799c1da591a254f2e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -62,6 +62,7 @@ src_install() {
 	insinto /usr/share/policy
 	newins seccomp_filters/smbprovider-seccomp-"${ARCH}".policy smbprovider-seccomp.policy
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer
 
 	local daemon_store="/etc/daemon-store/smbproviderd"

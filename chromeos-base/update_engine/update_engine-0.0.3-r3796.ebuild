@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("ed5ba1aabb0359305d63c936f3ffbd53526f5310" "50029286e5ed68fa6dbd926215f0437f5996f3ee")
+CROS_WORKON_COMMIT=("aad980dd41f240f36df20b8a3ae4755239841b31" "50029286e5ed68fa6dbd926215f0437f5996f3ee")
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "0ec1de0d72acee333819969cb92c4db873011ce3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "98324516297621c14be657c8b88ee52b157e2f59")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -135,9 +135,12 @@ src_install() {
 		doins scripts/update_payload/update-payload-key.pub.pem
 	fi
 
+	local fuzzer_component_id="908319"
 	platform_fuzzer_install "${S}"/OWNERS \
 				"${OUT}"/update_engine_omaha_request_action_fuzzer \
-				--dict "${S}"/fuzz/xml.dict
+				--dict "${S}"/fuzz/xml.dict \
+				--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS \
-				"${OUT}"/update_engine_delta_performer_fuzzer
+				"${OUT}"/update_engine_delta_performer_fuzzer \
+				--comp "${fuzzer_component_id}"
 }

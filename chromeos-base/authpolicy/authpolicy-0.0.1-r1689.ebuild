@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "3e0c39e69e4a17e04772e209df87487dae6cefe2" "2e70595826ad86b826c299379e82987a3061dc9b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -72,6 +72,7 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners authpolicyd:authpolicyd "${daemon_store}"
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/preg_parser_fuzzer \
 		--dict "${S}"/policy/testdata/preg_parser_fuzzer.dict
 }

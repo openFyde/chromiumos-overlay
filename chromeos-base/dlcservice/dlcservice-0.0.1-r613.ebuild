@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "d4653060a3c56a6ea2767b8732fdc2d61dbc04e4" "2e70595826ad86b826c299379e82987a3061dc9b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -54,8 +54,11 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.DlcService.conf
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_device_fuzzer
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer
+	local fuzzer_component_id="908242"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_device_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlcservice_boot_slot_fuzzer \
+		--comp "${fuzzer_component_id}"
 
 	into /usr/local
 	dobin "${S}/tools/dlctool"

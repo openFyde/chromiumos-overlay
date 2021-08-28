@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "53ef2ebfa021097d072b763a96c27ce70c3e4070" "26b91e41e669cca59d25dedeb6fb18c470d60c4b" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "2c0c881e7943d122b188222c986b47ea754e181b" "2e70595826ad86b826c299379e82987a3061dc9b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -134,6 +134,7 @@ src_install() {
 
 	local fuzzer
 	for fuzzer in "${fuzzers[@]}"; do
+		# fuzzer_component_id is unknown/unlisted
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}/${fuzzer}"
 	done
 }

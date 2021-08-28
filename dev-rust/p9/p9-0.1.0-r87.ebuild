@@ -80,8 +80,10 @@ src_install() {
 	cros-rust_publish p9 "${version}"
 
 	if use fuzzer; then
+		local fuzzer_component_id="982362"
 		fuzzer_install "${S}/OWNERS" \
-			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer"
+			"$(cros-rust_get_build_dir)/p9_tframe_decode_fuzzer" \
+			--comp "${fuzzer_component_id}"
 	fi
 }
 

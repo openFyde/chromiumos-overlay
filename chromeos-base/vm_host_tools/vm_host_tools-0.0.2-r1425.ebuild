@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "2e70595826ad86b826c299379e82987a3061dc9b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7ef75a42aba67052842459f221271e681184cc89" "d3d64631b9ff3b946b7482bf794aeda97b564813" "c1bde153626532428bf7409bc0597e79452c5eb8" "d898c3ab65ad3e7b7e6487d8e356e953ad207fc3" "ef0a0a7104a43e62f60a2b8b04e53acee6384892" "1780a540acb435bb7583751430df696e44eef2e3" "ff43529de77f40a39fd916195454b069bbf028ea" "e2598f8160f0e1089268ae21cb458eb6bc46d71e" "3a57293314fa7ffce092cd9ce0b29e1d51e1080b" "c6c358a46e436c862ecbea100db57229b5b5c428" "d5d814b0ff1102ea1bbb7c3f172543864121e17f" "0d3d3aeea63686781aace849eac35118b45e87b9" "4b930736bc7da8c301f27c7a82718e7d605de289" "66c8451c708cfe23c0b0ededb9de99557d1b8360" "bbe1454835752d769b8aa28c25ca8e1a39c9add5")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -128,6 +128,7 @@ src_install() {
 		doexe "${OUT}"/vshd
 	fi
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cicerone_container_listener_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vsh_client_fuzzer
 

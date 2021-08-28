@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "2e70595826ad86b826c299379e82987a3061dc9b" "701d6f49925528dff4c1154f78dcd6a067924a89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -63,6 +63,8 @@ src_install() {
 	doins data/p2p.conf
 
 	# Install fuzzer
+	local fuzzer_component_id="908319"
 	platform_fuzzer_install "${S}"/OWNERS \
-			"${OUT}"/p2p_http_server_fuzzer
+			"${OUT}"/p2p_http_server_fuzzer \
+			--comp "${fuzzer_component_id}"
 }

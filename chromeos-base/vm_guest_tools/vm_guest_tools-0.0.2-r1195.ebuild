@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7ef75a42aba67052842459f221271e681184cc89" "0865c9d3ea1e3df829430fe6bc25ecbc3bc865ca" "c1bde153626532428bf7409bc0597e79452c5eb8" "5159f439e8516f904859190cfd0375b7a4d05db2" "c0c1e8d86cb53608765ab49380c5bb147bff7699" "97190407ff6df6ae497a54e632369afdf09cd621" "f1056b826658f122a9c4bab873591c9c074dffd6" "524ef098287fb1adb31a6399020855e9de7993a2" "615f2ccbc170453f7b2316a3e68c4117330660a5" "d5d814b0ff1102ea1bbb7c3f172543864121e17f" "c3465b6dad7800067bcb897d1c266a4a54682dfd" "889e63b35e958b34d6cf15f62b243d442f1bac83" "66c8451c708cfe23c0b0ededb9de99557d1b8360" "bbe1454835752d769b8aa28c25ca8e1a39c9add5" "a01dc69a1e1fa54805fe9b48ce5c278a7e70de0c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -92,6 +92,7 @@ src_install() {
 		dobin "${OUT}"/x11_demo
 	fi
 
+	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_desktop_file_fuzzer \
 		--dict "${S}"/testdata/garcon_desktop_file_fuzzer.dict
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_icon_index_file_fuzzer \

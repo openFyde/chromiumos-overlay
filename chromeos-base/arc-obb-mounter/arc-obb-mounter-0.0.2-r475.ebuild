@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
+CROS_WORKON_COMMIT="aad980dd41f240f36df20b8a3ae4755239841b31"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "4c45a6fe3321508cfd7d6a8c547338a388dbcb7c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -57,7 +57,9 @@ src_install() {
 	keepdir "${CONTAINER_DIR}"/mountpoints/
 	keepdir "${CONTAINER_DIR}"/mountpoints/container-root
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer
+	local fuzzer_component_id="516669"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/mount-obb_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
