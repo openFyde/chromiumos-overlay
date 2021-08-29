@@ -26,6 +26,11 @@ BDEPEND="virtual/pkgconfig"
 PATCHES=(
 	"${FILESDIR}"/${PN}-1.1.8-missing_header.patch
 	"${FILESDIR}"/${PN}-1.2.1-alsaucm-Fix-ending-with-quotes-commands.patch
+	"${FILESDIR}"/${PN}-1.2.1-aplay-Fix-conversion-of-unsigned-samples.patch
+	"${FILESDIR}"/${PN}-1.2.1-aplay-Handle-16bit-sample-negative-overf.patch
+	"${FILESDIR}"/${PN}-1.2.1-aplay-Don-t-pass-most-negative-integer-t.patch
+	"${FILESDIR}"/${PN}-1.2.1-aplay-Handle-upper-bound-in-peak-calcula.patch
+	"${FILESDIR}"/${PN}-1.2.1-aplay-Fix-out-of-bound-access-in-stereo-.patch
 )
 
 src_configure() {
