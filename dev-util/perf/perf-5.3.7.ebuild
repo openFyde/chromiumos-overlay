@@ -35,7 +35,7 @@ SRC_URI+=" https://www.kernel.org/pub/linux/kernel/v${LINUX_V}/${LINUX_SOURCES}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="audit clang coresight crypt debug +demangle +doc gtk java lzma numa perl python slang systemtap unwind zlib"
+IUSE="audit clang coresight crypt debug +demangle +doc gtk java lzma numa perl python slang systemtap unwind zlib zstd"
 # TODO babeltrace
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
@@ -56,6 +56,7 @@ RDEPEND="audit? ( sys-process/audit )
 	systemtap? ( dev-util/systemtap )
 	unwind? ( sys-libs/llvm-libunwind )
 	zlib? ( sys-libs/zlib )
+	zstd? ( app-arch/zstd )
 	dev-libs/elfutils
 	sys-libs/binutils-libs:="
 DEPEND="${RDEPEND}
@@ -235,6 +236,7 @@ perf_make() {
 		NO_SDT=$(puse systemtap) \
 		NO_SLANG=$(puse slang) \
 		NO_LZMA=$(puse lzma) \
+		NO_LIBZSTD=$(puse zstd) \
 		NO_ZLIB= \
 		WERROR=0 \
 		XMLTO="$(usex doc xmlto '')" \
