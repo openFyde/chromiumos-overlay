@@ -204,7 +204,7 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	if use doc ; then
-		einstalldocs
+		einstalldocs || ewarn "Failed to install docs"
 	fi
 
 	# These are installed by dev-util/glib-utils
@@ -213,11 +213,11 @@ multilib_src_install_all() {
 	rm "${ED}/usr/bin/glib-mkenums" || die
 	rm "${ED}/usr/bin/gtester-report" || die
 	use doc && (
-		rm "${ED}/usr/share/man/man1/glib-genmarshal.1" || die
-		rm "${ED}/usr/share/man/man1/glib-mkenums.1" || die
-		rm "${ED}/usr/share/man/man1/gtester-report.1" || die
+		rm "${ED}/usr/share/man/man1/glib-genmarshal.1" || ewarn "Failed to remove glib-genmarshal.1"
+		rm "${ED}/usr/share/man/man1/glib-mkenums.1" || ewarn "Failed to remove glib-mkenums.1"
+		rm "${ED}/usr/share/man/man1/gtester-report.1" || ewarn "Failed to remove gtester-report.1"
 		# gdbus-codegen manpage installed by dev-util/gdbus-codegen
-		rm "${ED}/usr/share/man/man1/gdbus-codegen.1" || die
+		rm "${ED}/usr/share/man/man1/gdbus-codegen.1" || ewarn "Failed to remove gdbus-codegen.1"
 	)
 }
 

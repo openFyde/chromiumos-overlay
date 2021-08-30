@@ -39,7 +39,7 @@ do_xsltproc_command() {
 		--stringparam man.copyright.section.enabled 0 \
 		-o "${2}" \
 		http://docbook.sourceforge.net/release/xsl/current/manpages/docbook.xsl \
-		"${1}" || die "manpage generation failed"
+		"${1}" || ewarn "manpage generation failed"
 }
 
 src_compile() {
