@@ -4,7 +4,7 @@
 EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.6.2"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.6.3"
 
 PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
@@ -17,7 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+agent amt archive +bluetooth dell +dummy +gnutls gtk-doc +gusb elogind flashrom +gpg lzma minimal introspection +man nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +dummy elogind flashrom +gnutls gtk-doc +gusb +gpg introspection lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	dell? ( uefi )
 	minimal? ( !introspection )
@@ -61,6 +61,7 @@ COMMON_DEPEND="
 	gnutls? ( net-libs/gnutls )
 	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
 	lzma? ( app-arch/xz-utils )
+	modemmanager? ( net-misc/modemmanager[qmi] )
 	policykit? ( >=sys-auth/polkit-0.103 )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
@@ -102,7 +103,8 @@ src_prepare() {
 	# c.f. https://github.com/fwupd/fwupd/issues/1414
 	sed -e "/test('thunderbolt-self-test', e, env: test_env, timeout : 120)/d" \
 		-i plugins/thunderbolt/meson.build || die
-	sed '/platform-integrity/d' \
+
+	sed -e '/platform-integrity/d' \
 		-i plugins/meson.build || die #753521
 	sed -e "/^gcab/s/^/#/" -i meson.build || die
 	if ! use nls ; then
@@ -118,6 +120,7 @@ src_configure() {
 		$(meson_use dummy plugin_dummy)
 		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gusb plugin_altos)
+		$(meson_use modemmanager plugin_modem_manager)
 		$(meson_use nvme plugin_nvme)
 		$(meson_use spi plugin_intel_spi)
 		$(meson_use synaptics plugin_synaptics_mst)
@@ -128,7 +131,6 @@ src_configure() {
 		$(meson_use uefi plugin_uefi_pk)
 
 		# Dependencies are not available (yet?)
-		-Dplugin_modem_manager="false"
 		-Dplugin_tpm="false"
 	)
 	(use x86 || use amd64 ) || plugins+=( -Dplugin_msr="false" )
