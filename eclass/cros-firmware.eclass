@@ -51,7 +51,7 @@ esac
 
 # $board-overlay/make.conf may contain these flags to always create "firmware
 # from source".
-IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr zephyr_ec"
+IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr_ec"
 
 # "futility update" is needed when building and running updater package.
 COMMON_DEPEND="
@@ -93,7 +93,7 @@ RDEPEND+="
 DEPEND+="
 	bootimage? ( sys-boot/chromeos-bootimage )
 	cros_ec? ( chromeos-base/chromeos-ec )
-	zephyr? ( chromeos-base/chromeos-zephyr )
+	zephyr_ec? ( chromeos-base/chromeos-zephyr )
 	"
 
 RESTRICT="mirror"
