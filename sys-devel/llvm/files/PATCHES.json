@@ -986,5 +986,11 @@
         "rel_patch_path": "cherry/6b6d3447317673015f62206b2669c2d0a74132dc.patch",
         "start_version": 422132,
         "end_version": 435270
+    },
+    {
+        "comment": "libunwind: add missing break statements in EHABI",
+        "rel_patch_path": "cherry/08a5ac36b956edeb989b4a65269a829eac26a5a2.patch",
+        "start_version": 428724,
+        "end_version": 435201
     }
 ]
