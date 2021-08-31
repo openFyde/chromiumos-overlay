@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ed5ba1aabb0359305d63c936f3ffbd53526f5310"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "fef11208d70666a70c6b3c2a27a457d3c950f995" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a96cb1852edffe20c59b9f6d69533c4663c3d44b"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "099ee78ecfdd76a535372e12365bd5372e6e2596" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -35,17 +35,9 @@ DEPEND="
 "
 
 src_install() {
-	dosbin "${OUT}"/bootstat
-	dosbin bootstat_archive
-	dosbin bootstat_get_last
-	dobin bootstat_summary
-
-	dolib.so "${OUT}"/lib/libbootstat.so
-
-	insinto /usr/include/metrics
-	doins bootstat.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libbootstat_unittests"
+	platform test_all
 }
