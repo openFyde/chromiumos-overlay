@@ -21,7 +21,9 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="!<=chromeos-base/croslog-0.0.1-r44"
+RDEPEND=">=chromeos-base/croslog-0.0.1-r45"
+
+DEPEND="${RDEPEND}"
 
 src_install() {
 	platform_install
@@ -33,4 +35,3 @@ src_install() {
 platform_pkg_test() {
 	platform test_all
 }
-
