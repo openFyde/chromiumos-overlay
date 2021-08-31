@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7e7f120abf08cb6eeab041871b0f9670a00b1261"
-CROS_WORKON_TREE="c6eb2f10fff6c49ce01036bc2aa4f9a411a7bed7"
+CROS_WORKON_COMMIT="605bfac91ee04e8ea3e512666408923eb613bc7e"
+CROS_WORKON_TREE="c0e24d469df78e327c5cdcc67b5f70f6f797b70d"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -25,6 +25,7 @@ COMMON_DEPEND="chromeos-base/vboot_reference:="
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/data_model:=
+	=dev-rust/dbus-0.9*:=
 	=dev-rust/futures-0.3*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/intrusive-collections-0.9*:=

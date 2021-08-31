@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d296099ff9078469779d893a14378cc63d7102ef"
-CROS_WORKON_TREE=("4f7e5c7e30c99a6c5eb4aa4e5c53eda7bbdf8848" "a0d8550678a1ed2a4ab62782049032a024bf40df" "b00310c222484b624ff9ec2378e041d7cd8f09fb" "28de0d8f31b7c079629b40b81e98707f45158909" "ac372937b4795711f04d5af57461105605663f83" "3b632cb1cbc6da698a355e078bfc220f0461deee")
+CROS_WORKON_COMMIT="605bfac91ee04e8ea3e512666408923eb613bc7e"
+CROS_WORKON_TREE=("b971b7f7f50e08962b25bc8318e602d28d659d1e" "a0d8550678a1ed2a4ab62782049032a024bf40df" "b00310c222484b624ff9ec2378e041d7cd8f09fb" "28de0d8f31b7c079629b40b81e98707f45158909" "ac372937b4795711f04d5af57461105605663f83" "3b632cb1cbc6da698a355e078bfc220f0461deee")
 CROS_RUST_SUBDIR="system_api"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

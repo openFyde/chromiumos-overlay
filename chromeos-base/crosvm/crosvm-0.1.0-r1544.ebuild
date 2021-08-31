@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="28359e141f2b34cd858c83729b517d6ac5f0480a"
-CROS_WORKON_TREE="4e3a2b887ac18446d85dbb4760e41245c6a53863"
+CROS_WORKON_COMMIT="c90545d6e6b3b24fa2cf97a8879860300bd4c14e"
+CROS_WORKON_TREE="233a523d22e9cd77520cf8c271dfc4f1ec6df20e"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -61,6 +61,7 @@ DEPEND="${COMMON_DEPEND}
 	~dev-rust/cc-1.0.25:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
+	=dev-rust/dbus-0.8*:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/futures-0.3*:=
 	dev-rust/intrusive-collections:=

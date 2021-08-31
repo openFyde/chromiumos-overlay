@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2050162785f07f0d538318e7d8d71808ae6800b7"
-CROS_WORKON_TREE="1e7e6f1a3c5cd478671ef3fb47f0d4c10f863cfb"
+CROS_WORKON_COMMIT="605bfac91ee04e8ea3e512666408923eb613bc7e"
+CROS_WORKON_TREE="f0b97cc59a1e85a61aaeffaafa201558c4764abf"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -21,7 +21,7 @@ IUSE="+rust-crosh"
 
 DEPEND="
 	=dev-rust/chrono-0.4*:=
-	=dev-rust/dbus-0.8*:=
+	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
 	=dev-rust/rand-0.7*:=
