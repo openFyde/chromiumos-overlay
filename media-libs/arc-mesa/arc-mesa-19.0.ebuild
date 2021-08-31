@@ -200,6 +200,8 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-intel-limit-shader-geometry-on-BDW-GT1.patch
 	epatch "${FILESDIR}"/UPSTREAM-intel-change-urb-max-shader-geometry-for-KBL-GT1.patch
 	epatch "${FILESDIR}"/UPSTREAM-intel-change-urb-max-shader-geometry-for-CML-GT1.patch
+	epatch "${FILESDIR}"/BACKPORT-frontend-dri-Expose-RGB-AX-_SRGB-as-well.patch
+	epatch "${FILESDIR}"/BACKPORT-i965-Enable-RGBX8888_SRGB-format.patch
 	default
 }
 
