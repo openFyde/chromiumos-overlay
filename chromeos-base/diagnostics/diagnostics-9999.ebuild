@@ -110,6 +110,7 @@ src_install() {
 	newins "cros_healthd/seccomp/modetest-seccomp-${ARCH}.policy" \
 		modetest-seccomp.policy
 	newins "seccomp/memtester-seccomp-${ARCH}.policy" memtester-seccomp.policy
+	newins "cros_healthd/seccomp/iw-seccomp-${ARCH}.policy" iw-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
