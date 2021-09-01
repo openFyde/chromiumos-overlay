@@ -76,4 +76,5 @@ RDEPEND="
 	media-sound/adhd[fuzzer]
 	net-dns/avahi[fuzzer]
 	net-wireless/bluez[fuzzer]
+	net-wireless/wpa_supplicant-cros[fuzzer]
 "
