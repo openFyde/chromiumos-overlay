@@ -24,12 +24,20 @@ NPM_HASHES=(
 	# Next one.
 	16e0b36c0c3d448c7fd00d1db3ba27ff8477007fb4b0eae31ae25960aeae3fbc
 )
+PLUGIN_VERSIONS=(
+	# Current one.
+	0.41
+	# Next one.
+	0.41
+)
 SRC_URI="
 	https://storage.googleapis.com/chromium-nodejs/14.15.4/b2e40ddbac04d05baafbb007f203c6663c9d4ca9
 	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/fonts-%s.tar.xz ' \
 		"${FONTS_HASHES[@]}")
 	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/node_modules-%s.tar.xz ' \
 		"${NPM_HASHES[@]}")
+	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/releases/%s.tar.xz ' \
+		"${PLUGIN_VERSIONS[@]}")
 "
 
 # The archives above live on Google maintained sites.
