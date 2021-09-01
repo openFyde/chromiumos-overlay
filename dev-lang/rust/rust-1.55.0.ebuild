@@ -45,7 +45,6 @@ RDEPEND="!dev-util/cargo"
 PATCHES=(
 	"${FILESDIR}/${P}-add-cros-targets.patch"
 	"${FILESDIR}/${P}-fix-rpath.patch"
-	"${FILESDIR}/${P}-enable-sanitizers.patch"
 	"${FILESDIR}/${P}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
 	"${FILESDIR}/${P}-no-test-on-build.patch"
 	"${FILESDIR}/${P}-sanitizer-supported.patch"
@@ -161,7 +160,7 @@ mandir = "share/man"
 
 [rust]
 default-linker = "${CBUILD}-clang"
-channel = "${SLOT%%/*}"
+channel = "nightly"
 codegen-units = 0
 llvm-libunwind = 'in-tree'
 codegen-tests = false

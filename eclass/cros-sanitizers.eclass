@@ -139,10 +139,10 @@ sanitizers-setup-env() {
 # Sets up sanitizer flags for rust.
 cros-rust-setup-sanitizers() {
 	local rust_san_flags=()
-	use asan && rust_san_flags+=( -Csanitizer=address )
-	use lsan && rust_san_flags+=( -Csanitizer=leak )
-	use msan && rust_san_flags+=( -Csanitizer=memory )
-	use tsan && rust_san_flags+=( -Csanitizer=thread )
+	use asan && rust_san_flags+=( -Zsanitizer=address )
+	use lsan && rust_san_flags+=( -Zsanitizer=leak )
+	use msan && rust_san_flags+=( -Zsanitizer=memory )
+	use tsan && rust_san_flags+=( -Zsanitizer=thread )
 
 	export RUSTFLAGS="${rust_san_flags[*]}"
 }
