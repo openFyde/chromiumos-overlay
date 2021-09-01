@@ -71,6 +71,15 @@ get_zephyr_version() {
 	die "Please specify a zephyr_vX_X USE flag."
 }
 
+# Run zmake from the EC source directory, with default arguments for
+# modules and Zephyr base location for this ebuild.
+run_zmake() {
+	PYTHONPATH="${S}/modules/ec/zephyr/zmake" python3 -m zmake -D \
+		--modules-dir="${S}/modules" \
+		--zephyr-base="${S}/zephyr-base/$(get_zephyr_version)" \
+		"$@"
+}
+
 src_configure() {
 	tc-export CC
 
@@ -83,13 +92,8 @@ src_configure() {
 		fi
 		local build_dir="build-${board}"
 
-		local zephyr_base="${S}/zephyr-base/$(get_zephyr_version)"
-		zmake -D \
-			--modules-dir "${S}/modules" \
-			--zephyr-base "${zephyr_base}" \
-			configure \
-			"modules/ec/zephyr/${path}" \
-			-B "${build_dir}" || die "Failed to configure ${build_dir}."
+		run_zmake configure "modules/ec/zephyr/${path}" -B "${build_dir}" \
+			|| die "Failed to configure ${build_dir}."
 
 		ZEPHYR_EC_BUILD_DIRECTORIES+=("${build_dir}")
 	done < <(cros_config_host "get-firmware-build-combinations" zephyr-ec || die)
@@ -99,11 +103,7 @@ src_compile() {
 	tc-export CC
 
 	for build_dir in "${ZEPHYR_EC_BUILD_DIRECTORIES[@]}"; do
-		zmake -D \
-			--modules-dir "${S}/modules" \
-			--zephyr-base "${S}/zephyr-base" \
-			build \
-			"${build_dir}" || die "Failed to build ${build_dir}."
+		run_zmake build "${build_dir}" || die "Failed to build ${build_dir}."
 	done
 }
 
