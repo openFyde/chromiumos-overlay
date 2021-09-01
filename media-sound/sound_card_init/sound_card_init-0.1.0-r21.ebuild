@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e469a74dcbc7d0dc28c08a5b3dd0a9bc5a1cc151"
-CROS_WORKON_TREE="82c6c64aaeec8aee8a7b6ff93c5578b712208a69"
+CROS_WORKON_COMMIT="97df20e99865ecdbcfa3ee289e88e902e760d61b"
+CROS_WORKON_TREE="68df1869705a2b5811fc72e23c17e196b2be55ff"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since sound_card_init/Cargo.toml
@@ -18,7 +18,7 @@ DESCRIPTION="Sound Card Initializer"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/sound_card_init"
 
 LICENSE="BSD-Google"
-KEYWORDS="-* amd64"
+KEYWORDS="-* amd64 arm"
 
 DEPEND="
 	dev-rust/cc:=
