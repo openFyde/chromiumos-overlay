@@ -10,14 +10,15 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="-* amd64 x86"
 S="${WORKDIR}"
-IUSE="skl_lpe apl_lpe kbl_lpe cnl_lpe glk_lpe"
+IUSE="skl_lpe apl_lpe kbl_lpe cnl_lpe glk_lpe has_private_audio_topology"
 # Add dependencies on other ebuilds from within this board overlay
 RDEPEND="
 	apl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_apl] )
 	cnl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_cnl] )
 	glk_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_glk] )
 	kbl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_kbl] )
-	media-libs/lpe-support-topology
+	!has_private_audio_topology? ( media-libs/lpe-support-topology )
+	has_private_audio_topology? ( media-libs/lpe-support-topology-private )
 	media-libs/lpe-support-blacklist
 	skl_lpe? ( sys-kernel/linux-firmware[linux_firmware_adsp_skl] )
 "
