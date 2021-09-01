@@ -100,6 +100,9 @@ src_prepare() {
 	eapply "${FILESDIR}/rust-add-cros-targets.patch"
 	sed -i 's|"stdc++"|"c++"|g' "compiler/rustc_llvm/build.rs" || die
 
+	cd "${SRC_ROOT}/rustc/src/llvm-project/" || die
+	eapply "${FILESDIR}/rust-llvm-prf.patch"
+
 	cd "${SRC_ROOT}" || die
 	eapply_user
 }
