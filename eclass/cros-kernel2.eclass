@@ -186,6 +186,7 @@ CONFIG_FRAGMENTS=(
 	acpi_debug
 	allocator_slab
 	apex
+	aurora
 	binder
 	blkdevram
 	builtin_driver_amdgpu
@@ -302,6 +303,20 @@ apex_desc="Apex chip kernel driver"
 apex_config="
 CONFIG_STAGING_GASKET_FRAMEWORK=m
 CONFIG_STAGING_APEX_DRIVER=m
+"
+
+aurora_desc="Aurora experiment support"
+aurora_config="
+CONFIG_INTEL_IOMMU_SCALABLE_MODE_DEFAULT_ON=y
+CONFIG_INTEL_IOMMU_SVM=y
+CONFIG_IOMMU_DEFAULT_PASSTHROUGH=y
+CONFIG_IRQ_REMAP=y
+CONFIG_VFIO=m
+CONFIG_VFIO_PCI=m
+CONFIG_VMD=y
+CONFIG_PCI_IOV=y
+CONFIG_PCI_PF_STUB=m
+CONFIG_PCI_STUB=m
 "
 
 binder_desc="binder IPC"
