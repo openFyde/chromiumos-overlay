@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("ed5ba1aabb0359305d63c936f3ffbd53526f5310" "34ab3e4e2f18b354c998611ddec95cb38623865c")
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4c03a4792d86e571397fd0459d79c3594af890cb")
+CROS_WORKON_COMMIT=("076eed70f49ac7b617d79aa55079007862402e2d" "2475c6d48fd6e04aedec2b7876fc3d57a2535ef7")
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9c8710ed07a3847f0378342ac3cd87f457c651d9")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -56,6 +56,7 @@ src_install() {
 
 	insinto /usr/local/etc/virtual-usb-printer
 	doins config/escl_capabilities.json
+	doins config/escl_capabilities_large_paper_sizes.json
 	doins config/escl_capabilities_left_justified.json
 	doins config/escl_capabilities_center_justified.json
 	doins config/escl_capabilities_right_justified.json
