@@ -7,6 +7,7 @@ EAPI=7
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
+CROS_WORKON_LOCALNAME="mesa"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
@@ -44,7 +45,7 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X
+	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X zstd
 	libglvnd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
@@ -58,6 +59,7 @@ COMMON_DEPEND="
 	llvm? ( sys-devel/llvm:= )
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
+	zstd? ( app-arch/zstd )
 	X? (
 		!<x11-base/xorg-server-1.7:=
 		>=x11-libs/libX11-1.3.99.901:=
@@ -177,6 +179,12 @@ src_configure() {
 
 	if use kvm_guest; then
 		emesonargs+=( -Ddri-search-path=/opt/google/cros-containers/lib )
+	fi
+
+	if use zstd; then
+		emesonargs+=( -Dzstd=true )
+	else
+		emesonargs+=( -Dzstd=false )
 	fi
 
 	emesonargs+=(
