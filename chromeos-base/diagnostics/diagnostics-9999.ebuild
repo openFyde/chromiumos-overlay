@@ -36,7 +36,9 @@ COMMON_DEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/attestation-client:=
 	chromeos-base/debugd-client:=
+	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
 "
