@@ -2,16 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=5
+EAPI=7
 
 CROS_WORKON_COMMIT="f96cc76fd51ad2d6636c6120ba8ed64cf91ae43e"
 CROS_WORKON_TREE="2fc018126e9754352a7ab004690581318f6aa8fb"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
-PYTHON_COMPAT=( python2_7 )
-
-inherit cros-debug cros-workon libchrome-version autotools fdo-mime gnome2-utils flag-o-matic multilib multilib-minimal pam python-single-r1 user versionator java-pkg-opt-2 systemd toolchain-funcs cros-fuzzer cros-sanitizers
+inherit cros-debug cros-workon libchrome-version autotools flag-o-matic multilib multilib-minimal pam user systemd toolchain-funcs cros-fuzzer cros-sanitizers
 
 MY_P=${P/_rc/rc}
 MY_P=${MY_P/_beta/b}
@@ -24,9 +22,8 @@ DESCRIPTION="The Common Unix Printing System"
 HOMEPAGE="http://www.cups.org/"
 
 LICENSE="Apache-2.0"
-SLOT="0"
-IUSE="acl dbus debug java kerberos pam
-	python +seccomp selinux +ssl static-libs systemd test +threads upstart usb X xinetd zeroconf
+IUSE="acl dbus debug kerberos pam
+	+seccomp selinux +ssl static-libs systemd test +threads upstart usb X xinetd zeroconf
 	asan fuzzer"
 
 LANGS="ca cs de es fr it ja ru"
@@ -43,11 +40,9 @@ CDEPEND="
 		)
 	)
 	dbus? ( >=sys-apps/dbus-1.6.18-r1[${MULTILIB_USEDEP}] )
-	java? ( >=virtual/jre-1.6:* )
 	kerberos? ( >=virtual/krb5-0-r1[${MULTILIB_USEDEP}] )
 	!net-print/lprng
 	pam? ( virtual/pam )
-	python? ( ${PYTHON_DEPS} )
 	ssl? (
 		>=dev-libs/libgcrypt-1.5.3:0[${MULTILIB_USEDEP}]
 		>=net-libs/gnutls-2.12.23-r6[${MULTILIB_USEDEP}]
@@ -64,12 +59,15 @@ CDEPEND="
 "
 
 DEPEND="${CDEPEND}
-	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 	test? (
-		dev-cpp/gtest
+		dev-cpp/gtest:=
 		>=chromeos-base/libchrome-0.0.1-r31:0=[cros-debug=]
 		>=chromeos-base/libbrillo-0.0.1-r1651:=
 	)
+"
+
+BDEPEND="
+	>=virtual/pkgconfig-0-r1[${MULTILIB_USEDEP}]
 "
 
 RDEPEND="${CDEPEND}
@@ -77,7 +75,6 @@ RDEPEND="${CDEPEND}
 "
 
 REQUIRED_USE="
-	python? ( ${PYTHON_REQUIRED_USE} )
 	usb? ( threads )
 	?? ( systemd upstart )
 "
@@ -95,12 +92,10 @@ pkg_setup() {
 	enewuser lpadmin -1 -1 -1 "lpadmin,ippusb"
 	enewgroup cups
 	enewuser cups -1 -1 -1 cups
-
-	use python && python-single-r1_pkg_setup
 }
 
 src_prepare() {
-	epatch_user
+	default
 
 	# Remove ".SILENT" rule for verbose output (bug 524338).
 	sed 's#^.SILENT:##g' -i "${S}"/Makedefs.in || die "sed failed"
@@ -146,7 +141,9 @@ multilib_src_configure() {
 	econf \
 		CC="$(tc-getCC)" \
 		CXX="$(tc-getCXX)" \
-		KRB5CONFIG="${EPREFIX}"/usr/bin/${CHOST}-krb5-config \
+		LIBS="-lstdc++" \
+		KRB5CONFIG="${EPREFIX}/usr/bin/${CHOST}-krb5-config" \
+		PKGCONFIG="$(tc-getPKG_CONFIG)" \
 		--libdir="${EPREFIX}"/usr/$(get_libdir) \
 		--localstatedir="${EPREFIX}"/var \
 		--with-rundir="${EPREFIX}"/run/cups \
@@ -162,21 +159,16 @@ multilib_src_configure() {
 		$(use_enable debug) \
 		$(use_enable debug debug-guards) \
 		$(use_enable debug debug-printfs) \
-		$(multilib_native_use_with java) \
 		$(use_enable kerberos gssapi) \
 		$(multilib_native_use_enable pam) \
-		$(multilib_native_use_with python python "${PYTHON}") \
 		$(use_enable static-libs static) \
 		$(use_enable threads) \
 		$(use_with ssl tls gnutls) \
 		$(use_with systemd ondemand systemd) \
 		$(use_with upstart ondemand upstart) \
 		$(multilib_native_use_enable usb libusb) \
-		$(use_enable zeroconf avahi) \
 		--without-dnssd \
 		--disable-localization \
-		--without-perl \
-		--without-php \
 		$(multilib_is_native_abi && echo --enable-libpaper || echo --disable-libpaper) \
 		"${myconf[@]}"
 
@@ -325,31 +317,15 @@ multilib_src_install_all() {
 
 	# Removes files and directories not used by Chrome OS.
 	rm -rv \
-		"${ED}"usr/share/cups/ppdc/ \
+		"${ED}"/usr/share/cups/ppdc/ \
 			|| die "failed to remove some directories"
 	rm -v \
-		"${ED}"etc/cups/*.default \
-		"${ED}"etc/cups/snmp.conf \
-		"${ED}"usr/bin/cancel \
-		"${ED}"usr/libexec/cups/backend/snmp \
-		"${ED}"usr/sbin/cupsctl \
-		"${ED}"usr/sbin/cupsreject \
-		"${ED}"usr/sbin/lpmove \
+		"${ED}"/etc/cups/*.default \
+		"${ED}"/etc/cups/snmp.conf \
+		"${ED}"/usr/bin/cancel \
+		"${ED}"/usr/libexec/cups/backend/snmp \
+		"${ED}"/usr/sbin/cupsctl \
+		"${ED}"/usr/sbin/cupsreject \
+		"${ED}"/usr/sbin/lpmove \
 			|| die "failed to remove some files"
-}
-
-pkg_preinst() {
-	gnome2_icon_savelist
-}
-
-pkg_postinst() {
-	# Update desktop file database and gtk icon cache (bug 370059)
-	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
-}
-
-pkg_postrm() {
-	# Update desktop file database and gtk icon cache (bug 370059)
-	gnome2_icon_cache_update
-	fdo-mime_desktop_database_update
 }
