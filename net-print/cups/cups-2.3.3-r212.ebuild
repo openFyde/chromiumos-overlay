@@ -9,7 +9,7 @@ CROS_WORKON_TREE="7e77ecb3d02e54d789c227b896154fb63d4e24d4"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
-inherit cros-debug cros-workon libchrome-version autotools flag-o-matic multilib multilib-minimal pam user systemd toolchain-funcs cros-fuzzer cros-sanitizers
+inherit cros-debug cros-workon libchrome-version autotools flag-o-matic multilib multilib-minimal pam user systemd toolchain-funcs cros-fuzzer cros-sanitizers tmpfiles
 
 MY_P=${P/_rc/rc}
 MY_P=${MY_P/_beta/b}
@@ -218,6 +218,9 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
+	# install tmpfiles.d
+	dotmpfiles "${FILESDIR}/tmpfiles.d/cupsd.conf"
+
 	# move the default config file to docs
 	dodoc "${ED}"/etc/cups/cupsd.conf.default
 	rm -f "${ED}"/etc/cups/cupsd.conf.default
@@ -293,9 +296,6 @@ multilib_src_install_all() {
 		doins "${FILESDIR}"/init/cups-pre-upstart-socket-bridge.conf
 		doins "${FILESDIR}"/init/cups-post-upstart-socket-bridge.conf
 		doins "${FILESDIR}"/init/cupsd.conf
-		doins "${FILESDIR}"/init/cups-clear-state.conf
-		exeinto /usr/share/cros/init
-		doexe "${FILESDIR}"/init/cups-clear-state.sh
 	fi
 
 	# CUPS wants the daemon user to own these
