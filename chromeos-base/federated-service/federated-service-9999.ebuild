@@ -24,6 +24,7 @@ RDEPEND="
 	dev-db/sqlite:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
+	sys-cluster/fcp:=
 "
 
 DEPEND="

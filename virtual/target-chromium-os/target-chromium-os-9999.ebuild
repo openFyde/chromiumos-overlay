@@ -44,6 +44,7 @@ IUSE="
 	dptf
 	eclog
 	featured
+	federated_service
 	+fonts
 	fpstudy
 	fuzzer
@@ -197,6 +198,7 @@ RDEPEND="
 	)
 	tpm2? ( chromeos-base/trunks )
 	pam? ( virtual/chromeos-auth-config )
+	federated_service? ( chromeos-base/federated-service )
 	fonts? ( chromeos-base/chromeos-fonts )
 	chromeos-base/chromeos-installer
 	chromeos-base/dev-install
