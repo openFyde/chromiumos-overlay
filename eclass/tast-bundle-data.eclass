@@ -43,8 +43,9 @@ tast-bundle-data_src_install() {
 	pushd src >/dev/null || die "failed to pushd src"
 	local datadir dest
 
-	find "chromiumos/tast/${TAST_BUNDLE_DATA_TYPE}" -type d -name 'data' | while read -r datadir; do
+	find "chromiumos/tast/${TAST_BUNDLE_DATA_TYPE}" -type d,l -name 'data' | while read -r datadir; do
 		[[ -e "${datadir}" ]] || die
+		[[ -d "${datadir}" ]] || continue
 
 		# Dereference symlinks to support shared files: https://crbug.com/927424
 		dest=${ED%/}/${basedatadir#/}/${datadir%/*}
