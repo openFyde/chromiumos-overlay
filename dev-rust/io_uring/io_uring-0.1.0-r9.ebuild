@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c6fa73d76fd7df866c30849a9aa37c40f76ad4c2"
-CROS_WORKON_TREE="52d212ffc4eef08cc8fda2b5e0ff3906d9db59de"
+CROS_WORKON_COMMIT="a5884b5a6e5e0123b76c43658cb1d7072a651544"
+CROS_WORKON_TREE="b584d0c77726ae79bc8f29ce58822be575d1e9bd"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -24,9 +24,11 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/data_model:=
 	>=dev-rust/libc-0.2.93:=
+	=dev-rust/remain-0.2*:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
+	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 RDEPEND="${DEPEND}"
 
