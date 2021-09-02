@@ -145,6 +145,10 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-set-to-track-descriptor-count-of-la.patch
 	epatch "${FILESDIR}"/UPSTREAM-venus-check-descriptor-allocations-against-pool-reso.patch
 	epatch "${FILESDIR}"/UPSTREAM-venus-conditionally-enable-async-descriptor-set-allo.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-workaround-a-blob_mem-mappable-size-check-issu.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-renderer-to-check-map-size-only-when-mappable.patch
+	epatch "${FILESDIR}"/UPSTREAM-venus-suggest-the-proper-sampler-ycbcr-model-convers.patch
+	epatch "${FILESDIR}"/BACKPORT-venus-set-maxMipLevels-to-1-for-ahb-images.patch
 	default
 }
 
