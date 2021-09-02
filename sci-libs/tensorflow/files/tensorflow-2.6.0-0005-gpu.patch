@@ -1,19 +1,8 @@
-These patches build the label_image and benchmark_model tools with the
-GPU delegate enabled via OpenGL.
-
 diff --git a/tensorflow/lite/BUILD b/tensorflow/lite/BUILD
-index 41bd12ab..decabb0f 100644
+index c0b1cd16..2406b723 100644
 --- a/tensorflow/lite/BUILD
 +++ b/tensorflow/lite/BUILD
-@@ -268,6 +268,7 @@ cc_library(
-         ":string",
-         ":type_to_tflitetype",
-         ":util",
-+        "//tensorflow/lite/delegates/gpu:delegate",
-         "//tensorflow/lite/delegates/nnapi:nnapi_delegate",
-         "//tensorflow/lite/nnapi:nnapi_implementation",
-         "//tensorflow/lite/c:common",
-@@ -900,6 +901,8 @@ tflite_cc_shared_object(
+@@ -1045,6 +1045,8 @@ tflite_cc_shared_object(
          "//conditions:default": [
              "-Wl,-z,defs",
              "-Wl,--version-script,$(location //tensorflow/lite:tflite_version_script.lds)",
@@ -22,8 +11,16 @@ index 41bd12ab..decabb0f 100644
          ],
      }),
      per_os_targets = True,
+@@ -1053,6 +1055,7 @@ tflite_cc_shared_object(
+         ":tflite_exported_symbols.lds",
+         ":tflite_version_script.lds",
+         "//tensorflow/lite/kernels:builtin_ops_all_linked",
++        "//tensorflow/lite/delegates/gpu:delegate",
+     ],
+ )
+ 
 diff --git a/tensorflow/lite/examples/label_image/BUILD b/tensorflow/lite/examples/label_image/BUILD
-index 1c770a83..7cd7a13b 100644
+index b6d0f108..b3147244 100644
 --- a/tensorflow/lite/examples/label_image/BUILD
 +++ b/tensorflow/lite/examples/label_image/BUILD
 @@ -25,7 +25,10 @@ cc_binary(
@@ -38,18 +35,7 @@ index 1c770a83..7cd7a13b 100644
      }),
      deps = [
          ":bitmap_helpers",
-@@ -52,7 +55,9 @@ cc_binary(
-             "//tensorflow/lite/delegates/gpu:delegate",
-             "//tensorflow/lite/delegates/hexagon:hexagon_delegate",
-         ],
--        "//conditions:default": [],
-+        "//conditions:default": [
-+            "//tensorflow/lite/delegates/gpu:delegate",
-+        ],
-     }),
- )
- 
-@@ -81,7 +86,9 @@ cc_library(
+@@ -68,7 +71,9 @@ cc_library(
              "//tensorflow/lite/delegates/gpu:delegate",
              "//tensorflow/lite/delegates/hexagon:hexagon_delegate",
          ],
@@ -61,7 +47,7 @@ index 1c770a83..7cd7a13b 100644
  )
  
 diff --git a/tensorflow/lite/tools/benchmark/BUILD b/tensorflow/lite/tools/benchmark/BUILD
-index 815efb77..5e1455b8 100644
+index a5813112..7f280d17 100644
 --- a/tensorflow/lite/tools/benchmark/BUILD
 +++ b/tensorflow/lite/tools/benchmark/BUILD
 @@ -36,7 +36,10 @@ cc_binary(
@@ -88,10 +74,10 @@ index 815efb77..5e1455b8 100644
  )
  
 diff --git a/tensorflow/lite/tools/delegates/BUILD b/tensorflow/lite/tools/delegates/BUILD
-index 89748679..e5ca13a9 100644
+index b0ddff8c..e1e56f7a 100644
 --- a/tensorflow/lite/tools/delegates/BUILD
 +++ b/tensorflow/lite/tools/delegates/BUILD
-@@ -66,12 +66,8 @@ cc_library(
+@@ -78,12 +78,8 @@ cc_library(
      deps = [
          ":delegate_provider_hdr",
          "//tensorflow/lite/tools/evaluation:utils",
@@ -105,7 +91,7 @@ index 89748679..e5ca13a9 100644
          "//tensorflow:ios": [
              "//tensorflow/lite/delegates/gpu:metal_delegate",
          ],
-@@ -103,6 +99,7 @@ cc_library(
+@@ -117,6 +113,7 @@ cc_library(
      deps = [
          ":delegate_provider_hdr",
          "//tensorflow/lite/tools/evaluation:utils",
@@ -113,7 +99,7 @@ index 89748679..e5ca13a9 100644
      ] + select({
          "//tensorflow:android_arm": [
              "//tensorflow/lite/delegates/hexagon:hexagon_delegate",
-@@ -130,6 +127,7 @@ cc_library(
+@@ -144,6 +141,7 @@ cc_library(
      deps = [
          ":delegate_provider_hdr",
          "//tensorflow/lite/tools/evaluation:utils",
@@ -121,7 +107,7 @@ index 89748679..e5ca13a9 100644
      ] + select({
          "//tensorflow:ios": [
              "//tensorflow/lite/delegates/coreml:coreml_delegate",
-@@ -151,6 +149,7 @@ cc_library(
+@@ -165,6 +163,7 @@ cc_library(
      deps = [
          ":delegate_provider_hdr",
          "//tensorflow/lite/tools/evaluation:utils",
@@ -130,13 +116,13 @@ index 89748679..e5ca13a9 100644
      alwayslink = 1,
  )
 diff --git a/tensorflow/lite/tools/evaluation/BUILD b/tensorflow/lite/tools/evaluation/BUILD
-index bb0d3ac4..13f6160b 100644
+index ba745c6a..a1b7a49e 100644
 --- a/tensorflow/lite/tools/evaluation/BUILD
 +++ b/tensorflow/lite/tools/evaluation/BUILD
-@@ -42,12 +42,8 @@ cc_library(
-     deps = [
+@@ -43,12 +43,8 @@ cc_library(
          "//tensorflow/lite/c:common",
          "//tensorflow/lite/delegates/nnapi:nnapi_delegate",
+         "//tensorflow/lite/delegates/xnnpack:xnnpack_delegate",
 +        "//tensorflow/lite/delegates/gpu:delegate",
      ] + select({
 -        "//tensorflow/lite/delegates/gpu:supports_gpu_delegate": [
