@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a5884b5a6e5e0123b76c43658cb1d7072a651544"
-CROS_WORKON_TREE="1ba8c1f24ed4e0ca5b1707728f07d991fe2d8744"
+CROS_WORKON_COMMIT="6d9243865b0f2f1ef5118332c073c68fcec3faaa"
+CROS_WORKON_TREE="c3aca1296da5891a8447e9cf436fe810e8bee5c5"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -90,6 +90,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/remain:=
+	dev-rust/system_api:=
 	dev-rust/vmm_vhost:=
 	tpm2? (
 		chromeos-base/tpm2:=
