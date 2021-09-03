@@ -37,6 +37,7 @@ IUSE="
 	vaapi
 	video_cards_amdgpu
 	video_cards_intel
+	video_cards_msm
 	vulkan
 "
 
@@ -73,6 +74,7 @@ CROS_X86_RDEPEND="
 	)
 	video_cards_amdgpu? ( x11-apps/igt-gpu-tools )
 	video_cards_intel? ( x11-apps/igt-gpu-tools )
+	video_cards_msm? ( x11-apps/igt-gpu-tools )
 "
 
 RDEPEND="
