@@ -6,7 +6,7 @@
 # VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_COMMIT="3bafdf5c45878332db8291d78f4f07c46e0ad1e8"
+CROS_WORKON_COMMIT="12365475fca492383553ed8273452f0a736fc521"
 CROS_WORKON_TREE=("4de6d359714a666ba5f218b1666d04e221cb58c3" "73fd0aca5324c9cb8adac8f5a8c73583d8e14eb0" "bacdab8734794201bdb8ad183f79bab4051584db")
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
@@ -55,6 +55,8 @@ src_unpack() {
 src_configure() {
 	local name
 	local target
+
+	export GENERIC_COMPILER_PREFIX="invalid"
 
 	while read -r name && read -r target; do
 		LIBPAYLOAD_BUILD_NAMES+=("${name}")
