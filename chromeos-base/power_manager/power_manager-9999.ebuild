@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice metrics power_manager .gn"
+CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice libec metrics power_manager .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
@@ -29,6 +29,7 @@ COMMON_DEPEND="
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=
