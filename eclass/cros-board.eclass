@@ -100,7 +100,7 @@ ALL_BOARDS=(
 	betty-arc64
 	#betty-arcmaster
 	#betty-arcnext
-	betty-arcvm-master
+	#betty-arcvm-master
 	#betty-arcvm-pi
 	betty-pi-arc
 	#betty-qt-arc
