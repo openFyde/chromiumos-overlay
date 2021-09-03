@@ -39,7 +39,6 @@ IUSE_TESTS="
 	+tests_network_WiFiInvalidParameters
 	+tests_network_WiFiResume
 	+tests_network_WlanPresent
-	+tests_network_WlanRegulatory
 	+tests_network_WlanHasIP
 "
 
