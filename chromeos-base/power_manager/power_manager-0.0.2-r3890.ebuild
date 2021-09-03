@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="936fcbd792433329d5d778119087d4823672ac1d"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "7e1c963c411477282f734722b3e2b5cb9f0e8462" "755d9210be42dad025ff78343c396e51179d8e55" "88974bf3094e282cf6d9d549473ff0f8b2eed99d" "2e70595826ad86b826c299379e82987a3061dc9b" "0858b9f7a73202256678cc5b629cffb512515d1c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="54a73266938c6dd0172c04075cb1772a9349d7d3"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "7e1c963c411477282f734722b3e2b5cb9f0e8462" "755d9210be42dad025ff78343c396e51179d8e55" "88974bf3094e282cf6d9d549473ff0f8b2eed99d" "2e70595826ad86b826c299379e82987a3061dc9b" "3d145381b4248e126178da9c62ba98de6ec6bd30" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -67,6 +67,7 @@ pkg_setup() {
 src_install() {
 	# Binaries for production
 	dobin "${OUT}"/backlight_tool  # boot-splash, chromeos-boot-alert
+	dobin "${OUT}"/cpufreq_config
 	dobin "${OUT}"/dump_power_status  # crosh's battery_test command
 	dobin "${OUT}"/powerd
 	dobin "${OUT}"/powerd_setuid_helper
@@ -88,7 +89,6 @@ src_install() {
 
 	# Scripts for production
 	dobin powerd/powerd_suspend
-	dobin tools/cpufreq_config
 	dobin tools/print_sysfs_power_supply_data  # feedback
 	dobin tools/send_metrics_on_resume
 	dobin tools/thermal_zone_config
