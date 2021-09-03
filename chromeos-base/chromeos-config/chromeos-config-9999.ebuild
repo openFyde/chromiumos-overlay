@@ -3,10 +3,9 @@
 
 EAPI=7
 
-# This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
-# the canonical empty project.
-CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
-CROS_WORKON_LOCALNAME="platform/empty-project"
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_SUBTREE="chromeos-config/cros_config_host"
 
 inherit cros-unibuild cros-workon
 
@@ -25,6 +24,32 @@ RDEPEND="${DEPEND}"
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
 # more information.
+
+# Run a Python utility from the cros_config_host directory.
+#
+# Doing this instead of calling the installed copy has multiple
+# benifeits:
+# - Users who are making a schema change do not need to cros workon
+#   chromeos-base/chromeos-config-host, emerge that, and cros workon
+#   chromeos-base/chromeos-config for their board, and finally emerge
+#   that.  Historically, this was a common confusion point for
+#   developers.
+# - Schema permissions don't end up messed up if a user does a repo
+#   sync with a weird umask.
+# - Schema changes force the chromeos-base/chromeos-config package to
+#   get revbumped.
+#
+# Args:
+#    $1: The tool name to run (either cros_config_host or
+#        cros_config_schema).
+#    $@: The remaining arguments are passed directly to the tool.
+run_cros_config_tool() {
+	local tool="${1}"
+	shift
+
+	PYTHONPATH="${S}/chromeos-config/cros_config_host" \
+		python3 -m "${tool}" "$@"
+}
 
 # Merges all of the source YAML config files and generates the
 # corresponding build config and platform config files.
@@ -57,11 +82,12 @@ src_compile() {
 	fi
 
 	if [[ "${#input_yaml_files[@]}" -ne 0 ]]; then
-		cros_config_schema "${schema_flags[@]}" -o "${yaml}" \
+		run_cros_config_tool cros_config_schema "${schema_flags[@]}" \
+			-o "${yaml}" \
 			-m "${input_yaml_files[@]}" \
 			|| die "cros_config_schema failed for build config."
 
-		cros_config_schema -c "${yaml}" \
+		run_cros_config_tool cros_config_schema -c "${yaml}" \
 			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
 			|| die "cros_config_schema failed for platform config."
 	else
@@ -101,9 +127,11 @@ _verify_config_dump() {
 	local merged_path="${WORKDIR}/${source_yaml}"
 	if [[ -e "${expected_path}" ]]; then
 		if [[ -e "${source_path}" ]]; then
-			cros_config_schema -o "${merged_path}" -m "${source_path}" \
+			run_cros_config_tool cros_config_schema -o "${merged_path}" \
+				-m "${source_path}" \
 				|| die "cros_config_schema failed for build config."
-			cros_config_host -c "${merged_path}" dump-config > "${actual_path}"
+			run_cros_config_tool cros_config_host \
+				-c "${merged_path}" dump-config > "${actual_path}"
 			verify_file_match "${expected_path}" "${actual_path}"
 		else
 			eerror "Source YAML ${source_path} doesn't exist for checking" \
