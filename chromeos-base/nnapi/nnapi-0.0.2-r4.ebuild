@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("a03802ee1856bd49ee34754519314e57c60afed6" "23e2bf511667b4fa5859812a4e7945c8638f6603" "f0d85f116fd745ed927bca0102a1040629e528c9" "c92d0857816b8694a74ba1a47b754563d4452f65" "b7f8cf0f0beab62bc5a391226ebd835c2fe377dc" "8e369832671de86e05cbbd3eeb7ddfe7df95f1ec" "6b79fa280312109216ce8b3a4893f266775cddc2" "e386a40d816e794c12040936608d252ab96077a7")
-CROS_WORKON_TREE=("eaed4f3b0a8201ef3951bf1960728885ff99e772" "64b6839ee0c350c6387157eb82ce359c719646f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d0c498cd8aacda36a50685194a4f11a5538c36ec" "84e5da480e7ca644dd680845aadd3c35eef39972" "60d005eccb2f9431ea99a17d8637375a9e5e387d" "4007f79bbd89b30be582cb0cdb1292ce377f34e1" "077dba53acf2e9a7a56288ee75d515afa7541b94" "bcea173391bb1aa3b0978ecc33a27d447e59eb18" "6a8c1be1913e7a9ccf5141a072ad595a1e9d3add")
+CROS_WORKON_COMMIT=("4e0f2addf90f3d1a2aa4e4859ca5ffc0f79308b6" "8300206169b81cf8f6600886bc1f5a86e62ace98" "e50a8af67660544144c9e572d563c0c6ae8a8ddf" "02110e5625e05439f6008a01ba40e812cf1c03df" "2cba90a13babf861385364d191710eadab30a50d" "88e224a8203eea9ed9fa38a0e4c0260ecd9b69e7" "471609b486435ebb3b1136dfe24fca24a48c74ff" "47a22f5a8ab194749f2e4faedff997dab344534f")
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "f735b73d41b17c5c309f6dc632a9491131208d47" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7b1902bfd171c628068c91fc41e253d0c08df363" "050ba80727394b4c61589662e7e89333a0022cd9" "81192a924ab8c0627a67df8adaf8e6f68bd1d19b" "3628c32fe8388012af3c4322912f5b3bfb7c16fa" "cabdebe334f485c590ae0279805a523ec5021a3d" "19196bf22a93d302a71314ea2ee52f398d486b0a" "21bb97d372054e0717410c37ebf2528fc1afb8fa")
 inherit cros-constants
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -155,8 +155,15 @@ platform_pkg_test() {
 		# We can't use allocator_may_return_null=1 as it prints a warning that the
 		# toolchain considers an error.
 		gtest_excl_filter+="SharedBufferTest.alloc_null:"
+		gtest_excl_filter+="SharedBufferTest.alloc_big:"
+		gtest_excl_filter+="SharedBufferTest.alloc_max:"
 		gtest_excl_filter+="SharedBufferTest.editResize_null:"
 		gtest_excl_filter+="SharedBufferTest.editResize_death:"
+
+		# These tests expects an exit before the memory is cleaned up,
+		# so asan picks this up as a leak, but it's intentional.
+		gtest_excl_filter+="StrongPointer*.AssertStrongRefExists:"
+		gtest_excl_filter+="RefBase.AssertWeakRefExistsDeath:"
 
 		# ForkSafe leaves some threads running which results in warning printed:
 		# ==26==Running thread 23 was not suspended. False leaks are possible.

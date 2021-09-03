@@ -1,15 +1,13 @@
-Fix signed / unsigned comparison warning as error.
-
 diff --git a/platform2/aosp/system/core/libutils/Timers.cpp b/platform2/aosp/system/core/libutils/Timers.cpp
-index fd3f4a9..7a98896 100644
---- a/Timers.cpp
-+++ b/Timers.cpp
-@@ -28,7 +28,7 @@
- static constexpr size_t clock_id_max = 5;
-
+index 4cfac57..5b1c0bc 100644
+--- a/platform2/aosp/system/core/libutils/Timers.cpp
++++ b/platform2/aosp/system/core/libutils/Timers.cpp
+@@ -23,7 +23,7 @@
+ #include <android-base/macros.h>
+ #include <utils/Log.h>
+ 
+-static constexpr size_t clock_id_max = 5;
++static constexpr int clock_id_max = 5;
+ 
  static void checkClockId(int clock) {
--    if (clock < 0 || clock >= clock_id_max) abort();
-+    if (clock < 0 || clock >= static_cast<int>(clock_id_max)) abort();
- }
-
- #if defined(__linux__)
+     LOG_ALWAYS_FATAL_IF(clock < 0 || clock >= clock_id_max, "invalid clock id");

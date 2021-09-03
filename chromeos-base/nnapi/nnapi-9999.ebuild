@@ -153,8 +153,15 @@ platform_pkg_test() {
 		# We can't use allocator_may_return_null=1 as it prints a warning that the
 		# toolchain considers an error.
 		gtest_excl_filter+="SharedBufferTest.alloc_null:"
+		gtest_excl_filter+="SharedBufferTest.alloc_big:"
+		gtest_excl_filter+="SharedBufferTest.alloc_max:"
 		gtest_excl_filter+="SharedBufferTest.editResize_null:"
 		gtest_excl_filter+="SharedBufferTest.editResize_death:"
+
+		# These tests expects an exit before the memory is cleaned up,
+		# so asan picks this up as a leak, but it's intentional.
+		gtest_excl_filter+="StrongPointer*.AssertStrongRefExists:"
+		gtest_excl_filter+="RefBase.AssertWeakRefExistsDeath:"
 
 		# ForkSafe leaves some threads running which results in warning printed:
 		# ==26==Running thread 23 was not suspended. False leaks are possible.

@@ -1,16 +1,16 @@
 diff --git a/platform2/aosp/system/libfmq/include/fmq/MessageQueueBase.h b/platform2/aosp/system/libfmq/include/fmq/MessageQueueBase.h
-index 0cb83a6..0df8104 100644
+index d24dc7c..aab6b3e 100644
 --- a/platform2/aosp/system/libfmq/include/fmq/MessageQueueBase.h
 +++ b/platform2/aosp/system/libfmq/include/fmq/MessageQueueBase.h
-@@ -19,6 +19,7 @@
+@@ -20,6 +20,7 @@
  #include <cutils/ashmem.h>
  #include <fmq/EventFlag.h>
  #include <sys/mman.h>
 +#include <unistd.h>
+ #include <sys/user.h>
  #include <utils/Log.h>
  #include <utils/SystemClock.h>
- #include <atomic>
-@@ -231,6 +232,10 @@ struct MessageQueueBase {
+@@ -244,6 +245,10 @@ struct MessageQueueBase {
      struct MemRegion {
          MemRegion() : MemRegion(nullptr, 0) {}
  
@@ -21,30 +21,27 @@ index 0cb83a6..0df8104 100644
          MemRegion(T* base, size_t size) : address(base), length(size) {}
  
          MemRegion& operator=(const MemRegion& other) {
-@@ -576,7 +581,9 @@ void MessageQueueBase<MQDescriptorType, T, flavor>::initMemory(bool resetPointer
-     const auto& grantors = mDesc->grantors();
-     for (const auto& grantor : grantors) {
-         if (hardware::details::isAlignedToWordBoundary(grantor.offset) == false) {
-+#ifdef __BIONIC__
-             __assert(__FILE__, __LINE__, "Grantor offsets need to be aligned");
-+#endif
-         }
-     }
- 
-@@ -661,9 +668,10 @@ MessageQueueBase<MQDescriptorType, T, flavor>::MessageQueueBase(size_t numElemen
-      * kQueueSizeBytes needs to be aligned to word boundary so that all offsets
+@@ -674,15 +679,16 @@ MessageQueueBase<MQDescriptorType, T, flavor>::MessageQueueBase(size_t numElemen
       * in the grantorDescriptor will be word aligned.
       */
+     size_t kAshmemSizePageAligned;
 +    size_t page_size = static_cast<size_t>(sysconf(_SC_PAGE_SIZE));
-     size_t kAshmemSizePageAligned = (hardware::details::alignToWordBoundary(kQueueSizeBytes) +
--                                     kMetaDataSize + PAGE_SIZE - 1) &
--                                    ~(PAGE_SIZE - 1);
-+                                     kMetaDataSize + page_size - 1) &
-+                                    ~(page_size - 1);
+     if (bufferFd != -1) {
+         // Allocate read counter and write counter only. User-supplied memory will be used for the
+         // ringbuffer.
+-        kAshmemSizePageAligned = (kMetaDataSize + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1);
++        kAshmemSizePageAligned = (kMetaDataSize + page_size - 1) & ~(page_size - 1);
+     } else {
+         // Allocate ringbuffer, read counter and write counter.
+         kAshmemSizePageAligned = (hardware::details::alignToWordBoundary(kQueueSizeBytes) +
+-                                  kMetaDataSize + PAGE_SIZE - 1) &
+-                                 ~(PAGE_SIZE - 1);
++                                  kMetaDataSize + page_size - 1) &
++                                 ~(page_size - 1);
+     }
  
      /*
-      * Create an ashmem region to map the memory for the ringbuffer,
-@@ -1172,7 +1180,8 @@ void* MessageQueueBase<MQDescriptorType, T, flavor>::mapGrantorDescr(uint32_t gr
+@@ -1236,7 +1242,8 @@ void* MessageQueueBase<MQDescriptorType, T, flavor>::mapGrantorDescr(uint32_t gr
      /*
       * Offset for mmap must be a multiple of PAGE_SIZE.
       */
@@ -54,7 +51,7 @@ index 0cb83a6..0df8104 100644
      int mapLength = grantors[grantorIdx].offset - mapOffset + grantors[grantorIdx].extent;
  
      void* address = mmap(0, mapLength, PROT_READ | PROT_WRITE, MAP_SHARED, handle->data[fdIndex],
-@@ -1192,7 +1201,8 @@ void MessageQueueBase<MQDescriptorType, T, flavor>::unmapGrantorDescr(void* addr
+@@ -1256,7 +1263,8 @@ void MessageQueueBase<MQDescriptorType, T, flavor>::unmapGrantorDescr(void* addr
          return;
      }
  
