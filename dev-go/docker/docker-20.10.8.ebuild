@@ -73,4 +73,4 @@ DEPEND="
 	dev-go/go-sys
 	dev-go/errors
 "
-RDEPEND=""
+RDEPEND="${DEPEND}"
