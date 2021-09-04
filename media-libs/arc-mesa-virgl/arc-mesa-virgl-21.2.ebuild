@@ -54,17 +54,12 @@ REQUIRED_USE="
 	android_aep? ( !android_gles2 !android_gles30 )
 	android_vulkan_compute_0? ( vulkan )
 	cheets? (
-		vulkan? ( ^^ ( video_cards_amdgpu video_cards_intel video_cards_virgl ) )
-		video_cards_amdgpu? ( llvm )
-		video_cards_llvmpipe? ( !cheets_user !cheets_user_64 )
+		vulkan? ( ^^ ( video_cards_amdgpu video_cards_intel ) )
 	)"
 
 DEPEND="cheets? (
 		>=x11-libs/arc-libdrm-2.4.82[${MULTILIB_USEDEP}]
 		llvm? ( sys-devel/arc-llvm:=[${MULTILIB_USEDEP}] )
-		video_cards_amdgpu? (
-			dev-libs/arc-libelf[${MULTILIB_USEDEP}]
-		)
 	)"
 
 RDEPEND="${DEPEND}"
@@ -174,39 +169,10 @@ multilib_src_configure() {
 		ewarn "USE flags. No hardware drivers will be built."
 	fi
 
-	if use classic; then
-	# Configurable DRI drivers
-		# Intel code
-		driver_enable video_cards_intel i965
-
-		# Nouveau code
-		driver_enable video_cards_nouveau nouveau
-
-		# ATI code
-		driver_enable video_cards_radeon r100 r200
-	fi
-
-	if use gallium; then
-	# Configurable gallium drivers
-		gallium_enable video_cards_llvmpipe swrast
-
-		# Nouveau code
-		gallium_enable video_cards_nouveau nouveau
-
-		# ATI code
-		gallium_enable video_cards_radeon r300 r600
-		gallium_enable video_cards_amdgpu radeonsi
-
-		# Freedreno code
-		gallium_enable video_cards_freedreno freedreno
-
-		gallium_enable video_cards_virgl virgl
-	fi
+	gallium_enable virgl
 
 	if use vulkan; then
-		vulkan_enable video_cards_amdgpu amd
-		vulkan_enable video_cards_intel intel
-		vulkan_enable video_cards_virgl virtio-experimental
+		vulkan_enable virtio-experimental
 	fi
 
 	export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
@@ -290,32 +256,11 @@ multilib_src_install_cheets() {
 	newexe ${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so libGLESv2_mesa.so
 
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/dri"
-	if use classic && use video_cards_intel; then
-		newexe ${BUILD_DIR}/src/mesa/drivers/dri/libmesa_dri_drivers.so i965_dri.so
-	fi
-	if use gallium; then
-		if use video_cards_llvmpipe; then
-			newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so kms_swrast_dri.so
-		fi
-		if use video_cards_amdgpu; then
-			newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so radeonsi_dri.so
-		fi
-		if use video_cards_virgl; then
-			newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so virtio_gpu_dri.so
-		fi
-	fi
+	newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so virtio_gpu_dri.so
 
 	if use vulkan; then
 		exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/hw"
-		if use video_cards_amdgpu; then
-			newexe ${BUILD_DIR}/src/amd/vulkan/libvulkan_radeon.so vulkan.cheets.so
-		fi
-		if use video_cards_intel; then
-			newexe ${BUILD_DIR}/src/intel/vulkan/libvulkan_intel.so vulkan.cheets.so
-		fi
-		if use video_cards_virgl; then
-			newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
-		fi
+		newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
 	fi
 }
 
@@ -401,12 +346,8 @@ multilib_src_install_all_cheets() {
 		doins "${FILESDIR}/vulkan.rc"
 
 		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
-		if use video_cards_virgl; then
-			doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
-		else
-			doins "${FILESDIR}/android.hardware.vulkan.version-1_0_3.xml"
-		fi
-		if use video_cards_intel || use video_cards_virgl; then
+		doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
+		if use video_cards_intel; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
