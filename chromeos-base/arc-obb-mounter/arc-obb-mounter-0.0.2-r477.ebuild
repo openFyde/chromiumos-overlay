@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ea3b898da1f4ce296c5caa6120f70eea05a053eb"
+CROS_WORKON_COMMIT="7b93d65874fb0bb1d44a07876d6fa73e690fe357"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "63863adae39809cf6a9db2633d644dd8200dd340" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,17 +36,7 @@ BDEPEND="
 CONTAINER_DIR="/opt/google/containers/arc-obb-mounter"
 
 src_install() {
-	dobin "${OUT}"/arc-obb-mounter
-	dobin "${OUT}"/mount-obb
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.ArcObbMounter.conf
-
-	insinto /etc/init
-	doins init/arc-obb-mounter.conf
-
-	insinto "${CONTAINER_DIR}"
-	doins "${OUT}"/rootfs.squashfs
+	platform_install
 
 	# Keep the parent directory of mountpoints inaccessible from non-root
 	# users because mountpoints themselves are often world-readable but we
@@ -63,5 +53,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc-obb-mounter_testrunner"
+	platform test_all
 }
