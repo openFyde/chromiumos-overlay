@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
+	chromeos-base/tpm_manager-client:=
 "
 
 RDEPEND="
