@@ -29,7 +29,7 @@ SRC_URI="
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1 vhost-user-devices"
+IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -130,13 +130,6 @@ FUZZERS=(
 	crosvm_zimage_fuzzer
 )
 
-# Array of binary names.
-VHOST_USER_BINARIES=(
-	"vhost-user-console-device"
-	"vhost-user-net-device"
-	"vhost-user-wl-device"
-)
-
 src_unpack() {
 	# Unpack both the project and dependency source code
 	cros-workon_src_unpack
@@ -200,17 +193,6 @@ src_compile() {
 		local f
 		for f in "${FUZZERS[@]}"; do
 			ecargo_build_fuzzer --bin "${f}"
-		done
-		cd .. || die "failed to move directory"
-	fi
-
-	if use vhost-user-devices; then
-		cd vhost_user_devices || die "failed to move directory"
-		local binary
-		for binary in "${VHOST_USER_BINARIES[@]}"; do
-			ecargo_build -v \
-				--bin "${binary}" \
-				|| die "cargo build failed"
 		done
 		cd .. || die "failed to move directory"
 	fi
@@ -297,13 +279,6 @@ src_test() {
 		ecargo_test --no-run --features plugin \
 			|| die "cargo build with plugin feature failed"
 	fi
-
-	if use vhost-user-devices; then
-		cd vhost_user_devices || die "failed to move directory"
-		ecargo_test --all-targets --all-features \
-			|| die "cargo test vhost-user-devices"
-		cd .. || die "failed to move directory"
-	fi
 }
 
 src_install() {
@@ -351,15 +326,6 @@ src_install() {
 		insinto "${include_dir}"
 		doins "${S}/crosvm_plugin/crosvm.h"
 		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
-	fi
-
-	# Install vhost-user device executable.
-	if use vhost-user-devices; then
-		local build_dir="$(cros-rust_get_build_dir)"
-		local binary
-		for binary in "${VHOST_USER_BINARIES[@]}"; do
-			dobin "${build_dir}/${binary}"
-		done
 	fi
 
 	# Install crosvm-direct, when requested.
