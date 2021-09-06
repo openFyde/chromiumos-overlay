@@ -49,7 +49,7 @@ SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz
 		${bazel_external_uris}"
 
 RDEPEND="
-	>=dev-libs/flatbuffers-1.8.0
+	>=dev-libs/flatbuffers-1.8.0:=
 	>=dev-libs/protobuf-3.6.0:=
 	!minimal? (
 		app-arch/snappy
