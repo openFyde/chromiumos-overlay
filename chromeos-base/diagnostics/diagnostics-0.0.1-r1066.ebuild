@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="269ba720342563c97123ace40e03cce75765e75f"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "755d9210be42dad025ff78343c396e51179d8e55" "d6ed89f745059fa2d4692ecbfe5b00df280fba51" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="077274fc04fbbf9147b12e3aba5314ffbc4b9403"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "755d9210be42dad025ff78343c396e51179d8e55" "139c5876442bbe5b747c177aa31565274a2ea6bc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -38,7 +38,9 @@ COMMON_DEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/attestation-client:=
 	chromeos-base/debugd-client:=
+	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
 "
