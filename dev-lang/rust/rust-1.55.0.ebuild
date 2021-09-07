@@ -165,6 +165,7 @@ channel = "nightly"
 codegen-units = 0
 llvm-libunwind = 'in-tree'
 codegen-tests = false
+new-symbol-mangling = true
 
 EOF
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
