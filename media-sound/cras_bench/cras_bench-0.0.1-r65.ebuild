@@ -34,6 +34,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 	cd cras || die
 	bazel_setup_crosstool
 	default
