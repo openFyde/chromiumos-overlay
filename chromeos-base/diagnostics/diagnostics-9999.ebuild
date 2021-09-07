@@ -130,7 +130,7 @@ src_install() {
 	udev_dorules udev/99-chown_dmi_dir.rules
 
 	# Install fuzzers.
-	local fuzzer_component_id="152642"
+	local fuzzer_component_id="982097"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/fetch_system_info_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
