@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("ed5ba1aabb0359305d63c936f3ffbd53526f5310" "dc809ce4b05359901cb03f6f1fe09a8c50eb08e0" "eee167fa829d108a5678624050425899b348a252")
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a191535cdb3d656b1499ed0caa12fcb33cb1e9a7" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
+CROS_WORKON_COMMIT=("93a0be48594a8b9b431e8dda3043ed85953692ad" "b4807de3970c8e6e81443c4d89213c6d328ddbf4" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "18739e7b6aee31a97c81cebd4bd6b69b34600731" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -34,11 +34,11 @@ CROS_WORKON_DESTDIR=(
 )
 CROS_WORKON_SUBTREE=(
 	"common-mk .gn"
-	"nn"
+	""
 	""
 )
 
-PLATFORM_SUBDIR="aosp/frameworks/ml/nn/chromeos/tests"
+PLATFORM_SUBDIR="aosp/frameworks/ml/chromeos/tests"
 
 inherit cros-workon platform flag-o-matic
 
