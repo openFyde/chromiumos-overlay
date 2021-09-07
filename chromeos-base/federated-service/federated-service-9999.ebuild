@@ -19,9 +19,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-#TODO(alanlxl): add federated_library
 RDEPEND="
 	dev-db/sqlite:=
+	chromeos-base/dlcservice-client:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-cluster/fcp:=
