@@ -55,6 +55,10 @@ BDEPEND="
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}/${PN}-1.68.0-CHROMIUM-hardcode-gi_typelib-path.patch"
+)
+
 pkg_setup() {
 	python-single-r1_pkg_setup
 }
@@ -76,10 +80,19 @@ src_configure() {
 			-Dgi_cross_use_prebuilt_gi=true
 			-Dgi_cross_binary_wrapper="${FILESDIR}/exec_wrapper"
 			-Dgi_cross_ldd_wrapper="${FILESDIR}/ldd_wrapper"
+			# Define the built-in search dir with the assumption that this is
+			# installed to the test image. If this package is installed as part
+			# of the base image, then the env.d file defined below will specify
+			# the correct search paths via GI_TYPELIB_PATH in the environment.
+			-Dgi_libdir="${EPREFIX}/usr/local/$(get_libdir)"
 		)
 		# The ldd & binary wrappers rely on these locations being defined via
 		# the values in cros-constants.eclass
 		export CHROMITE_BIN_DIR CHROOT_SOURCE_ROOT
+	else
+		emesonargs+=(
+			-Dgi_libdir="${EPREFIX}/usr/$(get_libdir)"
+		)
 	fi
 
 	tc-export PKG_CONFIG
@@ -95,6 +108,12 @@ src_install() {
 	meson_src_install
 	python_fix_shebang "${ED}"/usr/bin/
 	python_optimize "${ED}"/usr/$(get_libdir)/gobject-introspection/giscanner
+
+	if ! use cros_host ; then
+		echo "GI_TYPELIB_PATH=\"${EPREFIX}/usr/local/$(get_libdir)/girepository-1.0:${EPREFIX}/usr/$(get_libdir)/girepository-1.0\"" \
+			>> "${T}/90${PN}"
+		doenvd "${T}/90${PN}"
+	fi
 
 	# Prevent collision with gobject-introspection-common
 	rm -v "${ED}"/usr/share/aclocal/introspection.m4 \
