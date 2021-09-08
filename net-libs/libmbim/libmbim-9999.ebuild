@@ -4,7 +4,7 @@
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 
-inherit autotools cros-sanitizers cros-workon
+inherit meson cros-sanitizers cros-workon udev
 
 DESCRIPTION="MBIM modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libmbim/"
@@ -21,29 +21,16 @@ DEPEND="${RDEPEND}
 	doc? ( dev-util/gtk-doc )
 	virtual/pkgconfig"
 
-src_prepare() {
-	default
-	gtkdocize
-	eautoreconf
-}
-
 src_configure() {
 	sanitizers-setup-env
 
-	econf \
-		--enable-mbim-username='modem' \
-		--enable-compile-warnings=yes \
-		--enable-introspection=no \
-		$(use_enable static{-libs,}) \
-		$(use_enable {,gtk-}doc)
-}
-
-src_test() {
-	# TODO(benchan): Run unit tests for non-x86 platforms via qemu.
-	[[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] && emake check
-}
-
-src_install() {
-	default
-	use static-libs || rm -f "${ED}"/usr/$(get_libdir)/libmbim-glib.la
+	local emesonargs=(
+		--prefix='/usr'
+		-Dmbim_username='modem'
+		-Dlibexecdir='/usr/libexec'
+		-Dudevdir='/lib/udev'
+		-Dintrospection=false
+		-Dbash_completion=false
+	)
+	meson_src_configure
 }
