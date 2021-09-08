@@ -62,15 +62,6 @@ toolchain-binutils_bugurl() {
 	printf "https://crbug.com"
 }
 
-toolchain_mips_use_sysv_gnuhash() {
-	if [[ ${CTARGET} == mips* ]] ; then
-		# For mips targets, GNU hash cannot work due to ABI constraints.
-		sed -i \
-			-e 's:--hash-style=gnu:--hash-style=sysv:' \
-			"${D}/${BINPATH}/$1" || die
-	fi
-}
-
 src_prepare() {
 	local patchsetname
 	patchsetname="${PATCH_BINUTILS_VER}-${PATCH_VER}"
@@ -171,6 +162,10 @@ src_configure() {
 		# But the check does not quite work on i686: bug #760926.
 		$(use_enable cet)
 	)
+
+	# Set GNU hash style as a default for all targets except mips.
+	# For mips targets, GNU hash cannot work due to ABI constraints.
+	[[ "${CTARGET}" != mips* ]] && myconf+=( --enable-default-hash-style=gnu )
 
 	echo ./configure "${myconf[@]}"
 	"${S}"/configure "${myconf[@]}" || die
@@ -296,7 +291,6 @@ src_install() {
 	mv "${D}/${BINPATH}/ld.bfd" "${D}/${BINPATH}/ld.bfd.real" || die
 	exeinto "${BINPATH}"
 	newexe "${FILESDIR}/${LDWRAPPER}" "ld.bfd" || die
-	toolchain_mips_use_sysv_gnuhash "ld.bfd"
 
 	# Set default to be ld.bfd in regular installation
 	dosym ld.bfd "${BINPATH}/ld"
