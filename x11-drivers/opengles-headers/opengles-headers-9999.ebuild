@@ -18,6 +18,7 @@ IUSE=""
 RDEPEND="x11-libs/libX11:="
 DEPEND="
 	${RDEPEND}
+	>=dev-util/opencl-headers-2021.04.29
 	>=dev-util/spirv-headers-1.5.4.1
 "
 
@@ -42,12 +43,4 @@ src_install() {
 	doins "${S}/include/GLES3/gl31.h"
 	doins "${S}/include/GLES3/gl32.h"
 	doins "${S}/include/GLES3/gl3platform.h"
-	insinto /usr/include/CL
-	doins "${S}/include/CL/cl.h"
-	doins "${S}/include/CL/cl_egl.h"
-	doins "${S}/include/CL/cl_ext.h"
-	doins "${S}/include/CL/cl_gl.h"
-	doins "${S}/include/CL/cl_gl_ext.h"
-	doins "${S}/include/CL/cl_platform.h"
-	doins "${S}/include/CL/opencl.h"
 }
