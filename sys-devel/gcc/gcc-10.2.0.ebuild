@@ -85,8 +85,6 @@ STDCXX_INCDIR=${TOOLCHAIN_STDCXX_INCDIR:-${LIBPATH}/include/g++-v${GCC_BRANCH_VE
 
 SLOT="${CTARGET}"
 
-PREFIX="/usr"
-
 SRC_URI="mirror://gnu/gcc/gcc-${PV}/gcc-${PV}.tar.xz
 	https://dev.gentoo.org/~${PATCH_DEV}/distfiles/gcc-${GCC_RELEASE_VER}-patches-${PATCH_VER}.tar.bz2"
 
@@ -212,10 +210,15 @@ src_configure() {
 		;;
 	esac
 
+	# Handle ABI-specific options.
+	local needed_libc="glibc"
+	if [[ "${CTARGET}" == *-eabi || "${CTARGET}" == *-elf ]]; then
+		confgcc+=( --with-newlib )
+		needed_libc="newlib"
+	fi
+
 	if is_crosscompile; then
 		confgcc+=( --enable-poison-system-directories )
-
-		local needed_libc="glibc"
 		if [[ -n ${needed_libc} ]]; then
 			if ! has_version "${CATEGORY}/${needed_libc}"; then
 				confgcc+=( --disable-shared --disable-threads --without-headers )
