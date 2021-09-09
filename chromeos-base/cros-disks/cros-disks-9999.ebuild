@@ -33,6 +33,7 @@ RDEPEND="
 	sys-fs/archivemount
 	sys-fs/dosfstools
 	sys-fs/exfat-utils
+	sys-fs/fuse-archive
 	sys-fs/fuse-exfat
 	sys-fs/fuse-zip
 	sys-fs/ntfs3g
