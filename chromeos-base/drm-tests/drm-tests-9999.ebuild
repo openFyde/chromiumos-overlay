@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=6
 CROS_WORKON_PROJECT="chromiumos/platform/drm-tests"
 CROS_WORKON_LOCALNAME="platform/drm-tests"
 
@@ -15,11 +15,15 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="vulkan"
+IUSE="
+	v4lplugin
+	vulkan
+	"
 
 RDEPEND="virtual/opengles
 	|| ( media-libs/mesa[gbm] media-libs/minigbm )
 	media-libs/libsync
+	v4lplugin? ( media-libs/libv4lplugins )
 	vulkan? (
 		media-libs/vulkan-loader
 		virtual/vulkan-icd
@@ -34,7 +38,11 @@ src_configure() {
 
 src_compile() {
 	tc-export CC
-	emake USE_VULKAN="$(usex vulkan 1 0)"
+	if use v4lplugin; then
+		einfo "- Using libv4l2plugin"
+		append-flags "-DUSE_V4LPLUGIN"
+	fi
+	emake USE_VULKAN="$(usex vulkan 1 0)" USE_V4LPLUGIN="$(usex v4lplugin 1 0)"
 }
 
 src_install() {
