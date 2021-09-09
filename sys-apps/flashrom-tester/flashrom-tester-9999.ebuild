@@ -18,7 +18,7 @@ HOMEPAGE="https://www.flashrom.org/Flashrom"
 
 LICENSE="GPL-2"
 KEYWORDS="~*"
-DEPEND=">=dev-rust/rand-0.6.4:=
+DEPEND="=dev-rust/rand-0.6*:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/clap-2.33*:=
 	=dev-rust/libc-0.2*:=
