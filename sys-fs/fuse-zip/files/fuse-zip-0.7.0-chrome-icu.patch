@@ -1,4 +1,4 @@
-From a6d463794be51d5f48af655da22c3acb8f24fd02 Mon Sep 17 00:00:00 2001
+From 5422ef0015b4bffd7ef78b2a3331ad22a0330b0f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Tue, 17 Nov 2020 14:26:09 +1100
 Subject: [PATCH] Link and initialize chrome-icu
@@ -43,14 +43,15 @@ index 4e4b23a..8c2d098 100644
  CXXFLAGS = -g -O0 $(COMMON_CXXFLAGS)
  RELEASE_CXXFLAGS = -O2 $(COMMON_CXXFLAGS)
 diff --git a/lib/fuseZipData.cpp b/lib/fuseZipData.cpp
-index 9639a8e..6666d6e 100644
+index f8b4cbe..9ed7bbb 100644
 --- a/lib/fuseZipData.cpp
 +++ b/lib/fuseZipData.cpp
-@@ -25,10 +25,18 @@
+@@ -26,11 +26,19 @@
  #include <stdexcept>
  #include <functional>
  #include <memory>
 +#include <system_error>
+ #include <vector>
  
 +#include <fcntl.h>
  #include <syslog.h>
@@ -65,7 +66,7 @@ index 9639a8e..6666d6e 100644
  
  #include "fuseZipData.h"
  #include "extraField.h"
-@@ -60,6 +68,105 @@ static void SetPassword(zip_t *const archive) {
+@@ -62,6 +70,105 @@ static void SetPassword(zip_t *const archive) {
  
  namespace {
  
@@ -182,5 +183,5 @@ index 9639a8e..6666d6e 100644
      const std::string encoding = DetectEncoding(allNames);
      allNames.clear();
 -- 
-2.29.2.576.ga3fc446d84-goog
+2.33.0.464.g1972c5931b-goog
 

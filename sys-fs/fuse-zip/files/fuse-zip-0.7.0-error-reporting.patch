@@ -1,4 +1,4 @@
-From 42243c105b6a067b9e680ba84c417c972eaa4d3f Mon Sep 17 00:00:00 2001
+From e4fd0b7046a0e505f2cbdfcc37ca899951e01680 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Mon, 29 Jun 2020 00:29:00 +1000
 Subject: [PATCH] Better error reporting via exceptions
@@ -17,17 +17,15 @@ FUSE callbacks: fusezip_open, fusezip_create, fusezip_mknod,
 fusezip_read, fusezip_write, fusezip_release, fusezip_ftruncate,
 fusezip_truncate and fusezip_rename. This pattern could (should) be
 applied to the rest of these FUSE callbacks.
-
-Avoid logging filenames in syslog. Filenames can contain PII.
 ---
  lib/dataNode.cpp    |  30 ++----
  lib/fileNode.cpp    |  33 ------
- lib/fuse-zip.cpp    | 243 ++++++++++++++++++++++----------------------
+ lib/fuse-zip.cpp    | 246 ++++++++++++++++++++++----------------------
  lib/fuse-zip.h      |   4 +-
- lib/fuseZipData.cpp |  74 ++++++++------
+ lib/fuseZipData.cpp |  39 ++++---
  lib/util.h          |  50 +++++++++
- main.cpp            |  17 ++--
- 7 files changed, 231 insertions(+), 220 deletions(-)
+ main.cpp            |  20 ++--
+ 7 files changed, 215 insertions(+), 207 deletions(-)
 
 diff --git a/lib/dataNode.cpp b/lib/dataNode.cpp
 index 17c94c2..0efd7bc 100644
@@ -197,10 +195,10 @@ index bd1538c..efe1105 100644
      }
  
 diff --git a/lib/fuse-zip.cpp b/lib/fuse-zip.cpp
-index 0db402e..061cc6d 100644
+index 0db402e..661e03b 100644
 --- a/lib/fuse-zip.cpp
 +++ b/lib/fuse-zip.cpp
-@@ -41,76 +41,67 @@
+@@ -41,76 +41,70 @@
  #include <cstring>
  #include <cstdlib>
  #include <limits>
@@ -224,8 +222,11 @@ index 0db402e..061cc6d 100644
 +// Must be called from within a catch block.
 +static int exceptionToError(const char *const action, const char *const file) {
 +    const auto log = [action, file](const char *const reason) {
-+        fprintf(stderr, "Cannot %s '%s': %s\n", action, file, reason);
-+        syslog(LOG_ERR, "Cannot %s: %s", action, reason);
++        if (false) {
++            syslog(LOG_ERR, "Cannot %s '%s': %s", action, file, reason);
++        } else {
++            syslog(LOG_ERR, "Cannot %s: %s", action, reason);
++        }
 +    };
 +
 +    try {
@@ -317,7 +318,7 @@ index 0db402e..061cc6d 100644
      return data;
  }
  
-@@ -126,7 +117,6 @@ void fusezip_destroy(void *data) {
+@@ -126,7 +120,6 @@ void fusezip_destroy(void *data) {
      FuseZipData *d = (FuseZipData*)data;
      d->save ();
      delete d;
@@ -325,7 +326,7 @@ index 0db402e..061cc6d 100644
  }
  
  FileNode *get_file_node(const char *fname) {
-@@ -208,7 +198,7 @@ int fusezip_statfs(const char *path, struct statvfs *buf) {
+@@ -208,7 +201,7 @@ int fusezip_statfs(const char *path, struct statvfs *buf) {
      return 0;
  }
  
@@ -334,7 +335,7 @@ index 0db402e..061cc6d 100644
      if (*path == '\0') {
          return -ENOENT;
      }
-@@ -221,18 +211,13 @@ int fusezip_open(const char *path, struct fuse_file_info *fi) {
+@@ -221,18 +214,13 @@ int fusezip_open(const char *path, struct fuse_file_info *fi) {
      }
      fi->fh = (uint64_t)node;
  
@@ -358,7 +359,7 @@ index 0db402e..061cc6d 100644
      if (*path == '\0') {
          return -EACCES;
      }
-@@ -240,18 +225,20 @@ int fusezip_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
+@@ -240,18 +228,20 @@ int fusezip_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
      if (node != NULL) {
          return -EEXIST;
      }
@@ -383,7 +384,7 @@ index 0db402e..061cc6d 100644
      if (*path == '\0') {
          return -EACCES;
      }
-@@ -259,47 +246,55 @@ int fusezip_mknod(const char *path, mode_t mode, dev_t dev) {
+@@ -259,47 +249,55 @@ int fusezip_mknod(const char *path, mode_t mode, dev_t dev) {
      if (node != NULL) {
          return -EEXIST;
      }
@@ -459,7 +460,7 @@ index 0db402e..061cc6d 100644
      if (*path == '\0') {
          return -EACCES;
      }
-@@ -321,6 +316,8 @@ int fusezip_truncate(const char *path, off_t offset) {
+@@ -321,6 +319,8 @@ int fusezip_truncate(const char *path, off_t offset) {
          return -res;
      }
      return node->close();
@@ -468,7 +469,7 @@ index 0db402e..061cc6d 100644
  }
  
  int fusezip_unlink(const char *path) {
-@@ -371,7 +368,7 @@ int fusezip_mkdir(const char *path, mode_t mode) {
+@@ -371,7 +371,7 @@ int fusezip_mkdir(const char *path, mode_t mode) {
      return 0;
  }
  
@@ -477,7 +478,7 @@ index 0db402e..061cc6d 100644
      if (*path == '\0') {
          return -ENOENT;
      }
-@@ -385,7 +382,7 @@ int fusezip_rename(const char *path, const char *new_path) {
+@@ -385,7 +385,7 @@ int fusezip_rename(const char *path, const char *new_path) {
      FileNode *new_node = get_file_node(new_path + 1);
      if (new_node != NULL) {
          int res = get_data()->removeNode(new_node);
@@ -486,7 +487,7 @@ index 0db402e..061cc6d 100644
              return -res;
          }
      }
-@@ -403,48 +400,46 @@ int fusezip_rename(const char *path, const char *new_path) {
+@@ -403,48 +403,46 @@ int fusezip_rename(const char *path, const char *new_path) {
          new_name.push_back('/');
      }
  
@@ -593,47 +594,31 @@ index c52cc62..0e9730f 100644
   * (see https://bitbucket.org/agalanin/fuse-zip/issues/7).
   */
 diff --git a/lib/fuseZipData.cpp b/lib/fuseZipData.cpp
-index 6852678..d9ff5cb 100644
+index 6852678..11893d8 100644
 --- a/lib/fuseZipData.cpp
 +++ b/lib/fuseZipData.cpp
-@@ -18,7 +18,6 @@
- ////////////////////////////////////////////////////////////////////////////
- 
- #include <zip.h>
--#include <syslog.h>
- #include <cassert>
- #include <cerrno>
- #include <cstring>
-@@ -37,21 +36,24 @@ FuseZipData::FuseZipData(const char *archiveName, struct zip *z, const char *cwd
+@@ -37,15 +37,16 @@ FuseZipData::FuseZipData(const char *archiveName, struct zip *z, const char *cwd
  
  FuseZipData::~FuseZipData() {
      if (chdir(m_cwd.c_str()) != 0) {
 -        syslog(LOG_ERR, "Unable to chdir() to archive directory %s: %s. Trying to save file into $TMP or /tmp...",
-+        fprintf(stderr, "Cannot chdir to archive directory '%s': %s\n",
-                 m_cwd.c_str(), strerror(errno));
+-                m_cwd.c_str(), strerror(errno));
++        syslog(LOG_ERR, "Cannot chdir to archive directory '%s': %s",
++               m_cwd.c_str(), strerror(errno));
          const char *tmpDir = getenv("TMP");
          if (tmpDir == NULL || chdir(tmpDir) != 0) {
              if (tmpDir != NULL) {
 -                syslog(LOG_WARNING, "Unable to chdir() to %s: %s.", tmpDir, strerror(errno));
-+                fprintf(stderr, "Cannot chdir to '%s': %s\n", tmpDir,
-+                        strerror(errno));
++                syslog(LOG_ERR, "Cannot chdir to '%s': %s", tmpDir,
++                       strerror(errno));
              }
              if (chdir("/tmp") != 0) {
 -                syslog(LOG_ERR, "Unable to chdir() to /tmp: %s!", strerror(errno));
-+                fprintf(stderr, "Cannot chdir to '/tmp': %s\n",
-+                        strerror(errno));
++                syslog(LOG_ERR, "Cannot chdir to '/tmp': %s", strerror(errno));
              }
          }
      }
-     int res = zip_close(m_zip);
-     if (res != 0) {
--        syslog(LOG_ERR, "Error while closing archive: %s", zip_strerror(m_zip));
-+        fprintf(stderr, "Error while closing archive: %s\n",
-+                zip_strerror(m_zip));
-     }
-     for (filemap_t::iterator i = files.begin(); i != files.end(); ++i) {
-         delete i->second;
-@@ -103,7 +105,8 @@ void FuseZipData::build_tree(bool readonly) {
+@@ -103,7 +104,8 @@ void FuseZipData::build_tree(bool readonly) {
          if (notHLink)
              attachNode(i, name, mode, readonly, needPrefix, origNames);
          else if (!readonly)
@@ -643,7 +628,7 @@ index 6852678..d9ff5cb 100644
      }
      // Connect nodes to tree. Missing intermediate nodes created on demand.
      for (filemap_t::const_iterator i = files.begin(); i != files.end(); ++i)
-@@ -126,7 +129,7 @@ void FuseZipData::connectNodeToTree (FileNode *node) {
+@@ -126,7 +128,7 @@ void FuseZipData::connectNodeToTree (FileNode *node) {
          files[parent->full_name.c_str()] = parent;
          connectNodeToTree (parent);
      } else if (!parent->is_dir()) {
@@ -652,7 +637,7 @@ index 6852678..d9ff5cb 100644
      }
      // connecting to parent
      node->parent = parent;
-@@ -241,8 +244,8 @@ void FuseZipData::attachNode(zip_int64_t id, const char *name, mode_t mode, bool
+@@ -241,8 +243,8 @@ void FuseZipData::attachNode(zip_int64_t id, const char *name, mode_t mode, bool
      convertFileName(name, readonly, needPrefix, converted);
      const char *cname = converted.c_str();
      if (files.find(cname) != files.end()) {
@@ -663,52 +648,7 @@ index 6852678..d9ff5cb 100644
      }
      FileNode *node = FileNode::createNodeForZipEntry(m_zip, cname, id, mode);
      if (node == NULL) {
-@@ -263,7 +266,7 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
-         field = zip_file_extra_field_get_by_id(m_zip, id, FZ_EF_PKWARE_UNIX, 0, &len, ZIP_FL_LOCAL);
-     if (!field) {
-         // ignoring hardlink without PKWARE UNIX field
--        syslog(LOG_INFO, "%s: PKWARE UNIX field is absent for hardlink\n", name);
-+        fprintf(stderr, "%s: PKWARE UNIX field is absent for hardlink\n", name);
-         return false;
-     }
- 
-@@ -276,13 +279,13 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
-     if (!ExtraField::parsePkWareUnixField(len, field, mode, mt, at,
-                 uid, gid, dev, link, link_len))
-     {
--        syslog(LOG_WARNING, "%s: unable to parse PKWARE UNIX field\n", name);
-+        fprintf(stderr, "%s: unable to parse PKWARE UNIX field\n", name);
-         return false;
-     }
- 
-     if (link_len == 0 || !link)
-     {
--        syslog(LOG_ERR, "%s: hard link target is empty\n", name);
-+        fprintf(stderr, "%s: hard link target is empty\n", name);
-         return true;
-     }
- 
-@@ -291,7 +294,8 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
-     auto it = origNames.find(linkStr.c_str());
-     if (it == origNames.end())
-     {
--        syslog(LOG_ERR, "%s: unable to find link target %s\n", name, linkStr.c_str());
-+        fprintf(stderr, "%s: unable to find link target %s\n", name,
-+                linkStr.c_str());
-         return true;
-     }
- 
-@@ -304,7 +308,8 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
-         }
-         else
-         {
--            syslog(LOG_ERR, "%s: file format differs with link target %s\n", name, linkStr.c_str());
-+            fprintf(stderr, "%s: file format differs with link target %s\n",
-+                    name, linkStr.c_str());
-             return true;
-         }
-     }
-@@ -313,8 +318,8 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
+@@ -313,8 +315,8 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
      convertFileName(name, readonly, needPrefix, converted);
      const char *cname = converted.c_str();
      if (files.find(cname) != files.end()) {
@@ -719,7 +659,7 @@ index 6852678..d9ff5cb 100644
      }
      FileNode *node = FileNode::createHardlink(m_zip, cname, sid, it->second);
      if (node == NULL) {
-@@ -345,10 +350,10 @@ int FuseZipData::removeNode(FileNode *node) {
+@@ -345,10 +347,10 @@ int FuseZipData::removeNode(FileNode *node) {
  
  void FuseZipData::validateFileName(const char *fname) {
      if (fname[0] == 0) {
@@ -732,7 +672,7 @@ index 6852678..d9ff5cb 100644
      }
  }
  
-@@ -367,7 +372,9 @@ void FuseZipData::convertFileName(const char *fname, bool readonly,
+@@ -367,7 +369,9 @@ void FuseZipData::convertFileName(const char *fname, bool readonly,
      // add prefix
      if (fname[0] == '/') {
          if (!readonly) {
@@ -743,7 +683,7 @@ index 6852678..d9ff5cb 100644
          } else {
              assert(needPrefix);
              converted.append(ROOT_PREFIX);
-@@ -377,7 +384,9 @@ void FuseZipData::convertFileName(const char *fname, bool readonly,
+@@ -377,7 +381,9 @@ void FuseZipData::convertFileName(const char *fname, bool readonly,
          bool parentRelative = false;
          while (strncmp(fname, "../", 3) == 0) {
              if (!readonly) {
@@ -754,7 +694,7 @@ index 6852678..d9ff5cb 100644
              }
              assert(needPrefix);
              converted.append(UP_PREFIX);
-@@ -400,14 +409,15 @@ void FuseZipData::convertFileName(const char *fname, bool readonly,
+@@ -400,14 +406,15 @@ void FuseZipData::convertFileName(const char *fname, bool readonly,
      while (start[0] != 0 && (cur = strchr(start + 1, '/')) != NULL) {
          if ((cur - start == 1 && start[0] == '.') ||
              (cur - start == 2 && start[0] == '.' && start[1] == '.')) {
@@ -772,58 +712,6 @@ index 6852678..d9ff5cb 100644
      }
      converted.append(start);
  }
-@@ -471,7 +481,8 @@ void FuseZipData::save () {
-             if (node->isCommentChanged()) {
-                 int res = node->saveComment();
-                 if (res != 0) {
--                    syslog(LOG_ERR, "Error while saving archive comment: %d", res);
-+                    fprintf(stderr, "Error %d while saving archive comment\n",
-+                            res);
-                 }
-             }
-             continue;
-@@ -483,8 +494,8 @@ void FuseZipData::save () {
-             int res = node->save();
-             if (res != 0) {
-                 saveMetadata = false;
--                syslog(LOG_ERR, "Error while saving file %s in ZIP archive: %d",
--                        node->full_name.c_str(), res);
-+                fprintf(stderr, "Error %d while saving file '%s'\n", res,
-+                        node->full_name.c_str());
-             }
-         }
-         if (saveMetadata) {
-@@ -493,23 +504,24 @@ void FuseZipData::save () {
-                 zip_int64_t idx = zip_dir_add(m_zip,
-                         node->full_name.c_str(), ZIP_FL_ENC_GUESS);
-                 if (idx < 0) {
--                    syslog(LOG_ERR, "Unable to save directory %s in ZIP archive",
--                        node->full_name.c_str());
-+                    fprintf(stderr, "Cannot save directory '%s'\n",
-+                            node->full_name.c_str());
-                     continue;
-                 }
-                 node->set_id(idx);
-             }
-             int res = node->saveMetadata(m_force_precise_time);
-             if (res != 0) {
--                syslog(LOG_ERR, "Error while saving metadata for file %s in ZIP archive: %d",
--                        node->full_name.c_str(), res);
-+                fprintf(stderr,
-+                        "Error %d while saving metadata for file '%s'\n", res,
-+                        node->full_name.c_str());
-             }
-         }
-         if (node->isCommentChanged()) {
-             int res = node->saveComment();
-             if (res != 0) {
--                syslog(LOG_ERR, "Error while saving comment for file %s in ZIP archive: %d",
--                        node->full_name.c_str(), res);
-+                fprintf(stderr, "Error %d while saving comment for file '%s'\n",
-+                        res, node->full_name.c_str());
-             }
-         }
-     }
 diff --git a/lib/util.h b/lib/util.h
 index 94ac191..1fe63be 100644
 --- a/lib/util.h
@@ -888,7 +776,7 @@ index 94ac191..1fe63be 100644
 +
  #endif
 diff --git a/main.cpp b/main.cpp
-index cb19ac5..1503523 100644
+index cb19ac5..f1e605d 100644
 --- a/main.cpp
 +++ b/main.cpp
 @@ -41,6 +41,7 @@
@@ -908,33 +796,35 @@ index cb19ac5..1503523 100644
      if (sizeof(void*) > sizeof(uint64_t)) {
          fprintf(stderr,"%s: This program cannot be run on your system because of FUSE design limitation\n", PROGRAM);
          return EXIT_FAILURE;
-@@ -237,11 +238,7 @@ int main(int argc, char *argv[]) {
+@@ -236,12 +237,8 @@ int main(int argc, char *argv[]) {
+             param.readonly = true;
          }
  
-         openlog(PROGRAM, LOG_PID, LOG_USER);
+-        openlog(PROGRAM, LOG_PID, LOG_USER);
 -        if ((data = initFuseZip(PROGRAM, param.fileName, param.readonly, param.force_precise_time))
 -                == NULL) {
 -            fuse_opt_free_args(&args);
 -            return EXIT_FAILURE;
 -        }
++        openlog(PROGRAM, LOG_PID | LOG_PERROR, LOG_USER);
 +        data = initFuseZip(PROGRAM, param.fileName, param.readonly, param.force_precise_time);
      }
  
      static struct fuse_operations fusezip_oper;
-@@ -301,5 +298,13 @@ int main(int argc, char *argv[]) {
+@@ -301,5 +298,12 @@ int main(int argc, char *argv[]) {
      res = fuse_loop(fuse);
      fuse_teardown(fuse, mountpoint);
      return (res == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
-+} catch (const ZipError& e) {
-+  fprintf(stderr,"%s: %s\n", PROGRAM, e.what());
-+  // Shift libzip error codes in order to avoid collision with FUSE errors.
-+  const int ZIP_ER_BASE = 10;
-+  return ZIP_ER_BASE + e.code();
-+} catch (const std::exception& e) {
-+  fprintf(stderr,"%s: %s\n", PROGRAM, e.what());
-+  return EXIT_FAILURE;
++} catch (const ZipError &e) {
++    fprintf(stderr, "%s: %s\n", PROGRAM, e.what());
++    // Shift libzip error codes in order to avoid collision with FUSE errors.
++    const int ZIP_ER_BASE = 10;
++    return ZIP_ER_BASE + e.code();
++} catch (const std::exception &e) {
++    fprintf(stderr, "%s: %s\n", PROGRAM, e.what());
++    return EXIT_FAILURE;
  }
- 
+-
 -- 
-2.29.1.341.ge80a0c044ae-goog
+2.33.0.464.g1972c5931b-goog
 

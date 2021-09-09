@@ -1,4 +1,4 @@
-From 8272f98ee26144fc8108ca35bc49b7e25868535f Mon Sep 17 00:00:00 2001
+From 8c7edca489ac151e18d4fda02778b146f38ea1ee Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Thu, 17 Sep 2020 18:06:27 +1000
 Subject: [PATCH] Deduplicate file names
@@ -12,7 +12,7 @@ Subject: [PATCH] Deduplicate file names
  5 files changed, 46 insertions(+), 47 deletions(-)
 
 diff --git a/lib/fileNode.cpp b/lib/fileNode.cpp
-index 62723d6..8a5b16a 100644
+index efe1105..cedaaa6 100644
 --- a/lib/fileNode.cpp
 +++ b/lib/fileNode.cpp
 @@ -89,7 +89,6 @@ FileNode *FileNode::createDir(struct zip *zip, const char *fname,
@@ -65,7 +65,7 @@ index 62723d6..8a5b16a 100644
          mode |= 2;
      }
 diff --git a/lib/fileNode.h b/lib/fileNode.h
-index ab07cd9..e20cd0d 100644
+index 998bc9e..0d18b01 100644
 --- a/lib/fileNode.h
 +++ b/lib/fileNode.h
 @@ -191,10 +191,9 @@ public:
@@ -92,10 +92,10 @@ index ab07cd9..e20cd0d 100644
      nodelist_t childs;
      FileNode *parent;
 diff --git a/lib/fuse-zip.cpp b/lib/fuse-zip.cpp
-index 7c33999..5310925 100644
+index 4a1b139..f69e60a 100644
 --- a/lib/fuse-zip.cpp
 +++ b/lib/fuse-zip.cpp
-@@ -167,8 +167,8 @@ int fusezip_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
+@@ -170,8 +170,8 @@ int fusezip_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t o
      }
      filler(buf, ".", NULL, 0);
      filler(buf, "..", NULL, 0);
@@ -107,10 +107,10 @@ index 7c33999..5310925 100644
  
      return 0;
 diff --git a/lib/fuseZipData.cpp b/lib/fuseZipData.cpp
-index 6d5d498..c511e1d 100644
+index 461cd4b..36a3451 100644
 --- a/lib/fuseZipData.cpp
 +++ b/lib/fuseZipData.cpp
-@@ -298,22 +298,40 @@ mode_t FuseZipData::getEntryAttributes(zip_uint64_t id, const char *name, bool &
+@@ -297,22 +297,40 @@ mode_t FuseZipData::getEntryAttributes(zip_uint64_t id, const char *name, bool &
      return mode;
  }
  
@@ -160,7 +160,7 @@ index 6d5d498..c511e1d 100644
  }
  
  bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode, bool readonly,
-@@ -378,16 +396,9 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
+@@ -375,16 +393,9 @@ bool FuseZipData::attachHardlink(zip_int64_t sid, const char *name, mode_t mode,
      std::string converted;
      convertFileName(name, readonly, needPrefix, converted);
      const char *cname = converted.c_str();
@@ -201,5 +201,5 @@ index e25c060..92d4191 100644
  #endif
 -
 -- 
-2.29.1.341.ge80a0c044ae-goog
+2.33.0.464.g1972c5931b-goog
 

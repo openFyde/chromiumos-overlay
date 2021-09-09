@@ -1,4 +1,4 @@
-From 37e24eb0fe1fed110bf7f5309ed131f8ca25f11d Mon Sep 17 00:00:00 2001
+From 97e6eab3d71d3c49ee5ae799f4fd88928dae03ce Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Mon, 15 Jun 2020 10:56:27 +1000
 Subject: [PATCH] Detect filename encoding and convert filenames to UTF-8 using
@@ -7,8 +7,8 @@ Subject: [PATCH] Detect filename encoding and convert filenames to UTF-8 using
 ---
  Makefile            |  15 ++--
  lib/Makefile        |  14 ++--
- lib/fuseZipData.cpp | 193 ++++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 194 insertions(+), 28 deletions(-)
+ lib/fuseZipData.cpp | 192 ++++++++++++++++++++++++++++++++++++++++----
+ 3 files changed, 193 insertions(+), 28 deletions(-)
 
 diff --git a/Makefile b/Makefile
 index 1b40859..e72ce52 100644
@@ -45,15 +45,15 @@ index 1b40859..e72ce52 100644
  	    -o $@
  
 diff --git a/lib/Makefile b/lib/Makefile
-index af2df55..4e4b23a 100644
+index d092e0e..4e4b23a 100644
 --- a/lib/Makefile
 +++ b/lib/Makefile
 @@ -1,10 +1,10 @@
  DEST=libfusezip.a
 -PKG_CONFIG?=pkg-config
 -LIBS=$(shell $(PKG_CONFIG) fuse --libs) $(shell $(PKG_CONFIG) libzip --libs)
--CXXFLAGS=-g -O0 -Wall -Wextra -Wconversion -Wno-sign-compare -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
--RELEASE_CXXFLAGS=-O2 -Wall -Wextra -Wconversion -Wno-sign-compare -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
+-CXXFLAGS=-g -O0 -Wall -Wextra -Wconversion -Wsign-conversion -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
+-RELEASE_CXXFLAGS=-O2 -Wall -Wextra -Wconversion -Wsign-conversion -Wlogical-op -Wshadow -pedantic -Werror -std=c++11
 -FUSEFLAGS=$(shell $(PKG_CONFIG) fuse --cflags)
 -ZIPFLAGS=$(shell $(PKG_CONFIG) libzip --cflags)
 +PKG_CONFIG ?= pkg-config
@@ -75,15 +75,16 @@ index af2df55..4e4b23a 100644
  clean:
  	rm -f $(DEST) $(OBJECTS)
 diff --git a/lib/fuseZipData.cpp b/lib/fuseZipData.cpp
-index c511e1d..9639a8e 100644
+index 36a3451..29ff2c4 100644
 --- a/lib/fuseZipData.cpp
 +++ b/lib/fuseZipData.cpp
-@@ -23,6 +23,12 @@
+@@ -24,6 +24,13 @@
  #include <cstring>
  #include <iostream>
  #include <stdexcept>
 +#include <functional>
 +#include <memory>
++#include <vector>
 +
 +#include <syslog.h>
 +#include <unicode/ucnv.h>
@@ -91,7 +92,7 @@ index c511e1d..9639a8e 100644
  
  #include "fuseZipData.h"
  #include "extraField.h"
-@@ -52,6 +58,118 @@ static void SetPassword(zip_t *const archive) {
+@@ -53,6 +60,118 @@ static void SetPassword(zip_t *const archive) {
          throw ZipError("Cannot set default password", archive);
  }
  
@@ -131,7 +132,7 @@ index c511e1d..9639a8e 100644
 +                                            in, inlen, &error);
 +
 +        if (U_FAILURE(error)) {
-+            fprintf(stderr, "Cannot convert to UTF-16: %s\n", u_errorName(error));
++            syslog(LOG_ERR, "Cannot convert to UTF-16: %s", u_errorName(error));
 +            return nullptr;
 +        }
 +
@@ -140,7 +141,7 @@ index c511e1d..9639a8e 100644
 +                                             utf16.data(), len16, &error);
 +
 +        if (U_FAILURE(error)) {
-+            fprintf(stderr, "Cannot convert to UTF-8: %s\n", u_errorName(error));
++            syslog(LOG_ERR, "Cannot convert to UTF-8: %s", u_errorName(error));
 +            return nullptr;
 +        }
 +
@@ -184,11 +185,11 @@ index c511e1d..9639a8e 100644
 +    const UCharsetMatch *const ucm = ucsdet_detect(csd.get(), &error);
 +    const char *const encoding = ucsdet_getName(ucm, &error);
 +    if (U_FAILURE(error)) {
-+        fprintf(stderr, "Cannot detect encoding: %s\n", u_errorName(error));
++        syslog(LOG_ERR, "Cannot detect encoding: %s", u_errorName(error));
 +        return std::string();
 +    }
 +
-+    printf("Detected encoding %s with %d%% confidence\n", encoding,
++    syslog(LOG_INFO, "Detected encoding %s with %d%% confidence", encoding,
 +           ucsdet_getConfidence(ucm, &error));
 +
 +    // Check if we want to convert the detected encoding via ICU.
@@ -210,7 +211,7 @@ index c511e1d..9639a8e 100644
  FuseZipData::FuseZipData(const char *archiveName, struct zip *z, const char *cwd,
          bool force_precise_time):
      m_zip(z), m_archiveName(archiveName), m_cwd(cwd), m_force_precise_time(force_precise_time) {
-@@ -91,18 +209,58 @@ void FuseZipData::build_tree(bool readonly) {
+@@ -90,18 +209,56 @@ void FuseZipData::build_tree(bool readonly) {
      m_root->parent = NULL;
      files[m_root->full_name.c_str()] = m_root;
      zip_int64_t n = zip_get_num_entries(m_zip, 0);
@@ -272,14 +273,12 @@ index c511e1d..9639a8e 100644
 +            };
 +            zipFlags = ZIP_FL_ENC_RAW;
 +        } catch (const std::exception &e) {
-+            printf("Cannot create converter for %s: %s\n", encoding.c_str(),
-+                   e.what());
 +            syslog(LOG_ERR, "Cannot create converter for %s: %s",
 +                   encoding.c_str(), e.what());
          }
      }
  
-@@ -115,13 +273,16 @@ void FuseZipData::build_tree(bool readonly) {
+@@ -114,13 +271,16 @@ void FuseZipData::build_tree(bool readonly) {
          zip_uint64_t id = static_cast<zip_uint64_t>(i);
          bool isHardlink;
  
@@ -298,7 +297,7 @@ index c511e1d..9639a8e 100644
          mode_t mode = getEntryAttributes(id, name, isHardlink);
          if (S_ISLNK(mode))
              continue;
-@@ -154,7 +315,11 @@ void FuseZipData::build_tree(bool readonly) {
+@@ -153,7 +313,11 @@ void FuseZipData::build_tree(bool readonly) {
      for (zip_int64_t i = 0; i < n; ++i) {
          zip_uint64_t id = static_cast<zip_uint64_t>(i);
          bool isHardlink;
@@ -311,15 +310,15 @@ index c511e1d..9639a8e 100644
          mode_t mode = getEntryAttributes(id, name, isHardlink);
          if (S_ISLNK(mode))
              continue;
-@@ -574,7 +739,7 @@ void FuseZipData::save () {
+@@ -570,7 +734,7 @@ void FuseZipData::save () {
              if (node->isTemporaryDir()) {
                  // persist temporary directory
                  zip_int64_t idx = zip_dir_add(m_zip,
 -                        node->full_name.c_str(), ZIP_FL_ENC_GUESS);
 +                        node->full_name.c_str(), ZIP_FL_ENC_UTF_8);
                  if (idx < 0) {
-                     fprintf(stderr, "Cannot save directory '%s'\n",
-                             node->full_name.c_str());
+                     syslog(LOG_ERR, "Unable to save directory %s in ZIP archive",
+                         node->full_name.c_str());
 -- 
-2.29.2.576.ga3fc446d84-goog
+2.33.0.464.g1972c5931b-goog
 
