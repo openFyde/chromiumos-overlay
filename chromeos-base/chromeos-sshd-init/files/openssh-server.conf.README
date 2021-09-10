@@ -56,5 +56,6 @@ complicated.
 
   # Open firewall and start sshd (must be done on every boot).
   $ iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+  $ ip6tables -A INPUT -p tcp --dport 22 -j ACCEPT
   $ /usr/sbin/sshd \
     -oAuthorizedKeysFile=/usr/share/chromeos-ssh-config/keys/authorized_keys
