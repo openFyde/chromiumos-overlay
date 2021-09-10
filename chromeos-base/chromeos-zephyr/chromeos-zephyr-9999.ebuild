@@ -10,6 +10,7 @@ CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/zephyr/cmsis"
 	"chromiumos/third_party/zephyr/hal_stm32"
+	"chromiumos/third_party/zephyr/nanopb"
 	"chromiumos/platform/ec"
 )
 for v in "${ZEPHYR_VERSIONS[@]}"; do
@@ -19,6 +20,7 @@ done
 CROS_WORKON_LOCALNAME=(
 	"third_party/zephyr/cmsis"
 	"third_party/zephyr/hal_stm32"
+	"third_party/zephyr/nanopb"
 	"platform/ec"
 )
 for v in "${ZEPHYR_VERSIONS[@]}"; do
@@ -28,6 +30,7 @@ done
 CROS_WORKON_DESTDIR=(
 	"${S}/modules/cmsis"
 	"${S}/modules/hal_stm32"
+	"${S}/modules/nanopb"
 	"${S}/modules/ec"
 )
 for v in "${ZEPHYR_VERSIONS[@]}"; do
