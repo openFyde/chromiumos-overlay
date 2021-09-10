@@ -72,9 +72,6 @@ CROS_X86_RDEPEND="
 		media-gfx/vadumpcaps
 		media-video/libva-utils
 	)
-	video_cards_amdgpu? ( x11-apps/igt-gpu-tools )
-	video_cards_intel? ( x11-apps/igt-gpu-tools )
-	video_cards_msm? ( x11-apps/igt-gpu-tools )
 "
 
 RDEPEND="
@@ -187,4 +184,7 @@ RDEPEND="${RDEPEND}
 	sys-process/time
 	virtual/autotest-capability
 	virtual/chromeos-bsp-dev
+	video_cards_amdgpu? ( x11-apps/igt-gpu-tools )
+	video_cards_intel? ( x11-apps/igt-gpu-tools )
+	video_cards_msm? ( x11-apps/igt-gpu-tools )
 "
