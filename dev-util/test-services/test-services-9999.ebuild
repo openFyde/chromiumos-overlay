@@ -16,11 +16,11 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
+# TODO(b/182898188): Re-add test-plan once proto changes have been integrated.
 DEPEND="
 	dev-util/provision-server
 	dev-util/testlabenv-local
 	dev-util/test-exec-server
-	dev-util/test-plan
 	dev-util/dut-server
 "
 RDEPEND="
