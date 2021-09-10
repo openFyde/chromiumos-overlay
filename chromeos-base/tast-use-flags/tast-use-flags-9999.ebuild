@@ -132,6 +132,7 @@ IUSE="
 	veyron_rialto
 	video_cards_amdgpu
 	video_cards_intel
+	video_cards_mediatek
 	video_cards_msm
 	virtio_gpu
 	vulkan
