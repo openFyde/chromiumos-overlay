@@ -27,8 +27,6 @@ COMMON_DEPEND="
 		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
 	)
 	chromeos-base/chromeos-config-tools:=
-	chromeos-base/cryptohome-client:=
-	chromeos-base/tpm_manager-client:=
 "
 
 RDEPEND="
@@ -42,8 +40,10 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/system_api
-	chromeos-base/vboot_reference
+	chromeos-base/cryptohome-client:=
+	chromeos-base/system_api:=
+	chromeos-base/tpm_manager-client:=
+	chromeos-base/vboot_reference:=
 "
 
 pkg_preinst() {
