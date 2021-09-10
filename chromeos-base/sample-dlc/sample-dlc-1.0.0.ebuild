@@ -48,6 +48,7 @@ src_install() {
 	# back so we can reliable reproduce the same random sequence again if
 	# needed too. Otherwise it is just a no-op. Setting the value of RANDOM
 	# acts as setting a seed value for bash's random generator.
+	unset RANDOM
 	RANDOM="${seed}"
 
 	# Setup DLC paths.
