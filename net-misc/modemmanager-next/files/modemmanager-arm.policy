@@ -8,6 +8,7 @@ writev: 1
 write: 1
 poll: 1
 read: 1
+pread64: 1
 recv: 1
 futex: 1
 futex_time64: 1
