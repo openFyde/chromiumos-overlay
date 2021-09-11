@@ -105,6 +105,7 @@ CROS_COMMON_RDEPEND="
 	iioservice? ( chromeos-base/iioservice_simpleclient )
 	scanner? (
 		chromeos-base/lorgnette_cli
+		chromeos-base/lorgnette-wwcb-tests
 		chromeos-base/sane-backends-test
 	)
 	ml_service? ( chromeos-base/ml-cmdline )
