@@ -40,6 +40,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_AdapterSAHealth
 	+tests_bluetooth_AdapterSRHealth
 	+tests_bluetooth_PeerUpdate
+	+tests_bluetooth_PeerVerify
 "
 
 IUSE_TESTS="${IUSE_TESTS}
