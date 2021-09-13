@@ -198,11 +198,18 @@ multilib_src_test() {
 		./scheduler/googletests
 	)
 	local t
+
+	if use cros_host; then
+		test_args=( --host )
+	else
+		test_args=( --sysroot="${SYSROOT}" )
+	fi
+
 	for t in "${tests[@]}"; do
 		ASAN_OPTIONS=log_path=stderr \
 		UBSAN_OPTIONS=print_stacktrace=1:log_path=stderr \
 		/mnt/host/source/src/platform2/common-mk/platform2_test.py \
-		--sysroot="${SYSROOT}" -- "${t}" || die "${t} failed"
+		"${test_args[@]}" -- "${t}" || die "${t} failed"
 	done
 }
 
