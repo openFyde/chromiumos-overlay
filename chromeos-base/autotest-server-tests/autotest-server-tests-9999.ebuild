@@ -268,6 +268,7 @@ SERVER_IUSE_TESTS="
 	+tests_hardware_StorageQualTrimStress
 	+tests_hardware_StorageQualV2
 	+tests_hardware_StorageStress
+	+tests_infra_ServerPythonVersion
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
 	+tests_kernel_ExternalUsbPeripheralsDetectionTest
