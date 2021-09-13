@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="130d07297135d2f3fdf36d8294fe177d77081777"
+CROS_WORKON_COMMIT="ce3ccb628bf7fe9d87955cd5cab88c4dfc5e50de"
 CROS_WORKON_TREE="571c4818f6439d8d133e48240d1158d36bf348dc"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="../platform/dev"
@@ -18,11 +18,11 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
+# TODO(b/182898188): Re-add test-plan once proto changes have been integrated.
 DEPEND="
 	dev-util/provision-server
 	dev-util/testlabenv-local
 	dev-util/test-exec-server
-	dev-util/test-plan
 	dev-util/dut-server
 "
 RDEPEND="
