@@ -6,6 +6,8 @@
 
 set -e
 
+. /usr/sbin/tpm-firmware-update-cleanup
+
 # Status codes defined by tpm-firmware-updater.
 EXIT_CODE_SUCCESS=0
 EXIT_CODE_ERROR=1
@@ -18,9 +20,6 @@ EXIT_CODE_BAD_RETRY=9
 
 # Minimum battery charge level at which to retry running the updater.
 MIN_BATTERY_CHARGE_PERCENT=10
-
-# Directory containing tpm firmware images and behavior flags.
-TPM_FIRMWARE_DIR=/lib/firmware/tpm
 
 # Flag file indicating that a TPM firmware update has been requested.
 TPM_FIRMWARE_UPDATE_REQUEST=/mnt/stateful_partition/unencrypted/preserve/tpm_firmware_update_request
@@ -112,24 +111,6 @@ reboot_here() {
   exit 1
 }
 
-# Verifies that the TPM is in good state after updating. When performing an
-# owner-authorized TPM firmware update, the previous SRK remains. Since that SRK
-# might be weak we can't allow for it to stick around. The updater generally
-# requests the TPM to be cleared after updating, but there are edge cases
-# (interrupted updates, TPM firmware bugs that prevent the update from
-# completing successfully) for which we might reboot in normal mode without the
-# TPM having been cleared. As a safety net to handle these cases we check that
-# the TPM is cleared and if not request another clear here.
-cleanup() {
-  if [ "$(tpmc getownership)" != "Owned: no" ]; then
-    crossystem clear_tpm_owner_request=1
-    reboot_here "warm"
-  fi
-
-  # Looking good, don't trigger the TPM updater again after reboot.
-  rm "${TPM_FIRMWARE_UPDATE_REQUEST}"
-}
-
 main() {
   # Check whether a firmware update has been requested, bail out if not.
   if [ ! -e "${TPM_FIRMWARE_UPDATE_REQUEST}" ]; then
@@ -148,8 +129,9 @@ main() {
       touch "${PRESERVATION_REQUEST}"
       ;;
     cleanup)
-      # Make sure to return the TPM into a good state after completion.
-      cleanup
+      # This branch should not run since cleanup is invoked early during boot
+      # from chromeos_startup via the tpm-firmware-update-cleanup script. Bail
+      # if ending up here erroneously.
       exit 0
       ;;
     first_boot|*)

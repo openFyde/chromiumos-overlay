@@ -52,6 +52,7 @@ src_install() {
 	newsbin TPMFactoryUpd/TPMFactoryUpd infineon-firmware-updater
 	dosbin "${FILESDIR}"/tpm-firmware-updater
 	dosbin "${FILESDIR}"/tpm-firmware-locate-update
+	dosbin "${FILESDIR}"/tpm-firmware-update-cleanup
 
 	insinto /etc/init
 	doins "${FILESDIR}"/tpm-firmware-check.conf
