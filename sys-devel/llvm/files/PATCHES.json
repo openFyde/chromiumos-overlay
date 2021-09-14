@@ -958,6 +958,12 @@
         "end_version": 429795
     },
     {
+        "comment": "DebugInfo: LTO with -g inlined into -gmlt combined with Split DWARF without CU cross-references",
+        "rel_patch_path": "cherry/1b112c80a68697687189ddf5bb01b2edacb618af.patch",
+        "start_version": 428724,
+        "end_version": 431151
+    },
+    {
         "comment": "[ELF] --fortran-common: prefer STB_WEAK to COMMON",
         "rel_patch_path": "cherry/7de2173c2a4c45711831cfee3ccf53690c76ff07.patch",
         "start_version": 428724,
