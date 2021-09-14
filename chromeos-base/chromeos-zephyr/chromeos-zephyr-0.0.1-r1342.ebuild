@@ -4,14 +4,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c3bd2094f92d574377f7af2aec147ae181aa5f8e" "f8ff8d25aa0a9e65948040c7b47ec67f3fa300df" "6ef7afa7971b536f7e2a82f601d66ff0159d2473" "862339fbeda58557e116daf5f91f1e5c9824391a")
-CROS_WORKON_TREE=("781df7da13c4275a2328c09e75fd937991d80e29" "abc18d92d55a64403269f84c59e6db14875edb34" "5e5acb3d9f065d28c617f21a4ee82c8f63d33502" "0f80d4464da4dcd8914ceda77e67f7bc3ce745b1")
+CROS_WORKON_COMMIT=("c3bd2094f92d574377f7af2aec147ae181aa5f8e" "f8ff8d25aa0a9e65948040c7b47ec67f3fa300df" "32a21483d6586851edfa1d8491beb3df442e90c6" "17b10f589a23ab208222742f9864201a85512e00" "862339fbeda58557e116daf5f91f1e5c9824391a")
+CROS_WORKON_TREE=("781df7da13c4275a2328c09e75fd937991d80e29" "abc18d92d55a64403269f84c59e6db14875edb34" "719a42d9d98358f9123acf2d8916ed9c1821d60b" "b35bf5177e6aaf2a3f90f671c854b16326875495" "0f80d4464da4dcd8914ceda77e67f7bc3ce745b1")
 ZEPHYR_VERSIONS=( v2.6 )
 
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/zephyr/cmsis"
 	"chromiumos/third_party/zephyr/hal_stm32"
+	"chromiumos/third_party/zephyr/nanopb"
 	"chromiumos/platform/ec"
 )
 for v in "${ZEPHYR_VERSIONS[@]}"; do
@@ -21,6 +22,7 @@ done
 CROS_WORKON_LOCALNAME=(
 	"third_party/zephyr/cmsis"
 	"third_party/zephyr/hal_stm32"
+	"third_party/zephyr/nanopb"
 	"platform/ec"
 )
 for v in "${ZEPHYR_VERSIONS[@]}"; do
@@ -30,6 +32,7 @@ done
 CROS_WORKON_DESTDIR=(
 	"${S}/modules/cmsis"
 	"${S}/modules/hal_stm32"
+	"${S}/modules/nanopb"
 	"${S}/modules/ec"
 )
 for v in "${ZEPHYR_VERSIONS[@]}"; do
