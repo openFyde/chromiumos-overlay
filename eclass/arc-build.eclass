@@ -107,6 +107,8 @@ arc-build-select-clang() {
 		# TODO(b/161353194,b/181375275) If clang is uprevved, please
 		# remove this filter and see if the build succeeds.
 		filter-flags -march=tremont -march=alderlake
+		# Ignore unwindlib flag for ARC++.
+		filter-flags --unwindlib=libunwind
 
 		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
 		# we need to add some flags valid only for amd64, so we trick

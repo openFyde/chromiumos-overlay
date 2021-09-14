@@ -78,8 +78,8 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"-DLLVM_ENABLE_PROJECTS=libcxxabi"
-		"-DCMAKE_C_COMPILER_WORKS=yes"
-		"-DCMAKE_CXX_COMPILER_WORKS=yes"
+		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
+		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLIBCXXABI_LIBDIR_SUFFIX=${libdir#lib}"
 		"-DLIBCXXABI_ENABLE_SHARED=ON"
 		"-DLIBCXXABI_ENABLE_STATIC=$(usex static-libs)"
@@ -100,7 +100,7 @@ multilib_src_configure() {
 	# Building 32-bit libc++abi on host requires using host compiler
 	# with LIBCXXABI_BUILD_32_BITS flag enabled.
 	if use cros_host; then
-		if [[ "${CATEGORY}" != "cross-*" && "$(get_abi_CTARGET)" == "i686"* ]]; then
+		if [[ "${CATEGORY}" != "cross-"* && "$(get_abi_CTARGET)" == "i686"* ]]; then
 			CC="$(tc-getBUILD_CC)"
 			CXX="$(tc-getBUILD_CXX)"
 			mycmakeargs+=(
@@ -116,6 +116,9 @@ multilib_src_configure() {
 	fi
 
 	libcxx_configure
+
+	# Link with libunwind.so.
+	use libunwind && append-ldflags "-shared-libgcc"
 	cmake-utils_src_configure
 }
 
@@ -129,8 +132,8 @@ libcxx_configure() {
 	local mycmakeargs=(
 		"-DLLVM_ENABLE_PROJECTS=libcxx"
 		"-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}"
-		"-DCMAKE_C_COMPILER_WORKS=yes"
-		"-DCMAKE_CXX_COMPILER_WORKS=yes"
+		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
+		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLIBCXX_ENABLE_SHARED=ON"
 		"-DLIBCXX_ENABLE_STATIC=yes"
 		"-DLIBCXX_CXX_ABI=libcxxabi"
@@ -140,11 +143,12 @@ libcxx_configure() {
 		"-DLIBCXX_HAS_GCC_S_LIB=no"
 		"-DLIBCXX_USE_COMPILER_RT=yes"
 		"-DLIBCXX_INCLUDE_TESTS=OFF"
+		"-DLIBCXX_HAS_ATOMIC_LIB=OFF"
 		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 	)
 	cmake -GNinja "${S}/libcxx" "${mycmakeargs[@]}"
-	ninja generate-cxx-headers
+	ninja generate-cxx-headers || die
 	cd .. || die
 }
 

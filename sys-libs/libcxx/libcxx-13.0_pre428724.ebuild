@@ -111,12 +111,15 @@ multilib_src_configure() {
 		fi
 	fi
 
+	# Link with libunwind.so.
+	use libunwind && append-ldflags "-shared-libgcc"
+
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"-DLLVM_ENABLE_PROJECTS=libcxx"
 		"-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}"
-		"-DCMAKE_C_COMPILER_WORKS=yes"
-		"-DCMAKE_CXX_COMPILER_WORKS=yes"
+		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
+		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLIBCXX_ENABLE_SHARED=ON"
 		"-DLIBCXX_ENABLE_STATIC=$(usex static-libs)"
 		"-DLIBCXX_CXX_ABI=${cxxabi}"
@@ -130,12 +133,13 @@ multilib_src_configure() {
 		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DCMAKE_SHARED_LINKER_FLAGS=${extra_libs[*]} ${LDFLAGS}"
+		"-DLIBCXX_HAS_ATOMIC_LIB=OFF"
 	)
 
 	# Building 32-bit libc++ on host requires using host compiler
 	# with LIBCXX_BUILD_32_BITS flag enabled.
 	if use cros_host; then
-		if [[ "${CATEGORY}" != "cross-*" && "$(get_abi_CTARGET)" == "i686"* ]]; then
+		if [[ "${CATEGORY}" != "cross-"* && "$(get_abi_CTARGET)" == "i686"* ]]; then
 			CC="$(tc-getBUILD_CC)"
 			CXX="$(tc-getBUILD_CXX)"
 			mycmakeargs+=(

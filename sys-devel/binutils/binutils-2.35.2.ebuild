@@ -106,6 +106,8 @@ src_configure() {
 
 	# keep things sane
 	strip-flags
+	# Use shared libgcc on non-host builds.
+	use cros_host || append-ldflags "-shared-libgcc"
 
 	local x
 	echo
@@ -118,8 +120,8 @@ src_configure() {
 	local myconf=( --enable-plugins )
 
 	# enable only the DWP tool which is part of gold, but don't
-	# install the gold linker because it is deprecated
-	myconf+=( --enable-gold=dwp )
+	# install the gold linker because it is deprecated.
+	use cros_host && myconf+=( --enable-gold=dwp )
 
 	use nls \
 		&& myconf+=( --without-included-gettext ) \
