@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="2ea7a78e344514e1dfc3b4e7591c2726b5b95f90"
-CROS_WORKON_TREE="0aac025bbd1aba7572511198dc0d49b0e916733a"
+CROS_WORKON_COMMIT="fe338467eba987d11673e388c2a9246ac50682f1"
+CROS_WORKON_TREE="0958c0427a08778db237833d34c253f420ddf58b"
 CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
 CROS_WORKON_EGIT_BRANCH="chromeos-1.2"
@@ -17,7 +17,7 @@ HOMEPAGE="http://upstart.ubuntu.com/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug direncryption examples nls selinux udev_bridge"
+IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge"
 
 RDEPEND=">=sys-apps/dbus-1.2.16
 	>=sys-libs/libnih-1.0.2
@@ -60,18 +60,28 @@ src_configure() {
 
 	append-lfs-flags
 
-	econf \
-		--prefix=/ \
-		--exec-prefix= \
-		--includedir='${prefix}/usr/include' \
-		--disable-rpath \
-		$(use_with direncryption dircrypto-keyring) \
-		$(use_enable selinux) \
+	local myconf=(
+		--prefix=/
+		--exec-prefix=
+		--includedir="${prefix}/usr/include"
+		--disable-rpath
+		$(use_with direncryption dircrypto-keyring)
+		$(use_enable selinux)
 		$(use_enable nls)
+	)
+
+	if use global_seccomp; then
+		myconf+=(
+		--with-seccomp-constants="${SYSROOT}/build/share/constants.json"
+		)
+	fi
+
+	econf "${myconf[@]}"
 }
 
 src_compile() {
-	emake NIH_DBUS_TOOL=$(which nih-dbus-tool)
+	emake clean
+	emake "NIH_DBUS_TOOL=$(which nih-dbus-tool)"
 }
 
 src_install() {
