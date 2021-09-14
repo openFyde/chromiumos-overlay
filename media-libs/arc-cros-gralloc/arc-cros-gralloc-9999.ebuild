@@ -42,6 +42,10 @@ src_configure() {
 
 	append-lfs-flags
 
+	if [[ -n "${ARC_PLATFORM_SDK_VERSION}" ]]; then
+		append-cppflags -DANDROID_API_LEVEL="${ARC_PLATFORM_SDK_VERSION}"
+	fi
+
 	# TODO(gsingh): use pkgconfig
 	if use video_cards_intel; then
 		export DRV_I915=1
