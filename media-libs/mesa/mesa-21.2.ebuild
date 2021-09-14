@@ -12,7 +12,7 @@ CROS_WORKON_TREE="4990bb4b958cda4cee02dac3d6115328e1d3dd45"
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="mesa-21.2"
+CROS_WORKON_EGIT_BRANCH="upstream/main"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
