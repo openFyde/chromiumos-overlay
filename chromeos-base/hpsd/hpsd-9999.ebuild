@@ -17,9 +17,10 @@ DESCRIPTION="Chrome OS HPS daemon."
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE=""
+IUSE="hpsd-roflash"
 
 RDEPEND="
+	hpsd-roflash? ( dev-embedded/stm32flash:= )
 "
 
 DEPEND="${RDEPEND}
@@ -39,7 +40,11 @@ src_install() {
 
 	# Install upstart configuration.
 	insinto /etc/init
-	doins daemon/init/*.conf
+	doins daemon/init/hpsd.conf
+
+	if use hpsd-roflash ; then
+		doins daemon/init/hpsd_roflash.conf
+	fi
 
 	insinto /etc/dbus-1/system.d
 	doins daemon/dbus/org.chromium.Hps.conf
