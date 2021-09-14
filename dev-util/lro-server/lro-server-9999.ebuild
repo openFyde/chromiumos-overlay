@@ -36,6 +36,7 @@ DEPEND="
 	dev-go/grpc
 	dev-go/mock
 	dev-go/protobuf
+	dev-go/uuid
 	chromeos-base/cros-config-api
 "
 
