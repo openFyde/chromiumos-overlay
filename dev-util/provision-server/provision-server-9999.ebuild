@@ -35,6 +35,7 @@ DEPEND="
 	dev-util/lro-server
 	dev-util/lroold-server
 	dev-go/genproto-rpc
+	dev-go/luci-go-common
 	dev-go/mock
 	dev-go/protobuf
 	chromeos-base/cros-config-api
