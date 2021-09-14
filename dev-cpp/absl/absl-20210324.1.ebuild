@@ -7,7 +7,7 @@ inherit cmake-utils toolchain-funcs
 
 DESCRIPTION="Abseil - C++ Common Libraries"
 HOMEPAGE="https://abseil.io"
-SRC_URI="https://github.com/abseil/abseil-cpp/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/abseil/abseil-cpp/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
