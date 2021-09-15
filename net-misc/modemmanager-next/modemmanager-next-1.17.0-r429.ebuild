@@ -88,6 +88,7 @@ src_configure() {
 	econf \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
 		--enable-compile-warnings=yes \
+		--enable-introspection=no \
 		"$(use_enable {,gtk-}doc)" \
 		"$(use_with mbim)" \
 		"$(use_enable qrtr plugin-qcom-soc)" \
