@@ -50,6 +50,7 @@ IUSE_IWLWIFI=(
 	iwlwifi-9260
 	iwlwifi-cc
 	iwlwifi-QuZ
+	iwlwifi-so
 )
 IUSE_BRCMWIFI=(
 	brcmfmac-all
@@ -248,6 +249,7 @@ RDEPEND="
 	!net-wireless/iwl6005-ucode
 	!net-wireless/iwl6030-ucode
 	!net-wireless/iwl6050-ucode
+	!sys-kernel/iwlwifi-gfp2-private
 "
 
 RESTRICT="binchecks strip"
@@ -316,6 +318,10 @@ install_iwlwifi() {
 				doins "${x}"-*.ucode
 				;;
 			esac
+			;;
+		iwlwifi-so)
+			doins "${x}-a0-gf-a0-67.ucode"
+			doins "${x}-a0-gf-a0.pnvm"
 			;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
