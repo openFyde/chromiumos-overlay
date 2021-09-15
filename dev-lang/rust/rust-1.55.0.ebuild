@@ -22,7 +22,7 @@ else
 fi
 
 
-BOOTSTRAP_VERSION="1.53.0"
+BOOTSTRAP_VERSION="1.54.0"
 
 DESCRIPTION="Systems programming language from Mozilla"
 HOMEPAGE="http://www.rust-lang.org/"

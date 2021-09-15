@@ -171,7 +171,7 @@ diff --git a/compiler/rustc_target/src/spec/armv7a_cros_linux_gnueabihf.rs b/com
 index 5f0f47dd3..4a1ab82f3 100644
 --- a/compiler/rustc_target/src/spec/armv7a_cros_linux_gnueabihf.rs
 +++ b/compiler/rustc_target/src/spec/armv7a_cros_linux_gnueabihf.rs
-@@ -1,10 +1,14 @@
+@@ -1,10 +1,15 @@
 -use crate::spec::{Target, TargetOptions};
 +use crate::spec::{SanitizerSet, Target, TargetOptions};
  
@@ -179,7 +179,6 @@ index 5f0f47dd3..4a1ab82f3 100644
  // thumb-mode. See the thumbv7neon variant for enabling both.
  
  pub fn target() -> Target {
--    let base = super::linux_gnu_base::opts();
 +    let mut base = super::linux_gnu_base::opts();
 +    base.supported_sanitizers = SanitizerSet::ADDRESS
 +        | SanitizerSet::LEAK
@@ -188,6 +187,16 @@ index 5f0f47dd3..4a1ab82f3 100644
      Target {
          llvm_target: "armv7-unknown-linux-gnueabihf".to_string(),
          pointer_width: 32,
+         data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".to_string(),
+@@ -15,7 +20,7 @@
+             features: "+v7,+vfp3,-d32,+thumb2,-neon".to_string(),
+             max_atomic_width: Some(64),
+             mcount: "\u{1}__gnu_mcount_nc".to_string(),
+-            ..super::linux_gnu_base::opts()
++            ..base
+         },
+     }
+ }
 -- 
 2.32.0.554.ge1b32706d8-goog
 
