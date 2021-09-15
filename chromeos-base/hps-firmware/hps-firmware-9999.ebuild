@@ -95,8 +95,7 @@ src_compile() {
 	) done
 
 	# Build MCU firmware
-	# TODO(b/197804301): Add 'stage1' into list.
-	for crate in stage0 ; do (
+	for crate in stage0 stage1 ; do (
 		einfo "Building MCU firmware ${crate}"
 		cd mcu_rom/${crate} || die
 		ecargo build \
@@ -115,6 +114,5 @@ src_install() {
 
 	insinto "/usr/lib/firmware/hps"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0" "mcu_stage0.elf"
-# TODO(b/197804301): Add 'stage1'.
-#	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1" "mcu_stage1.elf"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1" "mcu_stage1.elf"
 }
