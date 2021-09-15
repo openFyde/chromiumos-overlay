@@ -994,6 +994,7 @@ vtconsole_config_disable="
 nowerror_desc="Don't build with -Werror (warnings aren't fatal)."
 nowerror_config="
 # CONFIG_ERROR_ON_WARNING is not set
+# CONFIG_WERROR is not set
 "
 
 docker_desc="Docker Support (Linux Containers)"
