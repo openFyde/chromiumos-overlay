@@ -44,6 +44,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21-gentoo-fixup-warnings.patch"
 	"${FILESDIR}/${PN}-3.23-hppa-byte_order.patch"
 	"${FILESDIR}/${PN}-3.44-prefer-writable-tokens-for-trust.patch"
+	"${FILESDIR}/${PN}-3.44-CVE-2020-12403-set1.patch"
+	"${FILESDIR}/${PN}-3.44-CVE-2020-12403-set2.patch"
 )
 
 src_unpack() {
