@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="895bd14c0247e04a06e9381a68ca75ffdffc6fa1"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "2e05b81f3f1e89a1abf9f72c8767e13aa73a20ba" "48a70eae786bbbabd168c17b4adf65332065c10d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c474d7d90cb2f79d5afc30e12b4fe12c4dd09adf"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "2e05b81f3f1e89a1abf9f72c8767e13aa73a20ba" "4a934f9bc796490861fdf538280bb3847ddd9071" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
+	chromeos-base/tpm_manager-client:=
 "
 
 RDEPEND="
