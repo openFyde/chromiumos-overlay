@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-Fix-MMD-Device-Init-Fail-issue.patch
 	"${FILESDIR}"/0004-reset-brc-when-frame-rate-changes-for-VP8e.patch
 	"${FILESDIR}"/0005-Encode-Fix-default-MMC-enabling-for-JPEG-encoder.patch
+	"${FILESDIR}"/0006-Encode-Enable-Jpeg-MMC-for-G12.patch
 )
 
 src_configure() {
