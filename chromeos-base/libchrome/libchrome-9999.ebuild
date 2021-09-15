@@ -156,6 +156,7 @@ src_install() {
 		base/test/task_environment.h \
 		base/test/test_mock_time_task_runner.h \
 		base/test/test_pending_task.h \
+		base/test/test_switches.h \
 		base/test/test_timeouts.h \
 
 	if use crypto; then
