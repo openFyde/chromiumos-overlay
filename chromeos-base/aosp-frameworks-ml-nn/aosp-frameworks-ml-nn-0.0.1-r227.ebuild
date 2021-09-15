@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("93a0be48594a8b9b431e8dda3043ed85953692ad" "b4807de3970c8e6e81443c4d89213c6d328ddbf4" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_COMMIT=("727e2945559e22ec24219616f93e95e51455a4a8" "b4807de3970c8e6e81443c4d89213c6d328ddbf4" "eee167fa829d108a5678624050425899b348a252")
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "18739e7b6aee31a97c81cebd4bd6b69b34600731" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
@@ -209,7 +209,6 @@ src_install() {
 	dolib.so "${OUT}/lib/libnn-common.so"
 
 	einfo "Installing default driver"
-	echo -e "full:libfull-driver.so\ndefault:libfull-driver.so" >> "${OUT}/drivers"
 	dolib.so "${OUT}/lib/libfull-driver.so"
 
 	if ! use vendor-nnhal ; then
@@ -218,14 +217,10 @@ src_install() {
 	fi
 	if use minimal-driver; then
 		einfo "Installing minimal drivers"
-		echo "minimal:libminimal-driver.so" >> "${OUT}/drivers"
 		dolib.so "${OUT}/lib/libminimal-driver.so"
 	fi
 	if use xnnpack-driver; then
 		einfo "Installing xnnpack drivers"
-		echo "xnnpack:libxnn-driver.so" >> "${OUT}/drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
-
-	doenvd "${OUT}/drivers"
 }
