@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d43aa626707c13da2582c0b507fed2591ac3574b"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "7e6ce2ecfbc478fb899741456d54088aab4f348a" "333d203032476c3fefc6d2baded495341733850a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "e08a2eb734e33827dffeecf57eca046cd1091373" "5b0ff2899b36e9e467d7d5bc6b81fc29a01f0b03" "7b317e0052034761a3a35a7432b6d1ec81b7ebd5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="931560fbc3dbf54a3cea0427a2cafe0829039297"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "7450eebcbda7655bc5c8d5db773a60e9b04c924f" "333d203032476c3fefc6d2baded495341733850a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "e08a2eb734e33827dffeecf57eca046cd1091373" "5b0ff2899b36e9e467d7d5bc6b81fc29a01f0b03" "7b317e0052034761a3a35a7432b6d1ec81b7ebd5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,7 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks:=
 	)
+	chromeos-base/chaps-client:=
 	chromeos-base/minijail:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -138,7 +139,6 @@ platform_pkg_test() {
 	local tests=(
 		chaps_test
 		chaps_service_test
-		dbus_test
 		slot_manager_test
 		session_test
 		object_test
