@@ -207,7 +207,6 @@ src_install() {
 	dolib.so "${OUT}/lib/libnn-common.so"
 
 	einfo "Installing default driver"
-	echo -e "full:libfull-driver.so\ndefault:libfull-driver.so" >> "${OUT}/drivers"
 	dolib.so "${OUT}/lib/libfull-driver.so"
 
 	if ! use vendor-nnhal ; then
@@ -216,14 +215,10 @@ src_install() {
 	fi
 	if use minimal-driver; then
 		einfo "Installing minimal drivers"
-		echo "minimal:libminimal-driver.so" >> "${OUT}/drivers"
 		dolib.so "${OUT}/lib/libminimal-driver.so"
 	fi
 	if use xnnpack-driver; then
 		einfo "Installing xnnpack drivers"
-		echo "xnnpack:libxnn-driver.so" >> "${OUT}/drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
-
-	doenvd "${OUT}/drivers"
 }
