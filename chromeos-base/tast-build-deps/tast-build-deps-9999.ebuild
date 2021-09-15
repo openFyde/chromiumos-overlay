@@ -54,6 +54,7 @@ DEPEND="
 	dev-go/selinux
 	dev-go/subcommands
 	dev-go/sync
+	dev-go/tarm-serial
 	dev-go/uuid
 	dev-go/vsock
 	dev-go/yaml
