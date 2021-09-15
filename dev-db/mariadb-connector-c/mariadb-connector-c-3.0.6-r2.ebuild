@@ -56,6 +56,7 @@ RDEPEND="${DEPEND}
 PATCHES=(
 	"${FILESDIR}"/gentoo-layout-3.0.patch
 	"${FILESDIR}"/${PN}-3.0.6-provide-pkconfig-file.patch
+	"${FILESDIR}"/${PN}-3.0.6-cmake.patch
 )
 
 src_configure() {
