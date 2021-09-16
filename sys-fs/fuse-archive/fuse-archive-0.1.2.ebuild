@@ -16,3 +16,11 @@ RDEPEND="
 	sys-fs/fuse:0"
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
+
+src_install() {
+	# As of version 0.1.2 (September 2021), upstream fuse-archive does not have
+	# a "configure" step, only "make install". The Makefile's default prefix is
+	# "/usr/local" but cros-disks can't exec "/usr/local/bin/fuse-archive". We
+	# explicitly set prefix="/usr" here.
+	emake DESTDIR="${D}" prefix="/usr" install
+}
