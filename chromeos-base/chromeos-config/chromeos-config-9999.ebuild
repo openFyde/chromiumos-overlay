@@ -16,11 +16,6 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="zephyr_ec"
 
-# TODO(b/197038156): dependency on virtual package can go away once we
-# do away with them.
-DEPEND="virtual/chromeos-config-bsp:="
-RDEPEND="${DEPEND}"
-
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
 # more information.

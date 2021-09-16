@@ -31,7 +31,6 @@ inherit cros-ec-utils
 # We also use cros_config_host below.
 DEPEND="
 	virtual/chromeos-ec-private-files
-	virtual/chromeos-config-bsp
 "
 BDEPEND="
 	chromeos-base/chromeos-config-host
