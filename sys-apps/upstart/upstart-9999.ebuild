@@ -15,7 +15,7 @@ HOMEPAGE="http://upstart.ubuntu.com/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge"
+IUSE="debug direncryption examples global_seccomp manatee nls selinux udev_bridge"
 
 RDEPEND=">=sys-apps/dbus-1.2.16
 	>=sys-libs/libnih-1.0.2
@@ -69,11 +69,12 @@ src_configure() {
 		$(use_with direncryption dircrypto-keyring)
 		$(use_enable selinux)
 		$(use_enable nls)
+		$(use_enable manatee)
 	)
 
 	if use global_seccomp; then
 		myconf+=(
-		--with-seccomp-constants="${SYSROOT}/build/share/constants.json"
+			--with-seccomp-constants="${SYSROOT}/build/share/constants.json"
 		)
 	fi
 
