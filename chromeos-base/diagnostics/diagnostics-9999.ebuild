@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer wilco generated_cros_config unibuild"
+IUSE="fuzzer wilco generated_cros_config unibuild mesa_reven"
 
 COMMON_DEPEND="
 	unibuild? (
