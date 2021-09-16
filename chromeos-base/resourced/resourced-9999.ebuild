@@ -26,6 +26,7 @@ DEPEND="
 	=dev-rust/dbus-tree-0.9*:=
 	=dev-rust/glob-0.3*:=
 	=dev-rust/once_cell-1.7*:=
+	=dev-rust/regex-1.5*:=
 	dev-rust/sys_util:=
 "
 
