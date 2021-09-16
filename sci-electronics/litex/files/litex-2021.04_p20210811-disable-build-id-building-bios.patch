@@ -1,0 +1,22 @@
+# GCC built in ChromiumOS by default tells linker to add build-id to its output.
+# It, however, breaks LiteDRAM's test_examples.py tests. All of them fail with:
+#   <PATH>/ld.bfd.real: section .note.gnu.build-id LMA [0000000000000000,0000000000000023] overlaps section .text LMA [0000000000000000,0000000000005333]
+#   collect2: error: ld returned 1 exit status
+#   make: *** [<PATH>/litex/soc/software/bios/Makefile:60: bios.elf] Error 1
+# Building bios therefore seems to be broken when build-id is used.
+#
+# This change prevents linker from adding build-id for bios. LiteDRAM's
+# examples can be successfully built after this change.
+
+--- a/litex/soc/software/bios/Makefile
++++ b/litex/soc/software/bios/Makefile
+@@ -57,7 +57,8 @@ bios.elf: $(BIOS_DIRECTORY)/linker.ld $(OBJECTS)
+ vpath %.a $(PACKAGES:%=../%)
+ 
+ %.elf: ../libbase/crt0.o $(LIBS:%=%.a)
+-	$(CC) $(LDFLAGS) -T $(BIOS_DIRECTORY)/linker.ld -N -o $@ \
++	$(CC) $(LDFLAGS) -Wl,--build-id=none \
++		-T $(BIOS_DIRECTORY)/linker.ld -N -o $@ \
+ 		../libbase/crt0.o \
+ 		$(OBJECTS) \
+ 		$(PACKAGES:%=-L../%) \

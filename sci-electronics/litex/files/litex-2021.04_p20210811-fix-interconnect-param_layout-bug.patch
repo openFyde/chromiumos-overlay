@@ -1,0 +1,14 @@
+# Fix the bug that emerged in the LiteICLink tests. It's been already fixed upstream:
+# https://github.com/enjoy-digital/litex/commit/fa5fd765a4fdc1c4c820e2af6180626c763db07
+
+--- a/litex/soc/interconnect/packet.py
++++ b/litex/soc/interconnect/packet.py
+@@ -411,7 +411,7 @@ class PacketFIFO(Module):
+ 
+         # Connect FIFOs to Source.
+         self.comb += [
+-            param_fifo.source.connect(source,   omit={"last",  "ready"}),
++            param_fifo.source.connect(source,   omit={"last",  "ready", "dummy"}),
+             payload_fifo.source.connect(source, omit={"valid", "ready"}),
+             param_fifo.source.ready.eq(  source.valid & source.last & source.ready),
+             payload_fifo.source.ready.eq(source.valid &               source.ready),
