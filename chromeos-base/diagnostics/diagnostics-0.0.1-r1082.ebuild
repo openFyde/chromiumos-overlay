@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c03e67b835d4e5c58e061bdae33dff79c7c3106f"
+CROS_WORKON_COMMIT="a4a6aa3b10b4de4c0742b2cae7772314a6dbd1ed"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "adc41790bd30cad5ee6238f35398767f5f85ff7a" "9db237e1456b33a77e51dc619dc0e07470b97df6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagno
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer wilco generated_cros_config unibuild"
+IUSE="fuzzer wilco generated_cros_config unibuild mesa_reven"
 
 COMMON_DEPEND="
 	unibuild? (
