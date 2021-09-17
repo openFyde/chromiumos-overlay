@@ -287,6 +287,9 @@ RDEPEND="${RDEPEND}
 	app-portage/gentoolkit
 	app-portage/portage-utils
 	app-shells/bash-completion
+	x86?   ( dev-go/delve )
+	amd64? ( dev-go/delve )
+	arm64? ( dev-go/delve )
 	dev-go/go-tools
 	dev-go/golint
 	dev-lang/go
