@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d2706681a5fe2f97108c291ec0c62dcdbc0b9f42"
+CROS_WORKON_COMMIT="8895254f51221ba2fa9016998e025352d083a52e"
 CROS_WORKON_TREE="81b9cb0dc87650b751ca746cc77a39fffb24a393"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,11 +17,6 @@ SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="zephyr_ec"
-
-# TODO(b/197038156): dependency on virtual package can go away once we
-# do away with them.
-DEPEND="virtual/chromeos-config-bsp:="
-RDEPEND="${DEPEND}"
 
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for

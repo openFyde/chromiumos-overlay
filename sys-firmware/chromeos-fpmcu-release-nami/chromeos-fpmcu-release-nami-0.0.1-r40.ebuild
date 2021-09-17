@@ -4,13 +4,13 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec-release.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 3
+# eclass bug workaround count: 4
 
 EAPI=7
 
 CROS_WORKON_COMMIT=("7e33154135fb116af7165c71c4b612e15390974a" "2149ae0304029034c65eed0e73b63194550e639a" "3830fffbc5c5205bb8fb1b9f366fe44559923592")
 CROS_WORKON_TREE=("b5f2c4ad113fb353a47224c3803fa415e0700a50" "612b6a5c8233d074f7c63de6228c3c69f9c9d7e5" "f3d026c790bd3d7121bb96ed2a4932360d698a73")
-FIRMWARE_EC_BOARD="nocturne_fp"
+FIRMWARE_EC_BOARD="nami_fp"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-nocturne"
+	"../platform/release-firmware/fpmcu-nami"
 	"tpm2"
 	"cryptoc"
 )
