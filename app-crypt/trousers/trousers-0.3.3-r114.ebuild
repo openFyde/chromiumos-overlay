@@ -41,6 +41,7 @@ src_prepare() {
 	base_src_prepare
 
 	sed -e "s/-Werror //" -i configure.in
+	export FUZZER="$(usev fuzzer)"
 	eautoreconf
 }
 
@@ -48,6 +49,7 @@ src_configure() {
 	sanitizers-setup-env
 	use tss_trace && append-cppflags -DTSS_TRACE
 	use mocktpm && append-cppflags -DMOCK_TPM
+	use fuzzer && append-cppflags -DFUZZED_TPM
 
 	cros-debug-add-NDEBUG
 	export BASE_VER="$(libchrome_ver)"

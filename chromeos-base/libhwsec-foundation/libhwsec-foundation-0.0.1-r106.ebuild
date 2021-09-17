@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="31d0b2433ec646590b1569e5ed8a2ccb5a14920f"
+CROS_WORKON_COMMIT="8770ec3d41f51d76fb48ea68c15e257b4e2d939f"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e08a2eb734e33827dffeecf57eca046cd1091373" "333d203032476c3fefc6d2baded495341733850a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,7 @@ src_install() {
 	insinto /usr/include/libhwsec-foundation
 	doins ./hwsec-foundation_export.h
 	doins ./signature_traits.h
+	doins ./fuzzed_trousers_utils.h
 
 	insinto /usr/include/libhwsec-foundation/syscaller
 	doins ./syscaller/syscaller.h
