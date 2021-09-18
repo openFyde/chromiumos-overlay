@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("960900955685f00c74adf34e595e48be43d409e9" "5c6e556fb8abc14436b414a1fcc1f458c7fa6ce1")
+CROS_WORKON_COMMIT=("7c0280df02779419813f6aa9fa31f65e2402820b" "5c6e556fb8abc14436b414a1fcc1f458c7fa6ce1")
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "64e028e159a4b42fda49dd753866e8a14d02c9bc")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -158,6 +158,7 @@ src_install() {
 		base/test/task_environment.h \
 		base/test/test_mock_time_task_runner.h \
 		base/test/test_pending_task.h \
+		base/test/test_switches.h \
 		base/test/test_timeouts.h \
 
 	if use crypto; then
