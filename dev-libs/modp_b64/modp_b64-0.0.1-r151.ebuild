@@ -3,7 +3,7 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT=("ed5ba1aabb0359305d63c936f3ffbd53526f5310" "269b6fb8401617b85e2dff7ae8a7b0f97613e2cd")
+CROS_WORKON_COMMIT=("2ca9f7ded1baf83589515f7a34bcf3bbc1855b9a" "269b6fb8401617b85e2dff7ae8a7b0f97613e2cd")
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9473949bc842cc166ac244567638b94150a97865")
 inherit cros-constants
 
@@ -11,6 +11,7 @@ CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/modp_b64")
 CROS_WORKON_LOCALNAME=("../platform2" "../third_party/modp_b64")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/modp_b64")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
+CROS_WORKON_EGIT_BRANCH="master"
 
 PLATFORM_SUBDIR="modp_b64"
 
