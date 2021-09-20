@@ -32,6 +32,7 @@ src_install() {
 
 	dolib.so "${OUT}"/lib/libspaced.so
 	dosbin "${OUT}"/spaced
+	dosbin "${OUT}"/spaced_cli
 
 	insinto /etc/init
 	doins init/spaced.conf
