@@ -65,6 +65,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# CROS_BASE_RUSTFLAGS are for the AP, they are not applicable to
+	# HPS firmware, which is cross-compiled for STM32
+	unset CROS_BASE_RUSTFLAGS
 	cros-rust_configure_cargo
 
 	# HPS userspace tools will be built for $CHOST (i.e. the Chromebook)
