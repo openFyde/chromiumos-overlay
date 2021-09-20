@@ -4,8 +4,6 @@
 # found in the LICENSE file.
 """Packs a tarball from a git source tree."""
 
-# pylint: disable=cros-logging-import
-
 import argparse
 import errno
 import logging

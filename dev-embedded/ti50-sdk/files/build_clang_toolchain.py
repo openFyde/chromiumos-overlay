@@ -4,8 +4,6 @@
 # found in the LICENSE file.
 """Builds the clang toolchain for Ti50."""
 
-# pylint: disable=cros-logging-import
-
 import argparse
 import logging
 import os

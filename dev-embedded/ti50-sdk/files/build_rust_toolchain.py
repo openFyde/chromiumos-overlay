@@ -4,8 +4,6 @@
 # found in the LICENSE file.
 """Builds the Rust toolchain used to compile and run TockOS."""
 
-# pylint: disable=cros-logging-import
-
 import argparse
 import logging
 import os
