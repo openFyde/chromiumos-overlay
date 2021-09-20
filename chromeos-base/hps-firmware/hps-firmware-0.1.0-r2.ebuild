@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d85e96751906178b4e9b18b569fcf137d93a1007"
-CROS_WORKON_TREE="bae528d33ff5d93b164acb16e2279bda36355017"
+CROS_WORKON_COMMIT="b94c974c6386cfa5e047037ffcd456f71b69d9df"
+CROS_WORKON_TREE="d67ebb715c0965fb7651aa5e52dc697eef7aa373"
 inherit cros-workon cros-rust
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -67,6 +67,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# CROS_BASE_RUSTFLAGS are for the AP, they are not applicable to
+	# HPS firmware, which is cross-compiled for STM32
+	unset CROS_BASE_RUSTFLAGS
 	cros-rust_configure_cargo
 
 	# HPS userspace tools will be built for $CHOST (i.e. the Chromebook)
