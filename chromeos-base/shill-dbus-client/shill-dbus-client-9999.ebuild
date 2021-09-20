@@ -21,7 +21,10 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="chromeos-base/shill-client:="
+DEPEND="
+	chromeos-base/shill-client:=
+	chromeos-base/shill-net
+"
 RDEPEND=""
 
 src_install() {
