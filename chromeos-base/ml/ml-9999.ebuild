@@ -25,6 +25,7 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20211105.tflite"
 )
 
 DOWNLOADABLE_MODELS=(
@@ -32,8 +33,14 @@ DOWNLOADABLE_MODELS=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20210201-downloadable.tflite"
 )
 
-# Preprocessor config pb files that are used in unit test should be placed into
+# Clients that want ml-service to do the feature preprocessing should place the
+# URIs of their preprocessor config pb files into PREPROCESSOR_PB_TO_INSTALL.
+# Config pb files that are used in unit test should be placed into
 # PREPROCESSOR_PB_FOR_TEST.
+PREPROCESSOR_PB_TO_INSTALL=(
+	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20211105-preprocessor.pb"
+)
+
 PREPROCESSOR_PB_FOR_TEST=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-preprocessor.pb"
 )
@@ -41,6 +48,7 @@ PREPROCESSOR_PB_FOR_TEST=(
 SRC_URI="
 	${DOWNLOADABLE_MODELS[*]}
 	${MODELS_TO_INSTALL[*]}
+	${PREPROCESSOR_PB_TO_INSTALL[*]}
 	${PREPROCESSOR_PB_FOR_TEST[*]}
 "
 
@@ -112,9 +120,10 @@ src_install() {
 	# Install D-Bus service activation configuration.
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.MachineLearning.service
+	doins dbus/org.chromium.MachineLearning.AdaptiveCharging.service
 
 	# Create distfile array of model filepaths.
-	local model_files=( "${MODELS_TO_INSTALL[@]##*/}" )
+	local model_files=( "${MODELS_TO_INSTALL[@]##*/}" "${PREPROCESSOR_PB_TO_INSTALL[@]##*/}" )
 	local distfile_array=( "${model_files[@]/#/${DISTDIR}/}" )
 
 	# Install system ML models.
@@ -152,7 +161,12 @@ platform_pkg_test() {
 	# MODELS_TO_INSTALL and DOWNLOADABLE_MODELS into it for use in unit
 	# tests.
 	mkdir "${T}/ml_models" || die
-	local all_test_models=( "${DOWNLOADABLE_MODELS[@]}" "${MODELS_TO_INSTALL[@]}" "${PREPROCESSOR_PB_FOR_TEST[@]}" )
+	local all_test_models=(
+		"${DOWNLOADABLE_MODELS[@]}"
+		"${MODELS_TO_INSTALL[@]}"
+		"${PREPROCESSOR_PB_TO_INSTALL[@]}"
+		"${PREPROCESSOR_PB_FOR_TEST[@]}"
+	)
 	local distfile_uri
 	for distfile_uri in "${all_test_models[@]}"; do
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
