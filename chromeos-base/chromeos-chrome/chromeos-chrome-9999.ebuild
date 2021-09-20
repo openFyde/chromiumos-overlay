@@ -55,6 +55,7 @@ IUSE="
 	intel_oemcrypto
 	internal_gles_conform
 	+libcxx
+	libinput
 	mojo
 	msan
 	+nacl
@@ -146,6 +147,7 @@ RDEPEND="${RDEPEND}
 	chrome_internal? ( chromeos-base/quickoffice )
 	dev-libs/nspr
 	>=dev-libs/nss-3.12.2
+	libinput? ( dev-libs/libinput:= )
 	>=media-libs/alsa-lib-1.0.19
 	media-libs/fontconfig
 	media-libs/libsync
@@ -272,6 +274,9 @@ set_build_args() {
 
 		# Generate debug info necessary for AutoFDO.
 		"clang_emit_debug_info_for_profiling=true"
+
+		# Add libinput to handle touchpad.
+		"use_libinput=$(usetf libinput)"
 	)
 
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
