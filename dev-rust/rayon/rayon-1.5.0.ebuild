@@ -21,3 +21,6 @@ DEPEND="
 	=dev-rust/either-1*:=
 	>=dev-rust/rayon-core-1.9:= <dev-rust/rayon-core-2.0
 "
+
+# could not compile
+RESTRICT="test"

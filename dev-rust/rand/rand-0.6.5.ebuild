@@ -43,3 +43,6 @@ src_prepare() {
 	sed -i '/stdweb = /d' "${S}/Cargo.toml"
 	sed -i '/wasm-bindgen = /d' "${S}/Cargo.toml"
 }
+
+# error: could not compile `rand`
+RESTRICT="test"

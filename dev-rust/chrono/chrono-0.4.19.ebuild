@@ -25,3 +25,6 @@ DEPEND="
 	>=dev-rust/time-0.1.43:= <dev-rust/time-0.2.0
 "
 RDEPEND="${DEPEND}"
+
+# error: no matching package named `pure-rust-locales` found
+RESTRICT="test"

@@ -20,3 +20,6 @@ DEPEND="
 	>=dev-rust/linked-hash-map-0.0.9:=
 	<dev-rust/linked-hash-map-0.6
 "
+
+# could not compile
+RESTRICT="test"

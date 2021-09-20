@@ -18,3 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	>=dev-rust/libc-0.2.30:= <dev-rust/libc-0.3.0
 "
+
+# error: could not compile `fs2`
+RESTRICT="test"

@@ -18,3 +18,6 @@ KEYWORDS="*"
 DEPEND=">=dev-rust/serde-1.0:=
 	>=dev-rust/linked-hash-map-0.5.2:=
 "
+
+# error: could not compile `toml`
+RESTRICT="test"

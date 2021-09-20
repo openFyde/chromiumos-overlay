@@ -22,3 +22,6 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!~dev-rust/${PN}-0.3.1
 "
+
+# error: could not compile `futures-channel`
+RESTRICT="test"

@@ -24,3 +24,5 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!=dev-rust/num_enum-5*
 "
+
+RESTRICT="test"

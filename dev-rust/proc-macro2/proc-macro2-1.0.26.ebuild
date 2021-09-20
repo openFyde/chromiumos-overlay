@@ -17,3 +17,6 @@ DEPEND="
 	=dev-rust/unicode-xid-0.2*:=
 "
 RDEPEND="${DEPEND}"
+
+# error: no matching package named `quote` found
+RESTRICT="test"

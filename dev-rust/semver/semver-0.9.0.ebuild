@@ -21,3 +21,6 @@ DEPEND="
 	=dev-rust/serde_json-1*:=
 	=dev-rust/tempdir-0.3*:=
 "
+
+# error: could not compile `semver`
+RESTRICT="test"

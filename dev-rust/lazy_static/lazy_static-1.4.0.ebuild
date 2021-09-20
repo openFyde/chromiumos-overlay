@@ -19,3 +19,6 @@ DEPEND="
 	=dev-rust/spin-0.5*:=
 "
 RDEPEND="${DEPEND}"
+
+# error: could not compile `lazy_static`
+RESTRICT="test"

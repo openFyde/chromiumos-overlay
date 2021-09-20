@@ -22,3 +22,6 @@ DEPEND="
 	>=dev-rust/libc-0.2.78:= <dev-rust/libc-3.0.0
 "
 RDEPEND="${DEPEND}"
+
+# error: could not compile `nix`
+RESTRICT="test"

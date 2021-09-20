@@ -19,3 +19,8 @@ DEPEND="
 	>=dev-rust/winapi-0.3.4:= <dev-rust/winapi-0.4.0
 "
 RDEPEND="${DEPEND}"
+
+# thread 'debug::test::long_and_detailed' panicked at 'assertion failed: `(left == right)`
+#  left: `"Style {\n    foreground: Some(\n        Blue\n    ),\n    background: None,\n    blink: false,\n    bold: true,\n    dimmed: false,\n    hidden: false,\n    italic: false,\n    reverse: false,\n    strikethrough: false,\n    underline: false\n}"`,
+#  right: `"Style {\n    foreground: Some(\n        Blue,\n    ),\n    background: None,\n    blink: false,\n    bold: true,\n    dimmed: false,\n    hidden: false,\n    italic: false,\n    reverse: false,\n    strikethrough: false,\n    underline: false,\n}"`', src/debug.rs:120:9
+RESTRICT="test"

@@ -16,3 +16,6 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/smallvec-0.6*:=
 "
+
+# error: could not compile `unicode-normalization`
+RESTRICT="test"

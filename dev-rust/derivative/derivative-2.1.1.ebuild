@@ -26,3 +26,5 @@ src_unpack() {
 	# This consists of a recipe "publish_doc" which is unnecessary and requires node js.
 	mv "${S}"/Makefile "${S}"/ignore-docs-Makefile
 }
+
+RESTRICT="test"

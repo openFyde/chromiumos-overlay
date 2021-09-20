@@ -18,3 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	>=dev-rust/cfg-if-1:= <dev-rust/cfg-if-2
 "
+
+# could not compile
+RESTRICT="test"

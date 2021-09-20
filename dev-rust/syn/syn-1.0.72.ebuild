@@ -31,3 +31,6 @@ src_prepare() {
 	# Delete the test dependency, syn-test-suite.
 	sed -i '/^test = \[/d' "${S}/Cargo.toml"
 }
+
+# error: could not compile `syn`
+RESTRICT="test"

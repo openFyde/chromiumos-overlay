@@ -21,3 +21,6 @@ DEPEND="
 	=dev-rust/structopt-derive-0.4.13:=
 	=dev-rust/paw-1*:=
 "
+
+# error: could not compile `structopt`
+RESTRICT="test"

@@ -19,3 +19,6 @@ DEPEND="
 	=dev-rust/syn-0.15*:=
 	=dev-rust/tempfile-3*:=
 "
+
+# could not compile
+RESTRICT="test"

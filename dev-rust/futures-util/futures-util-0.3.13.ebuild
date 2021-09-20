@@ -38,3 +38,6 @@ RDEPEND="
 	${DEPEND}
 	!~dev-rust/${PN}-0.3.1
 "
+
+# error: no matching package named `futures` found
+RESTRICT="test"

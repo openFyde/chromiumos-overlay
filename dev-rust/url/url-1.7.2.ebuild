@@ -25,3 +25,6 @@ DEPEND="
 	=dev-rust/rustc-test-0.3*:=
 	=dev-rust/serde_json-0.8*:=
 "
+
+# error: could not compile `url`
+RESTRICT="test"

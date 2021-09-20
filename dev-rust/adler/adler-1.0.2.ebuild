@@ -14,3 +14,6 @@ SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 LICENSE="|| ( MIT Apache-2.0 )" # FIXME: or BSD-0
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+# error: no matching package named `compiler_builtins` found
+RESTRICT="test"

@@ -16,3 +16,6 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/semver-0.9*:=
 "
+
+# thread 'smoketest' panicked at 'called `Result::unwrap()` on an `Err` value: CouldNotExecuteCommand(Os { code: 2, kind: NotFound, message: "No such file or directory" })', src/lib.rs:202:23
+RESTRICT="test"

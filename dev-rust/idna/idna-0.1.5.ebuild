@@ -20,3 +20,6 @@ DEPEND="
 	=dev-rust/rustc-serialize-0.3*:=
 	=dev-rust/rustc-test-0.3*:=
 "
+
+# error: could not compile `idna`
+RESTRICT="test"

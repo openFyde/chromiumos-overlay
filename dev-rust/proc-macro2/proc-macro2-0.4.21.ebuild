@@ -16,3 +16,9 @@ KEYWORDS="*"
 DEPEND="
 	>=dev-rust/unicode-xid-0.1:=
 "
+
+# ---- test_debug_tokenstream stdout ----
+# thread 'test_debug_tokenstream' panicked at 'assertion failed: `(left == right)`
+#  left: `"TokenStream [\n    Group {\n        delimiter: Bracket,\n        stream: TokenStream [\n            Ident {\n                sym: a\n            },\n            Punct {\n                op: \'+\',\n                spacing: Alone\n            },\n            Literal {\n                lit: 1\n            }\n        ]\n    }\n]"`,
+# right: `"TokenStream [\n    Group {\n        delimiter: Bracket,\n        stream: TokenStream [\n            Ident {\n                sym: a,\n            },\n            Punct {\n                op: \'+\',\n                spacing: Alone,\n            },\n            Literal {\n                lit: 1,\n            },\n        ],\n    },\n]"`', tests/test.rs:382:5
+RESTRICT="test"

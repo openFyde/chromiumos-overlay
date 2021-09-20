@@ -23,3 +23,6 @@ DEPEND="
 	>=dev-rust/wasi-0.9.0:= <dev-rust/wasi-0.10.0
 	>=dev-rust/wasm-bindgen-0.2.62:= <dev-rust/wasm-bindgen-0.3.0
 "
+
+# error: no matching package named `log` found
+RESTRICT="test"

@@ -22,3 +22,6 @@ DEPEND="
 	=dev-rust/regex-1*:=
 	=dev-rust/version_check-0.9*:=
 "
+
+# error: could not compile `nom`
+RESTRICT="test"

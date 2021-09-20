@@ -20,3 +20,6 @@ DEPEND="
 "
 
 RDEPEND="${DEPEND}"
+
+# error: failed to select a version for the requirement `bytes = "^1.0"`
+RESTRICT="test"

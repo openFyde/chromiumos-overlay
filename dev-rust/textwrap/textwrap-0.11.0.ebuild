@@ -20,3 +20,6 @@ DEPEND="
 	=dev-rust/hyphenation-0.7*:=
 	=dev-rust/term_size-0.3*:=
 "
+
+# error: could not compile `textwrap`
+RESTRICT="test"

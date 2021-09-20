@@ -33,3 +33,6 @@ src_prepare() {
 	# Delete the optional zlib-ng dependency.
 	sed -i '/zlib-ng/d' "${S}/Cargo.toml"
 }
+
+# could not compile
+RESTRICT="test"

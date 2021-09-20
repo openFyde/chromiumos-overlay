@@ -30,3 +30,5 @@ src_install() {
 	# shellcheck disable=SC2154
 	dostrip -x "${CROS_RUST_REGISTRY_BASE}"
 }
+
+RESTRICT="test"

@@ -23,3 +23,6 @@ DEPEND=">=dev-rust/bitflags-1.0:=
 	>=dev-rust/openssl-probe-0.1.2:=
 	>=dev-rust/openssl-sys-0.9.47:=
 "
+
+# error: could not compile `git2`
+RESTRICT="test"

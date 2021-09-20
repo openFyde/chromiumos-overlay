@@ -20,3 +20,6 @@ DEPEND="
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
 "
+
+# error: could not compile `remain`
+RESTRICT="test"

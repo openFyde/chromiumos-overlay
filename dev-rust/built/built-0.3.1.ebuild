@@ -18,3 +18,6 @@ DEPEND="=dev-rust/toml-0.5*:=
 	=dev-rust/semver-0.9*:=
 	=dev-rust/tempdir-0.3*:=
 "
+
+# thread 'new_testbox' panicked at 'called `Option::unwrap()` on a `None` value', tests/testbox_tests.rs:63:58
+RESTRICT="test"

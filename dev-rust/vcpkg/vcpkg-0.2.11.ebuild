@@ -16,3 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 RDEPEND="!=dev-rust/vcpkg-0.2*"
+
+# fails to compile
+RESTRICT="test"

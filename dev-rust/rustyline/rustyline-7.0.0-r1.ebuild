@@ -31,3 +31,6 @@ DEPEND="
 	=dev-rust/unicode-width-0.1*:=
 	=dev-rust/utf8parse-0.2*:=
 "
+
+# error: could not compile `rustyline`
+RESTRICT="test"

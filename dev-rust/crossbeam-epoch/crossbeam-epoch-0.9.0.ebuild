@@ -23,3 +23,6 @@ DEPEND="
 	>=dev-rust/scopeguard-1.1.0:= <dev-rust/scopeguard-2.0.0
 	=dev-rust/lazy_static-1*:=
 "
+
+# error: could not compile `crossbeam-epoch`
+RESTRICT="test"

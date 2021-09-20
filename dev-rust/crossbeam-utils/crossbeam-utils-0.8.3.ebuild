@@ -19,3 +19,6 @@ DEPEND="
 	=dev-rust/autocfg-1*:=
 	=dev-rust/cfg-if-1*:=
 	=dev-rust/lazy_static-1*:="
+
+# error: no matching package named `loom` found
+RESTRICT="test"

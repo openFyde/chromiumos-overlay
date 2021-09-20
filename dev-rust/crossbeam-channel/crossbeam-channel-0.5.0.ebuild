@@ -20,3 +20,6 @@ DEPEND="
 	>=dev-rust/crossbeam-utils-0.8.0:= <dev-rust/crossbeam-utils-0.9.0
 	=dev-rust/rand-0.7*:=
 "
+
+# missing dev deps (signal-hook)
+RESTRICT="test"

@@ -22,3 +22,6 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	=dev-rust/version_check-0.9*:=
 "
+
+# compile failed
+RESTRICT="test"

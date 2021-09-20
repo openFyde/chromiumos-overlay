@@ -20,3 +20,6 @@ DEPEND="
 	=dev-rust/thiserror-1*:=
 "
 RDEPEND="${DEPEND}"
+
+# error: could not compile `which`
+RESTRICT="test"

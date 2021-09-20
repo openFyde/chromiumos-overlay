@@ -17,3 +17,6 @@ DEPEND="
 	>=dev-rust/rayon-1.0.2:=
 	>=dev-rust/tempdir-0.3.7:=
 "
+
+# could not compile
+RESTRICT="test"

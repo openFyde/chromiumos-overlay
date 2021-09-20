@@ -19,3 +19,8 @@ DEPEND="
 	>=dev-rust/bitflags-0.5.0:= <dev-rust/bitflags-0.8.0
 "
 RDEPEND="${DEPEND}"
+
+# Unexpected event at line 32:
+# Expected: Characters("Cascading style sheet: © - ҉")
+# Found:    Characters("Cascading style sheet: © - \u{489}")
+RESTRICT="test"

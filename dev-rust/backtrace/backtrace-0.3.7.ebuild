@@ -28,3 +28,6 @@ DEPEND=">=dev-rust/cfg-if-0.1.0:=
 	>=dev-rust/serde_derive-1.0.0:=
 	>=dev-rust/winapi-0.3.3:=
 "
+
+# error: could not compile `backtrace`
+RESTRICT="test"

@@ -20,3 +20,6 @@ DEPEND="
 	=dev-rust/crossbeam-epoch-0.9*:=
 	=dev-rust/crossbeam-utils-0.8*:=
 "
+
+# error: could not compile `crossbeam-deque`
+RESTRICT="test"

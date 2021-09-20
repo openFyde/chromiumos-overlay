@@ -19,3 +19,6 @@ DEPEND="
 	~dev-rust/thiserror-impl-${PV}:=
 "
 RDEPEND="${DEPEND}"
+
+# error: could not compile `thiserror`
+RESTRICT="test"

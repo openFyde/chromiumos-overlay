@@ -16,3 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 RDEPEND="!~dev-rust/${PN}-0.5.11"
+
+# error: could not compile `proc-macro-hack`
+RESTRICT="test"
