@@ -161,17 +161,6 @@ create_write_file() {
   echo "${content}" > "${file}"
 }
 
-
-# TODO(semenzato): Remove this after R65
-migrate_old_swap_setting() {
-  OLD_SWAP_ENABLE_FILE=/home/chronos/.swap_enabled
-  if [ -e "${OLD_SWAP_ENABLE_FILE}" ]; then
-    old_content="$(cat "${OLD_SWAP_ENABLE_FILE}")"
-    create_write_file "${SWAP_ENABLE_FILE}" "${old_content}"
-    rm -f "${OLD_SWAP_ENABLE_FILE}"
-  fi
-}
-
 disk_based_swap_supported() {
   # Can be set in the ebuild.
   local disk_based_swap_enabled=false
@@ -212,9 +201,6 @@ die() {
 start() {
   local mem_total param
   mem_total=$(get_mem_total)
-
-  # TODO(semenzato): Remove this after R65
-  migrate_old_swap_setting
 
   for param in margin min_filelist extra_free; do
     initialize_parameter "${param}"
