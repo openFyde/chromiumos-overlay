@@ -2,32 +2,35 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 
-inherit cros-workon autotest
+CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
+CROS_WORKON_LOCALNAME="platform/vboot_reference"
+
+inherit cros-workon
 
 DESCRIPTION="vboot tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/vboot_reference/"
-SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-# Enable autotest by default.
-IUSE="${IUSE} +autotest"
+COMMON_DEPEND="dev-libs/libzip:=
+	dev-libs/openssl:=
+	sys-apps/util-linux:="
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
 
-IUSE_TESTS="
-	+tests_firmware_VbootCrypto
-"
-
-IUSE="${IUSE} ${IUSE_TESTS}"
-
-CROS_WORKON_LOCALNAME=platform/vboot_reference
-
-# path from root of repo
-AUTOTEST_CLIENT_SITE_TESTS=autotest/client
+get_build_dir() {
+	echo "${S}/build-main"
+}
 
 src_compile() {
-	# for Makefile
-	export VBOOT_SRC_DIR=${WORKDIR}/${P}
-	autotest_src_compile
+	mkdir "$(get_build_dir)"
+	tc-export CC AR CXX PKG_CONFIG
+	# vboot_reference knows the flags to use
+	unset CFLAGS
+	emake BUILD="$(get_build_dir)" tests
+}
+
+src_install() {
+	emake BUILD="$(get_build_dir)" DESTDIR="${D}" install_dut_test
 }
