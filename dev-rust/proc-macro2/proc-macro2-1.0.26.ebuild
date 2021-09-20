@@ -16,3 +16,4 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/unicode-xid-0.2*:=
 "
+RDEPEND="${DEPEND}"
