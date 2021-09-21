@@ -1,8 +1,8 @@
 # Copyright 1999-2016 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=5
+EAPI="7"
+
 inherit autotools eutils
 
 DESCRIPTION="Connection tracking userspace tools"
@@ -11,7 +11,7 @@ SRC_URI="http://www.netfilter.org/projects/conntrack-tools/files/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=*
+KEYWORDS="*"
 IUSE="doc +libtirpc +seccomp"
 
 RDEPEND="
@@ -24,8 +24,8 @@ RDEPEND="
 	!libtirpc? ( sys-libs/glibc[rpc(-)] )
 	libtirpc? ( net-libs/libtirpc )
 "
-DEPEND="
-	${RDEPEND}
+DEPEND="${RDEPEND}"
+BDEPEND="
 	doc? (
 		app-text/docbook-xml-dtd:4.1.2
 		app-text/xmlto
@@ -35,17 +35,20 @@ DEPEND="
 	sys-devel/flex
 "
 
+PATCHES=(
+	"${FILESDIR}"/${P}-mdns-helper.patch
+	"${FILESDIR}"/${P}-lazy-binding.patch
+	"${FILESDIR}"/${P}-upnp-helper.patch
+	"${FILESDIR}"/${P}-pktb-memory-leak.patch
+	"${FILESDIR}"/${P}-rpc.patch
+)
+
 src_prepare() {
 	default
 
 	# bug #474858
 	sed -i -e 's:/var/lock:/run/lock:' doc/stats/conntrackd.conf || die
 
-	epatch "${FILESDIR}"/${P}-mdns-helper.patch
-	epatch "${FILESDIR}"/${P}-lazy-binding.patch
-	epatch "${FILESDIR}"/${P}-upnp-helper.patch
-	epatch "${FILESDIR}"/${P}-pktb-memory-leak.patch
-	epatch "${FILESDIR}"/${P}-rpc.patch
 	eautoreconf
 }
 
