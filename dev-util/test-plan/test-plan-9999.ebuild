@@ -37,3 +37,11 @@ DEPEND="
 	dev-go/protobuf
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# Disable CGO to produce a static executable that can
+	# be copied into Docker containers.
+	export CGO_ENABLED=0
+
+	default
+}
