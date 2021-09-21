@@ -25,7 +25,7 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/shill-net
 "
-RDEPEND=""
+RDEPEND="${DEPEND}"
 
 src_install() {
 	# Install libshill-dbus-client library.
