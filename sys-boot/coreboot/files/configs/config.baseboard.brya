@@ -12,15 +12,9 @@ CONFIG_ADD_FSP_BINARIES=y
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/adl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/adl/fsp/fsps.bin"
 CONFIG_RUN_FSP_GOP=y
-#CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/adl/fsp/FullHeaderAlias/Include"
-#CONFIG_FSP_USE_REPO is not set
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-
-# Management Engine FW update
-CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
-CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.10.1372"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode.bin"
