@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="79446b6208fe3172a8930c8cf161d69a98df62ba"
+CROS_WORKON_COMMIT="af98a4bae223c8fc2da3fb22ab1684bce6a2db0f"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "0a62aaadfcb0429ef9832150f771b9a8f318ef19" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="chromeos-base/shill-client:="
+DEPEND="
+	chromeos-base/shill-client:=
+	chromeos-base/shill-net
+"
 RDEPEND=""
 
 src_install() {
