@@ -136,6 +136,8 @@ src_install() {
 
 	if use touchscreen_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-touchscreen-wakeup.rules
+	elif use unibuild; then
+		udev_dorules udev/optional/93-powerd-tags-unibuild-touchscreen-wakeup.rules
 	fi
 
 	if use wilco; then
