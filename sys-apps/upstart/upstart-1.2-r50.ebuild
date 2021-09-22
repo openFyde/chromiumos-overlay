@@ -30,6 +30,9 @@ RDEPEND=">=sys-apps/dbus-1.2.16
 	)
 	direncryption? (
 		sys-apps/keyutils
+	)
+	global_seccomp? (
+		chromeos-base/minijail
 	)"
 DEPEND=">=dev-libs/expat-2.0.0
 	nls? ( sys-devel/gettext )
