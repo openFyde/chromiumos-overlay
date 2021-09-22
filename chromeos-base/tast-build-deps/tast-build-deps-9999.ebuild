@@ -47,6 +47,7 @@ DEPEND="
 	dev-go/go-sys
 	dev-go/grpc
 	dev-go/mdns
+	dev-go/mock
 	dev-go/mp4
 	dev-go/oauth2
 	dev-go/perfetto-protos
