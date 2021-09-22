@@ -144,6 +144,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-venus-renderer-to-check-map-size-only-when-mappable.patch
 	epatch "${FILESDIR}"/UPSTREAM-venus-suggest-the-proper-sampler-ycbcr-model-convers.patch
 	epatch "${FILESDIR}"/BACKPORT-venus-set-maxMipLevels-to-1-for-ahb-images.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-Add-an-option-to-disable-coherent.patch
 	default
 }
 
