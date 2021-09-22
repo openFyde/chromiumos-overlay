@@ -20,6 +20,12 @@ dev-lang/python gdbm
 sys-apps/smartmontools	-daemon
 sys-fs/lvm2 -udev
 
+# Use pypy3 for portage
+sys-apps/portage python_targets_pypy3
+dev-lang/python-exec python_targets_pypy3
+dev-python/setuptools python_targets_pypy3
+dev-python/certifi python_targets_pypy3
+
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux pcre2
 
