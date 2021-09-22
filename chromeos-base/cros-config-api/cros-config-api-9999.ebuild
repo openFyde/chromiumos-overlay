@@ -8,7 +8,8 @@ CROS_WORKON_PROJECT="chromiumos/config"
 CROS_WORKON_LOCALNAME="config"
 CROS_WORKON_SUBTREE="python go test"
 
-PYTHON_COMPAT=( python{3_6,3_7} )
+PYTHON_COMPAT=( python3_{6..9} )
+DISTUTILS_USE_SETUPTOOLS=bdepend
 
 inherit cros-workon distutils-r1
 
@@ -25,10 +26,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	dev-python/setuptools[${PYTHON_USEDEP}]
 "
-
-REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_unpack() {
 	cros-workon_src_unpack
