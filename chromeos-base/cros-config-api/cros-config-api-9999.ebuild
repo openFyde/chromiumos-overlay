@@ -6,7 +6,7 @@ EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/config"
 CROS_WORKON_LOCALNAME="config"
-CROS_WORKON_SUBTREE="python go"
+CROS_WORKON_SUBTREE="python go test"
 
 PYTHON_COMPAT=( python{3_6,3_7} )
 
