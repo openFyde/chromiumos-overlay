@@ -39,8 +39,7 @@ src_install() {
 }
 
 platform_pkg_test() {
-	# TODO: add FuseBox unittest fixtures.
-	local tests=()
+	local tests=(fusebox_test)
 
 	local test_bin
 	for test_bin in "${tests[@]}"; do
