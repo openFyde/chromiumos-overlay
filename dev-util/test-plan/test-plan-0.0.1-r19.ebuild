@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="43cdc4b9f8a821f772d278649e7635769dc2dbb5"
+CROS_WORKON_COMMIT="eedb89b51803caa9e39959fe1b00c25d44bed6d2"
 CROS_WORKON_TREE="118fb7d33feea3b9785c905e304f7ccec0421afe"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -39,3 +39,11 @@ DEPEND="
 	dev-go/protobuf
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# Disable CGO to produce a static executable that can
+	# be copied into Docker containers.
+	export CGO_ENABLED=0
+
+	default
+}
