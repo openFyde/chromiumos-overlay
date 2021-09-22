@@ -18,3 +18,4 @@ KEYWORDS="*"
 DEPEND="
 	~dev-rust/thiserror-impl-${PV}:=
 "
+RDEPEND="${DEPEND}"

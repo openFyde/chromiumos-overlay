@@ -18,5 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
-	>=dev-rust/syn-1.0.11:= <dev-rust/syn-2.0
+	>=dev-rust/syn-1.0.11 <dev-rust/syn-2.0:=
 "
+RDEPEND="${DEPEND}"
