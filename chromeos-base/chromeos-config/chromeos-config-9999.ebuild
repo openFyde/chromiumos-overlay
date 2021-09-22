@@ -23,7 +23,7 @@ IUSE="zephyr_ec"
 # Run a Python utility from the cros_config_host directory.
 #
 # Doing this instead of calling the installed copy has multiple
-# benifeits:
+# benefits:
 # - Users who are making a schema change do not need to cros workon
 #   chromeos-base/chromeos-config-host, emerge that, and cros workon
 #   chromeos-base/chromeos-config for their board, and finally emerge
