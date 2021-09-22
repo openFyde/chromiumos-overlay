@@ -1004,5 +1004,23 @@
         "rel_patch_path": "cherry/50b62731452cb83979bbf3c06e828d26a4698dca.patch",
         "start_version": 422132,
         "end_version": 434174
+    },
+    {
+        "comment": "[SampleFDO] Allow forward compatibility when adding a new section for extbinary format.",
+        "rel_patch_path": "cherry/8eb617d719bdc6a4ed7773925d2421b9bbdd4b7a.patch",
+        "start_version": 428724,
+        "end_version": 437409
+    },
+    {
+        "comment": "Fixed a bug in https://reviews.llvm.org/rG8eb617d719bdc6a4ed7773925d2421b9bbdd4b7a",
+        "rel_patch_path": "cherry/e8b376547b4b77671c36607ade025d3272699e7a.patch",
+        "start_version": 428724,
+        "end_version": 438900
+    },
+    {
+        "comment": "Add REQUIRES: zlib in forward-compatible.test since it handles compressed file",
+        "rel_patch_path": "cherry/80865f7579d619dee4ffd5abb72f641ef74dedbb.patch",
+        "start_version": 428724,
+        "end_version": 438901
     }
 ]
