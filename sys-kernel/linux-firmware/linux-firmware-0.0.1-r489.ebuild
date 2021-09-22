@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="fa6d02b6384043aaf1c3e33c255cd1a5eca4d59f"
-CROS_WORKON_TREE="dee53049858f2f0b32623d76593b00db14f50694"
+CROS_WORKON_COMMIT="44c379f0966963cbcddb18986bd8cbf689919984"
+CROS_WORKON_TREE="4c0b51b3900ae094453142ccd1931b44e709972f"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -182,8 +182,8 @@ LICENSE="
 	linux_firmware_ibt-hw? ( LICENCE.ibt_firmware )
 	linux_firmware_keyspan_usb? ( LICENSE.keyspan_usb )
 	linux_firmware_marvell-mwlwifi? ( LICENCE.Marvell )
-	linux_firmware_marvell-pcie8897? ( LICENCE.Marvell )
-	linux_firmware_marvell-pcie8997? ( LICENCE.Marvell )
+	linux_firmware_marvell-pcie8897? ( LICENCE.NXP )
+	linux_firmware_marvell-pcie8997? ( LICENCE.NXP )
 	linux_firmware_mt7921e? ( LICENCE.mediatek-nic )
 	linux_firmware_mt7921e-bt? ( LICENCE.mediatek-nic )
 	linux_firmware_mt8173-vpu? ( LICENCE.mediatek-vpu )
