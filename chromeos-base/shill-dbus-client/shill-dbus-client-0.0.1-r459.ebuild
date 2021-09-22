@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c7e4550331f59cd6c0568dbd66f44f771078e0ae"
+CROS_WORKON_COMMIT="65113df49ae7d3f44ebba429b1193b0d2a59be45"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "eb6ca00532e4b6d835fd531ee2bcc0a2319a323c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,7 +27,7 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/shill-net
 "
-RDEPEND=""
+RDEPEND="${DEPEND}"
 
 src_install() {
 	# Install libshill-dbus-client library.
