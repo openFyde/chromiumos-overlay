@@ -133,16 +133,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		cros_healthd_mojo_adapter_test
 		cros_healthd_test
-		libcommon_test
-		libcros_healthd_events_test
-		libcros_healthd_fetchers_test
-		libcros_healthd_utils_test
-		network_test
-		network_diagnostics_test
-		routine_test
-		system_config_test
 	)
 	if use wilco; then
 		tests+=(
