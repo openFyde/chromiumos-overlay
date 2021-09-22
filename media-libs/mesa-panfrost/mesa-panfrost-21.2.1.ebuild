@@ -4,12 +4,12 @@
 EAPI=7
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-CROS_WORKON_COMMIT="b3877e880ba9d75a993e3fd394b03f4d19c2e17c"
-CROS_WORKON_TREE="02503301daef244eb54dfe159f0d795d31064aa1"
+CROS_WORKON_COMMIT="f5d4509d3648ddfa2849c350a9eb580fb1631479"
+CROS_WORKON_TREE="4990bb4b958cda4cee02dac3d6115328e1d3dd45"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="mesa-20.3"
+CROS_WORKON_EGIT_BRANCH="mesa-21.2"
 
 KEYWORDS="*"
 
@@ -30,6 +30,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}
+	libglvnd? ( media-libs/libglvnd )
+	!libglvnd? ( !media-libs/libglvnd )
 "
 
 DEPEND="${COMMON_DEPEND}
