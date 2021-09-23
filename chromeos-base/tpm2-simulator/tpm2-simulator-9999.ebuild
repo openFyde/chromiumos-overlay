@@ -20,17 +20,19 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
+IUSE="tpm tpm2"
+
 COMMON_DEPEND="
+	tpm? ( dev-libs/libtpms:= )
+	tpm2? ( chromeos-base/tpm2:=[tpm2_simulator,tpm2_simulator_manufacturer] )
 	chromeos-base/minijail:=
+	chromeos-base/vboot_reference:=[tpm2_simulator]
 	dev-libs/openssl:0=
+	sys-libs/libselinux:=
 	"
 
 RDEPEND="${COMMON_DEPEND}"
-DEPEND="
-	chromeos-base/tpm2:=[tpm2_simulator,tpm2_simulator_manufacturer]
-	chromeos-base/vboot_reference:=[tpm2_simulator]
-	${COMMON_DEPEND}
-	"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	# Install init scripts
