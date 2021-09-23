@@ -4,13 +4,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="91578008668436a53fc53372dc975b608eba221e"
-CROS_WORKON_TREE=("b8b05d7c12f1b5344f82a1ca7df8f214ff89f04f" "7029a772ff6dc763ac67b4deedf0bcaeea80dede" "aa5a6d7f3676a6f5d345f0ab33b0e85accd8de5e")
+CROS_WORKON_COMMIT="7959ae72cdc0befa882a18b8d23d743c10722d4f"
+CROS_WORKON_TREE=("beac4f7e3b1b8092e6bebbca3d9b9c11a7b66598" "7029a772ff6dc763ac67b4deedf0bcaeea80dede" "aa5a6d7f3676a6f5d345f0ab33b0e85accd8de5e")
 CROS_WORKON_PROJECT="chromiumos/config"
 CROS_WORKON_LOCALNAME="config"
 CROS_WORKON_SUBTREE="python go test"
 
-PYTHON_COMPAT=( python{3_6,3_7} )
+PYTHON_COMPAT=( python3_{6..9} )
+DISTUTILS_USE_SETUPTOOLS=bdepend
 
 inherit cros-workon distutils-r1
 
@@ -27,10 +28,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	dev-python/setuptools[${PYTHON_USEDEP}]
 "
-
-REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 src_unpack() {
 	cros-workon_src_unpack
