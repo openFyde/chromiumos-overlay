@@ -71,12 +71,14 @@ src_configure() {
 	cros-rust_configure_cargo
 
 	# HPS userspace tools will be built for $CHOST (i.e. the Chromebook)
-	# but we also need to build firmware for the STM32 inside HPS,
-	# so we add that target to the generated cargo config.
+	# but we also need to build firmware for the STM32 G0 MCU inside HPS.
+	# STM32 G0 is a family of Cortex-M0+ microcontrollers.
+	# So we also add that target to the generated cargo config.
 	# shellcheck disable=SC2154
 	cat <<- EOF >> "${ECARGO_HOME}/config"
+	# Target configuration for Cortex-M0/M0+ MCUs
 	[target.thumbv6m-none-eabi]
-	linker = "arm-none-eabi-ld" # Cortex-M0 and Cortex-M0+
+	linker = "ld.lld"
 	rustflags = [
 		   # !!CAREFUL!! link.x is an internally generated linker script
 		   # that will include 'memory.x' in the src root. Changing this
