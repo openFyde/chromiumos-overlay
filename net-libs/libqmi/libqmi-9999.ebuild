@@ -4,7 +4,7 @@
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
 
-inherit autotools cros-sanitizers cros-workon
+inherit meson cros-sanitizers cros-workon udev
 
 DESCRIPTION="QMI modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
@@ -12,46 +12,25 @@ HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="-asan doc mbim qrtr static-libs"
+IUSE="-asan mbim qrtr"
 
 RDEPEND=">=dev-libs/glib-2.36
-	mbim? ( >=net-libs/libmbim-1.18.0 )
-	qrtr? ( net-libs/libqrtr-glib )"
+	>=net-libs/libmbim-1.18.0
+	net-libs/libqrtr-glib"
 
 DEPEND="${RDEPEND}
-	doc? ( dev-util/gtk-doc )
-	sys-devel/autoconf-archive
 	virtual/pkgconfig"
-
-src_prepare() {
-	default
-	gtkdocize
-	eautoreconf
-}
 
 src_configure() {
 	sanitizers-setup-env
 
-	econf \
-		--enable-qmi-username='modem' \
-		--enable-compile-warnings=yes \
-		--enable-introspection=no \
-		$(use_enable qrtr) \
-		$(use_enable mbim mbim-qmux) \
-		$(use_enable static{-libs,}) \
-		$(use_enable {,gtk-}doc)
-}
-
-src_test() {
-	# TODO(b/180536539): Run unit tests for non-x86 platforms via qemu.
-	if [[ "${ARCH}" == "x86" || "${ARCH}" == "amd64" ]] ; then
-		# This is an ugly hack that happens to work, but should not be copied.
-		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
-		emake check
-	fi
-}
-
-src_install() {
-	default
-	use static-libs || rm -f "${ED}"/usr/$(get_libdir)/libqmi-glib.la
+	local emesonargs=(
+		--prefix='/usr'
+		-Dqmi_username='modem'
+		-Dlibexecdir='/usr/libexec'
+		-Dudevdir='/lib/udev'
+		-Dintrospection=disabled
+		-Dbash_completion=false
+	)
+	meson_src_configure
 }
