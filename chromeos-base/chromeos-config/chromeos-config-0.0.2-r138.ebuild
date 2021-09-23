@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6c280a8e764093b731e08b9494b5840d01245509"
+CROS_WORKON_COMMIT="0eb74454eac8b22959f989a7c96a5c7185d14bb4"
 CROS_WORKON_TREE="af0d7f0e7716888cdb3ce1e1f979ddc664ff8675"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,7 +25,7 @@ IUSE="zephyr_ec"
 # Run a Python utility from the cros_config_host directory.
 #
 # Doing this instead of calling the installed copy has multiple
-# benifeits:
+# benefits:
 # - Users who are making a schema change do not need to cros workon
 #   chromeos-base/chromeos-config-host, emerge that, and cros workon
 #   chromeos-base/chromeos-config for their board, and finally emerge
