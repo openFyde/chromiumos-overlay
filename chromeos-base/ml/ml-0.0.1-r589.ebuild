@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="95e387c730ecbe0a2c706142990e1633b5756694"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "73b8081852901132dcf9462a1a32f8421a3d0a06" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="39dca063ff61847bbfd8e5048f904537832f24c4"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "04e48cc33990ace42655c8f8658f7fd94730258a" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -97,6 +97,8 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	newins "seccomp/ml_service-seccomp-${ARCH}.policy" ml_service-seccomp.policy
+	newins "seccomp/ml_service-BuiltinModel-seccomp-${ARCH}.policy" ml_service-BuiltinModel-seccomp.policy
+	newins "seccomp/ml_service-FlatBufferModel-seccomp-${ARCH}.policy" ml_service-FlatBufferModel-seccomp.policy
 	newins "seccomp/ml_service-HandwritingModel-seccomp-${ARCH}.policy" ml_service-HandwritingModel-seccomp.policy
 	newins "seccomp/ml_service-WebPlatformHandwritingModel-seccomp-${ARCH}.policy" ml_service-WebPlatformHandwritingModel-seccomp.policy
 	newins "seccomp/ml_service-SodaModel-seccomp-${ARCH}.policy" ml_service-SodaModel-seccomp.policy
