@@ -32,6 +32,11 @@ DEPEND="${COMMON_DEPEND}"
 src_install() {
 	cd "${OUT}"
 	dobin run_oci
+
+	# Component maps to ChromeOS>Software>ARC++>Core
+	local fuzzer_component_id="488493"
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}/run_oci_utils_fuzzer" \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

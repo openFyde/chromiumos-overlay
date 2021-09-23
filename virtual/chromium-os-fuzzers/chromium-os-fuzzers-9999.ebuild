@@ -54,6 +54,7 @@ RDEPEND="
 	chromeos-base/patchpanel-client[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/power_manager[fuzzer]
+	chromeos-base/run_oci[fuzzer]
 	chromeos-base/runtime_probe[fuzzer]
 	>=chromeos-base/shill-0.0.1-r2205[fuzzer]
 	chromeos-base/smbprovider[fuzzer]
