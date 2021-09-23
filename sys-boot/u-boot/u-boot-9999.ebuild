@@ -9,24 +9,20 @@ CROS_WORKON_EGIT_BRANCH=("chromeos-v2020.01" "master")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
 CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
 
-inherit toolchain-funcs flag-o-matic cros-workon
+inherit toolchain-funcs flag-o-matic cros-workon cros-unibuild
 
 DESCRIPTION="Das U-Boot boot loader"
 HOMEPAGE="http://www.denx.de/wiki/U-Boot"
 
 LICENSE="GPL-2"
 KEYWORDS="~*"
-IUSE="dev generated_cros_config sandbox unibuild vboot werror"
+IUSE="dev sandbox vboot werror"
 
 DEPEND="sandbox? ( media-libs/libsdl:= )"
 
 RDEPEND="${DEPEND}
 	chromeos-base/u-boot-scripts
 	!!sys-boot/chromeos-u-boot
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	"
 
 UB_BUILD_DIR="build"

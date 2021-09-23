@@ -11,20 +11,15 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier metrics .gn"
 
 PLATFORM_SUBDIR="hardware_verifier"
 
-inherit cros-workon platform user
+inherit cros-workon cros-unibuild platform user
 
 DESCRIPTION="Hardware Verifier Tool/Lib for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardware_verifier/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="generated_cros_config unibuild"
 
 DEPEND="
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config:= )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/system_api:=

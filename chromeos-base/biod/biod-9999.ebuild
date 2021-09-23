@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk biod chromeos-config libec metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
-inherit cros-fuzzer cros-sanitizers cros-workon platform udev user
+inherit cros-fuzzer cros-sanitizers cros-workon cros-unibuild platform udev user
 
 DESCRIPTION="Biometrics Daemon for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/README.md"
@@ -24,8 +24,6 @@ IUSE="
 	fpmcu_firmware_nami
 	fpmcu_firmware_nocturne
 	fuzzer
-	generated_cros_config
-	unibuild
 "
 
 COMMON_DEPEND="
@@ -33,10 +31,6 @@ COMMON_DEPEND="
 	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/flashmap:=
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 "
 
 # For biod_client_tool. The biod_proxy library will be built on all boards but

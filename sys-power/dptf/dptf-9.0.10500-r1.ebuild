@@ -4,7 +4,7 @@
 
 EAPI=6
 
-inherit cmake-utils toolchain-funcs
+inherit cros-unibuild cmake-utils toolchain-funcs
 
 DESCRIPTION="Intel(R) Dynamic Platform & Thermal Framework"
 HOMEPAGE="https://01.org/dptf/"
@@ -13,7 +13,7 @@ SRC_URI="https://github.com/intel/dptf/archive/${PV}.tar.gz -> ${P}.tar.gz"
 LICENSE="Apache-2.0 GPL-2 BSD"
 SLOT="0"
 KEYWORDS="-* amd64 x86"
-IUSE="debug generated_cros_config unibuild"
+IUSE="debug"
 
 # Makefile for DPTF policies
 CMAKE_USE_DIR="${S}/DPTF/Linux"
@@ -25,10 +25,6 @@ ESIFCMP_BUILD_DIR="ESIF/Products/ESIF_CMP/Linux"
 ESIFWS_BUILD_DIR="ESIF/Products/ESIF_WS/Linux"
 
 DEPEND="
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools
 	sys-apps/dbus
 	sys-libs/ncurses sys-libs/readline"

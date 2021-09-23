@@ -12,20 +12,16 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
-inherit cros-workon platform udev user
+inherit cros-workon cros-unibuild platform udev user
 
 DESCRIPTION="Device telemetry and diagnostics for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer wilco generated_cros_config unibuild mesa_reven"
+IUSE="fuzzer wilco mesa_reven"
 
 COMMON_DEPEND="
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config:= )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=

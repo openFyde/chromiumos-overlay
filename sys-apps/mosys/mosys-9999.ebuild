@@ -32,12 +32,9 @@ HOMEPAGE="http://mosys.googlecode.com/"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="generated_cros_config unibuild vpd_file_cache"
+IUSE="unibuild vpd_file_cache"
 
-RDEPEND="unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
+RDEPEND="
 	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
 	chromeos-base/minijail"

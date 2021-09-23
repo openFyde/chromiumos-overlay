@@ -11,23 +11,19 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe"
 
-inherit cros-workon platform
+inherit cros-workon cros-unibuild platform
 
 DESCRIPTION="Device component probe tool **for factory environment**."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/runtime_probe/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros-debug generated_cros_config unibuild +factory_runtime_probe"
+IUSE="cros-debug +factory_runtime_probe"
 
 # TODO(yhong): Extract common parts with runtime_probe-9999.ebuild to a shared
 #     eclass.
 
 COMMON_DEPEND="
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config:= )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools:=
 "
 

@@ -12,23 +12,19 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice mems_setup libmems .gn
 
 PLATFORM_SUBDIR="mems_setup"
 
-inherit cros-workon platform udev
+inherit cros-workon cros-unibuild platform udev
 
 DESCRIPTION="MEMS Setup for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_setup"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="generated_cros_config iioservice unibuild"
+IUSE="iioservice"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
 	net-libs/libiio:=
 	dev-libs/re2:=
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 "
 
 RDEPEND="${COMMON_DEPEND}"

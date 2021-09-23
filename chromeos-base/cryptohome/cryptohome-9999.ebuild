@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec libhwsec-foundation secure_er
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="cryptohome"
 
-inherit tmpfiles cros-workon platform systemd udev user
+inherit tmpfiles cros-workon cros-unibuild platform systemd udev user
 
 DESCRIPTION="Encrypted home directories for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome/"
@@ -24,9 +24,9 @@ SLOT="0/0"
 KEYWORDS="~*"
 IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
-	generated_cros_config generic_tpm2 kernel-5_10 kernel-5_4 kernel-upstream
+	generic_tpm2 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm_dynamic tpm2 tpm2_simulator unibuild uprev-4-to-5
+	test tpm tpm_dynamic tpm2 tpm2_simulator uprev-4-to-5
 	user_session_isolation +vault_legacy_mount vtpm_proxy"
 
 REQUIRED_USE="
@@ -68,10 +68,6 @@ COMMON_DEPEND="
 	sys-fs/e2fsprogs:=
 	sys-fs/ecryptfs-utils:=
 	sys-fs/lvm2:=
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 "
 
 RDEPEND="${COMMON_DEPEND}"

@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk arc/setup chromeos-config metrics .gn"
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="arc/setup"
 
-inherit tmpfiles cros-workon platform
+inherit tmpfiles cros-workon cros-unibuild platform
 
 DESCRIPTION="Set up environment to run ARC."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup"
@@ -25,12 +25,10 @@ IUSE="
 	arcvm
 	esdfs
 	fuzzer
-	generated_cros_config
 	houdini
 	houdini64
 	iioservice
 	ndk_translation
-	unibuild
 	test"
 
 REQUIRED_USE="|| ( arcpp arcvm )"
@@ -62,10 +60,6 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/system_api:=[fuzzer?]
 	test? ( chromeos-base/arc-base )
 "

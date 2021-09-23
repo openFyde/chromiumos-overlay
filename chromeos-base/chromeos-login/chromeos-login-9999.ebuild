@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config libcontainer libpasswordprovider 
 
 PLATFORM_SUBDIR="login_manager"
 
-inherit tmpfiles cros-workon platform systemd user
+inherit tmpfiles cros-workon cros-unibuild platform systemd user
 
 DESCRIPTION="Login manager for Chromium OS."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-login/"
@@ -20,13 +20,9 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arc_adb_sideloading cheets fuzzer generated_cros_config systemd unibuild user_session_isolation"
+IUSE="arc_adb_sideloading cheets fuzzer systemd user_session_isolation"
 
 COMMON_DEPEND="chromeos-base/bootstat:=
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
 	chromeos-base/cryptohome:=

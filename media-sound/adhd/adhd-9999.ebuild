@@ -7,14 +7,15 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon systemd user libchrome-version
+inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon
+inherit cros-unibuild systemd user libchrome-version
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="asan +cras-apm fuzzer generated_cros_config selinux systemd unibuild"
+IUSE="asan +cras-apm fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -33,10 +34,6 @@ RDEPEND="
 	${COMMON_DEPEND}
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp )
-	)
 	chromeos-base/chromeos-config-tools
 "
 

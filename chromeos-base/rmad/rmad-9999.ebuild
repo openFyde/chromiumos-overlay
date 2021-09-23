@@ -12,20 +12,16 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
-inherit cros-workon platform tmpfiles user
+inherit cros-workon cros-unibuild platform tmpfiles user
 
 DESCRIPTION="ChromeOS RMA daemon."
 HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cr50_onboard ti50_onboard generated_cros_config unibuild"
+IUSE="cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config:= )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools:=
 "
 

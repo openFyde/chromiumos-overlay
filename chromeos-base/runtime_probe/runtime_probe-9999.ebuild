@@ -11,20 +11,16 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe"
 
-inherit cros-workon platform user udev
+inherit cros-workon cros-unibuild platform user udev
 
 DESCRIPTION="Runtime probing on device componenets."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtime_probe/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="generated_cros_config unibuild asan fuzzer"
+IUSE="asan fuzzer"
 
 COMMON_DEPEND="
-	unibuild? (
-		!generated_cros_config? ( chromeos-base/chromeos-config:= )
-		generated_cros_config? ( chromeos-base/chromeos-config-bsp:= )
-	)
 	chromeos-base/chromeos-config-tools:=
 "
 
