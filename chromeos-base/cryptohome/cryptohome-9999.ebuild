@@ -209,6 +209,10 @@ src_install() {
 		"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
 		--comp "${fuzzer_component_id}" \
 		fuzzers/data/*
+
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_user_secret_stash_parser_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 pkg_preinst() {
