@@ -22,3 +22,5 @@ DEPEND="
 	>=dev-rust/termcolor-1.1:= <dev-rust/termcolor-1.2
 	>=dev-rust/thread_local-1.0:= <dev-rust/thread_local-1.1
 "
+
+RDEPEND="${DEPEND}"
