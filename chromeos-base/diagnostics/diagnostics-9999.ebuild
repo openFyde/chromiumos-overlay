@@ -37,6 +37,7 @@ DEPEND="
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
+	x11-drivers/opengles-headers:=
 "
 
 # TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
