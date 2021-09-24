@@ -202,6 +202,10 @@ src_install() {
 	fi
 }
 
+src_test() {
+	meson_src_test
+}
+
 pkg_preinst() {
 	enewuser fwupd
 	enewgroup fwupd
