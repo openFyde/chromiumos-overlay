@@ -328,7 +328,7 @@ src_unpack() {
 	# support it.
 	case "${CHROME_ORIGIN}" in
 	LOCAL_SOURCE|SERVER_SOURCE)
-		elog "CHROME_ORIGIN VALUE is ${CHROME_ORIGIN}"
+		einfo "CHROME_ORIGIN VALUE is ${CHROME_ORIGIN}"
 		;;
 	*)
 		die "CHROME_ORIGIN not one of LOCAL_SOURCE, SERVER_SOURCE"
