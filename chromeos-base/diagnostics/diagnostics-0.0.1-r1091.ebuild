@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5437bbad3b5155997a1d51463e50aff723b87ebd"
-CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "90836b6979904ce6ed3869cc768c0e72510e5a2f" "a8487d033af6386f808ae7840f1973c23546b92b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3bfb0bcea9fb141171eea4a46e2484035878a223"
+CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "90836b6979904ce6ed3869cc768c0e72510e5a2f" "be12c4b4c482aa17627b4cf845f96ce37d1f4f7d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -135,16 +135,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		cros_healthd_mojo_adapter_test
 		cros_healthd_test
-		libcommon_test
-		libcros_healthd_events_test
-		libcros_healthd_fetchers_test
-		libcros_healthd_utils_test
-		network_test
-		network_diagnostics_test
-		routine_test
-		system_config_test
 	)
 	if use wilco; then
 		tests+=(
