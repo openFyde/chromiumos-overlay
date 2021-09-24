@@ -56,8 +56,3 @@ src_install() {
 	default
 	prune_libtool_files
 }
-
-pkg_postinst() {
-	elog "For using USB/IP you need to enable USBIP_VHCI_HCD in the client"
-	elog "machine's kernel config and USBIP_HOST on the server."
-}
