@@ -333,14 +333,3 @@ multilib_src_test() {
 		"${WAF_BINARY}" test || die "test failed"
 	fi
 }
-
-pkg_postinst() {
-	ewarn "Be aware that this release contains the best of all of Samba's"
-	ewarn "technology parts, both a file server (that you can reasonably expect"
-	ewarn "to upgrade existing Samba 3.x releases to) and the AD domain"
-	ewarn "controller work previously known as 'samba4'."
-
-	elog "For further information and migration steps make sure to read "
-	elog "https://samba.org/samba/history/${P}.html "
-	elog "https://wiki.samba.org/index.php/Samba4/HOWTO "
-}
