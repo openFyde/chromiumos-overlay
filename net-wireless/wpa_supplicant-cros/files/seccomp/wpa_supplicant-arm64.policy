@@ -78,3 +78,6 @@ restart_syscall: 1
 exit: 1
 sched_yield: 1
 fstatfs: 1
+# TODO(b/172208472): Remove execve from allow list after the compatibility hack
+# mentioned in the bug has been retired.
+execve: 1
