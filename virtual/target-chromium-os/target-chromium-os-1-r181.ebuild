@@ -22,6 +22,7 @@ KEYWORDS="*"
 # Note: You almost never want to use + here to enable settings by default.
 # Please see https://crrev.com/c/2776455 as an example instead.
 IUSE="
+	asan
 	arc-camera1
 	arc-camera3
 	biod
@@ -101,6 +102,7 @@ IUSE="
 	-tpm2
 	+trim_supported
 	typecd
+	ubsan
 	usb_bouncer
 	usbguard
 	+vpn
@@ -223,7 +225,12 @@ RDEPEND="
 	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
-	hps? ( chromeos-base/hpsd )
+	hps? (
+		chromeos-base/hpsd
+		!asan? (
+			!ubsan? ( chromeos-base/hps-firmware )
+		)
+	)
 	hammerd? ( chromeos-base/hammerd )
 	racc? (
 		chromeos-base/hardware_verifier
