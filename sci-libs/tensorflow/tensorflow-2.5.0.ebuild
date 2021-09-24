@@ -175,10 +175,6 @@ get-cpu-str() {
 }
 
 pkg_setup() {
-	ewarn "TensorFlow 2.0 is a major release that contains some incompatibilities"
-	ewarn "with TensorFlow 1.x. For more information about migrating to TF2.0 see:"
-	ewarn "https://www.tensorflow.org/guide/migrate"
-
 	local num_pythons_enabled
 	num_pythons_enabled=0
 	count_impls(){
