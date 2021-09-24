@@ -34,6 +34,10 @@ IUSE="
 	vtpm_proxy
 "
 
+REQUIRED_USE="
+	?? ( cr50_onboard pinweaver_csme )
+"
+
 # This depends on protobuf because it uses protoc and needs to be rebuilt
 # whenever the protobuf library is updated since generated source files may be
 # incompatible across different versions of the protobuf library.

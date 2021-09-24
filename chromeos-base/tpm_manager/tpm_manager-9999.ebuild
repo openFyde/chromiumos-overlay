@@ -20,9 +20,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_ma
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="pinweaver_csme test tpm tpm_dynamic tpm2 fuzzer"
+IUSE="cr50_onboard pinweaver_csme test tpm tpm_dynamic tpm2 fuzzer"
 
 REQUIRED_USE="
+	?? ( cr50_onboard pinweaver_csme )
 	tpm_dynamic? ( tpm tpm2 )
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
 "
