@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3bfb0bcea9fb141171eea4a46e2484035878a223"
+CROS_WORKON_COMMIT="0ddb04719fb9d6b13ae370edc3e7a70543ecbef3"
 CROS_WORKON_TREE=("a3d79a5641e6cda7da95a9316f5d29998cc84865" "90836b6979904ce6ed3869cc768c0e72510e5a2f" "be12c4b4c482aa17627b4cf845f96ce37d1f4f7d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,6 +39,7 @@ DEPEND="
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
+	x11-drivers/opengles-headers:=
 "
 
 # TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
