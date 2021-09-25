@@ -3,8 +3,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="c56e28c2201bb670489588799bdc6dc72a303626"
-CROS_WORKON_TREE="635423a31184eadc5ab59b14148a443b96f2dc25"
+CROS_WORKON_COMMIT="78ac91557d798a5415b58fca6853f6609f1ff51c"
+CROS_WORKON_TREE="90f2e2fd15db34a99c406e9e39ba04a184a6c716"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 CROS_WORKON_EGIT_BRANCH="fwupd-1.6.3"
 
@@ -202,6 +202,10 @@ src_install() {
 				-i "${ED}"/etc/${PN}/daemon.conf || die
 		fi
 	fi
+}
+
+src_test() {
+	meson_src_test
 }
 
 pkg_preinst() {
