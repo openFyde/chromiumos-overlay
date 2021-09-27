@@ -14,7 +14,30 @@ PER_DEVICE_OVERRIDE_DIR=/var/lib/swap
 SWAP_SIZE_BOARD_OVERRIDE_FILE="${PER_BOARD_OVERRIDE_DIR}/swap_size_mb"
 SWAP_ENABLE_FILE="${PER_DEVICE_OVERRIDE_DIR}/swap_enabled"
 DISK_BASED_SWAP_FILE="/proc/sys/vm/disk_based_swap"
-SWAP_DIR="/mnt/stateful_partition/unencrypted/swap"
+ZRAM_BACKING_DEV="/sys/block/zram0/backing_dev"
+ZRAM_WRITEBACK_NAME="zram-writeback"
+ZRAM_INTEGRITY_NAME="zram-integrity"
+ZRAM_WRITEBACK_DEV_ENC="/dev/mapper/${ZRAM_WRITEBACK_NAME}"
+ZRAM_WRITEBACK_INTEGRITY_MOUNT="/run/zram-integrity"
+ZRAM_INTEGRITY_DEV="/dev/mapper/${ZRAM_INTEGRITY_NAME}"
+STATEFUL_PARTITION="/mnt/stateful_partition/unencrypted"
+MB=$(( 1 << 20 ))
+
+# Never allow swapping to disk when the overall free diskspace is less
+# than 15% of the overall capacity.
+MIN_FREE_DISKSPACE_PCT=15
+
+# Never allow more than 15% of the FREE diskspace to be used for swap.
+MAX_PCT_OF_FREE_DISKSPACE=15
+
+# We default to 1gb of writeback space.
+DEFAULT_WRITEBACK_SIZE_MB=1024
+
+# Don't allow more than 6GB to be configured.
+MAX_ZRAM_WRITEBACK_SIZE_MB=6144
+
+# Don't allow a size less than 128MB to be configured.
+MIN_ZRAM_WRITEBACK_SIZE_MB=128
 
 MARGIN_MAX=20000  # MiB
 MARGIN_CONVERSION=1
@@ -192,10 +215,25 @@ swap_to_micron() {
   ${micron_swap}
 }
 
+# Log an error and exit.
 die() {
-  message="$1"
-  logger -t "${JOB}" "${message}"
+  log_error "$*"
   exit 1
+}
+
+# Log a info level log message.
+log_info() {
+  logger -p daemon.info -t "${JOB}" -- "$*"
+}
+
+# Log a warning level log message.
+log_warning() {
+  logger -p daemon.warning -t "${JOB}" -- "$*"
+}
+
+# Log an error level log message.
+log_error() {
+  logger -p daemon.err -t "${JOB}" -- "$*"
 }
 
 start() {
@@ -294,6 +332,8 @@ stop() {
   if [ -b "/dev/zram0" ]; then
     # When we start up, we try to configure zram0, but it doesn't like to
     # be reconfigured on the fly.  Reset it so we can changes its params.
+    # If there was a backing device being used, it will be automatically
+    # removed because after it's created it was removed with deferred remove.
     echo 1 > /sys/block/zram0/reset || :
   fi
 }
@@ -351,6 +391,135 @@ disable() {
   create_write_file "${SWAP_ENABLE_FILE}" "0"
 }
 
+# Round up multiple will round the first argument (number) up to the next
+# multiple of the second argument (alignment).
+roundup_multiple() {
+  local number=$1
+  local alignment=$2
+  echo $(( ( ( number + (alignment - 1) ) / alignment ) * alignment ))
+}
+
+# Enable zram writeback with a given |size| specified in MB.
+enable_zram_writeback() {
+  local writeback_size_mb
+  writeback_size_mb="$1"
+
+  if [ -z "${writeback_size_mb}" ]; then
+    die "zram writeback requires a size param"
+  elif [ "${writeback_size_mb}" -lt 0 ]; then
+    log_info "enabling zram writeback with default size ${DEFAULT_WRITEBACK_SIZE_MB}MB"
+    writeback_size_mb=${DEFAULT_WRITEBACK_SIZE_MB}
+  fi
+
+  if [ ! -e "${ZRAM_BACKING_DEV}" ]; then
+    die "missing ${ZRAM_BACKING_DEV}"
+  elif [ "$(cat "${ZRAM_BACKING_DEV}")" != "none" ]; then
+    die "zram already has a backing device assigned"
+  elif [ -e "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" ]; then
+    die "zram writeback integrity mount already exists"
+  fi
+
+  local total_blocks free_blocks block_size pct_free
+  # shellcheck disable=2046
+  set -- $(stat -fc "%b %f %s" "${STATEFUL_PARTITION}")
+  total_blocks="$1"
+  free_blocks="$2"
+  block_size="$3"
+  pct_free=$(( 100 * free_blocks / total_blocks ))
+
+  if [ "${pct_free}" -lt "${MIN_FREE_DISKSPACE_PCT}" ]; then
+    die "zram writeback cannot be enabled free disk space" \
+        "${pct_free}% is less than the minimum ${MIN_FREE_DISKSPACE_PCT}%"
+  fi
+
+  if [ "${writeback_size_mb}" -lt "${MIN_ZRAM_WRITEBACK_SIZE_MB}" ] ||
+       [ "${writeback_size_mb}" -gt "${MAX_ZRAM_WRITEBACK_SIZE_MB}" ]; then
+    die "zram writeback size ${writeback_size_mb}MB is not between" \
+        "${MIN_ZRAM_WRITEBACK_SIZE_MB} and ${MAX_ZRAM_WRITEBACK_SIZE_MB}"
+  fi
+
+  # Now we need to make sure that the size we're using is never more than
+  # MAX_PCT_OF_FREE_DISKSPACE. This is the percent of the FREE diskspace.
+  local blocks_to_use pct_of_free writeback_size_bytes
+  blocks_to_use=$(( ( writeback_size_mb * MB ) / block_size ))
+  pct_of_free=$(( ( blocks_to_use * 100 ) / free_blocks ))
+
+  if [ "${pct_of_free}" -gt "${MAX_PCT_OF_FREE_DISKSPACE}" ]; then
+    local old_size="${writeback_size_mb}"
+    blocks_to_use=$(( MAX_PCT_OF_FREE_DISKSPACE * ( free_blocks / 100 ) ))
+    writeback_size_mb=$(( ( blocks_to_use * block_size ) / MB ))
+    log_warning "zram writeback, requested size of ${old_size}MB" \
+         "is ${pct_of_free}% of the free disk space. Size will be reduced to ${writeback_size_mb}MB"
+  fi
+  writeback_size_bytes=$(roundup_multiple $((writeback_size_mb * MB)) 512)
+
+  # Because we rounded up writeback_size bytes recalculate the number of blocks used.
+  blocks_to_use=$((writeback_size_bytes / block_size + 1))
+
+  # Create the actual writeback space on the stateful partition.
+  local data_filename table data_loop_dev
+  data_filename=$(mktemp -p "${STATEFUL_PARTITION}" -t "zram_writeback.XXXXXX.swp")
+  fallocate -l "${writeback_size_bytes}" "${data_filename}" ||
+       die "unable to fallocate writeback file"
+
+  data_loop_dev=$(losetup --show --direct-io=on -f "${data_filename}")
+  if [ -z "${data_loop_dev}" ]; then
+    die "zram writeback unable to setup loop device"
+  fi
+  rm "${data_filename}" || die "error: unable to unlink zram writeback file"
+
+  # Create a dm-integrity device to use with dm-crypt.
+  local integrity_loop_dev integrity_table ramfs_size_bytes
+  # AES-GCM uses a fixed 12 byte IV. The other 12 bytes are auth tag.
+  local integrity_bytes_per_block=24
+  local ramfs_size_mb=$(( blocks_to_use * integrity_bytes_per_block / MB + 1 ))
+  ramfs_size_bytes=$(roundup_multiple $((ramfs_size_mb * MB)) 512)
+  # shellcheck disable=2174
+  mkdir -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -m 0700 || die "cannot create integrity mount"
+  mount -t ramfs -n \
+      -o size="${ramfs_size_bytes},nodev,noexec,nosuid,noatime,mode=0700" \
+      "zram-writeback-integrity" "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" \
+        || die "unable to mount ramfs"
+  integrity_filename=$(mktemp -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -t "zram_writeback.integrity.XXXXXX.swp")
+  dd if=/dev/zero of="${integrity_filename}" iflag=count_bytes count="${ramfs_size_bytes}" status=none \
+      || die "unable to zero integrity file"
+  integrity_loop_dev=$(losetup --show -f "${integrity_filename}")
+  if [ -z "${integrity_loop_dev}" ]; then
+    die "ram writeback unable to setup integrity loop device"
+  fi
+  rm "${integrity_filename}" || die "unable to unlink zram writeback integrity file"
+
+  # Note: These devices must be protected with LSM, permissions are inadequate.
+  integrity_table="0 $(blockdev --getsz "${data_loop_dev}") integrity \
+      ${data_loop_dev} 0 ${integrity_bytes_per_block} \
+      D 2 block_size:4096 meta_device:${integrity_loop_dev}"
+  /sbin/dmsetup create "${ZRAM_INTEGRITY_NAME}" --table "${integrity_table}" ||
+      die "/sbin/dmsetup unable to create zram integrity device"
+
+  # Both loop devices have been taken by the dm-integrity device, let's close them.
+  losetup -d "${data_loop_dev}"
+  losetup -d "${integrity_loop_dev}"
+
+  table="0 $(blockdev --getsz "${ZRAM_INTEGRITY_DEV}") crypt capi:gcm(aes)-random \
+      $(openssl rand -hex 32) \
+      0 ${ZRAM_INTEGRITY_DEV} 0 4 allow_discards submit_from_crypt_cpus \
+      sector_size:4096 integrity:${integrity_bytes_per_block}:aead"
+  /sbin/dmsetup create "${ZRAM_WRITEBACK_NAME}" --table "${table}" ||
+      die "/sbin/dmsetup create ${ZRAM_WRITEBACK_NAME} failed"
+
+  # Note: don't die so we can still cleanup the devices.
+  echo "${ZRAM_WRITEBACK_DEV_ENC}" > "${ZRAM_BACKING_DEV}" ||
+      log_error "unable to enable zram writeback with ${ZRAM_WRITEBACK_DEV_ENC}"
+
+  # Now that the dm-crypt device has been opened by zram we can issue
+  # a deferred remove which will cause it to be automatically removed
+  # when it's closed.
+  /sbin/dmsetup remove --deferred "${ZRAM_WRITEBACK_NAME}"
+  /sbin/dmsetup remove --deferred "${ZRAM_INTEGRITY_NAME}"
+
+  log_info "enabled swap zram writeback with size ${writeback_size_mb}MB"
+}
+
 set_parameter() {
   local param="$1"
   local value="$2"
@@ -396,9 +565,17 @@ set_parameter() {
 
 usage() {
   cat <<EOF
-Usage: $0 <start|stop|status|enable <size>|disable|
-           set_parameter <margin|min_filelist|extra_free|ram_vs_swap_weight> <value>>|
-           get_target_value <margin|min_filelist|extra_free|ram_vs_swap_weight> <value>>
+Usage: $0  command <params>
+
+       Available Commands:
+           start
+           stop
+           status
+           enable <size>
+           disable
+           set_parameter <margin|min_filelist|extra_free|ram_vs_swap_weight> <value>
+           get_target_value <margin|min_filelist|extra_free|ram_vs_swap_weight> <value>
+           enable_zram_writeback <size_mb>
 
 Start or stop the use of the compressed swap file, or persistently set
 various memory manager tunable parameters, or get their chosen values.
@@ -434,7 +611,7 @@ main() {
       usage 1
     fi
     ;;
-  enable|get_target_value)
+  enable|get_target_value|enable_zram_writeback)
     if [ $# -ne 1 ]; then
       usage 1
     fi
