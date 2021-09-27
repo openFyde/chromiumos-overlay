@@ -4,7 +4,7 @@
 EAPI=6
 
 EGIT_REPO_URI="https://github.com/fwupd/fwupd"
-EGIT_BRANCH="master"
+EGIT_BRANCH="main"
 
 PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
