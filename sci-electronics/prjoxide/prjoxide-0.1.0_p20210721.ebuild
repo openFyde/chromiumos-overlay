@@ -23,7 +23,7 @@ SRC_URI="
 "
 
 LICENSE="ISC"
-SLOT="${PV}/${PR}"
+SLOT="0"
 KEYWORDS="*"
 
 DEPEND="
