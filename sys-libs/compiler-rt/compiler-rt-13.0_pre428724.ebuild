@@ -77,6 +77,8 @@ src_configure() {
 		"-DCOMPILER_RT_BUILD_LIBFUZZER=no"
 		"-DCOMPILER_RT_BUILTINS_HIDE_SYMBOLS=OFF"
 		"-DCOMPILER_RT_SANITIZERS_TO_BUILD=asan;msan;hwasan;tsan;cfi;ubsan_minimal;gwp_asan"
+		# b/200831212: Disable per runtime install dirs.
+		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then

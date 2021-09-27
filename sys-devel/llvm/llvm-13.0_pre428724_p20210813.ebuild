@@ -215,6 +215,9 @@ multilib_src_configure() {
 
 		# crbug/1146898: setting this to ON causes boot failures
 		"-DENABLE_X86_RELAX_RELOCATIONS=OFF"
+
+		# b/200831212: Disable per runtime install dirs.
+		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC
