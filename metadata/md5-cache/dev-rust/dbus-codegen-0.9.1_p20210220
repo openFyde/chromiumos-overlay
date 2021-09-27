@@ -10,5 +10,5 @@ RDEPEND==dev-rust/clap-2*:= =dev-rust/dbus-0.9*:= =dev-rust/dbus-tree-0.9*:= =de
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0.9.1_p20210220
 SRC_URI=https://github.com/diwic/dbus-rs/archive/006994e300f1211120fb707028c04acf76ac4ebe.tar.gz -> dbus-codegen-0.9.1_p20210220.tar.gz
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	92c15a343e975aeea64e0aa859fcd339	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	2237e0dad80252483b9faa240a43ce2a
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	92c15a343e975aeea64e0aa859fcd339	cros-sanitizers	fcc8f96c24bfce0853f07c00f65fb50a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=facea31b68db3d794e8405cacbfe4af1
