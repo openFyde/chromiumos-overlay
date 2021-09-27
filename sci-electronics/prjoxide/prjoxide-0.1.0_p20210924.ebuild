@@ -8,10 +8,10 @@ inherit cros-rust
 DESCRIPTION="Project Oxide - documenting Lattice's 28nm \"Nexus\" FPGA parts"
 HOMEPAGE="https://github.com/gatecat/prjoxide"
 
-GIT_REV="c0c72085e80708eed4f5bb3792977f10c3d35b93"
+GIT_REV="318331f8b30c2e2a31cc41d51f104b671e180a8a"
 
 # 'database' submodule.
-DB_GIT_REV="e31a1b8f214a691d153bbcaa8c3df158d8a22e0b"
+DB_GIT_REV="48cb5537977c41d38c40ddff45ba1bbcec384ba8"
 
 # '3rdparty/fpga-interchange-schema' submodule.
 SCHEMA_GIT_REV="78abf3f30770ccc6d0e1f5dbfeaef2666f55acf6"

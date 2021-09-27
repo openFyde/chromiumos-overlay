@@ -8,7 +8,7 @@ inherit cmake  # EAPI >=7
 DESCRIPTION="nextpnr -- a portable FPGA place and route tool."
 HOMEPAGE="https://github.com/YosysHQ/nextpnr"
 
-GIT_REV="dd6376433154e008045695f5420469670b0c3a88"
+GIT_REV="9782a46a9b4edb24cc73ea65f1ad7697ed74ab41"
 
 # 'tests' submodule.
 TESTS_GIT_REV="ccc61e5ec7cc04410462ec3196ad467354787afb"
