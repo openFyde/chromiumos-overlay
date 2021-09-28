@@ -1006,6 +1006,18 @@
         "end_version": 434174
     },
     {
+        "comment": "[MC][CodeGen] Emit constant pools earlier",
+        "rel_patch_path": "cherry/ad253446208a06902d3bc4939ac7a64f8026cc84.patch",
+        "start_version": 428724,
+        "end_version": 434684
+    },
+    {
+        "comment": "PR45881: Properly use CXXThisOverride for templated lambda",
+        "rel_patch_path": "cherry/61d1cce2f83571c00f76144d42a2dea2cb3ab1ca.patch",
+        "start_version": 428724,
+        "end_version": 437403
+    },
+    {
         "comment": "[SampleFDO] Allow forward compatibility when adding a new section for extbinary format.",
         "rel_patch_path": "cherry/8eb617d719bdc6a4ed7773925d2421b9bbdd4b7a.patch",
         "start_version": 428724,
