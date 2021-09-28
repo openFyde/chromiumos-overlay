@@ -117,20 +117,15 @@ IUSE_TESTS=(
 	+tests_policy_ArcExternalStorageDisabled
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
-	+tests_policy_AudioOutputAllowed
 	+tests_policy_AutotestCheck
 	+tests_policy_ChromeOsLockOnIdleSuspend
-	+tests_policy_CookiesAllowedForUrls
-	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
-	+tests_policy_DefaultSearchProvider
 	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceCharging
 	+tests_policy_DeviceDockMacAddressSource
 	+tests_policy_DeviceScheduledCharging
-	+tests_policy_DisableScreenshots
 	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
 	+tests_policy_DeviceEphemeralUsersEnabled
@@ -139,20 +134,14 @@ IUSE_TESTS=(
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
-	+tests_policy_ForceYouTubeRestrict
 	+tests_policy_ForceYouTubeSafetyMode
 	+tests_policy_KeyPermissions
 	+tests_policy_KioskModeEnabled
-	+tests_policy_NativePrintersBulkAccessMode
-	+tests_policy_PinnedLauncherApps
 	+tests_policy_PlatformKeys
-	+tests_policy_PolicyRefreshRate
 	+tests_policy_PowerManagementIdleSettings
-	+tests_policy_PrintingEnabled
 	+tests_policy_ProxySettings
 	+tests_policy_ReportUploadFrequency
 	+tests_policy_RestoreOnStartupURLs
-	+tests_policy_VirtualMachinesAllowed
 	+tests_policy_WilcoOnNonWilcoDevice
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
