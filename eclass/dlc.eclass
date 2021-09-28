@@ -76,6 +76,12 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # passed in.
 : "${DLC_PRELOAD:="false"}"
 
+# @ECLASS-VARIABLE: DLC_FACTORY_INSTALL
+# @DESCRIPTION:
+# Determines whether to factory install the DLC into FSI. A boolean must be
+# passed in. (Please consult @chromeos-core-services team before using this)
+: "${DLC_FACTORY_INSTALL:="false"}"
+
 # @ECLASS-VARIABLE: DLC_ENABLED
 # @DESCRIPTION:
 # Determines whether the package will be a DLC package or regular package.
@@ -143,6 +149,7 @@ dlc_src_install() {
 	[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
 	[[ -z "${DLC_VERSION}" ]] && die "DLC_VERSION undefined"
 	[[ "${DLC_PRELOAD}" =~ ^(true|false)$ ]] || die "Invalid DLC_PRELOAD value"
+	[[ "${DLC_FACTORY_INSTALL}" =~ ^(true|false)$ ]] || die "Invalid DLC_FACTORY_INSTALLvalue"
 	[[ -z "${DLC_USED_BY}" ]] && die "DLC_USED_BY undefined"
 	[[ "${DLC_MOUNT_FILE_REQUIRED}" =~ ^(true|false)$ ]] \
 		|| die "Invalid DLC_MOUNT_FILE_REQUIRED value"
@@ -166,6 +173,10 @@ dlc_src_install() {
 
 	if [[ "${DLC_PRELOAD}" == "true" ]]; then
 		args+=( --preload )
+	fi
+
+	if [[ "${DLC_FACTORY_INSTALL}" == "true" ]]; then
+		args+=( --factory-install )
 	fi
 
 	if [[ -n "${DLC_USED_BY}" ]]; then
