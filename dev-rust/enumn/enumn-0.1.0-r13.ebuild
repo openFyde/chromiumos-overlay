@@ -11,6 +11,9 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="enumn"
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Convert number to enum"

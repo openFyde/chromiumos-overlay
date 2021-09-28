@@ -13,6 +13,9 @@ CROS_WORKON_SUBDIRS_TO_COPY="cros_async"
 
 inherit cros-workon cros-rust
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 DESCRIPTION="Rust async tools for Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/cros_async"
 LICENSE="BSD-Google"

@@ -11,6 +11,9 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="data_model"
 CROS_WORKON_SUBDIRS_TO_COPY="data_model"
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates includes traits and types for safe interaction with raw memory."

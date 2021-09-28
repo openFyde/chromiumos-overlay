@@ -9,6 +9,9 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="assertions"
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates for compile-time assertion macro."

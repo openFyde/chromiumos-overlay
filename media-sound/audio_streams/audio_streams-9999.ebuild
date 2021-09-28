@@ -10,6 +10,9 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="audio_streams"
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crate provides a basic interface for playing audio."

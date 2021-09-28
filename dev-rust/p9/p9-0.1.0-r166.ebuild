@@ -12,6 +12,9 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=""  # TODO(b/195126527): limit subtree to common/
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-fuzzer cros-workon cros-rust
 
 DESCRIPTION="Server implementation of the 9P file system protocol"

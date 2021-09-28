@@ -11,6 +11,9 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=""  # TODO(b/195126527): limit subtree to common/
 
+# Pupr handles uprevs of crosvm.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Support crate for running rust fuzzers on Chrome OS"
