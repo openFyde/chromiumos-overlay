@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5d1740c209b4b3c9f6564880d466e4526428499b"
-CROS_WORKON_TREE="f080230e2106f4d7046e0fda48522b48efce5a99"
+CROS_WORKON_COMMIT="7bd8c1a79fce09dceff7a9e271f538ede4a6a987"
+CROS_WORKON_TREE="453098e8f45300d6995d92a01658956b9f4fdf7f"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -14,14 +14,16 @@ DESCRIPTION="Performance benchmarks for ChromeOS audio server"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE=""
+IUSE="+cras-apm"
 
 DEPEND="
 	media-libs/alsa-lib
+	cras-apm? ( media-libs/webrtc-apm:= )
 "
 RDEPEND="${DEPEND}"
 
 bazel_external_uris="
+	https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz
 	https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
 	https://github.com/google/benchmark/archive/refs/tags/v1.5.5.tar.gz -> google-benchmark-1.5.5.tar.gz
@@ -46,7 +48,10 @@ src_configure() {
 
 src_compile() {
 	cd cras || die
-	ebazel build //src/benchmark:cras_bench
+	args=(
+		"$(use cras-apm && echo "--//src/benchmark:apm=true")"
+	)
+	ebazel build //src/benchmark:cras_bench "${args[*]}"
 }
 
 src_install() {
