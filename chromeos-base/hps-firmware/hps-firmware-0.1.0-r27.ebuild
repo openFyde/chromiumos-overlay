@@ -107,6 +107,10 @@ src_compile() {
 		ecargo build \
 			--target="thumbv6m-none-eabi" \
 			--release
+		einfo "Flatting MCU firmware image ${crate}"
+		llvm-objcopy -O binary \
+			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}" \
+			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin"
 	) done
 }
 
@@ -119,6 +123,6 @@ src_install() {
 	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
 
 	insinto "/usr/lib/firmware/hps"
-	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0" "mcu_stage0.elf"
-	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app" "mcu_stage1.elf"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" "mcu_stage1.bin"
 }
