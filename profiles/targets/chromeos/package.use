@@ -62,6 +62,9 @@ media-libs/openh264	utils
 media-libs/waffle	gbm
 media-plugins/live      -ssl
 media-sound/sox		alsa ogg
+# Libvpx is required for video recording using the vnc2video go module.
+# Libdrm is required for go/chrome-os-capture-ffmpeg
+media-video/ffmpeg vpx libdrm openssl
 media-video/mplayer	cpudetection fbcon -encode -ass -a52 -cdio -dirac -dts -dv -dvd -dvdnav -enca -faac -faad -live -quicktime -mp3 -rar -real -speex -schroedinger -theora -tremor -toolame -twolame -vorbis -xscreensaver -x264 -xv -xvid
 net-analyzer/tcpdump	-chroot
 net-dns/avahi-daemon	zeroconf
