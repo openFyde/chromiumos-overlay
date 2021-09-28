@@ -23,6 +23,7 @@ IUSE="fuzzer wilco mesa_reven"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
@@ -45,7 +46,6 @@ DEPEND="
 # currently the only client.
 RDEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/minijail
 	dev-util/stressapptest
 	wilco? (
 		sys-block/fio

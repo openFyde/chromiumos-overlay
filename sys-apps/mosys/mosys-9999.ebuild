@@ -37,7 +37,7 @@ IUSE="unibuild vpd_file_cache"
 RDEPEND="
 	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
-	chromeos-base/minijail"
+	chromeos-base/minijail:="
 DEPEND="${RDEPEND}"
 
 src_unpack() {

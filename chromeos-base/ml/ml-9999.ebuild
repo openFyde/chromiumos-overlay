@@ -63,6 +63,7 @@ IUSE="
 RDEPEND="
 	chromeos-base/chrome-icu:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/minijail:=
 	internal? ( ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] ) )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
 	media-libs/cros-camera-document-scanning:=[ondevice_document_scanner=]

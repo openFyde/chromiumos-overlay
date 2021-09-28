@@ -23,6 +23,7 @@ IUSE="cr50_onboard iioservice ti50_onboard"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/minijail:=
 "
 
 RDEPEND="

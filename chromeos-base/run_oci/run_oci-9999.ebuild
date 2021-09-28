@@ -22,6 +22,7 @@ IUSE=""
 
 COMMON_DEPEND="
 	chromeos-base/libcontainer:=
+	chromeos-base/minijail:=
 	sys-apps/util-linux:=
 	sys-libs/libcap:=
 "

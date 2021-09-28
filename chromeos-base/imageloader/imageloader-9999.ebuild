@@ -22,6 +22,7 @@ IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/vboot_reference:=
+	chromeos-base/minijail:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )

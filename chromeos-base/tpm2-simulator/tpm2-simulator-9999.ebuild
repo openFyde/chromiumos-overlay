@@ -21,6 +21,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 COMMON_DEPEND="
+	chromeos-base/minijail:=
 	dev-libs/openssl:0=
 	"
 

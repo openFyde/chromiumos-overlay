@@ -21,8 +21,8 @@ RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 	containers? (
 		tests_security_Libcontainer? (
-			chromeos-base/minijail
-			chromeos-base/libcontainer
+			chromeos-base/minijail:=
+			chromeos-base/libcontainer:=
 		)
 	)
 "
