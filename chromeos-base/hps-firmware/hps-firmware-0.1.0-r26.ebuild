@@ -22,10 +22,6 @@ KEYWORDS="*"
 	#=dev-rust/ftd2xx-embedded-hal-0.7*:=
 	#>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5.0.0
 
-# Add these for stm32g0_application:
-	#=dev-rust/crc-2*:=
-	#>=dev-rust/panic-rtt-target-0.1.2:= <dev-rust/panic-rtt-target-0.2.0
-	#>=dev-rust/rtt-target-0.3.1:= <dev-rust/rtt-target-0.4.0
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
 	>=dev-rust/bitflags-1.2.1:= <dev-rust/bitflags-2.0.0
@@ -33,6 +29,7 @@ DEPEND="
 	>=dev-rust/cortex-m-0.7.1:= <dev-rust/cortex-m-0.8.0
 	>=dev-rust/cortex-m-rt-0.6.13:= <dev-rust/cortex-m-rt-0.7.0
 	>=dev-rust/cortex-m-rtic-0.5.5:= <dev-rust/cortex-m-rtic-0.6.0
+	=dev-rust/crc-2*:=
 	>=dev-rust/defmt-0.2.1:= <dev-rust/defmt-0.3.0
 	=dev-rust/defmt-rtt-0.2*:=
 	>=dev-rust/ed25519-compact-0.1.9:= <dev-rust/ed25519-compact-0.2.0
@@ -47,6 +44,8 @@ DEPEND="
 	=dev-rust/stm32g0xx-hal-0.1*:=
 	=dev-rust/ufmt-0.1*:=
 	=dev-rust/ufmt-write-0.1*:=
+	>=dev-rust/panic-rtt-target-0.1.2:= <dev-rust/panic-rtt-target-0.2.0
+	>=dev-rust/rtt-target-0.3.1:= <dev-rust/rtt-target-0.4.0
 "
 RDEPEND="${DEPEND}"
 
@@ -61,7 +60,7 @@ src_prepare() {
 
 	# We need to hide some crates from cargo because they still have
 	# unsatisfied dependencies, they can be added later.
-	sed -i -e '/hps-util/d' -e '/hps-mon/d' -e '/debug_logger/d' -e '/factory_tester_mcu/d' -e '/mcp2221/d' mcu_rom/Cargo.toml
+	sed -i -e '/hps-util/d' -e '/hps-mon/d' -e '/factory_tester_mcu/d' -e '/mcp2221/d' mcu_rom/Cargo.toml
 
 	default
 }
@@ -102,7 +101,7 @@ src_compile() {
 	) done
 
 	# Build MCU firmware
-	for crate in stage0 stage1 ; do (
+	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
 		cd mcu_rom/${crate} || die
 		ecargo build \
@@ -121,5 +120,5 @@ src_install() {
 
 	insinto "/usr/lib/firmware/hps"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0" "mcu_stage0.elf"
-	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1" "mcu_stage1.elf"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app" "mcu_stage1.elf"
 }
