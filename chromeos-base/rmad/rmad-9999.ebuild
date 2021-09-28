@@ -19,7 +19,7 @@ HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cr50_onboard ti50_onboard"
+IUSE="cr50_onboard iioservice ti50_onboard"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
@@ -28,6 +28,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	iioservice? ( chromeos-base/iioservice_simpleclient )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	chromeos-base/croslog
 	chromeos-base/hardware_verifier
