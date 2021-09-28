@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a1ed5d3e09d7f1fc2025a363183b61625de5e669"
-CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "643008744f7652785bce06da78a9df5409441dbf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f7c944b31bcdc8ff66d0eed207421c71a51c034f"
+CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "35ddbcee21c0308f14e05f04a2cb34512bd9ee2f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -34,6 +34,7 @@ src_install() {
 
 	dolib.so "${OUT}"/lib/libspaced.so
 	dosbin "${OUT}"/spaced
+	dosbin "${OUT}"/spaced_cli
 
 	insinto /etc/init
 	doins init/spaced.conf
