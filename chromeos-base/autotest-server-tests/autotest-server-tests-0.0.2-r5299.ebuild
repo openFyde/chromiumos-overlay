@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="63549846dc49759a86f2cc53ecfa9722a3e999ae"
-CROS_WORKON_TREE="8ec822bad20cbb9a10ab0e8445b6090675f9d20d"
+CROS_WORKON_COMMIT="631259dcc26f375c57db45ebe8800e336eff5266"
+CROS_WORKON_TREE="7bbbfafda3351700784c43712aaa72894a151791"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -270,6 +270,7 @@ SERVER_IUSE_TESTS="
 	+tests_hardware_StorageQualTrimStress
 	+tests_hardware_StorageQualV2
 	+tests_hardware_StorageStress
+	+tests_infra_ServerPythonVersion
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
 	+tests_kernel_ExternalUsbPeripheralsDetectionTest
