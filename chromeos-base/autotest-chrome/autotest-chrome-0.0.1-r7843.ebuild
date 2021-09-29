@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e686fc8eaa140b6d4cd94c9495ac4d53bdaee878"
-CROS_WORKON_TREE="184fb55a36279697bff2928ee747b00f4933738f"
+CROS_WORKON_COMMIT="554ad98617b1a147506cc6d6b56605dd5458d6cf"
+CROS_WORKON_TREE="51b433c61f50a5ebb17a069b2a061b684f09b397"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -119,20 +119,15 @@ IUSE_TESTS=(
 	+tests_policy_ArcExternalStorageDisabled
 	+tests_policy_ArcVideoCaptureAllowed
 	+tests_policy_ArcDisableScreenshots
-	+tests_policy_AudioOutputAllowed
 	+tests_policy_AutotestCheck
 	+tests_policy_ChromeOsLockOnIdleSuspend
-	+tests_policy_CookiesAllowedForUrls
-	+tests_policy_CookiesBlockedForUrls
 	+tests_policy_CookiesSessionOnlyForUrls
-	+tests_policy_DefaultSearchProvider
 	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceCharging
 	+tests_policy_DeviceDockMacAddressSource
 	+tests_policy_DeviceScheduledCharging
-	+tests_policy_DisableScreenshots
 	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
 	+tests_policy_DeviceEphemeralUsersEnabled
@@ -141,20 +136,14 @@ IUSE_TESTS=(
 	+tests_policy_ExtensionPolicy
 	+tests_policy_ExternalStorageDisabled
 	+tests_policy_ExternalStorageReadOnly
-	+tests_policy_ForceYouTubeRestrict
 	+tests_policy_ForceYouTubeSafetyMode
 	+tests_policy_KeyPermissions
 	+tests_policy_KioskModeEnabled
-	+tests_policy_NativePrintersBulkAccessMode
-	+tests_policy_PinnedLauncherApps
 	+tests_policy_PlatformKeys
-	+tests_policy_PolicyRefreshRate
 	+tests_policy_PowerManagementIdleSettings
-	+tests_policy_PrintingEnabled
 	+tests_policy_ProxySettings
 	+tests_policy_ReportUploadFrequency
 	+tests_policy_RestoreOnStartupURLs
-	+tests_policy_VirtualMachinesAllowed
 	+tests_policy_WilcoOnNonWilcoDevice
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
