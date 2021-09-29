@@ -476,7 +476,22 @@ cros-rust_configure_cargo() {
 	# `EXTRA_RUSTFLAGS="<flags>" emerge-$BOARD <package>`
 	rustflags+=( "${EXTRA_RUSTFLAGS:=}" )
 
-	export RUSTFLAGS="${rustflags[*]}"
+	# Add rustflags to the cargo configuration.
+	# This [target] section will apply to *all* targets, CHOST and CBUILD.
+	# TODO(dcallagh): some flags above are not applicable to all targets,
+	# they should be configured into suitable [target] sections.
+	# TODO(dcallagh): escape TOML values correctly instead of assuming
+	# that no rustflags contain spaces or quotes.
+	cat <<- EOF >> "${ECARGO_HOME}/config"
+
+	[target.'cfg(all())']
+	rustflags = "${rustflags[*]}"
+	EOF
+
+	# Also ensure RUSTFLAGS is *not* set in the environment.
+	# If it is, it will override all the flags we configured above. See:
+	# https://doc.rust-lang.org/cargo/reference/config.html#buildrustflags
+	unset RUSTFLAGS
 }
 
 # @FUNCTION: cros-rust_update_cargo_lock
