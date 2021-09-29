@@ -6,33 +6,23 @@ EAPI="7"
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/system/bt"
-	"aosp/platform/system/bt"
 	"aosp/platform/frameworks/proto_logging"
 	"chromiumos/third_party/rust_crates"
 )
 CROS_WORKON_LOCALNAME=(
 	"../platform2"
 	"../aosp/system/bt/upstream"
-	"../aosp/system/bt/bringup"
 	"../aosp/frameworks/proto_logging"
 	"../third_party/rust_crates"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/bt"
-	"${S}/platform2/bt"
 	"${S}/platform2/external/proto_logging"
 	"${S}/platform2/external/rust"
 )
-CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "" "")
-CROS_WORKON_EGIT_BRANCH=("main" "main" "main" "master" "main")
-CROS_WORKON_OPTIONAL_CHECKOUT=(
-	""
-	"use !bt-bringup"
-	"use bt-bringup"
-	""
-	""
-)
+CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "")
+CROS_WORKON_EGIT_BRANCH=("main" "main" "master" "main")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 PLATFORM_SUBDIR="bt"
@@ -50,7 +40,7 @@ LICENSE="
 "
 
 KEYWORDS="~*"
-IUSE="bt-bringup bt_dynlib"
+IUSE="bt_dynlib"
 
 #
 # TODO(b/188819708)
@@ -139,7 +129,7 @@ floss_build_tools() {
 
 floss_build_rust() {
 	# Export all build env variables
-	tc-export_build_env
+	tc-export_build_env PKG_CONFIG
 
 	# Check if cxxflags has -fno-exceptions and set -DRUST_CXX_NO_EXCEPTIONS
 	# This is required to build the cxx rust dependency
@@ -148,7 +138,7 @@ floss_build_rust() {
 	fi
 
 	# cc rust package requires CLANG_PATH so it uses correct clang triple
-	export CLANG_PATH="/usr/bin/$(tc-getBUILD_CC)"
+	export CLANG_PATH="$(tc-getBUILD_CC)"
 	export HOST_CFLAGS=${BUILD_CFLAGS}
 
 	# Add linker search path to RUSTFLAGS
@@ -157,9 +147,6 @@ floss_build_rust() {
 	# Also ignore multiple definitions for now (added due to some shared
 	# library shenaningans)
 	export RUSTFLAGS="${RUSTFLAGS} -C link-arg=-Wl,--allow-multiple-definition"
-
-	# We need pkg-config to link against libchrome and others
-	export PKG_CONFIG_PATH="${EPREFIX}/usr/$(get_libdir)/pkgconfig"
 
 	# Export the source path for bindgen
 	export CXX_ROOT_PATH="${S}"
@@ -181,13 +168,6 @@ src_compile() {
 
 src_install() {
 	platform_src_install
-
-	# Binaries need to be stripped to save disk space
-	if ! has nostrip ${FEATURES}; then
-		strip "${CARGO_TARGET_DIR}/${CHOST}/release/btmanagerd"
-		strip "${CARGO_TARGET_DIR}/${CHOST}/release/btadapterd"
-		strip "${CARGO_TARGET_DIR}/${CHOST}/release/btclient"
-	fi
 
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btmanagerd"
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btadapterd"
