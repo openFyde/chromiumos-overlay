@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4f3b1a9f317490565a205630bd0ea4bfcdb32a07"
+CROS_WORKON_COMMIT="ea023f92a5a69f8bc52ef5beec358d39316a4e3d"
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "79b51dbf384f1e7233f895ca42453f7f864c4abd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,6 +24,7 @@ IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/vboot_reference:=
+	chromeos-base/minijail:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )

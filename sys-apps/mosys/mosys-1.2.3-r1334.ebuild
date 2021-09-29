@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("08ae424c2b193364f10bbdacd2f362b637948354" "ed22531607e5d69a99369b675eebcbdd486efaaa")
+CROS_WORKON_COMMIT=("ea023f92a5a69f8bc52ef5beec358d39316a4e3d" "ed22531607e5d69a99369b675eebcbdd486efaaa")
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "b63af68c544d220e9ac4fec05fcdd8001237667d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -39,7 +39,7 @@ IUSE="unibuild vpd_file_cache"
 RDEPEND="
 	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
-	chromeos-base/minijail"
+	chromeos-base/minijail:="
 DEPEND="${RDEPEND}"
 
 src_unpack() {

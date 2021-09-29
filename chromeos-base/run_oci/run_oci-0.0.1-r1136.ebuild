@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="24b15d4a831c818d733b688076f4ba062b440462"
+CROS_WORKON_COMMIT="ea023f92a5a69f8bc52ef5beec358d39316a4e3d"
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "26b91e41e669cca59d25dedeb6fb18c470d60c4b" "6f00dc3af5877e8ec4a9732ea54508e2a9a280d2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,6 +24,7 @@ IUSE=""
 
 COMMON_DEPEND="
 	chromeos-base/libcontainer:=
+	chromeos-base/minijail:=
 	sys-apps/util-linux:=
 	sys-libs/libcap:=
 "

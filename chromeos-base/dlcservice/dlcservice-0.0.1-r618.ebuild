@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="24b15d4a831c818d733b688076f4ba062b440462"
+CROS_WORKON_COMMIT="ea023f92a5a69f8bc52ef5beec358d39316a4e3d"
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "89395cddeaa6b2ce694429fb929b5ad302af959b" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ IUSE="fuzzer"
 
 RDEPEND="
 	chromeos-base/imageloader:=
+	chromeos-base/minijail:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:="
 

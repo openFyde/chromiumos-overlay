@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="34ec478ad7b380d581f9cd6dda75642763424ad0"
+CROS_WORKON_COMMIT="ea023f92a5a69f8bc52ef5beec358d39316a4e3d"
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "90836b6979904ce6ed3869cc768c0e72510e5a2f" "e2b552cbf6b31261201bde3547c78a2ab305976b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ IUSE="fuzzer wilco mesa_reven"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
@@ -47,7 +48,6 @@ DEPEND="
 # currently the only client.
 RDEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/minijail
 	dev-util/stressapptest
 	wilco? (
 		sys-block/fio

@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="e49f52a0d003bc8ed656094003a917a51f10f27e"
-CROS_WORKON_TREE="a0168e91f3d103b8024c4f6b2d12ed4c735db53e"
+CROS_WORKON_COMMIT="074c94329514737b9148a0e9968175d1e9dbfb02"
+CROS_WORKON_TREE="26e63d8fba49946ec073f814aadb6fa05efe4b9b"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -23,8 +23,8 @@ RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 	containers? (
 		tests_security_Libcontainer? (
-			chromeos-base/minijail
-			chromeos-base/libcontainer
+			chromeos-base/minijail:=
+			chromeos-base/libcontainer:=
 		)
 	)
 "
