@@ -417,6 +417,7 @@ ALL_BOARDS=(
 	#samus-kernelnext
 	sand
 	sarien
+	sarien-kernelnext
 	#sarien-kvm
 	scarlet
 	#scarlet-arcnext
