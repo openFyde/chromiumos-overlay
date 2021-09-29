@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c529db9119d5bb1a3a2b52c25fbf4385bad70532"
+CROS_WORKON_COMMIT="71950f1de3a45ee61ea992223131edbb66469a51"
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "90836b6979904ce6ed3869cc768c0e72510e5a2f" "9b262e205d2e0104fbdc10f45d71aaca9a294501" "e0d54930b1fdb05e2293cf478e875069599ae227" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE=""
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cr50_onboard ti50_onboard"
+IUSE="cr50_onboard iioservice ti50_onboard"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
@@ -30,6 +30,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	iioservice? ( chromeos-base/iioservice_simpleclient )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	chromeos-base/croslog
 	chromeos-base/hardware_verifier
