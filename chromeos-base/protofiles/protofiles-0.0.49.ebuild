@@ -70,6 +70,7 @@ IUSE=""
 
 PATCHES=(
 	"${FILESDIR}/${PN}-pci-peripheral-data-access-enabled-v2.patch"
+	"${FILESDIR}/${PN}-add-device-target-version-selector-policy.patch"
 )
 
 POLICY_DIR="${S}/cloud/policy"
