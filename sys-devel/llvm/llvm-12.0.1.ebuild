@@ -40,23 +40,18 @@ RESTRICT="!test? ( test )"
 RDEPEND="
 	sys-libs/zlib:0=
 	exegesis? ( dev-libs/libpfm:= )
-	gold? (
-		|| (
-			>=sys-devel/binutils-2.31.1-r4:*[plugins]
-			<sys-devel/binutils-2.31.1-r4:*[cxx]
-		)
-	)
+	gold? ( >=sys-devel/binutils-2.31.1-r4:*[plugins] )
 	libedit? ( dev-libs/libedit:0=[${MULTILIB_USEDEP}] )
-	libffi? ( >=virtual/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
+	libffi? ( >=dev-libs/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
 	ncurses? ( >=sys-libs/ncurses-5.9-r3:0=[${MULTILIB_USEDEP}] )
 	xar? ( app-arch/xar )
 	xml? ( dev-libs/libxml2:2=[${MULTILIB_USEDEP}] )"
-# configparser-3.2 breaks the build (3.3 or none at all are fine)
 DEPEND="${RDEPEND}
+	gold? ( sys-libs/binutils-libs )"
+BDEPEND="
 	dev-lang/perl
-	|| ( >=sys-devel/gcc-3.0 >=sys-devel/llvm-3.5
-		( >=sys-freebsd/freebsd-lib-9.1-r10 sys-libs/libcxx )
-	)
+	>=dev-util/cmake-3.16
+	sys-devel/gnuconfig
 	kernel_Darwin? (
 		<sys-libs/libcxx-$(ver_cut 1-3).9999
 		>=sys-devel/binutils-apple-5.1
@@ -65,10 +60,7 @@ DEPEND="${RDEPEND}
 		dev-python/recommonmark[${PYTHON_USEDEP}]
 		dev-python/sphinx[${PYTHON_USEDEP}]
 	') )
-	!doc? ( ${PYTHON_DEPS} )
-	gold? ( sys-libs/binutils-libs )
 	libffi? ( virtual/pkgconfig )
-	!!<dev-python/configparser-3.3.0.2
 	${PYTHON_DEPS}"
 # Note: Gentoo supports multiple SLOTs of llvm, but we don't currently for the board.
 # Force older versions to be removed first.
