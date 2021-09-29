@@ -9,7 +9,7 @@ HOMEPAGE="https://www.chromium.org/chromium-os"
 LICENSE="BSD-Google"
 SLOT="0"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/libsuggest-amd64-${PV}.tar.gz"
+SRC_URI="gs://chromeos-localmirror/distfiles/libsuggest-${PV}.tar.gz"
 KEYWORDS="*"
 
 IUSE="ondevice_text_suggestions"
@@ -27,7 +27,7 @@ src_install() {
 		insinto /opt/google/chrome/ml_models/suggest/
 		# Install shared lib
 		insopts -m0755
-		newins "libsuggest-amd64.so" "libsuggest.so"
+		newins "libsuggest-${ARCH}.so" "libsuggest.so"
 		insopts -m0644
 		# Install the model artifacts.
 		doins nwp.uint8.mmap.tflite
