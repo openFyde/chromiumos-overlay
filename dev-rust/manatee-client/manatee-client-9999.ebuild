@@ -22,6 +22,7 @@ KEYWORDS="~*"
 RDEPEND="sys-apps/dbus"
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
+	=dev-rust/anyhow-1*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
