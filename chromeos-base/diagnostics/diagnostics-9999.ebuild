@@ -107,6 +107,8 @@ src_install() {
 		ectool_i2cread-seccomp.policy
 	newins "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
 		ectool_pwmgetfanrpm-seccomp.policy
+	newins "cros_healthd/seccomp/modetest-seccomp-${ARCH}.policy" \
+		modetest-seccomp.policy
 	newins "seccomp/memtester-seccomp-${ARCH}.policy" memtester-seccomp.policy
 
 	# Install D-Bus configuration file.
