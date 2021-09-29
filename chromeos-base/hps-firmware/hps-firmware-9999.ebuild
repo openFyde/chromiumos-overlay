@@ -47,6 +47,10 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+# Integer overflow checks introduce panicking paths into the firmware,
+# which bloats the size of the images with extra strings in .rodata.
+CROS_RUST_OVERFLOW_CHECKS=0
+
 src_unpack() {
 	cros-workon_src_unpack
 	cros-rust_src_unpack
@@ -68,6 +72,15 @@ src_configure() {
 	# HPS firmware, which is cross-compiled for STM32
 	unset CROS_BASE_RUSTFLAGS
 	cros-rust_configure_cargo
+
+	# Override some unwanted rustflags configured by cros-rust_configure_cargo.
+	# TODO(dcallagh): tidy this up properly in cros-rust.eclass.
+	# CROS_BASE_RUSTFLAGS are the same problem.
+	# asan and ubsan are also the same problem.
+	cat <<- EOF >> "${ECARGO_HOME}/config"
+	[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+	rustflags = [ "-Clto=yes", "-Copt-level=z" ]
+	EOF
 }
 
 src_compile() {
