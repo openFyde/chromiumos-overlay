@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="30c965aaf059c4703b8c5c373114d5eae0e1e342"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "236dc61137ce3f07df779566d1d687bed7cb35d9" "d897a7a44e07236268904e1df7f983871c1e1258" "e08a2eb734e33827dffeecf57eca046cd1091373")
+CROS_WORKON_COMMIT="8065d84e1a2c2d2a8018626866500438fbd10c72"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "ef7a7cf423247c54cd3e65ad823314846c9eff13" "d897a7a44e07236268904e1df7f983871c1e1258" "e08a2eb734e33827dffeecf57eca046cd1091373")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn hps common-mk metrics"
@@ -58,6 +58,7 @@ platform_pkg_test() {
 		hps_test
 		hps_metrics_test
 		hps_daemon_test
+		hps_filter_test
 	)
 
 	local test_bin
