@@ -185,8 +185,8 @@ ALL_BOARDS=(
 	#eve-arcdual
 	#eve-arcnext
 	eve-arc-r
-	eve-arcvm
-	eve-arcvm-mesa-virgl-next
+	#eve-arcvm
+	#eve-arcvm-mesa-virgl-next
 	eve-arm64
 	#eve-bertha
 	#eve-campfire
