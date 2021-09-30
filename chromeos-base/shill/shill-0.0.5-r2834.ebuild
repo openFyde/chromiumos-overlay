@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="11a511baa27e991b473b33516b403c6fe851678b"
-CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e08a2eb734e33827dffeecf57eca046cd1091373" "2cfcd7e9eeafe379672737ea858eba953636285e" "39929280520bd57dd9967f54e074e37ce6c8c7bf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2ad7169a9156483531413e950ead2c6b6a38a034"
+CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "113dbae63eb106c56996900e98cd65103bf297dc" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e08a2eb734e33827dffeecf57eca046cd1091373" "2cfcd7e9eeafe379672737ea858eba953636285e" "39929280520bd57dd9967f54e074e37ce6c8c7bf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libpasswordprovider metrics shill vpn-manager .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill vpn-manager .gn"
 
 PLATFORM_SUBDIR="shill"
 
@@ -26,7 +26,7 @@ IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e supplicant-next systemd +tpm +vpn +wa
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
 	chromeos-base/bootstat:=
-	tpm? ( chromeos-base/chaps:= )
+	chromeos-base/chaps:=
 	chromeos-base/minijail:=
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
