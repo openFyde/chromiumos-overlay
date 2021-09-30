@@ -213,9 +213,6 @@ multilib_src_configure() {
 		"-DCOMPILER_RT_LIBCXX_PATH=${S}/libcxx"
 		"-DCOMPILER_RT_BUILTINS_HIDE_SYMBOLS=OFF"
 
-		# crbug/1146898: setting this to ON causes boot failures
-		"-DENABLE_X86_RELAX_RELOCATIONS=OFF"
-
 		# b/200831212: Disable per runtime install dirs.
 		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
 	)
