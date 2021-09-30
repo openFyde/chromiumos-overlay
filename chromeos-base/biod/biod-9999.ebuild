@@ -18,6 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/R
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
+	factory_branch
 	fp_on_power_button
 	fpmcu_firmware_bloonchipper
 	fpmcu_firmware_dartmonkey
@@ -42,17 +43,19 @@ COMMON_DEPEND+="
 RDEPEND="
 	${COMMON_DEPEND}
 	sys-apps/flashrom
-	virtual/chromeos-firmware-fpmcu
+	!factory_branch? ( virtual/chromeos-firmware-fpmcu )
 	"
 
 # Release branch firmware.
 # The USE flags below come from USE_EXPAND variables.
 # See third_party/chromiumos-overlay/profiles/base/make.defaults.
 RDEPEND+="
-	fpmcu_firmware_bloonchipper? ( sys-firmware/chromeos-fpmcu-release-bloonchipper )
-	fpmcu_firmware_dartmonkey? ( sys-firmware/chromeos-fpmcu-release-dartmonkey )
-	fpmcu_firmware_nami? ( sys-firmware/chromeos-fpmcu-release-nami )
-	fpmcu_firmware_nocturne? ( sys-firmware/chromeos-fpmcu-release-nocturne )
+	!factory_branch? (
+		fpmcu_firmware_bloonchipper? ( sys-firmware/chromeos-fpmcu-release-bloonchipper )
+		fpmcu_firmware_dartmonkey? ( sys-firmware/chromeos-fpmcu-release-dartmonkey )
+		fpmcu_firmware_nami? ( sys-firmware/chromeos-fpmcu-release-nami )
+		fpmcu_firmware_nocturne? ( sys-firmware/chromeos-fpmcu-release-nocturne )
+	)
 "
 
 DEPEND="
