@@ -50,6 +50,12 @@ DEPEND="${RDEPEND}
 
 RESTRICT="!test? ( test )"
 
+# Disable split debug for cross-<abi>/binutils because
+# of race in installing .debug build-id files (b/187790168).
+if [[ ${CATEGORY} == cross-* ]]; then
+	RESTRICT+=" splitdebug"
+fi
+
 MY_BUILDDIR=${WORKDIR}/build
 
 toolchain-binutils_bugurl() {
