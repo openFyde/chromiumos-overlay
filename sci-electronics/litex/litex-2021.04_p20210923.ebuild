@@ -12,7 +12,7 @@ create FPGA Cores/SOCs, to create FPGA Cores/SoCs, to explore various digital de
 architectures and create full FPGA based systems."
 HOMEPAGE="https://github.com/enjoy-digital/litex"
 
-GIT_REV="ab9f214a5ee4ab5bf96e19ff3520cf59092ad11a"
+GIT_REV="c43132f81f1113e83780571b10d004974fe361de"
 SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
 
 LICENSE="BSD-2"
@@ -30,8 +30,6 @@ S="${WORKDIR}/${PN}-${GIT_REV}"
 
 PATCHES="
 	${FILESDIR}/litex-2021.04_p20210811-add-riscv-cros-elf-to-known-riscv-toolchains.patch
-	${FILESDIR}/litex-2021.04_p20210811-disable-build-id-building-bios.patch
-	${FILESDIR}/litex-2021.04_p20210811-fix-interconnect-param_layout-bug.patch
 "
 
 distutils_enable_tests unittest
