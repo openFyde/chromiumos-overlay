@@ -43,6 +43,9 @@ PATCHES=(
 	# other formats). Just disable it.
 	# https://bugs.chromium.org/p/chromium/issues/detail?id=1233932
 	"${FILESDIR}"/${PN}-3.5.1-disable-rar5.patch
+	# https://github.com/libarchive/libarchive/commit/4da892a67a30476798af79586fec79388620756c
+	# was committed on 2021-01-10, after 3.5.1 was released on 2020-12-26.
+	"${FILESDIR}"/${PN}-3.5.1-7zip-32-bit-size.patch
 )
 
 src_prepare() {
