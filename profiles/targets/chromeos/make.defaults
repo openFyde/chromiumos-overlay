@@ -67,6 +67,9 @@ USE="${USE} -vala"
 # Enable fwupd support
 USE="${USE} fwupd"
 
+# Puts Floss BT daemon on all boards. Also requires a chrome flag for operation.
+USE="${USE} floss"
+
 # Chrome OS needs deprecated tools: hcitool and hciconfig.
 USE="${USE} bt_deprecated_tools"
 
