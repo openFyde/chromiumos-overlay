@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4174642c88f2a64038784f2be485e49c32c95068"
-CROS_WORKON_TREE="2c032d180d5843d3d9cb3e4dd6d6bd88d98e85f8"
+CROS_WORKON_COMMIT="a38260d6d3f2669c096fa6f3ad3b86f94cbe0aaf"
+CROS_WORKON_TREE="181f43fb5fe396adced63d33bb5600e53a168e58"
 inherit cros-workon cros-rust
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -49,6 +49,10 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+# Integer overflow checks introduce panicking paths into the firmware,
+# which bloats the size of the images with extra strings in .rodata.
+CROS_RUST_OVERFLOW_CHECKS=0
+
 src_unpack() {
 	cros-workon_src_unpack
 	cros-rust_src_unpack
@@ -71,24 +75,13 @@ src_configure() {
 	unset CROS_BASE_RUSTFLAGS
 	cros-rust_configure_cargo
 
-	# HPS userspace tools will be built for $CHOST (i.e. the Chromebook)
-	# but we also need to build firmware for the STM32 G0 MCU inside HPS.
-	# STM32 G0 is a family of Cortex-M0+ microcontrollers.
-	# So we also add that target to the generated cargo config.
-	# shellcheck disable=SC2154
+	# Override some unwanted rustflags configured by cros-rust_configure_cargo.
+	# TODO(dcallagh): tidy this up properly in cros-rust.eclass.
+	# CROS_BASE_RUSTFLAGS are the same problem.
+	# asan and ubsan are also the same problem.
 	cat <<- EOF >> "${ECARGO_HOME}/config"
-	# Target configuration for Cortex-M0/M0+ MCUs
-	[target.thumbv6m-none-eabi]
-	linker = "ld.lld"
-	rustflags = [
-		   # !!CAREFUL!! link.x is an internally generated linker script
-		   # that will include 'memory.x' in the src root. Changing this
-		   # will result in mysteriously broken binaries and you will be sad.
-		   "-C", "link-arg=-Tlink.x",
-		   "-C", "link-arg=-Tdefmt.x",
-		   # An additional linker script for any HPS-specific linker directives.
-		   "-C", "link-arg=-T../hps-common-link.x",
-	]
+	[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+	rustflags = [ "-Clto=yes", "-Copt-level=z" ]
 	EOF
 }
 
