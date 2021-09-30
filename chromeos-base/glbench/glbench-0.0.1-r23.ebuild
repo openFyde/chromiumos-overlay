@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5b8ad1b0ea2b0f1b2aa7c613eeb4de8ad3bd699c"
-CROS_WORKON_TREE="22e89f35915b6274c422ad1d2270d7fe6531bf24"
+CROS_WORKON_COMMIT="7b11d2e63e1c19b68e9e45dbe4285258dc1fbd3d"
+CROS_WORKON_TREE="1ce01cc16e3259de626e5f9961f0576482a8c2d2"
 CROS_WORKON_PROJECT="chromiumos/platform/glbench"
 CROS_WORKON_LOCALNAME="platform/glbench"
 
@@ -37,8 +37,8 @@ src_install() {
 	# Install the executable.
 	exeinto "${glbench_dir}/bin"
 	doexe glbench windowmanagertest
-	insinto "${glbench_dir}/src"
-	doins src/image.yuv
+	insinto "${glbench_dir}/bin"
+	doins -r runtime
 
 	# Install the list files.
 	insinto "${glbench_dir}/files"
