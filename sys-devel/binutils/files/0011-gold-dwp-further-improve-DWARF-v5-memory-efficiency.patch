@@ -1,4 +1,4 @@
-From cc402029482b08427ea9343c17aa95338115ac39 Mon Sep 17 00:00:00 2001
+From f8b42d640155ee466255ac6942056f858ea2c554 Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 20 Nov 2020 11:05:19 -0800
 Subject: [PATCH 11/14] gold: dwp: further improve DWARF v5 memory efficiency
@@ -10,7 +10,7 @@ This patch contains a few more efficiency improvements.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 20-Nov-2020
-[Adrian Ratiu: rebased from v2.27 to v2.36.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: If45091e5590f7f71b45d58a861eb83bfeb9c5c26
@@ -20,7 +20,7 @@ Change-Id: If45091e5590f7f71b45d58a861eb83bfeb9c5c26
  2 files changed, 14 insertions(+), 19 deletions(-)
 
 diff --git a/elfcpp/dwarf.h b/elfcpp/dwarf.h
-index c91c2871925..c32188fcfc2 100644
+index 3392be6223b..04a6031bc29 100644
 --- a/elfcpp/dwarf.h
 +++ b/elfcpp/dwarf.h
 @@ -253,16 +253,16 @@ enum DW_LANG
@@ -45,7 +45,7 @@ index c91c2871925..c32188fcfc2 100644
  };
  
 diff --git a/gold/dwp.cc b/gold/dwp.cc
-index d0c4d8bdfe4..bb3f51b875e 100644
+index 2beaa51879f..7acb9b401bc 100644
 --- a/gold/dwp.cc
 +++ b/gold/dwp.cc
 @@ -817,27 +817,15 @@ get_dwarf_section_name(elfcpp::DW_SECT section_id)
@@ -94,5 +94,5 @@ index d0c4d8bdfe4..bb3f51b875e 100644
    unsigned int ncols = 0;
    for (unsigned int c = 1; c <= elfcpp::DW_SECT_MAX; ++c)
 -- 
-2.32.0
+2.31.1
 

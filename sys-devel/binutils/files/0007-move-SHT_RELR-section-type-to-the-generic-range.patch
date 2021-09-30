@@ -1,4 +1,4 @@
-From b316ecee65c2c016adfbd4955016c949b61e88c7 Mon Sep 17 00:00:00 2001
+From 8bcba7032e380b69ef8a684706473509c1bcb5f7 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Sat, 17 Mar 2018 15:31:31 -0800
 Subject: [PATCH 07/14] move SHT_RELR section type to the generic range.
@@ -22,7 +22,7 @@ as the encoding used in the new section are all under discussion and are
 subject to change. We plan to send the patch upstream after the gABI has
 been updated to include the new definitions.
 
-[Adrian Ratiu: rebased from v2.27 to v2.36.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: I933355aa2da06b7c58de2e6e7ff93798ad6eb156
@@ -32,7 +32,7 @@ Change-Id: I933355aa2da06b7c58de2e6e7ff93798ad6eb156
  2 files changed, 13 insertions(+), 22 deletions(-)
 
 diff --git a/elfcpp/elfcpp.h b/elfcpp/elfcpp.h
-index 72e8848f361..4f4b16ee09f 100644
+index 9bbe4bfef86..a3a25de4c16 100644
 --- a/elfcpp/elfcpp.h
 +++ b/elfcpp/elfcpp.h
 @@ -358,6 +358,7 @@ enum SHT
@@ -54,7 +54,7 @@ index 72e8848f361..4f4b16ee09f 100644
    SHT_SPARC_GOTDATA = 0x70000000,
  
    // ARM-specific section types.
-@@ -730,6 +727,11 @@ enum DT
+@@ -725,6 +722,11 @@ enum DT
  
    DT_PREINIT_ARRAY = 32,
    DT_PREINIT_ARRAYSZ = 33,
@@ -66,7 +66,7 @@ index 72e8848f361..4f4b16ee09f 100644
    DT_LOOS = 0x6000000d,
    DT_HIOS = 0x6ffff000,
    DT_LOPROC = 0x70000000,
-@@ -765,6 +767,7 @@ enum DT
+@@ -759,6 +761,7 @@ enum DT
    DT_SYMINFO = 0x6ffffeff,
    DT_ADDRRNGHI = 0x6ffffeff,
  
@@ -74,7 +74,7 @@ index 72e8848f361..4f4b16ee09f 100644
    DT_RELACOUNT = 0x6ffffff9,
    DT_RELCOUNT = 0x6ffffffa,
    DT_FLAGS_1 = 0x6ffffffb,
-@@ -775,13 +778,6 @@ enum DT
+@@ -769,13 +772,6 @@ enum DT
  
    DT_VERSYM = 0x6ffffff0,
  
@@ -89,10 +89,10 @@ index 72e8848f361..4f4b16ee09f 100644
    DT_PPC_GOT = 0x70000000,
  
 diff --git a/include/elf/common.h b/include/elf/common.h
-index 02e1bc7ca90..7482572a3df 100644
+index 83374777d20..79c3a2fbbd5 100644
 --- a/include/elf/common.h
 +++ b/include/elf/common.h
-@@ -523,6 +523,7 @@
+@@ -506,6 +506,7 @@
  #define SHT_PREINIT_ARRAY 16		/* Array of ptrs to pre-init funcs */
  #define SHT_GROUP	  17		/* Section contains a section group */
  #define SHT_SYMTAB_SHNDX  18		/* Indices for SHN_XINDEX entries */
@@ -100,7 +100,7 @@ index 02e1bc7ca90..7482572a3df 100644
  
  #define SHT_LOOS	0x60000000	/* First of OS specific semantics */
  #define SHT_HIOS	0x6fffffff	/* Last of OS specific semantics */
-@@ -543,10 +544,6 @@
+@@ -526,10 +527,6 @@
  #define SHT_GNU_verneed	SHT_SUNW_verneed
  #define SHT_GNU_versym	SHT_SUNW_versym
  
@@ -111,7 +111,7 @@ index 02e1bc7ca90..7482572a3df 100644
  #define SHT_LOPROC	0x70000000	/* Processor-specific semantics, lo */
  #define SHT_HIPROC	0x7FFFFFFF	/* Processor-specific semantics, hi */
  #define SHT_LOUSER	0x80000000	/* Application-specific semantics */
-@@ -1031,6 +1028,10 @@
+@@ -988,6 +985,10 @@
  #define DT_PREINIT_ARRAY   32
  #define DT_PREINIT_ARRAYSZ 33
  #define DT_SYMTAB_SHNDX    34
@@ -122,7 +122,7 @@ index 02e1bc7ca90..7482572a3df 100644
  
  /* Note, the Oct 4, 1999 draft of the ELF ABI changed the values
     for DT_LOOS and DT_HIOS.  Some implementations however, use
-@@ -1078,6 +1079,7 @@
+@@ -1034,6 +1035,7 @@
  #define DT_SYMINFO	0x6ffffeff
  #define DT_ADDRRNGHI	0x6ffffeff
  
@@ -130,7 +130,7 @@ index 02e1bc7ca90..7482572a3df 100644
  #define DT_RELACOUNT	0x6ffffff9
  #define DT_RELCOUNT	0x6ffffffa
  #define DT_FLAGS_1	0x6ffffffb
-@@ -1089,13 +1091,6 @@
+@@ -1045,13 +1047,6 @@
  /* This tag is a GNU extension to the Solaris version scheme.  */
  #define DT_VERSYM	0x6ffffff0
  
@@ -145,5 +145,5 @@ index 02e1bc7ca90..7482572a3df 100644
  #define DT_HIPROC	0x7fffffff
  
 -- 
-2.32.0
+2.31.1
 

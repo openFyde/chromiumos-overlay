@@ -1,4 +1,4 @@
-From 7ae9ad19d14982b07de904c2362896d36c41d5e4 Mon Sep 17 00:00:00 2001
+From 1885973cd4c8408d4c04a99a39ec145aecc3d6b2 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Fri, 14 Jul 2017 13:16:08 -0700
 Subject: [PATCH 05/14] gas: enable -mshared by default.
@@ -13,7 +13,7 @@ binutils:
   - https://bugs.chromium.org/p/chromium/issues/detail?id=738283
   - https://bugs.chromium.org/p/chromium/issues/detail?id=723906
 
-[Adrian Ratiu: rebased from v2.27 to v2.36.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
 
 Change-Id: Iced04054a7dfd18eef6b42c21f92c34286c215b4
 ---
@@ -23,10 +23,10 @@ Change-Id: Iced04054a7dfd18eef6b42c21f92c34286c215b4
  3 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
-index 9a2dfc92281..eb2bb1ba4c4 100644
+index 623ac77307e..1499a848d0c 100644
 --- a/gas/config/tc-i386.c
 +++ b/gas/config/tc-i386.c
-@@ -601,7 +601,7 @@ static int use_big_obj = 0;
+@@ -595,7 +595,7 @@ static int use_big_obj = 0;
  
  #if defined (OBJ_ELF) || defined (OBJ_MAYBE_ELF)
  /* 1 if generating code for a shared library.  */
@@ -35,7 +35,7 @@ index 9a2dfc92281..eb2bb1ba4c4 100644
  #endif
  
  /* 1 for intel syntax,
-@@ -12887,6 +12887,7 @@ const char *md_shortopts = "qnO::";
+@@ -12735,6 +12735,7 @@ const char *md_shortopts = "qnO::";
  #define OPTION_MLFENCE_AFTER_LOAD (OPTION_MD_BASE + 31)
  #define OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH (OPTION_MD_BASE + 32)
  #define OPTION_MLFENCE_BEFORE_RET (OPTION_MD_BASE + 33)
@@ -43,7 +43,7 @@ index 9a2dfc92281..eb2bb1ba4c4 100644
  
  struct option md_longopts[] =
  {
-@@ -12898,6 +12899,7 @@ struct option md_longopts[] =
+@@ -12746,6 +12747,7 @@ struct option md_longopts[] =
  #if defined (OBJ_ELF) || defined (OBJ_MAYBE_ELF)
    {"x32", no_argument, NULL, OPTION_X32},
    {"mshared", no_argument, NULL, OPTION_MSHARED},
@@ -51,7 +51,7 @@ index 9a2dfc92281..eb2bb1ba4c4 100644
    {"mx86-used-note", required_argument, NULL, OPTION_X86_USED_NOTE},
  #endif
    {"divide", no_argument, NULL, OPTION_DIVIDE},
-@@ -12978,6 +12980,10 @@ md_parse_option (int c, const char *arg)
+@@ -12826,6 +12828,10 @@ md_parse_option (int c, const char *arg)
        shared = 1;
        break;
  
@@ -62,7 +62,7 @@ index 9a2dfc92281..eb2bb1ba4c4 100644
      case OPTION_X86_USED_NOTE:
        if (strcasecmp (arg, "yes") == 0)
          x86_used_note = 1;
-@@ -13665,6 +13671,8 @@ md_show_usage (FILE *stream)
+@@ -13513,6 +13519,8 @@ md_show_usage (FILE *stream)
    fprintf (stream, _("\
    -mshared                disable branch optimization for shared code\n"));
    fprintf (stream, _("\
@@ -82,7 +82,7 @@ index 20392512252..2de4d92fc31 100644
  
  .*: +file format .*
 diff --git a/gas/testsuite/gas/i386/x86-64-relax-3.d b/gas/testsuite/gas/i386/x86-64-relax-3.d
-index 01df9ef340e..f9ec1dcee5b 100644
+index bb605081452..b5010b4141d 100644
 --- a/gas/testsuite/gas/i386/x86-64-relax-3.d
 +++ b/gas/testsuite/gas/i386/x86-64-relax-3.d
 @@ -1,4 +1,5 @@
@@ -92,5 +92,5 @@ index 01df9ef340e..f9ec1dcee5b 100644
  #notarget: *-*-solaris*
  
 -- 
-2.32.0
+2.31.1
 

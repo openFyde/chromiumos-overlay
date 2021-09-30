@@ -1,4 +1,4 @@
-From 6e9c8e75162740068ecdd1f1a5d693597f9dbdb6 Mon Sep 17 00:00:00 2001
+From f41bbb23ef6e6a96d59f1ee49a2ec504e3bd748e Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 23 Dec 2014 15:01:40 -0800
 Subject: [PATCH 03/14] gas: add support for DWARF-5 and experimental two-level
@@ -10,7 +10,7 @@ from upstream branch users/ccoutant/two-level-line-150331
   - https://sourceware.org/git/?p=binutils-gdb.git;a=shortlog;h=refs/heads/users/ccoutant/two-level-line-150331
 to binutils-2_27-branch.
 
-[Adrian Ratiu: rebased from v2.27 to v2.36.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
 
 Change-Id: I84e4565576b9b4fbe88c29312cd75e3687a309d8
 ---
@@ -20,10 +20,10 @@ Change-Id: I84e4565576b9b4fbe88c29312cd75e3687a309d8
  3 files changed, 756 insertions(+), 88 deletions(-)
 
 diff --git a/gas/config/obj-elf.c b/gas/config/obj-elf.c
-index 6c0a6ae9ee2..40b3ce296ea 100644
+index de22b5a1da8..f481b540c90 100644
 --- a/gas/config/obj-elf.c
 +++ b/gas/config/obj-elf.c
-@@ -129,6 +129,8 @@ static const pseudo_typeS elf_pseudo_table[] =
+@@ -127,6 +127,8 @@ static const pseudo_typeS elf_pseudo_table[] =
    { "file", dwarf2_directive_file, 0 },
    { "loc",  dwarf2_directive_loc,  0 },
    { "loc_mark_labels", dwarf2_directive_loc_mark_labels, 0 },
@@ -33,7 +33,7 @@ index 6c0a6ae9ee2..40b3ce296ea 100644
    /* We need to trap the section changing calls to handle .previous.  */
    {"data", obj_elf_data, 0},
 diff --git a/gas/dwarf2dbg.c b/gas/dwarf2dbg.c
-index 4fbd1e38ec2..700131f0ab8 100644
+index 419582f9aa8..48617eaa665 100644
 --- a/gas/dwarf2dbg.c
 +++ b/gas/dwarf2dbg.c
 @@ -45,6 +45,8 @@
@@ -136,7 +136,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
 +
 +/* DWARF-5: .debug_line_str string table.  */
 +struct string_table {
-+  htab_t hashtab;
++  struct hash_control *hashtab;
 +  const char **strings;
 +  unsigned int strings_in_use;
 +  unsigned int strings_allocated;
@@ -161,9 +161,9 @@ index 4fbd1e38ec2..700131f0ab8 100644
  };
  
  /* This symbol is used to recognize view number forced resets in loc
-@@ -582,6 +639,15 @@ dwarf2_gen_line_info (addressT ofs, struct dwarf2_line_info *loc)
+@@ -567,6 +624,15 @@ dwarf2_gen_line_info (addressT ofs, struct dwarf2_line_info *loc)
    else
-     sym = symbol_temp_new (now_seg, frag_now, ofs);
+     sym = symbol_temp_new (now_seg, ofs, frag_now);
    dwarf2_gen_line_info_1 (sym, loc);
 +
 +  /* Record the current symbol with all logical rows created since
@@ -177,7 +177,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  }
  
  static const char *
-@@ -916,6 +982,7 @@ dwarf2_where (struct dwarf2_line_info *line)
+@@ -901,6 +967,7 @@ dwarf2_where (struct dwarf2_line_info *line)
        line->isa = current.isa;
        line->discriminator = current.discriminator;
        line->view = NULL;
@@ -185,7 +185,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
      }
    else
      *line = current;
-@@ -1022,6 +1089,68 @@ dwarf2_emit_label (symbolS *label)
+@@ -1007,6 +1074,68 @@ dwarf2_emit_label (symbolS *label)
    dwarf2_consume_line_info ();
  }
  
@@ -254,7 +254,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  /* Handle two forms of .file directive:
     - Pass .file "source.c" to s_app_file
     - Handle .file 1 "source.c" by adding an entry to the DWARF-2 file table
-@@ -1136,40 +1265,130 @@ dwarf2_directive_file (int dummy ATTRIBUTE_UNUSED)
+@@ -1121,40 +1250,130 @@ dwarf2_directive_file (int dummy ATTRIBUTE_UNUSED)
    (void) dwarf2_directive_filename ();
  }
  
@@ -399,7 +399,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
  #ifndef NO_LISTING
    if (listing)
-@@ -1212,17 +1431,17 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
+@@ -1197,17 +1416,17 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
  	  current.flags |= DWARF2_FLAG_BASIC_BLOCK;
  	  *input_line_pointer = c;
  	}
@@ -420,7 +420,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  	{
  	  (void) restore_line_pointer (c);
  	  value = get_absolute_expression ();
-@@ -1248,7 +1467,7 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
+@@ -1233,7 +1452,7 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
  	      return;
  	    }
  	}
@@ -429,7 +429,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  	{
  	  (void) restore_line_pointer (c);
  	  value = get_absolute_expression ();
-@@ -1260,7 +1479,7 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
+@@ -1245,7 +1464,7 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
  	      return;
  	    }
  	}
@@ -438,7 +438,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  	{
  	  symbolS *sym;
  
-@@ -1311,6 +1530,30 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
+@@ -1296,6 +1515,30 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
  	    }
  	  current.view = sym;
  	}
@@ -469,7 +469,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        else
  	{
  	  as_bad (_("unknown .loc sub-directive `%s'"), p);
-@@ -1328,6 +1571,9 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
+@@ -1313,6 +1556,9 @@ dwarf2_directive_loc (int dummy ATTRIBUTE_UNUSED)
    /* If we were given a view id, emit the row right away.  */
    if (current.view)
      dwarf2_emit_insn (0);
@@ -479,7 +479,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  }
  
  void
-@@ -1459,6 +1705,15 @@ out_set_addr (symbolS *sym)
+@@ -1444,6 +1690,15 @@ out_set_addr (symbolS *sym)
    emit_expr (&exp, sizeof_address);
  }
  
@@ -495,7 +495,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  static void scale_addr_delta (addressT *);
  
  static void
-@@ -1497,7 +1752,7 @@ size_inc_line_addr (int line_delta, addressT addr_delta)
+@@ -1482,7 +1737,7 @@ size_inc_line_addr (int line_delta, addressT addr_delta)
       to emit the matrix entry.  */
    if (line_delta == INT_MAX)
      {
@@ -504,7 +504,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  	len = 1;
        else if (addr_delta)
  	len = 1 + sizeof_leb128 (addr_delta, 0);
-@@ -1505,30 +1760,30 @@ size_inc_line_addr (int line_delta, addressT addr_delta)
+@@ -1490,30 +1745,30 @@ size_inc_line_addr (int line_delta, addressT addr_delta)
      }
  
    /* Bias the line delta by the base.  */
@@ -542,7 +542,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        if (opcode <= 255)
  	return len + 2;
      }
-@@ -1561,7 +1816,7 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
+@@ -1546,7 +1801,7 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
       to emit the matrix entry.  */
    if (line_delta == INT_MAX)
      {
@@ -551,7 +551,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  	*p++ = DW_LNS_const_add_pc;
        else if (addr_delta)
  	{
-@@ -1576,17 +1831,17 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
+@@ -1561,17 +1816,17 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
      }
  
    /* Bias the line delta by the base.  */
@@ -572,7 +572,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        need_copy = 1;
      }
  
-@@ -1599,13 +1854,13 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
+@@ -1584,13 +1839,13 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
      }
  
    /* Bias the opcode by the special opcode base.  */
@@ -589,7 +589,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        if (opcode <= 255)
  	{
  	  *p++ = opcode;
-@@ -1613,7 +1868,7 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
+@@ -1598,7 +1853,7 @@ emit_inc_line_addr (int line_delta, addressT addr_delta, char *p, int len)
  	}
  
        /* Try using DW_LNS_const_add_pc followed by special op.  */
@@ -598,7 +598,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        if (opcode <= 255)
  	{
  	  *p++ = DW_LNS_const_add_pc;
-@@ -1856,6 +2111,140 @@ dwarf2dbg_convert_frag (fragS *frag)
+@@ -1841,6 +2096,140 @@ dwarf2dbg_convert_frag (fragS *frag)
    frag->fr_offset = 0;
  }
  
@@ -739,7 +739,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  /* Generate .debug_line content for the chain of line number entries
     beginning at E, for segment SEG.  */
  
-@@ -1906,27 +2295,30 @@ process_entries (segT seg, struct line_entry *e)
+@@ -1891,27 +2280,30 @@ process_entries (segT seg, struct line_entry *e)
      {
        int line_delta;
  
@@ -789,7 +789,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
        if (isa != e->loc.isa)
  	{
-@@ -1935,26 +2327,32 @@ process_entries (segT seg, struct line_entry *e)
+@@ -1920,26 +2312,32 @@ process_entries (segT seg, struct line_entry *e)
  	  out_uleb128 (isa);
  	}
  
@@ -833,7 +833,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        lab = e->label;
        frag = symbol_get_frag (lab);
        frag_ofs = S_GET_VALUE (lab);
-@@ -1973,15 +2371,26 @@ process_entries (segT seg, struct line_entry *e)
+@@ -1958,15 +2356,26 @@ process_entries (segT seg, struct line_entry *e)
  		     && ((offsetT)last_frag_ofs
  			 >= get_frag_fix (last_frag, seg))))))
  	{
@@ -863,7 +863,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
        last_lab = lab;
        last_frag = frag;
        last_frag_ofs = frag_ofs;
-@@ -2247,6 +2656,160 @@ out_dir_and_file_list (segT line_seg, int sizeof_offset)
+@@ -2232,6 +2641,160 @@ out_dir_and_file_list (segT line_seg, int sizeof_offset)
      out_byte (0);
  }
  
@@ -880,10 +880,10 @@ index 4fbd1e38ec2..700131f0ab8 100644
 +      strtab->strings_allocated = 4;
 +      strtab->strings = (const char **)
 +	  xcalloc (strtab->strings_allocated, sizeof(char *));
-+      strtab->hashtab = str_htab_create ();
++      strtab->hashtab = hash_new ();
 +    }
 +
-+  val = (offsetT) str_hash_find (strtab->hashtab, str);
++  val = (offsetT) hash_find (strtab->hashtab, str);
 +  if (val != 0)
 +    return val;
 +
@@ -901,7 +901,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
 +
 +  key = xstrdup (str);
 +  val = strtab->next_offset;
-+  str_hash_insert (strtab->hashtab, key, (void *) val, 0);
++  hash_insert (strtab->hashtab, key, (void *) val);
 +  strtab->strings[strtab->strings_in_use++] = key;
 +  strtab->next_offset += strlen(key) + 1;
 +  return val;
@@ -1024,7 +1024,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  /* Switch to SEC and output a header length field.  Return the size of
     offsets used in SEC.  The caller must set EXPR->X_add_symbol value
     to the end of the section.  EXPR->X_add_number will be set to the
-@@ -2306,22 +2869,38 @@ out_header (asection *sec, expressionS *exp)
+@@ -2291,22 +2854,38 @@ out_header (asection *sec, expressionS *exp)
  /* Emit the collected .debug_line data.  */
  
  static void
@@ -1067,7 +1067,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
      {
        out_byte (sizeof_address);
        out_byte (0); /* Segment Selector size.  */
-@@ -2338,12 +2917,12 @@ out_debug_line (segT line_seg)
+@@ -2323,12 +2902,12 @@ out_debug_line (segT line_seg)
  
    /* Parameters of the state machine.  */
    out_byte (DWARF2_LINE_MIN_INSN_LENGTH);
@@ -1084,7 +1084,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
    /* Standard opcode lengths.  */
    out_byte (0);			/* DW_LNS_copy */
-@@ -2360,11 +2939,64 @@ out_debug_line (segT line_seg)
+@@ -2345,11 +2924,64 @@ out_debug_line (segT line_seg)
    out_byte (1);			/* DW_LNS_set_isa */
    /* We have emitted 12 opcode lengths, so make that this
       matches up to the opcode base value we have been using.  */
@@ -1152,7 +1152,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
    /* For each section, emit a statement program.  */
    for (s = all_segs; s; s = s->next)
-@@ -2781,11 +3413,13 @@ dwarf2_finish (void)
+@@ -2768,11 +3400,13 @@ dwarf2_finish (void)
    segT line_seg;
    struct line_seg *s;
    segT info_seg;
@@ -1167,7 +1167,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
    line_seg = bfd_get_section_by_name (stdoutput, ".debug_line");
    empty_debug_line = line_seg == NULL || !seg_not_empty_p (line_seg);
-@@ -2839,8 +3473,24 @@ dwarf2_finish (void)
+@@ -2826,8 +3460,24 @@ dwarf2_finish (void)
  	}
      }
  
@@ -1193,7 +1193,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
    /* If this is assembler generated line info, and there is no
       debug_info already, we need .debug_info, .debug_abbrev and
-@@ -2849,7 +3499,6 @@ dwarf2_finish (void)
+@@ -2836,7 +3486,6 @@ dwarf2_finish (void)
      {
        segT abbrev_seg;
        segT aranges_seg;
@@ -1202,7 +1202,7 @@ index 4fbd1e38ec2..700131f0ab8 100644
  
        gas_assert (all_segs);
 diff --git a/gas/dwarf2dbg.h b/gas/dwarf2dbg.h
-index 13824c407d9..9cf786c886a 100644
+index c5ff24a2622..bf022c1ff4d 100644
 --- a/gas/dwarf2dbg.h
 +++ b/gas/dwarf2dbg.h
 @@ -37,6 +37,7 @@ struct dwarf2_line_info
@@ -1245,5 +1245,5 @@ index 13824c407d9..9cf786c886a 100644
  /* Implements the .loc_mark_labels {0,1} directive.  */
  extern void dwarf2_directive_loc_mark_labels (int);
 -- 
-2.32.0
+2.31.1
 

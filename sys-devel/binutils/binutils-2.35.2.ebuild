@@ -17,7 +17,7 @@ IUSE="cet cros_host hardened multitarget nls test vanilla"
 #                    - Default: PV
 # PATCH_DEV          - Use download URI https://dev.gentoo.org/~{PATCH_DEV}/distfiles/...
 #                      for the patchsets
-PATCH_VER=3
+PATCH_VER=1
 PATCH_DEV=dilfridge
 PATCH_BINUTILS_VER=${PATCH_BINUTILS_VER:-${PV}}
 PATCH_DEV=${PATCH_DEV:-slyfox}

@@ -1,4 +1,4 @@
-From 156466b10c4ffc896c1fd3c0e97a18259ac11d67 Mon Sep 17 00:00:00 2001
+From 42ad09e2695365697e7d4432c9ac2d230381d3d2 Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 18 Dec 2020 00:59:16 -0800
 Subject: [PATCH 12/14] gold: dwp: implement read DW_FORM_strx and co
@@ -13,7 +13,7 @@ read the .dwo file names out of the compilation unit DIEs.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 17-Dec-2020
-[Adrian Ratiu: rebased from v2.27 to v2.36.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.1]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: I3bf5924bcd650123914297443323a9eb140f9272
@@ -24,7 +24,7 @@ Change-Id: I3bf5924bcd650123914297443323a9eb140f9272
  3 files changed, 203 insertions(+), 4 deletions(-)
 
 diff --git a/elfcpp/elfcpp_swap.h b/elfcpp/elfcpp_swap.h
-index 4ccb48e2899..1c301f9ba0f 100644
+index 61b3ba57520..8f0ea518c44 100644
 --- a/elfcpp/elfcpp_swap.h
 +++ b/elfcpp/elfcpp_swap.h
 @@ -131,6 +131,13 @@ struct Valtype_base<16>
@@ -89,7 +89,7 @@ index 4ccb48e2899..1c301f9ba0f 100644
  struct Swap_unaligned<32, false>
  {
 diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
-index 04d69353efa..2b6f04518c1 100644
+index d922300a6a1..9438665c35c 100644
 --- a/gold/dwarf_reader.cc
 +++ b/gold/dwarf_reader.cc
 @@ -33,6 +33,7 @@
@@ -301,7 +301,7 @@ index 04d69353efa..2b6f04518c1 100644
  // hook methods normally provided by a derived class.  We provide
  // default implementations rather than no implementation so that
 diff --git a/gold/dwarf_reader.h b/gold/dwarf_reader.h
-index e0efabd9004..c8f6c2eb3bc 100644
+index 3a28974b882..904f32b08c4 100644
 --- a/gold/dwarf_reader.h
 +++ b/gold/dwarf_reader.h
 @@ -568,6 +568,15 @@ class Dwarf_die
@@ -416,5 +416,5 @@ index e0efabd9004..c8f6c2eb3bc 100644
  
  // We can't do better than to keep the offsets in a sorted vector.
 -- 
-2.32.0
+2.31.1
 

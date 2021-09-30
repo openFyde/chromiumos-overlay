@@ -1,4 +1,4 @@
-From de829eb5faf556f4affc81c7036bf9404d493562 Mon Sep 17 00:00:00 2001
+From c18475248187e73062b1dbed7550a46dfd623dcb Mon Sep 17 00:00:00 2001
 From: Caroline Tice <cmtice@google.com>
 Date: Fri, 20 Nov 2020 11:05:19 -0800
 Subject: [PATCH 09/14] gold: dwp: add DWARF v5 support
@@ -10,7 +10,7 @@ This does the main work of updating dwp to handle DWARF v5.
 
 This patch created for Chrome OS by Caroline Tice.
 Date: 19-Nov-2020
-[Adrian Ratiu: rebased from v2.27 to v2.36.1]
+[Adrian Ratiu: rebased from v2.27 to v2.35.2]
 [Adrian Ratiu: regenerated as proper git format-patch.]
 
 Change-Id: I6e12e87747d0a005d8897eefd9639b50265e12d2
@@ -21,14 +21,14 @@ Change-Id: I6e12e87747d0a005d8897eefd9639b50265e12d2
  gold/dwarf_reader.h  |   7 +-
  gold/dwp.cc          | 422 +++++++++++++++++++++++++++++++++----------
  gold/gdb-index.cc    |   4 +-
- include/dwarf2.h     |  41 ++---
- 7 files changed, 406 insertions(+), 147 deletions(-)
+ include/dwarf2.h     |  13 +-
+ 7 files changed, 400 insertions(+), 125 deletions(-)
 
 diff --git a/binutils/dwarf.c b/binutils/dwarf.c
-index dec611874ed..c49ed52899d 100644
+index eb59da29eaf..0d429632bc8 100644
 --- a/binutils/dwarf.c
 +++ b/binutils/dwarf.c
-@@ -1830,7 +1830,7 @@ find_cu_tu_set_v2 (dwarf_vma cu_offset, int do_types)
+@@ -1829,7 +1829,7 @@ find_cu_tu_set_v2 (dwarf_vma cu_offset, int do_types)
      {
        p = tu_sets;
        nsets = tu_count;
@@ -37,7 +37,7 @@ index dec611874ed..c49ed52899d 100644
      }
    else
      {
-@@ -2860,7 +2860,7 @@ read_and_display_attr_value (unsigned long           attribute,
+@@ -2800,7 +2800,7 @@ read_and_display_attr_value (unsigned long           attribute,
  		  debug_info_p->max_loc_offsets = lmax;
  		}
  	      if (this_set != NULL)
@@ -46,7 +46,7 @@ index dec611874ed..c49ed52899d 100644
  	      debug_info_p->have_frame_base [num] = have_frame_base;
  	      if (attribute != DW_AT_GNU_locviews)
  		{
-@@ -3820,8 +3820,8 @@ process_debug_info (struct dwarf_section *           section,
+@@ -3760,8 +3760,8 @@ process_debug_info (struct dwarf_section *           section,
  		      dwarf_vmatoa ("x", offsets [DW_SECT_LINE]),
  		      dwarf_vmatoa ("x", sizes [DW_SECT_LINE]));
  	      printf (_("    .debug_loc.dwo:          0x%s  0x%s\n"),
@@ -57,7 +57,7 @@ index dec611874ed..c49ed52899d 100644
  	      printf (_("    .debug_str_offsets.dwo:  0x%s  0x%s\n"),
  		      dwarf_vmatoa ("x", offsets [DW_SECT_STR_OFFSETS]),
  		      dwarf_vmatoa ("x", sizes [DW_SECT_STR_OFFSETS]));
-@@ -10323,17 +10323,17 @@ get_DW_SECT_short_name (unsigned int dw_sect)
+@@ -10229,17 +10229,17 @@ get_DW_SECT_short_name (unsigned int dw_sect)
      {
        case DW_SECT_INFO:
  	return "info";
@@ -79,7 +79,7 @@ index dec611874ed..c49ed52899d 100644
        case DW_SECT_MACRO:
  	return "macro";
 diff --git a/elfcpp/dwarf.h b/elfcpp/dwarf.h
-index e24347f8481..c91c2871925 100644
+index d5e06d4d7d3..3392be6223b 100644
 --- a/elfcpp/dwarf.h
 +++ b/elfcpp/dwarf.h
 @@ -253,14 +253,17 @@ enum DW_LANG
@@ -106,7 +106,7 @@ index e24347f8481..c91c2871925 100644
  
  } // End namespace elfcpp.
 diff --git a/gold/dwarf_reader.cc b/gold/dwarf_reader.cc
-index f0e6b89bde2..04d69353efa 100644
+index ba60654393c..d922300a6a1 100644
 --- a/gold/dwarf_reader.cc
 +++ b/gold/dwarf_reader.cc
 @@ -1313,6 +1313,21 @@ Dwarf_info_reader::do_parse()
@@ -201,7 +201,7 @@ index f0e6b89bde2..04d69353efa 100644
  }
  
 diff --git a/gold/dwarf_reader.h b/gold/dwarf_reader.h
-index 80b2231327c..e0efabd9004 100644
+index 9b140e7878e..3a28974b882 100644
 --- a/gold/dwarf_reader.h
 +++ b/gold/dwarf_reader.h
 @@ -771,6 +771,10 @@ class Dwarf_info_reader
@@ -226,7 +226,7 @@ index 80b2231327c..e0efabd9004 100644
    // Visit a type unit.
    virtual void
 diff --git a/gold/dwp.cc b/gold/dwp.cc
-index 102a98fda94..08300b220d5 100644
+index 7c4eef090d4..29aa57c4308 100644
 --- a/gold/dwp.cc
 +++ b/gold/dwp.cc
 @@ -22,6 +22,7 @@
@@ -968,7 +968,7 @@ index 102a98fda94..08300b220d5 100644
  
  }; // End namespace gold
 diff --git a/gold/gdb-index.cc b/gold/gdb-index.cc
-index a9c080811a5..8b40d81f71d 100644
+index d19b0446bb9..cf2d25b3ff9 100644
 --- a/gold/gdb-index.cc
 +++ b/gold/gdb-index.cc
 @@ -199,7 +199,8 @@ class Gdb_index_info_reader : public Dwarf_info_reader
@@ -990,57 +990,32 @@ index a9c080811a5..8b40d81f71d 100644
  {
    ++Gdb_index_info_reader::dwarf_cu_count;
 diff --git a/include/dwarf2.h b/include/dwarf2.h
-index 8f4d6aab3ed..1e74b00c8e3 100644
+index 9c4203c22f7..b91977afe4d 100644
 --- a/include/dwarf2.h
 +++ b/include/dwarf2.h
-@@ -496,33 +496,20 @@ enum dwarf_range_list_entry
-    (From the pre-standard formats Extensions for Fission.
-    See http://gcc.gnu.org/wiki/DebugFissionDWP).  */
+@@ -497,14 +497,17 @@ enum dwarf_range_list_entry
  enum dwarf_sect
--{
--  DW_SECT_INFO = 1,
--  DW_SECT_TYPES = 2,
--  DW_SECT_ABBREV = 3,
--  DW_SECT_LINE = 4,
--  DW_SECT_LOC = 5,
--  DW_SECT_STR_OFFSETS = 6,
--  DW_SECT_MACINFO = 7,
--  DW_SECT_MACRO = 8,
--  DW_SECT_MAX = 8
--};
--
--/* Codes for the debug sections in a dwarf package (.dwp) file.
--   (From the official DWARF v5 spec.
--   See http://dwarfstd.org/doc/DWARF5.pdf, section 7.3.5).  */
--enum dwarf_sect_v5
--{
--  DW_SECT_INFO_V5 = 1,
--  DW_SECT_RESERVED_V5 = 2,
--  DW_SECT_ABBREV_V5 = 3,
--  DW_SECT_LINE_V5 = 4,
--  DW_SECT_LOCLISTS_V5 = 5,
--  DW_SECT_STR_OFFSETS_V5 = 6,
--  DW_SECT_MACRO_V5 = 7,
--  DW_SECT_RNGLISTS_V5 = 8,
--  DW_SECT_MAX_V5 = 8
--};
-+  {
-+    DW_SECT_INFO = 1,
+   {
+     DW_SECT_INFO = 1,
+-    DW_SECT_TYPES = 2,
 +    DW_SECT_TYPES = 2, // removed in v5
-+    DW_SECT_ABBREV = 3,
-+    DW_SECT_LINE = 4,
+     DW_SECT_ABBREV = 3,
+     DW_SECT_LINE = 4,
+-    DW_SECT_LOC = 5,
 +    DW_SECT_LOCLISTS = 5, // was LOC pre-v5
-+    DW_SECT_STR_OFFSETS = 6,
+     DW_SECT_STR_OFFSETS = 6,
+-    DW_SECT_MACINFO = 7,
+-    DW_SECT_MACRO = 8,
+-    DW_SECT_MAX = 8
 +    DW_SECT_MACRO = 7, // was MACINFO pre-v5
 +    DW_SECT_RNGLISTS = 8, // was MACRO pre-v5
 +    LEGACY_DW_SECT_TYPES = 20,
 +    LEGACY_DW_SECT_LOC = 21,
 +    LEGACY_DW_SECT_MACINFO = 22,
 +    DW_SECT_MAX = LEGACY_DW_SECT_MACINFO
-+  };
+   };
  
  #ifdef __cplusplus
- extern "C" {
 -- 
-2.32.0
+2.31.1
 
