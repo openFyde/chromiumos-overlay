@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	net-libs/grpc:=
 	virtual/libudev:=
 	sys-apps/pciutils:=
+	virtual/opengles:=
 "
 
 DEPEND="
