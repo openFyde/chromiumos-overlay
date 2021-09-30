@@ -44,6 +44,7 @@ IUSE="
 	dns-proxy
 	dptf
 	eclog
+	factory_branch
 	featured
 	federated_service
 	floss
@@ -284,7 +285,7 @@ RDEPEND="
 	sys-kernel/linux-firmware
 	virtual/chromeos-bsp
 	virtual/chromeos-firewall
-	virtual/chromeos-firmware
+	!factory_branch? ( virtual/chromeos-firmware )
 	virtual/chromeos-interface
 	virtual/chromeos-regions
 	virtual/implicit-system
