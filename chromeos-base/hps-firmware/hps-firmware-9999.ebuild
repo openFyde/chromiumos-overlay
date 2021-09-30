@@ -68,26 +68,6 @@ src_configure() {
 	# HPS firmware, which is cross-compiled for STM32
 	unset CROS_BASE_RUSTFLAGS
 	cros-rust_configure_cargo
-
-	# HPS userspace tools will be built for $CHOST (i.e. the Chromebook)
-	# but we also need to build firmware for the STM32 G0 MCU inside HPS.
-	# STM32 G0 is a family of Cortex-M0+ microcontrollers.
-	# So we also add that target to the generated cargo config.
-	# shellcheck disable=SC2154
-	cat <<- EOF >> "${ECARGO_HOME}/config"
-	# Target configuration for Cortex-M0/M0+ MCUs
-	[target.thumbv6m-none-eabi]
-	linker = "ld.lld"
-	rustflags = [
-		   # !!CAREFUL!! link.x is an internally generated linker script
-		   # that will include 'memory.x' in the src root. Changing this
-		   # will result in mysteriously broken binaries and you will be sad.
-		   "-C", "link-arg=-Tlink.x",
-		   "-C", "link-arg=-Tdefmt.x",
-		   # An additional linker script for any HPS-specific linker directives.
-		   "-C", "link-arg=-T../hps-common-link.x",
-	]
-	EOF
 }
 
 src_compile() {
