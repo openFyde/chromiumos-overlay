@@ -223,6 +223,7 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
+	platform_test "run" "${OUT}/fake_platform_unittest"
 	platform_test "run" "${OUT}/cryptohome_testrunner"
 	platform_test "run" "${OUT}/mount_encrypted_unittests"
 	if use tpm2; then
