@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier rmad .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libmems rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
@@ -33,6 +33,7 @@ RDEPEND="
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	chromeos-base/croslog
 	chromeos-base/hardware_verifier
+	chromeos-base/libmems
 	chromeos-base/runtime_probe
 "
 
