@@ -91,6 +91,7 @@ IUSE_TESTS=(
 	+tests_login_CryptohomeDataLeak
 	+tests_login_CryptohomeIncognito
 	+tests_login_GaiaLogin
+	+tests_login_LoginPin
 	+tests_login_LoginSuccess
 	+tests_login_OobeLocalization
 	+tests_login_SavePassword
