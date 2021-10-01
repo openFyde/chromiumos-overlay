@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="44c379f0966963cbcddb18986bd8cbf689919984"
-CROS_WORKON_TREE="4c0b51b3900ae094453142ccd1931b44e709972f"
+CROS_WORKON_COMMIT="d09868aaa1dc94ef3146a1081ed5d9643eb0e96f"
+CROS_WORKON_TREE="7f20743ace8dd13cf0a0503b5b462112b346761e"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -52,6 +52,7 @@ IUSE_IWLWIFI=(
 	iwlwifi-9260
 	iwlwifi-cc
 	iwlwifi-QuZ
+	iwlwifi-so
 )
 IUSE_BRCMWIFI=(
 	brcmfmac-all
@@ -250,6 +251,7 @@ RDEPEND="
 	!net-wireless/iwl6005-ucode
 	!net-wireless/iwl6030-ucode
 	!net-wireless/iwl6050-ucode
+	!sys-kernel/iwlwifi-gfp2-private
 "
 
 RESTRICT="binchecks strip"
@@ -304,13 +306,13 @@ install_iwlwifi() {
 		iwlwifi-cc)
 			case "${kernel}" in
 			kernel-upstream) doins "${x}-a0-62.ucode" ;;
-			*)               doins "${x}-a0-66.ucode" ;;
+			*)               doins "${x}-a0-67.ucode" ;;
 			esac
 			;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-66.ucode" ;;
-			kernel-5_4)  doins "${x}-a0-hr-b0-66.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-67.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-67.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-62.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
@@ -318,6 +320,10 @@ install_iwlwifi() {
 				doins "${x}"-*.ucode
 				;;
 			esac
+			;;
+		iwlwifi-so)
+			doins "${x}-a0-gf-a0-67.ucode"
+			doins "${x}-a0-gf-a0.pnvm"
 			;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
