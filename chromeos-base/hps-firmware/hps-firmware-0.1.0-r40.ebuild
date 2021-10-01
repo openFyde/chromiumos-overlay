@@ -47,7 +47,6 @@ DEPEND="
 	>=dev-rust/panic-rtt-target-0.1.2:= <dev-rust/panic-rtt-target-0.2.0
 	>=dev-rust/rtt-target-0.3.1:= <dev-rust/rtt-target-0.4.0
 "
-RDEPEND="${DEPEND}"
 
 # Integer overflow checks introduce panicking paths into the firmware,
 # which bloats the size of the images with extra strings in .rodata.
