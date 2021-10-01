@@ -27,7 +27,6 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	synaptics? ( gnutls )
 	uefi? ( gnutls )
 "
-RESTRICT="!test? ( test )"
 
 BDEPEND="
 	virtual/pkgconfig
