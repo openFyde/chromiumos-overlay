@@ -16,6 +16,9 @@ KEYWORDS="*"
 PATCHES=(
 	"${FILESDIR}"/regdb-ar-5ghz.patch
 	"${FILESDIR}"/regdb-Ensure-outfile-is-written.patch
+	# TODO(b:201792393) Once Gentoo upstream has this patch, uprev our
+	# wireless-regdb package so we can get rid of this patch.
+	"${FILESDIR}"/regdb-gb-5ghz.patch
 )
 
 src_compile() {
