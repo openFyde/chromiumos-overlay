@@ -808,6 +808,8 @@ src_prepare() {
 	mkdir extra || die
 	mv locale-gen-${LOCALE_GEN_VER} extra/locale || die
 	EPATCH_FORCE="yes" eapply "${FILESDIR}"/glibc-locale-gen-omit-spam-when-in-quiet-mode.patch
+	EPATCH_FORCE="yes" eapply "${FILESDIR}"/glibc-locale-gen-omit-more-spam-when-in-quiet-mode.patch
+	EPATCH_FORCE="yes" eapply "${FILESDIR}"/glibc-locale-gen-skip-duplicate-locales-when-normalized.patch
 
 	eprefixify extra/locale/locale-gen
 
