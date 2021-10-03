@@ -90,6 +90,7 @@ src_configure() {
 		)
 	else
 		mycmakeargs+=(
+			"-DCOMPILER_RT_DEFAULT_TARGET_TRIPLE=${CTARGET}"
 			"-DCOMPILER_RT_TEST_TARGET_TRIPLE=${CTARGET}"
 		)
 	fi
