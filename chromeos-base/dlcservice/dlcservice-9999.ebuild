@@ -61,6 +61,7 @@ src_install() {
 
 	into /usr/local
 	dobin "${S}/tools/dlctool"
+	dobin "${OUT}/dlcverify"
 }
 
 platform_pkg_test() {
