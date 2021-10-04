@@ -67,6 +67,7 @@ PATCHES=(
 	"${FILESDIR}/0043-BACKPORT-vfs-add-faccessat2-syscall.patch"
 	"${FILESDIR}/0044-CHROMIUM-v4l2-controls-use-very-high-ID-for-ROI-auto.patch"
 	"${FILESDIR}/0045-CHROMIUM-media-add-vb2-buffer-memory-coherency-hints.patch"
+	"${FILESDIR}/0046-CHROMIUM-v4l2-add-upstream-V4L2-VP8-stateless-contro.patch"
 )
 
 src_unpack() {
