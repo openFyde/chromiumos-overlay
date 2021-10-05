@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2816201df07a08e59838689e59519d5d7f88506d"
-CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "89395cddeaa6b2ce694429fb929b5ad302af959b" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a467fe11b7cf0fd772313976fae5428a805730f1"
+CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "c1b01417481b59578eadff383cae947150b79aba" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -63,6 +63,7 @@ src_install() {
 
 	into /usr/local
 	dobin "${S}/tools/dlctool"
+	dobin "${OUT}/dlcverify"
 }
 
 platform_pkg_test() {
