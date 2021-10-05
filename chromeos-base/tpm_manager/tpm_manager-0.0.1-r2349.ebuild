@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="2816201df07a08e59838689e59519d5d7f88506d"
-CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "2bd42cf4f2f41e68c177dfdba095d8d3412fd76c" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "26e3713c1f2916a87c54f5aa50da42d121f1a5a3" "e08a2eb734e33827dffeecf57eca046cd1091373" "9cde7454feae8bc3f5b354ff541295761d52788f" "f07eafa8dbb53d50c194352868520a8407a26bcc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0a03c88526a81ea3c4b82ecd6f471df48c8cceb2"
+CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "2bd42cf4f2f41e68c177dfdba095d8d3412fd76c" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "26e3713c1f2916a87c54f5aa50da42d121f1a5a3" "e08a2eb734e33827dffeecf57eca046cd1091373" "6130768e36f03ac123c3a27c7a7da25dc72aeeea" "f07eafa8dbb53d50c194352868520a8407a26bcc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -92,9 +92,7 @@ src_install() {
 	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
 
 	# Install fuzzer.
-	if use tpm2; then
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
-	fi
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
 }
 
 platform_pkg_test() {
