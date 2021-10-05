@@ -27,10 +27,13 @@ cross-armv7a-cros-linux-gnueabihf/glibc hardened
 # Han Shen <shenhan@chromium.org> (21 Mar 2012)
 #
 # Disable hardened for bare-metal toolchains.
+cross-arm-none-eabi/binutils hardened
 cross-arm-none-eabi/gcc hardened
 cross-arm-none-eabi/newlib hardened
+cross-armv7m-cros-eabi/binutils hardened
 cross-armv7m-cros-eabi/gcc hardened
 cross-armv7m-cros-eabi/newlib hardened
+cross-riscv64-cros-elf/binutils hardened
 cross-riscv64-cros-elf/gcc hardened
 cross-riscv64-cros-elf/newlib hardened
 
