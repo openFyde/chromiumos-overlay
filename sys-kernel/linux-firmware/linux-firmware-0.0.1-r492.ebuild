@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="a4fa42709470120cd923e28da2afc4f59ab3a085"
-CROS_WORKON_TREE="0853d56bcf3091baf4d543b989c1f4755ad5114b"
+CROS_WORKON_COMMIT="66cf7e5732ea12d970ff2232e164c35eef7fcf05"
+CROS_WORKON_TREE="271bd2b60fd9c5302bc02cc31d16c8422a9f7206"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -96,6 +96,7 @@ IUSE_LINUX_FIRMWARE=(
 	ibt_9560
 	ibt_ax200
 	ibt_ax201
+	ibt_ax211
 	ibt-hw
 	ipu3_fw
 	keyspan_usb
@@ -180,6 +181,7 @@ LICENSE="
 	linux_firmware_ibt_9560? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax200? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax201? ( LICENCE.ibt_firmware )
+	linux_firmware_ibt_ax211? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt-hw? ( LICENCE.ibt_firmware )
 	linux_firmware_keyspan_usb? ( LICENSE.keyspan_usb )
 	linux_firmware_marvell-mwlwifi? ( LICENCE.Marvell )
@@ -366,6 +368,7 @@ src_install() {
 	use_fw ibt_9560 && doins_subdir intel/ibt-17-16-1.*
 	use_fw ibt_ax200 && doins_subdir intel/ibt-20-*.*
 	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
+	use_fw ibt_ax211 && doins_subdir intel/ibt-0040-0041.*
 	use_fw ibt-hw && doins_subdir intel/ibt-hw-*.bseq
 	use_fw keyspan_usb && doins_subdir keyspan/*
 	use_fw marvell-mwlwifi && doins_subdir mwlwifi/*.bin
