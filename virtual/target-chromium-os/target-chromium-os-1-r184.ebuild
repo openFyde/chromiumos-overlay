@@ -48,6 +48,7 @@ IUSE="
 	eclog
 	featured
 	federated_service
+	floss
 	+fonts
 	fpstudy
 	fuzzer
@@ -199,6 +200,7 @@ RDEPEND="
 		chromeos-base/test-dlc
 	)
 	bluetooth? ( net-wireless/bluez )
+	floss? ( net-wireless/floss )
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
 		app-crypt/trousers
