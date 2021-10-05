@@ -359,7 +359,8 @@ src_compile() {
 			//tensorflow:libtensorflow.so
 		ebazel build //tensorflow:libtensorflow_cc.so
 	else
-		ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 --copt=-DEGL_NO_X11 \
+		ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
+			--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 \
 			//tensorflow/lite:libtensorflowlite.so \
 			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 			"$(usex label_image '
