@@ -30,7 +30,7 @@ PLUGIN_VERSIONS=(
 	# Current one.
 	0.41
 	# Next one.
-	0.41
+	0.42
 )
 SRC_URI="
 	https://storage.googleapis.com/chromium-nodejs/14.15.4/b2e40ddbac04d05baafbb007f203c6663c9d4ca9
