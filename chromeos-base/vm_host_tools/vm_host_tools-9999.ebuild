@@ -118,11 +118,6 @@ src_install() {
 	if use arcvm; then
 		dobin "${OUT}"/vm_pstore_dump
 		dobin "${OUT}"/vshd
-
-		# TODO(hashimoto): Remove this. b/186133591
-		arc-build-constants-configure
-		exeinto "${ARC_VM_VENDOR_DIR}/bin"
-		doexe "${OUT}"/vshd
 	fi
 
 	# fuzzer_component_id is unknown/unlisted
