@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2816201df07a08e59838689e59519d5d7f88506d"
+CROS_WORKON_COMMIT="5c6a8f03e931f65a2fae8dedd097d000acffa646"
 CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "90836b6979904ce6ed3869cc768c0e72510e5a2f" "e2b552cbf6b31261201bde3547c78a2ab305976b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	net-libs/grpc:=
 	virtual/libudev:=
 	sys-apps/pciutils:=
+	virtual/opengles:=
 "
 
 DEPEND="
