@@ -20,19 +20,15 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="esdfs"
 
+# CONTAINER_DIR must be kept consistent with installation configuration in
+# ${PLATFORM_SUBDIR}/BUILD.gn.
 CONTAINER_DIR="/opt/google/containers/arc-sdcard"
 
 RDEPEND="!esdfs? ( chromeos-base/arc-setup )"
 DEPEND="${DEPEND}"
 
 src_install() {
-	if ! use esdfs; then
-		insinto /etc/init
-		doins arc-sdcard.conf
-	fi
-
-	insinto "${CONTAINER_DIR}"
-	doins "${OUT}"/rootfs.squashfs
+	platform_install
 
 	# Keep the parent directory of mountpoints inaccessible from non-root
 	# users because mountpoints themselves are often world-readable but we
