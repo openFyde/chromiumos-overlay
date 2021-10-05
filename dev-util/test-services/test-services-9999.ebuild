@@ -20,7 +20,7 @@ IUSE=""
 DEPEND="
 	dev-util/provision-server
 	dev-util/testlabenv-local
-	dev-util/test-exec-server
+	dev-util/cros-test
 	dev-util/dut-server
 "
 RDEPEND="

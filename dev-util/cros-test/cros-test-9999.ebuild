@@ -18,11 +18,11 @@ IUSE=""
 CROS_GO_VERSION="${PF}"
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/execution/cmd/testexecserver"
+	"chromiumos/test/execution/cmd/cros-test"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/execution/cmd/testexecserver/..."
+	"chromiumos/test/execution/cmd/cros-test/..."
 )
 
 CROS_GO_VET=(
