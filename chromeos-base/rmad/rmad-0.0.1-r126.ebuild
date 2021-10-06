@@ -4,13 +4,13 @@
 EAPI=7
 
 CROS_WORKON_COMMIT="a2803ab9f738b8137367d80e5586d09b8647e72a"
-CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "9b262e205d2e0104fbdc10f45d71aaca9a294501" "e05fe7a9b4b178ed0da6593ede4511bd279ed3f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_TREE=("f74e22f5684eb7efc62098d437d9ddacaabc3e0c" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "9b262e205d2e0104fbdc10f45d71aaca9a294501" "ba93b35f6b12686bf293ce79255da511c89278e1" "e05fe7a9b4b178ed0da6593ede4511bd279ed3f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier rmad .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libmems rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
@@ -35,6 +35,7 @@ RDEPEND="
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
 	chromeos-base/croslog
 	chromeos-base/hardware_verifier
+	chromeos-base/libmems
 	chromeos-base/runtime_probe
 "
 
