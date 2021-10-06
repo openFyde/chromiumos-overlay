@@ -145,6 +145,7 @@ multilib_src_configure() {
 		-DLLVM_ENABLE_LIBPFM=$(usex exegesis)
 		-DLLVM_ENABLE_EH=OFF
 		-DLLVM_ENABLE_RTTI=OFF
+		-DLLVM_ENABLE_ZLIB=OFF
 
 		-DWITH_POLLY=OFF # TODO
 
