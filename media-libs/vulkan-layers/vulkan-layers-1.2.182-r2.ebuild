@@ -55,6 +55,7 @@ multilib_src_configure() {
 		-DGLSLANG_INSTALL_DIR="${ESYSROOT}/usr"
 		-DCMAKE_INSTALL_INCLUDEDIR="${ESYSROOT}/usr/include/vulkan/"
 		-DSPIRV_HEADERS_INSTALL_DIR="${ESYSROOT}/usr/include/spirv"
+		-DBUILD_WERROR=OFF
 	)
 	cmake-utils_src_configure
 }
