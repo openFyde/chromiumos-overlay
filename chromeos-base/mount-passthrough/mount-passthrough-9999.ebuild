@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/mo
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-COMMON_DEPEND="sys-fs/fuse:=
+COMMON_DEPEND="=sys-fs/fuse-2*
 	sys-libs/libcap:="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
