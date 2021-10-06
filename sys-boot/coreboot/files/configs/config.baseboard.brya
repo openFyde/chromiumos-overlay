@@ -26,7 +26,6 @@ CONFIG_CSE_PCHC_FILE="pchc.bin"
 CONFIG_CSE_IUNP_FILE="iunit.bin"
 
 # Microcode
-CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode.bin"
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
 
 # Video Blob

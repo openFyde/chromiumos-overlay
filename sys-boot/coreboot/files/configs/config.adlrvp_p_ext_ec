@@ -19,3 +19,6 @@ CONFIG_INTEL_GMA_HAVE_VBT=y
 CONFIG_HAVE_EC_BIN=y
 CONFIG_EC_BIN_PATH="3rdparty/blobs/mainboard/google/brya/ec-adlrvp_p.bin"
 CONFIG_BOARD_INTEL_ADLRVP_P_EXT_EC=y
+
+# Microcode
+CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-adlrvp_p_ext_ec.bin"

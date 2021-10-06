@@ -9,3 +9,6 @@ CONFIG_CSE_DATA_FILE="cse_data/cse_data-kano.bin"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt.bin"
+
+# Microcode
+CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-kano.bin"
