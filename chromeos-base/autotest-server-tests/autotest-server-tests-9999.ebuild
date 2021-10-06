@@ -77,18 +77,15 @@ SERVER_IUSE_TESTS="
 		cheets_user? (
 			+tests_cheets_CTS_Instant
 			+tests_cheets_CTS_P
-			+tests_cheets_GTS
 		)
 		cheets_user_64? (
 			+tests_cheets_CTS_Instant
 			+tests_cheets_CTS_P
-			+tests_cheets_GTS
 		)
 	)
 	android-vm-rvc? (
 		cheets_user_64? (
 			+tests_cheets_CTS_R
-			+tests_cheets_GTS_R
 		)
 		cheets_userdebug_64? (
 			+tests_cheets_VTS_R
