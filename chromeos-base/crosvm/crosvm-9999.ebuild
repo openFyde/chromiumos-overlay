@@ -89,6 +89,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/serde_json-1*:=
 	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
 	=dev-rust/syn-1*:=
+	=dev-rust/tempfile-3*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/remain:=
