@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7c46a63cc2c57fb549ff73548b7896fd8901cdc8"
-CROS_WORKON_TREE="86952e676fa122e4ed620064366a8af424879c9c"
+CROS_WORKON_COMMIT="a93ae858a2a100468b83c431ef0a876c2a7db596"
+CROS_WORKON_TREE="1e67cc28b9561d52591404957d8fb3263c519787"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="../platform/dev"
 CROS_WORKON_SUBTREE="src"
@@ -22,7 +22,7 @@ IUSE=""
 DEPEND="
 	dev-util/provision-server
 	dev-util/testlabenv-local
-	dev-util/test-exec-server
+	dev-util/cros-test
 	dev-util/dut-server
 "
 RDEPEND="
