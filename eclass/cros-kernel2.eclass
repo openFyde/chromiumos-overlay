@@ -87,8 +87,7 @@ REQUIRED_USE="
 "
 STRIP_MASK="
 	/lib/modules/*/kernel/*
-	/usr/lib/debug/boot/vmlinux
-	/usr/lib/debug/lib/modules/*
+	/usr/lib/debug/*
 	/usr/src/*
 "
 
@@ -2440,11 +2439,14 @@ cros-kernel2_src_install() {
 
 	# Install uncompressed kernel for debugging purposes.
 	insinto "${install_prefix}/usr/lib/debug/boot"
-	doins "$(cros-workon_get_build_dir)/vmlinux"
+	newins "$(cros-workon_get_build_dir)/vmlinux" vmlinux.debug
 	if ! has ${EAPI} {4..6}; then
-		dostrip -x "${install_prefix}/usr/lib/debug/boot/vmlinux" \
+		dostrip -x "${install_prefix}/usr/lib/debug/boot/vmlinux.debug" \
 			"${install_prefix}/usr/src/"
 	fi
+	# Be nice to scripts expecting vmlinux.
+	ln -s vmlinux.debug "${install_dir}/usr/lib/debug/boot/vmlinux" || die
+
 	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
 		insinto "${install_prefix}/usr/lib/debug/boot/"
 		doins "$(cros-workon_get_build_dir)/vmlinux-gdb.py"
