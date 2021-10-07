@@ -64,7 +64,15 @@ REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
 	# Apply patches
-	while read -r patch; do
+	while read -ra patch_config; do
+		local patch="${patch_config[0]}"
+		local use_flag="${patch_config[1]}"
+		if [ -n "${use_flag}" ]; then
+			if ! use "${use_flag}"; then
+				einfo "Skipped ${patch}"
+				continue
+			fi
+		fi
 		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
 }
