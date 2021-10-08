@@ -3,3 +3,6 @@ include chromiumos/overlays/portage-stable:/eclass/OWNERS
 
 per-file cros-kernel2.eclass = file:/OWNERS.kernel
 per-file libchrome-version.eclass = file:aosp/platform/external/libchrome:/OWNERS
+
+# Primarily intended for simple toolchain-related flag flips, etc.
+per-file cros-rust.eclass = file:/chromiumos/third_party/toolchain-utils:/OWNERS.toolchain
