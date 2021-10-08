@@ -48,6 +48,7 @@ IUSE="
 	debug_fission
 	+dwarf5
 	+fonts
+	hw_details
 	goma
 	goma_thinlto
 	+highdpi
@@ -277,6 +278,9 @@ set_build_args() {
 
 		# Add libinput to handle touchpad.
 		"use_libinput=$(usetf libinput)"
+
+		# Add hardware information to feedback logs and chrome://system.
+		"is_chromeos_hw_details=$(usetf hw_details)"
 	)
 
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
