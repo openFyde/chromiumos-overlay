@@ -21,6 +21,7 @@ src_prepare() {
 	epatch "${FILESDIR}/patches/${PN}-0.2-configure-queryinterval-and-reportforwarding.patch"
 	epatch "${FILESDIR}/patches/${PN}-0.2-fix-timer-issues.patch"
 	epatch "${FILESDIR}/patches/${PN}-0.2-configure-router-robustness-value.patch"
+	epatch "${FILESDIR}/patches/${PN}-0.2-bypass-root-check.patch"
 }
 
 src_install() {
