@@ -20,7 +20,7 @@ IUSE=""
 
 # TODO(b/182898188): Re-add test-plan once proto changes have been integrated.
 DEPEND="
-	dev-util/provision-server
+	dev-util/cros-provision
 	dev-util/testlabenv-local
 	dev-util/cros-test
 	dev-util/dut-server
