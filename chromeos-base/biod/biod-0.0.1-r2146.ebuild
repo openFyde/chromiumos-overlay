@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="316f560f9b8490e041d8187f3cc42ba45083aa1f"
+CROS_WORKON_COMMIT="2ec610f7e7ced801090d7b02a707f228ccd15cd2"
 CROS_WORKON_TREE=("d897a7a44e07236268904e1df7f983871c1e1258" "5d8d388d3f43d5c380a4e95591a45c0866ecb934" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "ad1fd2e4d4c9cb42d85d97fe12f958890ad6ab14" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/R
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="
+	factory_branch
 	fp_on_power_button
 	fpmcu_firmware_bloonchipper
 	fpmcu_firmware_dartmonkey
@@ -44,17 +45,19 @@ COMMON_DEPEND+="
 RDEPEND="
 	${COMMON_DEPEND}
 	sys-apps/flashrom
-	virtual/chromeos-firmware-fpmcu
+	!factory_branch? ( virtual/chromeos-firmware-fpmcu )
 	"
 
 # Release branch firmware.
 # The USE flags below come from USE_EXPAND variables.
 # See third_party/chromiumos-overlay/profiles/base/make.defaults.
 RDEPEND+="
-	fpmcu_firmware_bloonchipper? ( sys-firmware/chromeos-fpmcu-release-bloonchipper )
-	fpmcu_firmware_dartmonkey? ( sys-firmware/chromeos-fpmcu-release-dartmonkey )
-	fpmcu_firmware_nami? ( sys-firmware/chromeos-fpmcu-release-nami )
-	fpmcu_firmware_nocturne? ( sys-firmware/chromeos-fpmcu-release-nocturne )
+	!factory_branch? (
+		fpmcu_firmware_bloonchipper? ( sys-firmware/chromeos-fpmcu-release-bloonchipper )
+		fpmcu_firmware_dartmonkey? ( sys-firmware/chromeos-fpmcu-release-dartmonkey )
+		fpmcu_firmware_nami? ( sys-firmware/chromeos-fpmcu-release-nami )
+		fpmcu_firmware_nocturne? ( sys-firmware/chromeos-fpmcu-release-nocturne )
+	)
 "
 
 DEPEND="
