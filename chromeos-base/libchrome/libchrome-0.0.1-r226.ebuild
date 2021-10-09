@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT=("ede16eaec3f0d9f7b15e6b79bb895db15233284c" "18a9d3f25a6872d33ae8f10fce439357a4b6c157")
+CROS_WORKON_COMMIT=("77047ec6bf8dbea352fa80995c334d76e0edc627" "18a9d3f25a6872d33ae8f10fce439357a4b6c157")
 CROS_WORKON_TREE=("ccc30053e2c1a5bd084b29e5b95ff439b5f337dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "ca2275c3ce226cdc4be92cee571d1e7a1c573ebf")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -66,7 +66,15 @@ REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
 	# Apply patches
-	while read -r patch; do
+	while read -ra patch_config; do
+		local patch="${patch_config[0]}"
+		local use_flag="${patch_config[1]}"
+		if [ -n "${use_flag}" ]; then
+			if ! use "${use_flag}"; then
+				einfo "Skipped ${patch}"
+				continue
+			fi
+		fi
 		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
 }
