@@ -44,6 +44,6 @@ src_install() {
 	# D-Bus configuration
 	insinto "/build/initramfs/etc/dbus-1/system.d"
 	doins org.chromium.MiniOs.conf
-	insinto "/build/initramfs/etc/init"
-	doins init/*.conf
+	insinto "/build/initramfs/"
+	doins -r ramfs/*
 }
