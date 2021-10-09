@@ -8,13 +8,8 @@ CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-adlrvp_m.bi
 CONFIG_DISPLAY_FSP_CALLS_AND_STATUS=y
 CONFIG_DISPLAY_FSP_HEADER=y
 
-# Management Engine
-CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/brya/csme-adlrvp_m.bin"
-
-# Management Engine FW update
-CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
-CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.10.1372"
-CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/brya/me_rw-adlrvp_m.bin"
+# CSE data
+CONFIG_CSE_DATA_FILE="cse_data/cse_data-adlrvp_m.bin"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt_adlrvp_m.bin"

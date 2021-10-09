@@ -4,11 +4,8 @@ CONFIG_BOARD_GOOGLE_GIMBLE=y
 # SPI Descriptor
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-gimble.bin"
 
-# Management Engine
-CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/brya/csme-gimble.bin"
-
-# Management Engine FW update
-CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/brya/me_rw-gimble.bin"
+# CSE data
+CONFIG_CSE_DATA_FILE="cse_data/cse_data-gimble.bin"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt_gimble.bin"
