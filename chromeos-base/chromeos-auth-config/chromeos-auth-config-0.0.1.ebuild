@@ -40,6 +40,9 @@ src_install() {
 	newpamd "${FILESDIR}"/include-chromeos-auth sudo
 	pamd_mimic system-auth sudo auth account session
 
+	newpamd "${FILESDIR}"/include-chromeos-auth sudo-i
+	pamd_mimic system-auth sudo-i auth account session
+
 	newpamd "${FILESDIR}"/include-chromeos-auth login
 	pamd_mimic system-local-login login auth account password session
 
