@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ba9c2063e4caf5efe8e956b44d4b65f255116f97"
+CROS_WORKON_COMMIT="5e1a1c998a96a93ce2987bf8f53080921cf459a0"
 CROS_WORKON_TREE=("ccc30053e2c1a5bd084b29e5b95ff439b5f337dc" "99c7d2ba3ddf96bdd96f0b8de9784cc9b98e791d" "2bd42cf4f2f41e68c177dfdba095d8d3412fd76c" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -225,6 +225,7 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
+	platform_test "run" "${OUT}/fake_platform_unittest"
 	platform_test "run" "${OUT}/cryptohome_testrunner"
 	platform_test "run" "${OUT}/mount_encrypted_unittests"
 	if use tpm2; then
