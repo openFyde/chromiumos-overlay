@@ -25,7 +25,7 @@ DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.4*:=
-	>=dev-rust/flexbuffers-0.1.1 <dev-rust/flexbuffers-0.2.0_alpha:=
+	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:=
 	dev-rust/libchromeos:=
