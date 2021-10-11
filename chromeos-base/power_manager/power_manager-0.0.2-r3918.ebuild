@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5e1a1c998a96a93ce2987bf8f53080921cf459a0"
-CROS_WORKON_TREE=("ccc30053e2c1a5bd084b29e5b95ff439b5f337dc" "7e1c963c411477282f734722b3e2b5cb9f0e8462" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "14acd311021ff7b4a6e5a812cf6ef18bab1ede72" "ad1fd2e4d4c9cb42d85d97fe12f958890ad6ab14" "e08a2eb734e33827dffeecf57eca046cd1091373" "55e186832a662d170869742f7b460c2aa7f74eb9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="11a2e50d6d614e9df0f45f2150ae4538cc9cd858"
+CROS_WORKON_TREE=("ccc30053e2c1a5bd084b29e5b95ff439b5f337dc" "7e1c963c411477282f734722b3e2b5cb9f0e8462" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "14acd311021ff7b4a6e5a812cf6ef18bab1ede72" "ad1fd2e4d4c9cb42d85d97fe12f958890ad6ab14" "e08a2eb734e33827dffeecf57eca046cd1091373" "b45ddf70409958a65c0330dc8f5702e7074f8cc7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -138,6 +138,8 @@ src_install() {
 
 	if use touchscreen_wakeup; then
 		udev_dorules udev/optional/93-powerd-tags-touchscreen-wakeup.rules
+	elif use unibuild; then
+		udev_dorules udev/optional/93-powerd-tags-unibuild-touchscreen-wakeup.rules
 	fi
 
 	if use wilco; then
