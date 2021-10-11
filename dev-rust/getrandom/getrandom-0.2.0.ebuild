@@ -24,3 +24,5 @@ DEPEND="
 	>=dev-rust/stdweb-0.4.18:= <dev-rust/stdweb-0.5.0
 	>=dev-rust/wasm-bindgen-0.2.62:= <dev-rust/wasm-bindgen-0.3.0
 "
+
+RDEPEND="${DEPEND}"
