@@ -75,6 +75,13 @@ PATCHES=(
 	"${FILESDIR}/"
 )
 
+# Lowers the optimization level if the package is being built
+# for fuzzing. Ghostscript appears to default to `-O2`.
+cros_gs_set_optimization() {
+	use fuzzer || return 0
+	replace-flags "-O*" "-Og"
+}
+
 src_prepare() {
 	# apply various patches, many borrowed from Fedora
 	# http://pkgs.fedoraproject.org/cgit/ghostscript.git
@@ -143,6 +150,7 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
+	cros_gs_set_optimization
 
 	local FONTPATH
 	for path in \
