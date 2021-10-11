@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ede16eaec3f0d9f7b15e6b79bb895db15233284c"
+CROS_WORKON_COMMIT="f3d4ef85981e3474305d3c9bd94cb5e6b134a0c8"
 CROS_WORKON_TREE=("ccc30053e2c1a5bd084b29e5b95ff439b5f337dc" "2fa93f85a579bcd5b57a3bc933afcf45c205f9ee" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/mo
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-COMMON_DEPEND="sys-fs/fuse:=
+COMMON_DEPEND="=sys-fs/fuse-2*
 	sys-libs/libcap:="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
