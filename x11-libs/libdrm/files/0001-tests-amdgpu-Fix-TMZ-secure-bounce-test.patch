@@ -1,0 +1,56 @@
+From 87a68fe9e49605d200ab2604e45b8a9d868d1922 Mon Sep 17 00:00:00 2001
+From: Luben Tuikov <luben.tuikov@amd.com>
+Date: Thu, 15 Jul 2021 21:28:16 -0400
+Subject: [PATCH 01/19] tests/amdgpu: Fix TMZ secure bounce test
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Fix the TMZ secure bounce test, in that Bob's
+buffer has to be created encrypted (with the
+encrypted flag set), so that when we copy from
+Alice's buffer, which is also encrypted, to Bob's
+buffer, the copy can be successful and the data
+actually copied.
+
+This fixes the test and it no longer fails. Tested
+on Sienna Cichlid.
+
+Cc: Alex Deucher <Alexander.Deucher@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Aaron Liu <aaron.liu@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+Reviewed-by: Alex Deucher <Alexander.Deucher@amd.com>
+---
+ tests/amdgpu/security_tests.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/tests/amdgpu/security_tests.c b/tests/amdgpu/security_tests.c
+index f0eb57a7..c7548dac 100644
+--- a/tests/amdgpu/security_tests.c
++++ b/tests/amdgpu/security_tests.c
+@@ -315,7 +315,7 @@ static void amdgpu_secure_bounce(void)
+ 				  SECURE_BUFFER_SIZE,
+ 				  page_size,
+ 				  AMDGPU_GEM_DOMAIN_VRAM,
+-				  0 /* AMDGPU_GEM_CREATE_ENCRYPTED */,
++				  AMDGPU_GEM_CREATE_ENCRYPTED,
+ 				  &bob);
+ 	if (res) {
+ 		PRINT_ERROR(res);
+@@ -323,9 +323,9 @@ static void amdgpu_secure_bounce(void)
+ 		goto Out_free_Alice;
+ 	}
+ 
+-	/* sDMA clear copy from Alice to Bob.
++	/* sDMA TMZ copy from Alice to Bob.
+ 	 */
+-	amdgpu_bo_lcopy(&sb_ctx, &bob, &alice, SECURE_BUFFER_SIZE, 0);
++	amdgpu_bo_lcopy(&sb_ctx, &bob, &alice, SECURE_BUFFER_SIZE, 1);
+ 
+ 	/* Move Bob to the GTT domain.
+ 	 */
+-- 
+2.25.1
+

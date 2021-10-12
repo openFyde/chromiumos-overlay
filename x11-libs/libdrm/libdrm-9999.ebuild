@@ -52,6 +52,8 @@ src_prepare() {
 	eapply "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	eapply "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 	eapply "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
+	eapply "${FILESDIR}"/0001-tests-amdgpu-Fix-TMZ-secure-bounce-test.patch
+	eapply "${FILESDIR}"/0002-test-amdgpu-Bob-to-Alice-copy-should-be-TMZ-in-secur.patch
 
 	eapply_user
 }

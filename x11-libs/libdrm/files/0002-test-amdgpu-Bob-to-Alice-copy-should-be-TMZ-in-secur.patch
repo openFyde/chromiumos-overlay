@@ -1,0 +1,34 @@
+From 4ac7d6bf5dd1d7aae893fafee98a309d357e5bd6 Mon Sep 17 00:00:00 2001
+From: Aaron Liu <aaron.liu@amd.com>
+Date: Thu, 22 Jul 2021 17:01:00 +0800
+Subject: [PATCH 02/19] test/amdgpu: Bob to Alice copy should be TMZ in secure
+ bounce test
+
+SDMA copy from Alice to Bob is in TMZ mode. Therefore
+SDMA copy back from Bob to Alice should be in TMZ mode too.
+
+Signed-off-by: Aaron Liu <aaron.liu@amd.com>
+Reviewed-by: Luben Tuikov <luben.tuikov@amd.com>
+---
+ tests/amdgpu/security_tests.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/amdgpu/security_tests.c b/tests/amdgpu/security_tests.c
+index c7548dac..280e862d 100644
+--- a/tests/amdgpu/security_tests.c
++++ b/tests/amdgpu/security_tests.c
+@@ -336,9 +336,9 @@ static void amdgpu_secure_bounce(void)
+ 		goto Out_free_all;
+ 	}
+ 
+-	/* sDMA clear copy from Bob to Alice.
++	/* sDMA TMZ copy from Bob to Alice.
+ 	 */
+-	amdgpu_bo_lcopy(&sb_ctx, &alice, &bob, SECURE_BUFFER_SIZE, 0);
++	amdgpu_bo_lcopy(&sb_ctx, &alice, &bob, SECURE_BUFFER_SIZE, 1);
+ 
+ 	/* Verify the contents of Alice.
+ 	 */
+-- 
+2.25.1
+
