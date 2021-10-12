@@ -40,7 +40,7 @@ CONFLICTING_PACKAGES="
 RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/cros-camera-android-deps:=
-	camera_feature_hdrnet? ( media-libs/cros-camera-libhdr:= )
+	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
 	media-libs/libexif:=
 	media-libs/libsync:=

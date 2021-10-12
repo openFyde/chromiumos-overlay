@@ -3,15 +3,17 @@
 
 EAPI=7
 
-DESCRIPTION="Chrome OS HDR related libraries ported from google3."
+DESCRIPTION="Gcam libraries ported from google3 that are specialized for CrOS."
 
 IUSE="march_skylake march_alderlake"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-camera-libhdr-${PV}.tar.bz2"
+SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-camera-libgcam-${PV}.tar.bz2"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+
+RDEPEND="!media-libs/cros-camera-libhdr"
 
 S="${WORKDIR}"
 
@@ -26,14 +28,7 @@ src_install() {
 		march_path="x86_64"
 	fi
 	einfo "Installing binaries built with march ${march_path}"
-
-	local libraries=(
-		"libhdrnet_cros.so"
-		"libgcam_ae_cros.so"
-	)
-	for library in "${libraries[@]}"; do
-		dolib.so "./${march_path}/${library}"
-	done
+	dolib.so "./${march_path}/libgcam_cros.so"
 
 	# Install header files.
 	insinto /usr/include/cros-camera
