@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="745cdedb276031fbceedfb76854b10a234cab662"
+CROS_WORKON_COMMIT="b7ed0ed288d39556e6141108005d048b913afed7"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "ef118ceb3e8ebcc8b8a4ae6577a71d7ad210a722" "e08a2eb734e33827dffeecf57eca046cd1091373" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "f4393b535673365e930c04efeab0ab4a23a5a8a0" "32ac98629dfba863322d9dc20a553d071bb70df0" "786825f5ecfe94fcf4d839470255111ca27b4d6f" "21f96983b4c04d23267767a4f371212fe68039d9" "542b6a1b940801e08d9d1aa3ff2657d06dc80bfa" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -42,7 +42,7 @@ CONFLICTING_PACKAGES="
 RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/cros-camera-android-deps:=
-	camera_feature_hdrnet? ( media-libs/cros-camera-libhdr:= )
+	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
 	media-libs/libexif:=
 	media-libs/libsync:=
