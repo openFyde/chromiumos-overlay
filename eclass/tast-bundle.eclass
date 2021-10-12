@@ -85,6 +85,8 @@ tast-bundle_src_prepare() {
 	# https://github.com/golang/go/issues/30986#issuecomment-475626018
 	export CGO_ENABLED=0
 	export GOPIE=0
+	# Workaround to unblock Go uprevs until ChromeOS packages are converted to modules
+	export GO111MODULE=off
 
 	default
 }
@@ -105,7 +107,7 @@ tast-bundle_src_compile() {
 	# Build bundle executable for the host arch and get metadata dump.
 	local source="chromiumos/tast/${TAST_BUNDLE_TYPE}/bundles/${TAST_BUNDLE_NAME}"
 	local host_exec="host_${TAST_BUNDLE_NAME}"
-	GOPATH="$(cros-go_gopath)" go build -v \
+	GO111MODULE=off GOPATH="$(cros-go_gopath)" go build -v \
 		${CROS_GO_VERSION:+"-ldflags=-X main.Version=${CROS_GO_VERSION}"} \
 		-o "${host_exec}" \
 		"${source}" || die "Generating bundle for host"

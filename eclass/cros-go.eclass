@@ -287,7 +287,7 @@ cros-go_gopath() {
 # Wrapper function for invoking the Go tool from an ebuild.
 # Sets up GOPATH, and uses the appropriate cross-compiler.
 cros_go() {
-	GOPATH="$(cros-go_gopath)" $(tc-getGO) "$@" || die
+	GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getGO) "$@" || die
 }
 
 # @FUNCTION: go_list
@@ -295,7 +295,7 @@ cros_go() {
 # List all Go packages matching a pattern.
 # Only list packages in the current workspace.
 go_list() {
-	GOPATH="$(cros-go_workspace)" $(tc-getGO) list "$@" || die
+	GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_workspace)" $(tc-getGO) list "$@" || die
 }
 
 # @FUNCTION: go_test
@@ -303,14 +303,14 @@ go_list() {
 # Wrapper function for building and running unit tests.
 # Package tests are always built and run locally on host.
 go_test() {
-	GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) test "$@" || die
+	GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) test "$@" || die
 }
 
 # @FUNCTION: go_vet
 # @DESCRIPTION:
 # Wrapper function for running "go vet".
 go_vet() {
-	GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) vet \
+	GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) vet \
 		"${CROS_GO_VET_FLAGS[@]}" "$@" || die
 }
 
