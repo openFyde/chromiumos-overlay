@@ -19,17 +19,20 @@ SLOT="0/${PVR}"
 KEYWORDS="~*"
 IUSE="cros_host manatee"
 
-RDEPEND=""
-
-DEPEND="${RDEPEND}
+DEPEND="
 	chromeos-base/libsirenia:=
 	dev-rust/libchromeos:=
-	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 "
+RDEPEND="${DEPEND}"
 
 src_install() {
+	# Install the crate.
+	cros-rust_src_install
+
+	# Install demo_app.
 	local build_dir="$(cros-rust_get_build_dir)"
 
 	# Needed for initramfs, but not for the root-fs.
