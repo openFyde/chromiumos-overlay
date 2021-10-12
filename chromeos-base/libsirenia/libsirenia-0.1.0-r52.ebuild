@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7583352162476c16bc263d814ec3e1982d30c5e9"
-CROS_WORKON_TREE="517eb5113dacd685af3420abf3cf1d57e5151e93"
+CROS_WORKON_COMMIT="8ce35d16ad07dfeebc352815a82b5462f41090f7"
+CROS_WORKON_TREE="8fd5f11a121272b940043536aa8b676406d2f43a"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -24,7 +24,7 @@ IUSE=""
 DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/chrono-0.4*:=
-	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2
+	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
 	dev-rust/libchromeos:=

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7583352162476c16bc263d814ec3e1982d30c5e9"
-CROS_WORKON_TREE="ed9530283eaa60149c8ec46e04298b427f5e54ce"
+CROS_WORKON_COMMIT="8ce35d16ad07dfeebc352815a82b5462f41090f7"
+CROS_WORKON_TREE="4a9ac56a4abc7348fb8ebfa0d152a1c78ee24749"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,7 +27,7 @@ DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.4*:=
-	>=dev-rust/flexbuffers-0.1.1 <dev-rust/flexbuffers-0.2.0_alpha:=
+	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
 	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:=
 	dev-rust/libchromeos:=
