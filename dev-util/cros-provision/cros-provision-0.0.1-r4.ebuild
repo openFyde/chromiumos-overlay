@@ -2,16 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="7e198c4f0dc3185b1b1fac1129ef128fda0bb52f"
-CROS_WORKON_TREE="367922ca5f66fa3ecf948f22de3ecd9533ecdfd0"
+CROS_WORKON_COMMIT="4c9b0bff59adfa276da2c9daa2b3143ea8b6b09c"
+CROS_WORKON_TREE="acc06f308d576afe81e03e6b467ce127eb1ff249"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test/dut"
+CROS_WORKON_SUBTREE="src/chromiumos/test/provision"
 
 inherit cros-go cros-workon
 
-DESCRIPTION="DUT Service Server implementation for interfacing with the DUT"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/dut"
+DESCRIPTION="Provision server implementation for installing CrOS on a test device"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/provision"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -22,11 +22,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/dut/cmd/dutserver"
+	"chromiumos/test/provision/cmd/cros-provision"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/dut/cmd/dutserver/..."
+	"chromiumos/test/provision/cmd/..."
 )
 
 CROS_GO_VET=(
@@ -35,8 +35,9 @@ CROS_GO_VET=(
 
 DEPEND="
 	dev-util/lro-server
-	dev-go/crypto
-	dev-go/grpc
+	dev-util/lroold-server
+	dev-go/genproto-rpc
+	dev-go/luci-go-common
 	dev-go/mock
 	dev-go/protobuf
 	chromeos-base/cros-config-api
