@@ -9,6 +9,7 @@ CROS_GO_SOURCE="github.com/grpc/grpc-go:google.golang.org/grpc v${PV}"
 
 CROS_GO_PACKAGES=(
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/benchmark/stats"
 	"google.golang.org/grpc/backoff"
 	"google.golang.org/grpc/balancer"

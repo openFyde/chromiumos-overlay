@@ -4,7 +4,7 @@
 EAPI=5
 
 CROS_GO_SOURCE=(
-	"github.com/golang/protobuf v1.3.2"
+	"github.com/golang/protobuf v1.5.2"
 	"github.com/protocolbuffers/protobuf-go:google.golang.org/protobuf v${PV}"
 )
 

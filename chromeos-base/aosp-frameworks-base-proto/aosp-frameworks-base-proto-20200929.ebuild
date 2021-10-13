@@ -48,7 +48,7 @@ src_compile() {
 
 	local core_path="frameworks/base/core/proto/android"
 	local cp="${WORKDIR}/${core_path}"
-	local out="${WORKDIR}/gen/go/src/android.com"
+	local out="${WORKDIR}/gen/go/src"
 
 	# protoc allow us to map a "protobuf import" with a "golang import".
 	# This is the list of protobuf import files that need to get remapped
@@ -79,6 +79,7 @@ src_compile() {
 		"${core_path}/os/messagequeue.proto"
 		"${core_path}/os/patternmatcher.proto"
 		"${core_path}/os/powermanager.proto"
+		"${core_path}/os/worksource.proto"
 		"${core_path}/privacy.proto"
 		"${core_path}/server/activitymanagerservice.proto"
 		"${core_path}/server/animationadapter.proto"
@@ -97,11 +98,14 @@ src_compile() {
 		"${core_path}/view/windowlayoutparams.proto"
 	)
 
-	# Generates the mapping between protobuf import file to Go import. E.g:
-	# Mframeworks/core/display.proto=android.com/frameworks/core
-	local map=""
+	# Specifies the go_package for each protobuf file. E.g. for file
+	# frameworks/core/display.proto, use go_package
+	# "android.com/frameworks/core".
+	#
+	# Write the go_package option just below the package option.
 	for fp in "${imports_to_remap[@]}"; do
-		map="${map},M${fp}=android.com/${fp%/*}"
+		sed -i "/^package [a-z.]*[a-z]\+;$/ a\
+		option go_package = \"android.com/${fp%/*}\";" "${WORKDIR}/${fp}" || die
 	done
 
 
@@ -110,13 +114,13 @@ src_compile() {
 	# package conflicts.
 	# Use a different "import_path" per directory to avoid name conflict.
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/privacy.proto" \
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/app:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/app/activitymanager.proto" \
 		"${cp}/app/appexit_enums.proto" \
@@ -129,7 +133,7 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/content:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/content/activityinfo.proto" \
 		"${cp}/content/component_name.proto" \
@@ -140,7 +144,7 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/graphics:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/graphics/pixelformat.proto" \
 		"${cp}/graphics/point.proto" \
@@ -148,13 +152,13 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/internal:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/internal/processstats.proto" \
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/os:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/os/bundle.proto" \
 		"${cp}/os/looper.proto" \
@@ -166,7 +170,7 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/server:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/server/activitymanagerservice.proto" \
 		"${cp}/server/animationadapter.proto" \
@@ -177,13 +181,13 @@ src_compile() {
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/util:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/util/common.proto" \
 		|| die
 
 	protoc \
-		--go_out="${map},import_path=android.com/${core_path}/view:${out}" \
+		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/view/display.proto" \
 		"${cp}/view/displaycutout.proto" \
