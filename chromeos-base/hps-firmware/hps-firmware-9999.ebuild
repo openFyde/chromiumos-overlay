@@ -59,9 +59,10 @@ src_prepare() {
 	# Not using cros-rust_src_prepare because it wrongly assumes Cargo.toml is
 	# in the root of ${S} and we don't need its manipulations anyway.
 
-	# We need to hide some crates from cargo because they still have
-	# unsatisfied dependencies, they can be added later.
-	sed -i -e '/hps-util/d' -e '/hps-mon/d' -e '/factory_tester_mcu/d' -e '/mcp2221/d' mcu_rom/Cargo.toml
+	# Delete workspace Cargo.toml. Workspaces are for development, not for
+	# packaging and leaving it in place causes build breakages if anything in
+	# the workspace uses a package that we don't have an ebuild for.
+	rm mcu_rom/Cargo.toml
 
 	default
 }
