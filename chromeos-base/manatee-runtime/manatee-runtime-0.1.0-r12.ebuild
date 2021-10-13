@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b9d564a3ba6b589116047756df92fb9c7022c678"
+CROS_WORKON_COMMIT="6cf85796b75e95c5a0caf2d07b803663762779f2"
 CROS_WORKON_TREE="0645a85e4f29f3a3cd7483248a2ede1a4cb0a3cd"
 CROS_RUST_SUBDIR="sirenia/manatee-runtime"
 
@@ -21,17 +21,20 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 IUSE="cros_host manatee"
 
-RDEPEND=""
-
-DEPEND="${RDEPEND}
+DEPEND="
 	chromeos-base/libsirenia:=
 	dev-rust/libchromeos:=
-	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 "
+RDEPEND="${DEPEND}"
 
 src_install() {
+	# Install the crate.
+	cros-rust_src_install
+
+	# Install demo_app.
 	local build_dir="$(cros-rust_get_build_dir)"
 
 	# Needed for initramfs, but not for the root-fs.
