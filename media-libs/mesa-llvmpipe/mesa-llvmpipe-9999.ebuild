@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=6
+EAPI=7
 
 MESON_AUTO_DEPEND=no
 
@@ -10,14 +10,14 @@ EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_LOCALNAME="mesa"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_EGIT_BRANCH="upstream/main"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
 	EXPERIMENTAL="true"
 fi
 
-inherit base flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
+inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
 [[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
@@ -123,7 +123,7 @@ src_configure() {
 	# For llvmpipe on ARM we'll get errors about being unable to resolve
 	# "__aeabi_unwind_cpp_pr1" if we don't include this flag; seems wise
 	# to include it for all platforms though.
-	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc"
+	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc --unwindlib=libgcc"
 
 	if use !gallium && use !classic && use !vulkan; then
 		ewarn "You enabled neither classic, gallium, nor vulkan "
@@ -198,11 +198,11 @@ src_configure() {
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
 		-Degl-native-platform="surfaceless"
-		$(meson_use egl)
-		$(meson_use gbm)
-		$(meson_use X gl)
-		$(meson_use gles1)
-		$(meson_use gles2)
+		$(meson_feature egl)
+		$(meson_feature gbm)
+		$(meson_feature X gl)
+		$(meson_feature gles1)
+		$(meson_feature gles2)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")

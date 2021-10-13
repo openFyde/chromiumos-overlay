@@ -2,18 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI=6
+EAPI=7
 
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="ac105a8e6e9f108902c54c69792d64fecd426240"
-CROS_WORKON_TREE="a3f45c0300977502a0a9a969f3445b5fc09a642d"
+CROS_WORKON_COMMIT="5da276cf339c86a0bd62f45e4dc90682a6b19f25"
+CROS_WORKON_TREE="dc2e8513f627de823b24480670875277b9f478b2"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_LOCALNAME="mesa"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_EGIT_BRANCH="upstream/main"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
@@ -77,8 +77,8 @@ RDEPEND="
 		dev-libs/wayland
 		>=dev-libs/wayland-protocols-1.8
 	)
-	!media-libs/mesa
 	llvm? ( virtual/libelf )
+	!media-libs/mesa
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
@@ -113,9 +113,6 @@ src_prepare() {
 			-e "s/-DHAVE_POSIX_MEMALIGN//" \
 			configure.ac || die
 	fi
-
-	eapply "${FILESDIR}"/UPSTREAM-egl-surfaceless-try-kms_swrast-before-swrast.patch
-	eapply "${FILESDIR}"/UPSTREAM-meson-allow-egl_native_platform-to-be-specified.patch
 
 	default
 }
@@ -202,11 +199,11 @@ src_configure() {
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
 		-Degl-native-platform="surfaceless"
-		$(meson_use egl)
-		$(meson_use gbm)
-		$(meson_use X gl)
-		$(meson_use gles1)
-		$(meson_use gles2)
+		$(meson_feature egl)
+		$(meson_feature gbm)
+		$(meson_feature X gl)
+		$(meson_feature gles1)
+		$(meson_feature gles2)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
