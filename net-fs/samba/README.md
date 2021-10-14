@@ -6,6 +6,9 @@ changes necessary for use in Chrome OS. These changes include:
 - Various cross-compilation fixes needed for aarch64 and lld linking
 - Features disabled (i.e. perl and python) to minimise files installed in the
   rootfs.
+- Moving the smbd binary to /usr/local/sbin to facilitate local testing, the
+  remainder binaries are stripped out and /usr/local is not available via
+  release images.
 
 Although some of these changes could be upstreamed, such as cross-compilation
 fixes, it is unlikely that all changes necessary for Chrome OS could be

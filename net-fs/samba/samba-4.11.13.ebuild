@@ -320,6 +320,12 @@ multilib_src_install() {
 
 	# Prune empty dirs to avoid tripping multilib checks.
 	rmdir "${D}"/usr/lib* 2>/dev/null
+
+	# Move smbd to /usr/local/sbin/smbd to facilitate local testing.
+	# This directory is only available on test images, see:
+	# https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/main/dev-install/README.md#Environments
+	into /usr/local
+	dosbin "${D}"usr/sbin/smbd
 }
 
 multilib_src_install_all() {
