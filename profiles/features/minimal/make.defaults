@@ -70,7 +70,7 @@ USE="${USE} -dlc"
 USE="${USE} -lacros_rootfs"
 
 # Disable dns-proxy.
-USE="{$USE} -dns-proxy"
+USE="${USE} -dns-proxy"
 
 # Disable Data Leak Prevention daemon (DLP).
 USE="${USE} -dlp"
