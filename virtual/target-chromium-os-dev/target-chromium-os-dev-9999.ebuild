@@ -150,7 +150,10 @@ RDEPEND="${RDEPEND}
 	dev-util/strace
 	media-libs/libyuv-test
 	media-libs/openh264
-	vulkan? ( media-libs/vulkan-layers )
+	vulkan? (
+		dev-util/vulkan-tools
+		media-libs/vulkan-layers
+	)
 	media-tv/v4l-utils
 	media-video/yavta
 	net-dialup/lrzsz
