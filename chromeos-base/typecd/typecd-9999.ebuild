@@ -53,6 +53,17 @@ src_install() {
 	# Install D-Bus permission config.
 	insinto /etc/dbus-1/system.d
 	doins dbus/typecd.conf
+
+	# Install fuzzers.
+	local fuzzer_component_id="958036"
+	local fuzz_targets=(
+		"typecd_partner_fuzzer"
+	)
+	local fuzz_target
+	for fuzz_target in "${fuzz_targets[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzz_target}" \
+			--comp "${fuzzer_component_id}"
+	done
 }
 
 pkg_preinst() {
