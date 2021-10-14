@@ -18,8 +18,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
+IUSE="sirenia"
 
-RDEPEND="sys-apps/dbus"
+RDEPEND="
+	sys-apps/dbus
+	sirenia? ( chromeos-base/manatee-runtime )
+"
 DEPEND="${RDEPEND}
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*:=
@@ -34,9 +38,20 @@ DEPEND="${RDEPEND}
 	=dev-rust/which-4*:=
 "
 
+BDEPEND="sirenia? ( chromeos-base/sirenia-tools )"
+
 src_install() {
 	cros-rust_src_install
 
 	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/manatee"
+
+	# The final app manifest is ordinarily stored on the ManaTEE initramfs.
+	# For development convenience, we put in on rootfs for non-manatee
+	# builds.
+	if use sirenia ; then
+		local APP_MANIFESTS=( "${SYSROOT}/usr/share/manatee/templates/"*.json )
+		dodir /usr/share/manatee
+		tee_app_info_lint -R "${SYSROOT}" -o "${D}/usr/share/manatee/manatee.flex.bin" "${APP_MANIFESTS[@]}" || die
+	fi
 }
