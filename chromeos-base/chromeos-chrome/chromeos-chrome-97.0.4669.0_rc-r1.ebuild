@@ -48,6 +48,7 @@ IUSE="
 	debug_fission
 	+dwarf5
 	+fonts
+	hw_details
 	goma
 	goma_thinlto
 	+highdpi
@@ -68,6 +69,7 @@ IUSE="
 	orderfile_verify
 	+runhooks
 	strict_toolchain_checks
+	subpixel_rendering
 	+thinlto
 	touchview
 	ubsan
@@ -277,6 +279,9 @@ set_build_args() {
 
 		# Add libinput to handle touchpad.
 		"use_libinput=$(usetf libinput)"
+
+		# Add hardware information to feedback logs and chrome://system.
+		"is_chromeos_hw_details=$(usetf hw_details)"
 	)
 
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
@@ -311,7 +316,7 @@ set_build_args() {
 		BUILD_ARGS+=( "use_system_minigbm=true" )
 		BUILD_ARGS+=( "use_system_libdrm=true" )
 	fi
-	if use "touchview"; then
+	if ! use "subpixel_rendering" || use "touchview"; then
 		BUILD_ARGS+=( "subpixel_font_rendering_disabled=true" )
 	fi
 
