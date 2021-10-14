@@ -85,6 +85,7 @@ IUSE="
 	kukui
 	kvm_host
 	kvm_transition
+	lvm_stateful_partition
 	lxc
 	manatee
 	mbo
