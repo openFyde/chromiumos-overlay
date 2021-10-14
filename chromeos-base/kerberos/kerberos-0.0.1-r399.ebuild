@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bbbe52a139486abcbd802b9bd3f6763dac479b3"
-CROS_WORKON_TREE=("ef118ceb3e8ebcc8b8a4ae6577a71d7ad210a722" "7a15c9e753139b8fcd5d7d77ccc67b29466f7603" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c7de58509c6837dc0241aa92c6a32dbf4cc55161"
+CROS_WORKON_TREE=("ef118ceb3e8ebcc8b8a4ae6577a71d7ad210a722" "2d1f1e037ee6be625e7d880ed3f688a9586223e4" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -66,7 +66,7 @@ src_install() {
 	newins seccomp/kerberosd-seccomp-"${ARCH}".policy kerberosd-seccomp.policy
 
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/kerberosd_whitelist.txt
+	doins setuid_restrictions/kerberosd_uid_allowlist.txt
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders

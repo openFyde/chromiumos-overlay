@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bbbe52a139486abcbd802b9bd3f6763dac479b3"
-CROS_WORKON_TREE=("ef118ceb3e8ebcc8b8a4ae6577a71d7ad210a722" "48ee0e91cde09bef65ce954ff66fc6a1560d7ce9" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c7de58509c6837dc0241aa92c6a32dbf4cc55161"
+CROS_WORKON_TREE=("ef118ceb3e8ebcc8b8a4ae6577a71d7ad210a722" "0bf1226a413aea19f7ebc0f2957a40f2852662a6" "e08a2eb734e33827dffeecf57eca046cd1091373" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -63,7 +63,7 @@ src_install() {
 	insinto /usr/share/policy
 	doins seccomp_filters/*.policy
 	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/authpolicyd_whitelist.txt
+	doins setuid_restrictions/authpolicyd_uid_allowlist.txt
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
