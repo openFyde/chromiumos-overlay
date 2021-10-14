@@ -14,7 +14,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="zephyr_ec"
+IUSE="zephyr_poc"
 
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
@@ -72,7 +72,7 @@ src_compile() {
 		fi
 	done
 
-	if use zephyr_ec; then
+	if use zephyr_poc; then
 		schema_flags+=( --zephyr-ec-configs-only )
 	fi
 
