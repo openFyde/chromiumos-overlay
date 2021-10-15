@@ -45,7 +45,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack-driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack-driver fuzzer"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -57,6 +57,7 @@ DEPEND="
 	${RDEPEND}
 	dev-libs/libtextclassifier
 	>=dev-cpp/eigen-3
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 src_configure() {
@@ -221,4 +222,13 @@ src_install() {
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
+
+	# Install fuzz targets.
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		# ChromeOS - Platform - Technologies - Machine Learning
+		local fuzzer_component_id="831886"
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+			--comp "${fuzzer_component_id}"
+	done
 }
