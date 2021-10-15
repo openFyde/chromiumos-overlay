@@ -19,12 +19,17 @@ KEYWORDS="~*"
 BDEPEND="
 	chromeos-base/android-sdk
 	dev-util/gn
+	virtual/jdk:1.8
 "
-
+RDEPEND=""
 DEPEND="${RDEPEND}"
 OUT=$(cros-workon_get_build_dir)
 
 src_compile() {
+	# Java 8 is deprecated and no longer setup as a system/user VM. Gentoo
+	# recommends configuring manually if it is still needed. Built-in tools
+	# like java-config and eselect will not show them.
+	export GENTOO_VM=icedtea-bin-8
 	gn gen "${OUT}" --root="${S}"/android || die "gn failed"
 	ninja -C "${OUT}" || die "build failed"
 }
