@@ -424,13 +424,13 @@ cros-rust_configure_cargo() {
 	local rustflags=(
 		${CROS_BASE_RUSTFLAGS}
 		"-Cdebuginfo=2"
-		"-Copt-level=3"
+		"-Copt-level=s"
 		"-Zallow-features=sanitizer,backtrace"
 	)
 
 	if use lto
 	then
-		rustflags+=( -Clto=thin )
+		rustflags+=( -Clto=thin -Cllvm-args=--import-instr-limit=30 )
 		# rustc versions >= 1.45 support -Cembed-bitcode, which Cargo sets to
 		# no because it does not know that we want to use LTO.
 		# Because -Clto requires -Cembed-bitcode=yes, set it explicitly.
