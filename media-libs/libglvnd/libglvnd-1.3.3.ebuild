@@ -57,7 +57,7 @@ multilib_src_configure() {
 		$(meson_feature X x11)
 		$(meson_feature X glx)
 		-Dgles1=false
-		-Dheaders=false
+		-Dheaders=true
 		-Dentrypoint-patching=disabled
 	)
 	use elibc_musl && emesonargs+=( -Dtls=disabled )
@@ -79,4 +79,7 @@ multilib_src_test() {
 
 multilib_src_install() {
 	meson_src_install
+
+	# Remove redundant GLES headers
+	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 }
