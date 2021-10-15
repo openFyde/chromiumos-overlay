@@ -19,7 +19,7 @@ for x in ${VIDEO_CARDS}; do
 done
 
 RDEPEND="
-	>=x11-libs/libdrm-2.4.46[${MULTILIB_USEDEP}]
+	>=x11-libs/libdrm-2.4.60[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 BDEPEND="
