@@ -26,6 +26,7 @@ COMMON_DEPEND="
 	tpm? ( dev-libs/libtpms:= )
 	tpm2? ( chromeos-base/tpm2:=[tpm2_simulator,tpm2_simulator_manufacturer] )
 	chromeos-base/minijail:=
+	chromeos-base/pinweaver:=
 	chromeos-base/vboot_reference:=[tpm2_simulator]
 	dev-libs/openssl:0=
 	sys-libs/libselinux:=
