@@ -14,23 +14,23 @@ S="${WORKDIR}/${PN}-intel-${P}"
 KEYWORDS="*"
 LICENSE="MIT"
 SLOT="0"
-IUSE="test"
+IUSE="test +custom-cflags"
 
 RESTRICT="!test? ( test )"
 
 RDEPEND="${DEPEND}"
 
 PATCHES=(
-    "${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
+	"${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
 	"${FILESDIR}"/${PN}-20.4.1_custom_cflags.patch
-	"${FILESDIR}"/0001-Fix-ULT-TEST_BPP-Comparison-in-Chrome-OS-63.patch
-	"${FILESDIR}"/0002-Fix-Overlapping-Comparision-66.patch
+	"${FILESDIR}"/0001-Fix-Overlapping-Comparision-66.patch
 )
 
 multilib_src_configure() {
 	local mycmakeargs=(
 		-DBUILD_TYPE=Release
 		-DBUILD_TESTING=$(usex test)
+		-DOVERRIDE_COMPILER_FLAGS=$(usex !custom-cflags)
 	)
 	cmake_src_configure
 }
