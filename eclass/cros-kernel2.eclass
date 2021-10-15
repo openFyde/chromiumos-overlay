@@ -192,6 +192,7 @@ CONFIG_FRAGMENTS=(
 	kvm_invept_global
 	kvm_host
 	kvm_nested
+	kvm_virt_suspend_time
 	lockdebug
 	lockstat
 	lpss_uart
@@ -693,6 +694,11 @@ CONFIG_KVM=y
 CONFIG_KVM_AMD=y
 CONFIG_KVM_INTEL=y
 CONFIG_KVM_MMIO=y
+"
+
+kvm_virt_suspend_time_desc="Support KVM virtual suspend time injection"
+kvm_virt_suspend_time_config="
+CONFIG_KVM_VIRT_SUSPEND_TIMING=y
 "
 
 # TODO(benchan): Remove the 'mbim' use flag and unconditionally enable the
