@@ -416,9 +416,9 @@ cros-rust_configure_cargo() {
 	# We want debug info even in release builds.
 	local rustflags=(
 		"${CROS_BASE_RUSTFLAGS}"
-		-Cdebuginfo=2
-		-Copt-level=3
-		-Zallow-features=sanitizer,backtrace
+		"-Cdebuginfo=2"
+		"-Copt-level=3"
+		"-Zallow-features=sanitizer,backtrace"
 	)
 
 	if use lto
