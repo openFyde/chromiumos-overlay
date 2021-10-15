@@ -213,6 +213,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_IntegratedU2F
 	+tests_firmware_InvalidUSB
 	+tests_firmware_LegacyRecovery
+	+tests_firmware_MenuDevBootUSB
 	+tests_firmware_MenuModeTransition
 	+tests_firmware_MenuPowerOff
 	+tests_firmware_MiniDiag
