@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("aeb3663f1b1e4dce2b1fa51e4cf70a2c555ca17b" "1d79a489d66f3d525327d5019add759885ec4eb0" "eee167fa829d108a5678624050425899b348a252")
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "57f269579b5f598e16c8f972c88eaa2033539b34" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
+CROS_WORKON_COMMIT=("07be7ccfe06695085534a1522c8bc5c69e71b47c" "405ced7d767a133adfe6fb61d5bc44c7a0a0cff1" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "68c016212d4805b6c72a6b2ef6ab58be42a9896f" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -47,7 +47,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack-driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack-driver fuzzer"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -59,6 +59,7 @@ DEPEND="
 	${RDEPEND}
 	dev-libs/libtextclassifier
 	>=dev-cpp/eigen-3
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 src_configure() {
@@ -223,4 +224,13 @@ src_install() {
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
+
+	# Install fuzz targets.
+	local fuzzer
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		# ChromeOS - Platform - Technologies - Machine Learning
+		local fuzzer_component_id="831886"
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+			--comp "${fuzzer_component_id}"
+	done
 }
