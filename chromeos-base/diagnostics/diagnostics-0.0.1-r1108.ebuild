@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="aeb3663f1b1e4dce2b1fa51e4cf70a2c555ca17b"
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "5053293c8acdb133cff9f0893424aca79679a148" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="07be7ccfe06695085534a1522c8bc5c69e71b47c"
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "3a8b816b9fdaca04ec76e8a8d97b206e139a9dfc" "697f0ea84498b321ff3da94cd9e01f605e40d540" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -109,6 +109,8 @@ src_install() {
 		ectool_i2cread-seccomp.policy
 	newins "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
 		ectool_pwmgetfanrpm-seccomp.policy
+	newins "cros_healthd/seccomp/modetest-seccomp-${ARCH}.policy" \
+		modetest-seccomp.policy
 	newins "seccomp/memtester-seccomp-${ARCH}.policy" memtester-seccomp.policy
 
 	# Install D-Bus configuration file.
