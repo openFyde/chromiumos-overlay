@@ -34,15 +34,17 @@ DEPEND="${RDEPEND}"
 src_prepare() {
 	use iioservice || eapply "${FILESDIR}"/${PN}-cros-ec-ring-workaround.patch
 
-	eapply "${FILESDIR}"/${PN}-illuminance.patch
+	eapply "${FILESDIR}"/${P}-illuminance.patch
 
 	cmake-utils_src_prepare
 	default
 }
 
 src_configure() {
+	# network cmake section uses new cmake feature.
+	mycmakeargs+=( -DWITH_NETWORK_BACKEND=OFF)
 	# For test purposes, compile iiod and test tools, and allow connection over network.
-	use libiio_all || mycmakeargs+=( -DWITH_IIOD=OFF -DWITH_TESTS=OFF -DWITH_NETWORK_BACKEND=OFF)
+	use libiio_all || mycmakeargs+=( -DWITH_IIOD=OFF -DWITH_TESTS=OFF)
 
 	# Remove udev rules to detect sensors on USB devices, USB and serial backends.
 	mycmakeargs+=( -DINSTALL_UDEV_RULE=OFF -DWITH_USB_BACKEND=OFF -DWITH_SERIAL_BACKEND=OFF)
