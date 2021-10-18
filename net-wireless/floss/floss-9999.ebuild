@@ -85,11 +85,16 @@ src_unpack() {
 
 src_configure() {
 	if tc-is-cross-compiler ; then
+		# Delete old host build folder otherwise we will continue using
+		# old binaries
+		local build_dir="$(cros-workon_get_build_dir)"
+		rm -rf "${build_dir:?}/${CBUILD}"
+
 		# Build tools and move to host directory
-		mkdir -p "$(cros-workon_get_build_dir)/${CBUILD}"
+		mkdir -p "${build_dir}/${CBUILD}"
 		tc-env_build platform "configure" "--host"
 		tc-env_build platform "compile" "tools" "--host"
-		mv "$(cros-workon_get_build_dir)/out" "$(cros-workon_get_build_dir)/${CBUILD}/"
+		mv "${build_dir}/out" "${build_dir}/${CBUILD}/"
 	fi
 
 	local cxx_outdir="$(cros-workon_get_build_dir)/out/Default"
@@ -124,9 +129,6 @@ floss_build_tools() {
 }
 
 floss_build_rust() {
-	# Export all build env variables
-	tc-export_build_env PKG_CONFIG
-
 	# Check if cxxflags has -fno-exceptions and set -DRUST_CXX_NO_EXCEPTIONS
 	# This is required to build the cxx rust dependency
 	if is-flagq -fno-exceptions; then
