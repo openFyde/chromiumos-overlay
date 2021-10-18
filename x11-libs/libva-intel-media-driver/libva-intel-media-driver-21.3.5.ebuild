@@ -15,22 +15,10 @@ LICENSE="MIT BSD"
 SLOT="0"
 IUSE="ihd_cmrtlib"
 
-DEPEND=">=media-libs/gmmlib-21.2.1
-	>=x11-libs/libva-2.12.0
+DEPEND=">=media-libs/gmmlib-21.3.1
+	>=x11-libs/libva-2.13.0
 "
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}"/0001-Disable-IPC-usage.patch
-	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
-	"${FILESDIR}"/0003-Fix-MMD-Device-Init-Fail-issue.patch
-	"${FILESDIR}"/0004-reset-brc-when-frame-rate-changes-for-VP8e.patch
-	"${FILESDIR}"/0005-Encode-Fix-default-MMC-enabling-for-JPEG-encoder.patch
-	"${FILESDIR}"/0006-Encode-Enable-Jpeg-MMC-for-G12.patch
-	"${FILESDIR}"/0007-Disable-Media-Memory-Compression-MMC-on-ADL.patch
-	"${FILESDIR}"/0008-Encode-GLK-enable-VP8.patch
-	"${FILESDIR}"/0009-fix-bitwise-or-warning.patch
-)
 
 src_configure() {
 	local mycmakeargs=(
