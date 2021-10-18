@@ -134,6 +134,9 @@ CROS_COMMON_RDEPEND="
 		dev-python/btsocket
 	)
 	python_targets_python2_7? ( dev-lang/python:2.7 )
+	x86?   ( dev-go/delve )
+	amd64? ( dev-go/delve )
+	arm64? ( dev-go/delve )
 	dev-lang/python:3.6
 	dev-libs/opensc
 	p2p? ( dev-python/dpkt )
