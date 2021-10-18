@@ -24,11 +24,12 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-DOCS=( NEWS )
-
 PATCHES=(
 	"${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
 )
+
+# CONTRIBUTING.md and README.md are available only in .tar.gz tarballs and in git
+DOCS=( NEWS CONTRIBUTING.md README.md )
 
 src_prepare() {
 	default
