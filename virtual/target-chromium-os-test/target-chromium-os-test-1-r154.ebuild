@@ -121,6 +121,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/tast-local-test-runner
 	chromeos-base/tast-local-tests
 	chromeos-base/tast-use-flags
+	chromeos-base/vboot_reference-tests
 	chromeos-base/verity
 	chromeos-base/vpd
 	cros_ec? ( chromeos-base/ec-devutils )
