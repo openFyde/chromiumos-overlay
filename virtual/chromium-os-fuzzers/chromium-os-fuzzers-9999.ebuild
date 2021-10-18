@@ -19,6 +19,7 @@ KEYWORDS="~*"
 IUSE="asan msan"
 
 RDEPEND="
+	chromeos-base/aosp-frameworks-ml-nn[fuzzer]
 	chromeos-base/arc-adbd[fuzzer]
 	asan? ( chromeos-base/arc-keymaster[fuzzer] )
 	chromeos-base/arc-obb-mounter[fuzzer]
