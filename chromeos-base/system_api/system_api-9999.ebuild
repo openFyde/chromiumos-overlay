@@ -28,12 +28,13 @@ SLOT="0/1"
 KEYWORDS="~*"
 IUSE="cros_host"
 
-RDEPEND=""
+RDEPEND="
+	dev-libs/protobuf:=
+	cros_host? ( net-libs/grpc:= )
+"
 
 DEPEND="${RDEPEND}
 	dev-go/protobuf:=
-	dev-libs/protobuf:=
-	cros_host? ( net-libs/grpc:= )
 "
 
 src_unpack() {
