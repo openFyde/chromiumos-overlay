@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="08ac4fd7db91b614cbe980e54c5191de9dcb98aa"
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "5b9953240df5b5436fdc6821b5f2c2b9b78a8e8a" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f42fc0f373fae1415e59c06ca8a6108511cf74b7"
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "027e493d2db5265b98a59c3f864acd56b5327420" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
