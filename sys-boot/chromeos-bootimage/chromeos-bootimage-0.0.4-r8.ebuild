@@ -591,9 +591,23 @@ build_images() {
 	fi
 
 	if use cros_ec || use wilco_ec || use zephyr_ec; then
-		einfo "Adding EC for ${ec_build_target}"
-		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "ec" "${froot}/${ec_build_target}"
-		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "ec" "${froot}/${ec_build_target}"
+		if [[ -n "${ec_build_target}" ]]; then
+			einfo "Adding EC for ${ec_build_target}"
+			add_ec \
+				"${depthcharge_config}" \
+				"${coreboot_config}" \
+				"${coreboot_file}" \
+				"ec" \
+				"${froot}/${ec_build_target}"
+			add_ec \
+				"${depthcharge_config}" \
+				"${coreboot_config}" \
+				"${coreboot_file}.serial" \
+				"ec" \
+				"${froot}/${ec_build_target}"
+		else
+			einfo "Skip adding EC for ${build_name}, no EC target defined."
+		fi
 	fi
 
 	local pd_folder="${froot}/${ec_build_target}_pd"
@@ -661,20 +675,26 @@ src_compile() {
 
 	compress_assets "${froot}"
 
-	local fields="coreboot,depthcharge,ec"
+	local fields="coreboot,depthcharge,ec,zephyr-ec"
 	local cmd="get-firmware-build-combinations"
+	local zephyr_ec
 	(cros_config_host "${cmd}" "${fields}" || die) |
 	while read -r name; do
 		read -r coreboot
 		read -r depthcharge
 		read -r ec
+		read -r zephyr_ec
 		einfo "Compressing target assets for: ${name}"
 		compress_assets "${froot}" "${name}"
 		einfo "Building image for: ${name}"
 		if use zephyr_ec; then
 			# Zephyr installs under ${froot}/${name}/zephyr.bin,
 			# instead of using the EC build target name.
-			ec="${name}"
+			if [[ -n "${zephyr_ec}" ]]; then
+				ec="${name}"
+			else
+				ec=""
+			fi
 		fi
 		build_images "${froot}" "${name}" "${coreboot}" "${depthcharge}" "${ec}"
 	done

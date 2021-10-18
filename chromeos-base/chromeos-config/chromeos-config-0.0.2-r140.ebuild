@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4429adae74089c2f0e188be6c04a030cb0a9b73a"
+CROS_WORKON_COMMIT="2b37bdb06a4711d86a699698a4aadcc3586f32f3"
 CROS_WORKON_TREE="6b4d7dca12d53edad5b608ade6042c9c5d935e05"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -16,7 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="zephyr_ec"
+IUSE="zephyr_poc"
 
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
@@ -74,7 +74,7 @@ src_compile() {
 		fi
 	done
 
-	if use zephyr_ec; then
+	if use zephyr_poc; then
 		schema_flags+=( --zephyr-ec-configs-only )
 	fi
 
