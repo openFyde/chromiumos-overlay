@@ -45,5 +45,11 @@
         "rel_patch_path": "b13edf6e907b32d0b8da09dfe08fa271638eca3c.patch",
         "start_version": 428724,
         "end_version": 428763
+    },
+    {
+        "comment": "Revert \"[libcxx][CI] Work around Arm buildkite failures\"",
+        "rel_patch_path": "e517a2405f39a174e65e4105106ae39704f88e4d.patch",
+        "start_version": 432148,
+        "end_version": 434483
     }
 ]

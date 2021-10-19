@@ -1046,5 +1046,47 @@
         "rel_patch_path": "cherry/b1777b04dc4b1a9fee0e7effa7e177892ab32ef0.patch",
         "start_version": 433149,
         "end_version": 433723
+    },
+    {
+      "comment": "[DebugInfo] Correctly update debug users of SSA values in tail duplication",
+      "rel_patch_path": "cherry/31e75512174e1bdaa242ee5c7f30fe56e68c3748.patch",
+      "start_version": 433403,
+      "end_version": 433807
+    },
+    {
+      "comment": "Revert \"[DSE] Transform memset + malloc --> calloc (PR25892)\"",
+      "rel_patch_path": "cherry/bc536c710150f53b5ae5cd6b7693636e77992d0a.patch",
+      "start_version": 433123,
+      "end_version": 433562
+    },
+    {
+        "comment": "Revert \"sanitizer_common: split LibIgnore into fast/slow paths\"",
+        "rel_patch_path": "cherry/35e76a939cabbaa40aeeb572c3cf4039c3077fdf.patch",
+        "start_version": 432235,
+        "end_version": 433927
+    },
+    {
+        "comment": "Revert \"Revert of D49126 [PredicateInfo] Use custom mangling to support ssa_copy with unnamed types.\"",
+        "rel_patch_path": "cherry/dc5570d149ca6a0931413bf1ad469eb8f9517f82.patch",
+        "start_version": 422246,
+        "end_version": 434116
+    },
+    {
+        "comment": "Revert \"[libcxx][CI] Work around Arm buildkite failures\"",
+        "rel_patch_path": "cherry/e517a2405f39a174e65e4105106ae39704f88e4d.patch",
+        "start_version": 432148,
+        "end_version": 434483
+    },
+    {
+        "comment": "Revert \"[SystemZ][z/OS] Update target specific __attribute__((aligned)) value for test\"",
+        "rel_patch_path": "cherry/91e399519580930623e1eb7be43374f0ba8aba41.patch",
+        "start_version": 407500,
+        "end_version": 434836
+    },
+    {
+        "comment": "Revert \"[SCEV] Remove premature assert. PR46786\"",
+        "rel_patch_path": "cherry/0dc6b597db4d8b25f3df96a8f6574be732e18fdd.patch",
+        "start_version": 400017,
+        "end_version": 435471
     }
 ]

@@ -57,6 +57,12 @@
         "end_version": 429795
     },
     {
+        "comment": "Revert \"sanitizer_common: split LibIgnore into fast/slow paths\"",
+        "rel_patch_path": "35e76a939cabbaa40aeeb572c3cf4039c3077fdf.patch",
+        "start_version": 432235,
+        "end_version": 433927
+    },
+    {
         "comment": "[compiler-rt] [builtins] [arm32] Enable ARM32 fuzzing support",
         "rel_patch_path": "fuzzer-enable-arm32.patch",
         "start_version": 433403
