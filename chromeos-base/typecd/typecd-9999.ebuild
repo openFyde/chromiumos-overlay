@@ -59,6 +59,7 @@ src_install() {
 	local fuzz_targets=(
 		"typecd_cros_ec_util_fuzzer"
 		"typecd_partner_fuzzer"
+		"typecd_port_manager_fuzzer"
 		"typecd_udev_monitor_fuzzer"
 	)
 	local fuzz_target
