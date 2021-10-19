@@ -52,10 +52,7 @@ IUSE="${IUSE_VIDEO_CARDS}
 REQUIRED_USE="
 	^^ ( android_gles2 android_gles30 android_gles31 android_gles32 )
 	android_aep? ( !android_gles2 !android_gles30 )
-	android_vulkan_compute_0? ( vulkan )
-	cheets? (
-		vulkan? ( ^^ ( video_cards_amdgpu video_cards_intel ) )
-	)"
+	android_vulkan_compute_0? ( vulkan )"
 
 DEPEND="cheets? (
 		>=x11-libs/arc-libdrm-2.4.82[${MULTILIB_USEDEP}]
