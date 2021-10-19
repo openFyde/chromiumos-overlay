@@ -513,7 +513,7 @@ cros_post_src_unpack_asan_init() {
 	mkdir -p "${coverage_path%/*}"
 
 	local strip_sysroot
-	if [[ -n "${PLATFORM_BUILD}" ]]; then
+	if [[ -n "${PLATFORM_BUILD}" ]] || [[ -n "${_ECLASS_CROS_RUST}" ]]; then
 		# platform_test chroots into $SYSROOT before running the unit
 		# tests, so we need to strip the $SYSROOT prefix from the
 		# 'log_path' option specified in $ASAN_OPTIONS and the
