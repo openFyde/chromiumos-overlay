@@ -47,6 +47,7 @@ RDEPEND="
 	media-libs/minigbm:=
 	media-libs/cros-camera-facessd:=
 	virtual/libudev:=
+	virtual/opengles:=
 	x11-libs/libdrm:=
 "
 
@@ -55,6 +56,7 @@ DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/cros-camera-libcamera_connector_headers:=
 	media-libs/libyuv:=
+	x11-drivers/opengles-headers:=
 "
 
 src_configure() {
