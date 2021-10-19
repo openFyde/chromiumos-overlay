@@ -57,6 +57,7 @@ src_install() {
 	# Install fuzzers.
 	local fuzzer_component_id="958036"
 	local fuzz_targets=(
+		"typecd_cros_ec_util_fuzzer"
 		"typecd_partner_fuzzer"
 	)
 	local fuzz_target
