@@ -55,5 +55,10 @@
         "rel_patch_path": "6455418d3d2a2de1a8251cc2ccf2e87b9ae3112d.patch",
         "start_version": 428724,
         "end_version": 429795
+    },
+    {
+        "comment": "[compiler-rt] [builtins] [arm32] Enable ARM32 fuzzing support",
+        "rel_patch_path": "fuzzer-enable-arm32.patch",
+        "start_version": 433403
     }
 ]
