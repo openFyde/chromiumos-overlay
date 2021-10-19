@@ -60,6 +60,7 @@ RDEPEND="
 	chromeos-base/sommelier[fuzzer]
 	chromeos-base/system-proxy[fuzzer]
 	chromeos-base/trunks[fuzzer]
+	chromeos-base/typecd[fuzzer]
 	chromeos-base/u2fd[fuzzer]
 	chromeos-base/update_engine[fuzzer]
 	chromeos-base/usb_bouncer[fuzzer]
