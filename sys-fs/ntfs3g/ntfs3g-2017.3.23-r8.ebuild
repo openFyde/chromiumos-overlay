@@ -40,6 +40,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2016.2.22-sysmacros.patch #580136
 	"${FILESDIR}"/${PN}-2017.3.23-unaligned-types.patch
 	"${FILESDIR}"/${PN}-2017.3.23-allow-unpriv-fuseblk.patch
+	"${FILESDIR}"/${PN}-2017.3.23-dont-log-volume-label.patch
 )
 
 pkg_setup() {
