@@ -28,6 +28,7 @@ RDEPEND="
 	chromeos-base/arc-setup[fuzzer]
 	chromeos-base/authpolicy[fuzzer]
 	chromeos-base/biod[fuzzer]
+	chromeos-base/bootid-logger[fuzzer]
 	chromeos-base/chaps[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/chromeos-login[fuzzer]
