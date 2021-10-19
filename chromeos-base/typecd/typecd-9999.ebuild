@@ -59,6 +59,7 @@ src_install() {
 	local fuzz_targets=(
 		"typecd_cros_ec_util_fuzzer"
 		"typecd_partner_fuzzer"
+		"typecd_udev_monitor_fuzzer"
 	)
 	local fuzz_target
 	for fuzz_target in "${fuzz_targets[@]}"; do
