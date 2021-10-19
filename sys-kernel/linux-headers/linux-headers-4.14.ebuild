@@ -69,6 +69,7 @@ PATCHES=(
 	"${FILESDIR}/0045-CHROMIUM-media-add-vb2-buffer-memory-coherency-hints.patch"
 	"${FILESDIR}/0046-CHROMIUM-v4l2-add-upstream-V4L2-VP8-stateless-contro.patch"
 	"${FILESDIR}/0047-BACKPORT-drm-add-panfrost_drm.h.patch"
+	"${FILESDIR}/0048-ASoC-SOF-Add-userspace-ABI-support.patch"
 )
 
 src_unpack() {
