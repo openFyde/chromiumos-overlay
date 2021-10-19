@@ -1,0 +1,34 @@
+From f1fe991dcf4a14062e7e1fefee6cf1628c7b3dd2 Mon Sep 17 00:00:00 2001
+From: Ren-Pei Zeng <kamesan@chromium.org>
+Date: Tue, 19 Oct 2021 04:00:09 +0800
+Subject: [PATCH] Revert "Enable WaAlignYUVResourceToLCU to JSL systems"
+
+This reverts commit 0368d583aa7eeb05418b479ec1537abf8ec26571.
+---
+ media_driver/linux/gen11/ddi/media_sysinfo_g11.cpp | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/media_driver/linux/gen11/ddi/media_sysinfo_g11.cpp b/media_driver/linux/gen11/ddi/media_sysinfo_g11.cpp
+index debb2c06..a649c54c 100644
+--- a/media_driver/linux/gen11/ddi/media_sysinfo_g11.cpp
++++ b/media_driver/linux/gen11/ddi/media_sysinfo_g11.cpp
+@@ -200,9 +200,6 @@ static bool InitEhlShadowWa(struct GfxDeviceInfo *devInfo,
+     waTable->WaDisregardPlatformChecks          = 1;
+     waTable->Wa4kAlignUVOffsetNV12LinearSurface = 1;
+ 
+-    //source and recon surfaces need to be aligned to the LCU size
+-    waTable->WaAlignYUVResourceToLCU = 1;
+-
+     return true;
+ }
+ 
+@@ -431,4 +428,4 @@ static bool ehlDevice4E55 = DeviceInfoFactory<GfxDeviceInfo>::
+     RegisterDevice(0x4E55, &ehlDevInfo16EU);
+ 
+ static bool ehlDevice4555 = DeviceInfoFactory<GfxDeviceInfo>::
+-    RegisterDevice(0x4555, &ehlDevInfo16EU);
++    RegisterDevice(0x4555, &ehlDevInfo16EU);
+\ No newline at end of file
+-- 
+2.31.0
+
