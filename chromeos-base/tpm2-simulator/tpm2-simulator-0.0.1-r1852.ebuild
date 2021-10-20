@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="53d6ed3c6ff79c473af357f514689e5b847cf262"
-CROS_WORKON_TREE=("b5b115b2b168baedba931733a4baaa59c593baf3" "deeecbada686d1b6013974abb12cad0ee364f6d7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ebf1223196ab68a9cef80810478f3583043891bc"
+CROS_WORKON_TREE=("b5b115b2b168baedba931733a4baaa59c593baf3" "a347fe48376e8a4794bd87b0965a74962d3933aa" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,17 +22,19 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 
+IUSE="tpm tpm2"
+
 COMMON_DEPEND="
+	tpm? ( dev-libs/libtpms:= )
+	tpm2? ( chromeos-base/tpm2:=[tpm2_simulator,tpm2_simulator_manufacturer] )
 	chromeos-base/minijail:=
+	chromeos-base/vboot_reference:=[tpm2_simulator]
 	dev-libs/openssl:0=
+	sys-libs/libselinux:=
 	"
 
 RDEPEND="${COMMON_DEPEND}"
-DEPEND="
-	chromeos-base/tpm2:=[tpm2_simulator,tpm2_simulator_manufacturer]
-	chromeos-base/vboot_reference:=[tpm2_simulator]
-	${COMMON_DEPEND}
-	"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	# Install init scripts
