@@ -13,15 +13,15 @@ inherit cros-constants git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"third_party/tlslite"
 	"${CROS_GIT_HOST_URL}/chromium/src/third_party/tlslite.git"
-	"4b50b6b2c03869fbdbe03eb1ece5a23a2ded99cc"
+	"05d9f22315757117685ad2f5265148f900f18034"
 
 	"net/tools/testserver"
 	"${CROS_GIT_HOST_URL}/chromium/src/net/tools/testserver.git"
-	"1e3338b724b0a36fc453901ca8846bd0d406d988"
+	"6eb196616d90c5fe9c73ce2dba451ede21ef883c"
 
 	"components/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"32d024b3f87c660b931f82dc7c45252cef54d2ee"
+	"ea392d453815a222080242ae7d1d4df8c7bfb4fd"
 
 	# private_membership and shell_encryption are not used in Chrome OS at
 	# the moment. They are just required to compile the proto files. An
