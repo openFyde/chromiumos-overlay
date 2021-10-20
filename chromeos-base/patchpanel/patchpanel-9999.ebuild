@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk patchpanel shill/net .gn"
+CROS_WORKON_SUBTREE="common-mk metrics patchpanel shill/net .gn"
 
 PLATFORM_SUBDIR="patchpanel"
 
@@ -24,6 +24,7 @@ IUSE="fuzzer arcvm jetstream_routing"
 COMMON_DEPEND="
 	dev-libs/protobuf:=
 	!chromeos-base/arc-networkd
+	chromeos-base/metrics:=
 	chromeos-base/shill-net:=
 	chromeos-base/system_api:=[fuzzer?]
 "
