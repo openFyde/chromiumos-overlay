@@ -78,47 +78,15 @@ src_compile() {
 }
 
 src_install() {
-	dosbin "${OUT}"/chapsd
-	dobin "${OUT}"/chaps_client
-	dobin "${OUT}"/p11_replay
-	dolib.so "${OUT}"/lib/libchaps.so
+	platform_install
 
-	# Install D-Bus config file.
-	dodir /etc/dbus-1/system.d
-	sed 's,@POLICY_PERMISSIONS@,group="pkcs11",' \
-		"org.chromium.Chaps.conf.in" \
-		> "${D}/etc/dbus-1/system.d/org.chromium.Chaps.conf"
-
-	# Install init scripts.
+	# Install init scripts for systemd the ones for upstart are installd via
+	# BUILD.gn.
 	if use systemd; then
 		systemd_dounit init/chapsd.service
 		systemd_enable_service boot-services.target chapsd.service
 		systemd_dotmpfilesd init/chapsd_directories.conf
-	else
-		insinto /etc/init
-		doins init/chapsd.conf
 	fi
-	exeinto /usr/share/cros/init
-
-	# Install headers for use by clients.
-	insinto /usr/include/chaps
-	doins token_manager_client.h
-	doins token_manager_client_mock.h
-	doins token_manager_interface.h
-	doins isolate.h
-	doins chaps_proxy_mock.h
-	doins chaps_interface.h
-	doins chaps.h
-	doins attributes.h
-
-	# Install live tests
-	if use test; then
-		dosbin "${OUT}"/chapsd_test
-		dosbin "${OUT}"/tpm_utility_test
-	fi
-
-	insinto /usr/include/chaps/pkcs11
-	doins pkcs11/*.h
 
 	# Chaps keeps database inside the user's cryptohome.
 	local daemon_store="/etc/daemon-store/chaps"
