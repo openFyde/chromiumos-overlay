@@ -189,7 +189,9 @@ src_compile() {
 	platform_src_compile
 	if use xnnpack-driver; then
 		platform "compile" "xnn-driver"
-		platform "compile" "runtime_xnn_testrunner"
+		if use test; then
+			platform "compile" "runtime_xnn_testrunner"
+		fi
 	fi
 }
 
