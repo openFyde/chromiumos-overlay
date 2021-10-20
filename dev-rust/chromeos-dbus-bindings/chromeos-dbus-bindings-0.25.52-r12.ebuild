@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c33dd23e50377e6f9fa9f7cfed2a85af62fb8526"
+CROS_WORKON_COMMIT="62885ba2128009ed74a111c0fe1abfd36c0644ae"
 CROS_WORKON_TREE="8753ae37f2abfcd79989d4a4d795bfa11b50816f"
 CROS_RUST_SUBDIR="chromeos-dbus-bindings"
 
@@ -24,4 +24,4 @@ DEPEND="=dev-rust/which-4*:="
 RDEPEND="!chromeos-base/chromeos-dbus-bindings-rust
 	${DEPEND}"
 
-BDEPEND=">=dev-rust/dbus-codegen-0.9.0"
+BDEPEND=">=dev-rust/dbus-codegen-0.10.0"
