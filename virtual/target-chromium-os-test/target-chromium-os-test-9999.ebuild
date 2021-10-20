@@ -35,6 +35,7 @@ IUSE="
 	ml_service
 	hps
 	nnapi
+	no_factory_flow
 	ondevice_document_scanner
 	opengl
 	opengles
@@ -95,7 +96,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/chromeos-test-root
 	chromeos-base/ec-utils
 	chromeos-base/ec-utils-test
-	chromeos-base/factory-deps
+	!no_factory_flow? ( chromeos-base/factory-deps )
 	biod? (
 		virtual/chromeos-fpmcu-test
 		chromeos-base/chromeos-fpmcu-unittests
@@ -202,7 +203,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/cros-camera-tool
 	chromeos-base/cros-config-test
 	!chromeless_tty? ( !chromeless_tests? ( chromeos-base/drm-tests ) )
-	chromeos-base/factory-mini
+	!no_factory_flow? ( chromeos-base/factory-mini )
 	chromeos-base/glbench
 	chromeos-base/graphics-utils-python
 	chromeos-base/libvda-gpu-tests

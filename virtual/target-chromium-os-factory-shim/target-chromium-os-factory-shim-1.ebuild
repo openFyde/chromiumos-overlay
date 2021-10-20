@@ -10,7 +10,8 @@ HOMEPAGE="http://dev.chromium.org/"
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
+IUSE="no_factory_flow"
 
 RDEPEND="
-	chromeos-base/chromeos-installshim
+	!no_factory_flow? ( chromeos-base/chromeos-installshim )
 "
