@@ -1034,5 +1034,17 @@
         "rel_patch_path": "cherry/80865f7579d619dee4ffd5abb72f641ef74dedbb.patch",
         "start_version": 428724,
         "end_version": 438901
+    },
+    {
+        "comment": "[VPlan] Fix formatting glitch from d2a73fb44ea0b8.",
+        "rel_patch_path": "cherry/82834a673246f27a541ffcc57e0eb65b008102ef.patch",
+        "start_version": 433149,
+        "end_version": 433150
+    },
+    {
+        "comment": "Revert \"[VPlan] Add recipe for first-order rec phis, make splicing explicit.\"",
+        "rel_patch_path": "cherry/b1777b04dc4b1a9fee0e7effa7e177892ab32ef0.patch",
+        "start_version": 433149,
+        "end_version": 433723
     }
 ]
