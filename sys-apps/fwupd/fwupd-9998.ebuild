@@ -17,7 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt archive +bluetooth dell +dummy elogind flashrom +gnutls gtk-doc +gusb +gpg introspection lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +dummy elogind flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	dell? ( uefi )
 	minimal? ( !introspection )
@@ -47,8 +47,7 @@ COMMON_DEPEND="
 	dev-libs/libgpg-error
 	dev-libs/libgudev:=
 	>=dev-libs/libjcat-0.1.0[gpg?,pkcs7?]
-	>=dev-libs/libxmlb-0.1.13:=
-	dev-libs/protobuf-c
+	>=dev-libs/libxmlb-0.1.13:=[introspection?]
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	net-misc/curl
 	virtual/libelf:0=
@@ -59,6 +58,7 @@ COMMON_DEPEND="
 	flashrom? ( sys-apps/flashrom )
 	gnutls? ( net-libs/gnutls )
 	gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] )
+	logitech? ( dev-libs/protobuf-c:= )
 	lzma? ( app-arch/xz-utils )
 	modemmanager? ( net-misc/modemmanager[qmi] )
 	policykit? ( >=sys-auth/polkit-0.103 )
@@ -119,6 +119,7 @@ src_configure() {
 		$(meson_use dummy plugin_dummy)
 		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gusb plugin_altos)
+		$(meson_use logitech plugin_logitech_bulkcontroller)
 		$(meson_use modemmanager plugin_modem_manager)
 		$(meson_use nvme plugin_nvme)
 		$(meson_use spi plugin_intel_spi)
