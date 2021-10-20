@@ -2,8 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4c9b0bff59adfa276da2c9daa2b3143ea8b6b09c"
-CROS_WORKON_TREE="f618c21fc562b57ffc97a6296301c8c034cf3ddc"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
 CROS_WORKON_SUBTREE="src/chromiumos/test/dut"
@@ -14,7 +12,7 @@ DESCRIPTION="DUT Service Server implementation for interfacing with the DUT"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/dut"
 
 LICENSE="BSD-Google"
-KEYWORDS="*"
+KEYWORDS="~*"
 IUSE=""
 
 CROS_GO_WORKSPACE=(
@@ -22,11 +20,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/dut/cmd/dutserver"
+	"chromiumos/test/dut/cmd/cros-dut"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/dut/cmd/dutserver/..."
+	"chromiumos/test/dut/cmd/cros-dut/..."
 )
 
 CROS_GO_VET=(
@@ -42,3 +40,13 @@ DEPEND="
 	chromeos-base/cros-config-api
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# Disable cgo and PIE on building binaries. See:
+	# https://crbug.com/976196
+	# https://github.com/golang/go/issues/30986#issuecomment-475626018
+	export CGO_ENABLED=0
+	export GOPIE=0
+
+	default
+}
