@@ -457,6 +457,10 @@ src_install() {
 		insinto /usr/include/${PN}/ruy/
 		doins -r "../tensorflow-${PV}-bazel-base/external/ruy/ruy"/*
 
+		einfo "Installing fp16 headers"
+		insinto /usr/include/${PN}/
+		doins -r "../tensorflow-${PV}-bazel-base/external/FP16/include"/*
+
 		einfo "Installing TF lite libraries"
 		dolib.so bazel-bin/tensorflow/lite/lib${PN}lite.so
 
