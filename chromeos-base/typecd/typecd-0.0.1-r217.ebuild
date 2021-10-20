@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="8224c7074aebd9b4c376ab95304a24d996082fda"
+CROS_WORKON_COMMIT="6db08ec374420c97a891ca388fae36b19e4ba539"
 CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "bb65cade08351b06664f637ab2f6866b6a17ea62" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -55,6 +55,17 @@ src_install() {
 	# Install D-Bus permission config.
 	insinto /etc/dbus-1/system.d
 	doins dbus/typecd.conf
+
+	# Install fuzzers.
+	local fuzzer_component_id="958036"
+	local fuzz_targets=(
+		"typecd_partner_fuzzer"
+	)
+	local fuzz_target
+	for fuzz_target in "${fuzz_targets[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzz_target}" \
+			--comp "${fuzzer_component_id}"
+	done
 }
 
 pkg_preinst() {
