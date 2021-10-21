@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("249b91d712897cc90fe57dd60d41154c68c1a094" "7807572fff2ced8dac6bd93e49baab0d6d473038")
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e02789553e4967e6f16c673e0a1ebb5abeb05f6d")
+CROS_WORKON_COMMIT=("23fca965d1eeb301e74d5d0dbaca7fb0a4269950" "d523a1fc49013dbe1ee8fe4858fac882a4480594")
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e56f25d3201275f5ee829147f9d5f076a2c00eb0")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
