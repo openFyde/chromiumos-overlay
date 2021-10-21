@@ -34,6 +34,8 @@ src_install() {
 	doexe bin/pluto_updown
 
 	local fuzzer_component_id="156085"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_ipsec_manager_fuzzer \
+		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_service_manager_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
