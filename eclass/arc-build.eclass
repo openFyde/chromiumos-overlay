@@ -107,6 +107,11 @@ arc-build-select-clang() {
 		# TODO(b/161353194,b/181375275) If clang is uprevved, please
 		# remove this filter and see if the build succeeds.
 		filter-flags -march=tremont -march=alderlake
+
+		# The clang version used by ARC P is too old to recognize -march=goldmont-plus.
+		# Use -march=goldmont instead. b/203151596
+		use arcpp && replace-flags -march=goldmont-plus -march=goldmont
+
 		# Ignore unwindlib flag for ARC++.
 		filter-flags --unwindlib=libunwind
 
