@@ -106,6 +106,7 @@ src_install() {
 
 	local fuzzers=(
 		filesystem_label_fuzzer
+		mount_info_fuzzer
 	)
 
 	local fuzzer
