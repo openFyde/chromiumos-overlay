@@ -199,6 +199,9 @@ src_install() {
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/shill_uid_allowlist.txt
 
+	insinto /usr/share/cros/startup/gid_process_management_policies
+	doins setgid_restrictions/shill_gid_allowlist.txt
+
 	udev_dorules udev/*.rules
 
 	# Shill keeps profiles inside the user's cryptohome.
