@@ -9,23 +9,23 @@ CROS_GO_SOURCE="github.com/grpc/grpc-go:google.golang.org/grpc v${PV}"
 
 CROS_GO_PACKAGES=(
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/attributes"
 	"google.golang.org/grpc/benchmark/stats"
 	"google.golang.org/grpc/backoff"
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/balancer/base"
+	"google.golang.org/grpc/balancer/grpclb/state"
 	"google.golang.org/grpc/balancer/roundrobin"
 	"google.golang.org/grpc/binarylog/grpc_binarylog_v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/credentials/internal"
 	"google.golang.org/grpc/encoding"
 	"google.golang.org/grpc/encoding/proto"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/internal/..."
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/grpc/naming"
 	"google.golang.org/grpc/peer"
 	"google.golang.org/grpc/reflection/..."
 	"google.golang.org/grpc/resolver/..."
@@ -33,6 +33,10 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/grpc/stats"
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/tap"
+)
+
+CROS_GO_BINARIES=(
+	"google.golang.org/grpc/cmd/protoc-gen-go-grpc"
 )
 
 CROS_GO_TEST=(
@@ -45,7 +49,7 @@ DESCRIPTION="Go implementation of gRPC"
 HOMEPAGE="https://grpc.io/"
 SRC_URI="$(cros-go_src_uri)"
 
-LICENSE="BSD-Google"
+LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
@@ -55,5 +59,6 @@ DEPEND="
 	dev-go/genproto-rpc
 	dev-go/go-sys
 	dev-go/net
+	dev-go/protobuf
 "
 RDEPEND="${DEPEND}"
