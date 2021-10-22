@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="38bf335dc6376bab3d77bc1023c713e47de308db"
-CROS_WORKON_TREE="5da4d25450bac2866073b62de2673b44f4811c4f"
+CROS_WORKON_COMMIT="0e41acf19950b8c60d1e0c46ff7b64a24c51dea1"
+CROS_WORKON_TREE="b0181a9a8689259b43aaa8f3a42d2ffe5126176f"
 CROS_WORKON_PROJECT="chromiumos/third_party/sis-updater"
 
 inherit cros-workon cros-common.mk libchrome udev user
