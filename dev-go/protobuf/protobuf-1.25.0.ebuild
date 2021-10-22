@@ -14,7 +14,6 @@ CROS_GO_PACKAGES=(
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	"github.com/golang/protobuf/ptypes/..."
-	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/encoding/..."
 	"google.golang.org/protobuf/internal/descfmt"
 	"google.golang.org/protobuf/internal/descopts"
