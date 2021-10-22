@@ -4,13 +4,13 @@ DEPEND=coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= )
 DESCRIPTION=coreboot firmware
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma +bmpblk quiet unibuild verbose amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso chipset_cezanne coreboot-private-files-board coreboot-private-files-chipset cros_host cros_workon_tree_ef6d713ef3a8fb4e863217bf72bafc6483d0446e_da801f9812636f2f57a73e918651f35800f664f4_51ce37c6b48882aeaaf3f69eacef85c049822251_4f1b6d78e56faeff38843d4c088d2f07412b5103_94c119ad529a701252d04133e7818ed7b4cc9d62_45d22a8711f85c4310c0c2121d3dc8a72793d375_c0433b88f972fa26dded401be022c1c026cd644e has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
+IUSE=em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma +bmpblk quiet unibuild verbose amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso chipset_cezanne coreboot-private-files-board coreboot-private-files-chipset cros_host cros_workon_tree_086a9f69b5e448dbc0a37f7893545fc21e1c1f6d_da801f9812636f2f57a73e918651f35800f664f4_51ce37c6b48882aeaaf3f69eacef85c049822251_4f1b6d78e56faeff38843d4c088d2f07412b5103_94c119ad529a701252d04133e7818ed7b4cc9d62_45d22a8711f85c4310c0c2121d3dc8a72793d375_c0433b88f972fa26dded401be022c1c026cd644e has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= ) coreboot-private-files-chipset? ( sys-boot/coreboot-private-files-chipset:= ) virtual/coreboot-private-files bmpblk? ( sys-boot/chromeos-bmpblk:= ) chipset_stoneyridge? ( sys-boot/amd-firmware:= ) chipset_picasso? ( >=sys-boot/amd-picasso-fsp-0.0.2:= ) chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= ) chromeos-base/chromeos-config:= has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
 REQUIRED_USE=unibuild
 RESTRICT=strip
-SLOT=0/0.0.1-r4677
+SLOT=0/0.0.1-r4679
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	1e3c054ec0012700a0ee1c421b79a600	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	5d5921a298e95441da2f85be419894c0	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=21366fcb76084e7a780856823fac4f75
+_md5_=89885a26a862cc9ba6be039e1125135d
