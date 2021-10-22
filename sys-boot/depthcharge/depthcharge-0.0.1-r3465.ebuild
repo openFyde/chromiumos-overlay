@@ -2,11 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("067c20b9767be96a10078ac96f5d78ae8c0a7dc1" "67c2f4772db32766707a51bcb7a197be3d354f17")
-CROS_WORKON_TREE=("61f680fd195e7dd06abc6a288ca4b96eb89ffede" "51ce37c6b48882aeaaf3f69eacef85c049822251")
+CROS_WORKON_COMMIT=("067c20b9767be96a10078ac96f5d78ae8c0a7dc1" "67c2f4772db32766707a51bcb7a197be3d354f17" "850ebb10bbe038e6cbe6dfde0b6bb4a62451e6df")
+CROS_WORKON_TREE=("61f680fd195e7dd06abc6a288ca4b96eb89ffede" "51ce37c6b48882aeaaf3f69eacef85c049822251" "086a9f69b5e448dbc0a37f7893545fc21e1c1f6d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/depthcharge"
 	"chromiumos/platform/vboot_reference"
+	"chromiumos/third_party/coreboot"
 )
 
 DESCRIPTION="coreboot's depthcharge payload"
@@ -14,7 +15,7 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
 IUSE="detachable fwconsole mocktpm pd_sync unibuild verbose debug
-	physical_presence_power physical_presence_recovery"
+	physical_presence_power physical_presence_recovery test"
 
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
@@ -38,11 +39,24 @@ RDEPEND="${DEPEND}"
 
 BDEPEND="
 	dev-python/kconfiglib
+	!test? (
+		dev-util/cmake
+		dev-util/cmocka
+	)
 "
 
-CROS_WORKON_LOCALNAME=("../platform/depthcharge" "../platform/vboot_reference")
+CROS_WORKON_LOCALNAME=(
+	"../platform/depthcharge"
+	"../platform/vboot_reference"
+	"../third_party/coreboot"
+)
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
-CROS_WORKON_DESTDIR=("${S}/depthcharge" "${VBOOT_REFERENCE_DESTDIR}")
+COREBOOT_DESTDIR="${S}/coreboot"
+CROS_WORKON_DESTDIR=(
+	"${S}/depthcharge"
+	"${VBOOT_REFERENCE_DESTDIR}"
+	"${COREBOOT_DESTDIR}"
+)
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
@@ -188,7 +202,7 @@ do_install() {
 
 	if [[ -n "${build_target}" ]]; then
 		dstdir+="/${build_target}"
-		einfo "Installing depthcharge ${build_target} into ${dest_dir}"
+		einfo "Installing depthcharge ${build_target} into ${dstdir}"
 	fi
 	insinto "${dstdir}"
 
@@ -216,4 +230,34 @@ src_install() {
 
 		do_install "${build_target}" "${builddir}"
 	done
+}
+
+make_unittests() {
+	local builddir="$1"
+
+	local OPTS=(
+		"EC_HEADERS=${SYSROOT}/usr/include/chromeos/ec"
+		"LP_SOURCE=${COREBOOT_DESTDIR}/payloads/libpayload"
+		"VB_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
+		"obj=${builddir}"
+		"HOSTCC=$(tc-getBUILD_CC)"
+		"HOSTCXX=$(tc-getBUILD_CXX)"
+		"HOSTAR=$(tc-getBUILD_AR)"
+		"HOSTAS=$(tc-getBUILD_AS)"
+		"OBJCOPY=$(tc-getBUILD_OBJCOPY)"
+		"OBJDUMP=$(tc-getBUILD_OBJDUMP)"
+	)
+
+	use verbose && OPTS+=( "V=1" )
+	emake "${OPTS[@]}" "unit-tests"
+}
+
+src_test() {
+	local builddir="$(cros-workon_get_build_dir)/depthcharge.tests"
+
+	pushd depthcharge >/dev/null || \
+		die "Failed to change into ${PWD}/depthcharge"
+
+	mkdir -p "${builddir}"
+	make_unittests "${builddir}"
 }
