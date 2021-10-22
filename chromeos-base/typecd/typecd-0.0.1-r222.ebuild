@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="f5cb81c0f7b67bec33f279d2c10505ea62f31652"
+CROS_WORKON_COMMIT="013ffae65917284d66e19f5552bb1434f4a5670e"
 CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "f5e6092675d4f646927eea56cab95c9ed37320e9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -59,6 +59,7 @@ src_install() {
 	# Install fuzzers.
 	local fuzzer_component_id="958036"
 	local fuzz_targets=(
+		"typecd_cros_ec_util_fuzzer"
 		"typecd_partner_fuzzer"
 	)
 	local fuzz_target
