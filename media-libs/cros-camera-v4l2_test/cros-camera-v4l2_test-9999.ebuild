@@ -25,7 +25,9 @@ RDEPEND="
 	dev-cpp/gtest:=
 	dev-libs/re2:=
 	media-libs/libyuv
-	virtual/jpeg:0"
+	virtual/jpeg:0
+	virtual/libusb:1
+"
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
@@ -33,6 +35,7 @@ DEPEND="${RDEPEND}
 src_install() {
 	platform_src_install
 	dobin "${OUT}/camera_characteristics_test"
+	dobin "${OUT}/camera_dfu_test"
 	dobin "${OUT}/media_v4l2_is_capture_device"
 	dobin "${OUT}/media_v4l2_test"
 }
