@@ -33,15 +33,13 @@ src_prepare() {
 
 src_compile() {
 	cd "${SYZKALLER_PATH}" || die "unable to cd to extracted syzkaller directory"
-	CFLAGS="" GOPATH="${GOPATH}:${S}" make TARGETOS=linux TARGETARCH="${ARCH}" || die "syzkaller build failed"
+	CFLAGS="" GO111MODULE=off GOPATH="${GOPATH}:${S}" emake TARGETOS=linux TARGETARCH="${ARCH}" || die "syzkaller build failed"
 }
 
 src_install() {
 	local bin_path="${SYZKALLER_PATH}/bin"
-	dobin "${bin_path}"/syz-manager || die "failed to install syz-manager"
-	dobin "${bin_path}"/linux_"${ARCH}"/syz-fuzzer || die "failed to install syz-fuzzer"
-	dobin "${bin_path}"/linux_"${ARCH}"/syz-executor || die "failed to install syz-executor"
-	dobin "${bin_path}"/linux_"${ARCH}"/syz-execprog || die "failed to install syz-execprog"
+	dobin "${bin_path}"/syz-manager
+	dobin "${bin_path}"/linux_"${ARCH}"/syz-{fuzzer,executor,execprog}
 }
 
 # Overriding postinst for package github.com/google/syzkaller
