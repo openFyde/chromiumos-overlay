@@ -6,7 +6,7 @@ EAPI=5
 CROS_WORKON_COMMIT="ceeb0e9ff251cf1bdb92358371ec9e5d6d9f751c"
 CROS_WORKON_TREE="4a1bd562718cd3fd754f07d8b5cf7639858a1d3e"
 PYTHON_COMPAT=(
-	pypy
+	pypy3
 	python3_4 python3_5 python3_6 python3_7
 	python2_7
 )
