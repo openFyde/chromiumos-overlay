@@ -76,6 +76,6 @@ platform_pkg_test() {
 				|| die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
-		ninja -C tmp_build_dir test || die "Tests failed"
+		platform_test "run" tmp_build_dir/sommelier_test || die "Tests failed"
 	fi
 }
