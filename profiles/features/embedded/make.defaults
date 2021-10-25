@@ -25,8 +25,9 @@ USE="${USE} -memd"
 USE="${USE} metrics_uploader"
 
 # Disable ML Service until/unless features on embedded devices need it. Also
-# disable on-device grammar check since it depends on ML Service.
-USE="${USE} -ml_service -ondevice_grammar"
+# disable on-device grammar check and text suggestions since they depend on
+# ML Service to function.
+USE="${USE} -ml_service -ondevice_grammar -ondevice_text_suggestions"
 
 # Disable usbguard and usb_bouncer on embedded CrOS because they currently only
 # protect the lockscreen.
