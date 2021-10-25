@@ -4,6 +4,7 @@
 
 # Remove files that will not be used from targets.
 # /etc/lvm/lvm.conf is added by chromeos-init.
+# dmeventd's function is already handled by platform2 packages.
 if [[ $(cros_target) != "cros_host" ]]; then
   lvm_mask="
     /etc/dmtab
@@ -16,6 +17,7 @@ if [[ $(cros_target) != "cros_host" ]]; then
     /usr/lib*/pkgconfig/lvm2app.pc
     /usr/lib/tmpfiles.d/lvm2.conf
     /usr/include/lvm2app.h
+    /sbin/dmeventd
     /sbin/lvmetad
     /sbin/lvpolld
   "
