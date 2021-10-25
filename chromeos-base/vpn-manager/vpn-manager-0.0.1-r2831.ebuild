@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="249b91d712897cc90fe57dd60d41154c68c1a094"
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "39929280520bd57dd9967f54e074e37ce6c8c7bf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ea06c9e67cf9e60670c06acdc21352110008506f"
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,6 +36,8 @@ src_install() {
 	doexe bin/pluto_updown
 
 	local fuzzer_component_id="156085"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_ipsec_manager_fuzzer \
+		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/vpn_manager_service_manager_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
