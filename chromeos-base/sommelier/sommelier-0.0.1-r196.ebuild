@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="249b91d712897cc90fe57dd60d41154c68c1a094"
+CROS_WORKON_COMMIT="ea06c9e67cf9e60670c06acdc21352110008506f"
 CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "00ffd7cf775709a0e74a50142e0287a0bec5dbc5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -78,6 +78,6 @@ platform_pkg_test() {
 				|| die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
-		ninja -C tmp_build_dir test || die "Tests failed"
+		platform_test "run" tmp_build_dir/sommelier_test || die "Tests failed"
 	fi
 }
