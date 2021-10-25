@@ -121,7 +121,6 @@ IUSE_TESTS=(
 	+tests_policy_AutotestCheck
 	+tests_policy_ChromeOsLockOnIdleSuspend
 	+tests_policy_CookiesSessionOnlyForUrls
-	+tests_policy_DeveloperToolsAvailability
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
 	+tests_policy_DeviceCharging
