@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ea06c9e67cf9e60670c06acdc21352110008506f"
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "113dbae63eb106c56996900e98cd65103bf297dc" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e849dc63a297841f850ba099695224eea2cd48af" "f168c7f57e382e264817cd5b0c987abfd5b5b987" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6f54005df342504e7629799153da1891672034b7"
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "113dbae63eb106c56996900e98cd65103bf297dc" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e849dc63a297841f850ba099695224eea2cd48af" "ade8c97e67b69579e9fa5f2dfd1498cab5e7bd95" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -201,6 +201,9 @@ src_install() {
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/shill_uid_allowlist.txt
 
+	insinto /usr/share/cros/startup/gid_process_management_policies
+	doins setgid_restrictions/shill_gid_allowlist.txt
+
 	udev_dorules udev/*.rules
 
 	# Shill keeps profiles inside the user's cryptohome.
@@ -218,6 +221,8 @@ src_install() {
 	local wifi_ies_fuzzer_component_id="893827"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_ies_fuzzer" \
 		--comp "${wifi_ies_fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer"
 }
 
 platform_pkg_test() {
