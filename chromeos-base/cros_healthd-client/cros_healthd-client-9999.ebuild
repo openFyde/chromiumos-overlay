@@ -7,9 +7,9 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_SUBTREE="common-mk diagnostics/mojo .gn"
+CROS_WORKON_SUBTREE="common-mk diagnostics/mojom .gn"
 
-PLATFORM_SUBDIR="diagnostics/mojo"
+PLATFORM_SUBDIR="diagnostics/mojom"
 
 WANT_LIBBRILLO="no"
 inherit cros-workon platform
@@ -25,17 +25,16 @@ src_install() {
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins cros_healthd-client.pc
 
-	# Install mojom files.
-	insinto /usr/src/cros_healthd-client/mojom/
-	doins "${S}"/*.mojom
-
-	# Install mojom modules.
-	insinto /usr/src/cros_healthd-client/modules/
-	doins "${OUT}"/gen/include/mojo/*module
-
 	# Install C++ headers.
-	insinto /usr/include/cros_healthd-client/mojo
-	doins "${OUT}"/gen/include/mojo/*.h
+	insinto /usr/include/cros_healthd-client/diagnostics/mojom/public
+	doins "${S}"/public/*.mojom
+	doins "${OUT}"/gen/include/diagnostics/mojom/public/*.h
+	doins "${OUT}"/gen/include/diagnostics/mojom/public/*module
+
+	insinto /usr/include/cros_healthd-client/diagnostics/mojom/external
+	doins "${S}"/external/*.mojom
+	doins "${OUT}"/gen/include/diagnostics/mojom/external/*.h
+	doins "${OUT}"/gen/include/diagnostics/mojom/external/*module
 
 	# Install libraries linked by the C++ headers.
 	dolib.a "${OUT}"/*.a
