@@ -45,6 +45,7 @@ setsockopt: 1
 set_tid_address: 1
 # Allow AF_UNIX or AF_QIPCRTR
 socket: arg0 == AF_UNIX || arg0 == AF_QIPCRTR
+symlinkat: 1
 getrlimit: 1
 uname: 1
 write: 1

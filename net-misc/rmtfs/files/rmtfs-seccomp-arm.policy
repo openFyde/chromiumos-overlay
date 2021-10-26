@@ -51,6 +51,8 @@ set_tid_address: 1
 sigreturn: 1
 # Allow AF_UNIX or AF_QIPCRTR
 socket: arg0 == AF_UNIX || arg0 == AF_QIPCRTR
+symlink: 1
+symlinkat: 1
 statx: 1
 ugetrlimit: 1
 uname: 1
