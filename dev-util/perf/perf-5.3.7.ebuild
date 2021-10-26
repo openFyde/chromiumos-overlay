@@ -112,6 +112,13 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-cs-etm-Prevent-and-warn-on-underflows-during-ti.patch"
 	"${FILESDIR}/5.3.7-session-Add-facility-to-peek-at-all-events.patch"
 	"${FILESDIR}/5.3.7-cs-etm-Split-Coresight-decode-by-aux-records.patch"
+	"${FILESDIR}/5.3.7-Allow-to-use-stdio-functions.patch"
+	"${FILESDIR}/5.3.7-Add-facility-to-do-in-place-update.patch"
+	"${FILESDIR}/5.3.7-Free-generated-help-strings-for-sort-opt.patch"
+	"${FILESDIR}/5.3.7-Fix-proc-kcore-32b-access.patch"
+	"${FILESDIR}/5.3.7-Refactor-kernel-symbol-argument-sanity-checking.patch"
+	"${FILESDIR}/5.3.7-Check-vmlinux-kallsyms-arguments.patch"
+	"${FILESDIR}/5.3.7-Add-vmlinux-in-perf-inject.patch"
 )
 
 pkg_setup() {
