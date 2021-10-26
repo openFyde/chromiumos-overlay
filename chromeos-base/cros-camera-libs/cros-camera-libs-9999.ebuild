@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 # 'camera_feature_hdrnet', 'ipu6' and 'ipu6ep' are passed to and used in BUILD.gn files.
-IUSE="camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
+IUSE="camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
 
 BDEPEND="virtual/pkgconfig"
 
