@@ -281,7 +281,7 @@ set_build_args() {
 		"use_libinput=$(usetf libinput)"
 
 		# Add hardware information to feedback logs and chrome://system.
-		"is_chromeos_hw_details=$(usetf hw_details)"
+		"is_chromeos_with_hw_details=$(usetf hw_details)"
 	)
 
 	# BUILD_STRING_ARGS needs appropriate quoting. So, we keep them separate and
