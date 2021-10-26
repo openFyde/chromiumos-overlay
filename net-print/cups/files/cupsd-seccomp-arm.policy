@@ -93,6 +93,7 @@ _newselect: 1
 pselect6: 1
 pselect6_time64: 1
 send: 1
+sendfile: 1
 sendmmsg: 1
 sendmsg: 1
 sendto: 1
