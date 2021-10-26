@@ -109,6 +109,9 @@ USE="${USE} iioservice"
 # Enable feature daemon.
 USE="${USE} featured"
 
+# Enable Runtime AVL Compliance Check (RACC) packages
+USE="${USE} racc"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
