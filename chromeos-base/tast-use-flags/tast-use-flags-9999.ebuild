@@ -88,7 +88,7 @@ IUSE="
 	lvm_stateful_partition
 	lxc
 	manatee
-	mbo
+	+mbo
 	memd
 	ml_benchmark_drivers
 	ml_service

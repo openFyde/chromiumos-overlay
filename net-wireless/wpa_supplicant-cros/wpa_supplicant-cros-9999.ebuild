@@ -16,7 +16,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ap bindist dbus debug eap-sim fuzzer +hs2-0 libressl mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
+IUSE="ap bindist dbus debug eap-sim fuzzer +hs2-0 libressl +mbo p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
