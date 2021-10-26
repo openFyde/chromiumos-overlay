@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="22281a0b057930c2080ef96c5e3ab8714f8e001c"
+CROS_WORKON_COMMIT="7cf10058163a563bfa0cae966724f0e8581539be"
 CROS_WORKON_TREE="eb1f2ec4b1ebcef76b4a1ff352c45b11752d44ce"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,6 +17,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="zephyr_poc"
+
+RDEPEND="chromeos-base/crosid"
 
 # This ebuild creates the Chrome OS master configuration file stored in
 # ${UNIBOARD_JSON_INSTALL_PATH}. See go/cros-unified-builds-design for
@@ -86,6 +88,7 @@ src_compile() {
 
 		run_cros_config_tool cros_config_schema -c "${yaml}" \
 			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
+			--identity-table-out "${WORKDIR}/identity.bin" \
 			|| die "cros_config_schema failed for platform config."
 	else
 		einfo "Emitting empty C interface config for mosys."
@@ -98,6 +101,9 @@ src_install() {
 	insinto "${UNIBOARD_JSON_INSTALL_PATH%/*}"
 	if [[ -e "${WORKDIR}/configfs.img" ]]; then
 		doins "${WORKDIR}/configfs.img"
+	fi
+	if [[ -e "${WORKDIR}/identity.bin" ]]; then
+		doins "${WORKDIR}/identity.bin"
 	fi
 
 	insinto "${UNIBOARD_YAML_DIR}"
