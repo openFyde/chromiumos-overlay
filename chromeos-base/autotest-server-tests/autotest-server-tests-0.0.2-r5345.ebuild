@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="3b0291c1f920402832e306c183c14f23e7fab107"
-CROS_WORKON_TREE="f66da45f1e3a1a8a195f494086e2dda7e5e083a2"
+CROS_WORKON_COMMIT="652164530a70965fb39ebbd916e57faab280666b"
+CROS_WORKON_TREE="7a8c41c2aa59b8ea64a6e72217a76c1b9886d990"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -210,7 +210,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FwScreenCloseLid
 	+tests_firmware_FwScreenPressPower
 	+tests_firmware_FWupdateWP
-	+tests_firmware_FWtries
 	+tests_firmware_FWupdateThenSleep
 	+tests_firmware_FWupdateWP
 	+tests_firmware_IntegratedU2F
