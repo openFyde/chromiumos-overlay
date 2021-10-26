@@ -34,11 +34,20 @@ DEPEND="${RDEPEND}
 	=dev-rust/log-0.4*:=
 	=dev-rust/stderrlog-0.5*:=
 	dev-rust/sys_util:=
+	>=dev-rust/termion-1.5.0 <dev-rust/termion-2.0.0:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	=dev-rust/which-4*:=
 "
 
 BDEPEND="sirenia? ( chromeos-base/sirenia-tools )"
+
+src_compile() {
+	cros-rust_src_compile --all-features
+}
+
+src_test() {
+	cros-rust_src_test --all-features
+}
 
 src_install() {
 	cros-rust_src_install

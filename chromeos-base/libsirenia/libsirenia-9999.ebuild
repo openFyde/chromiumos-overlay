@@ -21,6 +21,8 @@ IUSE=""
 
 DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
+	=dev-rust/anyhow-1*:=
+	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
