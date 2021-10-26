@@ -102,15 +102,20 @@ arc-build-select-clang() {
 		ARC_GCC_TUPLE=x86_64-linux-android
 		ARC_GCC_BASE="${ARC_BASE}/arc-gcc/x86_64/${ARC_GCC_TUPLE}-4.9"
 
-		# The clang version used by ARC is too old to recognize certain
-		# recent microarchitectures like tremont. Filter it out for now.
-		# TODO(b/161353194,b/181375275) If clang is uprevved, please
-		# remove this filter and see if the build succeeds.
-		filter-flags -march=tremont -march=alderlake
-
-		# The clang version used by ARC P is too old to recognize -march=goldmont-plus.
-		# Use -march=goldmont instead. b/203151596
-		use arcpp && replace-flags -march=goldmont-plus -march=goldmont
+		# Old versions of clang cannot recognize new CPU flags. Replace
+		# them with the latest Atom available on each version.
+		case ${ARC_VERSION_MAJOR} in
+		9)
+		# ARC P uses llvm 6.0
+			replace-flags -march=goldmont-plus -march=goldmont
+			replace-flags -march=tremont -march=goldmont
+			replace-flags -march=alderlake -march=goldmont
+			;;
+		11)
+		# ARC R uses llvm 11.0.2
+			replace-flags -march=alderlake -march=tremont
+			;;
+		esac
 
 		# Ignore unwindlib flag for ARC++.
 		filter-flags --unwindlib=libunwind
