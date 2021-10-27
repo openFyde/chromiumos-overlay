@@ -129,6 +129,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptFwSigB
 	+tests_firmware_CorruptKernelA
 	+tests_firmware_CorruptKernelB
+	+tests_firmware_CorruptMinios
 	+tests_firmware_CorruptRecoveryCache
 	+tests_firmware_Cr50BID
 	+tests_firmware_Cr50CCDServoCap
