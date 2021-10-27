@@ -20,7 +20,8 @@ src_install() {
 	exeinto /usr/libexec/chrome-binary-tests
 	# The binary tests in ${BINARY_DIR} are built by chrome-chrome.
 	# If you add/remove a binary here, please:
-	# - Also do so for CHROME_TEST_BINARIES in
+	# - Include the binary in chromeos-chrome-9999.ebuild first (and land that)
+	# - Also add the binary to CHROME_TEST_BINARIES in
 	#   src/platform/bisect-kit/bisect_kit/cr_util.py
 	# - Also do so for Chromium's chromiumos_preflight target:
 	#   https://source.chromium.org/chromium/chromium/src/+/master:BUILD.gn;drc=b3b52847c7efe6fd6e2e771f3098a1e8b8a5060f;l=913
@@ -33,6 +34,7 @@ src_install() {
 	doexe "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
 	doexe "${BINARY_DIR}/ozone_gl_unittests"
 	doexe "${BINARY_DIR}/sandbox_linux_unittests"
+	doexe "${BINARY_DIR}/wayland_client_integration_tests"
 	doexe "${BINARY_DIR}/wayland_client_perftests"
 
 	if use vaapi || use v4l2_codec; then
