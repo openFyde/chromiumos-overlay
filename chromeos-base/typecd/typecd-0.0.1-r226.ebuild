@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="0cf014ee6b0e1751c357939be513a1c1d36ce30d"
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "77ae15b571c15f02c3169071bc6eff64207d8479" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0d0ed59092f9a1b2c47d06e096f3b73e92f65aab"
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "d31249503ac1bd3891e61e95800ac0cbb92a90a6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -62,6 +62,7 @@ src_install() {
 		"typecd_cable_fuzzer"
 		"typecd_cros_ec_util_fuzzer"
 		"typecd_partner_fuzzer"
+		"typecd_port_fuzzer"
 		"typecd_port_manager_fuzzer"
 		"typecd_udev_monitor_fuzzer"
 	)
