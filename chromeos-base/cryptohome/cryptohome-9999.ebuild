@@ -90,9 +90,7 @@ src_install() {
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
-	if use tpm2; then
-		dosbin bootlockboxd bootlockboxtool
-	fi
+	dosbin bootlockboxd bootlockboxtool
 	if use cert_provision; then
 		dolib.so lib/libcert_provision.so
 		dosbin cert_provision_client
@@ -102,9 +100,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins etc/Cryptohome.conf
 	doins etc/org.chromium.UserDataAuth.conf
-	if use tpm2; then
-		doins etc/BootLockbox.conf
-	fi
+	doins etc/BootLockbox.conf
 
 	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-upstream) || use uprev-4-to-5); then
 		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
@@ -131,6 +127,7 @@ src_install() {
 		systemd_enable_service ui.target lockbox-cache.service
 	else
 		insinto /etc/init
+		doins bootlockbox/bootlockboxd.conf
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
 		doins init/init-homedirs.conf
@@ -143,17 +140,7 @@ src_install() {
 		else
 			doins init/lockbox-cache.conf
 		fi
-		if use tpm2; then
-			insinto /usr/share/policy
-			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
-				bootlockboxd-seccomp.policy
-			insinto /etc/init
-			doins bootlockbox/bootlockboxd.conf
-		else
-			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't activate distributed mode in cryptohomed.conf"
-		fi
+
 		if use direncryption; then
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
 				"${D}/etc/init/cryptohomed.conf" ||
@@ -188,9 +175,11 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-	# Install seccomp policy for cryptohome-proxy
+	# Install seccomp policy for cryptohome-proxy & bootlockboxd
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
+	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
+		bootlockboxd-seccomp.policy
 
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
