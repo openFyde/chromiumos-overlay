@@ -19,7 +19,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-als buffet cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -mosys_eventlog +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
+IUSE="-als buffet cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -38,7 +38,7 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
 	iioservice? ( chromeos-base/libiioservice_ipc:= )
-	mosys_eventlog? ( sys-apps/mosys )
+	powerd_manual_eventlog_add? ( sys-apps/coreboot-utils )
 	qrtr? ( net-libs/libqrtr:= )
 "
 
@@ -106,7 +106,7 @@ src_install() {
 	use display_backlight || doins optional_prefs/external_display_only
 	use has_keyboard_backlight && doins optional_prefs/has_keyboard_backlight
 	use legacy_power_button && doins optional_prefs/legacy_power_button
-	use mosys_eventlog && doins optional_prefs/mosys_eventlog
+	use powerd_manual_eventlog_add && doins optional_prefs/manual_eventlog_add
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.PowerManager.conf
