@@ -1,0 +1,41 @@
+From 92758b87c014d7a8bce6c9bbc76605714e4d3909 Mon Sep 17 00:00:00 2001
+From: Vipin Anand <vipin.anand@intel.corp-partner.google.com>
+Date: Mon, 25 Oct 2021 15:31:19 +0530
+Subject: [PATCH 2/2] Revert "iris: Disable I915_FORMAT_MOD_Y_TILED_GEN12* on
+ adl-p/display 13"
+
+This reverts commit 74e314e4ee984895fc7dbb5eeab1ed014bba7924.
+---
+ .pick_status.json                        | 2 +-
+ src/gallium/drivers/iris/iris_resource.c | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/.pick_status.json b/.pick_status.json
+index e7dd49b8b013..5ea0b2eb461f 100644
+--- a/.pick_status.json
++++ b/.pick_status.json
+@@ -7789,7 +7789,7 @@
+         "description": "iris: Disable I915_FORMAT_MOD_Y_TILED_GEN12* on adl-p/display 13",
+         "nominated": true,
+         "nomination_type": 1,
+-        "resolution": 1,
++        "resolution": 0,
+         "main_sha": null,
+         "because_sha": "e435511b580287d1fab1b1028b2d36acce80dac9"
+     },
+diff --git a/src/gallium/drivers/iris/iris_resource.c b/src/gallium/drivers/iris/iris_resource.c
+index 05c0f869243b..95af0d131edc 100644
+--- a/src/gallium/drivers/iris/iris_resource.c
++++ b/src/gallium/drivers/iris/iris_resource.c
+@@ -97,8 +97,6 @@ modifier_is_supported(const struct intel_device_info *devinfo,
+    case I915_FORMAT_MOD_Y_TILED_GEN12_RC_CCS_CC:
+       if (devinfo->ver != 12)
+          return false;
+-      if (devinfo->display_ver != 12)
+-         return false;
+       break;
+    case DRM_FORMAT_MOD_INVALID:
+    default:
+-- 
+2.7.4
+

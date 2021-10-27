@@ -1,0 +1,62 @@
+From d9c27e56c2d97a884400b249b50f2522e9bac4f9 Mon Sep 17 00:00:00 2001
+From: Vipin Anand <vipin.anand@intel.corp-partner.google.com>
+Date: Mon, 25 Oct 2021 15:30:53 +0530
+Subject: [PATCH 1/2] Revert "intel/dev: Add display_ver and set adl-p to 13"
+
+This reverts commit b04d75a6511f92b991bf25bc7b4ba559b1a59f7b.
+---
+ .pick_status.json                 | 2 +-
+ src/intel/dev/intel_device_info.c | 4 ----
+ src/intel/dev/intel_device_info.h | 1 -
+ 3 files changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/.pick_status.json b/.pick_status.json
+index ee98b9d9f817..e7dd49b8b013 100644
+--- a/.pick_status.json
++++ b/.pick_status.json
+@@ -7798,7 +7798,7 @@
+         "description": "intel/dev: Add display_ver and set adl-p to 13",
+         "nominated": true,
+         "nomination_type": 1,
+-        "resolution": 1,
++        "resolution": 0,
+         "main_sha": null,
+         "because_sha": "e435511b580287d1fab1b1028b2d36acce80dac9"
+     },
+diff --git a/src/intel/dev/intel_device_info.c b/src/intel/dev/intel_device_info.c
+index 216c52cbe231..1bf31494536f 100644
+--- a/src/intel/dev/intel_device_info.c
++++ b/src/intel/dev/intel_device_info.c
+@@ -992,7 +992,6 @@ static const struct intel_device_info intel_device_info_adl_gt1 = {
+ static const struct intel_device_info intel_device_info_adl_gt2 = {
+    GFX12_GT_FEATURES(2),
+    .is_alderlake = true,
+-   .display_ver = 13,
+ };
+ 
+ #define GFX12_DG1_FEATURES                      \
+@@ -1288,9 +1287,6 @@ intel_get_device_info_from_pci_id(int pci_id,
+    if (devinfo->verx10 == 0)
+       devinfo->verx10 = devinfo->ver * 10;
+ 
+-   if (devinfo->display_ver == 0)
+-      devinfo->display_ver = devinfo->ver;
+-
+    devinfo->chipset_id = pci_id;
+    return true;
+ }
+diff --git a/src/intel/dev/intel_device_info.h b/src/intel/dev/intel_device_info.h
+index 5e28305f7c98..ebb779e3938a 100644
+--- a/src/intel/dev/intel_device_info.h
++++ b/src/intel/dev/intel_device_info.h
+@@ -49,7 +49,6 @@ struct intel_device_info
+    /* Driver internal numbers used to differentiate platforms. */
+    int ver;
+    int verx10;
+-   int display_ver;
+    int revision;
+    int gt;
+ 
+-- 
+2.7.4
+
