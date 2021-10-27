@@ -43,6 +43,9 @@ src_install() {
 	dosbin "${OUT}/apk-cache-cleaner"
 	dobin  "${OUT}/apk-cache-ctl"
 	dosbin apk-cache-cleaner-jailed
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/apk_cache_database_fuzzer \
+		--comp 157100
 }
 
 platform_pkg_test() {
