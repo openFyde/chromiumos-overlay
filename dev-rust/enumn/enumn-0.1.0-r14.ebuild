@@ -3,13 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="76cc214ce771ab7dd0990b403e2a2c98dd0a4c80"
+CROS_WORKON_COMMIT="8f5978fda24bd5ecba9005af39c6119142510820"
 CROS_WORKON_TREE="c5170d4e4312bcef4a4e4e49403be6bc421c18aa"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since project's Cargo.toml is
 # using "provided by ebuild" macro which supported by cros-rust.
-CROS_WORKON_SUBTREE="enumn"
+CROS_RUST_SUBDIR="common/enumn"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
 # Pupr handles uprevs of crosvm.
 CROS_WORKON_MANUAL_UPREV="1"

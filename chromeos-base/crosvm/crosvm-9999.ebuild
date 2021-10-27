@@ -192,7 +192,7 @@ src_compile() {
 	fi
 
 	if use fuzzer; then
-		cd fuzz || die "failed to move directory"
+		cd crosvm-fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
 			ecargo_build_fuzzer --bin "${f}"
@@ -338,11 +338,11 @@ src_install() {
 	fi
 
 	if use fuzzer; then
-		cd fuzz || die "failed to move directory"
+		cd crosvm-fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
 			local fuzzer_component_id="982362"
-			fuzzer_install "${S}/fuzz/OWNERS" \
+			fuzzer_install "${S}/crosvm-fuzz/OWNERS" \
 				"${build_dir}/${f}" \
 				--comp "${fuzzer_component_id}"
 		done

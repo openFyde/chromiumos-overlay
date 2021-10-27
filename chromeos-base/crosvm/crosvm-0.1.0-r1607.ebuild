@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="70c66baed0765328b5af8236850dc36bd0a5864c"
-CROS_WORKON_TREE="720bbdf3de9a531a1a06a8e1b7fadf5f3188e45b"
+CROS_WORKON_COMMIT="8f5978fda24bd5ecba9005af39c6119142510820"
+CROS_WORKON_TREE="b2ffab6de32b6a863dae5cd2f2d42384b7b483df"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -194,7 +194,7 @@ src_compile() {
 	fi
 
 	if use fuzzer; then
-		cd fuzz || die "failed to move directory"
+		cd crosvm-fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
 			ecargo_build_fuzzer --bin "${f}"
@@ -340,11 +340,11 @@ src_install() {
 	fi
 
 	if use fuzzer; then
-		cd fuzz || die "failed to move directory"
+		cd crosvm-fuzz || die "failed to move directory"
 		local f
 		for f in "${FUZZERS[@]}"; do
 			local fuzzer_component_id="982362"
-			fuzzer_install "${S}/fuzz/OWNERS" \
+			fuzzer_install "${S}/crosvm-fuzz/OWNERS" \
 				"${build_dir}/${f}" \
 				--comp "${fuzzer_component_id}"
 		done

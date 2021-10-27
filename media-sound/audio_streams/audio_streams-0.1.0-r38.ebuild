@@ -3,14 +3,17 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="1b16db18bd931071f878623b610fb04450332a5d"
+CROS_WORKON_COMMIT="8f5978fda24bd5ecba9005af39c6119142510820"
 CROS_WORKON_TREE="8c923821f9d87d1ae65c711b23eafb13615b0062"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
 # is using "provided by ebuild" macro which supported by cros-rust
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="audio_streams"
+CROS_RUST_SUBDIR="common/audio_streams"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
+
 
 # Pupr handles uprevs of crosvm.
 CROS_WORKON_MANUAL_UPREV="1"

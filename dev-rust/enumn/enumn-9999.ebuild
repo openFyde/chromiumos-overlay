@@ -7,7 +7,9 @@ CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since project's Cargo.toml is
 # using "provided by ebuild" macro which supported by cros-rust.
-CROS_WORKON_SUBTREE="enumn"
+CROS_RUST_SUBDIR="common/enumn"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
 # Pupr handles uprevs of crosvm.
 CROS_WORKON_MANUAL_UPREV="1"

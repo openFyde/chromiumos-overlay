@@ -6,8 +6,9 @@ EAPI=7
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="io_uring"
-CROS_WORKON_SUBDIRS_TO_COPY="io_uring"
+CROS_RUST_SUBDIR="common/io_uring"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
 # TODO: Enable tests on ARM once the emulator supports io_uring.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"

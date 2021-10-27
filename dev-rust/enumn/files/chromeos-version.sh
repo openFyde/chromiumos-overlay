@@ -6,4 +6,4 @@
 
 # Assumes the first 'version =' line in the Cargo.toml is the version for the
 # crate.
-awk '/^version = / { gsub(/"/, "", $0); print $3; exit }' "$1/Cargo.toml"
+awk '/^version = / { print $3 }' "$1/common/enumn/Cargo.toml" | head -n1 | tr -d '"'
