@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="22281a0b057930c2080ef96c5e3ab8714f8e001c"
-CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "6f714a514749ddef295805ba033ecc3f11e2a346" "24c091aa492affb9bb6e83be5bcbac5fddb452e0" "37e96794a4141d0a9af6eb1561df2ea8d8a6202f" "c499b2973c37d54ec7bf94f3a4e634e8642e6193" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="26438739f5a54fd172be88783adae45727a6c1fa"
+CROS_WORKON_TREE=("2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "6f714a514749ddef295805ba033ecc3f11e2a346" "751515c0a8e30b33bccc1a6895566504783db42d" "5dc58efcb24814120fe99f2f48cfcda981d92bb4" "cff6649d81037d64b9185cc65805ba7d45e8ec52" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -37,6 +37,9 @@ DEPEND="${COMMON_DEPEND}
 src_install() {
 	udev_dorules 99-mems_setup.rules
 	dosbin "${OUT}"/mems_setup
+	if use iioservice; then
+		dosbin "${OUT}"/mems_remove
+	fi
 }
 
 platform_pkg_test() {
