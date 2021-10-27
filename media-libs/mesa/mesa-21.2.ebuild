@@ -77,6 +77,7 @@ RDEPEND="
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
+	app-arch/zstd:=
 	${LIBDRM_DEPSTRING}
 "
 
