@@ -20,17 +20,14 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 COMMON_DEPEND="
-	dev-libs/libgpiod:=
-	dev-libs/libusb:=
-	dev-embedded/libftdi:=
 	chromeos-base/metrics:=
+	dev-libs/libgpiod:=
+	virtual/libusb:1
 	"
 
 RDEPEND="${COMMON_DEPEND}"
 
-DEPEND="
-	${COMMON_DEPEND}
-	"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	platform_src_install

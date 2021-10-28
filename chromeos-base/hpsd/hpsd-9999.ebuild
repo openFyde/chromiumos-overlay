@@ -20,13 +20,14 @@ KEYWORDS="~*"
 IUSE="hpsd-roflash"
 
 RDEPEND="
+	chromeos-base/metrics:=
+	dev-libs/libgpiod:=
 	hpsd-roflash? ( dev-embedded/stm32flash:= )
+	virtual/libusb:1
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/metrics:=
 	chromeos-base/system_api:=
-	dev-embedded/libftdi:=
 "
 
 pkg_preinst() {
