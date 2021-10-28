@@ -6,8 +6,8 @@ EAPI=7
 DESCRIPTION="Chrome OS camera portrait processor library"
 # Version 2020.04.06: built from cl/304948948
 SRC_URI="
-	amd64? ( gs://chromeos-localmirror/distfiles/portrait-processor-lib-x86_64-${PV}.tbz2 )
-	arm? ( gs://chromeos-localmirror/distfiles/portrait-processor-lib-armv7-${PV}.tbz2 )
+	amd64? ( gs://chromeos-localmirror/distfiles/portrait-processor-lib-x86_64-${PV}-unstripped.tbz2 )
+	arm? ( gs://chromeos-localmirror/distfiles/portrait-processor-lib-armv7-${PV}-unstripped.tbz2 )
 	"
 
 LICENSE="BSD-Google"
