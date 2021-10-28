@@ -138,6 +138,7 @@ ALL_BOARDS=(
 	chell
 	#chell-cheets
 	cherry
+	cherry64
 	#cheza
 	#cheza-freedreno
 	#cheza64
