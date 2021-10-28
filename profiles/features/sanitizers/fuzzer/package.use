@@ -6,3 +6,4 @@
 chromeos-base/arc-setup arcpp
 chromeos-base/vm_guest_tools kvm_guest
 chromeos-base/sommelier kvm_guest
+net-print/cups debug
