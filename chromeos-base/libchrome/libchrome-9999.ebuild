@@ -19,7 +19,9 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host +crypto +dbus fuzzer +mojo +timers libchrome_b182295239"
+# TODO(b/204383858): remove 'endeavour' when patch
+# backward-compatibility-add-base-AdaptCallbackForRepaeting.patch is not needed
+IUSE="cros_host +crypto +dbus fuzzer +mojo +timers libchrome_b182295239 board_use_endeavour"
 
 PLATFORM_SUBDIR="libchrome"
 
