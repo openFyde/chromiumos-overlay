@@ -11,7 +11,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="hps"
 
-inherit cros-workon platform user
+inherit cros-workon platform udev user
 
 DESCRIPTION="Chrome OS HPS daemon."
 
@@ -49,6 +49,10 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins daemon/dbus/org.chromium.Hps.conf
+
+	exeinto "$(get_udevdir)"
+	doexe udev/*.sh
+	udev_dorules udev/*.rules
 }
 
 platform_pkg_test() {
