@@ -2457,6 +2457,9 @@ cros-kernel2_src_install() {
 	if use kgdb && [[ -d "$(cros-workon_get_build_dir)/scripts/gdb" ]]; then
 		insinto "${install_prefix}/usr/lib/debug/boot/"
 		doins "$(cros-workon_get_build_dir)/vmlinux-gdb.py"
+		# Match vmlinux symlink to vmlinux.debug.
+		ln -s vmlinux-gdb.py \
+			"${install_dir}"/usr/lib/debug/boot/vmlinux.debug-gdb.py || die
 		mkdir "${install_dir}"/usr/lib/debug/boot/scripts || die
 		rsync -rKLp --chmod=a+r \
 			--include='*/' --include='*.py' --exclude='*' \
