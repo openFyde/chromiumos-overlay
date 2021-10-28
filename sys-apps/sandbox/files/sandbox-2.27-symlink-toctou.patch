@@ -1,0 +1,146 @@
+From 49e6eb50d1c77f06d8b4c728cd222d3d404c8d08 Mon Sep 17 00:00:00 2001
+From: Mike Frysinger <vapier@chromium.org>
+Date: Wed, 27 Oct 2021 23:17:00 -0400
+Subject: [PATCH] libsandbox: drop lstat check for symlink funcs
+
+When checking paths for violations, we need to know whether the path
+is a symlink, and whether the current function dereferences them.  If
+it dereferences, we have to check the symlink and its target.  If it
+doesn't, we can skip the target check.
+
+The helper to see if the function operates on symlinks ends with an
+lstat on the path itself -- if it exists and is a symlink, we will
+skip the target check.  If it doesn't exist, or isn't a symlink, we
+check the target.  This logic doesn't make sense since (1) if it
+doesn't exist, or isn't a symlink, there is no "target" and (2) the
+symlink nature of the function is unchanged.
+
+In practice, this largely doesn't matter.  If the path wasn't a
+symlink, and it (as the source) already passed checks, then it's
+also going to pass checks (as the target) since they're the same
+path.
+
+However, we get into a fun TOCTOU race: if there are multiple things
+trying to create a symlink at the same path, then we can get into a
+state where:
+- process 1 calls a symlink func on a path doesn't exist
+  - lstat fails, so symlink_func() returns false
+  - the kernel contexts switches away from process 1
+- process 2 calls a symlink func on the same path
+  - lstat fails, so symlink_func() returns false
+  - the target path is "resolved" and passes validation
+  - process 2 creates the symlink to a place like /usr/bin/foo
+- process 1 resumes
+  - the target path is resolved since it now actually exists
+  - the target is a bad path (/usr/bin/foo)
+  - sandbox denies the access even though it's a func that only
+    operates on symlinks and never dereferences
+
+This scenario too rarely happens (causes it's so weird), but it is
+possible.  A quick way to reproduce is with:
+while [[ ! -e $SANDBOX_LOG ]] ; do
+	ln -s /bin/bash ./f &
+	ln -s /bin/bash ./f &
+	ln -s /bin/bash ./f &
+	ln -s /bin/bash ./f &
+	ln -s /bin/bash ./f &
+	rm -f f
+	wait
+done
+
+Eventually this will manage to trigger the TOCTOU race.
+
+So just delete the lstat check in the symlink_func() helper.  If the
+path doesn't exist, we can safely let it fail.  If the path shows up
+in parallel, either as a symlink or not, we already validated it as
+being safe, so letting the func be called is safe.
+
+Bug: https://issuetracker.google.com/issues/204375293
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+---
+ libsandbox/libsandbox.c | 51 +++++++++++++++++++----------------------
+ 1 file changed, 23 insertions(+), 28 deletions(-)
+
+diff --git a/libsandbox/libsandbox.c b/libsandbox/libsandbox.c
+index 4e92cbe19aa1..b4db9ba2f477 100644
+--- a/libsandbox/libsandbox.c
++++ b/libsandbox/libsandbox.c
+@@ -671,36 +671,31 @@ static int check_prefixes(char **prefixes, int num_prefixes, const char *path)
+ }
+ 
+ /* Is this a func that works on symlinks, and is the file a symlink ? */
+-static bool symlink_func(int sb_nr, int flags, const char *abs_path)
++static bool symlink_func(int sb_nr, int flags)
+ {
+-	struct stat st;
+-
+ 	/* These funcs always operate on symlinks */
+-	if (!(sb_nr == SB_NR_UNLINK       ||
+-	      sb_nr == SB_NR_UNLINKAT     ||
+-	      sb_nr == SB_NR_LCHOWN       ||
+-	      sb_nr == SB_NR_LREMOVEXATTR ||
+-	      sb_nr == SB_NR_LSETXATTR    ||
+-	      sb_nr == SB_NR_REMOVE       ||
+-	      sb_nr == SB_NR_RENAME       ||
+-	      sb_nr == SB_NR_RENAMEAT     ||
+-	      sb_nr == SB_NR_RENAMEAT2    ||
+-	      sb_nr == SB_NR_RMDIR        ||
+-	      sb_nr == SB_NR_SYMLINK      ||
+-	      sb_nr == SB_NR_SYMLINKAT))
+-	{
+-		/* These funcs sometimes operate on symlinks */
+-		if (!((sb_nr == SB_NR_FCHOWNAT ||
+-		       sb_nr == SB_NR_FCHMODAT ||
+-		       sb_nr == SB_NR_UTIMENSAT) &&
+-		      (flags & AT_SYMLINK_NOFOLLOW)))
+-			return false;
+-	}
++	if (sb_nr == SB_NR_UNLINK       ||
++	    sb_nr == SB_NR_UNLINKAT     ||
++	    sb_nr == SB_NR_LCHOWN       ||
++	    sb_nr == SB_NR_LREMOVEXATTR ||
++	    sb_nr == SB_NR_LSETXATTR    ||
++	    sb_nr == SB_NR_REMOVE       ||
++	    sb_nr == SB_NR_RENAME       ||
++	    sb_nr == SB_NR_RENAMEAT     ||
++	    sb_nr == SB_NR_RENAMEAT2    ||
++	    sb_nr == SB_NR_RMDIR        ||
++	    sb_nr == SB_NR_SYMLINK      ||
++	    sb_nr == SB_NR_SYMLINKAT)
++		return true;
+ 
+-	if (-1 != lstat(abs_path, &st) && S_ISLNK(st.st_mode))
++	/* These funcs sometimes operate on symlinks */
++	if ((sb_nr == SB_NR_FCHOWNAT ||
++	     sb_nr == SB_NR_FCHMODAT ||
++	     sb_nr == SB_NR_UTIMENSAT) &&
++	    (flags & AT_SYMLINK_NOFOLLOW))
+ 		return true;
+-	else
+-		return false;
++
++	return false;
+ }
+ 
+ static int check_access(sbcontext_t *sbcontext, int sb_nr, const char *func,
+@@ -709,7 +704,7 @@ static int check_access(sbcontext_t *sbcontext, int sb_nr, const char *func,
+ 	int old_errno = errno;
+ 	int result = 0;
+ 	int retval;
+-	bool sym_func = symlink_func(sb_nr, flags, abs_path);
++	bool sym_func = symlink_func(sb_nr, flags);
+ 
+ 	retval = check_prefixes(sbcontext->deny_prefixes,
+ 		sbcontext->num_deny_prefixes, abs_path);
+@@ -904,7 +899,7 @@ static int check_syscall(sbcontext_t *sbcontext, int sb_nr, const char *func,
+ 	 * itself does not dereference.  This speeds things up and avoids updating
+ 	 * the atime implicitly. #415475
+ 	 */
+-	if (symlink_func(sb_nr, flags, absolute_path))
++	if (symlink_func(sb_nr, flags))
+ 		resolved_path = absolute_path;
+ 	else
+ 		resolved_path = resolve_path(file, 1);
+-- 
+2.33.0.1079.g6e70778dc9-goog
+
