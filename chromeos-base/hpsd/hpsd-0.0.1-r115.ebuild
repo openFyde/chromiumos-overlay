@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3dbf3d775627d1387a60130712f5e8b926511a67"
+CROS_WORKON_COMMIT="98a598478ce0d5ea5d1a43dfd6306c1005b539f6"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "46d6377f1c607927af66c203ce3cd0469d76fd4e" "2c293b25dd09e3deae29a0dd7d637fbc1cc44597" "e849dc63a297841f850ba099695224eea2cd48af")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,7 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
 
 	dosbin "${OUT}"/hpsd
 
