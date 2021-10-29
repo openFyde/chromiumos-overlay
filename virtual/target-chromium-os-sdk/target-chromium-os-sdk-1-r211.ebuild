@@ -546,3 +546,7 @@ RDEPEND="${RDEPEND}
 # Needed to build crosvm without ebuild in chroot.
 RDEPEND="${RDEPEND}
 	dev-libs/wayland-protocols"
+
+# Needed to build the ManaTEE app manifest.
+RDEPEND="${RDEPEND}
+	chromeos-base/sirenia-tools"

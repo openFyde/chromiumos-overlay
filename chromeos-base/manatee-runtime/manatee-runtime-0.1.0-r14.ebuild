@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="504a3a959d18473dabd2c523514422a7d73bc12a"
+CROS_WORKON_COMMIT="cdc3a165042be1689e7914c227366d8779bc709a"
 CROS_WORKON_TREE="d8bd1589e31caf545c930268d97122d9a6d41bc2"
 CROS_RUST_SUBDIR="sirenia/manatee-runtime"
 
@@ -30,24 +30,19 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+BDEPEND="chromeos-base/sirenia-tools"
+
 src_install() {
 	# Install the crate.
 	cros-rust_src_install
 
 	# Install demo_app.
 	local build_dir="$(cros-rust_get_build_dir)"
+	dobin "${build_dir}/demo_app"
 
-	# Needed for initramfs, but not for the root-fs.
-	if use cros_host ; then
-		# /build is not allowed when installing to the host.
-		exeinto "/bin"
-	else
-		exeinto "/build/initramfs"
-	fi
-
-	if use manatee ;  then
-		doexe "${build_dir}/demo_app"
-	else
-		dobin "${build_dir}/demo_app"
-	fi
+	# Install app manifest.
+	local APP_MANIFEST="${S}/src/demo-app.json"
+	tee_app_info_lint -R "${D}" -c "${APP_MANIFEST}" || die
+	insinto /usr/share/manatee/templates
+	doins "${APP_MANIFEST}"
 }
