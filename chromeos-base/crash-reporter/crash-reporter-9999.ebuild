@@ -145,6 +145,11 @@ src_install() {
 		--comp "${fuzzer_component_id}"
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/kernel_collector_fuzzer \
+		--dict "${S}"/kernel_collector_fuzzer.dict \
+		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/anomaly_detector_fuzzer \
 		--dict "${S}"/anomaly_detector_fuzzer.dict \
 		--comp "${fuzzer_component_id}"
