@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="91d24f3a2ab509418bcca3e174a3b779744f0afa"
-CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "113dbae63eb106c56996900e98cd65103bf297dc" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "e849dc63a297841f850ba099695224eea2cd48af" "d8da1275feb26afab354f35df7316b3840f8330b" "659b97d9c804b358f4bd27925620d4dd1cee8fc7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ffa592fdcce787608b1acc572362dc2915694ada"
+CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "35fca6682684908b37cfed0a4258859112802f48" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "e849dc63a297841f850ba099695224eea2cd48af" "d8da1275feb26afab354f35df7316b3840f8330b" "659b97d9c804b358f4bd27925620d4dd1cee8fc7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -80,47 +80,15 @@ src_compile() {
 }
 
 src_install() {
-	dosbin "${OUT}"/chapsd
-	dobin "${OUT}"/chaps_client
-	dobin "${OUT}"/p11_replay
-	dolib.so "${OUT}"/lib/libchaps.so
+	platform_install
 
-	# Install D-Bus config file.
-	dodir /etc/dbus-1/system.d
-	sed 's,@POLICY_PERMISSIONS@,group="pkcs11",' \
-		"org.chromium.Chaps.conf.in" \
-		> "${D}/etc/dbus-1/system.d/org.chromium.Chaps.conf"
-
-	# Install init scripts.
+	# Install init scripts for systemd the ones for upstart are installd via
+	# BUILD.gn.
 	if use systemd; then
 		systemd_dounit init/chapsd.service
 		systemd_enable_service boot-services.target chapsd.service
 		systemd_dotmpfilesd init/chapsd_directories.conf
-	else
-		insinto /etc/init
-		doins init/chapsd.conf
 	fi
-	exeinto /usr/share/cros/init
-
-	# Install headers for use by clients.
-	insinto /usr/include/chaps
-	doins token_manager_client.h
-	doins token_manager_client_mock.h
-	doins token_manager_interface.h
-	doins isolate.h
-	doins chaps_proxy_mock.h
-	doins chaps_interface.h
-	doins chaps.h
-	doins attributes.h
-
-	# Install live tests
-	if use test; then
-		dosbin "${OUT}"/chapsd_test
-		dosbin "${OUT}"/tpm_utility_test
-	fi
-
-	insinto /usr/include/chaps/pkcs11
-	doins pkcs11/*.h
 
 	# Chaps keeps database inside the user's cryptohome.
 	local daemon_store="/etc/daemon-store/chaps"
