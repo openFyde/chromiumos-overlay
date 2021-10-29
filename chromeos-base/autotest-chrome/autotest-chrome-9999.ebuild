@@ -123,9 +123,7 @@ IUSE_TESTS=(
 	+tests_policy_CookiesSessionOnlyForUrls
 	+tests_policy_DeviceAllowBluetooth
 	+tests_policy_DeviceAutoUpdateDisabled
-	+tests_policy_DeviceCharging
 	+tests_policy_DeviceDockMacAddressSource
-	+tests_policy_DeviceScheduledCharging
 	+tests_policy_DownloadDirectory
 	+tests_policy_DriveDisabled
 	+tests_policy_DeviceEphemeralUsersEnabled
