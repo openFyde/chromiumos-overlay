@@ -36,6 +36,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
+	chromeos-base/bootlockbox-client:=
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/libhwsec:=
