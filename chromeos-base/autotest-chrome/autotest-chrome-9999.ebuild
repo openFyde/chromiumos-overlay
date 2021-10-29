@@ -142,7 +142,6 @@ IUSE_TESTS=(
 	+tests_policy_ProxySettings
 	+tests_policy_ReportUploadFrequency
 	+tests_policy_RestoreOnStartupURLs
-	+tests_policy_WilcoOnNonWilcoDevice
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
 	+tests_power_BatteryDrain
