@@ -3,6 +3,9 @@
 # Common settings across all sdks.
 source /mnt/host/source/src/third_party/chromiumos-overlay/chromeos/config/make.conf.common
 
+# Pull in definition of at least { CHOST, [BOARD_OVERLAY] }
+source make.conf.board_setup
+
 # We initialize PORTDIR_OVERLAY here to clobber any redefinitions elsewhere.
 # This has to be the first overlay so crossdev finds the correct gcc and
 # glibc ebuilds.
