@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="bbccef2901c00f04ea52dc9687242f8be863c234"
+CROS_WORKON_COMMIT="b21fee91448e0dca53a1b37a54a8001df8f7007a"
 CROS_WORKON_TREE="0196bcd97d2635c8c646220dfda3fd39b7d4802e"
 CROS_WORKON_PROJECT="chromiumos/platform/tast-tests"
 CROS_WORKON_LOCALNAME="platform/tast-tests"
@@ -21,12 +21,17 @@ KEYWORDS="*"
 BDEPEND="
 	chromeos-base/android-sdk
 	dev-util/gn
+	virtual/jdk:1.8
 "
-
+RDEPEND=""
 DEPEND="${RDEPEND}"
 OUT=$(cros-workon_get_build_dir)
 
 src_compile() {
+	# Java 8 is deprecated and no longer setup as a system/user VM. Gentoo
+	# recommends configuring manually if it is still needed. Built-in tools
+	# like java-config and eselect will not show them.
+	export GENTOO_VM=icedtea-bin-8
 	gn gen "${OUT}" --root="${S}"/android || die "gn failed"
 	ninja -C "${OUT}" || die "build failed"
 }
