@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="91d24f3a2ab509418bcca3e174a3b779744f0afa"
+CROS_WORKON_COMMIT="418aa4f600349859421e494e52d85865e927a85c"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a9db923ed9d7e66024405ab4fdb8bbe178930040" "283d47a204d07f9d32a56dda59aacc9f7ff531a7" "89b91297810b1c8b696743299faef05b1c298670" "6c79101c4c1504cf876472be922a731a48e4028d" "2e59963ca3036cf697934ab2bcb8eabf92d517d3" "542b6a1b940801e08d9d1aa3ff2657d06dc80bfa" "f9c9ff0f07a0e5d4015af871a558204de304bb90")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,7 @@ camera device. It uses unix domain socket to build a synchronous channel."
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="arc-camera1 cheets -libcamera"
+IUSE="arc-camera1 cheets camera_feature_face_detection -libcamera"
 
 BDEPEND="virtual/pkgconfig"
 
