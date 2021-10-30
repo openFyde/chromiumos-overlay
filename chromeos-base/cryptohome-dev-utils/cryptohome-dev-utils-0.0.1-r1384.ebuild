@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="89777b349e8e5142a611f802ea22fbca0731d4ee"
+CROS_WORKON_COMMIT="c5d786a2e239775e881c21d3b0041f2ac3ea8680"
 CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "cef24517c76a71642894f19dff66f80f1d707193" "d6e7e374c60befa63f5babc864b4a794198c233a" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,6 +38,7 @@ COMMON_DEPEND="
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
+	chromeos-base/bootlockbox-client:=
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/libhwsec:=
