@@ -5,9 +5,10 @@ EAPI=5
 
 # The dev-go/genproto* packages are all built from this repo.  They should
 # be updated together.
-CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 2b5a72b8730b0b16380010cfe5286c42108d88e7"
+CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 848deb03c04d9a338463a46b71f28a63b81c461b"
 
 CROS_GO_PACKAGES=(
+	"google.golang.org/genproto/googleapis/api"
 	"google.golang.org/genproto/googleapis/api/annotations"
 	"google.golang.org/genproto/googleapis/api/distribution"
 	"google.golang.org/genproto/googleapis/api/label"
@@ -15,8 +16,13 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/api/monitoredres"
 	"google.golang.org/genproto/googleapis/devtools/cloudtrace/v2"
 	"google.golang.org/genproto/googleapis/iam/v1"
+	"google.golang.org/genproto/googleapis/longrunning"
 	"google.golang.org/genproto/googleapis/monitoring/v3"
 	"google.golang.org/genproto/googleapis/pubsub/v1"
+	"google.golang.org/genproto/googleapis/storage/v2"
+	"google.golang.org/genproto/googleapis/type/calendarperiod"
+	"google.golang.org/genproto/googleapis/type/date"
+	"google.golang.org/genproto/googleapis/type/expr"
 	"google.golang.org/genproto/protobuf/field_mask"
 )
 
