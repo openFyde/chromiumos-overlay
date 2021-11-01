@@ -36,6 +36,7 @@ IUSE_TESTS="
 	+tests_audio_CrasDevSwitchStress
 	+tests_audio_CrasPinnedStream
 	+tests_audio_CrasStress
+	+tests_audio_CrasAec
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
