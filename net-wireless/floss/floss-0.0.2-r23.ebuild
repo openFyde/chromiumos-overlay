@@ -94,8 +94,8 @@ src_configure() {
 
 		# Build tools and move to host directory
 		mkdir -p "${build_dir}/${CBUILD}"
-		tc-env_build platform "configure" "--host"
-		tc-env_build platform "compile" "tools" "--host"
+		ARCH="$(tc-arch ${CBUILD})" tc-env_build platform "configure" "--host"
+		ARCH="$(tc-arch ${CBUILD})" tc-env_build platform "compile" "tools" "--host"
 		mv "${build_dir}/out" "${build_dir}/${CBUILD}/"
 	fi
 
