@@ -76,6 +76,7 @@ DEPEND="
 	dev-go/text
 	dev-go/websocket
 	dev-lang/tcl
+	sys-libs/libcap:=
 	>=dev-lang/go-1.9.4
 	dev-libs/libuv
 	dev-libs/protobuf:=

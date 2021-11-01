@@ -45,6 +45,7 @@ DEPEND="app-arch/xz-utils
 	dev-libs/libuv
 	app-arch/lz4
 	dev-libs/lzo
+	sys-libs/libcap:=
 	net-dns/dnsmasq[dhcp,ipv6?]
 	virtual/libudev"
 RDEPEND="${DEPEND}
@@ -128,7 +129,7 @@ src_compile() {
 	# paths, we need to tell pkg-config and cgo where to find it. This can
 	# be removed when we commit to LXD 4.0
 	install_root="${SYSROOT}/opt/google/lxd-next"
-	export PKG_CONFIG_LIBDIR="${install_root}/$(get_libdir)/pkgconfig:${SYSROOT}/$(get_libdir)/pkgconfig"
+	export PKG_CONFIG_LIBDIR="${install_root}/$(get_libdir)/pkgconfig:${SYSROOT}/usr/$(get_libdir)/pkgconfig"
 	export PKG_CONFIG_SYSROOT_DIR="${SYSROOT}"
 	export PKG_CONFIG="/usr/bin/pkg-config"
 	export CGO_CFLAGS="${CGO_CFLAGS} -I${install_root}/include"
