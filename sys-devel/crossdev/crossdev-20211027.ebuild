@@ -13,6 +13,10 @@ else
 	KEYWORDS="*"
 fi
 
+PATCHES=(
+	"${FILESDIR}/${P}-overwrite-secondary-toolchains.patch"
+)
+
 DESCRIPTION="Gentoo Cross-toolchain generator"
 HOMEPAGE="https://wiki.gentoo.org/wiki/Project:Crossdev"
 
