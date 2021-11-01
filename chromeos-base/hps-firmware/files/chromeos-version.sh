@@ -6,4 +6,4 @@
 
 # Assumes the first 'version =' line in the Cargo.toml is the version for the
 # crate.
-awk '/^version = / { print $3; exit }' "$1/mcu_rom/stage1/Cargo.toml" | tr -d '"'
+awk '/^version = / { print $3; exit }' "$1/mcu_rom/stage1_app/Cargo.toml" | tr -d '"'
