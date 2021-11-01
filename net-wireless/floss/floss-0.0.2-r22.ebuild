@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("80fcb53102c1c921de187ba00b780f1ea0a13e18" "b6e307d61e1a2f361079c1f308d8a1566026d4b2" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
+CROS_WORKON_COMMIT=("e3136e2373ad2c451c656d135069b8e10168499b" "b6e307d61e1a2f361079c1f308d8a1566026d4b2" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
 CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "d472c5e43eee9d548ec97228ae2f141078e3410e" "7eae68a604c33288e18b948cc1cf30a87f0a74bc" "7a34b72edeab38960a8149a82cf554cd16606dba")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -87,11 +87,16 @@ src_unpack() {
 
 src_configure() {
 	if tc-is-cross-compiler ; then
+		# Delete old host build folder otherwise we will continue using
+		# old binaries
+		local build_dir="$(cros-workon_get_build_dir)"
+		rm -rf "${build_dir:?}/${CBUILD}"
+
 		# Build tools and move to host directory
-		mkdir -p "$(cros-workon_get_build_dir)/${CBUILD}"
+		mkdir -p "${build_dir}/${CBUILD}"
 		tc-env_build platform "configure" "--host"
 		tc-env_build platform "compile" "tools" "--host"
-		mv "$(cros-workon_get_build_dir)/out" "$(cros-workon_get_build_dir)/${CBUILD}/"
+		mv "${build_dir}/out" "${build_dir}/${CBUILD}/"
 	fi
 
 	local cxx_outdir="$(cros-workon_get_build_dir)/out/Default"
@@ -126,9 +131,6 @@ floss_build_tools() {
 }
 
 floss_build_rust() {
-	# Export all build env variables
-	tc-export_build_env PKG_CONFIG
-
 	# Check if cxxflags has -fno-exceptions and set -DRUST_CXX_NO_EXCEPTIONS
 	# This is required to build the cxx rust dependency
 	if is-flagq -fno-exceptions; then
