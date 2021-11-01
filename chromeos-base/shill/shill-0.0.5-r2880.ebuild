@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2b6cbfe2d82c4da9c90f7b01afb3f8f7dcf533f1"
+CROS_WORKON_COMMIT="802fb914c9506b716a2f8b74a09691b5edaa60c2"
 CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "35fca6682684908b37cfed0a4258859112802f48" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "e849dc63a297841f850ba099695224eea2cd48af" "6fb485c531f7f01d3e8f7b28b759bd55074d69a0" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -222,7 +222,9 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_ies_fuzzer" \
 		--comp "${wifi_ies_fuzzer_component_id}"
 
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer"
+	local chromeos_platform_connectivity_network_component_id="167325"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer" \
+		--comp "${chromeos_platform_connectivity_network_component_id}"
 }
 
 platform_pkg_test() {
