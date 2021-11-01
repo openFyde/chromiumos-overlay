@@ -21,6 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="fuzzer wilco mesa_reven"
 
+# TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
@@ -30,6 +31,7 @@ COMMON_DEPEND="
 	virtual/libudev:=
 	sys-apps/pciutils:=
 	virtual/opengles:=
+	app-arch/zstd:=
 "
 
 DEPEND="
