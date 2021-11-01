@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="35beaa83d0c9f10dafc0505bbf66d19ba5c111d0"
-CROS_WORKON_TREE="fe2c2c742dbaa32c5719ff1a2b9a4d2f62872c67"
+CROS_WORKON_COMMIT="755f301ad1fde46a82da561293ff06dd98f77768"
+CROS_WORKON_TREE="a90432ebd9959fbb542d07da609558963f2e9d61"
 CROS_WORKON_PROJECT="chromiumos/platform/drm-tests"
 CROS_WORKON_LOCALNAME="platform/drm-tests"
 
