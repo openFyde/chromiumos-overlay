@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f624b37162cfb0b3d68c9d9e51c52ef9714794a7"
+CROS_WORKON_COMMIT="4870eb5a34679b51039d156b4d42bd6d13b8b082"
 CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "f1695f4dc2d3515c3f7a859ae783536a67c62d69" "f2cf184febd189d2625e7588e9d1d77f919b88f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,6 +23,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="fuzzer wilco mesa_reven"
 
+# TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
@@ -32,6 +33,7 @@ COMMON_DEPEND="
 	virtual/libudev:=
 	sys-apps/pciutils:=
 	virtual/opengles:=
+	app-arch/zstd:=
 "
 
 DEPEND="
