@@ -202,6 +202,7 @@ CONFIG_FRAGMENTS=(
 	nfc
 	nfs
 	nowerror
+	pageowner
 	pca954x
 	pcserial
 	plan9
@@ -570,6 +571,12 @@ CONFIG_NFC_PN533=m
 CONFIG_NFC_PN544=m
 CONFIG_NFC_PN544_I2C=m
 CONFIG_NFC_SHDLC=y
+"
+
+pageowner_desc="Enable pageowner kernel memory tracking"
+pageowner_config="
+CONFIG_PAGE_OWNER=y
+CONFIG_DEBUG_KERNEL=y
 "
 
 pvrdebug_desc="PowerVR Rogue debugging"
