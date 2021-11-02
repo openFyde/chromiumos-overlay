@@ -133,7 +133,6 @@ src_install() {
 		insinto /etc/init
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
-		doins init/cryptohome-proxy.conf
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
