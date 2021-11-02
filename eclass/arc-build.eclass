@@ -117,9 +117,6 @@ arc-build-select-clang() {
 			;;
 		esac
 
-		# Ignore unwindlib flag for ARC++.
-		filter-flags --unwindlib=libunwind
-
 		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
 		# we need to add some flags valid only for amd64, so we trick
 		# it to think that neither x86 nor amd64 is the default.
@@ -156,6 +153,9 @@ arc-build-select-clang() {
 	# Some linkers (such as ARM64's bfd linker) doesn't recognize or link
 	# correctly with this flag, filter it out.
 	filter-flags -Wl,--icf=all
+
+	# Ignore unwindlib flag for ARC++.
+	filter-flags --unwindlib=libunwind
 
 	# Set up flags for the android sysroot.
 	append-flags --sysroot="${ARC_SYSROOT}"
