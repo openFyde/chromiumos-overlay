@@ -86,16 +86,24 @@ run_zmake() {
 src_configure() {
 	tc-export CC
 
-	while read -r board && read -r path; do
-		if [[ -z "${path}" ]]; then
+	local board project project_dir
+
+	while read -r board && read -r project; do
+		if [[ -z "${project}" ]]; then
 			continue
 		fi
-		if [[ ! -d "${S}/modules/ec/zephyr/${path}" ]]; then
-			die "Specified path for Zephyr project does not exist."
+
+		# TODO(jrosenth): remove below once all configs using project
+		# name instead of path.
+		project_dir="${S}/modules/ec/zephyr/${project}"
+		if [[ -d "${project_dir}" ]]; then
+			ewarn "Config zephyr-ec=${project} needs migrated to project name"
+			project="${project_dir}"
 		fi
+
 		local build_dir="build-${board}"
 
-		run_zmake configure "modules/ec/zephyr/${path}" -B "${build_dir}" \
+		run_zmake configure "${project}" -B "${build_dir}" \
 			|| die "Failed to configure ${build_dir}."
 
 		ZEPHYR_EC_BUILD_DIRECTORIES+=("${build_dir}")
