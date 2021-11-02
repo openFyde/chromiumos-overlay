@@ -44,13 +44,10 @@ RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
-	camera_feature_auto_framing? ( media-libs/cros-camera-libautoframing:= )
-	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
-	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
+	media-libs/cros-camera-libfs:=
 	media-libs/libexif:=
 	media-libs/libsync:=
 	media-libs/minigbm:=
-	media-libs/cros-camera-facessd:=
 	virtual/libudev:=
 	virtual/opengles:=
 	x11-libs/libdrm:=

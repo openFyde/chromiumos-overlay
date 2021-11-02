@@ -29,7 +29,7 @@ RDEPEND="
 	chromeos-base/cros-camera-libs:=
 	dev-cpp/benchmark:=
 	dev-cpp/gtest:=
-	media-libs/cros-camera-libgcam:=
+	media-libs/cros-camera-libfs:=
 	virtual/opengles:=
 "
 

@@ -1,1 +1,0 @@
-cros-camera-document-scanning-2021.11.10.ebuild

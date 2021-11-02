@@ -1,1 +1,0 @@
-cros-camera-facessd-2021.10.27.ebuild

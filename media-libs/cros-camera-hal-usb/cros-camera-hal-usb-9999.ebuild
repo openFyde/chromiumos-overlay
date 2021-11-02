@@ -19,6 +19,7 @@ DESCRIPTION="Chrome OS USB camera HAL v3."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
+IUSE="asan"
 
 RDEPEND="
 	chromeos-base/cros-camera-android-deps
@@ -41,6 +42,10 @@ platform_pkg_test() {
 	)
 	local test_bin
 	for test_bin in "${tests[@]}"; do
-		platform_test run "${OUT}/${test_bin}"
+		# TODO(b/193747946): Remove the condition once we solve the camera
+		# libraries missing when running with asan enabled issue.
+		if ! use asan; then
+			platform_test run "${OUT}/${test_bin}"
+		fi
 	done
 }

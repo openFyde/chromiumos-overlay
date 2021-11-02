@@ -22,7 +22,7 @@ KEYWORDS="~*"
 RDEPEND="
 	chromeos-base/libbrillo:=
 	dev-cpp/gtest:=
-	media-libs/cros-camera-document-scanning:="
+	media-libs/cros-camera-libfs:="
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"

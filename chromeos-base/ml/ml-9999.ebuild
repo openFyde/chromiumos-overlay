@@ -72,7 +72,7 @@ RDEPEND="
 	chromeos-base/minijail:=
 	internal? ( ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] ) )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
-	media-libs/cros-camera-document-scanning:=[ondevice_document_scanner=]
+	media-libs/cros-camera-libfs:=[ondevice_document_scanner=]
 	>=dev-libs/libgrammar-0.0.4:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	>=dev-libs/libsuggest-0.0.9:=[ondevice_text_suggestions=]
