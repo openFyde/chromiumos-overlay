@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="91d24f3a2ab509418bcca3e174a3b779744f0afa"
+CROS_WORKON_COMMIT="1a49e32d517e2da755256ca6dfcfb1dbca9f15ac"
 CROS_WORKON_TREE=("f9c9ff0f07a0e5d4015af871a558204de304bb90" "26b91e41e669cca59d25dedeb6fb18c470d60c4b" "b21546dc6ba61ec535e7a441b52bd36db674cc5d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,6 +34,11 @@ DEPEND="${COMMON_DEPEND}"
 src_install() {
 	cd "${OUT}"
 	dobin run_oci
+
+	# Component maps to ChromeOS>Software>ARC++>Core
+	local fuzzer_component_id="488493"
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}/run_oci_utils_fuzzer" \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
