@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/abema/go-mp4 9f0321600240dd93cb681da2d8d5adbfd87913a6"
+CROS_GO_SOURCE="github.com/abema/go-mp4 5bdb34118acfef5536b63c4b70ce4314b5373f87"
 
 CROS_GO_PACKAGES=(
 	"github.com/abema/go-mp4/..."
@@ -21,5 +21,5 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND=""
-RDEPEND=""
+DEPEND="dev-go/bufseekio"
+RDEPEND="${DEPEND}"
