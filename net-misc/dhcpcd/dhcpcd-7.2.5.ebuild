@@ -45,6 +45,7 @@ src_prepare()
 	epatch "${FILESDIR}"/patches/${P}-Handle-DHCP-iSNS-option.patch
 	epatch "${FILESDIR}"/patches/${P}-Send-more-DHCPv6-options-over-DBus.patch
 	epatch "${FILESDIR}"/patches/${P}-Add-more-ARP-related-info-to-logs.patch
+	epatch "${FILESDIR}"/patches/${P}-Stop-only-active-interfaces-via-DBus.patch
 }
 
 src_configure()
