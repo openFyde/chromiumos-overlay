@@ -116,6 +116,11 @@ src_configure() {
 		# shared library shenaningans)
 		"-C link-arg=-Wl,--allow-multiple-definition"
 	)
+
+	# When using clang + asan, we need to link C++ lib. The build defaults
+	# to using -lstdc++ which fails to link.
+	use asan && rustflags+=( '-lc++' )
+
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 
 	cros-rust_src_configure
