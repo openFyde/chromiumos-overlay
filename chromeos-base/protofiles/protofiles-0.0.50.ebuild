@@ -27,7 +27,7 @@ inherit cros-constants eutils git-r3 python-any-r1
 EGIT_REPO_URIS=(
 	"cloud/policy"
 	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"a7c6ef05a492d12270d4090c1e7168f18a0adcdb"
+	"9ea04b6b4a550de9ab94aaa0f0bd8f35abea1ba8"
 
 	# If you uprev these repos, please also:
 	# - Update files/VERSION to the corresponding revision of
@@ -36,7 +36,7 @@ EGIT_REPO_URIS=(
 	#   code builders have the right set of policies.
 	# - Update authpolicy/policy/device_policy_encoder[_unittest].cc to
 	#   include new device policies. The unit test tells you missing ones:
-	#     cros_run_unit_tests --board=$BOARD --packages authpolicy
+	#     FEATURES=test emerge-$BOARD authpolicy
 	#   If you see unrelated test failures, make sure to rebuild the
 	#   authpolicy package and its dependencies (in particular, libbrillo
 	#   which provides libpolicy for accessing device policy) against the
@@ -67,11 +67,6 @@ LICENSE="BSD-Google"
 SLOT="0/${PV}"
 KEYWORDS="*"
 IUSE=""
-
-PATCHES=(
-	"${FILESDIR}/${PN}-pci-peripheral-data-access-enabled-v2.patch"
-	"${FILESDIR}/${PN}-add-device-target-version-selector-policy.patch"
-)
 
 POLICY_DIR="${S}/cloud/policy"
 
