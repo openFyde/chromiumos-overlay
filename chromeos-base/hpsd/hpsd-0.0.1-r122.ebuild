@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="67b1482bc13dee202b5dfef2a7d574fd61683fe7"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "34c59259480fc7baa455a02a4676858d54f3eba3" "f9c9ff0f07a0e5d4015af871a558204de304bb90" "e849dc63a297841f850ba099695224eea2cd48af")
+CROS_WORKON_COMMIT="2b0ebda026346683d68dd5e529e48cb87df27401"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8030f79d3f6e91a471c46056bc6ade5d78387d19" "f9c9ff0f07a0e5d4015af871a558204de304bb90" "e849dc63a297841f850ba099695224eea2cd48af")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn hps common-mk metrics"
@@ -13,7 +13,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="hps"
 
-inherit cros-workon platform user
+inherit cros-workon platform udev user
 
 DESCRIPTION="Chrome OS HPS daemon."
 
@@ -51,6 +51,10 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins daemon/dbus/org.chromium.Hps.conf
+
+	exeinto "$(get_udevdir)"
+	doexe udev/*.sh
+	udev_dorules udev/*.rules
 }
 
 platform_pkg_test() {
