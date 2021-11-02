@@ -1,6 +1,10 @@
 # Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
+# NOTE: If you make changes to this file that require Rust code to
+# be rebuilt, you can change the revision on virtual/rust-binaries
+# to make that rebuild happen on the next build_packages run.
+
 # @ECLASS: cros-rust.eclass
 # @MAINTAINER:
 # The Chromium OS Authors <chromium-os-dev@chromium.org>
@@ -110,6 +114,7 @@ EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_
 
 DEPEND="
 	>=virtual/rust-1.39.0:=
+	virtual/rust-binaries:=
 "
 
 ECARGO_HOME="${WORKDIR}/cargo_home"
