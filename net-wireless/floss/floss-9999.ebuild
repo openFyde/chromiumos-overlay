@@ -112,6 +112,9 @@ src_configure() {
 		# Add C/C++ build path to linker search path
 		"-L ${cxx_outdir}"
 
+		# Add sysroot libdir to search path.
+		"-L ${SYSROOT}/usr/$(get_libdir)/"
+
 		# Also ignore multiple definitions for now (added due to some
 		# shared library shenaningans)
 		"-C link-arg=-Wl,--allow-multiple-definition"
