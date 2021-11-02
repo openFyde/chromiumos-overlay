@@ -140,6 +140,7 @@ src_install() {
 
 	# Install tmpfiles.d config
 	dotmpfiles "${FILESDIR}/bluetoothlog-directories.conf"
+	dotmpfiles "${FILESDIR}/tmpfiles.d/bluez.conf"
 
 	# Install D-Bus config
 	insinto /etc/dbus-1/system.d

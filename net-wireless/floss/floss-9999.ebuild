@@ -177,7 +177,8 @@ src_install() {
 	doins "${FILESDIR}/upstart/btmanagerd.conf"
 	doins "${FILESDIR}/upstart/btadapterd.conf"
 
-	# Install tmpfiles
+	# Install tmpfiles (don't forget to update sepolicy if you change the
+	# files/folders created to something other than /var/lib/bluetooth)
 	dotmpfiles "${FILESDIR}/tmpfiles.d/floss.conf"
 }
 
