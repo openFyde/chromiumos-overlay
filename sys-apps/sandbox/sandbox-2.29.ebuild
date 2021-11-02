@@ -28,8 +28,7 @@ sandbox_death_notice() {
 src_prepare() {
 	default
 
-	eapply "${FILESDIR}"/${P}-pyc-hack.patch
-	eapply "${FILESDIR}"/${P}-symlink-toctou.patch
+	eapply "${FILESDIR}"/${PN}-2.27-pyc-hack.patch
 
 	if ! use nnp ; then
 		sed -i 's:PR_SET_NO_NEW_PRIVS:___disable_nnp_hack:' src/sandbox.c || die
