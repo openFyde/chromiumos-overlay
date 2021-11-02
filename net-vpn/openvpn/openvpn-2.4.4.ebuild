@@ -58,6 +58,9 @@ src_prepare() {
 	epatch "${FILESDIR}/${PN}-2.4.1-pkcs11-slot.patch"
 	epatch "${FILESDIR}/${PN}-2.4.1-redirect-gateway.patch"
 	epatch "${FILESDIR}/${PN}-2.4.4-fix-illegal-client-float-CVE-2020-11810.patch"
+	# Temporary patch for the purpose of collecting cipher algorithm metrics.
+	# Can be removed after b/197839464 is done.
+	epatch "${FILESDIR}/${PN}-cipher-in-status.patch"
 
 	default
 	eautoreconf
