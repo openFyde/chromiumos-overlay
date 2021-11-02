@@ -70,6 +70,8 @@ set_tid_address: 1
 timer_delete: 1
 timer_create: 1
 timer_settime: 1
+timerfd_create: 1
+timerfd_settime: 1
 
 pread64: 1
 # Need to get directory entries.
