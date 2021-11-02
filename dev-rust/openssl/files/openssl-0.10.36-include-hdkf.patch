@@ -14,24 +14,17 @@ Derivation Function), provided by OpenSSL 1.1.1.
 
 --- a/src/pkcs5.rs
 +++ b/src/pkcs5.rs
-@@ -2,10 +2,12 @@ use ffi;
- use libc::c_int;
+@@ -2,7 +2,9 @@ use libc::c_int;
  use std::ptr;
  
--use cvt;
--use error::ErrorStack;
--use hash::MessageDigest;
--use symm::Cipher;
-+use crate::cvt;
+ use crate::cvt;
 +use crate::cvt_p;
-+use crate::error::ErrorStack;
+ use crate::error::ErrorStack;
 +use crate::hash::DigestBytes;
-+use crate::hash::MessageDigest;
-+use crate::symm::Cipher;
+ use crate::hash::MessageDigest;
+ use crate::symm::Cipher;
  
- #[derive(Clone, Eq, PartialEq, Hash, Debug)]
- pub struct KeyIvPair {
-@@ -139,6 +141,216 @@ pub fn scrypt(
+@@ -138,6 +140,216 @@ pub fn scrypt(
      }
  }
  
@@ -247,8 +240,8 @@ Derivation Function), provided by OpenSSL 1.1.1.
 +
  #[cfg(test)]
  mod tests {
-     use hash::MessageDigest;
-@@ -302,4 +514,63 @@ mod tests {
+     use crate::hash::MessageDigest;
+@@ -299,4 +511,63 @@ mod tests {
          .unwrap();
          assert_eq!(hex::encode(&actual[..]), expected);
      }
