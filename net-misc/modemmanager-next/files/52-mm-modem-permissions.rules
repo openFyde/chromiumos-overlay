@@ -9,8 +9,9 @@
 # 77-mm-*.rules.
 
 #-------------------------------------------------------------------------------
-# PCIe devices exposed by ccci kernel driver
+# 'pcie' devices
 KERNEL=="ttyCMBIM[0-9]", SUBSYSTEM=="ccci_node", GOTO="modem_change_mode"
+KERNEL=="wwan0*", SUBSYSTEM=="wwan", GOTO="modem_change_mode"
 
 #-------------------------------------------------------------------------------
 # 'usb' devices
