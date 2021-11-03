@@ -50,7 +50,7 @@ done
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
 	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X
-	libglvnd"
+	libglvnd zstd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
 
@@ -70,6 +70,7 @@ RDEPEND="
 		x11-libs/libXrandr
 		x11-libs/libXxf86vm
 	)
+	zstd? ( app-arch/zstd )
 	wayland? (
 		dev-libs/wayland
 		>=dev-libs/wayland-protocols-1.8
@@ -203,6 +204,7 @@ src_configure() {
 		$(meson_feature X gl)
 		$(meson_feature gles1)
 		$(meson_feature gles2)
+		$(meson_feature zstd)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")

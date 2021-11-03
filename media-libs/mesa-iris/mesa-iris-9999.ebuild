@@ -18,7 +18,7 @@ HOMEPAGE="http://mesa3d.org/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 
-IUSE="debug vulkan tools libglvnd"
+IUSE="debug libglvnd tools vulkan zstd"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
@@ -28,6 +28,7 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	libglvnd? ( media-libs/libglvnd )
 	!libglvnd? ( !media-libs/libglvnd )
+	zstd? ( app-arch/zstd )
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -59,6 +60,7 @@ src_configure() {
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
 		-Dglvnd=$(usex libglvnd true false)
+		$(meson_feature zstd)
 		# Set platforms empty to avoid the default "auto" setting. If
 		# platforms is empty meson.build will add surfaceless.
 		-Dplatforms=''

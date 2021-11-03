@@ -22,7 +22,7 @@ for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
-IUSE="${IUSE_VIDEO_CARDS} debug vulkan libglvnd"
+IUSE="${IUSE_VIDEO_CARDS} debug libglvnd vulkan zstd"
 
 # keep correct libdrm and dri2proto dep
 # keep blocks in rdepend for binpkg
@@ -32,6 +32,7 @@ RDEPEND="
 	virtual/libelf
 	dev-libs/expat
 	x11-libs/libdrm
+	zstd? ( app-arch/zstd )
 	!media-libs/mesa
 "
 
@@ -87,6 +88,7 @@ src_configure() {
 		-Dgl=false
 		-Dgles1=false
 		-Dgles2=true
+		$(meson_feature zstd)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
