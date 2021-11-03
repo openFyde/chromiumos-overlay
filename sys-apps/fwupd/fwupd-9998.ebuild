@@ -17,9 +17,11 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt archive +bluetooth dell +dummy elogind flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	dell? ( uefi )
+	fastboot? ( gusb )
+	logitech? ( gusb )
 	minimal? ( !introspection )
 	spi? ( lzma )
 	synaptics? ( gnutls )
@@ -116,6 +118,7 @@ src_configure() {
 	local plugins=(
 		$(meson_use amt plugin_amt)
 		$(meson_use dell plugin_dell)
+		$(meson_use fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
 		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gusb plugin_altos)
