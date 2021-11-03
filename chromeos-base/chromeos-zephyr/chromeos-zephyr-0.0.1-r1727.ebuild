@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("bfdc3dda56217570f94e31820b2b3741848f0ce4" "5b1894c8d6ad65bc195ece88f9d69d6d89ce894a" "32a21483d6586851edfa1d8491beb3df442e90c6" "37493c0d4726d658902f41dbd521f30323b025ba" "2f8603a96a891deb4c83603f5c2bcbb2802ea663")
-CROS_WORKON_TREE=("0ae11b7eabea480cedbd8344f4974ebe775f63ac" "19a61acb2789ab4a68fd64653155c40b92e4430b" "719a42d9d98358f9123acf2d8916ed9c1821d60b" "ab76f9fab9b26ecb9c973ff7e66434b0e69b35b9" "02c9d68068fa9842dc788730a3174f3b18b065f5")
+CROS_WORKON_COMMIT=("bfdc3dda56217570f94e31820b2b3741848f0ce4" "5b1894c8d6ad65bc195ece88f9d69d6d89ce894a" "32a21483d6586851edfa1d8491beb3df442e90c6" "19552a15af11e6a0d3fc1498aabf8338c8804b80" "2f8603a96a891deb4c83603f5c2bcbb2802ea663")
+CROS_WORKON_TREE=("0ae11b7eabea480cedbd8344f4974ebe775f63ac" "19a61acb2789ab4a68fd64653155c40b92e4430b" "719a42d9d98358f9123acf2d8916ed9c1821d60b" "481471fce5d00c7159cb3569b19157527352e218" "02c9d68068fa9842dc788730a3174f3b18b065f5")
 ZEPHYR_VERSIONS=( v2.7 )
 
 CROS_WORKON_USE_VCSID=1
@@ -88,16 +88,24 @@ run_zmake() {
 src_configure() {
 	tc-export CC
 
-	while read -r board && read -r path; do
-		if [[ -z "${path}" ]]; then
+	local board project project_dir
+
+	while read -r board && read -r project; do
+		if [[ -z "${project}" ]]; then
 			continue
 		fi
-		if [[ ! -d "${S}/modules/ec/zephyr/${path}" ]]; then
-			die "Specified path for Zephyr project does not exist."
+
+		# TODO(jrosenth): remove below once all configs using project
+		# name instead of path.
+		project_dir="${S}/modules/ec/zephyr/${project}"
+		if [[ -d "${project_dir}" ]]; then
+			ewarn "Config zephyr-ec=${project} needs migrated to project name"
+			project="${project_dir}"
 		fi
+
 		local build_dir="build-${board}"
 
-		run_zmake configure "modules/ec/zephyr/${path}" -B "${build_dir}" \
+		run_zmake configure "${project}" -B "${build_dir}" \
 			|| die "Failed to configure ${build_dir}."
 
 		ZEPHYR_EC_BUILD_DIRECTORIES+=("${build_dir}")
