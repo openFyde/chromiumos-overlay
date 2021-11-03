@@ -29,8 +29,9 @@ BDEPEND="virtual/pkgconfig"
 RDEPEND="
 	chromeos-base/cros-camera-android-deps:=
 	chromeos-base/cros-camera-libs:=
+	dev-cpp/benchmark:=
 	dev-cpp/gtest:=
-	media-libs/cros-camera-libhdr:=
+	media-libs/cros-camera-libgcam:=
 	virtual/opengles:=
 "
 
@@ -46,5 +47,6 @@ src_configure() {
 src_install() {
 	dobin "${OUT}"/hdrnet_stream_manipulator_test
 	dobin "${OUT}"/hdrnet_processor_impl_test
+	dobin "${OUT}"/hdrnet_processor_benchmark
 	platform_src_install
 }

@@ -23,6 +23,7 @@ KEYWORDS="*"
 IUSE="
 	arc-camera3
 	biod
+	camera_feature_hdrnet
 	-chromeless_tests
 	cheets
 	chromeless_tty
@@ -116,6 +117,9 @@ CROS_COMMON_RDEPEND="
 	)
 	ondevice_document_scanner? (
 		media-libs/cros-camera-document-scanning-test
+	)
+	camera_feature_hdrnet? (
+		media-libs/cros-camera-hdrnet-tests
 	)
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
