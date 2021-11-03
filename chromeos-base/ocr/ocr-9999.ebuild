@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/ocr/"
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	app-text/tesseract:=
@@ -41,9 +41,9 @@ src_install() {
 
 	dobin "${OUT}"/ocr_tool
 
-	# Install upstart configuration.
+	# Install upstart configuration except for fuzzer builds.
 	insinto /etc/init
-	doins init/ocr_service.conf
+	use fuzzer || doins init/ocr_service.conf
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
@@ -52,6 +52,11 @@ src_install() {
 	# Install D-Bus service activation configuration.
 	insinto /usr/share/dbus-1/system-services
 	doins dbus_permissions/org.chromium.OpticalCharacterRecognition.service
+
+	# Install the fuzzer
+	local comp="860616"
+	platform_fuzzer_install "${S}/OWNERS" "${OUT}/ocr_service_fuzzer" \
+		--comp "${comp}"
 }
 
 platform_pkg_test() {
