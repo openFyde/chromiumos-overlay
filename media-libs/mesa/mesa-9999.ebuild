@@ -46,7 +46,7 @@ done
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
 	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X
-	libglvnd"
+	libglvnd zstd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
 
@@ -59,7 +59,6 @@ COMMON_DEPEND="
 	llvm? ( sys-devel/llvm:= )
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
-	app-arch/zstd:=
 	X? (
 		!<x11-base/xorg-server-1.7:=
 		>=x11-libs/libX11-1.3.99.901:=
@@ -69,6 +68,7 @@ COMMON_DEPEND="
 		x11-libs/libxshmfence:=
 		x11-libs/libXxf86vm:=
 	)
+	zstd? ( app-arch/zstd )
 	${LIBDRM_DEPSTRING}
 "
 
@@ -191,6 +191,7 @@ src_configure() {
 		$(meson_feature gbm)
 		$(meson_feature gles1)
 		$(meson_feature gles2)
+		$(meson_feature zstd)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
