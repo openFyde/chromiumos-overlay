@@ -1,0 +1,14 @@
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# udev rules to start firmware update on the Dell dock, the script takes
+# time to completion therefore don't wait the process finished
+
+# GUID (UUID5): USB\VID_413C&PID_B06E&hub&embedded
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="413c", ATTRS{idProduct}=="b06e", ACTION=="add", \
+RUN+="/sbin/initctl emit -n fwupdtool-update 'PLUGIN=dell_dock thunderbolt' GUID=cd357cf1-40b2-5d87-b8df-bb2dd82774aa"
+
+# GUID (UUID5): USB\VID_413C&PID_B06E&hub&embedded
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="413c", ATTRS{idProduct}=="b06f", ACTION=="add", \
+RUN+="/sbin/initctl emit -n fwupdtool-update 'PLUGIN=dell_dock' GUID=67de0057-2f75-5bea-a388-ced11251dd78"
