@@ -83,6 +83,7 @@ RDEPEND="${COMMON_DEPEND}
 	app-misc/jq
 	chromeos-base/chromeos-installer
 	chromeos-base/chromeos-storage-info
+	chromeos-base/dlcservice
 	chromeos-base/ec-utils
 	chromeos-base/secure-wipe
 	chromeos-base/vpd
