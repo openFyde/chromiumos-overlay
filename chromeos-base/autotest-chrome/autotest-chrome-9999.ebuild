@@ -113,33 +113,7 @@ IUSE_TESTS=(
 	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
-	+tests_policy_ArcAudioCaptureAllowed
-	+tests_policy_ArcBackupRestoreServiceEnabled
-	+tests_policy_ArcExternalStorageDisabled
-	+tests_policy_ArcVideoCaptureAllowed
-	+tests_policy_ArcDisableScreenshots
 	+tests_policy_AutotestCheck
-	+tests_policy_ChromeOsLockOnIdleSuspend
-	+tests_policy_CookiesSessionOnlyForUrls
-	+tests_policy_DeviceAllowBluetooth
-	+tests_policy_DeviceAutoUpdateDisabled
-	+tests_policy_DeviceDockMacAddressSource
-	+tests_policy_DownloadDirectory
-	+tests_policy_DriveDisabled
-	+tests_policy_DeviceEphemeralUsersEnabled
-	+tests_policy_EnrollmentRetainment
-	+tests_policy_EnterpriseForceInstallCustom
-	+tests_policy_ExtensionPolicy
-	+tests_policy_ExternalStorageDisabled
-	+tests_policy_ExternalStorageReadOnly
-	+tests_policy_ForceYouTubeSafetyMode
-	+tests_policy_KeyPermissions
-	+tests_policy_KioskModeEnabled
-	+tests_policy_PlatformKeys
-	+tests_policy_PowerManagementIdleSettings
-	+tests_policy_ProxySettings
-	+tests_policy_ReportUploadFrequency
-	+tests_policy_RestoreOnStartupURLs
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
 	+tests_power_BatteryDrain
