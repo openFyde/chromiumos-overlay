@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="222017805232e0a98d987dbb68cca562cae65cfb"
-CROS_WORKON_TREE=("d4c46f75f6620ba5bf8f25c12db0b85b5839ea54" "f1f324ef7f5cbfd3c8fec7c18b76b5364c3bddb3" "8b715e8188e62991b35e33467eb95bca6427dac5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="449229a4ea442ad787210adb9e33a551bf0b721c"
+CROS_WORKON_TREE=("d4c46f75f6620ba5bf8f25c12db0b85b5839ea54" "e849dc63a297841f850ba099695224eea2cd48af" "f1f324ef7f5cbfd3c8fec7c18b76b5364c3bddb3" "8b715e8188e62991b35e33467eb95bca6427dac5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk patchpanel shill/net .gn"
+CROS_WORKON_SUBTREE="common-mk metrics patchpanel shill/net .gn"
 
 PLATFORM_SUBDIR="patchpanel"
 
@@ -26,6 +26,7 @@ IUSE="fuzzer arcvm jetstream_routing"
 COMMON_DEPEND="
 	dev-libs/protobuf:=
 	!chromeos-base/arc-networkd
+	chromeos-base/metrics:=
 	chromeos-base/shill-net:=
 	chromeos-base/system_api:=[fuzzer?]
 "
