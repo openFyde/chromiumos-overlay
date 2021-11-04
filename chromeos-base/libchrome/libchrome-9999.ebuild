@@ -1,7 +1,7 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -75,8 +75,9 @@ src_prepare() {
 				continue
 			fi
 		fi
-		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
+		eapply "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
+	eapply_user
 }
 
 src_configure() {
