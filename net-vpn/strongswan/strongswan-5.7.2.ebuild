@@ -97,6 +97,13 @@ pkg_setup() {
 	fi
 }
 
+src_prepare() {
+	epatch "${FILESDIR}/${PN}-4.4.1-5.9.3_cert-cache-random.patch"
+	epatch "${FILESDIR}/${PN}-5.6.1-5.9.3_gmp-rsa-ssa-salt-len.patch"
+
+	default
+}
+
 src_configure() {
 	append-flags "-DSTARTER_ALLOW_NON_ROOT" "-DSKIP_KERNEL_IPSEC_MODPROBES"
 	local myconf=""
