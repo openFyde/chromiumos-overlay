@@ -6,7 +6,7 @@ EAPI=6
 CROS_WORKON_COMMIT="e15c8aaf49cfcbc6973b1a49ef6a5b358e2822fb"
 CROS_WORKON_TREE="bcd8a30369d6a1d6e2310f105366f48c6cb65506"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.7.0"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.7.1"
 
 PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
@@ -19,9 +19,11 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt archive +bluetooth dell +dummy elogind flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive +bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	dell? ( uefi )
+	fastboot? ( gusb )
+	logitech? ( gusb )
 	minimal? ( !introspection )
 	spi? ( lzma )
 	synaptics? ( gnutls )
@@ -118,6 +120,7 @@ src_configure() {
 	local plugins=(
 		$(meson_use amt plugin_amt)
 		$(meson_use dell plugin_dell)
+		$(meson_use fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
 		$(meson_use flashrom plugin_flashrom)
 		$(meson_use gusb plugin_altos)
