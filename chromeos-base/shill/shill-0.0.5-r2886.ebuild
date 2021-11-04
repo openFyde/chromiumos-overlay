@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b9eca7a2bc8d57ed0722d2e7a95787fc5ac9d4e3"
-CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "f38e4ec47cc344149937a5deab563c70b14d3932" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "84b5577206ba4849f4c3ad3e00cec4549e48eaca" "31cdfcb63fd7f2173854b108428f572e4f029b93" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f9ed4c886aeb0b41fac4b2498aa80ea2408618c5"
+CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "f38e4ec47cc344149937a5deab563c70b14d3932" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "84b5577206ba4849f4c3ad3e00cec4549e48eaca" "e3b3b638fe372708508389920c97c44a52101638" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -200,9 +200,6 @@ src_install() {
 
 	insinto /usr/share/cros/startup/process_management_policies
 	doins setuid_restrictions/shill_uid_allowlist.txt
-
-	insinto /usr/share/cros/startup/gid_process_management_policies
-	doins setgid_restrictions/shill_gid_allowlist.txt
 
 	udev_dorules udev/*.rules
 
