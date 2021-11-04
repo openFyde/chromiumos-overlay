@@ -20,6 +20,7 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 COMMON_DEPEND="
+	dev-libs/libgpiod:=
 	dev-libs/libusb:=
 	dev-embedded/libftdi:=
 	chromeos-base/metrics:=
