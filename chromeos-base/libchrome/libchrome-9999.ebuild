@@ -110,6 +110,7 @@ src_install() {
 	local header_dirs=(
 		base
 		base/allocator
+		base/allocator/partition_allocator
 		base/containers
 		base/debug
 		base/files
