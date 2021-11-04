@@ -1,0 +1,50 @@
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="b9eca7a2bc8d57ed0722d2e7a95787fc5ac9d4e3"
+CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "e13d4073d9a5f0ced8516c7744e65e9cb2ef507c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_INCREMENTAL_BUILD="1"
+CROS_WORKON_SUBTREE="common-mk fusebox .gn"
+
+PLATFORM_SUBDIR="fusebox"
+
+inherit cros-workon platform user
+
+DESCRIPTION="FuseBox service"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/fusebox"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+
+IUSE="test"
+
+COMMON_DEPEND="
+	dev-libs/protobuf:=
+	sys-apps/dbus:=
+	sys-fs/fuse:=
+	sys-libs/libcap:=
+"
+
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api
+"
+
+src_install() {
+	dobin "${OUT}"/fusebox
+}
+
+platform_pkg_test() {
+	local tests=(fusebox_test)
+
+	local test_bin
+	for test_bin in "${tests[@]}"; do
+		platform_test "run" "${OUT}/${test_bin}"
+	done
+}
