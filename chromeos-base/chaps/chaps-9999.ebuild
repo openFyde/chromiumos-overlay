@@ -95,10 +95,15 @@ src_install() {
 	fowners chaps:chronos-access "${daemon_store}"
 
 	local fuzzer_component_id="886041"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer \
-		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_object_store_fuzzer \
-		--comp "${fuzzer_component_id}"
+	local fuzzers=(
+		chaps_attributes_fuzzer
+		chaps_object_store_fuzzer
+		chaps_utility_fuzzer
+	)
+	for fuzzer in "${fuzzers[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzzer}" \
+			--comp "${fuzzer_component_id}"
+	done
 }
 
 platform_pkg_test() {
