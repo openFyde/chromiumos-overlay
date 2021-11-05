@@ -4,8 +4,8 @@
 EAPI=7
 
 CROS_GO_PACKAGES=(
-	"android.googlesource.com/platform/external/perfetto/protos/perfetto/metrics"
-	"android.googlesource.com/platform/external/perfetto/protos/perfetto/trace"
+	"android.googlesource.com/platform/external/perfetto/protos/perfetto/metrics/github.com/google/perfetto/perfetto_proto"
+	"android.googlesource.com/platform/external/perfetto/protos/perfetto/trace/github.com/google/perfetto/perfetto_proto"
 )
 
 inherit cros-constants
@@ -23,7 +23,7 @@ PLATFORM_SUBDIR="./"
 inherit cros-go cros-workon platform
 
 DESCRIPTION="Perfetto go proto for Chrome OS"
-HOMEPAGE="https://android.googlesource.com/platform/external/perfetto/+/refs/tags/v15.0/protos/perfetto/metrics/android/"
+HOMEPAGE="https://android.googlesource.com/platform/external/perfetto/+/refs/heads/master/protos/perfetto/metrics/android/"
 
 KEYWORDS="~*"
 IUSE="cros-debug"
@@ -47,7 +47,6 @@ src_unpack() {
 src_prepare() {
 	default
 	cp "${FILESDIR}/BUILD.gn" "${S}"
-	echo 'option go_package = "trace";' >> "${S}/../aosp/external/perfetto/protos/perfetto/trace/perfetto_trace.proto"
 }
 
 src_install() {
