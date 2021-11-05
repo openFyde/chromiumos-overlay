@@ -222,9 +222,13 @@ src_install() {
 		--comp "${chromeos_platform_connectivity_network_component_id}"
 
 	if use vpn; then
-		local chromeos_platform_connectivity_network_component_id="167325"
+		local vpn_fuzzer_component_id="156085"
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}/openvpn_management_server_fuzzer" \
-		--comp "${chromeos_platform_connectivity_network_component_id}"
+			--comp "${vpn_fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/vpn_ipsec_connection_fuzzer" \
+			--comp "${vpn_fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/vpn_l2tp_ipsec_driver_fuzzer" \
+			--comp "${vpn_fuzzer_component_id}"
 	fi
 }
 
