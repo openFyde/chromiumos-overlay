@@ -66,6 +66,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/cros_fuzz:=
 	=dev-rust/dbus-0.8*:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
+	=dev-rust/enumn-0.1*:=
 	=dev-rust/futures-0.3*:=
 	dev-rust/intrusive-collections:=
 	=dev-rust/gdbstub-0.5*:=
