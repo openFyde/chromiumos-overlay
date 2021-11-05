@@ -54,6 +54,7 @@ PATCHES=(
 	"${FILESDIR}/${P}-ld-argv0.patch"
 	"${FILESDIR}/${P}-Handle-sparse-git-repo-without-erroring.patch"
 	"${FILESDIR}/${P}-disable-mutable-noalias.patch"
+	"${FILESDIR}/${P}-add-armv7a-sanitizers.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
