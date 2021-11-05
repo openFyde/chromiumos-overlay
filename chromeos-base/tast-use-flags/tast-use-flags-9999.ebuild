@@ -37,6 +37,7 @@ IUSE="
 	betty
 	biod
 	borealis_host
+	camera_feature_hdrnet
 	cdm_factory_daemon
 	cert_provision
 	cheets_user
