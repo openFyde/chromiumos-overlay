@@ -220,6 +220,12 @@ src_install() {
 	local chromeos_platform_connectivity_network_component_id="167325"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
+
+	if use vpn; then
+		local chromeos_platform_connectivity_network_component_id="167325"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/openvpn_management_server_fuzzer" \
+		--comp "${chromeos_platform_connectivity_network_component_id}"
+	fi
 }
 
 platform_pkg_test() {
