@@ -18,6 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlp/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -30,6 +31,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 src_install() {
@@ -48,6 +50,10 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners dlp:dlp "${daemon_store}"
+
+	local fuzzer_component_id="892101"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlp_adaptor_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
