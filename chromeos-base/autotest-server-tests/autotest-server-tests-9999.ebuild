@@ -123,6 +123,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptBothFwBodyAB
 	+tests_firmware_CorruptBothFwSigAB
 	+tests_firmware_CorruptBothKernelAB
+	+tests_firmware_CorruptBothMiniosAB
 	+tests_firmware_CorruptFwBodyA
 	+tests_firmware_CorruptFwBodyB
 	+tests_firmware_CorruptFwSigA
