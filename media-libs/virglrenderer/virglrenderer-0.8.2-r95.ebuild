@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="fe82483966f1d578bbcb177a662ee1ceb30c8666"
-CROS_WORKON_TREE="3c6115d63b12e5243e7c55e59613638f2ef8351c"
+CROS_WORKON_COMMIT="b0eabf0b95cf5376226545574c388eb6b22c9e55"
+CROS_WORKON_TREE="ff311b5dc1ff46321506be4c30aca0c0f06505a7"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -45,6 +45,7 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-vkr-add-support-for-globalFencing.patch
+	"${FILESDIR}"/0002-vrend-disable-GL_EXT_external_object_fd-path-on-GLES.patch
 )
 
 src_prepare() {
