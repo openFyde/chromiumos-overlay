@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("85e388ed26de7da63b1a25511999464176479120" "e4dd228d2a80150880c9030e5af7fdacf5c9b378")
-CROS_WORKON_TREE=("ed25e5d43f63d79b4d2e0b5b0717ecef6d06ad6e" "dd5deba53d49ed330f1ab8e59f845daae76650c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT=("f4c00652768133eb997da39cc34633cdaa64354a" "b9eca7a2bc8d57ed0722d2e7a95787fc5ac9d4e3")
+CROS_WORKON_TREE=("3516af06d9376d0ce8fb6645c44989f35bf7e63e" "dd5deba53d49ed330f1ab8e59f845daae76650c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/metrics"
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/trace"
@@ -12,6 +12,7 @@ CROS_GO_PACKAGES=(
 
 inherit cros-constants
 
+CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_LOCALNAME=("../aosp/external/perfetto" "../platform2")
 CROS_WORKON_PROJECT=("platform/external/perfetto" "chromiumos/platform2")
 CROS_WORKON_REPO=("${CROS_GIT_AOSP_URL}" "${CROS_GIT_HOST_URL}")
