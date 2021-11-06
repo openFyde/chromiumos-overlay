@@ -1,6 +1,6 @@
 BDEPEND=sirenia? ( chromeos-base/sirenia-tools ) dev-vcs/git
 DEFINED_PHASES=compile configure info install postinst preinst prepare prerm setup test unpack
-DEPEND=sys-apps/dbus sirenia? ( chromeos-base/manatee-runtime ) chromeos-base/libsirenia:= =dev-rust/anyhow-1*:= dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= =dev-rust/getopts-0.2*:= dev-rust/libchromeos:= =dev-rust/log-0.4*:= =dev-rust/stderrlog-0.5*:= dev-rust/sys_util:= >=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0 =dev-rust/which-4*:= >=virtual/rust-1.39.0:=
+DEPEND=sys-apps/dbus sirenia? ( chromeos-base/manatee-runtime ) chromeos-base/libsirenia:= =dev-rust/anyhow-1*:= dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= =dev-rust/getopts-0.2*:= dev-rust/libchromeos:= =dev-rust/log-0.4*:= =dev-rust/stderrlog-0.5*:= dev-rust/sys_util:= >=dev-rust/termion-1.5.0 <dev-rust/termion-2.0.0:= >=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0 =dev-rust/which-4*:= >=virtual/rust-1.39.0:=
 DESCRIPTION=Rust D-Bus bindings for ManaTEE.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/manatee-client
@@ -12,4 +12,4 @@ RDEPEND=sys-apps/dbus sirenia? ( chromeos-base/manatee-runtime )
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/9999
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	421c3053aa5f85f0e51cf0e05b2061a3	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	ff100259492312ff6570e490bcb9a320	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=ee2336eac0be3a154c2a0afeaf400a09
+_md5_=bd8db5e10799c2f94ef32a776f4e532d
