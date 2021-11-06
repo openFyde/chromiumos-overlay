@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="449229a4ea442ad787210adb9e33a551bf0b721c"
-CROS_WORKON_TREE=("293e088a06346676a5d3f3c85fc915dd14b10e06" "58be5098716e7df76045940d9d1b652ca9b1cfd7")
+CROS_WORKON_COMMIT="73a9c0fa3a3e7c4d7890bbe6a6cbd0f3fb8ccd1d"
+CROS_WORKON_TREE=("14e6cac0a2633aee77d7737ef1bdc5e5228d1d87" "58be5098716e7df76045940d9d1b652ca9b1cfd7")
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -36,11 +36,20 @@ DEPEND="${RDEPEND}
 	=dev-rust/log-0.4*:=
 	=dev-rust/stderrlog-0.5*:=
 	dev-rust/sys_util:=
+	>=dev-rust/termion-1.5.0 <dev-rust/termion-2.0.0:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	=dev-rust/which-4*:=
 "
 
 BDEPEND="sirenia? ( chromeos-base/sirenia-tools )"
+
+src_compile() {
+	cros-rust_src_compile --all-features
+}
+
+src_test() {
+	cros-rust_src_test --all-features
+}
 
 src_install() {
 	cros-rust_src_install

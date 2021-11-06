@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="449229a4ea442ad787210adb9e33a551bf0b721c"
-CROS_WORKON_TREE="3c53bdf83567e48768eaef84772032e4d72860f5"
+CROS_WORKON_COMMIT="73a9c0fa3a3e7c4d7890bbe6a6cbd0f3fb8ccd1d"
+CROS_WORKON_TREE="c675321bc978633be5ef83a6e254c9ff339d4ed0"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,6 +23,7 @@ DEPEND="
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
+	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0:=
 	=dev-rust/base64-0.13*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*:=
