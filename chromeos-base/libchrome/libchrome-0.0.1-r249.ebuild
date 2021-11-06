@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("f390ddbe2a2a105e2c0337e41fd913eab8ad3a90" "32daed4736853127833ec0330ce66ca67ed16149")
+CROS_WORKON_COMMIT=("2b28e00fbe67179f5ed1f37b1ac228ef0e902234" "32daed4736853127833ec0330ce66ca67ed16149")
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "dd4a473385e898e4556d3aa60e17b9b88594e19a")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -23,7 +23,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 # TODO(b/204383858): remove 'endeavour' when patch
 # backward-compatibility-add-base-AdaptCallbackForRepaeting.patch is not needed
-IUSE="cros_host +crypto +dbus fuzzer +mojo +timers libchrome_b182295239 board_use_endeavour"
+IUSE="cros_host +crypto +dbus fuzzer +mojo +timers libchrome_b182295239 board_use_endeavour board_use_mistral"
 
 PLATFORM_SUBDIR="libchrome"
 
