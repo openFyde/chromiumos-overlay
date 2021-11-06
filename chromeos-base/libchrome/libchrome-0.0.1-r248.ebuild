@@ -1,9 +1,9 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
-CROS_WORKON_COMMIT=("b9eca7a2bc8d57ed0722d2e7a95787fc5ac9d4e3" "32daed4736853127833ec0330ce66ca67ed16149")
+CROS_WORKON_COMMIT=("f390ddbe2a2a105e2c0337e41fd913eab8ad3a90" "32daed4736853127833ec0330ce66ca67ed16149")
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "dd4a473385e898e4556d3aa60e17b9b88594e19a")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -77,8 +77,9 @@ src_prepare() {
 				continue
 			fi
 		fi
-		epatch "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
+		eapply "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
+	eapply_user
 }
 
 src_configure() {
@@ -112,6 +113,7 @@ src_install() {
 	local header_dirs=(
 		base
 		base/allocator
+		base/allocator/partition_allocator
 		base/containers
 		base/debug
 		base/files
