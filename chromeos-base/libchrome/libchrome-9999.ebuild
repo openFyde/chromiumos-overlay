@@ -112,6 +112,7 @@ src_install() {
 		base
 		base/allocator
 		base/allocator/partition_allocator
+		base/allocator/partition_allocator/starscan
 		base/containers
 		base/debug
 		base/files
