@@ -698,6 +698,7 @@ setup_test_lists() {
 		jpeg_decode_accelerator_unittest
 		ozone_gl_unittests
 		sandbox_linux_unittests
+		wayland_client_integration_tests
 		wayland_client_perftests
 	)
 
