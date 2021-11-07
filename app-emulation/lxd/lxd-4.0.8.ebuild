@@ -79,23 +79,8 @@ ERROR_UTS_NS="CONFIG_UTS_NS is required."
 
 VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/linuxcontainers.asc
 
-src_unpack() {
-	unpack "${A}"
-	cd "${S}" || die
-
-	# Instead of using the lxd symlink in the dist directory, move the lxd
-	# source into that directory. Otherwise, the cros-go_src_install stage
-	# will fail since it won't traverse symlinks.
-	rm "${S}/_dist/src/${EGO_PN}"
-	mkdir "${S}/_dist/src/${EGO_PN}"
-	find "${S}"/* -maxdepth 0 \
-				-type d \
-				! -name "_dist" \
-				-exec mv {} "${S}/_dist/src/${EGO_PN}" \;
-}
-
 src_configure() {
-	DEPS="${S}/_dist/deps"
+	DEPS="${S}/vendor"
 
 	cd "${DEPS}/raft" || die "Can't cd to raft dir"
 	eautoreconf
@@ -109,7 +94,7 @@ src_configure() {
 }
 
 src_compile() {
-	DEPS="${S}/_dist/deps"
+	DEPS="${S}/vendor"
 
 	cd "${DEPS}/raft" || die "Can't cd to raft dir"
 	emake
@@ -159,7 +144,7 @@ src_test() {
 src_install() {
 	cros-go_src_install
 
-	DEPS="${S}/_dist/deps"
+	DEPS="${S}/vendor"
 
 	cd "${DEPS}/raft" || die
 	emake DESTDIR="${D}/opt/google/lxd-next" install
@@ -168,10 +153,10 @@ src_install() {
 	emake DESTDIR="${D}/opt/google/lxd-next" install
 
 	cd "${S}" || die
-	newbashcomp "${S}/_dist/src/${EGO_PN}/scripts/bash/lxd-client" lxc
+	newbashcomp "${S}/scripts/bash/lxd-client" lxc
 
-	dodoc AUTHORS _dist/src/${EGO_PN}/doc/*
-	use nls && domo "${S}/_dist/src/${EGO_PN}/po/"*.mo
+	dodoc AUTHORS doc/*
+	use nls && domo "${S}/po/"*.mo
 
 	# TODO(crbug/1097610) Remove this once we no longer need to do weird
 	# things with PATH

@@ -15,15 +15,16 @@ SRC_URI="https://linuxcontainers.org/downloads/lxc/${P}.tar.gz
 
 KEYWORDS="*"
 
-LICENSE="LGPL-3"
+LICENSE="GPL-2 LGPL-2.1 LGPL-3"
 SLOT="4"
-IUSE="apparmor +caps doc man pam seccomp selinux +ssl +tools verify-sig"
+IUSE="apparmor +caps doc io-uring man pam seccomp selinux +ssl +tools verify-sig"
 
 RDEPEND="app-misc/pax-utils
 	sys-apps/util-linux
 	sys-libs/libcap
 	virtual/awk
 	caps? ( sys-libs/libcap )
+	io-uring? ( sys-libs/liburing:= )
 	pam? ( sys-libs/pam )
 	seccomp? ( sys-libs/libseccomp )
 	selinux? ( sys-libs/libselinux )
@@ -33,7 +34,8 @@ RDEPEND="app-misc/pax-utils
 DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-4
 	apparmor? ( sys-apps/apparmor )"
-BDEPEND="doc? ( app-doc/doxygen )
+BDEPEND="virtual/pkgconfig
+	doc? ( app-doc/doxygen )
 	man? ( app-text/docbook-sgml-utils )
 	verify-sig? ( app-crypt/openpgp-keys-linuxcontainers )"
 
@@ -73,14 +75,17 @@ pkg_setup() {
 }
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-3.0.0-bash-completion.patch
 	"${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch # bug 558854
+	"${FILESDIR}"/${P}-liburing-sync1.patch #820545
+	"${FILESDIR}"/${P}-liburing-sync2.patch #820545
 )
 
 VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/linuxcontainers.asc
 
 src_prepare() {
 	default
+
+	export bashcompdir="/opt/google/lxd-next/etc/bash_completion.d"
 	eautoreconf
 }
 
@@ -123,6 +128,7 @@ src_configure() {
 		$(use_enable caps capabilities)
 		$(use_enable doc api-docs)
 		$(use_enable doc examples)
+		$(use_enable io-uring liburing)
 		$(use_enable man doc)
 		$(use_enable pam)
 		$(use_enable seccomp)
@@ -141,9 +147,16 @@ src_install() {
 
 	prefix="${ED}/opt/google/lxd-next"
 
-	mv "${prefix}"/usr/share/bash-completion/completions/${PN} "${prefix}"/$(get_bashcompdir)/${PN}-start || die
-	bashcomp_alias ${PN}-start \
-		${PN}-{attach,cgroup,copy,console,create,destroy,device,execute,freeze,info,monitor,snapshot,stop,unfreeze,wait}
+	# The main bash-completion file will collide with lxd, need to relocate and update symlinks.
+	mkdir -p "${prefix}"/$(get_bashcompdir) || die "Failed to create bashcompdir."
+	mv "${prefix}"/etc/bash_completion.d/lxc "${prefix}"/$(get_bashcompdir)/lxc-start || die "Failed to relocate lxc bash-completion file."
+	rm -r "${prefix}"/etc/bash_completion.d || die "Failed to remove wrong bash_completion.d content."
+
+	if use tools; then
+		bashcomp_alias lxc-start lxc-{attach,cgroup,copy,console,create,destroy,device,execute,freeze,info,monitor,snapshot,stop,unfreeze,usernsexec,wait}
+	else
+		bashcomp_alias lxc-start lxc-usernsexec
+	fi
 
 	keepdir /etc/lxc /var/lib/lxc/rootfs /var/log/lxc
 	rmdir "${D}"/var/cache/lxc "${D}"/var/cache || die "rmdir failed"
@@ -151,7 +164,7 @@ src_install() {
 	find "${D}" -name '*.la' -delete -o -name '*.a' -delete || die
 
 	# Gentoo-specific additions!
-	newinitd "${FILESDIR}/${PN}.initd.8" ${PN}
+	newinitd "${FILESDIR}/lxc.initd.8" lxc
 
 	DOC_CONTENTS="
 		For openrc, there is an init script provided with the package.
