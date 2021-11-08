@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b9eca7a2bc8d57ed0722d2e7a95787fc5ac9d4e3"
+CROS_WORKON_COMMIT="bf8e712da0a62e3a0c8a951b21d0c1d39a853aab"
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "701b8b3858626249922e2a95a2f50e34c5e78dc9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,6 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlp/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -32,6 +33,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 src_install() {
@@ -50,6 +52,10 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"
 	fowners dlp:dlp "${daemon_store}"
+
+	local fuzzer_component_id="892101"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/dlp_adaptor_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
