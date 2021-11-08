@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("2b28e00fbe67179f5ed1f37b1ac228ef0e902234" "32daed4736853127833ec0330ce66ca67ed16149")
+CROS_WORKON_COMMIT=("bb8904d5de4d66425125231b85e7ab4f6dbdd8fc" "32daed4736853127833ec0330ce66ca67ed16149")
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "dd4a473385e898e4556d3aa60e17b9b88594e19a")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -114,6 +114,7 @@ src_install() {
 		base
 		base/allocator
 		base/allocator/partition_allocator
+		base/allocator/partition_allocator/starscan
 		base/containers
 		base/debug
 		base/files
