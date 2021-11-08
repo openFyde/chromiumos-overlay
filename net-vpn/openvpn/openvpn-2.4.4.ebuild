@@ -123,12 +123,6 @@ src_install() {
 }
 
 pkg_postinst() {
-	# Add openvpn user so openvpn servers can drop privs
-	# Clients should run as root so they can change ip addresses,
-	# dns information and other such things.
-	enewgroup openvpn
-	enewuser openvpn "" "" "" openvpn
-
 	if grep -Eq "^[ \t]*(up|down)[ \t].*" "${ROOT}/etc/openvpn"/*.conf 2>/dev/null ; then
 		ewarn ""
 		ewarn "WARNING: If you use the remote keyword then you are deemed to be"
