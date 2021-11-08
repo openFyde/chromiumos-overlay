@@ -1,9 +1,9 @@
 # Copyright (c) 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
-inherit autotools eutils user
+inherit autotools eutils user cros-sanitizers
 
 DESCRIPTION="The USBGuard software framework helps to protect your computer against rogue USB devices (a.k.a. BadUSB) by implementing basic whitelisting and blacklisting capabilities based on device attributes."
 HOMEPAGE="https://usbguard.github.io/"
@@ -50,6 +50,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	cros_enable_cxx_exceptions
 	econf \
 		--without-polkit \
