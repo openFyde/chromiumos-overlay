@@ -135,6 +135,10 @@ src_install() {
 	# an include-link.
 	local fuzzer_component_id="1032705"
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/crash_sender_base_fuzzer \
+		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/crash_sender_fuzzer \
 		--dict "${S}"/crash_sender_fuzzer.dict \
 		--comp "${fuzzer_component_id}"
