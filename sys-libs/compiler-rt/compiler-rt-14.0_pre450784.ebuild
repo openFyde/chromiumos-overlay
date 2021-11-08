@@ -87,31 +87,40 @@ src_configure() {
 		"-DCOMPILER_RT_LIBCXXABI_PATH=${S}/libcxxabi"
 		"-DCOMPILER_RT_LIBCXX_PATH=${S}/libcxx"
 		"-DCOMPILER_RT_HAS_GNU_VERSION_SCRIPT_COMPAT=no"
-		"-DCOMPILER_RT_BUILD_LIBFUZZER=yes"
 		"-DCOMPILER_RT_BUILTINS_HIDE_SYMBOLS=OFF"
 		"-DCOMPILER_RT_SANITIZERS_TO_BUILD=asan;msan;hwasan;tsan;cfi;ubsan_minimal;gwp_asan"
 		# b/200831212: Disable per runtime install dirs.
 		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
 		# b/204220308: Disable OCR since we are not using it.
 		"-DCOMPILER_RT_BUILD_ORC=OFF"
+		"-DCOMPILER_RT_INSTALL_PATH=${EPREFIX}$(${CC} --print-resource-dir)"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then
+		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
 		mycmakeargs+=(
 			"-DCOMPILER_RT_OS_DIR=baremetal"
 			"-DCOMPILER_RT_BAREMETAL_BUILD=yes"
 			"-DCMAKE_C_COMPILER_TARGET=${CTARGET}"
 			"-DCOMPILER_RT_DEFAULT_TARGET_ONLY=yes"
+			"-DCOMPILER_RT_BUILD_SANITIZERS=no"
+			"-DCOMPILER_RT_BUILD_LIBFUZZER=no"
 		)
+		# b/205342596: This is a hack to provide armv6m builtins for use with
+		# arm-none-eabi without creating a separate armv6m toolchain.
+		if [[ ${CTARGET} == arm-none-eabi ]]; then
+			append-flags "-march=armv6m --sysroot=/usr/arm-none-eabi"
+			mycmakeargs+=( "-DCMAKE_C_COMPILER_TARGET=armv6m-none-eabi" )
+		fi
 	else
+		# Standard userspace toolchains e.g. armv7a-cros-linux-gnueabihf.
 		mycmakeargs+=(
 			"-DCOMPILER_RT_DEFAULT_TARGET_TRIPLE=${CTARGET}"
 			"-DCOMPILER_RT_TEST_TARGET_TRIPLE=${CTARGET}"
+			"-DCOMPILER_RT_BUILD_LIBFUZZER=yes"
+			"-DCOMPILER_RT_BUILD_SANITIZERS=yes"
 		)
 	fi
-	mycmakeargs+=(
-		"-DCOMPILER_RT_INSTALL_PATH=${EPREFIX}$(${CC} --print-resource-dir)"
-	)
 	cmake-utils_src_configure
 }
 
