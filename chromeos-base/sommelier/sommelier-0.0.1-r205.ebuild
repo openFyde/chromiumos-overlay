@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="e1e0906696ebd4a787ed11ac872da43061fa6c97"
+CROS_WORKON_COMMIT="a8e27810bac393616a764a3987b8f0b925ea5627"
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "e897cfafc380ad29581e3274469efeafaec10bc8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -56,8 +56,10 @@ DEPEND="
 src_install() {
 	dobin "${OUT}"/sommelier
 
-	# fuzzer_component_id is unknown/unlisted
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
+	# TODO(sidereal) This fuzzer isn't useful without a re-design
+	# of sommelier's error handling and memory management. Disable
+	# it for now.
+	# platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
 }
 
 platform_pkg_test() {
