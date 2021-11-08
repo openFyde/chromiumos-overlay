@@ -1048,16 +1048,16 @@
         "end_version": 433723
     },
     {
-      "comment": "[DebugInfo] Correctly update debug users of SSA values in tail duplication",
-      "rel_patch_path": "cherry/31e75512174e1bdaa242ee5c7f30fe56e68c3748.patch",
-      "start_version": 433403,
-      "end_version": 433807
+        "comment": "[DebugInfo] Correctly update debug users of SSA values in tail duplication",
+        "rel_patch_path": "cherry/31e75512174e1bdaa242ee5c7f30fe56e68c3748.patch",
+        "start_version": 433403,
+        "end_version": 433807
     },
     {
-      "comment": "Revert \"[DSE] Transform memset + malloc --> calloc (PR25892)\"",
-      "rel_patch_path": "cherry/bc536c710150f53b5ae5cd6b7693636e77992d0a.patch",
-      "start_version": 433123,
-      "end_version": 433562
+        "comment": "Revert \"[DSE] Transform memset + malloc --> calloc (PR25892)\"",
+        "rel_patch_path": "cherry/bc536c710150f53b5ae5cd6b7693636e77992d0a.patch",
+        "start_version": 433123,
+        "end_version": 433562
     },
     {
         "comment": "Revert \"sanitizer_common: split LibIgnore into fast/slow paths\"",
@@ -1088,5 +1088,11 @@
         "rel_patch_path": "cherry/0dc6b597db4d8b25f3df96a8f6574be732e18fdd.patch",
         "start_version": 400017,
         "end_version": 435471
+    },
+    {
+        "comment": "[compiler-rt] Produce the right arch suffix for arm baremetal",
+        "rel_patch_path": "cherry/db27867dfc95257faf5baa40436370df67647847.patch",
+        "start_version": 433403,
+        "end_version": 442917
     }
 ]

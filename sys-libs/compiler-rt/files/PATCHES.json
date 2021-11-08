@@ -66,5 +66,11 @@
         "comment": "[compiler-rt] [builtins] [arm32] Enable ARM32 fuzzing support",
         "rel_patch_path": "fuzzer-enable-arm32.patch",
         "start_version": 433403
+    },
+    {
+        "comment": "[compiler-rt] Produce the right arch suffix for arm baremetal",
+        "rel_patch_path": "db27867dfc95257faf5baa40436370df67647847.patch",
+        "start_version": 433403,
+        "end_version": 442917
     }
 ]
