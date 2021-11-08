@@ -9,7 +9,7 @@ PYTHON_REQ_USE="threads(+),xml"
 # 14 and 15 spit out a lot of warnings about subdirs
 WANT_AUTOMAKE="1.13"
 
-inherit autotools linux-info python-single-r1 readme.gentoo-r1 udev
+inherit autotools cros-sanitizers linux-info python-single-r1 readme.gentoo-r1 udev
 
 DESCRIPTION="HP Linux Imaging and Printing - Print, scan, fax drivers and service tools"
 HOMEPAGE="https://developers.hp.com/hp-linux-imaging-and-printing"
@@ -151,6 +151,8 @@ src_prepare() {
 
 src_configure() {
 	local drv_build minimal_build
+
+	sanitizers-setup-env
 
 	if use hpcups ; then
 		drv_build="$(use_enable hpcups hpcups-install)"
