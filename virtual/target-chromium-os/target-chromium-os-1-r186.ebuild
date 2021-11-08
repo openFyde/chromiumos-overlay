@@ -77,6 +77,7 @@ IUSE="
 	mtd
 	+network_time
 	nfc
+	ondevice_handwriting
 	os_install_service
 	pam
 	pciguard
@@ -228,6 +229,7 @@ RDEPEND="
 	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
+	ondevice_handwriting? ( chromeos-base/languagepack-handwriting-es )
 	hps? (
 		chromeos-base/hpsd
 		!asan? (
