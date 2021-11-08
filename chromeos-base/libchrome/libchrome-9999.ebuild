@@ -143,7 +143,6 @@ src_install() {
 		base/trace_event
 		base/trace_event/common
 		base/types
-		base/util/type_safety
 		build
 		components/policy
 		components/policy/core/common
