@@ -18,6 +18,8 @@ KEYWORDS="~*"
 IUSE_KERNEL_VERS=(
 	kernel-4_19
 	kernel-5_4
+	kernel-5_10
+	kernel-5_15
 	kernel-upstream
 )
 IUSE_ATH3K=(
@@ -315,6 +317,8 @@ install_iwlwifi() {
 			case "${kernel}" in
 			kernel-4_19) doins "${x}-a0-hr-b0-67.ucode" ;;
 			kernel-5_4)  doins "${x}-a0-hr-b0-67.ucode" ;;
+			kernel-5_10)  doins "${x}-a0-hr-b0-67.ucode" ;;
+			kernel-5_15)  doins "${x}-a0-hr-b0-67.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-62.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
