@@ -54,8 +54,10 @@ DEPEND="
 src_install() {
 	dobin "${OUT}"/sommelier
 
-	# fuzzer_component_id is unknown/unlisted
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
+	# TODO(sidereal) This fuzzer isn't useful without a re-design
+	# of sommelier's error handling and memory management. Disable
+	# it for now.
+	# platform_fuzzer_install "${S}"/OWNERS "${OUT}"/sommelier_wayland_fuzzer
 }
 
 platform_pkg_test() {
