@@ -28,9 +28,11 @@ src_install() {
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	dolib.so "${OUT}/lib/libfeatures.so"
+	dolib.so "${OUT}/lib/libfeatures_c.so"
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	doins "${OUT}/lib/libfeatures.pc"
+	doins "${OUT}/lib/libfeatures_c.pc"
 
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
