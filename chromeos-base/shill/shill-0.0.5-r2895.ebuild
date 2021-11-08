@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a8e27810bac393616a764a3987b8f0b925ea5627"
-CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "8b9aea037d73180eb065218face9e8f6d5934480" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "84b5577206ba4849f4c3ad3e00cec4549e48eaca" "e91549399ec8238394c9b80910bd1781a0f36249" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a866f382e640753303be56bb25deeee70b63e2cb"
+CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "8b9aea037d73180eb065218face9e8f6d5934480" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "84b5577206ba4849f4c3ad3e00cec4549e48eaca" "fa89bc76b3c46e87d66b4ddbbfde3370b04142e2" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -222,6 +222,12 @@ src_install() {
 	local chromeos_platform_connectivity_network_component_id="167325"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
+
+	if use vpn; then
+		local chromeos_platform_connectivity_network_component_id="167325"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}/openvpn_management_server_fuzzer" \
+		--comp "${chromeos_platform_connectivity_network_component_id}"
+	fi
 }
 
 platform_pkg_test() {
