@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+inherit cros-sanitizers
+
 DESCRIPTION="DIAG channel diagnostics communication tool"
 HOMEPAGE="https://github.com/andersson/diag"
 GIT_SHA1="d06e599d197790c9e84ac41a51bf124a69768c4f"
@@ -24,6 +26,11 @@ S="${WORKDIR}/${PN}-${GIT_SHA1}"
 src_prepare() {
 	default
 	eapply "${FILESDIR}/patches/0001-ODL-support-on-Open-Source-Diag-Router.patch"
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_compile() {
