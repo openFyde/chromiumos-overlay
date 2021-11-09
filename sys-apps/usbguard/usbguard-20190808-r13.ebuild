@@ -1,1 +1,0 @@
-usbguard-20190808.ebuild
