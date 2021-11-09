@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dd11128bf66511f114c7bfdf8ef7261b0f448037"
+CROS_WORKON_COMMIT="2f3a904f7c1f99959a24ae1a15399da72943027f"
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "c9e969dd776702ea1c2e08aa72dd03863dc69582" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -135,7 +135,6 @@ src_install() {
 		insinto /etc/init
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
-		doins init/cryptohome-proxy.conf
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
