@@ -29,7 +29,8 @@ SRC_URI="
 	)
 "
 
-LICENSE="BSD-Google"
+# 'Apache-2.0' and 'BSD-vmm_vhost' are for third_party/vmm_vhost.
+LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
 KEYWORDS="~*"
 IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1"
 
