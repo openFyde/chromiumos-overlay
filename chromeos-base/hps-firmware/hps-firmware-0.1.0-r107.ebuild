@@ -17,6 +17,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
+BDEPEND="dev-libs/openssl"
+
 # Add these for hps-mon / hps-util:
 	#>=dev-rust/argh-0.1.4:= <dev-rust/argh-0.2.0
 	#=dev-rust/ftd2xx-embedded-hal-0.7*:=
@@ -105,6 +107,14 @@ src_compile() {
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}" \
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin"
 	) done
+
+	# Put something in the signature / version bytes. These will be overwritten
+	# when the binary gets signed, but are useful for development.
+	openssl dgst -md5 -binary \
+		"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
+		| dd bs=1 seek=20 count=4 conv=notrunc \
+		of="${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
+		|| die
 }
 
 src_test() {
