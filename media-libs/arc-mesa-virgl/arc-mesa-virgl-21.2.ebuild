@@ -41,7 +41,7 @@ ARC_PLATFORM_SDK_VERSION=28
 
 IUSE="${IUSE_VIDEO_CARDS}
 	android_aep -android_gles2 -android_gles30
-	+android_gles31 -android_gles32	-android_vulkan_compute_0
+	+android_gles31 -android_gles32	-android_vulkan_compute_0 -swvulkan
 	+cheets classic debug dri +egl +gallium
 	-gbm +gles1 +gles2 -llvm +nptl pic selinux +shared-glapi -vulkan -X xlib-glx
 	cheets_user cheets_user_64"
@@ -350,6 +350,10 @@ multilib_src_install_all_cheets() {
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
 		fi
+	elif use swvulkan; then
+		einfo "Using swiftshader vulkan."
+		insinto "${ARC_VM_PREFIX}/vendor/etc/init"
+		doins "${FILESDIR}/sw.vulkan.rc"
 	fi
 
 	if use android_vulkan_compute_0; then
