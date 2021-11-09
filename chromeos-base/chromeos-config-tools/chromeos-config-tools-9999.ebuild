@@ -31,7 +31,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chrome
 LICENSE="BSD-Google"
 SLOT=0
 KEYWORDS="~*"
-IUSE=""
+IUSE="unibuild"
 
 GTEST_METADATA=(
 	libcros_config/cros_config_functional_test.yaml
@@ -61,6 +61,12 @@ src_install() {
 	dobin "${OUT}"/cros_config
 	newbin cros_config_mock.sh cros_config_mock
 	dosbin "${OUT}"/cros_configfs
+
+	if use unibuild; then
+		newsbin scripts/cros_config_setup.sh cros_config_setup
+	else
+		newsbin scripts/cros_config_setup_legacy.sh cros_config_setup
+	fi
 
 	if use test; then
 		exeinto "${GTEST_TEST_INSTALL_DIR}"
