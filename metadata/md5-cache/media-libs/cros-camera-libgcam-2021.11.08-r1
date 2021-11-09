@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=!media-libs/cros-camera-libhdr
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-camera-libgcam-2021.10.12.tar.bz2
+SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-camera-libgcam-2021.11.08.tar.bz2
 _md5_=350651d1921e662be6071a4beb743e2c
