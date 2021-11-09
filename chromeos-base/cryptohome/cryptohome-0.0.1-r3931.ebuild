@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2f3a904f7c1f99959a24ae1a15399da72943027f"
-CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "c9e969dd776702ea1c2e08aa72dd03863dc69582" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3564af2955fecfec02b243f901f99ca8ce556d68"
+CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "ccdfba1f81acd8cbdb61b1bf412d3645e9228ebe" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -92,9 +92,7 @@ src_install() {
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
-	if use tpm2; then
-		dosbin bootlockboxd bootlockboxtool
-	fi
+	dosbin bootlockboxd bootlockboxtool
 	if use cert_provision; then
 		dolib.so lib/libcert_provision.so
 		dosbin cert_provision_client
@@ -104,9 +102,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins etc/Cryptohome.conf
 	doins etc/org.chromium.UserDataAuth.conf
-	if use tpm2; then
-		doins etc/BootLockbox.conf
-	fi
+	doins etc/BootLockbox.conf
 
 	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-upstream) || use uprev-4-to-5); then
 		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
@@ -133,6 +129,7 @@ src_install() {
 		systemd_enable_service ui.target lockbox-cache.service
 	else
 		insinto /etc/init
+		doins bootlockbox/bootlockboxd.conf
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
 		doins init/init-homedirs.conf
@@ -145,17 +142,7 @@ src_install() {
 		else
 			doins init/lockbox-cache.conf
 		fi
-		if use tpm2; then
-			insinto /usr/share/policy
-			newins bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy \
-				bootlockboxd-seccomp.policy
-			insinto /etc/init
-			doins bootlockbox/bootlockboxd.conf
-		else
-			sed -i '/env DISTRIBUTED_MODE_FLAG=/s:=.*:="--attestation_mode=dbus":' \
-				"${D}/etc/init/cryptohomed.conf" ||
-				die "Can't activate distributed mode in cryptohomed.conf"
-		fi
+
 		if use direncryption; then
 			sed -i '/env DIRENCRYPTION_FLAG=/s:=.*:="--direncryption":' \
 				"${D}/etc/init/cryptohomed.conf" ||
@@ -190,9 +177,11 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-	# Install seccomp policy for cryptohome-proxy
+	# Install seccomp policy for cryptohome-proxy & bootlockboxd
 	insinto /usr/share/policy
 	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
+	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
+		bootlockboxd-seccomp.policy
 
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
