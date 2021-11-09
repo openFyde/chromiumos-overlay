@@ -106,7 +106,7 @@ src_compile() {
 		einfo "Flattening MCU firmware image ${crate}"
 		llvm-objcopy -O binary \
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}" \
-			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin"
+			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin" || die
 	) done
 
 	# Put something in the signature / version bytes. These will be overwritten
