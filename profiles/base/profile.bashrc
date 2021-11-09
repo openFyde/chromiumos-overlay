@@ -188,271 +188,271 @@ cros_pre_src_prepare_build_toolchain_catch() {
 
 	# TODO(vapier): Finish fixing these packages.
 	_sdk_build_filter_pkg_config() {
-		case ${CATEGORY}/${PN} in
-		*/gdb) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		*/gdb:*) return 1;;
 		# Haskell has some internal logic that invokes `pkg-config --version`.
-		app-admin/haskell-updater) return 1;;
-		dev-embedded/u-boot-tools) return 1;;
-		dev-util/shellcheck) return 1;;
+		app-admin/haskell-updater:*) return 1;;
+		dev-embedded/u-boot-tools:2018.05*) return 1;;
+		dev-util/shellcheck:*) return 1;;
 		dev-haskell/*) return 1;;
-		dev-lang/ghc) return 1;;
-		dev-lang/rust) return 1;;
-		dev-python/pycairo) return 1;;
-		media-video/ffmpeg) return 1;;
-		net-analyzer/wireshark) return 1;;
+		dev-lang/ghc:*) return 1;;
+		dev-lang/rust:*) return 1;;
+		dev-python/pycairo:1.20*) return 1;;
+		media-video/ffmpeg:4.4*) return 1;;
+		net-analyzer/wireshark:3.4.*) return 1;;
 		# Used during `aclocal` to find glib macros.
-		x11-libs/cairo) return 1;;
+		x11-libs/cairo:*) return 1;;
 		esac
 	}
 	_sdk_build_filter_cc() {
-		case ${CATEGORY}/${PN} in
-		*/binutils|\
-		*/gcc|\
-		*/gdb|\
-		app-text/xmlto|\
-		cross-*/gdb|\
-		dev-embedded/u-boot-tools|\
-		dev-lang/rust|\
-		dev-libs/libffi|\
-		dev-libs/libusb-compat|\
-		dev-libs/lzo|\
-		dev-python/grpcio|\
-		dev-python/psutil|\
-		dev-util/patchutils|\
-		net-libs/libmnl|\
-		sys-apps/groff|\
-		sys-devel/m4|\
-		sys-libs/binutils-libs|\
-		x11-libs/gdk-pixbuf) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		*/binutils:*|\
+		*/gcc:*|\
+		*/gdb:*|\
+		app-text/xmlto:*|\
+		cross-*/gdb:*|\
+		dev-embedded/u-boot-tools:2018.05*|\
+		dev-lang/rust:*|\
+		dev-libs/libffi:3.1*|\
+		dev-libs/libusb-compat:0.1.5*|\
+		dev-libs/lzo:*|\
+		dev-python/grpcio:*|\
+		dev-python/psutil:*|\
+		dev-util/patchutils:*|\
+		net-libs/libmnl:*|\
+		sys-apps/groff:*|\
+		sys-devel/m4:*|\
+		sys-libs/binutils-libs:*|\
+		x11-libs/gdk-pixbuf:*) return 1;;
 		esac
 	}
 	_sdk_build_filter_gcc() {
-		case ${CATEGORY}/${PN} in
-		cross-*/glibc|\
-		*/linux-headers|\
-		chromeos-base/ec-utils|\
-		dev-embedded/u-boot-tools|\
-		dev-python/numpy|\
-		dev-util/ragel|\
-		net-misc/socat|\
-		sys-boot/grub|\
-		sys-boot/syslinux|\
-		sys-libs/binutils-libs|\
-		sys-libs/libselinux) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		cross-*/glibc:*|\
+		*/linux-headers:*|\
+		chromeos-base/ec-utils:*|\
+		dev-embedded/u-boot-tools:2018.05*|\
+		dev-python/numpy:*|\
+		dev-util/ragel:*|\
+		net-misc/socat:1.7.3.2*|\
+		sys-boot/grub:*|\
+		sys-boot/syslinux:*|\
+		sys-libs/binutils-libs:*|\
+		sys-libs/libselinux:*) return 1;;
 		esac
 	}
 	_sdk_build_filter_g++() {
 		return 0
 	}
 	_sdk_build_filter_clang() {
-		case ${CATEGORY}/${PN} in
-		chromeos-base/ec-devutils) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		chromeos-base/ec-devutils:*) return 1;;
 		esac
 	}
 	_sdk_build_filter_clang++() {
 		return 0
 	}
 	_sdk_build_filter_ld() {
-		case ${CATEGORY}/${PN} in
-		app-crypt/nss|\
-		cross-*/gcc|\
-		cross-*/go|\
-		dev-embedded/coreboot-sdk|\
-		dev-lang/go|\
-		dev-libs/nss|\
-		dev-util/perf) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		app-crypt/nss:3.44*|\
+		cross-*/gcc:*|\
+		cross-*/go:*|\
+		dev-embedded/coreboot-sdk:*|\
+		dev-lang/go:*|\
+		dev-libs/nss:3.44*|\
+		dev-util/perf:*) return 1;;
 		esac
 	}
 	_sdk_build_filter_as() {
-		case ${CATEGORY}/${PN} in
-		dev-embedded/coreboot-sdk|\
-		dev-libs/nspr) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		dev-embedded/coreboot-sdk:*|\
+		dev-libs/nspr:4.26*) return 1;;
 		esac
 	}
 
 	_board_build_filter_pkg_config() {
-		case ${CATEGORY}/${PN} in
-		app-benchmarks/lmbench|\
-		app-emulation/docker|\
-		app-text/ghostscript-gpl|\
-		chromeos-base/autotest-tests-lakitu|\
-		media-libs/arc-cros-gralloc|\
-		media-libs/arc-img-ddk|\
-		media-libs/arc-mali-drivers|\
-		media-libs/arc-mali-drivers-bifrost|\
-		media-libs/arc-mesa|\
-		media-libs/arc-mesa-amd|\
-		media-libs/arc-mesa-freedreno|\
-		media-libs/arc-mesa-img|\
-		media-libs/arc-mesa-iris|\
-		media-libs/arc-mesa-virgl|\
-		media-libs/mali-drivers-bifrost|\
-		media-libs/mali-drivers-valhall|\
-		media-libs/mesa|\
-		media-libs/mesa-amd|\
-		media-libs/mesa-llvmpipe|\
-		net-analyzer/wireshark|\
-		net-dns/dnsmasq|\
-		net-misc/dhcpcd|\
-		net-misc/improxy|\
-		sys-apps/cavium-n3fips-driver|\
-		sys-apps/fwupd|\
-		sys-apps/loadpin-trigger|\
-		sys-apps/snaggletooth-drivers|\
-		sys-boot/coreboot|\
-		sys-boot/depthcharge|\
-		sys-boot/loonix-u-boot|\
-		sys-boot/u-boot|\
-		sys-devel/arc-llvm|\
-		sys-devel/gdb|\
-		sys-kernel/arcvm-kernel-*|\
-		sys-kernel/chromeos-kernel-3_18|\
-		sys-kernel/chromeos-kernel-4_14|\
-		sys-kernel/chromeos-kernel-4_19|\
-		sys-kernel/chromeos-kernel-4_19-ht|\
-		sys-kernel/chromeos-kernel-4_4|\
-		sys-kernel/chromeos-kernel-5_10|\
-		sys-kernel/chromeos-kernel-5_10-manatee|\
-		sys-kernel/chromeos-kernel-5_15|\
-		sys-kernel/chromeos-kernel-5_4|\
-		sys-kernel/chromeos-kernel-5_4-manatee|\
-		sys-kernel/chromeos-kernel-5_4-shadowkeep|\
-		sys-kernel/chromeos-kernel-experimental|\
-		sys-kernel/chromeos-kernel-falconlite-5_4|\
-		sys-kernel/chromeos-kernel-next|\
-		sys-kernel/chromeos-kernel-upstream|\
-		sys-kernel/dump-capture-kernel|\
-		sys-kernel/gasket|\
-		sys-kernel/gw-kernel-*|\
-		sys-kernel/kernel-beaglebone-*|\
-		sys-kernel/lakitu-kernel-*|\
-		sys-kernel/loonix-kernel-*|\
-		sys-kernel/raspberrypi-kernel|\
-		sys-kernel/ti-nokia-kernel|\
-		sys-kernel/upstream-kernel-*|\
-		sys-libs/efivar|\
-		x11-base/xwayland|\
-		x11-libs/arc-libdrm|\
-		x11-libs/cairo) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		app-benchmarks/lmbench:3.0*|\
+		app-emulation/docker:*|\
+		app-text/ghostscript-gpl:*|\
+		chromeos-base/autotest-tests-lakitu:*|\
+		media-libs/arc-cros-gralloc:*|\
+		media-libs/arc-img-ddk:*|\
+		media-libs/arc-mali-drivers:*|\
+		media-libs/arc-mali-drivers-bifrost:*|\
+		media-libs/arc-mesa:*|\
+		media-libs/arc-mesa-amd:*|\
+		media-libs/arc-mesa-freedreno:*|\
+		media-libs/arc-mesa-img:*|\
+		media-libs/arc-mesa-iris:*|\
+		media-libs/arc-mesa-virgl:*|\
+		media-libs/mali-drivers-bifrost:*|\
+		media-libs/mali-drivers-valhall:*|\
+		media-libs/mesa:*|\
+		media-libs/mesa-amd:*|\
+		media-libs/mesa-llvmpipe:*|\
+		net-analyzer/wireshark:*|\
+		net-dns/dnsmasq:*|\
+		net-misc/dhcpcd:*|\
+		net-misc/improxy:*|\
+		sys-apps/cavium-n3fips-driver:*|\
+		sys-apps/fwupd:*|\
+		sys-apps/loadpin-trigger:*|\
+		sys-apps/snaggletooth-drivers:*|\
+		sys-boot/coreboot:*|\
+		sys-boot/depthcharge:*|\
+		sys-boot/loonix-u-boot:*|\
+		sys-boot/u-boot:*|\
+		sys-devel/arc-llvm:*|\
+		sys-devel/gdb:*|\
+		sys-kernel/arcvm-kernel-*:*|\
+		sys-kernel/chromeos-kernel-3_18:*|\
+		sys-kernel/chromeos-kernel-4_14:*|\
+		sys-kernel/chromeos-kernel-4_19:*|\
+		sys-kernel/chromeos-kernel-4_19-ht:*|\
+		sys-kernel/chromeos-kernel-4_4:*|\
+		sys-kernel/chromeos-kernel-5_10:*|\
+		sys-kernel/chromeos-kernel-5_10-manatee:*|\
+		sys-kernel/chromeos-kernel-5_15:*|\
+		sys-kernel/chromeos-kernel-5_4:*|\
+		sys-kernel/chromeos-kernel-5_4-manatee:*|\
+		sys-kernel/chromeos-kernel-5_4-shadowkeep:*|\
+		sys-kernel/chromeos-kernel-experimental:*|\
+		sys-kernel/chromeos-kernel-falconlite-5_4:*|\
+		sys-kernel/chromeos-kernel-next:*|\
+		sys-kernel/chromeos-kernel-upstream:*|\
+		sys-kernel/dump-capture-kernel:*|\
+		sys-kernel/gasket:*|\
+		sys-kernel/gw-kernel-*:*|\
+		sys-kernel/kernel-beaglebone-*:*|\
+		sys-kernel/lakitu-kernel-*:*|\
+		sys-kernel/loonix-kernel-*:*|\
+		sys-kernel/raspberrypi-kernel:*|\
+		sys-kernel/ti-nokia-kernel:*|\
+		sys-kernel/upstream-kernel-*:*|\
+		sys-libs/efivar:*|\
+		x11-base/xwayland:*|\
+		x11-libs/arc-libdrm:*|\
+		x11-libs/cairo:*) return 1;;
 		esac
 	}
 	_board_build_filter_cc() {
-		case ${CATEGORY}/${PN} in
-		app-benchmarks/sysbench|\
-		dev-libs/libdaemon|\
-		dev-libs/libffi|\
-		dev-libs/libusb-compat|\
-		dev-python/grpcio|\
-		dev-python/psutil|\
-		media-libs/libogg|\
-		net-dns/avahi|\
-		net-libs/libmnl|\
-		net-libs/libnetfilter_cthelper|\
-		net-libs/libnetfilter_cttimeout|\
-		net-libs/libnetfilter_queue|\
-		net-libs/libnfnetlink|\
-		net-misc/nldaemon|\
-		net-wireless/openthread|\
-		net-wireless/ot-br-posix|\
-		sys-apps/groff|\
-		sys-apps/kbd|\
-		sys-apps/ureadahead|\
-		sys-block/parted|\
-		sys-boot/arria10-u-boot|\
-		sys-boot/loonix-u-boot|\
-		sys-devel/binutils|\
-		sys-devel/gdb|\
-		sys-devel/m4|\
-		sys-fs/rar2fs|\
-		sys-libs/gcc-libs|\
-		sys-libs/binutils-libs|\
-		x11-libs/gdk-pixbuf) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		app-benchmarks/sysbench:*|\
+		dev-libs/libdaemon:*|\
+		dev-libs/libffi:3.1*|\
+		dev-libs/libusb-compat:0.1.5*|\
+		dev-python/grpcio:*|\
+		dev-python/psutil:*|\
+		media-libs/libogg:*|\
+		net-dns/avahi:*|\
+		net-libs/libmnl:*|\
+		net-libs/libnetfilter_cthelper:*|\
+		net-libs/libnetfilter_cttimeout:*|\
+		net-libs/libnetfilter_queue:*|\
+		net-libs/libnfnetlink:*|\
+		net-misc/nldaemon:*|\
+		net-wireless/openthread:*|\
+		net-wireless/ot-br-posix:*|\
+		sys-apps/groff:*|\
+		sys-apps/kbd:*|\
+		sys-apps/ureadahead:*|\
+		sys-block/parted:*|\
+		sys-boot/arria10-u-boot:*|\
+		sys-boot/loonix-u-boot:*|\
+		sys-devel/binutils:*|\
+		sys-devel/gdb:*|\
+		sys-devel/m4:*|\
+		sys-fs/rar2fs:*|\
+		sys-libs/gcc-libs:*|\
+		sys-libs/binutils-libs:*|\
+		x11-libs/gdk-pixbuf:*) return 1;;
 		esac
 	}
 	_board_build_filter_gcc() {
-		case ${CATEGORY}/${PN} in
-		app-benchmarks/lmbench|\
-		app-emulation/docker|\
-		chromeos-base/autotest-tests|\
-		chromeos-base/chromeos-ec|\
-		chromeos-base/chromeos-ish|\
-		chromeos-base/ec-utils|\
-		dev-go/syzkaller|\
-		dev-python/numpy|\
-		media-libs/arc-img-ddk|\
-		media-libs/img-ddk|\
-		media-sound/gsm|\
-		net-fs/autofs|\
-		net-misc/socat|\
-		sys-apps/cavium-n3fips-tools|\
-		sys-block/blktrace|\
-		sys-boot/chromeos-mrc|\
-		sys-boot/coreboot|\
-		sys-boot/depthcharge|\
-		sys-boot/grub-lakitu|\
-		sys-boot/syslinux|\
-		sys-firmware/chromeos-fpmcu-release-bloonchipper|\
-		sys-firmware/chromeos-fpmcu-release-dartmonkey|\
-		sys-firmware/chromeos-fpmcu-release-nami|\
-		sys-firmware/chromeos-fpmcu-release-nocturne|\
-		sys-fs/mdadm|\
-		sys-kernel/linux-headers|\
-		sys-libs/efivar) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		app-benchmarks/lmbench:3.0*|\
+		app-emulation/docker:*|\
+		chromeos-base/autotest-tests:*|\
+		chromeos-base/chromeos-ec:*|\
+		chromeos-base/chromeos-ish:*|\
+		chromeos-base/ec-utils:*|\
+		dev-go/syzkaller:*|\
+		dev-python/numpy:*|\
+		media-libs/arc-img-ddk:*|\
+		media-libs/img-ddk:*|\
+		media-sound/gsm:*|\
+		net-fs/autofs:*|\
+		net-misc/socat:1.7.3.2*|\
+		sys-apps/cavium-n3fips-tools:*|\
+		sys-block/blktrace:*|\
+		sys-boot/chromeos-mrc:*|\
+		sys-boot/coreboot:*|\
+		sys-boot/depthcharge:*|\
+		sys-boot/grub-lakitu:*|\
+		sys-boot/syslinux:*|\
+		sys-firmware/chromeos-fpmcu-release-bloonchipper:*|\
+		sys-firmware/chromeos-fpmcu-release-dartmonkey:*|\
+		sys-firmware/chromeos-fpmcu-release-nami:*|\
+		sys-firmware/chromeos-fpmcu-release-nocturne:*|\
+		sys-fs/mdadm:4.1*|\
+		sys-kernel/linux-headers:*|\
+		sys-libs/efivar:*) return 1;;
 		esac
 	}
 	_board_build_filter_g++() {
-		case ${CATEGORY}/${PN} in
-		media-libs/img-ddk|\
-		net-print/hplip|\
-		sys-boot/qca-framework) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		media-libs/img-ddk:*|\
+		net-print/hplip:3.21.8*|\
+		sys-boot/qca-framework:*) return 1;;
 		esac
 	}
 	_board_build_filter_clang() {
-		case ${CATEGORY}/${PN} in
-		chromeos-base/autotest-tests-lakitu|\
-		chromeos-base/chromeos-ec|\
-		chromeos-base/ec-devutils|\
-		media-libs/arc-mali-drivers-bifrost|\
-		media-libs/mali-drivers-bifrost|\
-		media-libs/mali-drivers-valhall|\
-		net-libs/nodejs|\
-		sys-boot/coreboot|\
-		sys-devel/arc-llvm|\
-		sys-devel/llvm) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		chromeos-base/autotest-tests-lakitu:*|\
+		chromeos-base/chromeos-ec:*|\
+		chromeos-base/ec-devutils:*|\
+		media-libs/arc-mali-drivers-bifrost:*|\
+		media-libs/mali-drivers-bifrost:*|\
+		media-libs/mali-drivers-valhall:*|\
+		net-libs/nodejs:*|\
+		sys-boot/coreboot:*|\
+		sys-devel/arc-llvm:*|\
+		sys-devel/llvm:*) return 1;;
 		esac
 	}
 	_board_build_filter_clang++() {
-		case ${CATEGORY}/${PN} in
-		media-libs/arc-mali-drivers-bifrost|\
-		media-libs/mali-drivers-bifrost|\
-		media-libs/mali-drivers-valhall|\
-		net-libs/nodejs|\
-		sys-devel/arc-llvm|\
-		sys-devel/llvm) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		media-libs/arc-mali-drivers-bifrost:*|\
+		media-libs/mali-drivers-bifrost:*|\
+		media-libs/mali-drivers-valhall:*|\
+		net-libs/nodejs:*|\
+		sys-devel/arc-llvm:*|\
+		sys-devel/llvm:*) return 1;;
 		esac
 	}
 	_board_build_filter_ld() {
-		case ${CATEGORY}/${PN} in
-		app-crypt/nss|\
-		dev-libs/nss|\
-		dev-util/perf|\
-		media-libs/arc-mali-drivers-bifrost|\
-		media-libs/mali-drivers-bifrost|\
-		sys-kernel/arcvm-kernel-*|\
-		sys-kernel/chromeos-kernel-*|\
-		sys-kernel/dump-capture-kernel|\
-		sys-kernel/lakitu-kernel-*|\
-		sys-kernel/raspberrypi-kernel|\
-		sys-kernel/upstream-kernel-*|\
-		sys-libs/gcc-libs) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		app-crypt/nss:3.44*|\
+		dev-libs/nss:3.44*|\
+		dev-util/perf:*|\
+		media-libs/arc-mali-drivers-bifrost:*|\
+		media-libs/mali-drivers-bifrost:*|\
+		sys-kernel/arcvm-kernel-*:*|\
+		sys-kernel/chromeos-kernel-*:*|\
+		sys-kernel/dump-capture-kernel:*|\
+		sys-kernel/lakitu-kernel-*:*|\
+		sys-kernel/raspberrypi-kernel:*|\
+		sys-kernel/upstream-kernel-*:*|\
+		sys-libs/gcc-libs:*) return 1;;
 		esac
 	}
 	_board_build_filter_as() {
-		case ${CATEGORY}/${PN} in
-		dev-embedded/coreboot-sdk|\
-		dev-libs/nspr|\
-		net-misc/nldaemon|\
-		sys-boot/coreboot) return 1;;
+		case ${CATEGORY}/${PN}:${PV} in
+		dev-embedded/coreboot-sdk:*|\
+		dev-libs/nspr:4.26*|\
+		net-misc/nldaemon:*|\
+		sys-boot/coreboot:*) return 1;;
 		esac
 	}
 
