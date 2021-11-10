@@ -38,16 +38,20 @@ src_install() {
 	insinto /usr/include/shill/net
 	doins ./*.h
 
+	local platform_network_component_id="167325"
+	local platform_wifi_component_id="893827"
+
 	# These each have different listed component ids.
-	local arp_client_fuzzer_component_id="167325"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/arp_client_fuzzer" \
-		--comp "${arp_client_fuzzer_component_id}"
-	local nl80211_message_fuzzer_component_id="893827"
+		--comp "${platform_network_component_id}"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/ip_address_fuzzer" \
+		--comp "${platform_network_component_id}"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/netlink_attribute_list_fuzzer" \
+		--comp "${platform_network_component_id}"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/nl80211_message_fuzzer" \
-		--comp "${nl80211_message_fuzzer_component_id}"
-	local rtnl_handler_fuzzer_component_id="156085"
+		--comp "${platform_wifi_component_id}"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/rtnl_handler_fuzzer" \
-		--comp "${rtnl_handler_fuzzer_component_id}"
+		--comp "${platform_network_component_id}"
 }
 
 platform_pkg_test() {
