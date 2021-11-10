@@ -26,6 +26,7 @@ S="${WORKDIR}/${PN}-${GIT_SHA1}"
 src_prepare() {
 	default
 	eapply "${FILESDIR}/patches/0001-ODL-support-on-Open-Source-Diag-Router.patch"
+	eapply "${FILESDIR}/patches/0002-Send_data-Fix-for-Timeout-Error-in-DIAG-output.patch"
 }
 
 src_configure() {
