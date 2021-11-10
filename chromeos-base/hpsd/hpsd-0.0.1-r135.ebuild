@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a32beb776cae12f11a84824534a0d30628d5beaf"
+CROS_WORKON_COMMIT="8ec6fb1eb7b04e1c438b54e61fc5b56f76dcb643"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "75977a8115d52cea401c011b1a1f5da9e2bd5cbe" "dd5deba53d49ed330f1ab8e59f845daae76650c8" "84b5577206ba4849f4c3ad3e00cec4549e48eaca")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,13 +22,14 @@ KEYWORDS="*"
 IUSE="hpsd-roflash"
 
 RDEPEND="
+	chromeos-base/metrics:=
+	dev-libs/libgpiod:=
 	hpsd-roflash? ( dev-embedded/stm32flash:= )
+	virtual/libusb:1
 "
 
 DEPEND="${RDEPEND}
-	chromeos-base/metrics:=
 	chromeos-base/system_api:=
-	dev-embedded/libftdi:=
 "
 
 pkg_preinst() {
