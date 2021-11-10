@@ -232,6 +232,7 @@ RDEPEND="
 	ondevice_handwriting? ( chromeos-base/languagepack-handwriting-es )
 	hps? (
 		chromeos-base/hpsd
+		chromeos-base/hps-firmware-images
 		!asan? (
 			!ubsan? ( chromeos-base/hps-firmware )
 		)
