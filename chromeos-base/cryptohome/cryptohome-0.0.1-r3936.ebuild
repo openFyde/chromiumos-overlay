@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a05e3d0036234ecfdb6d1e7d3dfae53603921a39"
+CROS_WORKON_COMMIT="8a91bc78915bc332cbb458bd94786b30ef99b5eb"
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "8f8302052d8d944092d9af4f2e4bfcc89c94e8a1" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -26,7 +26,7 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
-	generic_tpm2 kernel-5_10 kernel-5_4 kernel-upstream
+	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
 	test tpm tpm_dynamic tpm2 tpm2_simulator uprev-4-to-5
 	user_session_isolation +vault_legacy_mount vtpm_proxy"
@@ -104,11 +104,11 @@ src_install() {
 	doins etc/org.chromium.UserDataAuth.conf
 	doins etc/BootLockbox.conf
 
-	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-upstream) || use uprev-4-to-5); then
+	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-5_15 && use !kernel-upstream) || use uprev-4-to-5); then
 		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 
-	if use !direncription_allow_v2 && (use kernel-5_4 || use kernel-5_10 || use kernel-upstream) && use !uprev-4-to-5; then
+	if use !direncription_allow_v2 && (use kernel-5_4 || use kernel-5_10 || use kernel-5_15 || use kernel-upstream) && use !uprev-4-to-5; then
 		die "direncription_allow_v2 is not enabled where it should be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
 	fi
 

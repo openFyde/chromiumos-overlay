@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="12843529057a54a69d58e193afdc9d50c44f40d2"
-CROS_WORKON_TREE="ce2fd78cafd22d503544a4b837c54b6cdfd58b64"
+CROS_WORKON_COMMIT="60dcb796d01bdbc73f66599bd6e353702d6b6cd6"
+CROS_WORKON_TREE="6173a364bddb108c5cb873e8e0fb63ef2bef47c2"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -20,6 +20,8 @@ KEYWORDS="*"
 IUSE_KERNEL_VERS=(
 	kernel-4_19
 	kernel-5_4
+	kernel-5_10
+	kernel-5_15
 	kernel-upstream
 )
 IUSE_ATH3K=(
@@ -317,6 +319,8 @@ install_iwlwifi() {
 			case "${kernel}" in
 			kernel-4_19) doins "${x}-a0-hr-b0-67.ucode" ;;
 			kernel-5_4)  doins "${x}-a0-hr-b0-67.ucode" ;;
+			kernel-5_10)  doins "${x}-a0-hr-b0-67.ucode" ;;
+			kernel-5_15)  doins "${x}-a0-hr-b0-67.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-62.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
