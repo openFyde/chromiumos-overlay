@@ -27,7 +27,6 @@ IUSE="
 	chromeless_tty
 	cr50_onboard
 	+cras
-	cros_ec
 	cros_embedded
 	dlc
 	hammerd
@@ -127,7 +126,7 @@ CROS_COMMON_RDEPEND="
 	chromeos-base/vboot_reference-tests
 	chromeos-base/verity
 	chromeos-base/vpd
-	cros_ec? ( chromeos-base/ec-devutils )
+	chromeos-base/ec-devutils
 	!chromeless_tty? (
 		!chromeless_tests? (
 			>=dev-cpp/gflags-2.0
