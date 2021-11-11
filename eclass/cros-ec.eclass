@@ -33,6 +33,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/READ
 
 LICENSE="CrOS-EC"
 IUSE="quiet verbose +coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
+REQUIRED_USE="unibuild"
 
 RDEPEND="
 	fuzzer? (
@@ -53,7 +54,6 @@ DEPEND="
 	test? ( dev-libs/libprotobuf-mutator:= )
 	virtual/chromeos-ec-private-files
 	virtual/chromeos-ec-touch-firmware
-	unibuild? ( chromeos-base/chromeos-config:= )
 	bootblock_in_ec? ( sys-boot/coreboot )
 "
 
@@ -159,9 +159,7 @@ cros-ec_src_compile() {
 	for target in "${EC_BOARDS[@]}"; do
 		# Always pass TOUCHPAD_FW parameter: boards that do not require
 		# it will simply ignore the parameter, even if the touchpad FW
-		# file does not exist.  Note that touchpad firmware lives in
-		# the ${target} subdirectory regardless of whether or not unibuild
-		# is enabled.
+		# file does not exist.
 		local touchpad_fw="${SYSROOT}/firmware/${target}/touchpad.bin"
 
 		# In certain devices, the only root-of-trust available is EC-RO.
@@ -170,11 +168,7 @@ cros-ec_src_compile() {
 		local bootblock
 		local bootblock_serial
 		local target_root
-		if use unibuild; then
-			target_root="${SYSROOT}/firmware/${target}"
-		else
-			target_root="${SYSROOT}/firmware"
-		fi
+		target_root="${SYSROOT}/firmware/${target}"
 
 		if use bootblock_in_ec; then
 			bootblock="${target_root}/coreboot/bootblock.bin"
@@ -291,19 +285,6 @@ cros-ec_src_install() {
 					|| die "Couldn't install ${target} (serial)"
 		fi
 	done
-	# Unibuild platforms don't have "main" EC firmware.
-	if ! use unibuild; then
-		target="${EC_BOARDS[0]}"
-		cros-ec_board_install "${target}" "${WORKDIR}/build_${target}" \
-			/firmware "" \
-			|| die "Couldn't install main firmware"
-		if use bootblock_in_ec && \
-			[[ -d "${WORKDIR}/build_${target}_serial" ]]; then
-				cros-ec_board_install "${target}" "${WORKDIR}/build_${target}_serial" \
-					/firmware serial \
-					|| die "Couldn't install main firmware"
-		fi
-	fi
 
 	if use fuzzer; then
 		local f
