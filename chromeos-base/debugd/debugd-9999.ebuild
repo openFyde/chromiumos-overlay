@@ -77,6 +77,7 @@ src_install() {
 	doexe "${OUT}"/dev_features_rootfs_verification
 	doexe "${OUT}"/dev_features_ssh
 	doexe "${OUT}"/dev_features_usb_boot
+	doexe "${OUT}"/folder_size_dump
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
