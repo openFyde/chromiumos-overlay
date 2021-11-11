@@ -35,7 +35,7 @@ SLOT="0"
 KEYWORDS="*"
 S="${WORKDIR}"
 
-IUSE="kvm_host dlc amd64 arm"
+IUSE="kvm_host dlc amd64 arm manatee"
 REQUIRED_USE="
 	dlc
 	kvm_host
@@ -85,9 +85,21 @@ src_compile() {
 
 		/mnt/host/source/src/platform/container-guest-tools/termina/termina_build_image.py "${image_path}" "${S}/vm"
 	fi
+
+	if use manatee; then
+		local digest
+		digest="$(sha256sum "${WORKDIR}/guest-vm-base/vm_kernel" | cut -f1 -d' ' | grep -o .. | \
+			awk 'BEGIN { printf "[" } NR!=1 { printf ", " } { printf "%d", ("0x" +$0) + 0 } END { printf "]" }')"
+		sed -e "s/@kernel_digest@/${digest}/" "${FILESDIR}/termina.json.in" > termina.json
+	fi
 }
 
 src_install() {
+	if use manatee; then
+		insinto "/usr/share/manatee"
+		doins termina.json
+	fi
+
 	# This is the subpath underneath the location that dlc mounts the image,
 	# so we dont need additional directories.
 	local install_dir="/"
