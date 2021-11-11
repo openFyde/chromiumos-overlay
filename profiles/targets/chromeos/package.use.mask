@@ -51,6 +51,10 @@ dev-python/pytest test
 sys-process/psmisc test
 sys-apps/diffutils test
 
+# cmocka is a test-only dependency for some packages, but we don't want to
+# automatically run its own unit tests.
+dev-util/cmocka test
+
 # dev-python/py has a test dependency on a later version of pytest than we
 # provide. Upgrading pytest adds a dependency on dev-python/hypothesis, which
 # requires dev-lang/python to be built with SQLite, which is USE masked on all
