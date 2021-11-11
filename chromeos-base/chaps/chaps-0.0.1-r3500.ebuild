@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
+CROS_WORKON_COMMIT="136dfe106915304d51bbc8bf88421bb0e5c717dc"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "90104e67ad80b2e08efcc81d51b1ba2246641b9f" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "2a820dcbe57b0afd660e26b182a056d699ee10aa" "75facafd3e0b45f61aa5d43879234bdedad93fa8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -97,10 +97,15 @@ src_install() {
 	fowners chaps:chronos-access "${daemon_store}"
 
 	local fuzzer_component_id="886041"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_attributes_fuzzer \
-		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/chaps_object_store_fuzzer \
-		--comp "${fuzzer_component_id}"
+	local fuzzers=(
+		chaps_attributes_fuzzer
+		chaps_object_store_fuzzer
+		chaps_utility_fuzzer
+	)
+	for fuzzer in "${fuzzers[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzzer}" \
+			--comp "${fuzzer_component_id}"
+	done
 }
 
 platform_pkg_test() {
