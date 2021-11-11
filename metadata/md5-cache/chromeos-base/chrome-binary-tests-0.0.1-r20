@@ -7,4 +7,4 @@ IUSE=vaapi v4l2_codec
 KEYWORDS=*
 LICENSE=BSD-Google
 SLOT=0
-_md5_=a96b9242432894dba02ef49c1e228b4f
+_md5_=8cf6bf73b1e6ac468bf69cf86cd9e5fd
