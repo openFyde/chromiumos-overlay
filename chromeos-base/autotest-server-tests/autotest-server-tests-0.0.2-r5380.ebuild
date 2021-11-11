@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="5b3a6ed0f3e8f8bc0ee8f1e813aef802bb5a6b82"
-CROS_WORKON_TREE="6725f6ac301a120bd35945f2dce31f6f10805e95"
+CROS_WORKON_COMMIT="7d1ea18f2e11607ddd5213f0945c3f7fff7ee255"
+CROS_WORKON_TREE="e6e1bee1e9cb7d474031fd59111dec8e08f3ec89"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -125,6 +125,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptBothFwBodyAB
 	+tests_firmware_CorruptBothFwSigAB
 	+tests_firmware_CorruptBothKernelAB
+	+tests_firmware_CorruptBothMiniosAB
 	+tests_firmware_CorruptFwBodyA
 	+tests_firmware_CorruptFwBodyB
 	+tests_firmware_CorruptFwSigA
