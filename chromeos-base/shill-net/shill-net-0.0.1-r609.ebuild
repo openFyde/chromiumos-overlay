@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "b2bc6afa140905712e7b65c5bae93da991632db2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6b22d2cf5a5d70eb3c7db2aff6a24044f5d3e6d8"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "c026c2d8984e94d9e45fb16732d59d8d492e694d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -40,16 +40,20 @@ src_install() {
 	insinto /usr/include/shill/net
 	doins ./*.h
 
+	local platform_network_component_id="167325"
+	local platform_wifi_component_id="893827"
+
 	# These each have different listed component ids.
-	local arp_client_fuzzer_component_id="167325"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/arp_client_fuzzer" \
-		--comp "${arp_client_fuzzer_component_id}"
-	local nl80211_message_fuzzer_component_id="893827"
+		--comp "${platform_network_component_id}"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/ip_address_fuzzer" \
+		--comp "${platform_network_component_id}"
+	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/netlink_attribute_list_fuzzer" \
+		--comp "${platform_network_component_id}"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/nl80211_message_fuzzer" \
-		--comp "${nl80211_message_fuzzer_component_id}"
-	local rtnl_handler_fuzzer_component_id="156085"
+		--comp "${platform_wifi_component_id}"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/rtnl_handler_fuzzer" \
-		--comp "${rtnl_handler_fuzzer_component_id}"
+		--comp "${platform_network_component_id}"
 }
 
 platform_pkg_test() {
