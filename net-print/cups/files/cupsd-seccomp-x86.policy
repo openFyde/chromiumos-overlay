@@ -109,6 +109,7 @@ pselect6: 1
 pselect6_time64: 1
 send: 1
 sendfile: 1
+sendfile64: 1
 sendmmsg: 1
 sendto: 1
 setpgid: 1
