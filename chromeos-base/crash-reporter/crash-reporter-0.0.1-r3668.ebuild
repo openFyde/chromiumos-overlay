@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "363ae1d2a81e662e3d36dc36d7ebd391cd59e692" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="97cb7474187757e10b4dc9b02be7278d1f7cebbf"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "3932640e9bc0468e5dde4810eba2382f00a5d91d" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -136,6 +136,10 @@ src_install() {
 	# The owners files need to have actual email addresses, not
 	# an include-link.
 	local fuzzer_component_id="1032705"
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/crash_sender_base_fuzzer \
+		--comp "${fuzzer_component_id}"
+
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/crash_sender_fuzzer \
 		--dict "${S}"/crash_sender_fuzzer.dict \
