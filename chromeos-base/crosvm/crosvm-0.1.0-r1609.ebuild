@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8f5978fda24bd5ecba9005af39c6119142510820"
-CROS_WORKON_TREE="b2ffab6de32b6a863dae5cd2f2d42384b7b483df"
+CROS_WORKON_COMMIT="f20c1cd1e8aa997ca5383af7d318f95696b79bcf"
+CROS_WORKON_TREE="99a20772d915198ac350f5a9b83484c02525042b"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -31,7 +31,8 @@ SRC_URI="
 	)
 "
 
-LICENSE="BSD-Google"
+# 'Apache-2.0' and 'BSD-vmm_vhost' are for third_party/vmm_vhost.
+LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
 KEYWORDS="*"
 IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1"
 

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f5978fda24bd5ecba9005af39c6119142510820"
+CROS_WORKON_COMMIT="c8313dc204b85cf23cc5a212b80a25f67f73c7c1"
 CROS_WORKON_TREE="b334f296112adcbabfe01632be97e1770fd43075"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -24,11 +24,13 @@ KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/async-task-4*:=
-	>=dev-rust/async-trait-0.1.36:= <dev-rust/async-trait-0.2
+	>=dev-rust/async-trait-0.1.36 <dev-rust/async-trait-0.2:=
 	dev-rust/data_model:=
 	=dev-rust/futures-0.3*:=
+	dev-rust/intrusive-collections:=
 	dev-rust/io_uring:=
-	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3
+	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3:=
+	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2:=
 	=dev-rust/paste-1*:=
 	=dev-rust/pin-utils-0.1*:=
 	=dev-rust/remain-0.2*:=
@@ -36,7 +38,7 @@ DEPEND="
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2:=
 "
 RDEPEND="${DEPEND}"
 
