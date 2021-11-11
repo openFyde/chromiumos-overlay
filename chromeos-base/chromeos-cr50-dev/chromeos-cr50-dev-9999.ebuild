@@ -25,7 +25,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"main"
 )
 
-inherit coreboot-sdk cros-ec-board cros-workon toolchain-funcs
+inherit coreboot-sdk cros-workon toolchain-funcs
 
 DESCRIPTION="Google Security Chip firmware code"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/cr50_stab"
@@ -35,7 +35,7 @@ SRC_URI="${CR50_ROS[*]/#/${MIRROR_PATH}}"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="asan cros_host fuzzer msan quiet ubsan verbose"
+IUSE="asan cros_host fuzzer msan quiet reef ubsan verbose"
 
 COMMON_DEPEND="
 	dev-libs/openssl:0=
@@ -79,8 +79,6 @@ set_build_env() {
 	export HOSTCC=${CC}
 	export BUILDCC=${BUILD_CC}
 
-	get_ec_boards
-
 	EC_OPTS=()
 	use quiet && EC_OPTS+=( -s 'V=0' )
 	use verbose && EC_OPTS+=( 'V=1' )
@@ -121,7 +119,7 @@ src_compile() {
 		emake buildfuzztests "${sanitizers[@]}"
 	fi
 
-	if [[ "${EC_BOARDS[0]}" != "reef" ]]; then
+	if ! use reef; then
 		elog "Not building Cr50 binaries"
 		return
 	fi
@@ -190,7 +188,7 @@ src_install() {
 		doexe "util/ap_ro_hash.py"
 	fi
 
-	if [[ "${EC_BOARDS[0]}" != "reef" ]]; then
+	if ! use reef; then
 		elog "Not installing Cr50 binaries"
 		return
 	fi
