@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("b9eca7a2bc8d57ed0722d2e7a95787fc5ac9d4e3" "6971b2f3155cf5dee48a990ff410df57f989fe5a" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
+CROS_WORKON_COMMIT=("19cf095df3dd5b997425a25795b015faf4cca757" "6971b2f3155cf5dee48a990ff410df57f989fe5a" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
 CROS_WORKON_TREE=("dd5deba53d49ed330f1ab8e59f845daae76650c8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8046331b2b884d2ab80ac395e1befd78ae825b4c" "7eae68a604c33288e18b948cc1cf30a87f0a74bc" "7a34b72edeab38960a8149a82cf554cd16606dba")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -179,7 +179,8 @@ src_install() {
 	doins "${FILESDIR}/upstart/btmanagerd.conf"
 	doins "${FILESDIR}/upstart/btadapterd.conf"
 
-	# Install tmpfiles
+	# Install tmpfiles (don't forget to update sepolicy if you change the
+	# files/folders created to something other than /var/lib/bluetooth)
 	dotmpfiles "${FILESDIR}/tmpfiles.d/floss.conf"
 }
 
