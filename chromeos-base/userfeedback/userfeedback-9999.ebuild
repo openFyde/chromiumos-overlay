@@ -24,7 +24,6 @@ RDEPEND="chromeos-base/chromeos-init
 	media-libs/fontconfig
 	media-sound/alsa-utils
 	sys-apps/coreboot-utils
-	sys-apps/mosys
 	sys-apps/net-tools
 	sys-apps/pciutils
 	sys-apps/usbutils
