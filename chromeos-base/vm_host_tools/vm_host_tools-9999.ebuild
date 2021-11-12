@@ -10,6 +10,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 PLATFORM2_PATHS=(
 	common-mk
+	featured
 	metrics
 	.gn
 
@@ -68,6 +69,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/dlcservice-client:=
+	chromeos-base/featured:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vm_protos:=
