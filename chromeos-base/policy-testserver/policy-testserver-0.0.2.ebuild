@@ -4,36 +4,43 @@
 EAPI=6
 
 PYTHON_COMPAT=( python2_7 )
-inherit cros-constants git-r3 python-any-r1
 
-# Every 3 strings in this array indicates a repository to checkout:
-#   - A unique name (to avoid checkout conflits)
-#   - The repository URL
-#   - The commit to checkout
-EGIT_REPO_URIS=(
-	"third_party/tlslite"
-	"${CROS_GIT_HOST_URL}/chromium/src/third_party/tlslite.git"
-	"05d9f22315757117685ad2f5265148f900f18034"
+CROS_WORKON_PROJECT=(
+	"chromium/src/third_party/tlslite"
+	"chromium/src/net/tools/testserver"
+	"chromium/src/components/policy"
 
-	"net/tools/testserver"
-	"${CROS_GIT_HOST_URL}/chromium/src/net/tools/testserver.git"
-	"6eb196616d90c5fe9c73ce2dba451ede21ef883c"
-
-	"components/policy"
-	"${CROS_GIT_HOST_URL}/chromium/src/components/policy.git"
-	"ea392d453815a222080242ae7d1d4df8c7bfb4fd"
-
-	# private_membership and shell_encryption are not used in Chrome OS at
+	# private_membership and shell-encryption are not used in Chrome OS at
 	# the moment. They are just required to compile the proto files. An
 	# uprev will only be necessary if the respective proto files change.
-	"private_membership"
-	"${CROS_GIT_HOST_URL}/chromium/src/third_party/private_membership.git"
-	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
+	"chromium/src/third_party/private_membership"
+	"chromium/src/third_party/shell-encryption"
+)
+CROS_WORKON_LOCALNAME=(
+	"chromium/src/third_party/tlslite"
+	"chromium/src/net/tools/testserver"
+	"chromium/src/components/policy"
+	"chromium/src/third_party/private_membership"
+	"chromium/src/third_party/shell-encryption"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/third_party/tlslite"
+	"${S}/net/tools/testserver"
+	"${S}/components/policy"
+	"${S}/private_membership"
+	"${S}/shell-encryption"
+)
+CROS_WORKON_MANUAL_UPREV="1"
 
-	"shell_encryption"
-	"${CROS_GIT_HOST_URL}/chromium/src/third_party/shell-encryption.git"
+CROS_WORKON_COMMIT=(
+	"05d9f22315757117685ad2f5265148f900f18034"
+	"6eb196616d90c5fe9c73ce2dba451ede21ef883c"
+	"ea392d453815a222080242ae7d1d4df8c7bfb4fd"
+	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
 	"4b66a57bf81ff88fb94113426f2f4ffbbd66cb95"
 )
+# Must define CROS_WORKON_* variables before inheriting cros-workon.
+inherit cros-constants cros-workon python-any-r1
 
 DESCRIPTION="Dependencies needed by the policy_testserver"
 LICENSE="BSD-Google"
@@ -43,7 +50,7 @@ KEYWORDS="*"
 POLICY_DIR="${S}/components/policy"
 
 PRIVATE_MEMBERSHIP_DIR="${S}/private_membership/src"
-SHELL_ENCRYPTION_DIR="${S}/shell_encryption/src"
+SHELL_ENCRYPTION_DIR="${S}/shell-encryption/src"
 
 # Destination on DUT is /usr/local/share/policy_testserver.
 TESTSERVER_DIR="/usr/share/policy_testserver"
@@ -55,20 +62,6 @@ DEPEND="
 RDEPEND="
 	dev-python/protobuf-python
 "
-
-
-src_unpack() {
-	# Unpack all chromium mirrored code.
-	set -- "${EGIT_REPO_URIS[@]}"
-	while [[ $# -gt 0 ]]; do
-		EGIT_CHECKOUT_DIR="${S}/$1" \
-			EGIT_REPO_URI=$2 \
-			EGIT_COMMIT=$3 \
-			git-r3_src_unpack
-		shift 3
-	done
-}
-
 src_compile() {
 	# Generate cloud_policy.proto with --all-chrome-versions option.
 	"${POLICY_DIR}/tools/generate_policy_source.py" \
