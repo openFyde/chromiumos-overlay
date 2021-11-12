@@ -134,10 +134,8 @@ KEYWORDS="*"
 RDEPEND="
 	sane_backends_dc210? ( >=virtual/jpeg-0-r2:0=[${MULTILIB_USEDEP}] )
 	sane_backends_dc240? ( >=virtual/jpeg-0-r2:0=[${MULTILIB_USEDEP}] )
-	sane_backends_dell1600n_net? (
-		>=virtual/jpeg-0-r2:0=[${MULTILIB_USEDEP}]
-		>=media-libs/tiff-3.9.7-r1:0=[${MULTILIB_USEDEP}]
-	)
+	>=virtual/jpeg-0-r2:0=[${MULTILIB_USEDEP}]
+	>=media-libs/tiff-3.9.7-r1:0=[${MULTILIB_USEDEP}]
 	sane_backends_canon_pp? ( >=sys-libs/libieee1284-0.2.11-r3[${MULTILIB_USEDEP}] )
 	sane_backends_hpsj5s? ( >=sys-libs/libieee1284-0.2.11-r3[${MULTILIB_USEDEP}] )
 	sane_backends_mustek_pp? ( >=sys-libs/libieee1284-0.2.11-r3[${MULTILIB_USEDEP}] )
