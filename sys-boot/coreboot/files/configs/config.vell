@@ -1,0 +1,11 @@
+CONFIG_VENDOR_GOOGLE=y
+CONFIG_BOARD_GOOGLE_VELL=y
+
+# SPI Descriptor
+CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-vell.bin"
+
+# CSE data
+CONFIG_CSE_DATA_FILE="cse_data/cse_data-vell.bin"
+
+# Video Blob
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt.bin"
