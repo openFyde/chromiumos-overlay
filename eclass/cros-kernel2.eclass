@@ -2019,6 +2019,11 @@ cros-kernel2_src_configure() {
 	local cfgarch="$(get_build_arch)"
 	local build_cfg="$(get_build_cfg)"
 
+	if use frozen_gcc; then
+		unset LD_PRELOAD
+		export SANDBOX_ON=0
+	fi
+
 	if use buildtest; then
 		local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 		kmake allmodconfig
@@ -2276,6 +2281,11 @@ cros-kernel2_src_compile() {
 	local old_config="$(cros-workon_get_build_dir)/cros-old-config"
 	local old_defconfig="$(cros-workon_get_build_dir)/cros-old-defconfig"
 	local build_cfg="$(get_build_cfg)"
+	# (b/206056057) Disable SANDBOX and LD_PRELOAD for frozen gcc.
+	if use frozen_gcc; then
+		unset LD_PRELOAD
+		export SANDBOX_ON=0
+	fi
 
 	# Some users of cros-kernel2 touch the config after
 	# cros-kernel2_src_configure finishes.  Detect that and remove
