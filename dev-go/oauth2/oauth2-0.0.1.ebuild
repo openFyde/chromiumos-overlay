@@ -1,16 +1,18 @@
 # Copyright 2017 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
-CROS_GO_SOURCE="go.googlesource.com/oauth2:golang.org/x/oauth2 fdc9e635145ae97e6c2cb777c48305600cf515cb"
+CROS_GO_SOURCE="go.googlesource.com/oauth2:golang.org/x/oauth2 d3ed0bb246c8d3c75b63937d9a5eecff9c74d7fe"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/authhandler"
 	"golang.org/x/oauth2/internal"
 	"golang.org/x/oauth2/jws"
 	"golang.org/x/oauth2/jwt"
 	"golang.org/x/oauth2/google"
+	"golang.org/x/oauth2/google/internal/externalaccount"
 )
 
 CROS_GO_TEST=(
