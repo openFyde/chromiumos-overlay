@@ -224,6 +224,8 @@ src_install() {
 		--comp "${chromeos_platform_connectivity_network_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_http_url_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_service_fuzzer" \
+		--comp "${chromeos_platform_connectivity_network_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_technology_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
 
