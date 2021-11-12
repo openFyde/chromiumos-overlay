@@ -61,14 +61,6 @@ COMMON_DEPEND="
 	)
 "
 
-# Dependency for SFX v1 (needed by both build and run time).
-COMMON_DEPEND+="
-	app-arch/gzip
-	app-arch/sharutils
-	app-arch/tar
-	sys-apps/util-linux
-	"
-
 # Apply common dependency.
 DEPEND="${COMMON_DEPEND}"
 RDEPEND="${COMMON_DEPEND}"
