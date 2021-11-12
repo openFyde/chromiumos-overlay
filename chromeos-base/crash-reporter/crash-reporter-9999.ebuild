@@ -158,6 +158,10 @@ src_install() {
 		--dict "${S}"/anomaly_detector_fuzzer.dict \
 		--comp "${fuzzer_component_id}"
 
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/missed_crash_collector_fuzzer \
+		--comp "${fuzzer_component_id}"
+
 	# Install crash_serializer into /usr/local/sbin, which is only present
 	# on test images. See:
 	# https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/master/dev-install/README.md#Environments
