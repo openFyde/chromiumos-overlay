@@ -42,8 +42,7 @@ CROS_WORKON_EGIT_BRANCH=(
 
 CROS_WORKON_MANUAL_UPREV=1
 
-# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python{3_6,3_7} )
 
 inherit cros-constants cros-workon eutils python-any-r1
 
@@ -106,8 +105,6 @@ src_install() {
 	doins "${FILESDIR}"/VERSION
 	exeinto /usr/share/policy_tools
 	doexe "${POLICY_DIR}"/tools/generate_policy_source.py
-	sed -i -E '1{ /^#!/ s:(env )?python$:python2: }' \
-		"${D}/usr/share/policy_tools/generate_policy_source.py" || die
 
 	# Retrieve the proto files which exist in that path, with their full paths.
 	local policy_dir_proto_files=( "${POLICY_DIR}"/proto/*.proto )
