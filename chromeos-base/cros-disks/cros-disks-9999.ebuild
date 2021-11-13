@@ -78,6 +78,11 @@ src_install() {
 	insinto /usr/share/cros-disks
 	doins usb-device-info
 
+	# We invoke systemd-tmpfiles explicitly from the upstart config
+	# since it needs to run when /sys/fs/cgroup is available.
+	insinto /usr/lib/tmpfiles.d/on-demand
+	doins tmpfiles.d/*.conf
+
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
