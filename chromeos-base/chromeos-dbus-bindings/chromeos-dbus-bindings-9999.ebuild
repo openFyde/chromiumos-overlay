@@ -29,6 +29,11 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	dobin "${OUT}"/generate-chromeos-dbus-bindings
+
+	local fuzzer_component_id="931982"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/chromeos_dbus_bindings_signature_fuzzer \
+			--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
