@@ -40,6 +40,11 @@ src_install() {
 
 	insinto /etc/init
 	doins share/featured.conf share/platform-features.json
+
+	local fuzzer_component_id="1096648"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/featured_json_feature_parser_fuzzer \
+			--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

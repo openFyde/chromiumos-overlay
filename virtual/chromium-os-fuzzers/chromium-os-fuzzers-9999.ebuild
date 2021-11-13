@@ -43,6 +43,7 @@ RDEPEND="
 	chromeos-base/dlcservice[fuzzer]
 	chromeos-base/dlp[fuzzer]
 	chromeos-base/dns-proxy[fuzzer]
+	chromeos-base/featured[fuzzer]
 	chromeos-base/foomatic_shell[fuzzer]
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/hammerd[fuzzer]
