@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="884567ee402a7938daab12b07b85d5927a371e60"
+CROS_WORKON_COMMIT="10ceddd81543a548e2cb6810c78afbd08e48f9ac"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "be216e01e26ffb29ff547837baf5af7985489922" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "175baf10a33e58a7a205ecf0f63b721d6aaafddc" "05aa595a8636e146f18b0ee359815b75a6f71c9a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -225,6 +225,8 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_profile_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_http_url_fuzzer" \
+		--comp "${chromeos_platform_connectivity_network_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_service_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/shill_technology_fuzzer" \
 		--comp "${chromeos_platform_connectivity_network_component_id}"
