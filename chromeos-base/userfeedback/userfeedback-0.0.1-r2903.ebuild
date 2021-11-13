@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="214872ab32bef6775ef10432afe5a7493e3c3a80"
+CROS_WORKON_COMMIT="a4c6bc10dd3a06cf1ce3a08ef4177b540579d126"
 CROS_WORKON_TREE="1931320fd5d91a0266effb9cc31122c0724c0b93"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,7 +26,6 @@ RDEPEND="chromeos-base/chromeos-init
 	media-libs/fontconfig
 	media-sound/alsa-utils
 	sys-apps/coreboot-utils
-	sys-apps/mosys
 	sys-apps/net-tools
 	sys-apps/pciutils
 	sys-apps/usbutils
