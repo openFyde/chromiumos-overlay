@@ -24,6 +24,7 @@ DEPEND="
 	dev-util/testlabenv-local
 	dev-util/cros-test
 	dev-util/cros-dut
+	dev-util/cros-test-finder
 "
 RDEPEND="
 	${DEPEND}
