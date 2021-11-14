@@ -5,7 +5,7 @@ EAPI=6
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/hal/usb chromeos-config common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/include camera/hal/usb common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 RDEPEND="
-	chromeos-base/chromeos-config-tools
+	chromeos-base/cros-camera-libs
 	chromeos-base/libbrillo:=
 	dev-cpp/gtest:=
 	dev-libs/re2:=

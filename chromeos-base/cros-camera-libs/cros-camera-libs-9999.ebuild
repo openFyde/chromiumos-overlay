@@ -5,7 +5,7 @@ EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo iioservice/libiioservice_ipc iioservice/mojo"
+CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -39,6 +39,7 @@ CONFLICTING_PACKAGES="
 
 RDEPEND="
 	${CONFLICTING_PACKAGES}
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
 	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )

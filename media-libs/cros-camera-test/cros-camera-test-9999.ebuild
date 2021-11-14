@@ -23,7 +23,6 @@ IUSE="-asan"
 
 RDEPEND="
 	>=chromeos-base/cros-camera-libs-0.0.1-r34:=
-	chromeos-base/chromeos-config-tools
 	chromeos-base/cros-camera-android-deps
 	media-libs/libexif
 	media-libs/libsync
