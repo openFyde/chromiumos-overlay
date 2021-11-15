@@ -35,6 +35,7 @@ src_prepare() {
 	use iioservice || eapply "${FILESDIR}"/${PN}-cros-ec-ring-workaround.patch
 
 	eapply "${FILESDIR}"/${P}-illuminance.patch
+	eapply "${FILESDIR}"/${P}-iio.h-Protect-against-inclusion-of-linux-iio-types.h.patch
 
 	cmake-utils_src_prepare
 	default
