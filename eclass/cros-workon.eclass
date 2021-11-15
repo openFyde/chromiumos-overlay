@@ -116,7 +116,7 @@ ARRAY_VARIABLES=(
 # Git commit hashes of the source repositories.
 # It is guaranteed that files identified by tree hashes in CROS_WORKON_TREE
 # can be found in the commit.
-# CROW_WORKON_COMMIT is updated only when CROS_WORKON_TREE below is updated,
+# CROS_WORKON_COMMIT is updated only when CROS_WORKON_TREE below is updated,
 # so it does not necessarily point to HEAD in the source repository.
 : "${CROS_WORKON_COMMIT:=}"
 
