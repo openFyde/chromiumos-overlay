@@ -15,7 +15,7 @@ EAPI="7"
 CROS_WORKON_PROJECT=(
 	"chromium/src/components/policy"
 
-	# private_membership and shell_encryption are not used in Chrome OS at
+	# private_membership and shell-encryption are not used in Chrome OS at
 	# the moment. They are just required to compile the proto files. An
 	# uprev will only be necessary if the respective proto files change.
 	"chromium/src/third_party/private_membership"
@@ -31,7 +31,7 @@ CROS_WORKON_LOCALNAME=(
 CROS_WORKON_DESTDIR=(
 	"${S}/cloud/policy"
 	"${S}/private_membership"
-	"${S}/shell_encryption"
+	"${S}/shell-encryption"
 )
 
 CROS_WORKON_EGIT_BRANCH=(
@@ -87,7 +87,7 @@ IUSE=""
 POLICY_DIR="${S}/cloud/policy"
 
 PRIVATE_MEMBERSHIP_DIR="${S}/private_membership/src"
-SHELL_ENCRYPTION_DIR="${S}/shell_encryption/src"
+SHELL_ENCRYPTION_DIR="${S}/shell-encryption/src"
 
 # A list of the static protobuf files that exist in Chromium.
 POLICY_DIR_PROTO_FILES=(
