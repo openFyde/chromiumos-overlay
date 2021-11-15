@@ -18,7 +18,7 @@ inherit cros-debug libchrome-version
 
 # Require a recent one from time to time to help keep people up-to-date.
 RDEPEND="
-	>=chromeos-base/libchrome-0.0.1-r117:0=[cros-debug=]
+	>=chromeos-base/libchrome-0.0.1-r252:0=[cros-debug=]
 "
 
 DEPEND="${RDEPEND}"
