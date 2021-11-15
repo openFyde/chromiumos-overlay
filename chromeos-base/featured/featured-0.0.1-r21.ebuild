@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="001933a4e761c3cb1f2d1378933facecbe28eb62"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "91e902843d0027bbd5877a44db168432f8dd38bb" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="4587fffe4ff1323f2a1806783bc1fb10e05a6695"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "d15456cdcdb891b358e4f18984bdbe147c6ba380" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -15,10 +15,9 @@ PLATFORM_SUBDIR="featured"
 inherit cros-workon platform user
 
 DESCRIPTION="Chrome OS feature management service"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/featured/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/featured/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test"
 
 DEPEND="
 	chromeos-base/system_api:=
@@ -28,22 +27,10 @@ src_install() {
 	into /
 	dosbin "${OUT}"/featured
 
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	dolib.so "${OUT}/lib/libfeatures.so"
-	dolib.so "${OUT}/lib/libfeatures_c.so"
-	local v="$(libchrome_ver)"
-	./platform2_preinstall.sh "${OUT}" "${v}"
-	doins "${OUT}/lib/libfeatures.pc"
-	doins "${OUT}/lib/libfeatures_c.pc"
-
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
 	doins share/org.chromium.featured.conf
 
 	insinto /etc/init
 	doins share/featured.conf share/platform-features.json
-}
-
-platform_pkg_test() {
-	platform_test "run" "${OUT}/feature_library_test"
 }
