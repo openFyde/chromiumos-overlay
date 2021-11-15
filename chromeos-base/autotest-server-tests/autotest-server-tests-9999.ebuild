@@ -15,7 +15,7 @@ SLOT="0"
 KEYWORDS="~*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 cheets_userdebug_64 -chromeless_tests -chromeless_tty cros_p2p debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 cheets_userdebug_64 -chromeless_tests -chromeless_tty debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -281,8 +281,8 @@ SERVER_IUSE_TESTS="
 		+tests_moblab_StorageQual
 	)
 	+tests_moblab_Setup
-	cros_p2p? ( +tests_p2p_EndToEndTest )
 	+tests_network_FirewallHolePunchServer
+	+tests_p2p_EndToEndTest
 	+tests_platform_ActivateDate
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer

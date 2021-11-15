@@ -11,7 +11,7 @@ HOMEPAGE="http://www.chromium.org"
 LICENSE="GPL-2"
 SLOT=0
 KEYWORDS="*"
-IUSE="cheets -chromeless_tests +bluetooth +cellular +cras +cros_p2p +debugd -chromeless_tty kvm_host +power_management +shill +tpm tpm2"
+IUSE="cheets -chromeless_tests +bluetooth +cellular +cras +debugd -chromeless_tty kvm_host +power_management +shill +tpm tpm2"
 
 RDEPEND="
 	chromeos-base/autotest-client
@@ -35,7 +35,6 @@ RDEPEND="
 		)
 	)
 	cras? ( chromeos-base/autotest-tests-audio )
-	cros_p2p? ( chromeos-base/autotest-tests-p2p )
 	debugd? ( chromeos-base/autotest-tests-debugd )
 	kvm_host? ( chromeos-base/autotest-tests-vm-host )
 	power_management? ( chromeos-base/autotest-tests-power )
