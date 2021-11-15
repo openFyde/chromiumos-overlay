@@ -21,7 +21,6 @@ KEYWORDS="~*"
 
 COMMON_DEPEND="
 	chromeos-base/metrics:=
-	dev-libs/libgpiod:=
 	virtual/libusb:1
 	"
 
