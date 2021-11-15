@@ -419,8 +419,10 @@ cros-rust_configure_cargo() {
 	cros-rust_use_sanitizers || export RUST_BACKTRACE=1
 
 	# We want debug info even in release builds.
+	# We want to split the flags since it's a command line as a scalar.
+	# shellcheck disable=SC2206
 	local rustflags=(
-		"${CROS_BASE_RUSTFLAGS}"
+		${CROS_BASE_RUSTFLAGS}
 		"-Cdebuginfo=2"
 		"-Copt-level=3"
 		"-Zallow-features=sanitizer,backtrace"
@@ -482,7 +484,9 @@ cros-rust_configure_cargo() {
 	# Add EXTRA_RUSTFLAGS to the current rustflags. This lets us emerge rust
 	# packages with locally exported flags for testing purposes as:
 	# `EXTRA_RUSTFLAGS="<flags>" emerge-$BOARD <package>`
-	rustflags+=( "${EXTRA_RUSTFLAGS:=}" )
+	# We want to split the flags since it's a command line as a scalar.
+	# shellcheck disable=SC2206
+	rustflags+=( ${EXTRA_RUSTFLAGS:=} )
 
 	# Ensure RUSTFLAGS is *not* set in the environment.
 	# If it is, it will override the flags we configure below. See:
@@ -495,12 +499,13 @@ cros-rust_configure_cargo() {
 	# This [target] section will apply to *all* targets, CHOST and CBUILD.
 	# TODO(dcallagh): some flags above are not applicable to all targets,
 	# they should be configured into suitable [target] sections.
-	# TODO(dcallagh): escape TOML values correctly instead of assuming
-	# that no rustflags contain spaces or quotes.
+	local rustflags_list=$(printf "    %s,\n" "${rustflags[@]@Q}")
 	cat <<- EOF >> "${ECARGO_HOME}/config"
 
 	[target.'cfg(all())']
-	rustflags = "${rustflags[*]}"
+	rustflags = [
+	${rustflags_list}
+	]
 	EOF
 }
 
