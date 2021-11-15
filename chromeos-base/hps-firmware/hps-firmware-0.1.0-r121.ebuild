@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="24620f7ef0ccd5279710049d823d9f83620d9ef5"
-CROS_WORKON_TREE="2f2bc762b5a06c605b2610cdf7916e49f217b710"
+CROS_WORKON_COMMIT="de604eea6ded2831101fdeb76f33c1cd95e77f27"
+CROS_WORKON_TREE="0c3b105b93cf486c94bc31d1cc1f9b56bf6ae238"
 inherit cros-workon cros-rust
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -48,6 +48,7 @@ DEPEND="
 	=dev-rust/ufmt-write-0.1*:=
 	>=dev-rust/panic-rtt-target-0.1.2:= <dev-rust/panic-rtt-target-0.2.0
 	>=dev-rust/rtt-target-0.3.1:= <dev-rust/rtt-target-0.4.0
+	chromeos-base/hps-firmware-images:=
 "
 
 # Integer overflow checks introduce panicking paths into the firmware,
@@ -99,10 +100,12 @@ src_compile() {
 	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
 		cd mcu_rom/${crate} || die
-		ecargo build \
+		HPS_SPI_BIT="${SYSROOT}/usr/lib/firmware/hps/hps_platform.bit" \
+			HPS_SPI_BIN="${SYSROOT}/usr/lib/firmware/hps/bios.bin" \
+			ecargo build \
 			--target="thumbv6m-none-eabi" \
 			--release
-		einfo "Flatting MCU firmware image ${crate}"
+		einfo "Flattening MCU firmware image ${crate}"
 		llvm-objcopy -O binary \
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}" \
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin"
