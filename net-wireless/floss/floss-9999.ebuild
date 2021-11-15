@@ -3,32 +3,40 @@
 
 EAPI="7"
 
-# Prevent uprev while landing migration to packages/modules/Bluetooth
-CROS_WORKON_MANUAL_UPREV=1
-
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
-	"aosp/platform/system/bt"
+	"aosp/platform/packages/modules/Bluetooth"
+	"aosp/platform/packages/modules/Bluetooth"
 	"aosp/platform/frameworks/proto_logging"
 	"chromiumos/third_party/rust_crates"
 )
 CROS_WORKON_LOCALNAME=(
 	"../platform2"
-	"../aosp/system/bt/upstream"
+	"../aosp/packages/modules/Bluetooth/local"
+	"../aosp/packages/modules/Bluetooth/upstream"
 	"../aosp/frameworks/proto_logging"
 	"../third_party/rust_crates"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/bt"
+	"${S}/platform2/bt"
 	"${S}/platform2/external/proto_logging"
 	"${S}/platform2/external/rust"
 )
-CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "")
-CROS_WORKON_EGIT_BRANCH=("main" "main" "master" "main")
+CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "" "")
+CROS_WORKON_EGIT_BRANCH=("main" "main" "upstream/master" "master" "main")
+CROS_WORKON_OPTIONAL_CHECKOUT=(
+	""
+	"use !floss_upstream"
+	"use floss_upstream"
+	""
+	""
+)
 CROS_WORKON_INCREMENTAL_BUILD=1
-
 PLATFORM_SUBDIR="bt"
+
+IUSE="bt_dynlib floss_upstream"
 
 inherit cros-workon toolchain-funcs cros-rust platform tmpfiles
 
@@ -43,7 +51,6 @@ LICENSE="
 "
 
 KEYWORDS="~*"
-IUSE="bt_dynlib"
 
 #
 # TODO(b/188819708)
