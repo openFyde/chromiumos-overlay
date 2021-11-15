@@ -17,6 +17,7 @@ KEYWORDS="*"
 
 COMMON_DEPEND="dev-libs/libzip:=
 	dev-libs/openssl:=
+	sys-apps/flashrom:=
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"

@@ -2,17 +2,30 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7d961954cc97d91b18ed02eb9cf81712bed25e5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
-CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_DESTDIR="${S}/platform2"
+CROS_WORKON_COMMIT=("74282c056e11f005d7ed04589f4a394bab388d92" "06a8cf268baf9530267c9581801b8f8749ec9312")
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7d961954cc97d91b18ed02eb9cf81712bed25e5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6718d517ad45eb8b0afcbe192ffb2655ca23c068")
+CROS_WORKON_LOCALNAME=(
+	"platform2"
+	"chromium/src/media/midi"
+)
+CROS_WORKON_PROJECT=(
+	"chromiumos/platform2"
+	"chromium/src/media/midi"
+)
+CROS_WORKON_DESTDIR=(
+	"${S}/platform2"
+	"${S}/platform2/media/midi"
+)
+CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="common-mk midis .gn"
+CROS_WORKON_SUBTREE=(
+	"common-mk midis .gn"
+	""
+)
 
 PLATFORM_SUBDIR="midis"
 
-inherit cros-workon git-2 platform user
+inherit cros-workon platform user
 
 DESCRIPTION="MIDI Server for Chromium OS"
 HOMEPAGE=""
@@ -28,19 +41,6 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
-
-src_unpack() {
-	platform_src_unpack
-
-	EGIT_REPO_URI="${CROS_GIT_HOST_URL}/chromium/src/media/midi.git" \
-	# Since there are a few headers that are included by other headers
-	# in this directory, and these headers are referenced assuming the
-	# "media" directory is stored in the base directory, we install
-	# the Git checkout in platform2.
-	EGIT_SOURCEDIR="${S}/../media/midi" \
-	EGIT_COMMIT="06a8cf268baf9530267c9581801b8f8749ec9312" \
-	git-2_src_unpack
-}
 
 src_install() {
 	dobin "${OUT}"/midis
