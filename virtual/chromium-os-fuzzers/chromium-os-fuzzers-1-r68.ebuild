@@ -23,6 +23,7 @@ IUSE="asan msan"
 RDEPEND="
 	chromeos-base/aosp-frameworks-ml-nn[fuzzer]
 	chromeos-base/arc-adbd[fuzzer]
+	chromeos-base/arc-apk-cache[fuzzer]
 	asan? ( chromeos-base/arc-keymaster[fuzzer] )
 	chromeos-base/arc-obb-mounter[fuzzer]
 	chromeos-base/arc-setup[fuzzer]

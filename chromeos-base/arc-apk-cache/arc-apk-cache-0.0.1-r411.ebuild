@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "337a3b9cf4ad4e8ccde785f9b20c19e35c9fca87" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="74282c056e11f005d7ed04589f4a394bab388d92"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "88ede64d1acf2bc2ebaac0bd8e4615c13fa45c91" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -45,6 +45,9 @@ src_install() {
 	dosbin "${OUT}/apk-cache-cleaner"
 	dobin  "${OUT}/apk-cache-ctl"
 	dosbin apk-cache-cleaner-jailed
+
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/apk_cache_database_fuzzer \
+		--comp 157100
 }
 
 platform_pkg_test() {
