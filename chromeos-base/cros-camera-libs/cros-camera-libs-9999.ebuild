@@ -108,6 +108,11 @@ src_install() {
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins "${OUT}"/obj/camera/common/libcros_camera.pc
 
+	local fuzzer_component_id="167281"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/camera_still_capture_processor_impl_fuzzer \
+			--comp "${fuzzer_component_id}"
+
 	platform_src_install
 }
 
