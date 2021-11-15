@@ -38,6 +38,11 @@ DEPEND="${RDEPEND}
 src_install() {
 	dosbin "${OUT}/kmsvnc"
 	dosbin "${OUT}/screenshot"
+
+	# Component: ARC++ > Eng Velocity.
+	local fuzzer_component_id="515942"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/screen-capture_png_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
