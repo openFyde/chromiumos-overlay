@@ -55,8 +55,9 @@ fuzzer_install() {
 	local opt_component="comp"
 	local opt_dict="dict"
 	local opt_option="options"
-
-	local component_made=false
+	# We default reporting to this component:
+	# ChromeOS > Security > Machine-found-bugs
+	local default_fuzzer_component_id="1099326"
 
 	(
 		# Install fuzzer program.
@@ -65,6 +66,8 @@ fuzzer_install() {
 		# Install owners file.
 		insinto "/usr/libexec/fuzzers"
 		newins "${owners}" "${name}.owners"
+		# Install component file with default component.
+		echo "${default_fuzzer_component_id}" | newins - "${name}.components"
 
 		# Install other fuzzer files (dict, options file etc.) if provided.
 		[[ $# -eq 0 ]] && return 0
@@ -82,8 +85,8 @@ fuzzer_install() {
 				newins "$2" "${name}.options"
 				shift 2 ;;
 			"--${opt_component}")
+				# Overwrite component file with specified component.
 				echo "$2" | newins - "${name}.components"
-				component_made=true
 				shift 2 ;;
 			--)
 				shift ;;
@@ -92,14 +95,6 @@ fuzzer_install() {
 				shift ;;
 			esac
 		done
-
-		# If not specified, we default reporting
-		# to this component:
-		# ChromeOS > Security > Machine-found-bugs
-		local default_fuzzer_component_id="1099326"
-		if ! "${component_made}"; then
-			echo "${default_fuzzer_component_id}" | newins - "${name}.components"
-		fi
 	)
 }
 
