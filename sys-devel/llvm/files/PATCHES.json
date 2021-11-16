@@ -483,7 +483,8 @@
     {
         "comment": "clang: disable assert for DK_Linker diagnostics",
         "rel_patch_path": "disable-dk_linker-assert.patch",
-        "start_version": 399095
+        "start_version": 399095,
+        "end_version": 436311
     },
     {
         "comment": "Revert \"[ARM][LowOverheadLoops] Adjust Start insertion.\"",
@@ -945,6 +946,26 @@
         "rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
         "start_version": 427792,
         "end_version": 428782
+    },
+    {
+        "comment": "Revert \"[MemCpyOpt] Allow specifying --enable-memcpyopt-without-libcalls more than once\"",
+        "rel_patch_path": "revert-30dfd3449e45ac371012c6e46c77ab9089496d4e.patch",
+        "start_version": 436746
+    },
+    {
+        "comment": "Revert \"[MemCpyOpt] Optimize MemoryDef insertion\"",
+        "rel_patch_path": "revert-17db125b487faa69d789b80d47b19da49522b168.patch",
+        "start_version": 435224
+    },
+    {
+        "comment": "Revert \"[MemCpyOpt] Remove MemDepAnalysis-based implementation\"",
+        "rel_patch_path": "revert-88003cea1c6eb3ebcb18b4f1b9d0e2052dd76fe4.patch",
+        "start_version": 435043
+    },
+    {
+        "comment": "Revert \"MemCpyOptimizer.cpp - hasUndefContentsMSSA - Pass DataLayout by reference. NFCI\"",
+        "rel_patch_path": "revert-596004a94748e427ff59956e74d8ed4eb0e109d4.patch",
+        "start_version": 429466
     },
     {
         "comment": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\"",
