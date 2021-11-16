@@ -17,13 +17,13 @@ CONFIG_RUN_FSP_GOP=y
 CONFIG_HAVE_ME_BIN=y
 CONFIG_STITCH_ME_BIN=y
 CONFIG_CSE_COMPONENTS_PATH="3rdparty/blobs/mainboard/google/brya/cse_inputs"
-CONFIG_CSE_FPT_FILE="csme.bin"
-CONFIG_CSE_PMCP_FILE="pmc.bin"
-CONFIG_CSE_IOMP_FILE="iom.bin"
-CONFIG_CSE_TBTP_FILE="tbt.bin"
-CONFIG_CSE_NPHY_FILE="nphy.bin"
-CONFIG_CSE_PCHC_FILE="pchc.bin"
-CONFIG_CSE_IUNP_FILE="iunit.bin"
+CONFIG_CSE_FPT_FILE="qs_inputs/csme.bin"
+CONFIG_CSE_PMCP_FILE="qs_inputs/pmc.bin"
+CONFIG_CSE_IOMP_FILE="qs_inputs/iom.bin"
+CONFIG_CSE_TBTP_FILE="qs_inputs/tbt.bin"
+CONFIG_CSE_NPHY_FILE="qs_inputs/nphy.bin"
+CONFIG_CSE_PCHC_FILE="qs_inputs/pchc.bin"
+CONFIG_CSE_IUNP_FILE="qs_inputs/iunit.bin"
 
 # Microcode
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
@@ -44,4 +44,6 @@ CONFIG_SPI_FLASH_SMM=y
 
 # Management Engine FW update
 CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
-CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.10.1473"
+
+# Management Engine RW version
+CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.15.1545"
