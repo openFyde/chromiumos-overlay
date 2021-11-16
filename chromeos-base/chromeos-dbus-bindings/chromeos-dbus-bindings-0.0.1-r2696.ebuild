@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="742e54236fa11a922fc926fb032c49745ac27ebb"
+CROS_WORKON_COMMIT="bcc92db8e2b489adc4467515841038d399a3c92b"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "8bd5a5ec0379491d5ef0f9d9ff00ba72a252bf1e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,6 +31,11 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	dobin "${OUT}"/generate-chromeos-dbus-bindings
+
+	local fuzzer_component_id="931982"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/chromeos_dbus_bindings_signature_fuzzer \
+			--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
