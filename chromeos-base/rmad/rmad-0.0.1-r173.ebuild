@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0b5c05d83a55ed8851a320a66e41bc22d06cfb93"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "239f7818a91773f0dd11e673c53708c508784e37" "5e9e4e6110af134aa3e135cce0c31582ea04f0cc" "c268a0456d93a58f0ec85e803ab01a23eb396035" "88ee93f72efea56ba56e926b7a26141a22f36ca6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1319972d2dda02dd39d9c04f3f74045708b9e633"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "239f7818a91773f0dd11e673c53708c508784e37" "5e9e4e6110af134aa3e135cce0c31582ea04f0cc" "c268a0456d93a58f0ec85e803ab01a23eb396035" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "88ee93f72efea56ba56e926b7a26141a22f36ca6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libmems rmad .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libmems metrics rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
@@ -42,6 +42,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
+	chromeos-base/metrics:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=
 	chromeos-base/tpm_manager-client:=
