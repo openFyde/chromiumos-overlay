@@ -9,7 +9,7 @@ PYTHON_REQ_USE="threads(+),xml"
 # 14 and 15 spit out a lot of warnings about subdirs
 WANT_AUTOMAKE="1.13"
 
-inherit autotools cros-sanitizers linux-info python-single-r1 readme.gentoo-r1 udev
+inherit cros-fuzzer cros-sanitizers autotools linux-info python-single-r1 readme.gentoo-r1 udev
 
 DESCRIPTION="HP Linux Imaging and Printing - Print, scan, fax drivers and service tools"
 HOMEPAGE="https://developers.hp.com/hp-linux-imaging-and-printing"
@@ -20,7 +20,7 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="doc fax +hpcups hpijs kde libnotify libressl -libusb0 minimal parport policykit qt5 scanner +snmp static-ppds X"
+IUSE="asan fuzzer doc fax +hpcups hpijs kde libnotify libressl -libusb0 minimal parport policykit qt5 scanner +snmp static-ppds X"
 
 COMMON_DEPEND="
 	net-print/cups
@@ -120,6 +120,11 @@ pkg_setup() {
 src_prepare() {
 	default
 
+	if use fuzzer ; then
+		eapply "${FILESDIR}/${PN}-3.21.8-fuzz.patch"
+		cp "${FILESDIR}"/{hpcups,hpps}_fuzzer.cc "${FILESDIR}"/stdin_util.{h,cc} .
+	fi
+
 	python_fix_shebang .
 
 	# Make desktop files follow the specification
@@ -151,6 +156,10 @@ src_prepare() {
 }
 
 src_configure() {
+	if use fuzzer ; then
+		fuzzer-setup-env || die
+	fi
+
 	local drv_build minimal_build
 
 	sanitizers-setup-env
@@ -272,6 +281,14 @@ src_install() {
 	doexe hpcups
 
 	readme.gentoo_create_doc
+
+	if use fuzzer ; then
+		insinto /usr/share/cups/model
+		doins "${FILESDIR}"/hpcups.ppd
+		local fuzzer_component_id="167231"
+		fuzzer_install "${FILESDIR}"/OWNERS hpcups_fuzzer --comp "${fuzzer_component_id}"
+		fuzzer_install "${FILESDIR}"/OWNERS hpps_fuzzer --comp "${fuzzer_component_id}"
+	fi
 }
 
 pkg_postinst() {
