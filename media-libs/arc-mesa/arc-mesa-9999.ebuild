@@ -4,13 +4,14 @@
 
 EAPI="6"
 
-MESON_AUTO_DEPEND=no
-
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa"
 CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_MANUAL_UPREV="1"
+
+EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
+
+MESON_AUTO_DEPEND=no
 
 inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
