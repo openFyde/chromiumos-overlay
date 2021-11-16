@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="4c8d713791413a825a5c0277c8e389dd8b7a1be4"
-CROS_WORKON_TREE="a079d59b7cb1cd42450e7e3aefe4d78dc2d89fc7"
+CROS_WORKON_COMMIT="eadfb3133773ea117da5a0257e6ffad3f5f56226"
+CROS_WORKON_TREE="d691e354b64e23224807e30facbe3b4f63dfc893"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 cheets_userdebug_64 -chromeless_tests -chromeless_tty cros_p2p debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 cheets_userdebug_64 -chromeless_tests -chromeless_tty debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -283,8 +283,8 @@ SERVER_IUSE_TESTS="
 		+tests_moblab_StorageQual
 	)
 	+tests_moblab_Setup
-	cros_p2p? ( +tests_p2p_EndToEndTest )
 	+tests_network_FirewallHolePunchServer
+	+tests_p2p_EndToEndTest
 	+tests_platform_ActivateDate
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
