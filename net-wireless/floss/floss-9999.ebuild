@@ -3,6 +3,9 @@
 
 EAPI="7"
 
+# Prevent uprev while landing migration to packages/modules/Bluetooth
+CROS_WORKON_MANUAL_UPREV=1
+
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/system/bt"
