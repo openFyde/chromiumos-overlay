@@ -22,7 +22,10 @@ IUSE="hpsd-roflash"
 RDEPEND="
 	chromeos-base/metrics:=
 	dev-libs/libgpiod:=
-	hpsd-roflash? ( dev-embedded/stm32flash:= )
+	hpsd-roflash? (
+		dev-libs/libgpiod
+		dev-embedded/stm32flash:=
+	)
 	virtual/libusb:1
 "
 
