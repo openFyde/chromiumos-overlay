@@ -4,10 +4,10 @@ DEPEND=>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0 >=dev-rust/bitflags-1.3
 DESCRIPTION=HPS firmware and tooling
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/hps-firmware
-IUSE=cros_host cros_workon_tree_67e1bfb2854397595156014bba3488f2ab866b6a cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_f3dd255676f6dd59d52d2196857c1659a1d4d43e cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r122
+SLOT=0/0.1.0-r123
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	736bb14ad9a52d5b935c9a37b5bfba72	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	eed40509cc35cdbeacd448f5faa97351	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=05bd3806a8c8d2619e852a1a371895b3
+_md5_=1c77a4f297d3edeaf834d1110033d52a
