@@ -117,6 +117,11 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0660 "${daemon_store}"
 	fowners debugd:debugd "${daemon_store}"
+
+	local fuzzer_component_id="960619"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/debugd_cups_uri_helper_utils_fuzzer \
+			--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

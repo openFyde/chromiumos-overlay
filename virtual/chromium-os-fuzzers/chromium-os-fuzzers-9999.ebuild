@@ -39,6 +39,7 @@ RDEPEND="
 	chromeos-base/croslog[fuzzer]
 	chromeos-base/cryptohome[fuzzer]
 	chromeos-base/cups-fuzz[fuzzer]
+	chromeos-base/debugd[fuzzer]
 	chromeos-base/diagnostics[fuzzer]
 	chromeos-base/dlcservice[fuzzer]
 	chromeos-base/dlp[fuzzer]
