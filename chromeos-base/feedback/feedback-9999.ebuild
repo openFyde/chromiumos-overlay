@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk feedback .gn"
 
 PLATFORM_SUBDIR="feedback"
 
-inherit cros-constants cros-workon git-2 platform
+inherit cros-workon platform
 
 DESCRIPTION="Feedback service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/feedback/"
