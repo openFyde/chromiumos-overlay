@@ -3,7 +3,7 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="7919760df070209260ddb0fadf63b0d17a20fd94"
+CROS_WORKON_COMMIT="0875fbd05daf4305fd7b601827cf6e6555f2a06f"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "d77417eb5fe10c18d99739e1b9ac4361a19f4e56" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,9 +29,12 @@ DEPEND="
 
 src_install() {
 	platform_install
+
+	local fuzzer_component_id="931982"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/croslog_log_parser_fuzzer \
+			--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
 	platform test_all
 }
-

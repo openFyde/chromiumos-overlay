@@ -37,6 +37,7 @@ RDEPEND="
 	chromeos-base/crash-reporter[fuzzer]
 	chromeos-base/cros-disks[fuzzer]
 	chromeos-base/crosdns[fuzzer]
+	chromeos-base/croslog[fuzzer]
 	chromeos-base/cryptohome[fuzzer]
 	chromeos-base/cups-fuzz[fuzzer]
 	chromeos-base/diagnostics[fuzzer]
