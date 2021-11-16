@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
+CROS_WORKON_COMMIT="33f66a37558e8a695812674a82009a3e11fda403"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "395ebd509827e9d258f79bb36358bce3c9e69474" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk feedback .gn"
 
 PLATFORM_SUBDIR="feedback"
 
-inherit cros-constants cros-workon git-2 platform
+inherit cros-workon platform
 
 DESCRIPTION="Feedback service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/feedback/"
