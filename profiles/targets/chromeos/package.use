@@ -136,7 +136,7 @@ sys-kernel/chromeos-kernel-next -llvm_ias
 sys-kernel/linux-firmware	linux_firmware_keyspan_usb
 # We disable berkdb in general, but we need gdbm to provide the API.
 sys-libs/gdbm		berkdb
-sys-libs/ldb		-python -lmdb
+sys-libs/ldb		ldap -python -lmdb
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux	pcre2
 sys-libs/ncurses	-cxx -unicode minimal tinfo

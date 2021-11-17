@@ -16,7 +16,7 @@ index c83aced..ea67432 100644
  		   "                             quadrupled. It is not used as a separator.\n"));
  	d_printf(_("   machinepass=PASS      Set the machine password to a specific value during\n"
  		   "                         the join. The default password is random.\n"));
-+-	d_printf(_("   machinepassStdin      Reads the machine password from stdin.\n"));
++	d_printf(_("   machinepassStdin      Reads the machine password from stdin.\n"));
  	d_printf(_("   osName=string         Set the operatingSystem attribute during the join.\n"));
  	d_printf(_("   osVer=string          Set the operatingSystemVersion attribute during join.\n"
  		   "                         NB: osName and osVer must be specified together for\n"

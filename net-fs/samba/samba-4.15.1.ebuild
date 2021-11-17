@@ -1,31 +1,48 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-PYTHON_COMPAT=( python3_{6,7,8} )
-PYTHON_REQ_USE='threads(+),xml(+)'
+EAPI=7
 
-inherit python-single-r1 waf-utils multilib-minimal linux-info systemd pam
+PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_REQ_USE="threads(+),xml(+)"
+inherit python-single-r1 waf-utils multilib-minimal linux-info systemd pam tmpfiles
+
+DESCRIPTION="Samba Suite Version 4"
+HOMEPAGE="https://samba.org/"
 
 MY_PV="${PV/_rc/rc}"
 MY_P="${PN}-${MY_PV}"
+if [[ ${PV} = *_rc* ]]; then
+	SRC_URI="mirror://samba/rc/${MY_P}.tar.gz"
+else
+	SRC_URI="mirror://samba/stable/${MY_P}.tar.gz"
+	KEYWORDS="*"
+fi
+S="${WORKDIR}/${MY_P}"
 
-SRC_PATH="stable"
-[[ ${PV} = *_rc* ]] && SRC_PATH="rc"
-
-SRC_URI="mirror://samba/${SRC_PATH}/${MY_P}.tar.gz"
-[[ ${PV} = *_rc* ]] || \
-KEYWORDS="*"
-
-DESCRIPTION="Samba Suite Version 4"
-HOMEPAGE="https://www.samba.org/"
 LICENSE="GPL-3"
-
 SLOT="0"
+IUSE="acl addc ads ceph client cluster cups debug dmapi fam glusterfs
+gpg iprint json ldap pam profiling-data python quota regedit selinux
+snapper spotlight syslog system-heimdal +system-mitkrb5 systemd test winbind
+zeroconf"
 
-IUSE="acl addc addns ads ceph client cluster cups debug dmapi fam gpg iprint
-json ldap pam perl profiling-data python quota selinux snapper syslog
-system-heimdal +system-mitkrb5 systemd test winbind zeroconf"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}
+	addc? ( python json winbind )
+	ads? ( acl ldap winbind )
+	cluster? ( ads )
+	gpg? ( addc )
+	spotlight? ( json )
+	test? ( python )
+	!ads? ( !addc )
+	?? ( system-heimdal system-mitkrb5 )
+"
+
+# the test suite is messed, it uses system-installed samba
+# bits instead of what was built, tests things disabled via use
+# flags, and generally just fails to work in a way ebuilds could
+# rely on in its current state
+RESTRICT="test"
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/samba-4.0/policy.h
@@ -38,110 +55,80 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/samba-4.0/ctdb_version.h
 )
 
-# sys-apps/attr is an automagic dependency (see bug #489748)
-CDEPEND="
+COMMON_DEPEND="
 	>=app-arch/libarchive-3.1.2[${MULTILIB_USEDEP}]
-	perl? ( dev-lang/perl:= )
-	dev-libs/libaio[${MULTILIB_USEDEP}]
+	dev-lang/perl:=
 	dev-libs/libbsd[${MULTILIB_USEDEP}]
-	dev-libs/libgcrypt:0
-	dev-libs/iniparser:0
 	dev-libs/libtasn1[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
-	python? ( $(python_gen_cond_dep 'dev-python/subunit[${PYTHON_USEDEP},'"${MULTILIB_USEDEP}"']') )
-	>=dev-util/cmocka-1.1.1[${MULTILIB_USEDEP}]
-	>=net-libs/gnutls-3.2.0[${MULTILIB_USEDEP}]
-	net-libs/libnsl:=[${MULTILIB_USEDEP}]
-	sys-apps/attr[${MULTILIB_USEDEP}]
+	dev-perl/Parse-Yapp
+	>=net-libs/gnutls-3.4.7[${MULTILIB_USEDEP}]
 	sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
-	>=sys-libs/ldb-2.0.12[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	<sys-libs/ldb-2.1.0[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	sys-libs/libcap
+	>=sys-libs/ldb-2.4.1[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	<sys-libs/ldb-2.5.0[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	sys-libs/libcap[${MULTILIB_USEDEP}]
 	sys-libs/ncurses:0=
 	sys-libs/readline:0=
-	>=sys-libs/talloc-2.2.0[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	>=sys-libs/tdb-1.4.2[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	>=sys-libs/tevent-0.10.0[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	>=sys-libs/talloc-2.3.3[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	>=sys-libs/tdb-1.4.4[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	>=sys-libs/tevent-0.11.0[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
 	sys-libs/zlib[${MULTILIB_USEDEP}]
+	virtual/libcrypt:=[${MULTILIB_USEDEP}]
 	virtual/libiconv
-	pam? ( sys-libs/pam )
-	acl? ( virtual/acl )
-	addns? (
-		net-dns/bind-tools[gssapi]
+	addc? (
 		$(python_gen_cond_dep 'dev-python/dnspython:=[${PYTHON_USEDEP}]')
+		$(python_gen_cond_dep 'dev-python/markdown:=[${PYTHON_USEDEP}]')
 	)
+	acl? ( virtual/acl )
 	ceph? ( sys-cluster/ceph )
-	cluster? (
-		net-libs/rpcsvc-proto
-		!dev-db/ctdb
-	)
+	cluster? ( net-libs/rpcsvc-proto )
 	cups? ( net-print/cups )
 	debug? ( dev-util/lttng-ust )
 	dmapi? ( sys-apps/dmapi )
 	fam? ( virtual/fam )
 	gpg? ( app-crypt/gpgme )
-	json? ( dev-libs/jansson )
+	json? ( dev-libs/jansson:= )
 	ldap? ( net-nds/openldap[${MULTILIB_USEDEP}] )
+	pam? ( sys-libs/pam )
 	snapper? ( sys-apps/dbus )
 	system-heimdal? ( >=app-crypt/heimdal-1.5[-ssl,${MULTILIB_USEDEP}] )
 	system-mitkrb5? ( >=app-crypt/mit-krb5-1.15.1[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd:0= )
-	zeroconf? ( net-dns/avahi )
+	zeroconf? ( net-dns/avahi[dbus] )
 "
-DEPEND="${CDEPEND}
-	${PYTHON_DEPS}
-	app-text/docbook-xsl-stylesheets
-	dev-libs/libxslt
+DEPEND="${COMMON_DEPEND}
+	>=dev-util/cmocka-1.1.3[${MULTILIB_USEDEP}]
 	net-libs/libtirpc[${MULTILIB_USEDEP}]
-	virtual/pkgconfig
 	|| (
 		net-libs/rpcsvc-proto
 		<sys-libs/glibc-2.26[rpc(+)]
 	)
+	spotlight? ( dev-libs/glib )
 	test? (
+		$(python_gen_cond_dep "dev-python/subunit[\${PYTHON_USEDEP},${MULTILIB_USEDEP}]" )
 		!system-mitkrb5? (
-			>=sys-libs/nss_wrapper-1.1.3
 			>=net-dns/resolv_wrapper-1.1.4
 			>=net-libs/socket_wrapper-1.1.9
+			>=sys-libs/nss_wrapper-1.1.3
 			>=sys-libs/uid_wrapper-1.2.1
 		)
 	)"
-RDEPEND="${CDEPEND}
-	python? ( ${PYTHON_DEPS} )
+RDEPEND="${COMMON_DEPEND}
+	chromeos-base/chrome-icu:=
 	client? ( net-fs/cifs-utils[ads?] )
+	python? ( ${PYTHON_DEPS} )
 	selinux? ( sec-policy/selinux-samba )
-	!dev-perl/Parse-Yapp
 "
-
-REQUIRED_USE="
-	addc? ( python json winbind )
-	addns? ( python )
-	ads? ( acl ldap winbind )
-	cluster? ( ads )
-	gpg? ( addc )
-	python? ( ldap )
-	test? ( python )
-	?? ( system-heimdal system-mitkrb5 )
-	${PYTHON_REQUIRED_USE}
+BDEPEND="${PYTHON_DEPS}
+	app-text/docbook-xsl-stylesheets
+	dev-libs/libxslt
+	virtual/pkgconfig
 "
-
-# the test suite is messed, it uses system-installed samba
-# bits instead of what was built, tests things disabled via use
-# flags, and generally just fails to work in a way ebuilds could
-# rely on in its current state
-RESTRICT="test"
-
-S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-4.4.0-pam.patch"
-	"${FILESDIR}/${PN}-4.9.2-timespec.patch"
-	"${FILESDIR}/${PN}-4.13-winexe_option.patch"
-	"${FILESDIR}/${PN}-4.13-vfs_snapper_configure_option.patch"
 
-	"${FILESDIR}/${PN}-4.11-async-dns-lookup.patch"
-	"${FILESDIR}/${PN}-4.11-async-krb5-locator-plugin.patch"
-
+	# Chrome OS specific patches that aren't upstream
 	"${FILESDIR}/${PN}-4.11.13-machinepass_stdin.patch"
 	"${FILESDIR}/${PN}-4.11.13-machinepass_expire.patch"
 	"${FILESDIR}/${PN}-4.11.13-reuse_existing_computer_account.patch"
@@ -149,12 +136,6 @@ PATCHES=(
 	# Temporary workaround until we fix Samba/OpenLDAP issues (see
 	# https://crbug.com/953613).
 	"${FILESDIR}/${PN}-4.11.13-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
-
-	# Apply latest security patches until 4.11.15 is available upstream.
-	"${FILESDIR}/${PN}-4.11.14-security-2020-10-29.patch"
-
-	# Backport glibc 2.32 nss.h naming conflict fix
-	"${FILESDIR}/${PN}-4.11.13-fix-newer-glibc-nss-breakage.patch"
 )
 
 #CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
@@ -168,11 +149,15 @@ pkg_setup() {
 	# Package fails to build with distcc
 	export DISTCC_DISABLE=1
 
+	PERLVER=$(/usr/bin/perl -e "\$_ = \$^V; s/v//; print")
+
 	python-single-r1_pkg_setup
+
+	SHAREDMODS="$(usex snapper '' '!')vfs_snapper"
 	if use cluster ; then
-		SHAREDMODS="idmap_rid,idmap_tdb2,idmap_ad"
+		SHAREDMODS+=",idmap_rid,idmap_tdb2,idmap_ad"
 	elif use ads ; then
-		SHAREDMODS="idmap_ad"
+		SHAREDMODS+=",idmap_ad"
 	fi
 }
 
@@ -187,8 +172,8 @@ src_prepare() {
 		sed -i -e '/"iso8601":/d' "${S}"/third_party/wscript || die
 	fi
 
-	# ugly hackaround for bug #592502
-	cp "${SYSROOT}"/usr/include/tevent_internal.h "${S}"/lib/tevent/ || die
+	## ugly hackaround for bug #592502
+	#cp /usr/include/tevent_internal.h "${S}"/lib/tevent/ || die
 
 	sed -e 's:<gpgme\.h>:<gpgme/gpgme.h>:' \
 		-i source4/dsdb/samdb/ldb_modules/password_hash.c \
@@ -219,26 +204,27 @@ multilib_src_configure() {
 		--nopyc
 		--nopyo
 		--without-winexe
-		--without-regedit
 		--with-libiconv="${SYSROOT}/usr"
 		$(multilib_native_use_with acl acl-support)
 		$(multilib_native_usex addc '' '--without-ad-dc')
-		$(multilib_native_use_with addns dnsupdate)
 		$(multilib_native_use_with ads)
 		$(multilib_native_use_enable ceph cephfs)
 		$(multilib_native_use_with cluster cluster-support)
 		$(multilib_native_use_enable cups)
 		$(multilib_native_use_with dmapi)
 		$(multilib_native_use_with fam)
+		$(multilib_native_use_enable glusterfs)
 		$(multilib_native_use_with gpg gpgme)
 		$(multilib_native_use_with json)
 		$(multilib_native_use_enable iprint)
 		$(multilib_native_use_with pam)
 		$(multilib_native_usex pam "--with-pammodulesdir=${EPREFIX}/$(get_libdir)/security" '')
 		$(multilib_native_use_with quota quotas)
-		$(multilib_native_use_enable snapper)
+		$(multilib_native_use_with regedit)
+		$(multilib_native_use_enable spotlight)
 		$(multilib_native_use_with syslog)
 		$(multilib_native_use_with systemd)
+		--with-systemddir="$(systemd_get_systemunitdir)"
 		$(multilib_native_use_with winbind)
 		$(multilib_native_usex python '' '--disable-python')
 		$(multilib_native_use_enable zeroconf avahi)
@@ -247,19 +233,27 @@ multilib_src_configure() {
 		$(use_with debug lttng)
 		$(use_with ldap)
 		$(use_with profiling-data)
-		# Gentoo bug #683148
+		# bug #683148
 		--jobs 1
 	)
 
-	multilib_is_native_abi && myconf+=( --with-shared-modules=${SHAREDMODS} )
+	if multilib_is_native_abi ; then
+		myconf+=( --with-shared-modules="${SHAREDMODS}" )
+	else
+		myconf+=( "--with-shared-modules=DEFAULT !vfs_snapper" )
+	fi
 
 	KRB5_CONFIG="${CHOST}-krb5-config" \
+	PERL5LIB="${SYSROOT}/usr/$(get_libdir)/perl5/vendor_perl/${PERLVER}" \
+	YAPP="${SYSROOT}/usr/bin/yapp" \
 	CPPFLAGS="-I${SYSROOT}${EPREFIX}/usr/include/et ${CPPFLAGS}" \
-		waf-utils_src_configure ${myconf[@]}
+		waf-utils_src_configure "${myconf[@]}"
 }
 
 multilib_src_compile() {
-	waf-utils_src_compile
+	PERL5LIB="${SYSROOT}/usr/$(get_libdir)/perl5/vendor_perl/${PERLVER}" \
+	YAPP="${SYSROOT}/usr/bin/yapp" \
+		waf-utils_src_compile
 }
 
 multilib_src_install() {
@@ -297,18 +291,13 @@ multilib_src_install() {
 			-e '/path =/s@/usr/local/samba/lib/@/var/lib/samba/@' \
 			-e '/path =/s@/usr/local/samba/@/var/lib/samba/@' \
 			-e '/path =/s@/usr/spool/samba@/var/spool/samba@' \
-			-i "${ED%/}"/etc/samba/smb.conf.default || die
+			-i "${ED}"/etc/samba/smb.conf.default || die
 
 		# Install init script and conf.d file
 		newinitd "${CONFDIR}/samba4.initd-r1" samba
 		newconfd "${CONFDIR}/samba4.confd" samba
 
-		systemd_dotmpfilesd "${FILESDIR}"/samba.conf
-		systemd_dounit "${FILESDIR}"/nmbd.service
-		systemd_dounit "${FILESDIR}"/smbd.{service,socket}
-		systemd_newunit "${FILESDIR}"/smbd_at.service 'smbd@.service'
-		systemd_dounit "${FILESDIR}"/winbindd.service
-		systemd_dounit "${FILESDIR}"/samba.service
+		dotmpfiles "${FILESDIR}"/samba.conf
 	fi
 
 	if use pam && use winbind ; then
@@ -318,6 +307,14 @@ multilib_src_install() {
 		doins examples/pam_winbind/pam_winbind.conf
 	fi
 
+	# Prune directories that maintain state for the samba daemon. If you wish to
+	# use the daemon in tests you can pass the private dir as a directive.
+	rmdir "${D}"/var/run/samba
+	rmdir "${D}"/var/log/samba
+	rmdir "${D}"/var/lock/samba
+	rm -rf "${D}"/var/lib/samba
+	rmdir "${D}"/var/cache/samba
+
 	# Prune empty dirs to avoid tripping multilib checks.
 	rmdir "${D}"/usr/lib* 2>/dev/null
 
@@ -325,17 +322,28 @@ multilib_src_install() {
 	# This directory is only available on test images, see:
 	# https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/main/dev-install/README.md#Environments
 	into /usr/local
-	dosbin "${D}"usr/sbin/smbd
-}
-
-multilib_src_install_all() {
-	# Attempt to fix bug #673168
-	find "${ED}" -type d -name "Yapp" -print0 \
-		| xargs -0 --no-run-if-empty rm -r || die
+	dosbin "${D}"/usr/sbin/smbd
 }
 
 multilib_src_test() {
 	if multilib_is_native_abi ; then
 		"${WAF_BINARY}" test || die "test failed"
+	fi
+}
+
+pkg_postinst() {
+	tmpfiles_process samba.conf
+
+	if [[ -z ${REPLACING_VERSIONS} ]] ; then
+		elog "Be aware that this release contains the best of all of Samba's"
+		elog "technology parts, both a file server (that you can reasonably expect"
+		elog "to upgrade existing Samba 3.x releases to) and the AD domain"
+		elog "controller work previously known as 'samba4'."
+		elog
+	fi
+	if [[ "${PV}" != *_rc* ]] ; then
+		elog "For further information and migration steps make sure to read "
+		elog "https://samba.org/samba/history/${P}.html "
+		elog "https://wiki.samba.org/index.php/Samba4/HOWTO "
 	fi
 }
