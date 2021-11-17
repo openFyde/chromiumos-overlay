@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0b5c05d83a55ed8851a320a66e41bc22d06cfb93"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "ace253319f9b1b2fb449b99b3802d199d06c46bc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b7c34324d0d654fb03081c00a5a1f1db6e2e5bf3"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "6c749cde88381bb9036bafe5c3b8f633a39cdc06" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,9 +30,11 @@ src_install() {
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	dolib.so "${OUT}/lib/libfeatures.so"
+	dolib.so "${OUT}/lib/libfeatures_c.so"
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	doins "${OUT}/lib/libfeatures.pc"
+	doins "${OUT}/lib/libfeatures_c.pc"
 
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
