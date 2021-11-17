@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "13b981873aeeddde042e6acfa4cd3a89e878984e" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2ec340d9bf8ae854c14321f6aadfb19c3375260f"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "ecf0eb0a63ba696395ad79d35467ee02e6cfc5a7" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): remove 'metrics' pulled in from header dependency.
@@ -40,6 +40,11 @@ DEPEND="${RDEPEND}
 src_install() {
 	dosbin "${OUT}/kmsvnc"
 	dosbin "${OUT}/screenshot"
+
+	# Component: ARC++ > Eng Velocity.
+	local fuzzer_component_id="515942"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/screen-capture_png_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
