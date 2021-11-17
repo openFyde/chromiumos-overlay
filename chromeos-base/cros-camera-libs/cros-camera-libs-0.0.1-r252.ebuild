@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3cdf609fc61e987831bcc4c313e61f8f99a8be80"
+CROS_WORKON_COMMIT="98cd168b265480fb7eb09333844b3759d36239b0"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "5d4b5fc0092e08daba635f52f88ea2ad5ca84895" "33cb0856b462c0265cd5474161baf85477433641" "d9c87d90418492eb02cc48bfef6111a2fa5fcf41" "8774c42872394c41ac215b85b7d049aeeacca75a" "e56e6b60963e59f2516caaa4fd45830054d6ddf2" "542b6a1b940801e08d9d1aa3ff2657d06dc80bfa" "239f7818a91773f0dd11e673c53708c508784e37" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -109,6 +109,11 @@ src_install() {
 
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins "${OUT}"/obj/camera/common/libcros_camera.pc
+
+	local fuzzer_component_id="167281"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/camera_still_capture_processor_impl_fuzzer \
+			--comp "${fuzzer_component_id}"
 
 	platform_src_install
 }
