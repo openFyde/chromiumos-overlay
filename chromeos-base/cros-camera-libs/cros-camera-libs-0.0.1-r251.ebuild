@@ -3,11 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1f19bebc2bcf8818b42c1b7c247540eee9ecb9d2"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "5d4b5fc0092e08daba635f52f88ea2ad5ca84895" "83599dad62c6740e56a3ca00e82346f4706c2e37" "d9c87d90418492eb02cc48bfef6111a2fa5fcf41" "8774c42872394c41ac215b85b7d049aeeacca75a" "7158a70e08605ea7edc48f8e0474cc73d5d12d6b" "542b6a1b940801e08d9d1aa3ff2657d06dc80bfa" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
+CROS_WORKON_COMMIT="3cdf609fc61e987831bcc4c313e61f8f99a8be80"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "5d4b5fc0092e08daba635f52f88ea2ad5ca84895" "33cb0856b462c0265cd5474161baf85477433641" "d9c87d90418492eb02cc48bfef6111a2fa5fcf41" "8774c42872394c41ac215b85b7d049aeeacca75a" "e56e6b60963e59f2516caaa4fd45830054d6ddf2" "542b6a1b940801e08d9d1aa3ff2657d06dc80bfa" "239f7818a91773f0dd11e673c53708c508784e37" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo iioservice/libiioservice_ipc iioservice/mojo"
+CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -41,6 +41,7 @@ CONFLICTING_PACKAGES="
 
 RDEPEND="
 	${CONFLICTING_PACKAGES}
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
 	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )

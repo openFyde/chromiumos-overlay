@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="1f19bebc2bcf8818b42c1b7c247540eee9ecb9d2"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5d4b5fc0092e08daba635f52f88ea2ad5ca84895" "e6aa63256207ee1bc39ca2596cca478165a02009" "83599dad62c6740e56a3ca00e82346f4706c2e37" "7158a70e08605ea7edc48f8e0474cc73d5d12d6b" "239f7818a91773f0dd11e673c53708c508784e37" "9d87849894323414dd9afca425cb349d84a71f6b")
+CROS_WORKON_COMMIT="3cdf609fc61e987831bcc4c313e61f8f99a8be80"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5d4b5fc0092e08daba635f52f88ea2ad5ca84895" "46a8353aa60533b970c7b9f7c45f292317f17d52" "33cb0856b462c0265cd5474161baf85477433641" "e56e6b60963e59f2516caaa4fd45830054d6ddf2" "239f7818a91773f0dd11e673c53708c508784e37" "9d87849894323414dd9afca425cb349d84a71f6b")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
@@ -25,7 +25,6 @@ IUSE="-asan"
 
 RDEPEND="
 	>=chromeos-base/cros-camera-libs-0.0.1-r34:=
-	chromeos-base/chromeos-config-tools
 	chromeos-base/cros-camera-android-deps
 	media-libs/libexif
 	media-libs/libsync
