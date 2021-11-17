@@ -44,7 +44,6 @@ DEPEND="${RDEPEND}
 src_install() {
 	platform_src_install
 
-	dolib.so "${OUT}/lib/libcamhal.so"
 	cros-camera_dohal "${OUT}/lib/libcamhal.so" intel-ipu6.so
 	dolib.so "${OUT}/lib/libcam_algo.so"
 
