@@ -64,4 +64,14 @@ src_install() {
 	local dir="/usr/share/chromeos-assets/crosh_builtin"
 	dodir "${dir}"
 	unzip -d "${D}${dir}" nassh/dist/crosh.zip || die
+	local pnacl="${D}${dir}/plugin/pnacl"
+	if ! use arm ; then
+		rm "${pnacl}/ssh_client_nl_arm.nexe"* || die
+	fi
+	if ! use x86 ; then
+		rm "${pnacl}/ssh_client_nl_x86_32.nexe"* || die
+	fi
+	if ! use amd64 ; then
+		rm "${pnacl}/ssh_client_nl_x86_64.nexe"* || die
+	fi
 }
