@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 
-inherit cros-workon toolchain-funcs meson
+inherit cros-workon toolchain-funcs meson cros-sanitizers
 
 DESCRIPTION="Utility for reading, writing, erasing and verifying flash ROM chips"
 HOMEPAGE="https://flashrom.org/"
@@ -142,6 +142,7 @@ src_configure() {
 		$(meson_use usbblaster_spi config_usbblaster_spi)
 		$(meson_use wiki print_wiki)
 	)
+	sanitizers-setup-env
 	meson_src_configure
 }
 
