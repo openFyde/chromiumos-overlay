@@ -30,6 +30,7 @@ src_configure() {
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
 		-Dintrospection=disabled
+		-Dman=disabled
 		-Dbash_completion=false
 	)
 	meson_src_configure
