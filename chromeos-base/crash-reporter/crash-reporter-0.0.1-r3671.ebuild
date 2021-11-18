@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e8a96500645b1d453a5572d43e0d08effcf0c4c4"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "cf808b4ad0896da2f73755af028de55ef25ec00d" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a297d89928caa101f0733643f305235f667848b0"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "d2f797b421550ba6e2d6d53abb4d563c0e060e24" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -158,6 +158,10 @@ src_install() {
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/anomaly_detector_fuzzer \
 		--dict "${S}"/anomaly_detector_fuzzer.dict \
+		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/missed_crash_collector_fuzzer \
 		--comp "${fuzzer_component_id}"
 
 	# Install crash_serializer into /usr/local/sbin, which is only present
