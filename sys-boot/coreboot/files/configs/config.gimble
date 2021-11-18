@@ -6,13 +6,13 @@ CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-gimble.bin"
 
 # CSE data
 CONFIG_CSE_DATA_FILE="cse_data/cse_data-gimble.bin"
-CONFIG_CSE_FPT_FILE="csme.bin"
-CONFIG_CSE_PMCP_FILE="pmc.bin"
-CONFIG_CSE_IOMP_FILE="iom.bin"
-CONFIG_CSE_TBTP_FILE="tbt.bin"
-CONFIG_CSE_NPHY_FILE="nphy.bin"
-CONFIG_CSE_PCHC_FILE="pchc.bin"
-CONFIG_CSE_IUNP_FILE="iunit.bin"
+CONFIG_CSE_FPT_FILE="es_inputs/csme.bin"
+CONFIG_CSE_PMCP_FILE="es_inputs/pmc.bin"
+CONFIG_CSE_IOMP_FILE="es_inputs/iom.bin"
+CONFIG_CSE_TBTP_FILE="es_inputs/tbt.bin"
+CONFIG_CSE_NPHY_FILE="es_inputs/nphy.bin"
+CONFIG_CSE_PCHC_FILE="es_inputs/pchc.bin"
+CONFIG_CSE_IUNP_FILE="es_inputs/iunit.bin"
 CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.10.1473"
 
 # Video Blob

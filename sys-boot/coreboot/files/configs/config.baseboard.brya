@@ -44,6 +44,4 @@ CONFIG_SPI_FLASH_SMM=y
 
 # Management Engine FW update
 CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
-
-# Management Engine RW version
 CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.15.1545"
