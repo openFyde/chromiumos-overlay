@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a28a8f8c825accd5fbb711df4c230472a8f5374f"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9f611b232cf4f75f3fc4d05826c33263dab62d7a" "9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f")
+CROS_WORKON_COMMIT="0c097dce76152cba0b5bbc8c9753a2d577b6d3cd"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6af8924e94d90659ce70bb93891d9a933c5a530e" "9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn hps common-mk metrics"
@@ -24,7 +24,10 @@ IUSE="hpsd-roflash"
 RDEPEND="
 	chromeos-base/metrics:=
 	dev-libs/libgpiod:=
-	hpsd-roflash? ( dev-embedded/stm32flash:= )
+	hpsd-roflash? (
+		dev-libs/libgpiod
+		dev-embedded/stm32flash:=
+	)
 	virtual/libusb:1
 "
 
