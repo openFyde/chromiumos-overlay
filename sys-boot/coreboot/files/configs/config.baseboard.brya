@@ -24,6 +24,7 @@ CONFIG_CSE_TBTP_FILE="qs_inputs/tbt.bin"
 CONFIG_CSE_NPHY_FILE="qs_inputs/nphy.bin"
 CONFIG_CSE_PCHC_FILE="qs_inputs/pchc.bin"
 CONFIG_CSE_IUNP_FILE="qs_inputs/iunit.bin"
+CONFIG_CSE_OEMP_FILE="oem_km.bin"
 
 # Microcode
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
