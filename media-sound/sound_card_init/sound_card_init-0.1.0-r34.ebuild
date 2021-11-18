@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a4c754a281d7d2b8a6a2459c18f9567685a91702"
+CROS_WORKON_COMMIT="da66a5b8247e09b22b8046db520cb85d95303ce3"
 CROS_WORKON_TREE="29d199fabab1e77605cd5dc9a22770f9c84f3163"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -18,7 +18,7 @@ DESCRIPTION="Sound Card Initializer"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/sound_card_init"
 
 LICENSE="BSD-Google"
-KEYWORDS="-* amd64 arm"
+KEYWORDS="*"
 
 DEPEND="
 	dev-rust/cc:=
