@@ -60,7 +60,6 @@ src_install() {
 
 	dobin "${OUT}"/cros_config
 	newbin cros_config_mock.sh cros_config_mock
-	dosbin "${OUT}"/cros_configfs
 
 	if use unibuild; then
 		newsbin scripts/cros_config_setup.sh cros_config_setup
