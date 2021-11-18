@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="50f4abbfada4ae8d2bd94bc062cd8210d2a8d22e"
+CROS_WORKON_COMMIT="472494b4a25a56cdee5e458b59b61184101b15d7"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "8309ac9cbcb40897baa728f139d12e29a09e7c04" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -75,6 +75,7 @@ src_install() {
 	doins install_attributes/libinstallattributes.h
 
 	# fuzzer_component_id is unknown/unlisted
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_cryptohome_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/libbrillo_data_encoding_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/libbrillo_dbus_data_serialization_fuzzer
