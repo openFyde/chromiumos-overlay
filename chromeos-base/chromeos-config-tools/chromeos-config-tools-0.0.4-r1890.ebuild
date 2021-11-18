@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT=("472494b4a25a56cdee5e458b59b61184101b15d7" "e3ae376478b518c807ddfb66d4da14ac09715a53")
-CROS_WORKON_TREE=("4fdfdbe461ccedeaaf176391c0bbb0f74943be45" "9d87849894323414dd9afca425cb349d84a71f6b" "24e2bd98b1e88683c9fd2514ed29d6c9134368f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e21da31dd745e867af49a8f6025fc765dc88c5b6" "9e4d851d5f49d3ff4dd1b7b8a0f59b2650d3242f")
+CROS_WORKON_COMMIT=("09a546dc88d52149074dd44b0a84dccdbf72fb27" "e3ae376478b518c807ddfb66d4da14ac09715a53")
+CROS_WORKON_TREE=("4fdfdbe461ccedeaaf176391c0bbb0f74943be45" "9d87849894323414dd9afca425cb349d84a71f6b" "a3ba1233304676e2a0ff92d1902c89e9e630dd29" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e21da31dd745e867af49a8f6025fc765dc88c5b6" "9e4d851d5f49d3ff4dd1b7b8a0f59b2650d3242f")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
 CROS_WORKON_PROJECT=(
@@ -62,7 +62,6 @@ src_install() {
 
 	dobin "${OUT}"/cros_config
 	newbin cros_config_mock.sh cros_config_mock
-	dosbin "${OUT}"/cros_configfs
 
 	if use unibuild; then
 		newsbin scripts/cros_config_setup.sh cros_config_setup
@@ -83,12 +82,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	# Run this here since we may not run cros_config_main_test.
-	./chromeos-config-test-setup.sh
 	local tests=(
 		fake_cros_config_test
-		cros_config_test
-		cros_config_main_test
 	)
 
 	local test_bin
