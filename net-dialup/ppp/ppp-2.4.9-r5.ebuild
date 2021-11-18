@@ -147,11 +147,11 @@ src_install() {
 
 	dodir /etc/ppp/peers
 	insinto /etc/ppp
-	insopts -o shill -g shill -m0600
+	insopts -o shill -g ppp -m0640
 	newins etc.ppp/pap-secrets pap-secrets.example
 	newins etc.ppp/chap-secrets chap-secrets.example
 
-	insopts -o shill -g shill -m0644
+	insopts -o shill -g ppp -m0644
 	doins etc.ppp/options
 
 	if use pam; then
@@ -160,7 +160,7 @@ src_install() {
 
 	local PLUGINS_DIR="/usr/$(get_libdir)/pppd/${PV}"
 	insinto "${PLUGINS_DIR}"
-	insopts -o shill -g shill -m0755
+	insopts -o shill -g ppp -m0755
 	doins pppd/plugins/minconn.so
 	doins pppd/plugins/passprompt.so
 	doins pppd/plugins/passwordfd.so
@@ -179,14 +179,14 @@ src_install() {
 
 		#Copy radiusclient configuration files (#92878)
 		insinto /etc/ppp/radius
-		insopts -o shill -g shill -m0644
+		insopts -o shill -g ppp -m0644
 		doins pppd/plugins/radius/etc/{dictionary*,issue,port-id-map,radiusclient.conf,realms,servers}
 
 		doman pppd/plugins/radius/pppd-rad{ius,attr}.8
 	fi
 
 	insinto /etc/modprobe.d
-	insopts -o shill -g shill -m0644
+	insopts -o shill -g ppp -m0644
 	newins "${FILESDIR}/modules.ppp" ppp.conf
 
 	dodoc PLUGINS README* SETUP Changes-2.3 FAQ
@@ -215,7 +215,7 @@ src_install() {
 
 pkg_setup() {
 	enewuser shill
-	enewgroup shill
+	enewgroup ppp
 }
 
 pkg_postinst() {
