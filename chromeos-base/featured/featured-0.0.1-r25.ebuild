@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4e3e96dad453519e99d6f570554122515b1a5f4b"
+CROS_WORKON_COMMIT="0c097dce76152cba0b5bbc8c9753a2d577b6d3cd"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "d5b9c4d726f99127339f8e0cf121a304f1314fdd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,6 +42,11 @@ src_install() {
 
 	insinto /etc/init
 	doins share/featured.conf share/platform-features.json
+
+	local fuzzer_component_id="1096648"
+	platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/featured_json_feature_parser_fuzzer \
+			--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
