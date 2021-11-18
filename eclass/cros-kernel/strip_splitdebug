@@ -40,15 +40,15 @@ main() {
 	# specify this script when building modules, but better safe
 	# than sorry.
 	if [[ "${obj_file_abspath}" == "${obj_file_relpath}" ]]; then
-		exec ${CROSS_COMPILE}strip --strip-debug "${obj_file_abspath}"
+		exec ${REAL_STRIP} --strip-debug "${obj_file_abspath}"
 	fi
 
 	# Follow the recipe from the objcopy man page to split the debug.
 	mkdir -p "${debug_file_abspath%/*}"
-	${CROSS_COMPILE}objcopy --only-keep-debug \
+	${OBJCOPY} --only-keep-debug \
 		"${obj_file_abspath}" "${debug_file_abspath}" || die
-	${CROSS_COMPILE}strip --strip-debug "${obj_file_abspath}" || die
-	${CROSS_COMPILE}objcopy --add-gnu-debuglink=${debug_file_abspath} \
+	${REAL_STRIP} --strip-debug "${obj_file_abspath}" || die
+	${OBJCOPY} --add-gnu-debuglink=${debug_file_abspath} \
 		"${obj_file_abspath}" || die
 }
 
