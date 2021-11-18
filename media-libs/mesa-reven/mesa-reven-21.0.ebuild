@@ -10,10 +10,10 @@ CROS_WORKON_COMMIT="8ec046344b57f7041952f018f14ef626de94fe5d"
 CROS_WORKON_TREE="b8d78e509c717d068a0199e10811bffd817f2dd4"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
+CROS_WORKON_PROJECT="chromiumos/third_party/mesa-reven"
 CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_EGIT_BRANCH="mesa-21.0"
-CROS_WORKON_LOCALNAME="mesa"
+CROS_WORKON_LOCALNAME="mesa-reven"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
