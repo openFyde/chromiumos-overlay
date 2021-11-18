@@ -17,7 +17,6 @@ CONFIG_CSE_TBTP_FILE="es_inputs/tbt.bin"
 CONFIG_CSE_NPHY_FILE="es_inputs/nphy.bin"
 CONFIG_CSE_PCHC_FILE="es_inputs/pchc.bin"
 CONFIG_CSE_IUNP_FILE="es_inputs/iunit.bin"
-CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.10.1473"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt_adlrvp_m.bin"
