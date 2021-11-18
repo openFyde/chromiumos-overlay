@@ -30,8 +30,4 @@ src_compile() { :; }
 
 src_install() {
 	dobin host/cros_workon_make
-
-	# Repo and git bash completion.
-	dosym /usr/share/bash-completion/completions/repo /etc/bash_completion.d/repo
-	dosym /usr/share/bash-completion/completions/git /etc/bash_completion.d/git
 }
