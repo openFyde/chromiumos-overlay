@@ -3,31 +3,42 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8" "6971b2f3155cf5dee48a990ff410df57f989fe5a" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8046331b2b884d2ab80ac395e1befd78ae825b4c" "7eae68a604c33288e18b948cc1cf30a87f0a74bc" "7a34b72edeab38960a8149a82cf554cd16606dba")
+CROS_WORKON_COMMIT=("7dccf12d8d86a2cdfd097a4c9edb5113ee44794a" "14038c0e2dacd11ccf48f2ae5200c860db42edb0" "09973e2e3f1e3bfc99d45d3a122a6d1ee58236dc" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8a3745a276a34f4d26d76c67ca703fd460f09156" "a2d19553054853af861a2910acab243b0c1eeb44" "7eae68a604c33288e18b948cc1cf30a87f0a74bc" "7a34b72edeab38960a8149a82cf554cd16606dba")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
-	"aosp/platform/system/bt"
+	"aosp/platform/packages/modules/Bluetooth"
+	"aosp/platform/packages/modules/Bluetooth"
 	"aosp/platform/frameworks/proto_logging"
 	"chromiumos/third_party/rust_crates"
 )
 CROS_WORKON_LOCALNAME=(
 	"../platform2"
-	"../aosp/system/bt/upstream"
+	"../aosp/packages/modules/Bluetooth/local"
+	"../aosp/packages/modules/Bluetooth/upstream"
 	"../aosp/frameworks/proto_logging"
 	"../third_party/rust_crates"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/bt"
+	"${S}/platform2/bt"
 	"${S}/platform2/external/proto_logging"
 	"${S}/platform2/external/rust"
 )
-CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "")
-CROS_WORKON_EGIT_BRANCH=("main" "main" "master" "main")
+CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "" "")
+CROS_WORKON_EGIT_BRANCH=("main" "main" "upstream/master" "master" "main")
+CROS_WORKON_OPTIONAL_CHECKOUT=(
+	""
+	"use !floss_upstream"
+	"use floss_upstream"
+	""
+	""
+)
 CROS_WORKON_INCREMENTAL_BUILD=1
-
 PLATFORM_SUBDIR="bt"
+
+IUSE="bt_dynlib floss_upstream"
 
 inherit cros-workon toolchain-funcs cros-rust platform tmpfiles
 
@@ -42,7 +53,6 @@ LICENSE="
 "
 
 KEYWORDS="*"
-IUSE="bt_dynlib"
 
 #
 # TODO(b/188819708)
