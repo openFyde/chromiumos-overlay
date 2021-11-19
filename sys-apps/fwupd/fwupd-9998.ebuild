@@ -121,7 +121,6 @@ src_configure() {
 		$(meson_use fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
 		$(meson_use flashrom plugin_flashrom)
-		$(meson_use gusb plugin_altos)
 		$(meson_use logitech plugin_logitech_bulkcontroller)
 		$(meson_use modemmanager plugin_modem_manager)
 		$(meson_use nvme plugin_nvme)
@@ -141,12 +140,12 @@ src_configure() {
 	local emesonargs=(
 		--localstatedir "${EPREFIX}"/var
 		-Dbuild="$(usex minimal standalone all)"
+		-Dcompat_cli="$(usex agent true false)"
 		-Dconsolekit="false"
 		-Dcurl="true"
 		-Ddocs="$(usex gtk-doc gtkdoc none)"
 		-Defi_binary="false"
 		-Dsupported_build="true"
-		$(meson_use agent)
 		$(meson_use archive libarchive)
 		$(meson_use bluetooth bluez)
 		$(meson_use elogind)
@@ -157,6 +156,7 @@ src_configure() {
 		$(meson_use introspection)
 		$(meson_use policykit polkit)
 		$(meson_use systemd)
+		$(meson_use systemd offline)
 		$(meson_use test tests)
 
 		${plugins[@]}
