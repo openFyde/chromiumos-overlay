@@ -43,5 +43,6 @@ src_compile() {
 src_install() {
 	AFDO_BUILD_DIR="${WORKDIR}/${P}_build"
 	cmake_src_install
-	dobin "${AFDO_BUILD_DIR}"/create_llvm_prof
+	dobin "${AFDO_BUILD_DIR}"/create_llvm_prof "${AFDO_BUILD_DIR}"/profile_merger \
+		"${AFDO_BUILD_DIR}"/sample_merger
 }
