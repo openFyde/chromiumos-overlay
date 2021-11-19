@@ -56,7 +56,6 @@ REQUIRED_USE="video_cards_amdgpu? ( llvm )
 COMMON_DEPEND="
 	dev-libs/expat:=
 	dev-libs/libgcrypt:=
-	llvm? ( sys-devel/llvm:= )
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
 	zstd? ( app-arch/zstd )
@@ -79,6 +78,7 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	dev-libs/libxml2:=
 	x11-base/xorg-proto:=
+	llvm? ( sys-devel/llvm:= )
 	wayland? ( >=dev-libs/wayland-protocols-1.8:= )
 "
 

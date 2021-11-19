@@ -52,41 +52,47 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X zstd"
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X zstd
+	libglvnd"
 
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60"
+LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
 
 REQUIRED_USE="video_cards_amdgpu? ( llvm )
 	video_cards_llvmpipe? ( llvm )"
 
-# keep correct libdrm and dri2proto dep
-# keep blocks in rdepend for binpkg
-RDEPEND="
-	X? (
-		!<x11-base/xorg-server-1.7
-		>=x11-libs/libX11-1.3.99.901
-		x11-libs/libXdamage
-		x11-libs/libXext
-		x11-libs/libXrandr
-		x11-libs/libxshmfence
-		x11-libs/libXxf86vm
-	)
-	llvm? ( virtual/libelf )
-	dev-libs/expat
-	dev-libs/libgcrypt
-	virtual/udev
+COMMON_DEPEND="
+	dev-libs/expat:=
+	dev-libs/libgcrypt:=
+	llvm? ( virtual/libelf:= )
+	virtual/udev:=
 	zstd? ( app-arch/zstd )
+	X? (
+		!<x11-base/xorg-server-1.7:=
+		>=x11-libs/libX11-1.3.99.901:=
+		x11-libs/libXdamage:=
+		x11-libs/libXext:=
+		x11-libs/libXrandr:=
+		x11-libs/libxshmfence:=
+		x11-libs/libXxf86vm:=
+	)
 	${LIBDRM_DEPSTRING}
 "
 
-DEPEND="${RDEPEND}
-	dev-libs/libxml2
+RDEPEND="${COMMON_DEPEND}
+	libglvnd? ( media-libs/libglvnd:= )
+"
+
+DEPEND="${COMMON_DEPEND}
+	dev-libs/libxml2:=
+	x11-base/xorg-proto:=
+	llvm? ( sys-devel/llvm:= )
+	wayland? ( >=dev-libs/wayland-protocols-1.8:= )
+"
+
+BDEPEND="
+	virtual/pkgconfig
 	sys-devel/bison
 	sys-devel/flex
-	virtual/pkgconfig
-	x11-base/xorg-proto
-	wayland? ( >=dev-libs/wayland-protocols-1.8 )
-	llvm? ( sys-devel/llvm )
 "
 
 driver_list() {
