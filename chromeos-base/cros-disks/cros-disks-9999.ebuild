@@ -70,6 +70,9 @@ pkg_preinst() {
 
 	enewuser "fuse-drivefs"
 	enewgroup "fuse-drivefs"
+
+	enewuser "mkfs"
+	enewgroup "mkfs"
 }
 
 src_install() {
@@ -90,6 +93,7 @@ src_install() {
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins mount-zip-seccomp-${ARCH}.policy mount-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
+	use seccomp && newins mkfs-seccomp-${ARCH}.policy mkfs-seccomp.policy
 
 	# Install upstart config file.
 	insinto /etc/init
