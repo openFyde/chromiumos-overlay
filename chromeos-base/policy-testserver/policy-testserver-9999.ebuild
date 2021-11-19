@@ -49,7 +49,7 @@ SHELL_ENCRYPTION_DIR="${S}/shell-encryption/src"
 TESTSERVER_DIR="/usr/share/policy_testserver"
 
 DEPEND="
-	dev-libs/protobuf
+	dev-libs/protobuf:=
 "
 
 RDEPEND="
