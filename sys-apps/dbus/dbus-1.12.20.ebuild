@@ -64,6 +64,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.12.20-match-rules.patch" #chromium-os:36381
 	"${FILESDIR}/${PN}-1.12.20-send-allow-escaped-commas-in-argument-strings.patch" #chromium:240540
 	"${FILESDIR}/${PN}-1.12.20-raise-SIGTERM-on-connection-lost.patch"
+	"${FILESDIR}/${PN}-1.12.20-handle-excessive-signature-length.patch" #b:198856812
 )
 
 pkg_setup() {
