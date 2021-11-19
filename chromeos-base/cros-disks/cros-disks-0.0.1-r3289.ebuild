@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "d7cd3a37274a14e0eabc530a1b5ac2f71531e472" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="9b818e6143c49708f21b279425cc057f516a2caf"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "51b1a438802d9d72986f621350585b6affe9fce4" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -79,6 +79,11 @@ src_install() {
 	# Install USB device IDs file.
 	insinto /usr/share/cros-disks
 	doins usb-device-info
+
+	# We invoke systemd-tmpfiles explicitly from the upstart config
+	# since it needs to run when /sys/fs/cgroup is available.
+	insinto /usr/lib/tmpfiles.d/on-demand
+	doins tmpfiles.d/*.conf
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
