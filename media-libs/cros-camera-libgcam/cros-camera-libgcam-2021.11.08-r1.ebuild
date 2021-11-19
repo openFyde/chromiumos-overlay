@@ -1,1 +1,0 @@
-cros-camera-libgcam-2021.11.08.ebuild
