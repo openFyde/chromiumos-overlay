@@ -4,8 +4,8 @@
 EAPI=7
 
 # This is used to break a circular dependency caused by tests.
-CROS_WORKON_COMMIT="73a9c0fa3a3e7c4d7890bbe6a6cbd0f3fb8ccd1d"
-CROS_WORKON_TREE="6381e50d3d4205092460d2a9f7e440d16cd06565"
+CROS_WORKON_COMMIT="7d699151aa8e6f3f7cc71fbdcaf002ca69c0625b"
+CROS_WORKON_TREE="0d8e93ba9f321a9a0387c774ef8850d9a24f94a4"
 CROS_RUST_REMOVE_DEV_DEPS=1
 CROS_RUST_SUBDIR="sirenia/libsirenia/sirenia-rpc-macros"
 
