@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bfda8fe8f15134ce823522b4c759f9dfbc2cae12"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "b8eddcb60603d57aa4ddfcd3bf0f4aaa6f4e5c2b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7beb5618088c8a7028652c21c919d68116ad5774"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "4b04ff183fc4c294a676f79612e44690fd8ef268" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -79,6 +79,7 @@ src_install() {
 	doexe "${OUT}"/dev_features_rootfs_verification
 	doexe "${OUT}"/dev_features_ssh
 	doexe "${OUT}"/dev_features_usb_boot
+	doexe "${OUT}"/folder_size_dump
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
