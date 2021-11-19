@@ -109,7 +109,10 @@ src_configure() {
 	local myconf=""
 
 	if use non-root; then
-		myconf="${myconf} --with-user=${UGID} --with-group=${UGID}"
+		# `with-user` and `with-group` options are removed since charon is
+		# already started as vpn:vpn user and group, and it does not need to
+		# change user and group by itself. This allows us to remove CAP_SETGID
+		# when running it.
 		myconf="${myconf} --with-piddir=/run/ipsec"
 	fi
 
