@@ -15,10 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crostestutils/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-RDEPEND="app-emulation/qemu
-	app-portage/gentoolkit
-	app-shells/bash
-	chromeos-base/cros-devutils
+RDEPEND="
 	dev-python/django
 	"
 
