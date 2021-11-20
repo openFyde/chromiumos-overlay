@@ -85,6 +85,7 @@ IUSE="
 	pita
 	pita-camera
 	pita-microphone
+	reven_branding
 	rialto
 	scheduler_configuration_performance
 	screenshare_sw_codec
