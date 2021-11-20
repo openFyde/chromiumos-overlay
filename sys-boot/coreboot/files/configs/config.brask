@@ -17,3 +17,6 @@ CONFIG_SOC_INTEL_CSE_RW_VERSION="16.0.10.1473"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt-brask.bin"
+
+# Microcode
+CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-brask.bin"
