@@ -18,9 +18,6 @@ SLOT="0"
 KEYWORDS="*"
 S="${WORKDIR}"
 
-IUSE="amd64 arm"
-REQUIRED_USE="^^ ( amd64 arm )"
-
 # All runtime dependencies should already be part of
 # chromeos-base/chromeos-chrome, the ones that aren't will be handled in
 # crbug.com/1199441.
@@ -29,12 +26,17 @@ DEPEND=""
 
 if [[ ${PV} != 9999 ]]; then
 	ORIG_URI="gs://chrome-unsigned/desktop-5c0tCh"
+	# arm64 will use arm32 build of lacros.
 	SRC_URI="
 		amd64? (
 			${ORIG_URI}/${PV}/lacros64/lacros_compressed.squash -> ${PN}-amd64-squash-${PV}
 			${ORIG_URI}/${PV}/lacros64/metadata.json -> ${PN}-amd64-metadata-${PV}
 		)
 		arm? (
+			${ORIG_URI}/${PV}/lacros-arm32/lacros_compressed.squash -> ${PN}-arm-squash-${PV}
+			${ORIG_URI}/${PV}/lacros-arm32/metadata.json -> ${PN}-arm-metadata-${PV}
+		)
+		arm64? (
 			${ORIG_URI}/${PV}/lacros-arm32/lacros_compressed.squash -> ${PN}-arm-squash-${PV}
 			${ORIG_URI}/${PV}/lacros-arm32/metadata.json -> ${PN}-arm-metadata-${PV}
 		)
@@ -52,7 +54,7 @@ src_install() {
 	if use amd64; then
 		newins "${DISTDIR}/${PN}-amd64-squash-${PV}" lacros.squash
 		newins "${DISTDIR}/${PN}-amd64-metadata-${PV}" metadata.json
-	elif use arm; then
+	elif use arm || use arm64; then
 		newins "${DISTDIR}/${PN}-arm-squash-${PV}" lacros.squash
 		newins "${DISTDIR}/${PN}-arm-metadata-${PV}" metadata.json
 	fi
