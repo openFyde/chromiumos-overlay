@@ -4,4 +4,5 @@
 
 cros_pre_src_prepare_patches() {
 	patch -p1 < "${BASHRC_FILESDIR}"/${PN}-24-no-run.patch || die
+	patch -p1 < "${BASHRC_FILESDIR}"/${PN}-25-pass-compressed-to-kernel.patch || die
 }
