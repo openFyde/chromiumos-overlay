@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dd89cc1288975c9d9ff1e02b97ce2746a768a69e"
-CROS_WORKON_TREE="4304f7aa23094f410de91a19b8ad511a4f2f07b4"
+CROS_WORKON_COMMIT="c8ad0c6493e4695146906a7587a6779f0272f039"
+CROS_WORKON_TREE="e8fc00a28a545fd454debe16ebfd1b359127762d"
 inherit cros-workon cros-rust
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -64,10 +64,12 @@ src_prepare() {
 	# Not using cros-rust_src_prepare because it wrongly assumes Cargo.toml is
 	# in the root of ${S} and we don't need its manipulations anyway.
 
-	# Delete workspace Cargo.toml. Workspaces are for development, not for
-	# packaging and leaving it in place causes build breakages if anything in
-	# the workspace uses a package that we don't have an ebuild for.
-	rm mcu_rom/Cargo.toml
+	# Delete the top-level workspace Cargo.toml. This avoids build breakages if
+	# that workspace, which includes various development tools not built in
+	# ChromeOS, uses dependencies for which we don't yet have ebuilds. We don't
+	# currently delete rust/mcu/Cargo.toml, since it includes the optimization
+	# settings used for stage0 and stage1_app.
+	rm rust/Cargo.toml rust/riscv/Cargo.toml
 
 	default
 }
@@ -91,7 +93,7 @@ src_configure() {
 src_compile() {
 	# Build userspace tools
 	for tool in sign-rom ; do (
-		cd mcu_rom/${tool} || die
+		cd rust/${tool} || die
 		einfo "Building ${tool}"
 		ecargo_build
 	) done
@@ -99,7 +101,7 @@ src_compile() {
 	# Build MCU firmware
 	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
-		cd mcu_rom/${crate} || die
+		cd rust/mcu/${crate} || die
 		HPS_SPI_BIT="${SYSROOT}/usr/lib/firmware/hps/hps_platform.bit" \
 			HPS_SPI_BIN="${SYSROOT}/usr/lib/firmware/hps/bios.bin" \
 			ecargo build \
