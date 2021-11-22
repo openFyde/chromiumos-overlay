@@ -7,8 +7,7 @@ EAPI=7
 MESON_AUTO_DEPEND=no
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-CROS_WORKON_PROJECT="chromiumos/third_party/mesa-reven"
-CROS_WORKON_MANUAL_UPREV="1"
+CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
 

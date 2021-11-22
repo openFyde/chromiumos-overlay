@@ -4,14 +4,12 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT="7419e553db13a26848f77df409144441de7477cf"
+CROS_WORKON_TREE="cb20ce89e6f2f97641e80324916daa0ae790ccf5"
 MESON_AUTO_DEPEND=no
 
-CROS_WORKON_COMMIT="8ec046344b57f7041952f018f14ef626de94fe5d"
-CROS_WORKON_TREE="b8d78e509c717d068a0199e10811bffd817f2dd4"
-
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
-CROS_WORKON_PROJECT="chromiumos/third_party/mesa-reven"
-CROS_WORKON_MANUAL_UPREV="1"
+CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
 
@@ -107,15 +105,6 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# Current meson 'auto' method does not work properly with cross
-	# compiling, so revert back to hard-coded 'config-tool' method.
-	# This should be fixed in a future meson release.  See:
-	# https://github.com/mesonbuild/meson/issues/7276
-	eapply "${FILESDIR}"/0001-Revert-meson-update-llvm-dependency-logic-for-meson-.patch
-
-	#Fix for deqp failures on CML/KBL GT1
-	eapply "${FILESDIR}"/UPSTREAM-intel-change-urb-max-shader-geometry-for-CML-GT1.patch
-	eapply "${FILESDIR}"/UPSTREAM-intel-change-urb-max-shader-geometry-for-KBL-GT1.patch
 	default
 }
 
