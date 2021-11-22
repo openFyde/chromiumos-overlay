@@ -4,9 +4,12 @@
 
 EAPI=7
 
+MESON_AUTO_DEPEND=no
+
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-reven"
 CROS_WORKON_MANUAL_UPREV="1"
+CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
 
 if [[ ${PV} = 9999* ]]; then
@@ -45,7 +48,7 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X zstd
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X zstd
 	libglvnd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
@@ -101,8 +104,6 @@ src_prepare() {
 			configure.ac || die
 	fi
 
-	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
-	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	default
 }
 
@@ -113,7 +114,7 @@ src_configure() {
 	# For llvmpipe on ARM we'll get errors about being unable to resolve
 	# "__aeabi_unwind_cpp_pr1" if we don't include this flag; seems wise
 	# to include it for all platforms though.
-	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc"
+	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc --unwindlib=libgcc"
 
 	if use !gallium && use !classic && use !vulkan; then
 		ewarn "You enabled neither classic, gallium, nor vulkan "
@@ -188,8 +189,6 @@ src_configure() {
 	fi
 
 	emesonargs+=(
-		-Dexecmem=false
-		-Dglvnd=$(usex libglvnd true false)
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
