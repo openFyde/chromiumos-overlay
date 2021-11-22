@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="3af987e10ea3ea263be8e1b9b3ff16aaefd406f7"
-CROS_WORKON_TREE="c38773a6801650067e623137903cf5b7b304859d"
+CROS_WORKON_COMMIT="7b64e4ceb4d299dca61317c9379083bc77f3e83c"
+CROS_WORKON_TREE="dc9366fb006e1db8f9f3ab40f0bd82a1f435cf05"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
 
 inherit meson cros-sanitizers cros-workon udev
@@ -32,6 +32,7 @@ src_configure() {
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
 		-Dintrospection=disabled
+		-Dman=disabled
 		-Dbash_completion=false
 	)
 	meson_src_configure

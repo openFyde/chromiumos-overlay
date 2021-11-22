@@ -3,8 +3,8 @@
 # Based on gentoo's modemmanager ebuild
 
 EAPI=6
-CROS_WORKON_COMMIT="843907c989cc1e2c48839a3f644fb290934dbf92"
-CROS_WORKON_TREE="231b325606540dfedbc9c57590bd81973e2024dc"
+CROS_WORKON_COMMIT="189c896a64e3f138f5742f23ece7a29e1017c566"
+CROS_WORKON_TREE="abe39581f99e333da92e3a6470456587eaf5c413"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -85,6 +85,7 @@ src_configure() {
 	append-flags -DWITH_NEWEST_QMI_COMMANDS
 	# TODO(b/183029202): Remove this once we have support for IPv6 only network
 	append-flags -DSUPPORT_MBIM_IPV6_WITH_IPV4_ROAMING
+	append-flags -DMBIM_FIBOCOM_SAR_HACK
 	econf \
 		--with-html-dir="\${datadir}/doc/${PF}/html" \
 		--enable-compile-warnings=yes \

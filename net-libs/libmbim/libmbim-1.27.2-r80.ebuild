@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="d9e56b86e59206efefdad79dab60b3d875e5f98e"
-CROS_WORKON_TREE="55df972c2cb82b810bf7b4dde5b24f59f01ff79d"
+CROS_WORKON_COMMIT="58da3e2253afbb77247ae9df2a4774308bd71c59"
+CROS_WORKON_TREE="fe11f5448591a0c6bdb19e43b55068491ecbc7a9"
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 
 inherit meson cros-sanitizers cros-workon udev
@@ -31,7 +31,8 @@ src_configure() {
 		-Dmbim_username='modem'
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
-		-Dintrospection=false
+		-Dintrospection=disabled
+		-Dman=disabled
 		-Dbash_completion=false
 	)
 	meson_src_configure
