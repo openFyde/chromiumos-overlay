@@ -28,4 +28,6 @@ src_install() {
 	insinto "/usr/lib/firmware/hps"
 	doins "${S}/firmware-bin/hps_platform.bit"
 	doins "${S}/firmware-bin/bios.bin"
+
+	dobin "${S}"/bin/*
 }
