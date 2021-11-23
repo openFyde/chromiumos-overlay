@@ -208,8 +208,8 @@ src_install() {
 
 	insinto "${dest_dir}"
 	doins "${build_dir}/ec.bin"
-	doins "${build_dir}/RW/ec.RW.elf"
-	doins "${build_dir}/RW/ec.RW_B.elf"
+	newins "${build_dir}/RW/ec.RW.elf.fips" "ec.RW.elf"
+	newins "${build_dir}/RW/ec.RW_B.elf.fips" "ec.RW_B.elf"
 
 	install_cr50_signer_aid
 }
