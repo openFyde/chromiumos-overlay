@@ -159,18 +159,6 @@ src_configure() {
 		LLVM_ENABLE=true
 	fi
 
-	local egl_platforms=""
-	if use egl; then
-		if use wayland; then
-			egl_platforms="${egl_platforms},wayland"
-		fi
-
-		if use X; then
-			egl_platforms="${egl_platforms},x11"
-		fi
-	fi
-	egl_platforms="${egl_platforms##,}"
-
 	if use X; then
 		glx="dri"
 	else
@@ -190,7 +178,10 @@ src_configure() {
 	emesonargs+=(
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
-		-Dplatforms="${egl_platforms}"
+		# Set platforms empty to get only surfaceless. This works better
+		# than explicitly setting surfaceless because it forces it to be
+		# the default. b/206629705
+		-Dplatforms=''
 		-Dprefer-iris=false
 		-Dshader-cache-default=false
 		$(meson_feature egl)
