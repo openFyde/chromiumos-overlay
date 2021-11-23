@@ -104,7 +104,7 @@ src_configure() {
 	# keep things sane
 	strip-flags
 	# Use shared libgcc on non-host builds.
-	use cros_host || append-ldflags "-shared-libgcc"
+	use cros_host || append-ldflags "-shared-libgcc -lpthread"
 
 	local x
 	echo
