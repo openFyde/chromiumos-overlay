@@ -8,7 +8,6 @@ CROS_WORKON_LOCALNAME="platform/tast"
 CROS_GO_BINARIES=(
 	"chromiumos/tast/cmd/remote_test_runner"
 	"chromiumos/tast/cmd/tast"
-	"chromiumos/tast/cmd/tast_rtd"
 )
 
 CROS_GO_VERSION="${PF}"
