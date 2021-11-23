@@ -492,6 +492,7 @@ kcsan_desc="Enable KCSAN"
 kcsan_config="
 CONFIG_KCSAN=y
 CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN=n
+CONFIG_FRAME_WARN=0
 "
 
 kernel_compress_xz_desc="Compresss kernel image with XZ"
