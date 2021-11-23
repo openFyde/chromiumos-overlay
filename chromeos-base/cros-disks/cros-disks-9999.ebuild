@@ -35,6 +35,7 @@ RDEPEND="
 	sys-fs/fuse-archive
 	sys-fs/fuse-exfat
 	sys-fs/fuse-zip
+	sys-fs/mount-zip
 	sys-fs/ntfs3g
 	sys-fs/rar2fs
 	virtual/udev
@@ -87,6 +88,7 @@ src_install() {
 	insinto /usr/share/policy
 	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
+	use seccomp && newins mount-zip-seccomp-${ARCH}.policy mount-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
 	# Install upstart config file.

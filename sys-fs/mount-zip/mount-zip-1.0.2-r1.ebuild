@@ -3,6 +3,8 @@
 
 EAPI=7
 
+inherit cros-sanitizers
+
 DESCRIPTION="FUSE file system for ZIP archives"
 HOMEPAGE="https://github.com/google/mount-zip"
 SRC_URI="https://github.com/google/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
@@ -28,3 +30,8 @@ DOCS=( changelog README.md )
 PATCHES=(
 	"${FILESDIR}/${PN}-1.0.2-chrome-icu.patch"
 )
+
+src_compile() {
+	sanitizers-setup-env
+	default
+}
