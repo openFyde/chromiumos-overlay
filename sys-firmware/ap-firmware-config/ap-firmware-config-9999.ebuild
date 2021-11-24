@@ -10,7 +10,7 @@ CROS_WORKON_PROJECT="chromiumos/chromite"
 CROS_WORKON_DESTDIR="${S}/chromite"
 CROS_WORKON_SUBTREE="lib bin scripts PRESUBMIT.cfg"
 
-inherit cros-workon python-single-r1
+inherit cros-workon python-any-r1
 
 DESCRIPTION="Exports JSON config from chromite/lib/firmware/ap_firmware_config"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/chromite/+/refs/heads/main/lib/firmware/README.md"
