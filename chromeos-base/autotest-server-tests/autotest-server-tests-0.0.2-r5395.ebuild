@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="efb1b7156472b05c4ad08344f08c4e393d09e9a5"
-CROS_WORKON_TREE="f87c5d0c45f587703f8787de8961a75227914279"
+CROS_WORKON_COMMIT="7ccb18d27e535c1b48804dcae11fc19ed652393e"
+CROS_WORKON_TREE="69ccdfda3dc4a21f96465735c1f5188d376815e2"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -17,7 +17,7 @@ SLOT="0"
 KEYWORDS="*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 cheets_userdebug_64 -chromeless_tests -chromeless_tty debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 -chromeless_tests -chromeless_tty debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -89,9 +89,6 @@ SERVER_IUSE_TESTS="
 	android-vm-rvc? (
 		cheets_user_64? (
 			+tests_cheets_CTS_R
-		)
-		cheets_userdebug_64? (
-			+tests_cheets_VTS_R
 		)
 	)
 	+tests_cellular_Callbox_AssertCellularData
