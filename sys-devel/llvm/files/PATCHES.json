@@ -1094,5 +1094,10 @@
         "rel_patch_path": "cherry/db27867dfc95257faf5baa40436370df67647847.patch",
         "start_version": 433403,
         "end_version": 442917
+    },
+    {
+        "comment": "[libunwind][ARM] Handle end of stack during unwind",
+        "rel_patch_path": "cherry/D109856.patch",
+        "start_version": 433403
     }
 ]
