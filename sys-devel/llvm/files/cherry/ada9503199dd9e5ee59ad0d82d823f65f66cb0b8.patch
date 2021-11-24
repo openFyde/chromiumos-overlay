@@ -1,0 +1,118 @@
+From 64c29477236e7a9bb68768176ecdac9e9777b517 Mon Sep 17 00:00:00 2001
+From: hscham <hscham@chromium.org>
+Date: Wed, 24 Nov 2021 15:31:40 +0900
+Subject: [PATCH] [libcxx] Crash when dereferencing nullopt for std::optional
+
+---
+ libcxx/include/optional | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/libcxx/include/optional b/libcxx/include/optional
+index 118db66a4abc..004645b13510 100644
+--- a/libcxx/include/optional
++++ b/libcxx/include/optional
+@@ -146,6 +146,8 @@ template<class T>
+ 
+ */
+ 
++#include <stdio.h>
++
+ #include <__availability>
+ #include <__config>
+ #include <__debug>
+@@ -878,11 +880,16 @@ public:
+     }
+ 
+     _LIBCPP_INLINE_VISIBILITY
++    _LIBCPP_AVAILABILITY_THROW_BAD_OPTIONAL_ACCESS
+     constexpr
+     add_pointer_t<value_type const>
+     operator->() const
+     {
+         _LIBCPP_ASSERT(this->has_value(), "optional operator-> called on a disengaged value");
++        if (!this->has_value()) {
++          fprintf(stderr, "optional operator-> called on a disengaged value\n");
++          __builtin_trap();
++        }
+ #ifndef _LIBCPP_HAS_NO_BUILTIN_ADDRESSOF
+         return _VSTD::addressof(this->__get());
+ #else
+@@ -891,11 +898,16 @@ public:
+     }
+ 
+     _LIBCPP_INLINE_VISIBILITY
++    _LIBCPP_AVAILABILITY_THROW_BAD_OPTIONAL_ACCESS
+     constexpr
+     add_pointer_t<value_type>
+     operator->()
+     {
+         _LIBCPP_ASSERT(this->has_value(), "optional operator-> called on a disengaged value");
++        if (!this->has_value()) {
++          fprintf(stderr, "optional operator-> called on a disengaged value\n");
++          __builtin_trap();
++        }
+ #ifndef _LIBCPP_HAS_NO_BUILTIN_ADDRESSOF
+         return _VSTD::addressof(this->__get());
+ #else
+@@ -904,38 +916,58 @@ public:
+     }
+ 
+     _LIBCPP_INLINE_VISIBILITY
++    _LIBCPP_AVAILABILITY_THROW_BAD_OPTIONAL_ACCESS
+     constexpr
+     const value_type&
+     operator*() const& noexcept
+     {
+         _LIBCPP_ASSERT(this->has_value(), "optional operator* called on a disengaged value");
++        if (!this->has_value()) {
++          fprintf(stderr, "optional operator* called on a disengaged value\n");
++          __builtin_trap();
++        }
+         return this->__get();
+     }
+ 
+     _LIBCPP_INLINE_VISIBILITY
++    _LIBCPP_AVAILABILITY_THROW_BAD_OPTIONAL_ACCESS
+     constexpr
+     value_type&
+     operator*() & noexcept
+     {
+         _LIBCPP_ASSERT(this->has_value(), "optional operator* called on a disengaged value");
++        if (!this->has_value()) {
++          fprintf(stderr, "optional operator* called on a disengaged value\n");
++          __builtin_trap();
++        }
+         return this->__get();
+     }
+ 
+     _LIBCPP_INLINE_VISIBILITY
++    _LIBCPP_AVAILABILITY_THROW_BAD_OPTIONAL_ACCESS
+     constexpr
+     value_type&&
+     operator*() && noexcept
+     {
+         _LIBCPP_ASSERT(this->has_value(), "optional operator* called on a disengaged value");
++        if (!this->has_value()) {
++          fprintf(stderr, "optional operator* called on a disengaged value\n");
++          __builtin_trap();
++        }
+         return _VSTD::move(this->__get());
+     }
+ 
+     _LIBCPP_INLINE_VISIBILITY
++    _LIBCPP_AVAILABILITY_THROW_BAD_OPTIONAL_ACCESS
+     constexpr
+     const value_type&&
+     operator*() const&& noexcept
+     {
+         _LIBCPP_ASSERT(this->has_value(), "optional operator* called on a disengaged value");
++        if (!this->has_value()) {
++          fprintf(stderr, "optional operator* called on a disengaged value\n");
++          __builtin_trap();
++        }
+         return _VSTD::move(this->__get());
+     }
+ 
+-- 
+2.34.1.400.ga245620fadb-goog
+
