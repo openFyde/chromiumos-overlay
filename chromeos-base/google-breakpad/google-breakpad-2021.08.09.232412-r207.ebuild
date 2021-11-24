@@ -153,4 +153,7 @@ src_install() {
 		dolib.a work64/src/client/linux/libbreakpad_client.a
 		pop_arm64_env
 	fi
+
+	find "${ED}/usr" -name breakpad-client.pc \
+		-exec sed -i '/^Libs:/s/-L${libdir} //g' {} + || die
 }
