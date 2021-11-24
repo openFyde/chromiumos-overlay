@@ -1,12 +1,14 @@
 BDEPEND=dev-vcs/git
-DEFINED_PHASES=compile configure info install setup unpack
-DESCRIPTION=Exported headers from the embedded controller codebase.
+DEFINED_PHASES=info install setup unpack
+DEPEND=x11-libs/libX11:= >=dev-util/opencl-headers-2021.04.29 >=dev-util/spirv-headers-1.5.4.1
+DESCRIPTION=OpenGL|ES headers.
 EAPI=7
-HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
-IUSE=cros_host cros_workon_tree_186a7c5107750addc960ddc2a7427934d2bf7580_64eda4f06a06bf734d670c864221abb0c9c9ecea
+HOMEPAGE=http://www.khronos.org/opengles/2_X/
+IUSE=cros_host cros_workon_tree_b361c5863ff03785be5f24968c25fa6a69bf4465
 KEYWORDS=*
-LICENSE=BSD-Google
+LICENSE=SGI-B-2.0
 PROPERTIES=live
-SLOT=0/0.0.1-r6730
+RDEPEND=x11-libs/libX11:=
+SLOT=0/0.0.1-r38
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	785ce38af3e1066e0edc7a17d83092e3	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=54f95d2e7de5fa225e567152152a1a8d
+_md5_=ea27739e7aebd7cb2b47086ce3fd2404
