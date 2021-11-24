@@ -1,0 +1,12 @@
+BDEPEND=virtual/pkgconfig
+DEFINED_PHASES=-
+DEPEND=>=chromeos-base/chrome-icu-89 dev-libs/libzip:= sys-fs/fuse:0 dev-libs/boost
+DESCRIPTION=FUSE file system for ZIP archives
+EAPI=7
+HOMEPAGE=https://github.com/google/mount-zip
+KEYWORDS=*
+LICENSE=GPL-3
+RDEPEND=>=chromeos-base/chrome-icu-89 dev-libs/libzip:= sys-fs/fuse:0
+SLOT=0
+SRC_URI=https://github.com/google/mount-zip/archive/v1.0.2.tar.gz -> mount-zip-1.0.2.tar.gz
+_md5_=d3d855b06981665886dd4e613334acb5
