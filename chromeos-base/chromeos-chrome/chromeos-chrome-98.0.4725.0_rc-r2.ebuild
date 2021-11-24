@@ -67,6 +67,7 @@ IUSE="
 	orderfile_generate
 	+orderfile_use
 	orderfile_verify
+	remoteexec
 	+runhooks
 	strict_toolchain_checks
 	subpixel_rendering
@@ -84,6 +85,7 @@ REQUIRED_USE="
 	cfi? ( thinlto )
 	afdo_verify? ( !afdo_use )
 	orderfile_generate? ( !orderfile_use )
+	?? ( goma remoteexec )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -221,9 +223,14 @@ echox() {
 echotf() { echox ${1:-$?} true false ; }
 usetf()  { usex $1 true false ; }
 
+use_remoteexec() {
+	[[ "${USE_REMOTEEXEC:-$(usetf remoteexec)}" == "true" ]]
+}
+
 use_goma() {
 	[[ "${USE_GOMA:-$(usetf goma)}" == "true" ]]
 }
+
 should_upload_build_logs() {
 	[[ -n "${GOMA_TMP_DIR}" && -n "${GLOG_log_dir}" && \
 		"${GLOG_log_dir}" == "${GOMA_TMP_DIR}"* ]]
@@ -415,6 +422,16 @@ set_build_args() {
 		if [[ -z "${GOMA_TMP_DIR}" ]]; then
 			export GOMA_TMP_DIR="/tmp/goma_${WHOAMI}"
 		fi
+	fi
+
+	if use_remoteexec; then
+		BUILD_ARGS+=(
+			"use_remoteexec=true"
+			"use_rbe=true"
+		)
+		BUILD_STRING_ARGS+=(
+			"rbe_cc_cfg_file=${CHROME_ROOT}/src/buildtools/reclient_cfgs/rewrapper_chroot_compile.cfg"
+		)
 	fi
 
 	if use chrome_debug; then
@@ -938,10 +955,10 @@ chrome_make() {
 	# between multiple links done by this build (e.g. tests).
 	use thinlto && rm -rf "${build_dir}/thinlto-cache"
 
-	# If goma is enabled, increase the number of parallel run to
-	# 10 * {number of processors}. Though, if it is too large the
+	# If goma or remoteexec is enabled, increase the number of parallel
+	# run to 10 * {number of processors}. Though, if it is too large the
 	# performance gets slow down, so limit by 200 heuristically.
-	if use_goma; then
+	if use_goma || use_remoteexec; then
 		local num_parallel=$(($(nproc) * 10))
 		local j_limit=200
 		set -- -j $((num_parallel < j_limit ? num_parallel : j_limit)) "$@"
