@@ -19,6 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fd"
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
+IUSE="cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
 	chromeos-base/libhwsec:=

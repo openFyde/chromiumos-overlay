@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics u2fd libhwsec-foundation libhwsec .gn"
+CROS_WORKON_SUBTREE="common-mk trunks libhwsec metrics tpm_manager u2fd libhwsec-foundation libhwsec .gn"
 
 PLATFORM_SUBDIR="u2fd"
 
@@ -19,9 +19,18 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fhid
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer"
+IUSE="fuzzer tpm cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
+	tpm? (
+		app-crypt/trousers:=
+	)
+	cr50_onboard? (
+		chromeos-base/trunks:=
+	)
+	ti50_onboard? (
+		chromeos-base/trunks:=
+	)
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
 	chromeos-base/cbor:=
@@ -29,7 +38,7 @@ COMMON_DEPEND="
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/power_manager-client:=
-	chromeos-base/trunks:=
+	chromeos-base/tpm_manager:=
 	dev-libs/hidapi:=
 "
 
@@ -63,15 +72,17 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
 
-	local fuzzer_component_id="886041"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
-		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
-		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
-		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
-		--comp "${fuzzer_component_id}"
+	if use cr50_onboard || use ti50_onboard; then
+		local fuzzer_component_id="886041"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
+			--comp "${fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
+			--comp "${fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
+			--comp "${fuzzer_component_id}"
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
+			--comp "${fuzzer_component_id}"
+	fi
 }
 
 platform_pkg_test() {
