@@ -30,32 +30,20 @@ RDEPEND="
 	"
 
 src_install() {
-	insinto /usr/include/libhwsec-foundation
-	doins ./hwsec-foundation_export.h
-	doins ./signature_traits.h
-	doins ./fuzzed_trousers_utils.h
-
-	insinto /usr/include/libhwsec-foundation/syscaller
-	doins ./syscaller/syscaller.h
-	doins ./syscaller/syscaller_impl.h
-	doins ./syscaller/mock_syscaller.h
-
-	insinto /usr/include/libhwsec-foundation/tpm_error
-	doins ./tpm_error/tpm_error_data.h
-	doins ./tpm_error/handle_auth_failure.h
-
-	insinto /usr/include/libhwsec-foundation/utility
-	doins ./utility/conversions.h
-	doins ./utility/crypto.h
-
-	insinto /usr/include/libhwsec-foundation/error
-	doins ./error/error.h
-	doins ./error/caller_info.h
-	doins ./error/error_message.h
-	doins ./error/testing_helper.h
-
-	insinto /usr/include/libhwsec-foundation/tpm
-	doins ./tpm/tpm_version.h
+	# Install header files.
+	local header_dirs=(
+		.
+		syscaller
+		tpm_error
+		utility
+		error
+		tpm
+	)
+	local d
+	for d in "${header_dirs[@]}" ; do
+		insinto /usr/include/libhwsec-foundation/"${d}"
+		doins "${d}"/*.h
+	done
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 
