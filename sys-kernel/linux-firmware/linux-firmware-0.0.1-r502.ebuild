@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="67f3724c60b1ab047a9e9d09d85680d2a7114c70"
-CROS_WORKON_TREE="5c531fc126d72875bd2de0561593531660dfd4be"
+CROS_WORKON_COMMIT="f7d7ff64612c5c95b9f7e033f5cd4a825bb6da3a"
+CROS_WORKON_TREE="c812532a4ecaf6f45af98d1ec24647ebf1265c7e"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -120,6 +120,8 @@ IUSE_LINUX_FIRMWARE=(
 	rtl8107e-1
 	rtl8107e-2
 	rtl8125a-3
+	rtl8125b-1
+	rtl8125b-2
 	rtl8153
 	rtl8168fp-3
 	rtl8168g-1
@@ -205,6 +207,8 @@ LICENSE="
 	linux_firmware_rtl8107e-1? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8107e-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8125a-3? ( LICENCE.rtl_nic )
+	linux_firmware_rtl8125b-1? ( LICENCE.rtl_nic )
+	linux_firmware_rtl8125b-2? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8153? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtl8168fp-3? ( LICENCE.rtl_nic )
 	linux_firmware_rtl8168g-1? ( LICENCE.rtl_nic )
@@ -394,6 +398,8 @@ src_install() {
 	use_fw rtl8107e-1 && doins_subdir rtl_nic/rtl8107e-1.fw
 	use_fw rtl8107e-2 && doins_subdir rtl_nic/rtl8107e-2.fw
 	use_fw rtl8125a-3 && doins_subdir rtl_nic/rtl8125a-3.fw
+	use_fw rtl8125b-1 && doins_subdir rtl_nic/rtl8125b-1.fw
+	use_fw rtl8125b-2 && doins_subdir rtl_nic/rtl8125b-2.fw
 	use_fw rtl8153 && doins_subdir rtl_nic/rtl8153*.fw
 	use_fw rtl8168fp-3 && doins_subdir rtl_nic/rtl8168fp-3.fw
 	use_fw rtl8168g-1 && doins_subdir rtl_nic/rtl8168g-1.fw
