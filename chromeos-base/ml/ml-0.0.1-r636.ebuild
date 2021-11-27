@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="216f8a7c51287dbee76268d878e208be68c57d76"
+CROS_WORKON_COMMIT="afbe147f49c4c5728aa4334968b0ba668d06f6ea"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "935720339310b246e4df20dade4999a2641dcd91" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,8 +24,6 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/ml"
 MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-test_add-20180914.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20181115.tflite"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190221.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20211105.tflite"
 )
