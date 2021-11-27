@@ -1,11 +1,11 @@
 CONFIG_VENDOR_GOOGLE=y
-CONFIG_BOARD_GOOGLE_TAEKO=y
+CONFIG_BOARD_GOOGLE_TAEKO4ES=y
 
 # SPI Descriptor
-CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-taeko.bin"
+CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-taeko4es.bin"
 
 # CSE data
-CONFIG_CSE_DATA_FILE="cse_data/cse_data-taeko.bin"
+CONFIG_CSE_DATA_FILE="cse_data/cse_data-taeko4es.bin"
 CONFIG_CSE_FPT_FILE="es_inputs/csme.bin"
 CONFIG_CSE_PMCP_FILE="es_inputs/pmc.bin"
 CONFIG_CSE_IOMP_FILE="es_inputs/iom.bin"
