@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "d6e7e374c60befa63f5babc864b4a794198c233a" "1e9ca239fab09ba22b58e4a22d63e2ede865b159" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="165ea6bf939a50d6e65b21cc860e0a45774fc0a2"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "d6e7e374c60befa63f5babc864b4a794198c233a" "ad2607b119c61e8340892d87126b2855c26e1ddc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,32 +32,20 @@ RDEPEND="
 	"
 
 src_install() {
-	insinto /usr/include/libhwsec-foundation
-	doins ./hwsec-foundation_export.h
-	doins ./signature_traits.h
-	doins ./fuzzed_trousers_utils.h
-
-	insinto /usr/include/libhwsec-foundation/syscaller
-	doins ./syscaller/syscaller.h
-	doins ./syscaller/syscaller_impl.h
-	doins ./syscaller/mock_syscaller.h
-
-	insinto /usr/include/libhwsec-foundation/tpm_error
-	doins ./tpm_error/tpm_error_data.h
-	doins ./tpm_error/handle_auth_failure.h
-
-	insinto /usr/include/libhwsec-foundation/utility
-	doins ./utility/conversions.h
-	doins ./utility/crypto.h
-
-	insinto /usr/include/libhwsec-foundation/error
-	doins ./error/error.h
-	doins ./error/caller_info.h
-	doins ./error/error_message.h
-	doins ./error/testing_helper.h
-
-	insinto /usr/include/libhwsec-foundation/tpm
-	doins ./tpm/tpm_version.h
+	# Install header files.
+	local header_dirs=(
+		.
+		syscaller
+		tpm_error
+		utility
+		error
+		tpm
+	)
+	local d
+	for d in "${header_dirs[@]}" ; do
+		insinto /usr/include/libhwsec-foundation/"${d}"
+		doins "${d}"/*.h
+	done
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
 
