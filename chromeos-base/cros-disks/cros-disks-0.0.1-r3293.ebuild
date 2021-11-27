@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="29d47fabe3b1f966ae2a83e54d307da8a3fb9e88"
+CROS_WORKON_COMMIT="fd77d73fd00b0d2e9e062ad1b0bd6825a7db8177"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "60d28ba03af4fed05227e81a75b3f677af4d6285" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -37,6 +37,7 @@ RDEPEND="
 	sys-fs/fuse-archive
 	sys-fs/fuse-exfat
 	sys-fs/fuse-zip
+	sys-fs/mount-zip
 	sys-fs/ntfs3g
 	sys-fs/rar2fs
 	virtual/udev
@@ -89,6 +90,7 @@ src_install() {
 	insinto /usr/share/policy
 	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
 	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
+	use seccomp && newins mount-zip-seccomp-${ARCH}.policy mount-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 
 	# Install upstart config file.
