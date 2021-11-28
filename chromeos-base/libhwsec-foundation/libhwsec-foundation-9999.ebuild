@@ -33,6 +33,8 @@ src_install() {
 	# Install header files.
 	local header_dirs=(
 		.
+		status
+		status/impl
 		syscaller
 		tpm_error
 		utility
