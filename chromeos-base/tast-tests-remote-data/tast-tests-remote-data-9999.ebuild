@@ -32,5 +32,11 @@ LICENSE="BSD-Google GPL-3"
 SLOT="0/0"
 KEYWORDS="~*"
 
-DEPEND=""
+DEPEND="sys-firmware/ap-firmware-config:="
 RDEPEND="!<chromeos-base/tast-remote-tests-cros-0.0.2"
+
+src_install() {
+	tast-bundle-data_src_install
+	insinto /usr/share/tast/data/chromiumos/tast/remote/bundles/cros/firmware/data
+	doins /usr/share/ap_firmware_config/fw-config.json
+}
