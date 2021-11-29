@@ -16,6 +16,12 @@ case "${EAPI:-0}" in
 		die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
+IUSE="cheets factory_branch"
+
+REQUIRED_USE="
+	factory_branch? ( !cheets )
+"
+
 # @ECLASS-VARIABLE: CROS_FACTORY_BOARD_RESOURCES_DIR
 # @DESCRIPTION: Folder of factory resources to current board.
 : "${CROS_FACTORY_BOARD_RESOURCES_DIR:=/usr/share/factory/resources}"
