@@ -73,6 +73,7 @@ IUSE="
 	subpixel_rendering
 	+thinlto
 	touchview
+	tpm_dynamic
 	ubsan
 	v4l2_codec
 	v4lplugin
@@ -286,6 +287,9 @@ set_build_args() {
 
 		# Add libinput to handle touchpad.
 		"use_libinput=$(usetf libinput)"
+
+		# Enable NSS slots software fallback when we are using runtime TPM selection.
+		"nss_slots_software_fallback=$(usetf tpm_dynamic)"
 
 		# Add hardware information to feedback logs and chrome://system.
 		"is_chromeos_with_hw_details=$(usetf hw_details)"
