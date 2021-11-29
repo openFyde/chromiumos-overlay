@@ -313,14 +313,14 @@ install_iwlwifi() {
 		iwlwifi-cc)
 			case "${kernel}" in
 			kernel-upstream) doins "${x}-a0-62.ucode" ;;
-			*)               doins "${x}-a0-67.ucode" ;;
+			*)               doins "${x}-a0-68.ucode" ;;
 			esac
 			;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-67.ucode" ;;
-			kernel-5_4)  doins "${x}-a0-hr-b0-67.ucode" ;;
-			kernel-5_10)  doins "${x}-a0-hr-b0-67.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-68.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-68.ucode" ;;
+			kernel-5_10)  doins "${x}-a0-hr-b0-68.ucode" ;;
 			kernel-5_15)  doins "${x}-a0-hr-b0-67.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-62.ucode" ;;
 			*)
@@ -331,7 +331,7 @@ install_iwlwifi() {
 			esac
 			;;
 		iwlwifi-so)
-			doins "${x}-a0-gf-a0-67.ucode"
+			doins "${x}-a0-gf-a0-68.ucode"
 			doins "${x}-a0-gf-a0.pnvm"
 			;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
