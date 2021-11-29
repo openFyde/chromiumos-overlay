@@ -211,7 +211,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FWupdateWP
 	+tests_firmware_FWupdateThenSleep
 	+tests_firmware_FWupdateWP
-	+tests_firmware_IntegratedU2F
 	+tests_firmware_InvalidUSB
 	+tests_firmware_LegacyRecovery
 	+tests_firmware_MenuDevBootUSB
