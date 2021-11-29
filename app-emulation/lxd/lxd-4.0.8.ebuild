@@ -119,6 +119,7 @@ src_compile() {
 	export PKG_CONFIG="/usr/bin/pkg-config"
 	export CGO_CFLAGS="${CGO_CFLAGS} -I${install_root}/include"
 	export CGO_LDFLAGS="${CGO_LDFLAGS} -L${install_root}/$(get_libdir)"
+	export GO111MODULE=on
 
 	cros-go_src_compile
 
