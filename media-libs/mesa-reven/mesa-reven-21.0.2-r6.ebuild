@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7419e553db13a26848f77df409144441de7477cf"
-CROS_WORKON_TREE="cb20ce89e6f2f97641e80324916daa0ae790ccf5"
+CROS_WORKON_COMMIT="2bcb6c3b3e6b1efc97c3219fb994b7e164650a46"
+CROS_WORKON_TREE="774f755ad7cad94b468934205903c21ac82a69d5"
 MESON_AUTO_DEPEND=no
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
@@ -161,18 +161,6 @@ src_configure() {
 		LLVM_ENABLE=true
 	fi
 
-	local egl_platforms=""
-	if use egl; then
-		if use wayland; then
-			egl_platforms="${egl_platforms},wayland"
-		fi
-
-		if use X; then
-			egl_platforms="${egl_platforms},x11"
-		fi
-	fi
-	egl_platforms="${egl_platforms##,}"
-
 	if use X; then
 		glx="dri"
 	else
@@ -192,7 +180,10 @@ src_configure() {
 	emesonargs+=(
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
-		-Dplatforms="${egl_platforms}"
+		# Set platforms empty to get only surfaceless. This works better
+		# than explicitly setting surfaceless because it forces it to be
+		# the default. b/206629705
+		-Dplatforms=''
 		-Dprefer-iris=false
 		-Dshader-cache-default=false
 		$(meson_feature egl)
