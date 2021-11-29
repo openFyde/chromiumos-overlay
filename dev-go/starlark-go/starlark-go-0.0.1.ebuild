@@ -11,7 +11,17 @@ CROS_GO_SOURCE=(
 )
 
 CROS_GO_BINARIES=(
-	"go.starlark.net/cmd/starlark/"
+	"go.starlark.net/cmd/starlark/starlark.go"
+)
+
+CROS_GO_PACKAGES=(
+	"go.starlark.net/lib/proto"
+	"go.starlark.net/starlark"
+	"go.starlark.net/starlarkstruct"
+	"go.starlark.net/internal/compile"
+	"go.starlark.net/internal/spell"
+	"go.starlark.net/resolve"
+	"go.starlark.net/syntax"
 )
 
 inherit cros-go
@@ -33,7 +43,3 @@ DEPEND="
 "
 
 RDEPEND=""
-
-src_install() {
-	dobin starlark
-}
