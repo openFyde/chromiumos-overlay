@@ -20,6 +20,8 @@ BDEPEND="
 	iconv? ( virtual/libiconv )
 "
 
+PATCHES="${FILESDIR}/${PN}-4.2-use-open-fd.patch"
+
 src_configure() {
 	local myeconfargs=(
 		$(use_enable compat compat-symlinks)
