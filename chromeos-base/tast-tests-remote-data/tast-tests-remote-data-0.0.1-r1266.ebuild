@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("d3c455dbdb0326e85491fe053a47d5b2a88f540d" "6b50ea4edc680377946ef81bba099f9526a9727c")
-CROS_WORKON_TREE="d4a1bd2b2a6c6539be3d82dddb51bf04fe7a7b18"
+CROS_WORKON_COMMIT=("2520842f5c1490b0ac2b07a4aa26e633aa1e36c3" "6b50ea4edc680377946ef81bba099f9526a9727c")
+CROS_WORKON_TREE="78da64ce80c58deb5f245cee8cebdaa9b64ad42f"
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/fw-testing-configs"
@@ -34,5 +34,11 @@ LICENSE="BSD-Google GPL-3"
 SLOT="0/0"
 KEYWORDS="*"
 
-DEPEND=""
+DEPEND="sys-firmware/ap-firmware-config:="
 RDEPEND="!<chromeos-base/tast-remote-tests-cros-0.0.2"
+
+src_install() {
+	tast-bundle-data_src_install
+	insinto /usr/share/tast/data/chromiumos/tast/remote/bundles/cros/firmware/data
+	doins /usr/share/ap_firmware_config/fw-config.json
+}
