@@ -134,19 +134,9 @@ multilib_src_configure() {
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DCMAKE_SHARED_LINKER_FLAGS=${extra_libs[*]} ${LDFLAGS}"
 		"-DLIBCXX_HAS_ATOMIC_LIB=OFF"
+		"-DCMAKE_C_COMPILER_TARGET=$(get_abi_CTARGET)"
+		"-DCMAKE_CXX_COMPILER_TARGET=$(get_abi_CTARGET)"
 	)
-
-	# Building 32-bit libc++ on host requires using host compiler
-	# with LIBCXX_BUILD_32_BITS flag enabled.
-	if use cros_host; then
-		if [[ "${CATEGORY}" != "cross-"* && "$(get_abi_CTARGET)" == "i686"* ]]; then
-			CC="$(tc-getBUILD_CC)"
-			CXX="$(tc-getBUILD_CXX)"
-			mycmakeargs+=(
-				"-DLIBCXX_BUILD_32_BITS=ON"
-			)
-		fi
-	fi
 	if use msan; then
 		mycmakeargs+=(
 			"-DLLVM_USE_SANITIZER=Memory"

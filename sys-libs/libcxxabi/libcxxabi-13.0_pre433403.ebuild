@@ -88,6 +88,8 @@ multilib_src_configure() {
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DLIBCXXABI_LIBCXX_INCLUDES=libcxx_build/include/c++/v1"
 		"-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)"
+		"-DCMAKE_C_COMPILER_TARGET=$(get_abi_CTARGET)"
+		"-DCMAKE_CXX_COMPILER_TARGET=$(get_abi_CTARGET)"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain
@@ -96,18 +98,6 @@ multilib_src_configure() {
 	mycmakeargs+=(
 		"-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1"
 	)
-
-	# Building 32-bit libc++abi on host requires using host compiler
-	# with LIBCXXABI_BUILD_32_BITS flag enabled.
-	if use cros_host; then
-		if [[ "${CATEGORY}" != "cross-"* && "$(get_abi_CTARGET)" == "i686"* ]]; then
-			CC="$(tc-getBUILD_CC)"
-			CXX="$(tc-getBUILD_CXX)"
-			mycmakeargs+=(
-				"-DLIBCXXABI_BUILD_32_BITS=ON"
-			)
-		fi
-	fi
 
 	if use msan; then
 		mycmakeargs+=(
