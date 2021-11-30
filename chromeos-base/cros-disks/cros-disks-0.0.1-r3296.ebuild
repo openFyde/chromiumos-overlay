@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="05c6d26eda3ad6a54d5101d391b615fa74a4cd8c"
+CROS_WORKON_COMMIT="8f15a8dd0ec4da87d8553b6d021610ca56d3cf93"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "285a10e38d9d66ce6e72db186cbc049563097fb4" "5fe9eab125ea9b039c138cfb9e67c46e0ee05a5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -36,7 +36,6 @@ RDEPEND="
 	sys-fs/exfat-utils
 	sys-fs/fuse-archive
 	sys-fs/fuse-exfat
-	sys-fs/fuse-zip
 	sys-fs/mount-zip
 	sys-fs/ntfs3g
 	sys-fs/rar2fs
@@ -92,7 +91,6 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
-	use seccomp && newins fuse-zip-seccomp-${ARCH}.policy fuse-zip-seccomp.policy
 	use seccomp && newins mount-zip-seccomp-${ARCH}.policy mount-zip-seccomp.policy
 	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
 	use seccomp && newins mkfs-seccomp-${ARCH}.policy mkfs-seccomp.policy
