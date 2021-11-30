@@ -62,7 +62,10 @@ PDEPEND="chromeos-base/patchpanel"
 # TODO(b/193926134): remove the dependency on supplicant-next once all boards
 # have been upgraded to use a recent wpa_supplicant (newer than July 2021) that
 # supports H2E.
-REQUIRED_USE="sae_h2e? ( supplicant-next )"
+REQUIRED_USE="
+	fuzzer? ( wifi )
+	sae_h2e? ( supplicant-next )
+"
 
 pkg_setup() {
 	enewgroup "shill"
@@ -213,9 +216,11 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/verizon_subscription_state_fuzzer" \
 		--comp "${cellular_fuzzer_component_id}"
 
-	local wifi_ies_fuzzer_component_id="893827"
+	local wifi_fuzzer_component_id="893827"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_ies_fuzzer" \
-		--comp "${wifi_ies_fuzzer_component_id}"
+		--comp "${wifi_fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_service_fuzzer" \
+		--comp "${wifi_fuzzer_component_id}"
 
 	local chromeos_platform_connectivity_network_component_id="167325"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer" \
