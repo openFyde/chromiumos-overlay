@@ -41,6 +41,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-2017.3.23-unaligned-types.patch
 	"${FILESDIR}"/${PN}-2017.3.23-allow-unpriv-fuseblk.patch
 	"${FILESDIR}"/${PN}-2017.3.23-dont-log-volume-label.patch
+	"${FILESDIR}"/${PN}-2017.3.23-use-open-fd.patch
 )
 
 pkg_setup() {
