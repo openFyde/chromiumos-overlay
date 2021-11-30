@@ -47,7 +47,7 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X zstd
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx zstd
 	libglvnd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
@@ -61,15 +61,6 @@ COMMON_DEPEND="
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
 	zstd? ( app-arch/zstd )
-	X? (
-		!<x11-base/xorg-server-1.7:=
-		>=x11-libs/libX11-1.3.99.901:=
-		x11-libs/libXdamage:=
-		x11-libs/libXext:=
-		x11-libs/libXrandr:=
-		x11-libs/libxshmfence:=
-		x11-libs/libXxf86vm:=
-	)
 	${LIBDRM_DEPSTRING}
 "
 
@@ -159,12 +150,6 @@ src_configure() {
 		LLVM_ENABLE=true
 	fi
 
-	if use X; then
-		glx="dri"
-	else
-		glx="disabled"
-	fi
-
 	if use kvm_guest; then
 		emesonargs+=( -Ddri-search-path=/opt/google/cros-containers/lib )
 	fi
@@ -176,7 +161,7 @@ src_configure() {
 	fi
 
 	emesonargs+=(
-		-Dglx="${glx}"
+		-Dglx=disabled
 		-Dllvm="${LLVM_ENABLE}"
 		# Set platforms empty to get only surfaceless. This works better
 		# than explicitly setting surfaceless because it forces it to be
