@@ -12,6 +12,10 @@ LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="*"
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.3.0-use-open-fd.patch
+)
+
 src_install() {
 	default
 	dosym exfatfsck.8 /usr/share/man/man8/fsck.exfat.8
