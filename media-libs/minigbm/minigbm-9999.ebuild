@@ -19,7 +19,7 @@ VIDEO_CARDS="
 	amdgpu exynos intel marvell mediatek msm
 	radeon radeonsi rockchip tegra vc4 virgl
 "
-IUSE="-asan kernel-3_18 linear_align_256"
+IUSE="-asan linear_align_256"
 for card in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${card}"
 done
@@ -51,9 +51,7 @@ src_configure() {
 	use video_cards_exynos && append-cppflags -DDRV_EXYNOS && export DRV_EXYNOS=1
 	use video_cards_intel && append-cppflags -DDRV_I915 && export DRV_I915=1
 	if use video_cards_intel ; then
-		if ! use kernel-3_18; then
-			append-cppflags -DI915_SCANOUT_Y_TILED
-		fi
+		append-cppflags -DI915_SCANOUT_Y_TILED
 	fi
 	use video_cards_marvell && append-cppflags -DDRV_MARVELL && export DRV_MARVELL=1
 	use minigbm_platform_mt8183 && append-cppflags -DMTK_MT8183
