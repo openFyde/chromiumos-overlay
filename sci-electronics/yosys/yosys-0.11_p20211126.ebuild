@@ -8,10 +8,10 @@ inherit toolchain-funcs
 DESCRIPTION="A framework for Verilog RTL synthesis."
 HOMEPAGE="http://www.clifford.at/yosys/"
 
-GIT_REV="1cac671c70bc3da9808ceb3add15686da4a5d82e"
+GIT_REV="707d98b06c8d2ad196ba64afbbb3bf5af475c75b"
 
 # These have to match Yosys Makefile's ABCREV and ABCURL variables.
-ABC_GIT_REV="4f5f73d"
+ABC_GIT_REV="f6fa2dd"
 ABC_GIT_URL="https://github.com/YosysHQ/abc"
 
 SRC_URI="
