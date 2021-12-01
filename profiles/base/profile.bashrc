@@ -306,7 +306,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-devel/arc-llvm:*|\
 		sys-devel/gdb:*|\
 		sys-kernel/arcvm-kernel-*:*|\
-		sys-kernel/chromeos-kernel-3_18:*|\
 		sys-kernel/chromeos-kernel-4_14:*|\
 		sys-kernel/chromeos-kernel-4_19:*|\
 		sys-kernel/chromeos-kernel-4_19-ht:*|\
