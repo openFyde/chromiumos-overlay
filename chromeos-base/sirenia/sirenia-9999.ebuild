@@ -21,8 +21,7 @@ DEPEND="
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0:=
-	=dev-rust/base64-0.13*:=
+	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.5*:=
@@ -31,8 +30,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:=
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/openssl-0.10*:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
 	=dev-rust/serde_derive-1*:=
 	>=dev-rust/serde_json-1.0.64 <dev-rust/serde_json-2.0.0_alpha:=
 	=dev-rust/stderrlog-0.5*:=
