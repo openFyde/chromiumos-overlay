@@ -18,7 +18,7 @@ LLVM_NEXT_HASH="f8e615462b4f1376674530cc55ab6b8993cec726" # r444175
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_host debug llvm-next llvm-tot +static-libs +shared-libs synth_libgcc +compiler-rt"
+IUSE="cros_host debug llvm-next llvm-tot +static-libs +shared-libs +synth_libgcc +compiler-rt"
 RDEPEND="!${CATEGORY}/libunwind"
 
 DEPEND="${RDEPEND}

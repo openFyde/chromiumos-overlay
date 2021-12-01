@@ -13,7 +13,7 @@ DESCRIPTION="The GNU Compiler Collection. This builds and installs the libgcc, l
 
 LICENSE="GPL-3 LGPL-3 FDL-1.2"
 KEYWORDS="*"
-IUSE="go hardened hardfp libatomic +thumb vtable_verify libunwind"
+IUSE="go hardened hardfp libatomic +thumb vtable_verify +libunwind"
 REQUIRED_USE="go? ( libatomic )"
 
 : ${CTARGET:=${CHOST}}

@@ -22,7 +22,7 @@ LLVM_NEXT_HASH="79d58b4d3017d159bf09a77398c9a116128de193" # r437112
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+compiler-rt cros_host libunwind msan llvm-next llvm-tot +static-libs"
+IUSE="+compiler-rt cros_host +libunwind msan llvm-next llvm-tot +static-libs"
 
 RDEPEND="
 	libunwind? (
