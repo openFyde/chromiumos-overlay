@@ -27,15 +27,17 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/futures-0.3*:=
 	=dev-rust/getopts-0.2*:=
 	=dev-rust/intrusive-collections-0.9*:=
-	>=dev-rust/lazy_static-1.4.0:= <dev-rust/lazy_static-2.0.0
+	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0_alpha:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	>=dev-rust/pkg-config-0.3.11:= <dev-rust/pkg-config-0.4.0:=
-	>=dev-rust/protobuf-2.1:= !>=dev-rust/protobuf-3.0:=
+	>=dev-rust/pkg-config-0.3.11 <dev-rust/pkg-config-0.4.0_alpha:=
+	>=dev-rust/protobuf-2.1 <dev-rust/protobuf-3.0_alpha:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
+	=dev-rust/serde_derive-1*:=
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0.0
-	>=dev-rust/zeroize-1.2.0:= <dev-rust/zeroize-2.0.0
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
+	>=dev-rust/zeroize-1.2.0 <dev-rust/zeroize-2.0.0_alpha:=
 "
 
 RDEPEND="${COMMON_DEPEND}
