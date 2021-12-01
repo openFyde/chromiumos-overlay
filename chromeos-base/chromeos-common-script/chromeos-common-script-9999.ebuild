@@ -19,9 +19,9 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="direncryption fsverity kernel-3_18 kernel-4_4 prjquota"
+IUSE="direncryption fsverity kernel-4_4 prjquota"
 
-REQUIRED_USE="prjquota? ( !kernel-4_4 !kernel-3_18 )"
+REQUIRED_USE="prjquota? ( !kernel-4_4 )"
 
 src_install() {
 	insinto /usr/share/misc
