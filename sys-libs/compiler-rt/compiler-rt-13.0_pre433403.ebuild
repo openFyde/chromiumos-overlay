@@ -79,6 +79,8 @@ src_configure() {
 		"-DCOMPILER_RT_SANITIZERS_TO_BUILD=asan;msan;hwasan;tsan;cfi;ubsan_minimal;gwp_asan"
 		# b/200831212: Disable per runtime install dirs.
 		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
+		# b/204220308: Disable OCR since we are not using it.
+		"-DCOMPILER_RT_BUILD_ORC=OFF"
 	)
 
 	if [[ ${CTARGET} == *-eabi ]]; then

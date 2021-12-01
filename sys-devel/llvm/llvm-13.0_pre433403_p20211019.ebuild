@@ -218,6 +218,9 @@ multilib_src_configure() {
 
 		# b/202073091: Disable Lua.
 		"-DLLDB_ENABLE_LUA=OFF"
+
+		# b/204220308: Disable OCR since we are not using it.
+		"-DCOMPILER_RT_BUILD_ORC=OFF"
 	)
 
 	# Update LLVM to 9.0 will cause LLVM to complain GCC
