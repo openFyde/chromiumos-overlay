@@ -92,7 +92,7 @@ src_configure() {
 		-DCLVK_CLSPV_ONLINE_COMPILER=1
 
 		-DCLSPV_BUILD_TESTS=OFF
-		-DCLVK_BUILD_TESTS=OFF
+		-DCLVK_BUILD_TESTS=ON
 		-DCLVK_BUILD_SPIRV_TOOLS=OFF
 
 		-DCLVK_VULKAN_IMPLEMENTATION=system
@@ -106,4 +106,9 @@ src_configure() {
 
 src_install() {
 	dolib.so "${BUILD_DIR}/libOpenCL.so"*
+
+	local OPENCL_TESTS_DIR="/usr/local/opencl"
+	dodir "${OPENCL_TESTS_DIR}"
+	exeinto "${OPENCL_TESTS_DIR}"
+	doexe "${BUILD_DIR}/api_tests" "${BUILD_DIR}/simple_test"
 }
