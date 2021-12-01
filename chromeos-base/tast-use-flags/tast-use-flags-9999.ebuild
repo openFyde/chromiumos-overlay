@@ -76,7 +76,6 @@ IUSE="
 	iioservice
 	internal
 	iwlwifi_rescan
-	kernel-3_18
 	kernel-4_4
 	kernel-4_14
 	kernel-4_19
