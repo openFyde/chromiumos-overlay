@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e supplicant-next systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -59,12 +59,8 @@ DEPEND="${COMMON_DEPEND}
 "
 PDEPEND="chromeos-base/patchpanel"
 
-# TODO(b/193926134): remove the dependency on supplicant-next once all boards
-# have been upgraded to use a recent wpa_supplicant (newer than July 2021) that
-# supports H2E.
 REQUIRED_USE="
 	fuzzer? ( wifi )
-	sae_h2e? ( supplicant-next )
 "
 
 pkg_setup() {
