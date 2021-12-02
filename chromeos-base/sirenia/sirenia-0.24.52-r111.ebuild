@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7d699151aa8e6f3f7cc71fbdcaf002ca69c0625b"
-CROS_WORKON_TREE="64d894ff956124f8997a83efee135e17a3f0e9d0"
+CROS_WORKON_COMMIT="e44ca737de4741726731bbb5443a1e8842d0488e"
+CROS_WORKON_TREE="d3c420242dc48989aa36b156a149063bb5e0a013"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,8 +23,7 @@ DEPEND="
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0:=
-	=dev-rust/base64-0.13*:=
+	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.5*:=
@@ -33,8 +32,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:=
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/openssl-0.10*:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
 	=dev-rust/serde_derive-1*:=
 	>=dev-rust/serde_json-1.0.64 <dev-rust/serde_json-2.0.0_alpha:=
 	=dev-rust/stderrlog-0.5*:=

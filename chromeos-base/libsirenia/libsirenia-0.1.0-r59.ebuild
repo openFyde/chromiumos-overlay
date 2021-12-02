@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7d699151aa8e6f3f7cc71fbdcaf002ca69c0625b"
-CROS_WORKON_TREE="89d96c32243efd5e8e48356c9d52e024252c6f3f"
+CROS_WORKON_COMMIT="e44ca737de4741726731bbb5443a1e8842d0488e"
+CROS_WORKON_TREE="9c58371ffa873ad0c906b003a272385a13f6f818"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -24,18 +24,20 @@ IUSE=""
 DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/anyhow-1*:=
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0:=
+	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
+	=dev-rust/base64-0.13*:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
-	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
+	>=dev-rust/libc-0.2.44 <dev-rust/libc-0.3_alpha:=
 	dev-rust/libchromeos:=
 	>=dev-rust/minijail-0.2.3:=
-	>=dev-rust/openssl-0.10.25:= <dev-rust/openssl-0.11.0
-	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
+	>=dev-rust/openssl-0.10.25 <dev-rust/openssl-0.11.0_alpha:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
 	=dev-rust/serde_derive-1*:=
+	>=dev-rust/serde_json-1.0.64 <dev-rust/serde_json-2.0.0_alpha:=
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0_alpha:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
