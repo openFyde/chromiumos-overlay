@@ -1,0 +1,13 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=info install setup unpack
+DESCRIPTION=Chrome OS HWID Extractor
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/factory/
+IUSE=cros_host cros_host cros_workon_tree_4445c4123226761b1b9c14cfa417edb0f8197821_5194195e4e4e5add76ea6c89f826f6e91b7b7a00_55c0c5eeb7ea37270d5b8601e2000e8fe8a79704_724c6c2990aff44a75360e89f8bd17ea36d744df_bb7de3b1d4f960d843d3357bf0eff14cfbd3603d
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/vboot_reference chromeos-base/vpd dev-python/pyserial dev-util/hdctools sys-apps/flashrom
+SLOT=0/0.0.1-r623
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	785ce38af3e1066e0edc7a17d83092e3	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=f8f48a2d9fc6dd926722690495c93d0c
