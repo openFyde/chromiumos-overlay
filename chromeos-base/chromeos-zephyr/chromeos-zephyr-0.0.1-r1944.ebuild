@@ -4,40 +4,32 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("bfdc3dda56217570f94e31820b2b3741848f0ce4" "848d0a0e9583ea199cd145bcb35ad34fb375097e" "32a21483d6586851edfa1d8491beb3df442e90c6" "13434ee2724c1bd11a575bc6d06a163aba9d2d84" "89b0d4c19503e237e6a1ea3e9bc638ced01d2359")
-CROS_WORKON_TREE=("0ae11b7eabea480cedbd8344f4974ebe775f63ac" "6c6f58e9df880094e8643569359a7d0faf57ede7" "719a42d9d98358f9123acf2d8916ed9c1821d60b" "4364097bb8557078cc058a006de8ce15f0eba3f8" "0ec527720c4fb2d171f7cabe02d6ac1974f3cf64")
-ZEPHYR_VERSIONS=( v2.7 )
-
+CROS_WORKON_COMMIT=("3ef5fe6031e4c674d5723c353decb327df645c4b" "bfdc3dda56217570f94e31820b2b3741848f0ce4" "848d0a0e9583ea199cd145bcb35ad34fb375097e" "32a21483d6586851edfa1d8491beb3df442e90c6" "ee4d5bdc27b7bd24c2abfb305c640b5330745f3e")
+CROS_WORKON_TREE=("6365b1e8ce7899c03dfdbf75f750ccf2f91de627" "0ae11b7eabea480cedbd8344f4974ebe775f63ac" "6c6f58e9df880094e8643569359a7d0faf57ede7" "719a42d9d98358f9123acf2d8916ed9c1821d60b" "1149ffda9b70aedbe8abdd9b3f56415917c1fcea")
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
+	"chromiumos/third_party/zephyr"
 	"chromiumos/third_party/zephyr/cmsis"
 	"chromiumos/third_party/zephyr/hal_stm32"
 	"chromiumos/third_party/zephyr/nanopb"
 	"chromiumos/platform/ec"
 )
-for v in "${ZEPHYR_VERSIONS[@]}"; do
-	CROS_WORKON_PROJECT+=("chromiumos/third_party/zephyr")
-done
 
 CROS_WORKON_LOCALNAME=(
+	"third_party/zephyr/main/"
 	"third_party/zephyr/cmsis"
 	"third_party/zephyr/hal_stm32"
 	"third_party/zephyr/nanopb"
 	"platform/ec"
 )
-for v in "${ZEPHYR_VERSIONS[@]}"; do
-	CROS_WORKON_LOCALNAME+=("third_party/zephyr/main/${v}")
-done
 
 CROS_WORKON_DESTDIR=(
+	"${S}/zephyr-base"
 	"${S}/modules/cmsis"
 	"${S}/modules/hal_stm32"
 	"${S}/modules/nanopb"
 	"${S}/modules/ec"
 )
-for v in "${ZEPHYR_VERSIONS[@]}"; do
-	CROS_WORKON_DESTDIR+=("${S}/zephyr-base/${v}")
-done
 
 inherit cros-workon cros-unibuild coreboot-sdk toolchain-funcs
 
@@ -46,9 +38,6 @@ KEYWORDS="*"
 LICENSE="Apache-2.0 BSD-Google"
 IUSE="unibuild"
 REQUIRED_USE="unibuild"
-
-# Add instances of vX.Y as 'zephyr_vX_Y' to IUSE
-IUSE="${IUSE} $(for v in "${ZEPHYR_VERSIONS[@]}"; do echo "zephyr_${v//./_}"; done)"
 
 BDEPEND="
 	chromeos-base/zephyr-build-tools
@@ -64,24 +53,12 @@ RDEPEND="${DEPEND}"
 
 ZEPHYR_EC_BUILD_DIRECTORIES=()
 
-get_zephyr_version() {
-	local v
-	for v in "${ZEPHYR_VERSIONS[@]}"; do
-		if use "zephyr_${v//./_}"; then
-			echo "${v}"
-			return 0
-		fi
-	done
-
-	die "Please specify a zephyr_vX_X USE flag."
-}
-
 # Run zmake from the EC source directory, with default arguments for
 # modules and Zephyr base location for this ebuild.
 run_zmake() {
 	PYTHONPATH="${S}/modules/ec/zephyr/zmake" python3 -m zmake -D \
 		--modules-dir="${S}/modules" \
-		--zephyr-base="${S}/zephyr-base/$(get_zephyr_version)" \
+		--zephyr-base="${S}/zephyr-base" \
 		"$@"
 }
 
