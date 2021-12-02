@@ -20,7 +20,7 @@ SLOT="0/${PV}"
 
 # By default, only libiio is installed.
 # For testing, use USE=libiio_all to compile tests and iiod daemon.
-IUSE="aio iioservice libiio_all zeroconf"
+IUSE="aio debug iioservice libiio_all zeroconf"
 
 RDEPEND="dev-libs/libxml2:=
 	aio? ( dev-libs/libaio )
@@ -44,6 +44,7 @@ src_prepare() {
 src_configure() {
 	# network cmake section uses new cmake feature.
 	mycmakeargs+=( -DWITH_NETWORK_BACKEND=OFF)
+	use debug && mycmakeargs+=( -DLOG_LEVEL=Debug)
 	# For test purposes, compile iiod and test tools, and allow connection over network.
 	use libiio_all || mycmakeargs+=( -DWITH_IIOD=OFF -DWITH_TESTS=OFF)
 
