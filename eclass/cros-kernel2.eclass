@@ -41,7 +41,7 @@ DEPEND="sys-kernel/linux-firmware
 "
 
 WIRELESS_VERSIONS=( 4.2 )
-WIRELESS_SUFFIXES=( ${WIRELESS_VERSIONS[@]/.} )
+WIRELESS_SUFFIXES=( "${WIRELESS_VERSIONS[@]/.}" )
 
 IUSE="
 	apply_patches
@@ -62,7 +62,7 @@ IUSE="
 	+lld
 	+llvm_ias
 	nfc
-	${WIRELESS_SUFFIXES[@]/#/-wireless}
+	${WIRELESS_SUFFIXES[*]/#/-wireless}
 	-wifi_testbed_ap
 	-boot_dts_device_tree
 	-nowerror
@@ -103,10 +103,10 @@ KERNEL_VERSION="${KERNEL_VERSION/_/.}"
 
 # Specifying AutoFDO profiles in SRC_URI and let ebuild fetch it for us.
 # Prefer the frozen version of afdo profiles if set.
-AFDO_VERSION=${AFDO_FROZEN_PROFILE_VERSION:-$AFDO_PROFILE_VERSION}
+AFDO_VERSION=${AFDO_FROZEN_PROFILE_VERSION:-${AFDO_PROFILE_VERSION}}
 if [[ -n "${AFDO_VERSION}" ]]; then
 	# Set AFDO_LOCATION if not already set.
-	: ${AFDO_LOCATION:="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"}
+	: "${AFDO_LOCATION:="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"}"
 	AFDO_GCOV="${PN}-${AFDO_VERSION}.gcov"
 	AFDO_GCOV_COMPBINARY="${AFDO_GCOV}.compbinary.afdo"
 	SRC_URI+="
@@ -131,8 +131,8 @@ MULTILIB_STRICT_EXEMPT+="|modules"
 
 # Build out-of-tree and incremental by default, but allow an ebuild inheriting
 # this eclass to explicitly build in-tree.
-: ${CROS_WORKON_OUTOFTREE_BUILD:=1}
-: ${CROS_WORKON_INCREMENTAL_BUILD:=1}
+: "${CROS_WORKON_OUTOFTREE_BUILD:=1}"
+: "${CROS_WORKON_INCREMENTAL_BUILD:=1}"
 
 # Config fragments selected by USE flags. _config fragments are mandatory,
 # _config_disable fragments are optional and will be appended to kernel config
@@ -531,7 +531,7 @@ CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE=1
 CONFIG_DEBUG_INFO_DWARF4=y
 """
 # kgdb over serial port depends on CONFIG_HW_CONSOLE which depends on CONFIG_VT
-REQUIRED_USE="${REQUIRED_USE} kgdb? ( vtconsole )"
+REQUIRED_USE+=" kgdb? ( vtconsole )"
 
 kmemleak_desc="Enable kmemleak"
 kmemleak_config="
@@ -1447,8 +1447,8 @@ CONFIG_EXTRA_FIRMWARE_DIR=\"%ROOT%/lib/firmware\"
 "
 
 # Add all config and firmware fragments as off by default
-IUSE="${IUSE} ${CONFIG_FRAGMENTS[@]} ${FIRMWARE_BINARIES[@]}"
-REQUIRED_USE="${REQUIRED_USE}
+IUSE="${IUSE} ${CONFIG_FRAGMENTS[*]} ${FIRMWARE_BINARIES[*]}"
+REQUIRED_USE+="
 	?? ( factory_netboot_ramfs factory_shim_ramfs minios_ramfs recovery_ramfs )
 	factory_netboot_ramfs? ( i2cdev )
 	factory_shim_ramfs? ( i2cdev )
