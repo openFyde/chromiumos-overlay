@@ -310,7 +310,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_Vpd
 	+tests_policy_AUServer
 	+tests_policy_DeviceServer
-	+tests_policy_WilcoServerDeviceDockMacAddressSource
 	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_ChargeControlWrapper
