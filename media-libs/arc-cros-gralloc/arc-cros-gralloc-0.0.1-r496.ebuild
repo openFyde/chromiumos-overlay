@@ -18,7 +18,7 @@ KEYWORDS="*"
 
 VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 # shellcheck disable=SC2086
-IUSE="kernel-3_18 $(printf 'video_cards_%s ' ${VIDEO_CARDS})"
+IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 sc7280 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
@@ -52,9 +52,7 @@ src_configure() {
 	if use video_cards_intel; then
 		export DRV_I915=1
 		append-cppflags -DDRV_I915
-		if ! use kernel-3_18; then
-			append-cppflags -DI915_SCANOUT_Y_TILED
-		fi
+		append-cppflags -DI915_SCANOUT_Y_TILED
 	fi
 
 	if use video_cards_rockchip; then

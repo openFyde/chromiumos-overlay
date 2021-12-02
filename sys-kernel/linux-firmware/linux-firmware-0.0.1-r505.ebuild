@@ -241,7 +241,6 @@ RDEPEND="
 	linux_firmware_ath3k-ar3011? ( !net-wireless/ath3k )
 	linux_firmware_ath3k-ar3012? ( !net-wireless/ath3k )
 	linux_firmware_keyspan_usb? (
-		!sys-kernel/chromeos-kernel-3_18[firmware_install]
 		!sys-kernel/chromeos-kernel-4_4[firmware_install]
 	)
 	linux_firmware_marvell-pcie8897? ( !net-wireless/marvell_sd8787[pcie] )

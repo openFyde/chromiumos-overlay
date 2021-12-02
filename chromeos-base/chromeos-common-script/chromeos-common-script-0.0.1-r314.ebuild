@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
+CROS_WORKON_COMMIT="a4aa114cb1307b6c1858cb6a2794829fc7c327d2"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "1e7b7af56eebd756a7256d798a6d7680d470250d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,9 +21,9 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="direncryption fsverity kernel-3_18 kernel-4_4 prjquota"
+IUSE="direncryption fsverity kernel-4_4 prjquota"
 
-REQUIRED_USE="prjquota? ( !kernel-4_4 !kernel-3_18 )"
+REQUIRED_USE="prjquota? ( !kernel-4_4 )"
 
 src_install() {
 	insinto /usr/share/misc

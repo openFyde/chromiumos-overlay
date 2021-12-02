@@ -25,7 +25,7 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="
 	arcpp arcvm cros_embedded +encrypted_stateful +encrypted_reboot_vault
-	frecon lvm_stateful_partition kernel-3_18 +midi +oobe_config -s3halt +syslog
+	frecon lvm_stateful_partition +oobe_config -s3halt +syslog
 	systemd +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
@@ -137,12 +137,6 @@ src_install_upstart() {
 		dosbin chromeos-disk-metrics
 		dosbin chromeos-send-kernel-errors
 		dosbin display_low_battery_alert
-	fi
-
-	if use midi; then
-		if use kernel-3_18; then
-			doins upstart/workaround-init/midi-workaround.conf
-		fi
 	fi
 
 	if use s3halt; then
