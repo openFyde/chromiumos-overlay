@@ -110,6 +110,7 @@ IUSE="
 	octopus
 	ondevice_document_scanner
 	ondevice_handwriting
+	ondevice_speech
 	pinweaver_csme
 	pita
 	racc
