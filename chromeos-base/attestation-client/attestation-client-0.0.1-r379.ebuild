@@ -3,20 +3,20 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="5bcb53cbfd07b98a402461586ff9d0822095abcf"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "494ff7579de9a3765eb3cefc94b8df112280cff8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a4aa114cb1307b6c1858cb6a2794829fc7c327d2"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "de0931b998390175d9fe0a2a054278f31d6a404e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk chaps .gn"
+CROS_WORKON_SUBTREE="common-mk attestation .gn"
 
-PLATFORM_SUBDIR="chaps/client"
+PLATFORM_SUBDIR="attestation/client"
 
 inherit cros-workon platform
 
-DESCRIPTION="chaps D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chaps/client/"
+DESCRIPTION="Attestation D-Bus client library for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attestation/client/"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -34,11 +34,17 @@ DEPEND="
 	chromeos-base/libbrillo:=
 "
 
+# Note that for RDEPEND, we conflict with attestation package older than
+# 0.0.1 because this client is incompatible with daemon older than version
+# 0.0.1. We didn't RDEPEND on attestation version 0.0.1 or greater because
+# we don't want to create circular dependency in case the package attestation
+# depends on some package foo that also depend on this package.
 RDEPEND="
+	!<chromeos-base/attestation-0.0.1
 	chromeos-base/libbrillo:=
 "
 
 src_install() {
 	# Install D-Bus client library.
-	platform_install_dbus_client_lib "chaps"
+	platform_install_dbus_client_lib "attestation"
 }
