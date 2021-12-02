@@ -4,7 +4,7 @@ DEPEND=coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= )
 DESCRIPTION=coreboot firmware
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma +bmpblk quiet unibuild verbose amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso chipset_cezanne coreboot-private-files-board coreboot-private-files-chipset cros_host cros_workon_tree_ has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
+IUSE=em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma intel_debug +bmpblk quiet unibuild verbose amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso chipset_cezanne coreboot-private-files-board coreboot-private-files-chipset cros_host cros_workon_tree_ has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
 KEYWORDS=~*
 LICENSE=GPL-2
 PROPERTIES=live
@@ -13,4 +13,4 @@ REQUIRED_USE=unibuild
 RESTRICT=strip
 SLOT=0/9999
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	1e3c054ec0012700a0ee1c421b79a600	cros-workon	785ce38af3e1066e0edc7a17d83092e3	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=c6c21ac899230edddc69d86dca736948
+_md5_=da9c443cb8004af83ad54e1f0926d7ed
