@@ -52,7 +52,7 @@ DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
-IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma"
+IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma intel_debug"
 IUSE="${IUSE} +bmpblk quiet unibuild verbose"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} chipset_cezanne"
@@ -170,7 +170,9 @@ EOF
 	if use mma; then
 		echo "CONFIG_MMA=y" >> "${CONFIG}"
 	fi
-
+	if use intel_debug; then
+		echo "CONFIG_SOC_INTEL_DEBUG_CONSENT=y" >> "${CONFIG}"
+	fi
 	# disable coreboot's own EC firmware building mechanism
 	echo "CONFIG_EC_GOOGLE_CHROMEEC_FIRMWARE_NONE=y" >> "${CONFIG}"
 	echo "CONFIG_EC_GOOGLE_CHROMEEC_PD_FIRMWARE_NONE=y" >> "${CONFIG}"
