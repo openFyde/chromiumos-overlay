@@ -45,6 +45,7 @@ src_configure() {
 	# network cmake section uses new cmake feature.
 	mycmakeargs+=( -DWITH_NETWORK_BACKEND=OFF)
 	use debug && mycmakeargs+=( -DLOG_LEVEL=Debug)
+	use aio || mycmakeargs+=( -DWITH_AIO=OFF)
 	# For test purposes, compile iiod and test tools, and allow connection over network.
 	use libiio_all || mycmakeargs+=( -DWITH_IIOD=OFF -DWITH_TESTS=OFF)
 
