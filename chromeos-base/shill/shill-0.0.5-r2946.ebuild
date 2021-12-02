@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5d92289cd06deab31edec768e62322e7e4cb9928"
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "494ff7579de9a3765eb3cefc94b8df112280cff8" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "adb55b1665c3de1c9ccfc8078df054bb53e90d0a" "81e9699f5414db5bd823ef799a3c37adf5a3260a" "5277c98d28375e59faa9d2834904f94563715ce0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="09da47a1697792f62dde819c068bc976bd025db7"
+CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "494ff7579de9a3765eb3cefc94b8df112280cff8" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "adb55b1665c3de1c9ccfc8078df054bb53e90d0a" "e58d1bb292578e48c55cad17cb40c8b6fed6a40d" "5277c98d28375e59faa9d2834904f94563715ce0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -64,7 +64,10 @@ PDEPEND="chromeos-base/patchpanel"
 # TODO(b/193926134): remove the dependency on supplicant-next once all boards
 # have been upgraded to use a recent wpa_supplicant (newer than July 2021) that
 # supports H2E.
-REQUIRED_USE="sae_h2e? ( supplicant-next )"
+REQUIRED_USE="
+	fuzzer? ( wifi )
+	sae_h2e? ( supplicant-next )
+"
 
 pkg_setup() {
 	enewgroup "shill"
@@ -215,9 +218,11 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/verizon_subscription_state_fuzzer" \
 		--comp "${cellular_fuzzer_component_id}"
 
-	local wifi_ies_fuzzer_component_id="893827"
+	local wifi_fuzzer_component_id="893827"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_ies_fuzzer" \
-		--comp "${wifi_ies_fuzzer_component_id}"
+		--comp "${wifi_fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}/wifi_service_fuzzer" \
+		--comp "${wifi_fuzzer_component_id}"
 
 	local chromeos_platform_connectivity_network_component_id="167325"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}/dhcpv4_static_routes_fuzzer" \
