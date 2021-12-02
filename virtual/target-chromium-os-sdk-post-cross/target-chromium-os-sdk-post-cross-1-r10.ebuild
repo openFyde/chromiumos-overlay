@@ -34,3 +34,11 @@ RDEPEND="
 	dev-embedded/ti50-sdk
 	chromeos-base/sirenia-tools
 "
+
+# Needed for hps-firmware.
+#
+# sci-electronics/nextpnr depends on sci-electronics/prjoxide which pulls in
+# dev-rust packages.
+RDEPEND="${RDEPEND}
+	sci-electronics/nextpnr
+"

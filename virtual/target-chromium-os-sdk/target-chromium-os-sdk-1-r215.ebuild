@@ -546,3 +546,13 @@ RDEPEND="${RDEPEND}
 # Needed to build crosvm without ebuild in chroot.
 RDEPEND="${RDEPEND}
 	dev-libs/wayland-protocols"
+
+# Needed for hps-firmware.
+RDEPEND="${RDEPEND}
+	sci-electronics/litescope
+	sci-electronics/liteeth
+	sci-electronics/litespi
+	sci-electronics/litedram
+	sci-electronics/nmigen
+	sci-electronics/pythondata-misc-tapcfg
+	sci-electronics/verilator"
