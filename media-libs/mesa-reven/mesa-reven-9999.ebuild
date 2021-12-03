@@ -158,25 +158,6 @@ src_install() {
 	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 
-	dodir /usr/$(get_libdir)/dri
-	insinto "/usr/$(get_libdir)/dri/"
-	insopts -m0755
-	# install the gallium drivers we use
-	local gallium_drivers_files=( nouveau_dri.so r300_dri.so r600_dri.so msm_dri.so swrast_dri.so )
-	for x in ${gallium_drivers_files[@]}; do
-		if [ -f "${S}/$(get_libdir)/gallium/${x}" ]; then
-			doins "${S}/$(get_libdir)/gallium/${x}"
-		fi
-	done
-
-	# install classic drivers we use
-	local classic_drivers_files=( i810_dri.so i965_dri.so nouveau_vieux_dri.so radeon_dri.so r200_dri.so )
-	for x in ${classic_drivers_files[@]}; do
-		if [ -f "${S}/$(get_libdir)/${x}" ]; then
-			doins "${S}/$(get_libdir)/${x}"
-		fi
-	done
-
 	# Set driconf option to enable S3TC hardware decompression
 	insinto "/etc/"
 	doins "${FILESDIR}"/drirc
