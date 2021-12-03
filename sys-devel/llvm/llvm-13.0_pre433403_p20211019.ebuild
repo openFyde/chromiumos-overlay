@@ -401,9 +401,7 @@ multilib_src_install() {
 
 	# Remove this file, if it exists, to avoid installation file collision,
 	# as this file is also generated/installed by the dev-python/six package.
-	if [[ -f "${D}/usr/lib/python3.6/site-packages/six.py" ]]; then
-		rm "${D}/usr/lib/python3.6/site-packages/six.py" || die
-	fi
+	find "${D}"/usr -name 'six.py' -delete
 }
 
 multilib_src_install_all() {
