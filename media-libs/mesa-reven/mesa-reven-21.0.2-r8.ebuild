@@ -48,7 +48,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
+	+classic debug dri drm egl +gallium -gbm gles1 gles2
 	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx zstd
 	libglvnd"
 
@@ -86,17 +86,6 @@ BDEPEND="
 driver_list() {
 	local drivers="$(sort -u <<< "${1// /$'\n'}")"
 	echo "${drivers//$'\n'/,}"
-}
-
-src_prepare() {
-	# FreeBSD 6.* doesn't have posix_memalign().
-	if [[ ${CHOST} == *-freebsd6.* ]]; then
-		sed -i \
-			-e "s/-DHAVE_POSIX_MEMALIGN//" \
-			configure.ac || die
-	fi
-
-	default
 }
 
 src_configure() {
