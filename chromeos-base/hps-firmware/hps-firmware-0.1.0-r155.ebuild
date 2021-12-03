@@ -102,8 +102,8 @@ src_compile() {
 	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
 		cd rust/mcu/${crate} || die
-		HPS_SPI_BIT="${SYSROOT}/usr/lib/firmware/hps/hps_platform.bit" \
-			HPS_SPI_BIN="${SYSROOT}/usr/lib/firmware/hps/bios.bin" \
+		HPS_SPI_BIT="${SYSROOT}/usr/lib/firmware/hps/fpga_bitstream.bin" \
+			HPS_SPI_BIN="${SYSROOT}/usr/lib/firmware/hps/fpga_application.bin" \
 			ecargo build \
 			--target="thumbv6m-none-eabi" \
 			--release

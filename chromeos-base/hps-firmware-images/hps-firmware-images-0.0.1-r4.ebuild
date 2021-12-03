@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bfdc2295e77236f0845766d79f53363fe43af4f4"
-CROS_WORKON_TREE="5a9bd8469f1c8ff5ca057d7eba6fafdefdf0ccde"
+CROS_WORKON_COMMIT="16c0654f1f67773107c48e2b764aff2fa911ef0b"
+CROS_WORKON_TREE="b52b8c12a0584eeca56faeff7425c9f6aca6014a"
 inherit cros-workon
 
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware-images"
@@ -28,8 +28,7 @@ src_install() {
 	cat licenses/third-party/* >> LICENSE
 
 	insinto "/usr/lib/firmware/hps"
-	doins "${S}/firmware-bin/hps_platform.bit"
-	doins "${S}/firmware-bin/bios.bin"
+	doins "${S}"/firmware-bin/*
 
 	dobin "${S}"/bin/*
 }
