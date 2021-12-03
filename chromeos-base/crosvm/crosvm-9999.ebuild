@@ -61,7 +61,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-task-4*:=
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/bitflags-1*:=
-	~dev-rust/cc-1.0.25:=
+	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	=dev-rust/dbus-0.8*:=
@@ -87,6 +87,7 @@ DEPEND="${COMMON_DEPEND}
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
 	=dev-rust/rand-0.6*:=
+	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
