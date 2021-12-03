@@ -48,6 +48,7 @@ RDEPEND="
 	chromeos-base/foomatic_shell[fuzzer]
 	chromeos-base/ghostscript-fuzz[fuzzer]
 	chromeos-base/hammerd[fuzzer]
+	chromeos-base/hermes[fuzzer]
 	chromeos-base/imageloader[fuzzer]
 	chromeos-base/kerberos[fuzzer]
 	chromeos-base/libbrillo[fuzzer]
