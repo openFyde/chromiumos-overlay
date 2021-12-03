@@ -1,6 +1,5 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
 EAPI=7
 
@@ -11,26 +10,10 @@ CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
 
-if [[ ${PV} = 9999* ]]; then
-	GIT_ECLASS="git-2"
-	EXPERIMENTAL="true"
-fi
-
 inherit base flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
-FOLDER="${PV/_rc*/}"
-[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
-
-DESCRIPTION="OpenGL-like graphic library for Linux"
-HOMEPAGE="http://mesa3d.sourceforge.net/"
-
-#SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
-if [[ $PV = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
-	SRC_URI="${SRC_PATCHES}"
-else
-	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
-		${SRC_PATCHES}"
-fi
+DESCRIPTION="The Mesa 3D Graphics Library"
+HOMEPAGE="http://mesa3d.org/"
 
 # Most of the code is MIT/X11.
 # ralloc is LGPL-3
@@ -46,11 +29,9 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri drm egl +gallium -gbm gles1 gles2
+	+classic debug dri egl +gallium -gbm gles1 gles2
 	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx zstd
 	libglvnd"
-
-LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
 
 REQUIRED_USE="video_cards_amdgpu? ( llvm )
 	video_cards_llvmpipe? ( llvm )"
@@ -61,7 +42,7 @@ COMMON_DEPEND="
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
 	zstd? ( app-arch/zstd )
-	${LIBDRM_DEPSTRING}
+	>=x11-libs/libdrm-2.4.60:=
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -120,9 +101,6 @@ src_configure() {
 		# ATI code
 		gallium_enable video_cards_radeon r300 r600
 		gallium_enable video_cards_amdgpu radeonsi
-
-		# Freedreno code
-		gallium_enable video_cards_freedreno freedreno
 
 		gallium_enable video_cards_virgl virgl
 	fi
