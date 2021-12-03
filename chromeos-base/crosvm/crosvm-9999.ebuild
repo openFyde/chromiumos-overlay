@@ -74,6 +74,7 @@ DEPEND="${COMMON_DEPEND}
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	dev-rust/minijail:=
+	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha:=
 	~dev-rust/num_cpus-1.9.0:=
 	>=dev-rust/once_cell-1.7.2:= <dev-rust/once_cell-2
 	dev-rust/p9:=
