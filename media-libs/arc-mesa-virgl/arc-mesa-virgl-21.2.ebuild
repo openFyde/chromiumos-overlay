@@ -354,12 +354,6 @@ multilib_src_install_all_cheets() {
 		einfo "Using swiftshader vulkan."
 		insinto "${ARC_VM_PREFIX}/vendor/etc/init"
 		doins "${FILESDIR}/sw.vulkan.rc"
-
-		# TODO(kinaba): remove before launch.
-		# This is for enabling more tests guarded by hardware Vulkan flag.
-		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
-		doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
-		doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
 	fi
 
 	if use android_vulkan_compute_0; then
