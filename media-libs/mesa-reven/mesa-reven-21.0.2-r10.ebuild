@@ -105,6 +105,8 @@ src_configure() {
 		gallium_enable video_cards_amdgpu radeonsi
 
 		gallium_enable video_cards_virgl virgl
+
+		gallium_enable video_cards_vmware svga
 	fi
 
 	if use vulkan; then
