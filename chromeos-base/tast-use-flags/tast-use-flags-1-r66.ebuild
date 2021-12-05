@@ -127,6 +127,7 @@ IUSE="
 	+storage_wearout_detect
 	tablet_form_factor
 	tpm2
+	tpm2_simulator
 	transparent_hugepage
 	ubsan
 	unibuild
