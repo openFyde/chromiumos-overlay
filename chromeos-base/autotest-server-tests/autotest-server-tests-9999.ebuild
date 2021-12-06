@@ -71,8 +71,6 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_RejectDuplicateUpdate
 	+tests_autoupdate_Rollback
 	dlc_test? ( +tests_autoupdate_WithDLC )
-	has-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
-	is-kernelnext? ( +tests_autoupdate_StatefulCompatibility )
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
 		cheets_user? (
