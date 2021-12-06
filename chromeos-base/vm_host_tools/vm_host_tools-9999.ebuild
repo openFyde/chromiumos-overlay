@@ -46,7 +46,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 # The crosvm-wl-dmabuf and crosvm-virtio-video USE flags
 # are used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan libglvnd"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
