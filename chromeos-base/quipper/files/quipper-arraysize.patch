@@ -8,8 +8,8 @@ index 8a912c9..d778e0e 100644
  
 +#include <base/macros.h>
 +#ifndef arraysize
-+#include <base/stl_util.h>
-+#define arraysize(x) (base::size((x)))
++#include <iterator>
++#define arraysize(x) (std::size((x)))
 +#endif
 +
  #endif  // CHROMIUMOS_WIDE_PROFILING_COMPAT_TEST_H_
