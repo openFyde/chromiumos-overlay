@@ -64,6 +64,7 @@ src_install() {
 		cryptohome
 		debugd
 		dlcservice
+		hps
 		kerberos
 		login_manager
 		lorgnette
