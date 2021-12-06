@@ -79,5 +79,11 @@
         "rel_patch_path": "db27867dfc95257faf5baa40436370df67647847.patch",
         "start_version": 433403,
         "end_version": 442917
+    },
+    {
+        "comment": "[msan] Add stat-family interceptors on Linux",
+        "rel_patch_path": "4e1a6c07052b466a2a1cd0c3ff150e4e89a6d87a.patch",
+        "start_version": 433403,
+        "end_version": 441343
     }
 ]

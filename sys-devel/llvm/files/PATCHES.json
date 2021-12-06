@@ -1122,9 +1122,33 @@
         "start_version": 433403
     },
     {
+        "comment": "[msan] Add stat-family interceptors on Linux",
+        "rel_patch_path": "cherry/4e1a6c07052b466a2a1cd0c3ff150e4e89a6d87a.patch",
+        "start_version": 433403,
+        "end_version": 441343
+    },
+    {
         "comment": "CodeGen: Strip exception specifications from function types in CFI type names.",
         "rel_patch_path": "cherry/0a14674f276b598d23353290635fc62f93e9ab30.patch",
         "start_version": 433403,
         "end_version": 445396
+    },
+    {
+        "comment": "Revert \"Allow rematerialization of virtual reg uses\"",
+        "rel_patch_path": "cherry/08d7eec06e8cf5c15a96ce11f311f1480291a441.patch",
+        "start_version": 436284,
+        "end_version": 438858
+    },
+    {
+        "comment": "Revert \"[AMDGPU] Split entry basic block after alloca instructions.\"",
+        "rel_patch_path": "cherry/0c28814015cdd9a48a9ed7e4bc3545f352a1bb77.patch",
+        "start_version": 436857,
+        "end_version": 437625
+    },
+    {
+        "comment": "Revert \"X86InstrInfo: Support immediates that are +1/-1 different in optimizeCompareInstr\"",
+        "rel_patch_path": "cherry/a2a58d91e82db38fbdf88cc317dcb3753d79d492.patch",
+        "start_version": 442113,
+        "end_version": 442617
     }
 ]
