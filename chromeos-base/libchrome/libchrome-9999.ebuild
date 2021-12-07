@@ -100,6 +100,7 @@ src_test() {
 	python3 ./run_tests.py || die "failed python3 libchrome/uprev/run_tests.py"
 	popd || die
 	popd || die
+	platform_test "run" "${OUT}/optional_unittests"
 }
 
 src_install() {
