@@ -61,15 +61,15 @@ CROS_WORKON_MANUAL_UPREV=1
 #   packages that rely on the new policies. If you added new device
 #   policy encodings above that will at least be authpolicy.
 CROS_WORKON_COMMIT=(
-	"9ea04b6b4a550de9ab94aaa0f0bd8f35abea1ba8"
-	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
-	"4b66a57bf81ff88fb94113426f2f4ffbbd66cb95"
+	"fd6b78baee6a1a19dbf48e654fae87fb784163da"
+	"dd7f8ad1e3ee47c4baffdab73521862a18f55508"
+	"ee74da4528c53f8482b70716afd83861bfdb29c3"
 )
 # git rev-parse $HASH:./
 CROS_WORKON_TREE=(
-	"9067e1cfe385d62b9a95621e0f155393c4ded25f"
-	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
-	"0a338e5413026da123118a2f40d1edc660de1039"
+	"21837c1617f7e76ee83223e871a94059680ff705"
+	"2b33c6c1b6529c83b4dee92c4c581b0844325591"
+	"36b1891707e49195ca9114e1465dc2c0add9eb8b"
 )
 
 PYTHON_COMPAT=( python{3_6,3_7} )
@@ -97,6 +97,7 @@ POLICY_DIR_PROTO_FILES=(
 	"install_attributes.proto"
 	"policy_common_definitions.proto"
 	"policy_signing_key.proto"
+	"secure_connect.proto"
 )
 
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"

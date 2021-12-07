@@ -67,6 +67,7 @@ POLICY_DIR_PROTO_FILES=(
 	"install_attributes.proto"
 	"policy_common_definitions.proto"
 	"policy_signing_key.proto"
+	"secure_connect.proto"
 )
 
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
