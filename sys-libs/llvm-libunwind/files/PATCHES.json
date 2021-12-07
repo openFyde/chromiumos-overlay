@@ -1,36 +1,73 @@
 [
     {
-        "comment": "[libunwind] [risc-v] This patch is for fixing immediate build failure when Cross Unwinding enabled. Follow up patch will cleanup some Macros handling.",
+        "end_version": 420477,
+        "metadata": {
+            "info": [],
+            "title": "[libunwind] [risc-v] This patch is for fixing immediate build failure when Cross Unwinding enabled. Follow up patch will cleanup some Macros handling."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "5c3fc5093aaf7d9422459d295eb4eb769abcbaa4.patch",
-        "start_version": 420365,
-        "end_version": 420477
+        "start_version": 420365
     },
     {
-        "comment": "[Unwind] Split unwind.h",
+        "end_version": 435268,
+        "metadata": {
+            "info": [],
+            "title": "[Unwind] Split unwind.h"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "9ed1c7e4964382b95a5886279c0dfc7147a57b17.patch",
-        "start_version": 422132,
-        "end_version": 435268
+        "start_version": 422132
     },
     {
-        "comment": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI.",
+        "end_version": 435269,
+        "metadata": {
+            "info": [],
+            "title": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "db126ae243cd70e4f68fd50a7c619740e90e1dc6.patch",
-        "start_version": 422132,
-        "end_version": 435269
+        "start_version": 422132
     },
     {
-        "comment": "[libunwind] Compile with -Wunused-but-set-variable",
+        "end_version": 435270,
+        "metadata": {
+            "info": [],
+            "title": "[libunwind] Compile with -Wunused-but-set-variable"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "6b6d3447317673015f62206b2669c2d0a74132dc.patch",
-        "start_version": 422132,
-        "end_version": 435270
+        "start_version": 422132
     },
     {
-        "comment": "libunwind: add missing break statements in EHABI",
+        "end_version": 435201,
+        "metadata": {
+            "info": [],
+            "title": "libunwind: add missing break statements in EHABI"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "08a5ac36b956edeb989b4a65269a829eac26a5a2.patch",
-        "start_version": 428724,
-        "end_version": 435201
+        "start_version": 428724
     },
     {
-        "comment": "[libunwind][ARM] Handle end of stack during unwind",
+        "end_version": null,
+        "metadata": {
+            "info": [],
+            "title": "[libunwind][ARM] Handle end of stack during unwind"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "D109856.patch",
         "start_version": 433403
     }

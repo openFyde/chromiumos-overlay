@@ -1,55 +1,110 @@
 [
     {
-        "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
+        "end_version": 392069,
+        "metadata": {
+            "info": [],
+            "title": "Link libcxx with gcc_eh when linking with gcc_s is not desired"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "libcxx-10-use-libgcc_eh.patch",
-        "start_version": 374056,
-        "end_version": 392069
+        "start_version": 374056
     },
     {
-        "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
+        "end_version": 419078,
+        "metadata": {
+            "info": [],
+            "title": "Link libcxx with gcc_eh when linking with gcc_s is not desired"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "libcxx-11-use-libgcc_eh.patch",
-        "start_version": 392069,
-        "end_version": 419078
+        "start_version": 392069
     },
     {
-        "comment": "[libc++] Add missing visibility annotation for __base",
+        "end_version": 387601,
+        "metadata": {
+            "info": [],
+            "title": "[libc++] Add missing visibility annotation for __base"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "cherry/30ccc2e8d24b53273aae9cc21740f02ffb3018dc.patch",
-        "end_version": 387601
+        "start_version": 0
     },
     {
-        "comment": "[libc++] [P0879] constexpr std::sort",
+        "end_version": 417956,
+        "metadata": {
+            "info": [],
+            "title": "[libc++] [P0879] constexpr std::sort"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "493f1407927cdf6db2e08f150ed9f9b8abe4ac45.patch",
-        "start_version": 417943,
-        "end_version": 417956
+        "start_version": 417943
     },
     {
-        "comment": "[libc++] Further improve the contiguous-iterator story, and fix some bugs.",
+        "end_version": 418174,
+        "metadata": {
+            "info": [],
+            "title": "[libc++] Further improve the contiguous-iterator story, and fix some bugs."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "85167fb7c2920ca8874b197ef397e8e6b9d87c73.patch",
-        "start_version": 417943,
-        "end_version": 418174
+        "start_version": 417943
     },
     {
-        "comment": "Disable CFI in __get_elem to allow casting a pointer to uninitialized memory",
+        "end_version": 417837,
+        "metadata": {
+            "info": [],
+            "title": "Disable CFI in __get_elem to allow casting a pointer to uninitialized memory"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "bab74864168bb5e28ecbc0294fe1095d8da7f569.patch",
-        "start_version": 415517,
-        "end_version": 417837
+        "start_version": 415517
     },
     {
-        "comment": "[libcxx][atomic] Fix failure mapping in compare_exchange_{strong,weak}.",
+        "end_version": 430140,
+        "metadata": {
+            "info": [],
+            "title": "[libcxx][atomic] Fix failure mapping in compare_exchange_{strong,weak}."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "6d33362dafb66b3af4717990d9a06450ec13f367.patch",
-        "start_version": 428724,
-        "end_version": 430140
+        "start_version": 428724
     },
     {
-        "comment": "Revert \"[libc++] NFC: Move unwrap_iter to its own header\"",
+        "end_version": 428763,
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[libc++] NFC: Move unwrap_iter to its own header\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "b13edf6e907b32d0b8da09dfe08fa271638eca3c.patch",
-        "start_version": 428724,
-        "end_version": 428763
+        "start_version": 428724
     },
     {
-        "comment": "Revert \"[libcxx][CI] Work around Arm buildkite failures\"",
+        "end_version": 434483,
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[libcxx][CI] Work around Arm buildkite failures\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "e517a2405f39a174e65e4105106ae39704f88e4d.patch",
-        "start_version": 432148,
-        "end_version": 434483
+        "start_version": 432148
     }
 ]

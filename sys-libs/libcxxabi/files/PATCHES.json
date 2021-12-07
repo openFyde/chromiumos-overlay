@@ -1,17 +1,37 @@
 [
     {
-        "comment": "Link libcxx with gcc_eh when linking with gcc_s is not desired",
+        "end_version": 419078,
+        "metadata": {
+            "info": [],
+            "title": "Link libcxx with gcc_eh when linking with gcc_s is not desired"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "libcxxabi-7-use-libgcc_eh.patch",
-        "end_version": 419078
+        "start_version": 0
     },
     {
-        "comment": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI.",
+        "end_version": 435269,
+        "metadata": {
+            "info": [],
+            "title": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "db126ae243cd70e4f68fd50a7c619740e90e1dc6.patch",
-        "start_version": 422132,
-        "end_version": 435269
+        "start_version": 422132
     },
     {
-        "comment": "[libunwind][ARM] Handle end of stack during unwind",
+        "end_version": null,
+        "metadata": {
+            "info": [],
+            "title": "[libunwind][ARM] Handle end of stack during unwind"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
         "rel_patch_path": "D109856.patch",
         "start_version": 433403
     }
