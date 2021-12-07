@@ -1,7 +1,7 @@
 From fbd01745c4baf4a6f5c21f4e964e22d5724ffb4f Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 23 Dec 2014 14:44:58 -0800
-Subject: [PATCH 02/14] dwarf: add experimental DWARF-5 values for two-level
+Subject: [PATCH 02/17] dwarf: add experimental DWARF-5 values for two-level
  line number tables.
 
 This change is forward-port of commit 13a142ce0959837746e61063b6b18ac70344a474
@@ -58,5 +58,5 @@ index 50b6ddb1f11..8f4d6aab3ed 100644
      DW_LNCT_hi_user = 0x3fff
    };
 -- 
-2.32.0
+2.34.1
 

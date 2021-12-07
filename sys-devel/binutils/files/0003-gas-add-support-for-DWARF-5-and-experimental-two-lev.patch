@@ -1,7 +1,7 @@
 From 6e9c8e75162740068ecdd1f1a5d693597f9dbdb6 Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 23 Dec 2014 15:01:40 -0800
-Subject: [PATCH 03/14] gas: add support for DWARF-5 and experimental two-level
+Subject: [PATCH 03/17] gas: add support for DWARF-5 and experimental two-level
  line number tables.
 
 This change is forward-port of commit a7c7bcafd2add7ecf8ea2ad7d3d77cf38d46c195
@@ -1245,5 +1245,5 @@ index 13824c407d9..9cf786c886a 100644
  /* Implements the .loc_mark_labels {0,1} directive.  */
  extern void dwarf2_directive_loc_mark_labels (int);
 -- 
-2.32.0
+2.34.1
 

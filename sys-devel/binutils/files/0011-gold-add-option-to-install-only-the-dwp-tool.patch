@@ -1,7 +1,7 @@
-From 7595e4b1c258d86cdddf4048ff63b298c1960a37 Mon Sep 17 00:00:00 2001
+From a900c25280d370e795392dc907a6646c06b60a72 Mon Sep 17 00:00:00 2001
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 Date: Sat, 9 Jan 2021 04:06:08 +0200
-Subject: [PATCH 14/14] gold: add option to install only the dwp tool
+Subject: [PATCH 11/17] gold: add option to install only the dwp tool
 
 Distros/build-systems (ChromiumOS/portage, Yocto/bitbake...)
 can have buggy recipes which pick a wrong linker, upstream
@@ -208,5 +208,5 @@ index c9c69ab9245..9555d79e0e1 100644
     installed_linker=ld.bfd
     ;;
 -- 
-2.32.0
+2.34.1
 

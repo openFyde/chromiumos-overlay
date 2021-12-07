@@ -1,7 +1,7 @@
 From 7ae9ad19d14982b07de904c2362896d36c41d5e4 Mon Sep 17 00:00:00 2001
 From: Rahul Chaudhry <rahulchaudhry@google.com>
 Date: Fri, 14 Jul 2017 13:16:08 -0700
-Subject: [PATCH 05/14] gas: enable -mshared by default.
+Subject: [PATCH 05/17] gas: enable -mshared by default.
 
 From gas help:
   -mshared        disable branch optimization for shared code.
@@ -92,5 +92,5 @@ index 01df9ef340e..f9ec1dcee5b 100644
  #notarget: *-*-solaris*
  
 -- 
-2.32.0
+2.34.1
 

@@ -1,7 +1,7 @@
-From b4b008ec7ee73128c84d0af63f7faab3074d1013 Mon Sep 17 00:00:00 2001
+From 25314feb127a35774f0aa9dde61a91baa8c92f13 Mon Sep 17 00:00:00 2001
 From: Christopher Di Bella <cjdb@google.com>
 Date: Fri, 30 Jul 2021 23:33:06 +0000
-Subject: [PATCH] gold: remove iovec and add missing headers
+Subject: [PATCH 12/17] gold: remove iovec and add missing headers
 
 The struct iovec is already defined somewhere in libstdc++, so this is
 causing binutils to fail during emerge.
@@ -40,5 +40,5 @@ index 838d5c80413..7a279d61712 100644
  #ifdef HAVE_DLFCN_H
  #include <dlfcn.h>
 -- 
-2.32.0
+2.34.1
 

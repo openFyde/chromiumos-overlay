@@ -1,7 +1,7 @@
 From 1c83b5fafca5615f9b202e4daaae929721f1a907 Mon Sep 17 00:00:00 2001
 From: Cary Coutant <ccoutant@google.com>
 Date: Tue, 6 Jan 2015 16:56:43 -0800
-Subject: [PATCH 04/14] readelf: add support for DWARF-5 and experimental
+Subject: [PATCH 04/17] readelf: add support for DWARF-5 and experimental
  two-level line number tables.
 
 This change is forward-port of commit d80608344a0908445af29b6db5266394c0376076
@@ -1240,5 +1240,5 @@ index ad16b4571c9..a842ffbd07c 100644
  	      || (do_debug_loc      && const_strneq (name, "loclists"))
  	      || (do_debug_addr     && const_strneq (name, "addr"))
 -- 
-2.32.0
+2.34.1
 
