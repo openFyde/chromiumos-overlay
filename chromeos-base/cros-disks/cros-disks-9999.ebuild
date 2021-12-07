@@ -75,6 +75,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/cros-disks
 
 	# Install USB device IDs file.
