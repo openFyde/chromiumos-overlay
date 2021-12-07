@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d3ae7ca60fa6a6ea8f0e9c5fd14ebabb3eeda592"
+CROS_WORKON_COMMIT="27666c9ba671615f0fe839574271f4bb94b2f375"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "7aabc62773dd1e0d57020d0a009d7cc1b08a6f45" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,6 +38,9 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	dobin "${OUT}"/fusebox
+
+	insinto /etc/dbus-1/system.d
+	doins dbus/org.chromium.FuseBoxService.conf dbus/org.chromium.FuseBoxClient.conf
 }
 
 platform_pkg_test() {
