@@ -23,9 +23,7 @@ HOMEPAGE="http://mesa3d.org/"
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 KEYWORDS="*"
 
-INTEL_CARDS="intel iris"
-RADEON_CARDS="amdgpu radeon"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} freedreno llvmpipe mach64 mga nouveau r128 radeonsi savage sis softpipe tdfx via virgl vmware"
+VIDEO_CARDS="amdgpu intel iris llvmpipe nouveau radeon softpipe virgl vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
