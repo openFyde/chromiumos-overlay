@@ -1120,5 +1120,11 @@
         "comment": "[libunwind][ARM] Handle end of stack during unwind",
         "rel_patch_path": "cherry/D109856.patch",
         "start_version": 433403
+    },
+    {
+        "comment": "CodeGen: Strip exception specifications from function types in CFI type names.",
+        "rel_patch_path": "cherry/0a14674f276b598d23353290635fc62f93e9ab30.patch",
+        "start_version": 433403,
+        "end_version": 445396
     }
 ]
