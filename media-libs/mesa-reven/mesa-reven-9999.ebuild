@@ -5,12 +5,11 @@ EAPI=7
 
 MESON_AUTO_DEPEND=no
 
-EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
 
-inherit base flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
+inherit base flag-o-matic meson toolchain-funcs cros-workon
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"
@@ -21,14 +20,14 @@ HOMEPAGE="http://mesa3d.org/"
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 KEYWORDS="~*"
 
-VIDEO_CARDS="amdgpu intel iris llvmpipe nouveau radeon softpipe virgl vmware"
+VIDEO_CARDS="amdgpu intel iris llvmpipe nouveau radeon virgl vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri egl +gallium -gbm gles1 gles2
-	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx zstd
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland zstd
 	libglvnd"
 
 REQUIRED_USE="video_cards_amdgpu? ( llvm )
@@ -79,16 +78,15 @@ src_configure() {
 		ewarn "USE flags. No hardware drivers will be built."
 	fi
 
-	if use classic; then
 	# Configurable DRI drivers
+	if use classic; then
 		# Intel code
 		dri_driver_enable video_cards_intel i965
 	fi
 
-	if use gallium; then
 	# Configurable gallium drivers
+	if use gallium; then
 		gallium_enable video_cards_llvmpipe swrast
-		gallium_enable video_cards_softpipe swrast
 
 		# Intel code
 		gallium_enable video_cards_iris iris
@@ -111,7 +109,7 @@ src_configure() {
 	fi
 
 	LLVM_ENABLE=false
-	if use llvm && use !video_cards_softpipe; then
+	if use llvm; then
 		emesonargs+=( -Dshared-llvm=false )
 		export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 		LLVM_ENABLE=true
@@ -119,12 +117,6 @@ src_configure() {
 
 	if use kvm_guest; then
 		emesonargs+=( -Ddri-search-path=/opt/google/cros-containers/lib )
-	fi
-
-	if use zstd; then
-		emesonargs+=( -Dzstd=true )
-	else
-		emesonargs+=( -Dzstd=false )
 	fi
 
 	emesonargs+=(
@@ -140,6 +132,7 @@ src_configure() {
 		$(meson_feature gbm)
 		$(meson_feature gles1)
 		$(meson_feature gles2)
+		$(meson_feature zstd)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
