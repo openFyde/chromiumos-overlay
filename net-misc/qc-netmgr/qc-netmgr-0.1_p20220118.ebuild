@@ -7,7 +7,7 @@ inherit cros-sanitizers user
 
 DESCRIPTION="Qualcomm modem data service"
 HOMEPAGE="https://source.codeaurora.org/quic/dataservices/modem-data-manager/log/?h=LC.UM.1.0"
-#GIT_SHA1="30861158603e1304444d0d48c9a2e990bcaa7103"
+#GIT_SHA1="79b2cf0d959b77f760cb5959007394bd2d3ab24b"
 SRC_URI="https://source.codeaurora.org/quic/dataservices/modem-data-manager/log/?h=LC.UM.1.0 -> ${P}.tar.gz"
 
 LICENSE="BSD"
@@ -22,11 +22,6 @@ DEPEND="net-libs/librmnetctl
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/modem-data-manager"
-
-PATCHES=(
-	"${FILESDIR}"/0001-Fix-modem-configuration.patch
-	"${FILESDIR}"/0002-Fix-Makefile-to-add-to-LDFLAGS.patch
-)
 
 src_configure() {
 	sanitizers-setup-env
