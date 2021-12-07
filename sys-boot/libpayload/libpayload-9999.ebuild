@@ -32,10 +32,10 @@ RDEPEND="${DEPEND}"
 
 CROS_WORKON_LOCALNAME="coreboot"
 
-# kconfig and xcompile are reused from coreboot.
+# commonlib, kconfig and xcompile are reused from coreboot.
 # Everything else is not supposed to matter for
 # libpayload.
-CROS_WORKON_SUBTREE="payloads/libpayload util/kconfig util/xcompile"
+CROS_WORKON_SUBTREE="payloads/libpayload src/commonlib util/kconfig util/xcompile"
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
