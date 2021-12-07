@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="27666c9ba671615f0fe839574271f4bb94b2f375"
+CROS_WORKON_COMMIT="22905aece35235fbaf9112756f9d4b9fa60c599c"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "9d66baaae970386c00cc937454b36512d1a8d352" "ab47bb368f8d1b37127870e35fddf33d80594e13" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -77,6 +77,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/cros-disks
 
 	# Install USB device IDs file.
