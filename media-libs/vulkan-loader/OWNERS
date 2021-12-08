@@ -1,3 +1,2 @@
-basni@chromium.org
-chadversary@chromium.org
-olv@chromium.org
+set noparent
+include chromiumos/platform/graphics:/OWNERS.vulkan_loader

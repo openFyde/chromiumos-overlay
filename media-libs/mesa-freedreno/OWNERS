@@ -1,6 +1,2 @@
-anholt@chromium.org
-chadversary@chromium.org
-ihf@chromium.org
-hoegsberg@chromium.org
-marcheu@chromium.org
-robdclark@chromium.org
+set noparent
+include chromiumos/platform/graphics:/OWNERS.mesa_freedreno

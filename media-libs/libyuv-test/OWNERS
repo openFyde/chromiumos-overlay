@@ -1,1 +1,2 @@
-pmolinalopez@google.com
+set noparent
+include chromiumos/platform/graphics:/OWNERS.libyuv_test

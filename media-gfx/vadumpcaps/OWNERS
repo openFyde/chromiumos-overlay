@@ -1,3 +1,2 @@
-andrescj@chromium.org
-ihf@chromium.org
-mcasas@chromium.org
+set noparent
+include chromiumos/platform/graphics:/OWNERS.vadumpcaps

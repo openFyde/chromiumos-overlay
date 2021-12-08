@@ -1,2 +1,2 @@
-chadversary@chromium.org
-olv@google.com
+set noparent
+include chromiumos/platform/graphics:/OWNERS.vulkan_layers

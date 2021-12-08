@@ -1,1 +1,2 @@
-rjodin@chromium.org
+set noparent
+include chromiumos/platform/graphics:/OWNERS.clvk

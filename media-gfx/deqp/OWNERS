@@ -1,6 +1,2 @@
-anholt@chromium.org
-chadversary@chromium.org
-gurchetansingh@chromium.org
-hoegsberg@chromium.org
-ihf@chromium.org
-marcheu@chromium.org
+set noparent
+include chromiumos/platform/graphics:/OWNERS.deqp
