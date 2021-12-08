@@ -6,8 +6,8 @@
 # VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_COMMIT="3aedfbe5e92eaf2ea606d9d7a213bdd77b6bd0a2"
-CROS_WORKON_TREE=("dbfca3dbff0ee4b5e236b19fc6e3f0746719cc8a" "0817c42e0f630c1a0975b591f98be39a099842b7" "bacdab8734794201bdb8ad183f79bab4051584db")
+CROS_WORKON_COMMIT="2028ab331c0496b81f2135feceaee0acbd4f9138"
+CROS_WORKON_TREE=("2420b08e7cff4dbbd0167eebeaae34bf0eb590e6" "60bd71d839ae9065ff63b5315ef2611dee54f1d3" "0817c42e0f630c1a0975b591f98be39a099842b7" "bacdab8734794201bdb8ad183f79bab4051584db")
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
 
@@ -34,10 +34,10 @@ RDEPEND="${DEPEND}"
 
 CROS_WORKON_LOCALNAME="coreboot"
 
-# kconfig and xcompile are reused from coreboot.
+# commonlib, kconfig and xcompile are reused from coreboot.
 # Everything else is not supposed to matter for
 # libpayload.
-CROS_WORKON_SUBTREE="payloads/libpayload util/kconfig util/xcompile"
+CROS_WORKON_SUBTREE="payloads/libpayload src/commonlib util/kconfig util/xcompile"
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
