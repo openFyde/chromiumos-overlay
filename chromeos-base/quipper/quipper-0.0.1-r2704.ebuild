@@ -4,7 +4,7 @@
 # Don't use Makefile.external here as it fetches from the network.
 EAPI=7
 
-CROS_WORKON_COMMIT="3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8"
+CROS_WORKON_COMMIT="302062280c5791d3e04b3acc1f42c90d8bbe29f5"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
