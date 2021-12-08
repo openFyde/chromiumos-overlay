@@ -8,9 +8,9 @@ inherit toolchain-funcs
 
 DESCRIPTION="Wacom EMR/AES flash for Firmware Update"
 GIT_TAG="v${PV}"
-HOMEPAGE="https://github.com/31-mcMartin/wacom_source/"
+HOMEPAGE="https://github.com/flying-elephant/wacom_source/"
 MY_P="wacom_source-${PV}"
-SRC_URI="https://github.com/31-mcMartin/wacom_source/archive/${GIT_TAG}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/flying-elephant/wacom_source/archive/${GIT_TAG}.tar.gz -> ${P}.tar.gz"
 S="${WORKDIR}/${MY_P}/wacom_flash"
 
 LICENSE="GPL-2"
