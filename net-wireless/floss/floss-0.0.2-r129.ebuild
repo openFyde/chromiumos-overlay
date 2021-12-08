@@ -114,6 +114,9 @@ src_configure() {
 		# Add C/C++ build path to linker search path
 		"-L ${cxx_outdir}"
 
+		# Add sysroot libdir to search path.
+		"-L ${SYSROOT}/usr/$(get_libdir)/"
+
 		# Also ignore multiple definitions for now (added due to some
 		# shared library shenaningans)
 		"-C link-arg=-Wl,--allow-multiple-definition"
@@ -213,7 +216,7 @@ platform_pkg_test() {
 	)
 
 	# Run rust tests
-	cros-rust_src_test
+	cros-rust_src_test -- --test-threads=1
 
 	# TODO(b/190750167) - Re-enable once we're fully Bazel build
 	#local test_bin
