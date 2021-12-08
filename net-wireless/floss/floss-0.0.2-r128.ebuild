@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("2e262aa14e4cf7688fa438a6ad1e355825794e06" "7cee576c60ac45c04c1595f5f68ca484245b8426" "4087e7787cf40c98ea0c24747d91e3bd4332cdcc" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
+CROS_WORKON_COMMIT=("ad11b342bc487eea80fc134dffa376a73c00784e" "7cee576c60ac45c04c1595f5f68ca484245b8426" "4087e7787cf40c98ea0c24747d91e3bd4332cdcc" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "da8cd3774361e259bf84c1f9c15f89b564f9615b" "dbba4919f4ca988fb75778fc099f1b51961c6e39" "7eae68a604c33288e18b948cc1cf30a87f0a74bc" "7a34b72edeab38960a8149a82cf554cd16606dba")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -118,6 +118,11 @@ src_configure() {
 		# shared library shenaningans)
 		"-C link-arg=-Wl,--allow-multiple-definition"
 	)
+
+	# When using clang + asan, we need to link C++ lib. The build defaults
+	# to using -lstdc++ which fails to link.
+	use asan && rustflags+=( '-lc++' )
+
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 
 	cros-rust_src_configure
