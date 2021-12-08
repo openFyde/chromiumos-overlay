@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="22905aece35235fbaf9112756f9d4b9fa60c599c"
+CROS_WORKON_COMMIT="70824ab374142eb7ad89a0d87823a8063fc476f8"
 CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "4f056cdf4e15a9a5cea195ea12355ef29ba8bc46" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -66,6 +66,7 @@ src_install() {
 		cryptohome
 		debugd
 		dlcservice
+		hps
 		kerberos
 		login_manager
 		lorgnette
