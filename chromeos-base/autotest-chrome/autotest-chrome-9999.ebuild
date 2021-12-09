@@ -89,7 +89,6 @@ IUSE_TESTS=(
 	+tests_logging_CrashServices
 	+tests_logging_FeedbackReport
 	+tests_login_ChromeProfileSanitary
-	+tests_login_CryptohomeDataLeak
 	+tests_login_CryptohomeIncognito
 	+tests_login_GaiaLogin
 	+tests_login_LoginPin
