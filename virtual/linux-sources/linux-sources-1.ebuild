@@ -14,7 +14,6 @@ IUSE_KERNEL_VERS=(
 	kernel-4_4
 	kernel-4_14
 	kernel-4_19
-	kernel-4_19-ht
 	kernel-5_4
 	kernel-5_10
 	kernel-5_15
@@ -32,7 +31,6 @@ RDEPEND="
 	kernel-4_4? ( sys-kernel/chromeos-kernel-4_4 )
 	kernel-4_14? ( sys-kernel/chromeos-kernel-4_14 )
 	kernel-4_19? ( sys-kernel/chromeos-kernel-4_19 )
-	kernel-4_19-ht? ( sys-kernel/chromeos-kernel-4_19-ht )
 	kernel-5_4? ( sys-kernel/chromeos-kernel-5_4 )
 	kernel-5_10? ( sys-kernel/chromeos-kernel-5_10 )
 	kernel-5_15? ( sys-kernel/chromeos-kernel-5_15 )
