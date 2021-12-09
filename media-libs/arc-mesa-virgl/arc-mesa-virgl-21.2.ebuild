@@ -142,6 +142,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/UPSTREAM-venus-suggest-the-proper-sampler-ycbcr-model-convers.patch
 	epatch "${FILESDIR}"/BACKPORT-venus-set-maxMipLevels-to-1-for-ahb-images.patch
 	epatch "${FILESDIR}"/UPSTREAM-virgl-Add-an-option-to-disable-coherent.patch
+	epatch "${FILESDIR}"/UPSTREAM-virgl-drm-New-optimization-for-uploading-textures.patch
 	default
 }
 
