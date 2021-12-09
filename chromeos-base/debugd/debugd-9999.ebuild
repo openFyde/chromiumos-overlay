@@ -6,7 +6,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk debugd .gn"
+CROS_WORKON_SUBTREE="common-mk debugd metrics .gn"
 
 PLATFORM_SUBDIR="debugd"
 
@@ -22,6 +22,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-login:=
 	chromeos-base/cryptohome-client:=
 	chromeos-base/minijail:=
+	chromeos-base/metrics:=
 	chromeos-base/shill-client:=
 	chromeos-base/vboot_reference:=
 	dev-libs/protobuf:=
