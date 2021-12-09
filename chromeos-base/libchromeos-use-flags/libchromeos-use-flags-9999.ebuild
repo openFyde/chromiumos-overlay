@@ -66,6 +66,7 @@ IUSE="
 	lacros
 	legacy_keyboard
 	legacy_power_button
+	ml_service
 	moblab
 	native_gpu_memory_buffers
 	natural_scroll_default
