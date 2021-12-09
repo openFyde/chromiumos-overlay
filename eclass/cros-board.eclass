@@ -151,6 +151,7 @@ ALL_BOARDS=(
 	cobblepot
 	coral
 	#coral-kernelnext
+	corsola
 	#cosmos
 	#cranky
 	cyan
