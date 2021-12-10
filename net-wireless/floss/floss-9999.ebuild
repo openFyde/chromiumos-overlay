@@ -214,7 +214,8 @@ platform_pkg_test() {
 	)
 
 	# Run rust tests
-	cros-rust_src_test -- --test-threads=1
+	# TODO(b/210127355) - Fix flaky tests and re-enable
+	# cros-rust_src_test
 
 	# TODO(b/190750167) - Re-enable once we're fully Bazel build
 	#local test_bin
