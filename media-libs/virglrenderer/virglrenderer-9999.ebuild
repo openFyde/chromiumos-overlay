@@ -29,7 +29,6 @@ RDEPEND="
 	)
 	vulkan? (
 		media-libs/vulkan-loader
-		media-libs/vulkan-layers
 	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
@@ -63,10 +62,16 @@ src_configure() {
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
-		$(meson_use vulkan venus-experimental)
-		$(meson_use vulkan venus-validate)
 		--buildtype $(usex debug debug release)
 	)
+
+	if use vulkan; then
+		emesonargs+=(
+			-Dvenus-experimental="true"
+			-Drender-server="true"
+			-Drender-server-worker="process"
+		)
+	fi
 
 	# virgl_fuzzer is only built with tests.
 	if use test || use fuzzer; then

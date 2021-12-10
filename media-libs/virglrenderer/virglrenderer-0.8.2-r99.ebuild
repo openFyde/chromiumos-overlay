@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="778ad422533d4a74c02f31c8f60c98d7f4c8d3ef"
-CROS_WORKON_TREE="cdcaa0340d4eaecf2fb055a005ae9608e36a810b"
+CROS_WORKON_COMMIT="407db929f90d4e353545a9df86982ec97f47919a"
+CROS_WORKON_TREE="d18b41cd9ae1e698048c77de4289de4a106b1eb0"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -31,7 +31,6 @@ RDEPEND="
 	)
 	vulkan? (
 		media-libs/vulkan-loader
-		media-libs/vulkan-layers
 	)
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
@@ -65,10 +64,16 @@ src_configure() {
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
-		$(meson_use vulkan venus-experimental)
-		$(meson_use vulkan venus-validate)
 		--buildtype $(usex debug debug release)
 	)
+
+	if use vulkan; then
+		emesonargs+=(
+			-Dvenus-experimental="true"
+			-Drender-server="true"
+			-Drender-server-worker="process"
+		)
+	fi
 
 	# virgl_fuzzer is only built with tests.
 	if use test || use fuzzer; then
