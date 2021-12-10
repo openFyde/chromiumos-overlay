@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="f95999a8a137e3a3fb455f5a0b40c1b22a642ac0"
-CROS_WORKON_TREE="61b85848eb903039347e6e74c5e9c5853402879b"
+CROS_WORKON_COMMIT="08d0e617d5eebc3c08b88c222f15f9c34689790d"
+CROS_WORKON_TREE="72001202a566b7dd974a27e7e21fada43257d6c4"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -91,7 +91,6 @@ IUSE_TESTS=(
 	+tests_logging_CrashServices
 	+tests_logging_FeedbackReport
 	+tests_login_ChromeProfileSanitary
-	+tests_login_CryptohomeDataLeak
 	+tests_login_CryptohomeIncognito
 	+tests_login_GaiaLogin
 	+tests_login_LoginPin
