@@ -359,7 +359,7 @@ filter_optional_projects() {
 # Calculate path where code should be checked out.
 # Result passed through global variable "path" to preserve proper array quoting.
 get_paths() {
-	local pathbase srcbase
+	local pathbase
 	pathbase="${CROS_WORKON_SRCROOT}"
 
 	if [[ "${CATEGORY}" == "chromeos-base" ||
@@ -368,8 +368,6 @@ get_paths() {
 	else
 		pathbase+=/src/third_party
 	fi
-
-	srcbase="$(dirname "$(dirname "$(dirname "$(dirname "${EBUILD}")")")")/src"
 
 	path=()
 	local pathelement i
@@ -465,6 +463,53 @@ get_rev() {
 	GIT_DIR="$1" git rev-parse HEAD
 }
 
+# Callback invoked on die that checks -9999 ebuilds if the source paths have
+# local branches that need to be rebased. This is motivated by how common this
+# pitfall comes up in developer workflows, and how hard it is to debug the root
+# cause unless the developer knows what to look for.
+cros-workon_on_die_rebase_check() {
+	if [[ "${PV}" != "9999" ]]; then
+		return
+	fi
+
+	local path
+	get_paths 2> /dev/null || return
+	# Include the ebuild's git repository.
+	path+=(
+		"$(dirname "$(dirname "$(dirname "${EBUILD}")")")"
+	)
+
+	# Disable portage sandbox since .git directories are added to the deny list
+	# when CROS_WORKON_OUTOFTREE_BUILD is set and the ebuild is about to exit
+	# anyway.
+	export SANDBOX_ON=0
+	local i
+	for (( i = 0; i < project_count + 1; ++i )); do
+		# Use a subshell so the PWD remains the same outside.
+		(
+			cd "${path[i]}" || exit
+
+			local upstream
+			if ! upstream="$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2> /dev/null)"; then
+				eerror
+				eerror "Local branch for '${path[i]}' has no upstream."
+				eerror "You probably need to run:"
+				eerror "git branch --set-upstream-to=m/main && git rebase --preserve-merges"
+				eerror
+				exit
+			fi
+
+			local commits_behind="$(git rev-list --count --left-right "${upstream}"...HEAD | cut -f 1)"
+			if [[ "${commits_behind}" != 0 ]]; then
+				eerror
+				eerror "Local branch for '${path[i]}' is out of sync."
+				eerror "You probably need to run: git rebase --preserve-merges"
+				eerror
+			fi
+		)
+	done
+}
+
 cros-workon_src_unpack() {
 	local fetch_method # local|git
 
@@ -556,10 +601,14 @@ cros-workon_src_unpack() {
 		fetch_method=git
 	fi
 
+	# Checks if the repo is out of sync.
+	register_die_hook cros-workon_on_die_rebase_check
+
 	local repo=( "${CROS_WORKON_REPO[@]}" )
 	local project=( "${CROS_WORKON_PROJECT[@]}" )
 	local destdir=( "${CROS_WORKON_DESTDIR[@]}" )
 	local branch=( "${CROS_WORKON_EGIT_BRANCH[@]}" )
+	local path
 	get_paths
 
 	# Automatically build out-of-tree for common.mk packages.
@@ -852,6 +901,7 @@ cros-workon_pkg_info() {
 	print_quoted_array() { printf '"%s"\n' "$@"; }
 
 	array_vars_autocomplete > /dev/null
+	local path
 	get_paths
 	CROS_WORKON_SRCDIR=("${path[@]}")
 
