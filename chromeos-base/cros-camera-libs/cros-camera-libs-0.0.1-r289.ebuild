@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b0b7e3e4e57d468d0ccc712aa4fcff5119def4d2"
+CROS_WORKON_COMMIT="f866c98115d704677039dc259b1cb16ba970c946"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9d87849894323414dd9afca425cb349d84a71f6b" "6118de6c4a69d290eb9a7d85f9931545534156ec" "5d4b5fc0092e08daba635f52f88ea2ad5ca84895" "dbb0a8564398d498a3486b7870d977d7570d4e23" "832671bbd83e53b9b942f396c63b6ab907c69968" "8774c42872394c41ac215b85b7d049aeeacca75a" "7648fcd7524deceb545b0078bbc48dff4e64cb4d" "542b6a1b940801e08d9d1aa3ff2657d06dc80bfa" "5f7d603abf935d71c4176e38908831a1ec2c71db" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,8 +20,8 @@ DESCRIPTION="Chrome OS camera common libraries."
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-# 'camera_feature_hdrnet', 'ipu6' and 'ipu6ep' are passed to and used in BUILD.gn files.
-IUSE="camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
+# 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
+IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
 
 BDEPEND="virtual/pkgconfig"
 
