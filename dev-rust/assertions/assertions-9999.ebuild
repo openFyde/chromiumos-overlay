@@ -11,9 +11,6 @@ CROS_RUST_SUBDIR="common/assertions"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
-# Pupr handles uprevs of crosvm.
-CROS_WORKON_MANUAL_UPREV="1"
-
 inherit cros-workon cros-rust
 
 DESCRIPTION="Crates for compile-time assertion macro."

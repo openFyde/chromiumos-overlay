@@ -13,9 +13,6 @@ CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 # TODO: Enable tests on ARM once the emulator supports io_uring.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 
-# Pupr handles uprevs of crosvm.
-CROS_WORKON_MANUAL_UPREV="1"
-
 inherit cros-workon cros-rust
 
 DESCRIPTION="Safe wrappers around the linux kernel's io_uring interface"
