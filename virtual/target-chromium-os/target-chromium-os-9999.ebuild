@@ -200,7 +200,11 @@ RDEPEND="
 		chromeos-base/test-dlc
 	)
 	bluetooth? ( net-wireless/bluez )
-	floss? ( net-wireless/floss )
+	floss? (
+		!asan? (
+			!ubsan? ( net-wireless/floss )
+		)
+	)
 	bootchart? ( app-benchmarks/bootchart )
 	tpm? (
 		app-crypt/trousers
