@@ -9,7 +9,7 @@ EAPI=6
 
 DESCRIPTION="Text-to-speech engine"
 HOMEPAGE="https://github.com/espeak-ng/espeak-ng"
-SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.gz"
+SRC_URI="gs://chromeos-localmirror/distfiles/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
