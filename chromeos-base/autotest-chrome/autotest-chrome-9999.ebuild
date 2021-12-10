@@ -110,7 +110,6 @@ IUSE_TESTS=(
 	+tests_platform_LogoutPerf
 	+tests_platform_LowMemoryTest
 	+tests_platform_MouseScrollTest
-	+tests_platform_PrintJob
 	+tests_platform_SessionManagerBlockDevmodeSetting
 	+tests_platform_ScrollTest
 	+tests_policy_AutotestCheck
