@@ -77,7 +77,6 @@ DEPEND="
 	virtual/coreboot-private-files
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
-	chipset_picasso? ( >=sys-boot/amd-picasso-fsp-0.0.2:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
 	chromeos-base/chromeos-config:=
 	"
@@ -89,7 +88,9 @@ DEPEND="
 # because we could have two binary packages installed having been build with
 # different versions of chromeos-config. By specifying the RDEPEND we force
 # the package manager to ensure the two versions use the same chromeos-config.
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	!sys-boot/amd-picasso-fsp
+	"
 
 set_build_env() {
 	local board="$1"
