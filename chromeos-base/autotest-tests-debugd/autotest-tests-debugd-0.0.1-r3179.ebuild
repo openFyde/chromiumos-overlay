@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="c2f2c1a66cc0dffac686bb89e2fdcf0ab5269275"
-CROS_WORKON_TREE="b4124f9d9896011ed1d11765a95d70ce88581519"
+CROS_WORKON_COMMIT="794d63c2bd61ce998cad042c93d80802bab99cd8"
+CROS_WORKON_TREE="92375724eec890149f2248ea517b8ecb0316c038"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest
 
-DESCRIPTION="Autotests involving the tpm"
+DESCRIPTION="debugd autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
@@ -17,25 +17,21 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 # Enable autotest by default.
-IUSE="+autotest tpm2"
+IUSE="+autotest"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
-	tpm2? ( chromeos-base/g2f_tools )
 "
-DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_firmware_Cr50VirtualNVRam
-	+tests_firmware_Cr50VirtualNVRamServer
-	+tests_firmware_Cr50U2fPowerwash
-	+tests_hardware_TPMCheck
-	+tests_kernel_TPMStress
-	+tests_platform_Pkcs11InitUnderErrors
-	+tests_platform_Pkcs11ChangeAuthData
-	+tests_platform_Pkcs11Events
-	+tests_platform_Pkcs11LoadPerf
-	+tests_platform_TPMEvict
+	+tests_platform_TraceClockMonotonic
+	+tests_platform_DebugDaemonGetNetworkStatus
+	+tests_platform_DebugDaemonGetPerfData
+	+tests_platform_DebugDaemonGetPerfOutputFd
+	+tests_platform_DebugDaemonGetRoutes
+	+tests_platform_DebugDaemonPerfDataInFeedbackLogs
+	+tests_platform_DebugDaemonPing
+	+tests_platform_DebugDaemonTracePath
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

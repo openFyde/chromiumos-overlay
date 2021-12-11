@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("36e918db6f3a416ef33e5ecaf9b02e04974b796b" "aee8fd156e17b87c14a15e831244ff67766ee52f" "606d6e8764c2ecc66562964690c4bd069bfca356" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
+CROS_WORKON_COMMIT=("75071cd27c920ffeb3d360da4308e59e5e863135" "aee8fd156e17b87c14a15e831244ff67766ee52f" "606d6e8764c2ecc66562964690c4bd069bfca356" "06ed9cf72897e1f8b54a8d74f4aed932a4996662" "fd36c25f2a8c6659c83f07391f95af3a171cb685")
 CROS_WORKON_TREE=("8a107d83e7e0a12f330005e0cd66720e3d854a2e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5ab9708e389181fc563f185335a4961320824892" "d30d8c6547413cf721abf995768f1811489fd59f" "7eae68a604c33288e18b948cc1cf30a87f0a74bc" "7a34b72edeab38960a8149a82cf554cd16606dba")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -216,7 +216,8 @@ platform_pkg_test() {
 	)
 
 	# Run rust tests
-	cros-rust_src_test -- --test-threads=1
+	# TODO(b/210127355) - Fix flaky tests and re-enable
+	# cros-rust_src_test
 
 	# TODO(b/190750167) - Re-enable once we're fully Bazel build
 	#local test_bin
