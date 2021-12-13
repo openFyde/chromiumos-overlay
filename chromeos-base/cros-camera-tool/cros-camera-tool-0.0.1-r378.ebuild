@@ -1,0 +1,30 @@
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="65a55890fe22fda6172f76a16264b2d44fd2e364"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5bf4212fe44c70fffafeadb59be046b309fb40f8" "4a17cb7a754b78de765e63bb30c619b74cd67d1d" "92228858cd8691a5a39f68eb3f584749541c5ee4" "bc5d73e40a959dd5e4fdb5a6431004733015ac5d")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_SUBTREE=".gn camera/build camera/tools camera/include common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera/tools/cros_camera_tool"
+
+inherit cros-camera cros-workon platform
+
+DESCRIPTION="Chrome OS camera test utility."
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+
+RDEPEND="chromeos-base/cros-camera-libs:="
+
+BDEPEND="virtual/pkgconfig"
+
+src_install() {
+	platform_src_install
+	dobin "${OUT}/cros-camera-tool"
+}
