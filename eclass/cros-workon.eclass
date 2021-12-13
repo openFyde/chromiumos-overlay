@@ -391,7 +391,7 @@ local_copy_cp() {
 	local src="${1}"
 	local dst="${2}"
 	einfo "Copying sources from ${src}"
-	local blacklist=(
+	local ignorelist=(
 		# Python compiled objects are a pain.
 		"--exclude=*.py[co]"
 		# Assume any dir named ".git" is an actual git dir.  We don't copy them
@@ -410,8 +410,8 @@ local_copy_cp() {
 						die "cd ${src}/${sl}"
 					git ls-files --others --ignored --exclude-standard --directory 2>/dev/null | \
 						sed 's:^:/:'
-				) "${blacklist[@]}" "${src}/${sl}/" "${dst}/${sl}/" || \
-				die "rsync -a --safe-links --exclude-from=<(...) ${blacklist[*]} ${src}/${sl}/ ${dst}/${sl}/"
+				) "${ignorelist[@]}" "${src}/${sl}/" "${dst}/${sl}/" || \
+				die "rsync -a --safe-links --exclude-from=<(...) ${ignorelist[*]} ${src}/${sl}/ ${dst}/${sl}/"
 		fi
 	done
 }
@@ -778,7 +778,7 @@ cros-workon_enforce_subtrees() {
 	fi
 
 	# Gather the subtrees specified by CROS_WORKON_SUBTREE. All directories
-	# and files under those subtrees are not blacklisted.
+	# and files under those subtrees are not ignorelisted.
 	local keep_dirs=()
 	for (( i = 0; i < project_count; ++i )); do
 		if [[ -z "${CROS_WORKON_SUBTREE[i]}" ]]; then
@@ -820,7 +820,7 @@ cros-workon_enforce_subtrees() {
 	done
 
 	# Gather the parent directories of subtrees to use.
-	# Those directories are exempted from blacklist because we need them to
+	# Those directories are exempted from ignorelist because we need them to
 	# reach subtrees.
 	local keep_parents=()
 	for p in "${keep_dirs[@]}"; do
@@ -837,18 +837,18 @@ cros-workon_enforce_subtrees() {
 	keep_parents=( $(IFS=$'\n'; LC_ALL=C sort -u <<<"${keep_parents[*]}") )
 
 	# Construct arguments to pass to find(1) to list directories/files to
-	# blacklist.
+	# ignorelist.
 	#
 	# The command line built here is tricky, but it does the following
 	# during traversal of the filesystem by depth-first order:
 	#
 	#   1. Do nothing about the root directory ($S). Note that we should not
-	#      reach here if there is nothing to blacklist.
+	#      reach here if there is nothing to ignorelist.
 	#   2. If the visiting file is a parent directory of a subtree (i.e. in
 	#      $keep_parents[@]), then recurse into its contents.
 	#   3. If the visiting file is the top directory of a subtree (i.e. in
 	#      $keep_dirs[@]), then do not recurse into its contents.
-	#   4. Otherwise, blacklist the visiting file, and if it is a directory,
+	#   4. Otherwise, ignorelist the visiting file, and if it is a directory,
 	#      do not recursive into its contents.
 	#
 	local find_args=( "${S}" -mindepth 1 )
@@ -861,7 +861,7 @@ cros-workon_enforce_subtrees() {
 	done
 
 	if [[ "${S}" == "${WORKDIR}"/* ]]; then
-		# $S is writable, so just remove blacklisted files.
+		# $S is writable, so just remove ignorelisted files.
 		find "${find_args[@]}" -exec rm -rf {} +
 	else
 		# $S is read-only, so use portage sandbox.
