@@ -21,5 +21,8 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/bufseekio"
+DEPEND="
+	dev-go/bufseekio
+	dev-go/crypto
+"
 RDEPEND="${DEPEND}"
