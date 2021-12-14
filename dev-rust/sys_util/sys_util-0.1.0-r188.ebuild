@@ -12,9 +12,6 @@ CROS_RUST_SUBDIR="common/sys_util"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
-# Pupr handles uprevs of crosvm.
-CROS_WORKON_MANUAL_UPREV="1"
-
 inherit cros-workon cros-rust
 
 DESCRIPTION="Small system utility modules for usage by other modules."
