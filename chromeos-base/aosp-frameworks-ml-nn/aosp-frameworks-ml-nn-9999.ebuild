@@ -46,7 +46,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer ipc-driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -226,6 +226,11 @@ src_install() {
 	if use xnnpack; then
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
+	fi
+	if use ipc-driver; then
+		einfo "Installing IPC HAL driver & worker"
+		dolib.so "${OUT}/lib/libmojo-driver.so"
+		dobin "${OUT}/nnapi_worker"
 	fi
 
 	# Install fuzz targets.
