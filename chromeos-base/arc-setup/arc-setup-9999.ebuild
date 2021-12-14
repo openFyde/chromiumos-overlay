@@ -77,6 +77,7 @@ src_install() {
 	dosbin "${OUT}"/arc-prepare-host-generated-dir
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
+	dolib.so "${OUT}"/lib/libarc_setup.so
 	insinto /etc/init
 	doins init/arc-prepare-host-generated-dir.conf
 	doins init/arc-remove-data.conf
