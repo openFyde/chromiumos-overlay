@@ -44,6 +44,7 @@ IUSE="
 	cheets_user_64
 	cheets_userdebug
 	cheets_userdebug_64
+	chrome_dcheck
 	chrome_internal
 	chrome_media
 	chromeless_tty
