@@ -1150,11 +1150,5 @@
         "rel_patch_path": "cherry/a2a58d91e82db38fbdf88cc317dcb3753d79d492.patch",
         "start_version": 442113,
         "end_version": 442617
-    },
-    {
-        "comment": "[libcxx] Crash when dereferencing nullopt for std::optional",
-        "rel_patch_path": "cherry/ada9503199dd9e5ee59ad0d82d823f65f66cb0b8.patch",
-        "start_version": 433403,
-        "end_version": 433404
     }
 ]
