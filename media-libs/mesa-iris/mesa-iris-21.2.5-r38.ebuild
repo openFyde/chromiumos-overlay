@@ -43,8 +43,6 @@ BDEPEND="
 "
 
 src_configure() {
-	eapply "${FILESDIR}"/0001-Revert-intel-dev-Add-display_ver-and-set-adl-p-to-13.patch
-	eapply "${FILESDIR}"/0002-Revert-iris-Disable-I915_FORMAT_MOD_Y_TILED_GEN12-on.patch
 	emesonargs+=(
 		-Dexecmem=false
 		-Dglvnd=$(usex libglvnd true false)
@@ -68,7 +66,7 @@ src_configure() {
 		-Dplatforms=''
 		-Dtools=$(usex tools intel '')
 		--buildtype $(usex debug debug release)
- 		-Dvulkan-drivers=$(usex vulkan intel '')
+		-Dvulkan-drivers=$(usex vulkan intel '')
 	)
 
 	meson_src_configure
