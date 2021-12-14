@@ -73,6 +73,12 @@ USE="${USE} -lacros_rootfs"
 # Disable dns-proxy.
 USE="${USE} -dns-proxy"
 
+# Disable iioservice to gather sensor information.
+USE="${USE} -iioservice"
+
+# Disable feature daemon.
+USE="${USE} -featured"
+
 # Disable Data Leak Prevention daemon (DLP).
 USE="${USE} -dlp"
 
