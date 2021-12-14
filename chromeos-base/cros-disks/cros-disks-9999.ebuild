@@ -58,6 +58,9 @@ pkg_preinst() {
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
 
+	enewuser "fuse-fusebox"
+	enewgroup "fuse-fusebox"
+
 	enewuser "fuse-rar2fs"
 	enewgroup "fuse-rar2fs"
 
