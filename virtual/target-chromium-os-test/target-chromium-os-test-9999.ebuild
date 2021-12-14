@@ -220,6 +220,8 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/toolchain-tests
 	vulkan? (
 		chromeos-base/vkbench
+		media-libs/clvk
+		media-libs/clvk-test
 	)
 	dev-embedded/dfu-programmer
 	dev-go/syzkaller
