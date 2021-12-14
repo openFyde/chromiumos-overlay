@@ -21,7 +21,9 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="fuzzer +wifi"
 
-DEPEND=""
+DEPEND="
+	dev-libs/re2:=
+"
 RDEPEND="
 	!<chromeos-base/shill-0.0.5
 "
