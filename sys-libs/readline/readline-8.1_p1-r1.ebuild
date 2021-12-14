@@ -1,12 +1,12 @@
-# Copyright 1999-2020 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-inherit flag-o-matic multilib-minimal preserve-libs toolchain-funcs usr-ldscript
+inherit flag-o-matic multilib multilib-minimal preserve-libs toolchain-funcs usr-ldscript
 
 # Official patches
-# See ftp://ftp.cwru.edu/pub/bash/readline-7.0-patches/
+# See ftp://ftp.cwru.edu/pub/bash/readline-8.1-patches/
 PLEVEL="${PV##*_p}"
 MY_PV="${PV/_p*}"
 MY_PV="${MY_PV/_/-}"
@@ -41,14 +41,13 @@ esac
 
 LICENSE="GPL-3"
 SLOT="0"  # subslot was removed to avoid breaking update_chroot.
+[[ "${PV}" == *_rc* ]] || \
 KEYWORDS="*"
 IUSE="cros_host static-libs +unicode utils"
 
-RDEPEND=">=sys-libs/ncurses-5.9-r3:0=[static-libs?,unicode?,${MULTILIB_USEDEP}]"
+RDEPEND=">=sys-libs/ncurses-5.9-r3:=[static-libs?,unicode(+)?,${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
-BDEPEND="
-	virtual/pkgconfig
-"
+BDEPEND="virtual/pkgconfig"
 
 S="${WORKDIR}/${MY_P}"
 
@@ -57,6 +56,8 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-6.2-rlfe-tgoto.patch #385091
 	"${FILESDIR}"/${PN}-7.0-headers.patch
 	"${FILESDIR}"/${PN}-8.0-headers.patch
+	"${FILESDIR}"/${PN}-8.0-darwin-shlib-versioning.patch
+	"${FILESDIR}"/${PN}-8.1-windows-signals.patch
 )
 
 # Needed because we don't want the patches being unpacked
@@ -77,9 +78,24 @@ src_prepare() {
 	[[ ${PLEVEL} -gt 0 ]] && eapply -p0 $(patches -s)
 	default
 
-	# Force ncurses linking. #71420
-	# Use pkg-config to get the right values. #457558
-	local ncurses_libs=$($(tc-getPKG_CONFIG) ncurses$(usex unicode w '') --libs)
+	if use prefix && [[ ! -x "${BROOT}"/usr/bin/pkg-config ]] ; then
+		# If we're bootstrapping, make a guess. We don't have pkg-config
+		# around yet. bug #818103.
+		# Incorrectly populating this leads to underlinked libreadline.
+		local ncurses_libs
+		local ncurses_libs_suffix=$(usex unicode w '')
+
+		ncurses_libs="-lncurses${ncurses_libs_suffix}"
+
+		if has_version "sys-libs/ncurses[tinfo(+)]" ; then
+			ncurses_libs+=" -ltinfo${ncurses_libs_suffix}"
+		fi
+	else
+		# Force ncurses linking. #71420
+		# Use pkg-config to get the right values. #457558
+		local ncurses_libs=$($(tc-getPKG_CONFIG) ncurses$(usex unicode w '') --libs)
+	fi
+
 	sed -i \
 		-e "/^SHLIB_LIBS=/s:=.*:='${ncurses_libs}':" \
 		support/shobj-conf || die
@@ -181,9 +197,17 @@ multilib_src_install_all() {
 pkg_preinst() {
 	# bug #29865
 	# Reappeared in #595324 with paludis so keeping this for now...
-	preserve_old_lib /$(get_libdir)/lib{history,readline}.so.{4,5,6,7}
+	preserve_old_lib \
+		/$(get_libdir)/lib{history,readline}$(get_libname 4) \
+		/$(get_libdir)/lib{history,readline}$(get_libname 5) \
+		/$(get_libdir)/lib{history,readline}$(get_libname 6) \
+		/$(get_libdir)/lib{history,readline}$(get_libname 7)
 }
 
 pkg_postinst() {
-	preserve_old_lib_notify /$(get_libdir)/lib{history,readline}.so.{4,5,6,7}
+	preserve_old_lib_notify \
+		/$(get_libdir)/lib{history,readline}$(get_libname 4) \
+		/$(get_libdir)/lib{history,readline}$(get_libname 5) \
+		/$(get_libdir)/lib{history,readline}$(get_libname 6) \
+		/$(get_libdir)/lib{history,readline}$(get_libname 7)
 }
