@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="65a55890fe22fda6172f76a16264b2d44fd2e364"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "f6e2254b957208f9a65c6e4ad164ec11ea263c7e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="29cfdb134de2c0a85ce6369d561a09e8f8961901"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "f6e2254b957208f9a65c6e4ad164ec11ea263c7e" "6118de6c4a69d290eb9a7d85f9931545534156ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk debugd .gn"
+CROS_WORKON_SUBTREE="common-mk debugd metrics .gn"
 
 PLATFORM_SUBDIR="debugd"
 
@@ -24,6 +24,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-login:=
 	chromeos-base/cryptohome-client:=
 	chromeos-base/minijail:=
+	chromeos-base/metrics:=
 	chromeos-base/shill-client:=
 	chromeos-base/vboot_reference:=
 	dev-libs/protobuf:=
