@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/1044813): Remove chromeos-config once its public headers are fixed.
-CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics missive .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
