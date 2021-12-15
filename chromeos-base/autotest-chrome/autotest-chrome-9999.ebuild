@@ -83,7 +83,6 @@ IUSE_TESTS=(
 	+tests_graphics_Chrome
 	+tests_graphics_Stress
 	+tests_graphics_VideoRenderingPower
-	+tests_graphics_VTSwitch
 	+tests_graphics_WebGLAquarium
 	+tests_graphics_WebGLManyPlanetsDeep
 	tests_logging_AsanCrash
