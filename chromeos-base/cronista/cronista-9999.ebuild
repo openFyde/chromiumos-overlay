@@ -20,17 +20,16 @@ RDEPEND="sys-apps/dbus"
 
 DEPEND="
 	chromeos-base/libsirenia:=
-	=dev-rust/dbus-0.9*:=
+	=dev-rust/anyhow-1*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
-	>=dev-rust/openssl-0.10.25:= <dev-rust/openssl-0.11.0
-	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
-	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2.0.0
-	>=dev-rust/serde_derive-1.0.114:= <dev-rust/serde_derive-2.0.0
+	>=dev-rust/openssl-0.10.25 <dev-rust/openssl-0.11.0_alpha:=
+	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3.0.0_alpha:=
+	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3.0.0_alpha:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha:=
+	>=dev-rust/serde_derive-1.0.114 <dev-rust/serde_derive-2.0.0_alpha:=
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
-	dev-rust/system_api:=
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0_alpha:=
 "
 
 pkg_setup() {
