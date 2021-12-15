@@ -84,8 +84,8 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	pushd "${OUT}" >/dev/null
-	dosbin cryptohomed cryptohome cryptohome-proxy cryptohome-path homedirs_initializer \
+	pushd "${OUT}" || die
+	dosbin cryptohomed cryptohome cryptohome-path homedirs_initializer \
 		lockbox-cache tpm-manager
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
@@ -98,7 +98,6 @@ src_install() {
 	popd >/dev/null
 
 	insinto /etc/dbus-1/system.d
-	doins etc/Cryptohome.conf
 	doins etc/org.chromium.UserDataAuth.conf
 	doins etc/BootLockbox.conf
 
@@ -175,9 +174,8 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-	# Install seccomp policy for cryptohome-proxy & bootlockboxd
+	# Install seccomp policy for bootlockboxd
 	insinto /usr/share/policy
-	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
 	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
 		bootlockboxd-seccomp.policy
 

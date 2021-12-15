@@ -34,6 +34,5 @@ RDEPEND="
 
 src_install() {
 	# Install D-Bus client library.
-	platform_install_dbus_client_lib "cryptohome"
 	platform_install_dbus_client_lib "user_data_auth"
 }
