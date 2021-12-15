@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="99829b3e17e21a8fa8ba5c6c5889d950c3e191f2"
-CROS_WORKON_TREE="138f8313db28fb7b6199a2b543dc2b210bb26646"
+CROS_WORKON_COMMIT="de2cc1b52fd7fc423b7e3a4eb6a2c3edd2339850"
+CROS_WORKON_TREE="cfefbef6669cb72a14ce3522f88217813b805b3a"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -31,7 +31,7 @@ SRC_URI="
 # 'Apache-2.0' and 'BSD-vmm_vhost' are for third_party/vmm_vhost.
 LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master arcvm_gce_l1"
 
 COMMON_DEPEND="
 	sys-apps/dtc:=
@@ -60,7 +60,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-task-4*:=
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/bitflags-1*:=
-	~dev-rust/cc-1.0.25:=
+	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	=dev-rust/dbus-0.8*:=
@@ -73,6 +73,7 @@ DEPEND="${COMMON_DEPEND}
 	~dev-rust/getopts-0.2.18:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	dev-rust/minijail:=
+	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha:=
 	~dev-rust/num_cpus-1.9.0:=
 	>=dev-rust/once_cell-1.7.2:= <dev-rust/once_cell-2
 	dev-rust/p9:=
@@ -86,6 +87,7 @@ DEPEND="${COMMON_DEPEND}
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
 	=dev-rust/rand-0.6*:=
+	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
@@ -165,6 +167,7 @@ src_compile() {
 		$(usex crosvm-power-monitor-powerd power-monitor-powerd "")
 		$(usex crosvm-video-decoder video-decoder "")
 		$(usex crosvm-video-encoder video-encoder "")
+		$(usex crosvm-video-libvda libvda "")
 		$(usex crosvm-wl-dmabuf wl-dmabuf "")
 		$(usex tpm2 tpm "")
 		$(usex cros-debug gdb "")
