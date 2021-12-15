@@ -1,7 +1,7 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-USE="-alsa -bluetooth -cellular chromeless_tty cros_embedded -encrypted_stateful"
+USE="-alsa -cellular chromeless_tty cros_embedded -encrypted_stateful"
 USE="${USE} -fonts -mist mtd -pam -profile -readahead -scanner -vaapi -vpn -X"
 USE="${USE} -compupdates"
 USE="${USE} -ime"
@@ -78,6 +78,9 @@ USE="${USE} -dlp"
 
 # Disable Runtime AVL Compliance Check (RACC) packages
 USE="${USE} -racc"
+
+# Disable Bluetooth (both Bluez and Floss).
+USE="${USE} -bluetooth -floss"
 
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
