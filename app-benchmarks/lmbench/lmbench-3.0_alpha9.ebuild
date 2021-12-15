@@ -33,19 +33,23 @@ src_prepare() {
 	epatch "${FILESDIR}/lmbench-cflags.patch"
 }
 
-src_compile() {
+_emake() {
 	emake \
 		AR="$(tc-getAR)" \
 		RANLIB="$(tc-getRANLIB)" \
 		CC="$(tc-getCC)" \
 		EXTRA_CFLAGS="$($(tc-getPKG_CONFIG) libtirpc --cflags)" \
 		LDLIBS="$($(tc-getPKG_CONFIG) libtirpc --libs)" \
-		build
+		"$@"
+}
+
+src_compile() {
+	_emake build
 }
 
 src_install() {
 	cd src
-	emake BASE="${ED}"/usr install
+	_emake BASE="${ED}"/usr install
 
 	dodir /usr/share
 	mv "${ED}"/usr/man "${ED}"/usr/share || die
