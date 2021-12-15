@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6c27146b5eded912c14dca5aaeebe0a4d63a283e"
+CROS_WORKON_COMMIT="c10cbab71f2390de769db79c9c39c65a1ac0d55e"
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "6118de6c4a69d290eb9a7d85f9931545534156ec" "d6e7e374c60befa63f5babc864b4a794198c233a" "ca2caf50cfde2702484cd6021189ea9d3da6a742" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,8 @@ src_install() {
 	# Install header files.
 	local header_dirs=(
 		.
+		status
+		status/impl
 		syscaller
 		tpm_error
 		utility
