@@ -21,6 +21,9 @@ KEYWORDS="~*"
 # 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
 IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
 
+# Auto face framing depends on the face detection feature.
+REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
+
 BDEPEND="virtual/pkgconfig"
 
 # TODO: Remove the conflicting packages
@@ -41,6 +44,7 @@ RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
+	camera_feature_auto_framing? ( media-libs/cros-camera-libautoframing:= )
 	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
 	media-libs/libexif:=

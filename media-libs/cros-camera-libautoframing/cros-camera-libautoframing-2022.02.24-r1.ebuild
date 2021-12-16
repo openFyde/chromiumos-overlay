@@ -1,0 +1,1 @@
+cros-camera-libautoframing-2022.02.24.ebuild
