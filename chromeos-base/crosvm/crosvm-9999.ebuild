@@ -6,10 +6,6 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 
-# TODO(b/210999281): unit tests are running with mismatched BOARD vs. host
-# libs, which can cause outages.
-RESTRICT="test"
-
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
 
@@ -111,12 +107,6 @@ DEPEND="${COMMON_DEPEND}
 	)
 "
 
-# Rust tests are currently run on the host, not inside the target sysroot.
-# Hence we need to provide required runtime dependencies for tests at
-# build-time.
-# TODO(crbug.com/1154084): Remove when tests can run in sysroot.
-BDEPEND="test? ( chromeos-base/libvda:= )"
-
 get_seccomp_path() {
 	local seccomp_arch="unknown"
 	case ${ARCH} in
@@ -209,7 +199,10 @@ src_compile() {
 src_test() {
 	# Some of the tests will use /dev/kvm.
 	addwrite /dev/kvm
-	local test_opts=()
+	local test_opts=(
+		# TODO(b/211023371): Re-enable libvda tests.
+		--exclude libvda
+	)
 	use tpm2 || test_opts+=( --exclude tpm2 --exclude tpm2-sys )
 
 	# io_jail tests fork the process, which cause memory leak errors when
