@@ -114,6 +114,7 @@ RDEPEND+=" sys-libs/gcc-libs"
 
 # Provides libc++ libs.
 RDEPEND+="
+	sys-libs/llvm-libunwind
 	sys-libs/libcxxabi
 	sys-libs/libcxx
 "
