@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="dd1e7af54847d19d8b3b965b1174a33ad0815fad"
+CROS_WORKON_COMMIT="2d5db22fe16eebaa6dac9263e18595779e829211"
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "22ce88ed7125ec48b3f38e25e247afcae06323e3" "6118de6c4a69d290eb9a7d85f9931545534156ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -59,6 +59,9 @@ pkg_preinst() {
 
 	enewuser "fuse-exfat"
 	enewgroup "fuse-exfat"
+
+	enewuser "fuse-fusebox"
+	enewgroup "fuse-fusebox"
 
 	enewuser "fuse-rar2fs"
 	enewgroup "fuse-rar2fs"
