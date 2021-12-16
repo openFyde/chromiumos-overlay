@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk attestation .gn"
+CROS_WORKON_SUBTREE="common-mk attestation libhwsec-foundation .gn"
 
 PLATFORM_SUBDIR="attestation/client"
 
@@ -30,6 +30,7 @@ IUSE="cros_host"
 DEPEND="
 	cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 )
 	chromeos-base/libbrillo:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 # Note that for RDEPEND, we conflict with attestation package older than

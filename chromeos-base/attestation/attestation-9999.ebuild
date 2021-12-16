@@ -84,9 +84,9 @@ src_install() {
 
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h
-	doins common/print_attestation_ca_proto.h
-	doins common/print_interface_proto.h
-	doins common/print_keystore_proto.h
+	doins "${OUT}"/gen/attestation/common/print_attestation_ca_proto.h
+	doins "${OUT}"/gen/attestation/common/print_interface_proto.h
+	doins "${OUT}"/gen/attestation/common/print_keystore_proto.h
 
 	# Install the generated dbus-binding for fake pca agent.
 	# It does no harm to install the header even for non-test image build.
