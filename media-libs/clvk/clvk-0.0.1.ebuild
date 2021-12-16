@@ -87,6 +87,35 @@ src_prepare() {
 	eapply_user
 }
 
+build_host_tools() {
+	[[ "$#" -eq 2 ]] \
+		|| die "build_host_tools called with the wrong number of arguments"
+	local HOST_DIR="$1"
+	local LLVM_DIR="$2"
+
+	# Use host toolchain when building for the host.
+	local CC=${CBUILD}-clang
+	local CXX=${CBUILD}-clang++
+	local CFLAGS=''
+	local CXXFLAGS=''
+	local LDFLAGS=''
+
+	mkdir -p "${HOST_DIR}" || die
+
+	cd "${HOST_DIR}" || die
+	cmake -DLLVM_ENABLE_PROJECTS="clang" -G "Unix Makefiles" "${LLVM_DIR}" || die
+
+	cd "${HOST_DIR}/utils/TableGen" || die
+	emake
+	[[ -x "${HOST_DIR}/bin/llvm-tblgen" ]] \
+		|| die "${HOST_DIR}/bin/llvm-tblgen not found or usable"
+
+	cd "${HOST_DIR}/tools/clang/utils/TableGen" || die
+	emake
+	[[ -x "${HOST_DIR}/bin/clang-tblgen" ]] \
+		|| die "${HOST_DIR}/bin/clang-tblgen not found or usable"
+}
+
 src_configure() {
 	CMAKE_BUILD_TYPE=$(usex debug Debug RelWithDebInfo)
 
@@ -111,6 +140,17 @@ src_configure() {
 
 		-DBUILD_SHARED_LIBS=OFF
 	)
+
+	if tc-is-cross-compiler; then
+		local HOST_DIR="${WORKDIR}/host_tools"
+		build_host_tools "${HOST_DIR}" "${CLVK_LLVM_PROJECT_DIR}/llvm"
+		mycmakeargs+=(
+			-DCMAKE_CROSSCOMPILING=ON
+			-DLLVM_TABLEGEN="${HOST_DIR}/bin/llvm-tblgen"
+			-DCLANG_TABLEGEN="${HOST_DIR}/bin/clang-tblgen"
+		)
+	fi
+
 	cmake-utils_src_configure
 }
 
