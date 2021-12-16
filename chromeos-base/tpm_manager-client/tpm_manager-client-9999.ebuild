@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec-foundation tpm_manager .gn"
 
 PLATFORM_SUBDIR="tpm_manager/client"
 
@@ -40,6 +40,7 @@ DEPEND="
 RDEPEND="
 	!<chromeos-base/tpm_manager-0.0.1-r2238
 	chromeos-base/libbrillo:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 src_install() {
@@ -55,6 +56,7 @@ src_install() {
 	doins ./*.h
 	insinto /usr/include/tpm_manager/common
 	doins ../common/*.h
+	doins "${OUT}"/gen/tpm_manager/common/*.h
 }
 
 platform_pkg_test() {
