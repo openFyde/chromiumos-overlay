@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice libec metrics power_manager shill/dbus/client .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice libec metrics power_manager shill/dbus/client .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
@@ -19,7 +19,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-als buffet cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
+IUSE="-als cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -162,12 +162,6 @@ src_install() {
 	doexe init/shared/powerd-pre-start.sh
 
 	dotmpfiles tmpfiles.d/*.conf
-
-	if use buffet; then
-		# Buffet command handler definition
-		insinto /etc/buffet/commands
-		doins powerd/buffet/*.json
-	fi
 
 	# Install fuzz targets.
 	local fuzzer

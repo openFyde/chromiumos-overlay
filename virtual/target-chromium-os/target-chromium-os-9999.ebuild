@@ -26,7 +26,6 @@ IUSE="
 	biod
 	bluetooth
 	bootchart
-	buffet
 	cellular
 	compupdates
 	containers
@@ -222,7 +221,6 @@ RDEPEND="
 	missive? ( chromeos-base/missive )
 	mist? ( chromeos-base/mist )
 	modemfwd? ( chromeos-base/modemfwd )
-	buffet? ( chromeos-base/buffet )
 	containers? ( chromeos-base/run_oci )
 	cros_disks? ( chromeos-base/cros-disks )
 	debugd? ( chromeos-base/debugd )
