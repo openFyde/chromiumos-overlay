@@ -42,6 +42,9 @@ PATCHES=(
 	"${FILESDIR}/15_SdMMcPciHcDxe_Bayhub.patch"
 	"${FILESDIR}/16_SATA_channelcount.patch"
 	"${FILESDIR}/17_CorebootModulePkg_noscien.patch"
+	"${FILESDIR}/18_BaseTools-LzmaCompress-Fix-possible-uninitialized-va.patch"
+	"${FILESDIR}/19_BaseTools-Lzma-Update-LZMA-SDK-version-to-18.05.patch"
+	"${FILESDIR}/20_BaseTools-LzmaCompress-Fix-GCC-warning-misleading-in.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
