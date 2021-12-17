@@ -38,6 +38,40 @@ pkg_preinst() {
 }
 
 src_install() {
+	# Installs the client libraries
+	dolib.a "${OUT}/libmissiveclientlib.a"
+	dolib.a "${OUT}/libmissiveprotostatus.a"
+	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
+	dolib.a "${OUT}/libmissiveprotorecord.a"
+	dolib.a "${OUT}/libmissiveprotointerface.a"
+
+	# Installs the header files to /usr/include/missive/.
+	local header_files=(
+		"client/missive_client.h"
+		"client/report_queue_configuration.h"
+		"client/report_queue_factory.h"
+		"client/report_queue.h"
+		"util/status.h"
+		"util/status_macros.h"
+		"util/statusor.h"
+	)
+	local pd_header_files=(
+		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
+		"${OUT}/gen/include/missive/proto/record.pb.h"
+		"${OUT}/gen/include/missive/proto/status.pb.h"
+	)
+	local f
+	for f in "${header_files[@]}"; do
+		insinto "/usr/include/missive/${f%/*}"
+		doins "${f}"
+	done
+	for f in "${pd_header_files[@]}"; do
+		insinto "/usr/include/missive/proto"
+		doins "${f}"
+	done
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}/obj/missive/libmissiveclient.pc"
+
 	# Install binary
 	dobin "${OUT}"/missived
 
