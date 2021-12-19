@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e25f7b7ef3146895c2438524a089cb7cb88d6e55"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "a58f6ac2f8ad93874bc20dc3d721b6df40aff027" "5f7d603abf935d71c4176e38908831a1ec2c71db" "bdcc5dafcae097d11dcce22f4db58f5f52bdc6f5" "24f974ecfdcda04a1f60a99570eb164001d04205" "6118de6c4a69d290eb9a7d85f9931545534156ec" "5566dc48984f42177e18850b5cdb94e37c38a9a6" "0365e6af32602dbfdf194d7736ef19ea9a7a3a7f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5c5d1c13e4ebc8cbb1a400438fd55a66162d2d30"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "5f7d603abf935d71c4176e38908831a1ec2c71db" "bdcc5dafcae097d11dcce22f4db58f5f52bdc6f5" "24f974ecfdcda04a1f60a99570eb164001d04205" "6118de6c4a69d290eb9a7d85f9931545534156ec" "5566dc48984f42177e18850b5cdb94e37c38a9a6" "0365e6af32602dbfdf194d7736ef19ea9a7a3a7f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk buffet chromeos-config iioservice libec metrics power_manager shill/dbus/client .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice libec metrics power_manager shill/dbus/client .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
@@ -21,7 +21,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="-als buffet cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
+IUSE="-als cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -164,12 +164,6 @@ src_install() {
 	doexe init/shared/powerd-pre-start.sh
 
 	dotmpfiles tmpfiles.d/*.conf
-
-	if use buffet; then
-		# Buffet command handler definition
-		insinto /etc/buffet/commands
-		doins powerd/buffet/*.json
-	fi
 
 	# Install fuzz targets.
 	local fuzzer
