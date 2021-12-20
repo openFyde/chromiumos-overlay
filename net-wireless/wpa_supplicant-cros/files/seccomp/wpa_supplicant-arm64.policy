@@ -82,3 +82,6 @@ fstatfs: 1
 # mentioned in the bug has been retired.
 execve: 1
 mremap: 1
+# Necessary for openssl to exec metrics_client, which it does when
+# OPENSSL_CHROMIUM_SKIP_TRUSTED_PURPOSE_CHECK is set.
+pread64: 1
