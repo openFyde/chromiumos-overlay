@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cded787843e9fd7cffc64047c37f0507de235604"
+CROS_WORKON_COMMIT="27e3230566bf5d7f2a0008729584445657409979"
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "d7f3d1eeb18f6635bf62d6603702516d33d8c93c" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "6118de6c4a69d290eb9a7d85f9931545534156ec" "af4ca2788d5216e4bcc84d1d346338e6f900171a" "5277c98d28375e59faa9d2834904f94563715ce0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e supplicant-next systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -61,12 +61,8 @@ DEPEND="${COMMON_DEPEND}
 "
 PDEPEND="chromeos-base/patchpanel"
 
-# TODO(b/193926134): remove the dependency on supplicant-next once all boards
-# have been upgraded to use a recent wpa_supplicant (newer than July 2021) that
-# supports H2E.
 REQUIRED_USE="
 	fuzzer? ( wifi )
-	sae_h2e? ( supplicant-next )
 "
 
 pkg_setup() {
