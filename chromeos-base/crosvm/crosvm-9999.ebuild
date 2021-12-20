@@ -261,15 +261,6 @@ src_test() {
 		"${test_opts[@]}"
 	)
 
-	# Non-x86 platforms set --no-run to disable executing the tests.
-	if ! has "--no-run" "${args[@]}"; then
-		# Run the "boot" test on the host until the syslog is properly passed
-		# into the sandbox.
-		# TODO(crbug.com/1154084) Run these on the host until libtest and libstd
-		# are available on the target.
-		cros-rust_get_host_test_executables "${args[@]}" --lib --tests
-	fi
-
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
 		|| die "cargo test failed"
