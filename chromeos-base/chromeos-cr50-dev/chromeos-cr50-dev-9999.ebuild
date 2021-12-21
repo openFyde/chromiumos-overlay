@@ -131,6 +131,8 @@ src_compile() {
 	emake clean
 	emake "${EC_OPTS[@]}"
 	emake "out=build/cr50_ct" "CRYPTO_TEST=1" "${EC_OPTS[@]}"
+	emake "out=build/cr50_ct_rb" "CRYPTO_TEST=1" "H1_RED_BOARD=1" \
+			"${EC_OPTS[@]}"
 	prepare_cr50_signer_aid
 }
 
@@ -234,4 +236,6 @@ src_install() {
 	# too just to be safe.
 	install_cr50_build_artifacts "build/cr50_ct" "/firmware/crypto_test" \
 			".test"
+	install_cr50_build_artifacts "build/cr50_ct_rb" \
+			"/firmware/crypto_test_rb" ".test"
 }
