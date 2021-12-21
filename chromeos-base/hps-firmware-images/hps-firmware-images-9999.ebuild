@@ -28,5 +28,9 @@ src_install() {
 	insinto "/usr/lib/firmware/hps"
 	doins "${S}"/firmware-bin/*
 
+	# fpga_bitstream.bin is now owned by the hps-firmware package instead
+	# TODO(b/201365621): remove this when everything is landed
+	rm "${D}"/usr/lib/firmware/hps/fpga_bitstream.bin
+
 	dobin "${S}"/bin/*
 }

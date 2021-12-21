@@ -15,6 +15,17 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
+BDEPEND="
+	dev-rust/svd2rust
+	sci-electronics/litespi
+	sci-electronics/litex
+	sci-electronics/nextpnr
+	sci-electronics/nmigen
+	sci-electronics/prjoxide
+	sci-electronics/pythondata-cpu-vexriscv
+	sci-electronics/yosys
+"
+
 # Add these for hps-mon / hps-util:
 	#>=dev-rust/argh-0.1.4:= <dev-rust/argh-0.2.0
 	#=dev-rust/ftd2xx-embedded-hal-0.7*:=
@@ -45,6 +56,11 @@ DEPEND="
 	>=dev-rust/panic-rtt-target-0.1.2:= <dev-rust/panic-rtt-target-0.2.0
 	>=dev-rust/rtt-target-0.3.1:= <dev-rust/rtt-target-0.4.0
 	chromeos-base/hps-firmware-images:=
+"
+
+# /usr/lib/firmware/hps/fpga_bitstream.bin moved from hps-firmware-images to here
+RDEPEND="
+	!<chromeos-base/hps-firmware-images-0.0.1-r7
 "
 
 # Integer overflow checks introduce panicking paths into the firmware,
@@ -87,6 +103,10 @@ src_configure() {
 }
 
 src_compile() {
+	# Build FPGA bitstream
+	einfo "Building FPGA bitstream"
+	python -m soc.hps_soc --build --no-compile-software || die
+
 	# Build userspace tools
 	for tool in sign-rom ; do (
 		cd rust/${tool} || die
@@ -107,7 +127,7 @@ src_compile() {
 	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
 		cd rust/mcu/${crate} || die
-		HPS_SPI_BIT="${SYSROOT}/usr/lib/firmware/hps/fpga_bitstream.bin" \
+		HPS_SPI_BIT="${S}/build/hps_platform/gateware/hps_platform.bit" \
 			HPS_SPI_BIN="${SYSROOT}/usr/lib/firmware/hps/fpga_application.bin" \
 			ecargo build \
 			--target="thumbv6m-none-eabi" \
@@ -136,4 +156,6 @@ src_install() {
 	insinto "/usr/lib/firmware/hps"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
+	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
+	doins build/hps_platform/gateware/hps_platform_build.metadata
 }
