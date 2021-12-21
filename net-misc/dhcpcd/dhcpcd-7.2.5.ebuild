@@ -49,6 +49,7 @@ src_prepare()
 	epatch "${FILESDIR}"/patches/${P}-Include-frame-header-in-buffer-length.patch
 	epatch "${FILESDIR}"/patches/${P}-Correct-length-check-in-BPF-ARP-filter.patch
 	epatch "${FILESDIR}"/patches/${P}-More-robust-checks-for-packet-reception.patch
+	epatch "${FILESDIR}"/patches/${P}-Additional-ARP-packet-checks.patch
 }
 
 src_configure()
