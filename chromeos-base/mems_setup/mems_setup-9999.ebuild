@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_s
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="iioservice"
+IUSE="fuzzer iioservice"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
@@ -38,6 +38,14 @@ src_install() {
 	if use iioservice; then
 		dosbin "${OUT}"/mems_remove
 	fi
+
+	# Install fuzzers
+	local fuzzer_component_id="811602"
+	insinto /usr/libexec/fuzzers
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+				--comp "${fuzzer_component_id}"
+	done
 }
 
 platform_pkg_test() {
