@@ -179,6 +179,7 @@ RDEPEND="${RDEPEND}
 	dev-python/dbus-python
 	dev-python/dpkt
 	dev-python/ecdsa
+	dev-python/flatbuffers
 	dev-python/future
 	dev-python/intelhex
 	dev-python/kconfiglib
