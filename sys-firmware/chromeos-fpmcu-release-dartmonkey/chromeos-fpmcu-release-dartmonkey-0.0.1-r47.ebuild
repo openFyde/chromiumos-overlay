@@ -8,9 +8,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("eecc138183ae7ef8545e9871ff5e6c5c41862dcc" "bc3bb265b7315a187ea5e5067f7e50c4469416c7" "92221d4688ed01cc361f01d650b82bf7e28078b2")
-CROS_WORKON_TREE=("cc86e13c5ceccafd485c6aaba4ede227c01b0f16" "fc36a7c3401a221077a2265564ec4e7c95766665" "2aeca3cffd0e69db866b5623819ecd5bf8db1232")
-FIRMWARE_EC_BOARD="nami_fp"
+CROS_WORKON_COMMIT=("eecc138183ae7ef8545e9871ff5e6c5c41862dcc" "0ffbd235fea6c7224798f00811246f9efc21afc8" "92221d4688ed01cc361f01d650b82bf7e28078b2")
+CROS_WORKON_TREE=("cc86e13c5ceccafd485c6aaba4ede227c01b0f16" "980c6a1e9ba15f7721481dd8df2390549bbff6cf" "2aeca3cffd0e69db866b5623819ecd5bf8db1232")
+FIRMWARE_EC_BOARD="dartmonkey"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-nami"
+	"../platform/release-firmware/fpmcu-dartmonkey"
 	"tpm2"
 	"cryptoc"
 )
