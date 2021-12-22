@@ -3,7 +3,7 @@
 
 EAPI=6
 
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python{3_6,3_7} )
 
 CROS_WORKON_PROJECT=(
 	"chromium/src/third_party/tlslite"
