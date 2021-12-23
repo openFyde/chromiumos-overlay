@@ -50,7 +50,7 @@ src_configure() {
 		-Dglvnd=$(usex libglvnd true false)
 		-Dllvm=disabled
 		-Ddri3=disabled
-		-Dshader-cache=disabled
+		-Dshader-cache-default=false
 		-Dglx=disabled
 		-Degl=enabled
 		-Dgbm=disabled
