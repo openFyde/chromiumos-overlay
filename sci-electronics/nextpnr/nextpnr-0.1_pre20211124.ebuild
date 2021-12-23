@@ -13,9 +13,6 @@ GIT_REV="fd2d4a8f999947ece42f791e19ddc4c2d8b823f2"
 # 'tests' submodule.
 TESTS_GIT_REV="ccc61e5ec7cc04410462ec3196ad467354787afb"
 
-# '3rdparty/fpga-interchange-schema' submodule.
-SCHEMA_GIT_REV="6b2973788692be86c4a8b2cff1353e603e5857a3"
-
 SRC_URI="
 	https://github.com/YosysHQ/nextpnr/archive/${GIT_REV}.tar.gz -> nextpnr-${GIT_REV}.tar.gz
 	https://github.com/YosysHQ/nextpnr-tests/archive/${TESTS_GIT_REV}.tar.gz -> nextpnr-tests-${TESTS_GIT_REV}.tar.gz
@@ -73,17 +70,17 @@ src_test() {
 
 	if use nexus; then
 		ebegin "Test creating prjoxide example bitstreams"
-		if ! "$BUILD_DIR/nextpnr-nexus" --version; then
-			die '`nextpnr-nexus` executable not found in `$BUILD_DIR`!'
+		if ! "${BUILD_DIR}/nextpnr-nexus" --version; then
+			die "nextpnr-nexus executable not found in ${BUILD_DIR}"
 		fi
-		export PATH="$BUILD_DIR:$PATH"
+		export PATH="${BUILD_DIR}:${PATH}"
 
-		cd "$T" || die
+		cd "${T}" || die
 		cp -r /usr/share/prjoxide/examples prjoxide-examples || die
 		for example in blinky_evn blinky_vip; do
-			pushd prjoxide-examples/$example
+			pushd prjoxide-examples/${example} || die
 			emake blinky.bit
-			popd
+			popd || die
 		done
 		eend
 	fi
