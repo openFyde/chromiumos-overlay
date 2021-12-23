@@ -30,7 +30,6 @@ IUSE="
 	arc-camera1
 	arc-camera3
 	arc-launched-32bit-abi
-	arc_uses_cros_video_decoder
 	arcpp
 	arcvm
 	arm

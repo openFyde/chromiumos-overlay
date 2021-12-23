@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f80c3370c923dc2921718c28b5c298cb0c1e5b63"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "d4f8497dbcb7e8f4319c66424bcb882c91a72c0d" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "c6b3b13a23480ba4d87e64629989d3c3fd7f953d" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="975a09f9a9f7af2891437d795af3c1cf3224438a"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "827c483987948807e03d28b67b50f9c59f2fe646" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "c6b3b13a23480ba4d87e64629989d3c3fd7f953d" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -86,8 +86,8 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	pushd "${OUT}" >/dev/null
-	dosbin cryptohomed cryptohome cryptohome-proxy cryptohome-path homedirs_initializer \
+	pushd "${OUT}" || die
+	dosbin cryptohomed cryptohome cryptohome-path homedirs_initializer \
 		lockbox-cache tpm-manager
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
@@ -100,7 +100,6 @@ src_install() {
 	popd >/dev/null
 
 	insinto /etc/dbus-1/system.d
-	doins etc/Cryptohome.conf
 	doins etc/org.chromium.UserDataAuth.conf
 	doins etc/BootLockbox.conf
 
@@ -177,9 +176,8 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-	# Install seccomp policy for cryptohome-proxy & bootlockboxd
+	# Install seccomp policy for bootlockboxd
 	insinto /usr/share/policy
-	newins "seccomp/cryptohome-proxy-${ARCH}.policy" cryptohome-proxy.policy
 	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
 		bootlockboxd-seccomp.policy
 
