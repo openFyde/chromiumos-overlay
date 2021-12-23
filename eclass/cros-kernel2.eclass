@@ -27,6 +27,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_mali_g57? ( virtual/opengles )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
+	builtin_fw_x86_adl_ucode? ( virtual/coreboot-private-files )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_bdw_ucode? ( chromeos-base/bdw-ucode-firmware-private )
@@ -1193,6 +1194,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_t210_nouveau
 	builtin_fw_t210_xusb
 	builtin_fw_vega12
+	builtin_fw_x86_adl_ucode
 	builtin_fw_x86_aml_ucode
 	builtin_fw_x86_apl_ucode
 	builtin_fw_x86_bdw_ucode
@@ -1399,6 +1401,16 @@ builtin_fw_vega12_files=(
 	amdgpu/vega12_sos.bin
 	amdgpu/vega12_uvd.bin
 	amdgpu/vega12_vce.bin
+)
+
+builtin_fw_x86_adl_ucode_desc="Intel ucode for ADL"
+builtin_fw_x86_adl_ucode_files=(
+	intel-ucode/06-97-01
+	intel-ucode/06-9a-00
+	intel-ucode/06-9a-01
+	intel-ucode/06-9a-02
+	intel-ucode/06-9a-03
+	intel-ucode/06-9a-04
 )
 
 builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
