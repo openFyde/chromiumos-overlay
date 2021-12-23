@@ -5,7 +5,9 @@ EAPI=5
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+PYTHON_COMPAT=( python3_{6..9} )
+
+inherit cros-workon autotest python-any-r1
 
 DESCRIPTION="Compilation and runtime tests for toolchain"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
