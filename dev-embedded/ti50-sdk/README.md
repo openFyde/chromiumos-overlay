@@ -95,22 +95,25 @@ things that add complexity here:
 - Submodules
 - Vendored dependencies
 
-A convenient shorthand to ensure all submodules are at the correct revision is
-`git checkout ${git-commit-hash}; ${dir}/x.py help`. You have to manually
-ensure all submodules are up-to-date before trying to pack rust's sources.
-Without this, things may be at inconsistent versions, which can lead to build
-errors.
+To get all the submodules and vendored deps, do the following:
+
+git checkout ${git-commit-hash}
+mkdir vendor
+./x.py help # Download stage0/bin/cargo
+build/x86_64-unknown-linux-gnu/stage0/bin/cargo vendor # Vendor deps to make build work
+./x.py build # This downloads the llvm-project submodule and also verifies a successful build
 
 Dependency vendoring is handled by passing an extra flag to
 `files/pack_git_tarball.py`. Your invocation should look something like:
 
 ```
-files/pack_git_tarball.py --git-dir "${dir}" --output-prefix /tmp/rustc \
-    --post-copy-command 'cargo vendor'
+files/pack_git_tarball.py --git-dir work/rust/ --output-prefix /tmp/rustc \
+    --post-copy-command '<abs/path/to/stage0/bin/cargo> vendor'
 ```
 
 (Emphasis on "please ensure `--post-copy-command 'cargo vendor'` is specified."
-Your build will break otherwise. :) )
+Your build will break otherwise. :).  This is because even though vendor was
+already performed, the pack script only copies files known to git.)
 
 This should give you a path that looks like `/tmp/rustc-${sha}-src.tar.xz`. You
 can now upload that to gs:
@@ -147,6 +150,24 @@ Test out the emerge again by first clearing the cache:
 rm -f /var/cache/chromeos-cache/distfiles/rust-${sha}-*
 sudo emerge dev-embedded/ti50-sdk
 ```
+
+Once this is complete, you can submit a CL with these changes to update
+the CQ builder. Unfortunately, this update is not atomic: once your CL
+lands, a builder must pick up the change, which then causes the CQ builder's
+chroots to be updated. This means that in order to update the rust toolchain,
+you must first get the ti50 build into a state where builds pass for both the
+old and new compiler version. Then, once the new compiler version has been
+made available to the CQ builders, you can submit followup changes that require
+the new compiler. Getting the ti50 code into a state where builds pass with
+multiple compiler versions can be challenging. One option for achieveing this
+is to use https://github.com/dtolnay/rustversion, which allows conditional compilation
+based on the specific compiler version in use. Another option is temporarily allowing
+warnings during the transition period, though this risks other breakages during the
+transition due to code producing warnings being allowed into main.
+The final option is to merge the original CL, thereby breaking the CQ
+for all other outstanding ti50 CLs, and then quickly attempting to merge
+the actual updates to use the new toolchain, thereby fixing the build
+for other outstanding CLs.
 
 ## Iterative development
 

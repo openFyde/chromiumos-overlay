@@ -64,13 +64,13 @@ COMPONENTS_TO_SHIP = (
     ),
     # src, which is required when cross-compiling in some contexts.
     RustComponent(
-        dist_build_name='src',
+        dist_build_name='rust-src',
         dist_tarball_pattern=r'^rust-src-',
         dist_tarballs_are_per_triple=False,
     ),
     # src/librustc, which is the actual |rustc| compiler.
     RustComponent(
-        dist_build_name='src/librustc',
+        dist_build_name='rustc',
         dist_tarball_pattern=r'^rustc-[^-]+-dev-(?!src)',
         dist_tarballs_are_per_triple=False,
     ),
@@ -82,7 +82,7 @@ COMPONENTS_TO_SHIP = (
     ),
     # library/std, which consists of stdlib |rlib|s.
     RustComponent(
-        dist_build_name='library/std',
+        dist_build_name='rust-std',
         dist_tarball_pattern=r'^rust-std-',
         dist_tarballs_are_per_triple=True,
     ),

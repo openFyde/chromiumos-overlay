@@ -25,9 +25,9 @@ SRC_URI="https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles
 # https://github.com/rust-lang/rust at ${RUST_SHA}, using
 # ${FILESDIR}/pack_git_tarball.py with |--post-copy-command 'cargo vendor'|.
 BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
-RUST_SHA="9111b8ae9793"
-# See https://github.com/rust-lang/rust/tree/${RUST_SHA}/src/stage0.txt
-RUST_STAGE0_DATE="2021-05-23"
+RUST_SHA="acbe4443cc4c"
+# See https://github.com/rust-lang/rust/tree/${RUST_SHA}/src/stage0.json
+RUST_STAGE0_DATE="2021-11-30"
 
 RUST_PREFIX="rust-${RUST_SHA}"
 RUST_SRC_TARBALL_NAME="rustc-${RUST_SHA}-src"
@@ -99,9 +99,6 @@ src_prepare() {
 
 	eapply "${FILESDIR}/rust-add-cros-targets.patch"
 	sed -i 's|"stdc++"|"c++"|g' "compiler/rustc_llvm/build.rs" || die
-
-	cd "${SRC_ROOT}/rustc/src/llvm-project/" || die
-	eapply "${FILESDIR}/rust-llvm-prf.patch"
 
 	cd "${SRC_ROOT}" || die
 	eapply_user
