@@ -50,6 +50,7 @@ IUSE="
 	containers
 	coresched
 	cr50_onboard
+	+cras
 	crosvm-gpu
 	cups
 	diagnostics
