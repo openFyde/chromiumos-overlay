@@ -198,6 +198,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	cras? (
 		chromeos-base/audiotest
 		media-sound/cras_bench
+		dev-util/rt-tests
 	)
 	chromeos-base/avtest_label_detect
 	chromeos-base/chrome-binary-tests
