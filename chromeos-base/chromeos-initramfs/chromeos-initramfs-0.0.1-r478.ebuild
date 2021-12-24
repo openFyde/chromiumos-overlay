@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="eb57082e7e596f2ec60d0543daa1212f2ceb90f5"
-CROS_WORKON_TREE="7cf93f8ec73124c957f5786c60dd40634fa54d68"
+CROS_WORKON_COMMIT="d2cbbb7de55c9484330e00424b4502096b54c50c"
+CROS_WORKON_TREE="b43cb980468994d0eb6658b7b7de62fea3a773dc"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -28,6 +28,7 @@ TARGETS_IUSE="
 	hypervisor_ramfs
 	recovery_ramfs
 	minios_ramfs
+	minios_test_ramfs
 "
 IUSE+=" ${TARGETS_IUSE}"
 REQUIRED_USE="|| ( ${TARGETS_IUSE} )"
@@ -61,6 +62,12 @@ MINIOS_DEPENDS="
 	sys-apps/pv
 	virtual/assets
 	virtual/chromeos-regions
+	"
+
+MINIOS_TEST_DEPENDS="
+	${MINIOS_DEPENDS}
+	chromeos-base/chromeos-test-root
+	virtual/target-os-test
 	"
 
 # Packages required for building factory installer shim initramfs.
@@ -117,6 +124,7 @@ DEPEND="
 	recovery_ramfs? ( ${RECOVERY_DEPENDS} )
 	hypervisor_ramfs? ( ${HYPERVISOR_DEPENDS} )
 	minios_ramfs? ( ${MINIOS_DEPENDS} )
+	minios_test_ramfs? ( ${MINIOS_TEST_DEPENDS} )
 	sys-apps/busybox[-make-symlinks]
 	sys-fs/lvm2
 	virtual/chromeos-bsp-initramfs
