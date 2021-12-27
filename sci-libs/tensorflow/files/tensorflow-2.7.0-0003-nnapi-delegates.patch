@@ -1,8 +1,8 @@
 diff --git a/tensorflow/lite/BUILD b/tensorflow/lite/BUILD
-index 72a46e66..c0b1cd16 100644
+index d1e15ea1..2a07cef2 100644
 --- a/tensorflow/lite/BUILD
 +++ b/tensorflow/lite/BUILD
-@@ -348,6 +348,8 @@ cc_library(
+@@ -399,6 +399,8 @@ cc_library(
          ":string",
          ":type_to_tflitetype",
          ":util",
@@ -12,7 +12,7 @@ index 72a46e66..c0b1cd16 100644
          "//tensorflow/lite/core/api",
          "//tensorflow/lite/core/api:verifier",
 diff --git a/tensorflow/lite/tools/evaluation/utils.cc b/tensorflow/lite/tools/evaluation/utils.cc
-index ec09394e..0ce47fcb 100644
+index 16edffce..a0c7e75d 100644
 --- a/tensorflow/lite/tools/evaluation/utils.cc
 +++ b/tensorflow/lite/tools/evaluation/utils.cc
 @@ -94,25 +94,17 @@ TfLiteStatus GetSortedFileNames(

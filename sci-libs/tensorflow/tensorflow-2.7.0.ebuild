@@ -26,7 +26,7 @@ IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack"
 bazel_external_uris="
 	https://github.com/bazelbuild/platforms/releases/download/0.0.2/platforms-0.0.2.tar.gz -> bazelbuild-platforms-0.0.2.tar.gz
 	https://github.com/bazelbuild/apple_support/archive/501b4afb27745c4813a88ffa28acd901408014e4.tar.gz -> bazelbuild-apple_support-501b4afb27745c4813a88ffa28acd901408014e4.tar.gz
-	https://github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz -> bazel-toolchains-92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz
+	https://github.com/bazelbuild/bazel-toolchains/archive/dfc67056200b674accd08d8f9a21e328098c07e2.tar.gz -> bazel-toolchains-dfc67056200b674accd08d8f9a21e328098c07e2.tar.gz
 	https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz
 	https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip -> bazelbuild-rules_android-v0.1.1.zip
 	https://github.com/bazelbuild/rules_apple/archive/5131f3d46794bf227d296c82f30c2499c9de3c5b.tar.gz -> bazelbuild-rules_apple-5131f3d46794bf227d296c82f30c2499c9de3c5b.tar.gz
@@ -34,7 +34,7 @@ bazel_external_uris="
 	https://github.com/bazelbuild/rules_closure/archive/308b05b2419edb5c8ee0471b67a40403df940149.tar.gz -> bazelbuild-rules_closure-308b05b2419edb5c8ee0471b67a40403df940149.tar.gz
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
 	https://github.com/bazelbuild/rules_swift/archive/3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz -> bazelbuild-rules_swift-3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz
-	https://github.com/google/farmhash/archive/816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz -> farmhash-816a4ae622e964763ca0862d9dbd19324a1eaf45.tar.gz
+	https://github.com/google/farmhash/archive/0d859a811870d10f53a594927d0d0b97573ad06d.tar.gz -> farmhash-0d859a811870d10f53a594927d0d0b97573ad06d.tar.gz
 	https://github.com/google/gemmlowp/archive/fda83bdc38b118cc6b56753bd540caa49e570745.zip -> gemmlowp-fda83bdc38b118cc6b56753bd540caa49e570745.zip
 	https://github.com/google/ruy/archive/e6c1b8dc8a8b00ee74e7268aac8b18d7260ab1ce.zip -> ruy-e6c1b8dc8a8b00ee74e7268aac8b18d7260ab1ce.zip
 	https://github.com/intel/ARM_NEON_2_x86_SSE/archive/1200fe90bb174a6224a525ee60148671a786a71f.tar.gz -> ARM_NEON_2_x86_SSE-1200fe90bb174a6224a525ee60148671a786a71f.tar.gz	https://github.com/googleapis/googleapis/archive/541b1ded4abadcc38e8178680b0677f65594ea6f.zip -> googleapis-541b1ded4abadcc38e8178680b0677f65594ea6f.zip
@@ -44,13 +44,14 @@ bazel_external_uris="
 	https://github.com/Maratyszcza/FP16/archive/4dfe081cf6bcd15db339cf2680b9281b8451eeb3.zip -> FP16-4dfe081cf6bcd15db339cf2680b9281b8451eeb3.zip
 	https://github.com/Maratyszcza/FXdiv/archive/63058eff77e11aa15bf531df5dd34395ec3017c8.zip -> FXdiv-63058eff77e11aa15bf531df5dd34395ec3017c8.zip
 	https://github.com/Maratyszcza/pthreadpool/archive/b8374f80e42010941bda6c85b0e3f1a1bd77a1e0.zip -> pthreadpool-b8374f80e42010941bda6c85b0e3f1a1bd77a1e0.zip
-	https://github.com/tensorflow/toolchains/archive/v1.1.21.tar.gz -> tensorflow_toolchains_v1.1.21.tar.gz
-	https://github.com/tensorflow/runtime/archive/b570a1921c9e55ac53c8972bd2bfd37cd0eb510d.tar.gz -> tf_runtime-b570a1921c9e55ac53c8972bd2bfd37cd0eb510d.tar.gz
-	https://gitlab.com/libeigen/eigen/-/archive/12e8d57108c50d8a63605c6eb0144c838c128337/eigen-12e8d57108c50d8a63605c6eb0144c838c128337.tar.gz -> eigen-12e8d57108c50d8a63605c6eb0144c838c128337.tar.gz
+	https://github.com/tensorflow/toolchains/archive/v1.2.7.tar.gz -> tensorflow_toolchains_v1.2.7.tar.gz
+	https://github.com/tensorflow/runtime/archive/64c92c8013b557087351c91b5423b6046d10f206.tar.gz -> tf_runtime-64c92c8013b557087351c91b5423b6046d10f206.tar.gz
+	https://gitlab.com/libeigen/eigen/-/archive/7792b1e909a98703181aecb8810b4b654004c25d/eigen-7792b1e909a98703181aecb8810b4b654004c25d.tar.gz -> eigen-7792b1e909a98703181aecb8810b4b654004c25d.tar.gz
 	https://github.com/KhronosGroup/OpenCL-Headers/archive/0d5f18c6e7196863bc1557a693f1509adfcee056.tar.gz -> OpenCL-Headers-0d5f18c6e7196863bc1557a693f1509adfcee056.tar.gz
 	https://github.com/KhronosGroup/Vulkan-Headers/archive/ec2db85225ab410bc6829251bef6c578aaed5868.tar.gz -> Vulkan-Headers-ec2db85225ab410bc6829251bef6c578aaed5868.tar.gz
 	https://github.com/abseil/abseil-cpp/archive/997aaf3a28308eba1b9156aa35ab7bca9688e9f6.tar.gz -> abseil-cpp-997aaf3a28308eba1b9156aa35ab7bca9688e9f6.tar.gz
-	https://github.com/google/XNNPACK/archive/476eb84d6a8e6f8249d5584d30759c6fbdbf791d.zip -> xnnpack-476eb84d6a8e6f8249d5584d30759c6fbdbf791d.zip
+	https://github.com/google/XNNPACK/archive/694d2524757f9040e65a02c374e152a462fe57eb.zip -> xnnpack-694d2524757f9040e65a02c374e152a462fe57eb.zip
+	https://github.com/llvm/llvm-project/archive/43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz -> llvm-project-43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz
 "
 
 SRC_URI="
@@ -149,12 +150,12 @@ BDEPEND="
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
-	"${FILESDIR}/tensorflow-2.6.0-0001-workspace.patch"
-	"${FILESDIR}/tensorflow-2.6.0-0002-ashmem-create.patch"
-	"${FILESDIR}/tensorflow-2.6.0-0003-nnapi-delegates.patch"
-	"${FILESDIR}/tensorflow-2.6.0-0004-cpuinfo-arm-fix.patch"
-	"${FILESDIR}/tensorflow-2.6.0-0005-gpu.patch"
-	"${FILESDIR}/tensorflow-2.6.0-0006-nnapi-loading-errors.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0001-workspace.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0002-ashmem-create.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0003-nnapi-delegates.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0004-cpuinfo-arm-fix.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0005-gpu.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0006-nnapi-loading-errors.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
