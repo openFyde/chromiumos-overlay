@@ -82,6 +82,7 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
+	doexe "${OUT}"/typec_connector_class_helper
 	doexe "${OUT}"/usb4_devinfo_helper
 	doexe "${OUT}"/bt_usb_disconnect_helper
 
