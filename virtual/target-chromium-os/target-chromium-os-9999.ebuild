@@ -91,7 +91,7 @@ IUSE="
 	+shill
 	sirenia
 	smbprovider
-	+spaced
+	spaced
 	+syslog
 	+system_locales
 	system_proxy

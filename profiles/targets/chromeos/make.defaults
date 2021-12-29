@@ -115,6 +115,9 @@ USE="${USE} featured"
 # Enable Runtime AVL Compliance Check (RACC) packages
 USE="${USE} racc"
 
+# Enable disk usage daemon.
+USE="${USE} spaced"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

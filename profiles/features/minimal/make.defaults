@@ -79,5 +79,8 @@ USE="${USE} -dlp"
 # Disable Runtime AVL Compliance Check (RACC) packages
 USE="${USE} -racc"
 
+# Disable disk usage daemon.
+USE="${USE} -spaced"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""
