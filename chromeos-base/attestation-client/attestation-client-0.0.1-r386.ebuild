@@ -3,13 +3,13 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="9bc3727bce46e6ef99b70e5da80f254205e9c17b"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "1c888da31e693312a5816070357842038b7c2b42" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f45c053049f3c6b91c520a320d8ab8c241e7058c"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "4d11deba2cc963603a0e0d5946040374d8cfd7c2" "989860a1d3ed9ee9f36190e92bf4f4e2845b6035" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk attestation .gn"
+CROS_WORKON_SUBTREE="common-mk attestation libhwsec-foundation .gn"
 
 PLATFORM_SUBDIR="attestation/client"
 
@@ -32,6 +32,7 @@ IUSE="cros_host"
 DEPEND="
 	cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 )
 	chromeos-base/libbrillo:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 # Note that for RDEPEND, we conflict with attestation package older than

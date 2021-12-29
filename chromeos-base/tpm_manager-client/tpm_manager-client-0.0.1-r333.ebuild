@@ -3,13 +3,13 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="9bc3727bce46e6ef99b70e5da80f254205e9c17b"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "4236ab734e5d0b82a45a78f653165c0511f4a73c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f45c053049f3c6b91c520a320d8ab8c241e7058c"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "989860a1d3ed9ee9f36190e92bf4f4e2845b6035" "5b514f90bddced17264997f50fdb519b333d54f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec-foundation tpm_manager .gn"
 
 PLATFORM_SUBDIR="tpm_manager/client"
 
@@ -42,6 +42,7 @@ DEPEND="
 RDEPEND="
 	!<chromeos-base/tpm_manager-0.0.1-r2238
 	chromeos-base/libbrillo:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 src_install() {
@@ -57,6 +58,7 @@ src_install() {
 	doins ./*.h
 	insinto /usr/include/tpm_manager/common
 	doins ../common/*.h
+	doins "${OUT}"/gen/tpm_manager/common/*.h
 }
 
 platform_pkg_test() {
