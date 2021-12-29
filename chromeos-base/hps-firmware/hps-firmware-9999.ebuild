@@ -15,8 +15,6 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-BDEPEND="dev-libs/openssl"
-
 # Add these for hps-mon / hps-util:
 	#>=dev-rust/argh-0.1.4:= <dev-rust/argh-0.2.0
 	#=dev-rust/ftd2xx-embedded-hal-0.7*:=
@@ -96,6 +94,15 @@ src_compile() {
 		ecargo_build
 	) done
 
+	# Also build signing tool for the build host, so that we can use it below
+	if [ "${CBUILD}" != "${CHOST}" ] ; then
+		(
+			cd rust/sign-rom || die
+			einfo "Building sign-rom for build host"
+			ecargo build --target="${CBUILD}" --release
+		)
+	fi
+
 	# Build MCU firmware
 	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
@@ -111,12 +118,10 @@ src_compile() {
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin" || die
 	) done
 
-	# Put something in the signature / version bytes. These will be overwritten
-	# when the binary gets signed, but are useful for development.
-	openssl dgst -md5 -binary \
-		"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
-		| dd bs=1 seek=20 count=4 conv=notrunc \
-		of="${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
+	# Sign MCU stage1 firmware with dev key
+	"${CARGO_TARGET_DIR}/${CBUILD}/release/sign-rom" \
+		--input "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
+		--output "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" \
 		|| die
 }
 
@@ -130,5 +135,5 @@ src_install() {
 
 	insinto "/usr/lib/firmware/hps"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
-	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" "mcu_stage1.bin"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 }
