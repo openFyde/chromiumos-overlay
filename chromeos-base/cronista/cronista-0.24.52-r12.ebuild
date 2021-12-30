@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3051b58a590e8e6c144b135e77b9cadafb3ddc5d"
-CROS_WORKON_TREE="7076ca26e720cbcce0f610cd5c8c407f10984c19"
+CROS_WORKON_COMMIT="1b85f1f00a6b60023b250c8ec83a11de9e72eaa8"
+CROS_WORKON_TREE="c0c32f86c982a5e9ba24083659211862342462cc"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="cronista"
@@ -22,17 +22,16 @@ RDEPEND="sys-apps/dbus"
 
 DEPEND="
 	chromeos-base/libsirenia:=
-	=dev-rust/dbus-0.9*:=
+	=dev-rust/anyhow-1*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
-	>=dev-rust/openssl-0.10.25:= <dev-rust/openssl-0.11.0
-	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3
-	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2.0.0
-	>=dev-rust/serde_derive-1.0.114:= <dev-rust/serde_derive-2.0.0
+	>=dev-rust/openssl-0.10.25 <dev-rust/openssl-0.11.0_alpha:=
+	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3.0.0_alpha:=
+	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3.0.0_alpha:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha:=
+	>=dev-rust/serde_derive-1.0.114 <dev-rust/serde_derive-2.0.0_alpha:=
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
-	dev-rust/system_api:=
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0_alpha:=
 "
 
 pkg_setup() {

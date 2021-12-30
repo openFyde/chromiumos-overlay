@@ -59,7 +59,7 @@ CROS_WORKON_DESTDIR=(
 )
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
-STRIP_MASK="*"
+RESTRICT='strip'
 
 inherit cros-workon cros-unibuild
 

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3051b58a590e8e6c144b135e77b9cadafb3ddc5d"
-CROS_WORKON_TREE="851cf3e29e42b276e6a9f9671db014f4e64838b8"
+CROS_WORKON_COMMIT="1b85f1f00a6b60023b250c8ec83a11de9e72eaa8"
+CROS_WORKON_TREE="02bf76eb5039df9104322a92070272e1419be4a1"
 CROS_RUST_SUBDIR="sirenia/manatee-runtime"
 
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,9 +23,10 @@ IUSE="cros_host manatee"
 
 DEPEND="
 	chromeos-base/libsirenia:=
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0:=
+	=dev-rust/anyhow-1*:=
+	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
 	dev-rust/libchromeos:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2:=
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 "
