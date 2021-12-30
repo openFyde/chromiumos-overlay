@@ -26,11 +26,6 @@ BDEPEND="
 	sci-electronics/yosys
 "
 
-# Add these for hps-mon / hps-util:
-	#>=dev-rust/argh-0.1.4:= <dev-rust/argh-0.2.0
-	#=dev-rust/ftd2xx-embedded-hal-0.7*:=
-	#>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5.0.0
-
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
 	>=dev-rust/bitflags-1.3.2:= <dev-rust/bitflags-2.0.0
@@ -49,6 +44,8 @@ DEPEND="
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
 	=dev-rust/panic-halt-0.2*:=
 	=dev-rust/panic-reset-0.1*:=
+	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
+	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
 	>=dev-rust/spi-memory-0.2.0:= <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*:=
 	=dev-rust/ufmt-0.1*:=
@@ -83,6 +80,13 @@ src_prepare() {
 	# settings used for stage0 and stage1_app.
 	rm rust/Cargo.toml rust/riscv/Cargo.toml
 
+	# Delete some optional dependencies that are not packaged in Chromium OS.
+	sed -i \
+		-e '/ optional = true/d' \
+		-e '/^daemon = /d' \
+		-e '/^ftdi = /d' \
+		rust/hps-util/Cargo.toml
+
 	default
 }
 
@@ -108,7 +112,7 @@ src_compile() {
 	python -m soc.hps_soc --build --no-compile-software || die
 
 	# Build userspace tools
-	for tool in sign-rom ; do (
+	for tool in hps-util sign-rom ; do (
 		cd rust/${tool} || die
 		einfo "Building ${tool}"
 		ecargo_build
@@ -152,6 +156,7 @@ src_test() {
 
 src_install() {
 	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
+	dobin "$(cros-rust_get_build_dir)/hps-util"
 
 	insinto "/usr/lib/firmware/hps"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
