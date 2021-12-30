@@ -127,6 +127,7 @@ IUSE="
 	tablet_form_factor
 	tpm2
 	tpm2_simulator
+	tpm_dynamic
 	transparent_hugepage
 	ubsan
 	unibuild
