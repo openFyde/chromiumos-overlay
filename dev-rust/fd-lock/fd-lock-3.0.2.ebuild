@@ -4,23 +4,21 @@
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
+CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='Rust friendly bindings to *nix APIs'
-HOMEPAGE='https://crates.io/crates/nix'
+DESCRIPTION='Advisory cross-platform lock on a file using a file descriptor to it.'
+HOMEPAGE='https://crates.io/crates/fd-lock'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bitflags-1.3.1 <dev-rust/bitflags-2.0.0_alpha:=
 	=dev-rust/cfg-if-1*:=
-	>=dev-rust/libc-0.2.102 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/memoffset-0.6.3 <dev-rust/memoffset-0.7.0_alpha:=
-	=dev-rust/cc-1*:=
+	>=dev-rust/libc-0.2.58 <dev-rust/libc-0.3.0_alpha:=
 "
 RDEPEND="${DEPEND}"
 

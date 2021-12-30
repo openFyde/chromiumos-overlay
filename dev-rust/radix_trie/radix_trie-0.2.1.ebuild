@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Rust friendly bindings to *nix APIs'
-HOMEPAGE='https://crates.io/crates/nix'
+DESCRIPTION='Generic radix trie data-structure.'
+HOMEPAGE='https://crates.io/crates/radix_trie'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -16,11 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bitflags-1.3.1 <dev-rust/bitflags-2.0.0_alpha:=
-	=dev-rust/cfg-if-1*:=
-	>=dev-rust/libc-0.2.102 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/memoffset-0.6.3 <dev-rust/memoffset-0.7.0_alpha:=
-	=dev-rust/cc-1*:=
+	>=dev-rust/endian-type-0.1.2 <dev-rust/endian-type-0.2.0_alpha:=
+	=dev-rust/nibble_vec-0.1*:=
+	=dev-rust/serde-1*:=
 "
 RDEPEND="${DEPEND}"
 
