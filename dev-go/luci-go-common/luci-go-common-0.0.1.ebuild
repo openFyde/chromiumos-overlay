@@ -14,6 +14,9 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/iotools"
 	"go.chromium.org/luci/common/logging"
 	"go.chromium.org/luci/common/runtime/goroutine"
+	"go.chromium.org/luci/starlark/interpreter"
+	"go.chromium.org/luci/starlark/starlarkproto"
+	"go.chromium.org/luci/starlark/typed"
 )
 
 inherit cros-go
@@ -31,5 +34,7 @@ DEPEND="
 	dev-go/gapi-googleapi
 	dev-go/grpc
 	dev-go/protobuf
+	dev-go/starlark-go
+	dev-go/txtpbfmt
 "
 RDEPEND="${DEPEND}"
