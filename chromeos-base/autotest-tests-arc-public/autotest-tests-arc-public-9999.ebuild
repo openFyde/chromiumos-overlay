@@ -3,10 +3,12 @@
 
 EAPI=5
 
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit autotest cros-workon flag-o-matic
+inherit autotest cros-workon flag-o-matic python-any-r1
 
 DESCRIPTION="Public ARC autotests"
 
@@ -36,4 +38,3 @@ src_prepare() {
 	export PYTHONPATH="${TMP_DIR}/telemetry/src/third_party/catapult/telemetry"
 	autotest_src_prepare
 }
-

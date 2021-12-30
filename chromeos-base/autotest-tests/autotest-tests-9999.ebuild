@@ -2,9 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
+
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
-inherit libchrome cros-workon autotest
+inherit libchrome cros-workon autotest python-any-r1
 
 DESCRIPTION="Autotest tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
