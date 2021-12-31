@@ -48,6 +48,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-ee.patch
 	"${FILESDIR}"/${P}-latam.patch
 	"${FILESDIR}"/${P}-ch.patch
+	"${FILESDIR}"/${P}-si.patch
 )
 
 src_prepare() {
