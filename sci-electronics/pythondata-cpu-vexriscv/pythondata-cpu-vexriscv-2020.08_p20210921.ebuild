@@ -11,7 +11,7 @@ DESCRIPTION="Python module containing verilog files for VexRISCV cpu."
 HOMEPAGE="https://github.com/litex-hub/pythondata-cpu-vexriscv"
 
 # Not on a master branch.
-GIT_REV="2b6855412cdbde5e31bde13283e49976247ba90b"
+GIT_REV="9f85993307e913719381223ade365fdc0b477d2e"
 SRC_URI="https://github.com/litex-hub/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
 
 LICENSE="MIT"
