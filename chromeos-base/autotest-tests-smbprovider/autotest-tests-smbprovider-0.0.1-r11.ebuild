@@ -3,12 +3,14 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="b8a17e5eb0385e0738aa50d13e5a636373788323"
-CROS_WORKON_TREE="4124e540faf42dc25b23bb3e003b9ba81b5d4026"
+CROS_WORKON_COMMIT="af6d472bbe3632facff407743314294498427ea2"
+CROS_WORKON_TREE="738143231455a51480a9776268efe33b1c2f8786"
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+inherit cros-workon autotest python-any-r1
 
 DESCRIPTION="SmbProvider Autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"

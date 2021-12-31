@@ -1,13 +1,16 @@
 # Copyright 2014 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-CROS_WORKON_COMMIT="d0f654c231c2a3f10f25bf1597ca8d593260b297"
-CROS_WORKON_TREE="a39cb4e1ff0724176270c00dc5e5fc11337f390c"
+EAPI=7
+
+CROS_WORKON_COMMIT="af6d472bbe3632facff407743314294498427ea2"
+CROS_WORKON_TREE="738143231455a51480a9776268efe33b1c2f8786"
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+inherit cros-workon autotest python-any-r1
 
 DESCRIPTION="power autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"

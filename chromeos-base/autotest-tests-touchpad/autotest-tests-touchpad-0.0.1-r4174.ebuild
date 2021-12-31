@@ -2,11 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8c5e4220ede3ae3bfa356dbb4e1d7eaf5f4a382f"
-CROS_WORKON_TREE="0b833b0ca69b4d4abd6c00460b274a5eeffd9609"
+
+CROS_WORKON_COMMIT="af6d472bbe3632facff407743314294498427ea2"
+CROS_WORKON_TREE="738143231455a51480a9776268efe33b1c2f8786"
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
-inherit cros-workon autotest
+inherit cros-workon autotest python-any-r1
 
 DESCRIPTION="touchpad autotest"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
