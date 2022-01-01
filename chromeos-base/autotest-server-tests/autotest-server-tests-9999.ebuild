@@ -308,7 +308,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_SyncCrash
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_platform_Vpd
-	+tests_policy_AUServer
 	+tests_policy_DeviceServer
 	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
