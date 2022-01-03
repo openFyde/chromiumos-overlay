@@ -4,11 +4,11 @@ DEPEND=sys-firmware/ap-firmware-config:=
 DESCRIPTION=Data files for remote Tast tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast-tests
-IUSE=cros_host cros_workon_tree_668934cfeba682b30758ef2bacb7bf7fbce1c623
+IUSE=cros_host cros_workon_tree_b35fb17d1882e898e17f4638507c757ef37a1e9f
 KEYWORDS=*
 LICENSE=BSD-Google GPL-3
 PROPERTIES=live
 RDEPEND=!<chromeos-base/tast-remote-tests-cros-0.0.2
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	1a1f6f4787b0e2efbd5662ad32cd91d8	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	tast-bundle-data	8a38f8cda493ae24c6e77f86a49a92cc	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=85e191e4d060c3781fcc3f8c53d4edf8
+_md5_=64a4d4d5c9676b24d719a5ad8e4879db
