@@ -100,6 +100,7 @@ src_install() {
 		chaps_object_store_fuzzer
 		chaps_utility_fuzzer
 		chaps_slot_manager_fuzzer
+		chaps_chaps_service_fuzzer
 	)
 	for fuzzer in "${fuzzers[@]}"; do
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzzer}" \
