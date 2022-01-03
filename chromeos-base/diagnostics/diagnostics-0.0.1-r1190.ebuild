@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d8cce0b4a48eda0bd43e4ec374d3624561b6555e"
+CROS_WORKON_COMMIT="cc6f5132ba8bf58eb568055b9c0371b161ec22a3"
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "2baa3bb88ae8a33d99773a6233a9da78406bad4f" "783423b14fe1748f9891d92ea1681311281feeaa" "eec6cfbbf2fffbdbb75c4cc8f85863f1b854d5f4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -60,6 +60,24 @@ RDEPEND="
 	)
 "
 
+# @FUNCTION: inst_seccomp
+# @USAGE: <policy-file-path>
+# @DESCRIPTION:
+# Given a seccomp policy file <policy-file-path>, compile it, and install it
+# into current install location.
+inst_seccomp() {
+	local path="$1"
+	local arch_path="${path%.policy}-${ARCH}.policy"
+	local file="$(basename "${path}")"
+
+	compile_seccomp_policy \
+		--arch-json "${SYSROOT}/build/share/constants.json" \
+		"${arch_path}" /dev/null \
+		|| die "failed to compile seccomp policy ${arch_path}"
+	newins "${arch_path}" "${file}"
+	einfo "The seccomp policy file ${arch_path} was installed successfully as ${file}."
+}
+
 pkg_preinst() {
 	enewgroup cros_ec-access
 	enewuser cros_healthd
@@ -82,12 +100,9 @@ src_install() {
 
 		# Install seccomp policy files.
 		insinto /usr/share/policy
-		newins "init/wilco_dtc_supportd-seccomp-${ARCH}.policy" \
-			wilco_dtc_supportd-seccomp.policy
-		newins "init/wilco-dtc-e2fsck-seccomp-${ARCH}.policy" \
-			wilco-dtc-e2fsck-seccomp.policy
-		newins "init/wilco-dtc-resize2fs-seccomp-${ARCH}.policy" \
-			wilco-dtc-resize2fs-seccomp.policy
+		inst_seccomp "init/wilco_dtc_supportd-seccomp.policy"
+		inst_seccomp "init/wilco-dtc-e2fsck-seccomp.policy"
+		inst_seccomp "init/wilco-dtc-resize2fs-seccomp.policy"
 
 		# Install D-Bus configuration file.
 		insinto /etc/dbus-1/system.d
@@ -106,17 +121,12 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	newins "init/cros_healthd-seccomp-${ARCH}.policy" \
-		cros_healthd-seccomp.policy
-	newins "cros_healthd/seccomp/ectool_i2cread-seccomp-${ARCH}.policy" \
-		ectool_i2cread-seccomp.policy
-	newins "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp-${ARCH}.policy" \
-		ectool_pwmgetfanrpm-seccomp.policy
-	newins "cros_healthd/seccomp/modetest-seccomp-${ARCH}.policy" \
-		modetest-seccomp.policy
-	newins "cros_healthd/seccomp/memtester-seccomp-${ARCH}.policy" \
-		memtester-seccomp.policy
-	newins "cros_healthd/seccomp/iw-seccomp-${ARCH}.policy" iw-seccomp.policy
+	inst_seccomp "init/cros_healthd-seccomp.policy"
+	inst_seccomp "cros_healthd/seccomp/ectool_i2cread-seccomp.policy"
+	inst_seccomp "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp.policy"
+	inst_seccomp "cros_healthd/seccomp/modetest-seccomp.policy"
+	inst_seccomp "cros_healthd/seccomp/memtester-seccomp.policy"
+	inst_seccomp "cros_healthd/seccomp/iw-seccomp.policy"
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
