@@ -24,6 +24,7 @@ PATCHES=(
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0003-Disable-Media-Memory-Compression-MMC-on-ADL.patch
+	"${FILESDIR}"/0004-Encode-GLK-enable-VP8.patch
 )
 
 src_configure() {
