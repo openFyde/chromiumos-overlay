@@ -28,6 +28,7 @@ PATCHES=(
 	"${FILESDIR}"/0005-Encode-Fix-default-MMC-enabling-for-JPEG-encoder.patch
 	"${FILESDIR}"/0006-Encode-Enable-Jpeg-MMC-for-G12.patch
 	"${FILESDIR}"/0007-Disable-Media-Memory-Compression-MMC-on-ADL.patch
+	"${FILESDIR}"/0008-Encode-GLK-enable-VP8.patch
 )
 
 src_configure() {
