@@ -265,8 +265,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_sdk_build_filter_as() {
 		case ${CATEGORY}/${PN}:${PV} in
-		dev-embedded/coreboot-sdk:*|\
-		dev-libs/nspr:4.26*) return 1;;
+		dev-embedded/coreboot-sdk:*) return 1;;
 		esac
 	}
 
@@ -449,7 +448,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	_board_build_filter_as() {
 		case ${CATEGORY}/${PN}:${PV} in
 		dev-embedded/coreboot-sdk:*|\
-		dev-libs/nspr:4.26*|\
 		net-misc/nldaemon:*|\
 		sys-boot/coreboot:*) return 1;;
 		esac
