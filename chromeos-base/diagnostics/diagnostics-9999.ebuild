@@ -122,7 +122,6 @@ src_install() {
 	inst_seccomp "init/cros_healthd-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/ectool_i2cread-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp.policy"
-	inst_seccomp "cros_healthd/seccomp/modetest-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/memtester-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/iw-seccomp.policy"
 
