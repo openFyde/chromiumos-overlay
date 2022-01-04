@@ -4,11 +4,11 @@ DEPEND=sys-libs/libcap:=
 DESCRIPTION=Intel processor C-state and P-state reporting tool
 EAPI=7
 HOMEPAGE=https://www.kernel.org/
-IUSE=-asan asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_a232490ca948eb6afe8cad9f3c0bb94722dc5dd4_fa703ad766fda3d500b8114d3ad3cd7aa8babab6_82f471a1f381850d569b3edbfa0ba3ec42139f56
+IUSE=-asan asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_06105ef07badd690c0ddd10bcfa03aea81a2b4bc_fa703ad766fda3d500b8114d3ad3cd7aa8babab6_82f471a1f381850d569b3edbfa0ba3ec42139f56
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=sys-libs/libcap:=
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	1a1f6f4787b0e2efbd5662ad32cd91d8	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=651cb16a3f2ca6cc9983027af3d25a9f
+_md5_=034e08a92bd9624425d5386a1344e746
