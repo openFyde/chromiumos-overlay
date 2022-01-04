@@ -3,6 +3,8 @@
 
 EAPI=7
 
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/autotest"
 	"chromiumos/config"
@@ -27,7 +29,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/server/cros/faft/fw-testing-configs"
 )
 
-inherit cros-workon cros-constants
+inherit cros-workon cros-constants python-any-r1
 
 DESCRIPTION="Autotest scripts and tools"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
@@ -123,7 +125,6 @@ src_install() {
 
 src_test() {
 	# Run the autotest unit tests.
-	./utils/unittest_suite.py --debug || die "Autotest unit tests failed."
 	python3 ./utils/unittest_suite.py --debug --py_version=3 || die "Autotest unit tests failed in Python 3."
 
 }
