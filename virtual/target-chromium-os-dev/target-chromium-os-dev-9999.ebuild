@@ -113,7 +113,6 @@ RDEPEND="${RDEPEND}
 	)
 	chromeos-base/avtest_label_detect
 	chromeos-base/chromeos-dev-root
-	chromeos-base/cros-config-test
 	chromeos-base/cryptohome-dev-utils
 	tpm2? ( chromeos-base/g2f_tools )
 	!chromeless_tty? ( chromeos-base/graphics-utils-go )
