@@ -6,8 +6,8 @@
 # VERSION=REVBUMP-0.0.3
 
 EAPI=7
-CROS_WORKON_COMMIT="d1d1cd9db3718d0f54a60725b9e893bc4e601ba5"
-CROS_WORKON_TREE="3ddc2e05d3f5445231d2f945315cc163f296f5dc"
+CROS_WORKON_COMMIT="8523e9c995e7204e1067c1660ac04177932d4b1b"
+CROS_WORKON_TREE="4a7116ab1317f27a91151a788f619806779b55dd"
 CROS_WORKON_PROJECT="chromiumos/third_party/edk2"
 CROS_WORKON_LOCALNAME="edk2"
 
@@ -44,6 +44,9 @@ PATCHES=(
 	"${FILESDIR}/15_SdMMcPciHcDxe_Bayhub.patch"
 	"${FILESDIR}/16_SATA_channelcount.patch"
 	"${FILESDIR}/17_CorebootModulePkg_noscien.patch"
+	"${FILESDIR}/18_BaseTools-LzmaCompress-Fix-possible-uninitialized-va.patch"
+	"${FILESDIR}/19_BaseTools-Lzma-Update-LZMA-SDK-version-to-18.05.patch"
+	"${FILESDIR}/20_BaseTools-LzmaCompress-Fix-GCC-warning-misleading-in.patch"
 )
 
 BUILDTYPE=DEBUG # DEBUG or RELEASE
