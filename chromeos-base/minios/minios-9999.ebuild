@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk minios .gn"
+CROS_WORKON_SUBTREE="common-mk metrics minios .gn"
 
 PLATFORM_SUBDIR="minios"
 
@@ -22,6 +22,7 @@ IUSE="minios"
 REQUIRED_USE="minios"
 
 COMMON_DEPEND="
+	chromeos-base/metrics:=
 	chromeos-base/shill-client:=
 	chromeos-base/update_engine-client:=
 	x11-libs/libxkbcommon:=
@@ -40,6 +41,7 @@ src_install() {
 	into "/build/initramfs"
 	dobin "${OUT}/minios"
 	dobin scripts/root_partition_for_recovery
+	dobin scripts/stateful_partition_for_recovery
 
 	# D-Bus configuration
 	insinto "/build/initramfs/etc/dbus-1/system.d"
