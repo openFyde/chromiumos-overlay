@@ -809,6 +809,8 @@ src_prepare() {
 	# Fix permissions on some of the scripts.
 	chmod u+x "${S}"/scripts/*.sh
 
+	cros_use_gcc
+
 	cd "${S}"
 }
 
@@ -842,7 +844,6 @@ glibc_do_configure() {
 	# The glibc configure script doesn't properly use LDFLAGS all the time.
 	export CC="$(tc-getCC ${CTARGET})"
 	export CXX="$(tc-getCXX ${CTARGET})"
-	cros_use_gcc
 	export CC="${CC} ${CFLAGS} ${LDFLAGS}"
 	export CXX="${CXX} $(get_abi_CFLAGS) ${CFLAGS}"
 	einfo " $(printf '%15s' 'Manual CC:')   ${CC}"
