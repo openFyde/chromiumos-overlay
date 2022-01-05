@@ -22,8 +22,18 @@ src_unpack() {
 	S+="/platform2/chromeos-config/crosid"
 }
 
+src_configure() {
+	emesonargs+=( -Ddefault_library=both )
+	meson_src_configure
+}
+
 src_install() {
 	dobin "${BUILD_DIR}/crosid"
+	dolib.a "${BUILD_DIR}/libcrosid.a"
+	dolib.so "${BUILD_DIR}/libcrosid.so"
+	doheader "${S}/crosid.h"
+
+	meson_src_install
 }
 
 src_test() {

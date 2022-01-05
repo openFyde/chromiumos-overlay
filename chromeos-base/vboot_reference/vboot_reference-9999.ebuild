@@ -19,7 +19,9 @@ REQUIRED_USE="
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
 "
 
-COMMON_DEPEND="dev-libs/libzip:=
+COMMON_DEPEND="
+	chromeos-base/crosid:=
+	dev-libs/libzip:=
 	dev-libs/openssl:=
 	sys-apps/flashrom:=
 	sys-apps/util-linux:="
