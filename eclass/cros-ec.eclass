@@ -33,7 +33,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/READ
 
 LICENSE="CrOS-EC"
 IUSE="quiet verbose +coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
-REQUIRED_USE="unibuild"
+REQUIRED_USE="coreboot-sdk unibuild"
 
 RDEPEND="
 	fuzzer? (
