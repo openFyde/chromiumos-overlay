@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk chromeos-config runtime_probe .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config libec runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe"
 
@@ -32,6 +32,7 @@ RDEPEND="
 # Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/debugd-client:=
+	chromeos-base/libec:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
