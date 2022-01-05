@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 # TODO(b/204383858): remove 'endeavour' when patch
 # backward-compatibility-add-base-AdaptCallbackForRepaeting.patch is not needed
-IUSE="cros_host +crypto +dbus fuzzer +mojo +timers libchrome_b182295239 media_perception board_use_mistral"
+IUSE="cros_host +crypto +dbus fuzzer +mojo libchrome_b182295239 media_perception board_use_mistral"
 
 PLATFORM_SUBDIR="libchrome"
 
@@ -154,7 +154,6 @@ src_install() {
 		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
-	use timers && header_dirs+=( components/timers )
 
 	insinto /usr/include/libchrome/base/test
 	doins \
