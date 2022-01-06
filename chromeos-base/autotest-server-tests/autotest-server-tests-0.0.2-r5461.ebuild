@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="e2c63f3e1d4f5b4f520f5477a7f331cc532c497d"
-CROS_WORKON_TREE="00c75fe213fadea13a6d9dabd22f91c27a46a703"
+CROS_WORKON_COMMIT="cc2950e68824cbb60409e2e1f00bb79199ca0593"
+CROS_WORKON_TREE="a28c02a984539401280d6c9aa2d3714bcd77bfbe"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -310,7 +310,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_SyncCrash
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_platform_Vpd
-	+tests_policy_AUServer
 	+tests_policy_DeviceServer
 	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
