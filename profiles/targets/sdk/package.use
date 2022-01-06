@@ -144,6 +144,9 @@ dev-libs/boost -python
 # dependencies.
 dev-python/pygobject -cairo
 
+# Disable crypt for vim so sodium is not used.
+app-editors/vim -crypt
+
 # Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
 # list down as packages don't need them.  New packages should *not* be added
 # here as new code should be using Python 3.
