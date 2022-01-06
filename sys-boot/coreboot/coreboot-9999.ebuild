@@ -63,6 +63,8 @@ IUSE="${IUSE} coreboot-private-files-board coreboot-private-files-chipset"
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
 REQUIRED_USE="unibuild"
+# Make sure we don't use SDK gcc anymore.
+REQUIRED_USE+=" coreboot-sdk"
 
 # coreboot's build system handles stripping the binaries and producing a
 # separate .debug file with the symbols. This flag prevents portage from
