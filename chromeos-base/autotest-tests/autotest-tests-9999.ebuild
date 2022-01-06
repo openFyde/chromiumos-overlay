@@ -209,7 +209,6 @@ CLIENT_IUSE_TESTS="
 	+tests_touch_HasInput
 	+tests_touch_UpdateErrors
 	+tests_touch_WakeupSource
-	+tests_usbpd_DisplayPortSink
 	+tests_vpd_ReadWrite
 "
 
