@@ -195,6 +195,10 @@ src_install() {
 	# Install upstart script for automatic firmware update on device plug-in.
 	doins "${FILESDIR}"/fwupdtool-update.conf
 
+	insinto /usr/lib/tmpfiles.d
+	# Install tmpfiles script for generating the necessary directories
+	doins "${FILESDIR}"/tmpfiles.d/fwupd.conf
+
 	exeinto /usr/share/cros/init
 	doexe "${FILESDIR}"/fwupd-at-boot.sh
 
