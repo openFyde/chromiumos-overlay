@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_LOCALNAME="xorg-conf"
+CROS_WORKON_LOCALNAME="platform/xorg-conf"
 CROS_WORKON_PROJECT="chromiumos/platform/xorg-conf"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
@@ -70,4 +70,3 @@ src_install() {
 		doins "files/daisy_linearity.dat" ;;
 	esac
 }
-
