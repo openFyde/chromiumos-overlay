@@ -142,6 +142,28 @@ MULTILIB_STRICT_EXEMPT+="|modules"
 # applied later (needs to be done later since these values
 # aren't reliable when used in a global context like this):
 #   %ROOT% => ${SYSROOT}
+#
+# A NOTE about config fragments and when they should be used...
+#
+# In general config fragments should be avoided.
+# - They tend to get crufty and obsolete as the kernel moves forward and
+#   nothing validates that they still make sense.
+# - It's non-obvious when someone is working with the kernel that extra
+#   configs were turned on with a fragment.
+#
+# Fragments should really only be for:
+# - Debug options that a developer might turn on when building the kernel
+#   themselves.
+# - Debug options that a builder might turn on for producing a debug build
+#   with extra testing (options that we don't want enabled for production).
+# - Options enabling risky features that are only enabled for non-production
+#   boards that otherwise share the same kernel as production boards.
+# - Options needed for building the recovery image kernel. This kernel shares
+#   the same kernel config as the normal kernel but needs a few extra kernel
+#   options that we _don't_ want turned on for the normal kernel.
+#
+# If a feature is safe for production it should simply be turned on in the main
+# kernel config even if only a subset of boards need that feature turned on.
 
 CONFIG_FRAGMENTS=(
 	acpi_ac
