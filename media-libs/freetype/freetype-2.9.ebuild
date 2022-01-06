@@ -148,6 +148,8 @@ multilib_src_configure() {
 		LIBPNG_LDFLAGS="$($(tc-getPKG_CONFIG) --libs libpng)"
 	)
 
+	export ac_cv_prog_CC_BUILD="$(tc-getBUILD_CC)"
+
 	autotools-utils_src_configure
 }
 
