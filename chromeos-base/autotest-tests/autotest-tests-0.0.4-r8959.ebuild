@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="cc2950e68824cbb60409e2e1f00bb79199ca0593"
-CROS_WORKON_TREE="a28c02a984539401280d6c9aa2d3714bcd77bfbe"
+CROS_WORKON_COMMIT="9687b217e9b49f0dfc5b539bd8be67d34cd5f7b4"
+CROS_WORKON_TREE="ee89a738585183519ba9725692521243f621ff03"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -211,7 +211,6 @@ CLIENT_IUSE_TESTS="
 	+tests_touch_HasInput
 	+tests_touch_UpdateErrors
 	+tests_touch_WakeupSource
-	+tests_usbpd_DisplayPortSink
 	+tests_vpd_ReadWrite
 "
 
