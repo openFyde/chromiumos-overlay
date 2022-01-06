@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_COMMIT="ee3127f4803ac14e3dd695d98f922567de70a28e"
 CROS_WORKON_TREE="d04bbeced7dbbf55aaa433047262c94ba871df8f"
-CROS_WORKON_LOCALNAME="xorg-conf"
+CROS_WORKON_LOCALNAME="platform/xorg-conf"
 CROS_WORKON_PROJECT="chromiumos/platform/xorg-conf"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
@@ -72,4 +72,3 @@ src_install() {
 		doins "files/daisy_linearity.dat" ;;
 	esac
 }
-
