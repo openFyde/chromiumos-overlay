@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("d06adbdeb34d3662d73367b7b0c792d7c68cf26c" "a558db3798480c51ea74fbfb2ef7bc3d0ebd5b45")
+CROS_WORKON_COMMIT=("cbdd2f6ce7aede2f3e2903219be65140e821abe1" "a558db3798480c51ea74fbfb2ef7bc3d0ebd5b45")
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "9489a97c01c222eb71b1ad2ae4a9174b2daabc8b")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -23,7 +23,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 # TODO(b/204383858): remove 'endeavour' when patch
 # backward-compatibility-add-base-AdaptCallbackForRepaeting.patch is not needed
-IUSE="cros_host +crypto +dbus fuzzer +mojo +timers libchrome_b182295239 media_perception board_use_mistral"
+IUSE="cros_host +crypto +dbus fuzzer +mojo libchrome_b182295239 media_perception board_use_mistral"
 
 PLATFORM_SUBDIR="libchrome"
 
@@ -156,7 +156,6 @@ src_install() {
 		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
-	use timers && header_dirs+=( components/timers )
 
 	insinto /usr/include/libchrome/base/test
 	doins \
