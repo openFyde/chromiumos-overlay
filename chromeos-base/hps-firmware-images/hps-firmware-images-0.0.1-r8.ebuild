@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6f75bc7d9933a2364d1911e07a720666e2803516"
-CROS_WORKON_TREE="be2b4e132ba6e74b239e536f6e131b69dd411793"
+CROS_WORKON_COMMIT="fa0fe4c0f51e351bc9ccf87be7b586c571743243"
+CROS_WORKON_TREE="c6ad8c432400fca7eca087d18c587e5fa5f34a7c"
 inherit cros-workon
 
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware-images"
@@ -29,10 +29,6 @@ src_install() {
 
 	insinto "/usr/lib/firmware/hps"
 	doins "${S}"/firmware-bin/*
-
-	# fpga_bitstream.bin is now owned by the hps-firmware package instead
-	# TODO(b/201365621): remove this when everything is landed
-	rm "${D}"/usr/lib/firmware/hps/fpga_bitstream.bin
 
 	dobin "${S}"/bin/*
 }
