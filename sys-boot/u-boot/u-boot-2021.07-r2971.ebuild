@@ -88,7 +88,7 @@ src_configure() {
 	# Firmware related binaries are compiled with 32-bit toolchain
 	# on 64-bit platforms
 	if ! use cros_host && [[ ${CHOST} == x86_64-* ]]; then
-		CROSS_PREFIX="i686-pc-linux-gnu-"
+		CROSS_PREFIX="i686-cros-linux-gnu-"
 	else
 		CROSS_PREFIX="${CHOST}-"
 	fi
