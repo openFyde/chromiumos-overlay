@@ -108,6 +108,12 @@ src_compile() {
 		(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread -fPIC \
 			"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
 		(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
+
+		# Extract build flags used to buld libperfetto_sdk.a.
+		# This is different from `gn gen` above in src_configure.
+		local buildflag="GEN_BUILD_CONFIG_PERFETTO_BUILD_FLAGS_H_"
+		(set -x; sed -n "/#ifndef ${buildflag}/,/#endif.*${buildflag}/p" \
+			"${S}/sdk/perfetto.h" > sdk/perfetto_build_flags.h) || die
 	else
 		if [[ ${PV} == 9999 ]]; then
 			ewarn "Skip the sdk library as directory perfetto/sdk doesn't exist."
@@ -147,14 +153,14 @@ src_install() {
 			"${FILESDIR}/pkg-configs/perfetto.pc.in" > "${S}/sdk/perfetto.pc" \
 			|| die
 		doins "${S}/sdk/perfetto.pc"
-	fi
 
-	insinto /usr/include/perfetto
-	doins -r include/perfetto
-	insinto /usr/include/perfetto/protos
-	doins -r "${BUILD_OUTPUT}/gen/protos/perfetto"
-	insinto /usr/include/perfetto/perfetto/base
-	doins "${BUILD_OUTPUT}/gen/build_config/perfetto_build_flags.h"
+		insinto /usr/include/perfetto
+		doins -r include/perfetto
+		insinto /usr/include/perfetto/protos
+		doins -r "${BUILD_OUTPUT}/gen/protos/perfetto"
+		insinto /usr/include/perfetto/perfetto/base
+		doins "${S}/sdk/perfetto_build_flags.h"
+	fi
 }
 
 pkg_preinst() {
