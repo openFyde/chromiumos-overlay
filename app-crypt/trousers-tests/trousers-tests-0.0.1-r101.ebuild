@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="23b440c5c11fcd588a2c2ac18c5e44e0f06f3119"
-CROS_WORKON_TREE="eebfd9cb2e8419575807ef431f089c33238d6612"
+CROS_WORKON_COMMIT="68ede0e457c18d41ce28bc182769544568badbb4"
+CROS_WORKON_TREE="5ff07db9b34005f3f17a276e6494dca4b2a946fe"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
 CROS_WORKON_EGIT_BRANCH="master-0.3.13"
 
