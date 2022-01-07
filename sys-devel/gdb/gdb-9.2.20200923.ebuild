@@ -161,6 +161,8 @@ src_configure() {
 		myconf+=( --disable-largefile )
 	fi
 
+	export GCC_FOR_TARGET="$(tc-getCC)"
+
 	mkdir "${GDB_BUILD_DIR}" || die
 	pushd "${GDB_BUILD_DIR}" || die
 	ECONF_SOURCE=${S}
