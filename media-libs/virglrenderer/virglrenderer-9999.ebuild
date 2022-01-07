@@ -20,6 +20,7 @@ KEYWORDS="~*"
 IUSE="debug fuzzer profiling test vulkan"
 
 RDEPEND="
+	chromeos-base/percetto
 	>=x11-libs/libdrm-2.4.50
 	media-libs/libepoxy
 	media-libs/minigbm
@@ -33,7 +34,6 @@ RDEPEND="
 "
 # We need autoconf-archive for @CODE_COVERAGE_RULES@. #568624
 DEPEND="${RDEPEND}
-	chromeos-base/percetto
 	sys-devel/autoconf-archive
 	fuzzer? ( >=dev-libs/check-0.9.4 )
 	test? ( >=dev-libs/check-0.9.4 )
