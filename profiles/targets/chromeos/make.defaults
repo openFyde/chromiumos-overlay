@@ -113,6 +113,9 @@ USE="${USE} iioservice"
 # Enable feature daemon.
 USE="${USE} featured"
 
+# Enable fusebox daemon.
+USE="${USE} fusebox"
+
 # Enable Runtime AVL Compliance Check (RACC) packages
 USE="${USE} racc"
 

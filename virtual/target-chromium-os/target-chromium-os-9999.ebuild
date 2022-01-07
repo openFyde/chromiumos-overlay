@@ -51,6 +51,7 @@ IUSE="
 	floss
 	+fonts
 	fpstudy
+	fusebox
 	fuzzer
 	fwupd
 	hammerd
@@ -339,6 +340,7 @@ RDEPEND="
 	lacros_rootfs? ( chromeos-base/chromeos-lacros )
 	dns-proxy? ( chromeos-base/dns-proxy )
 	featured? ( chromeos-base/featured )
+	fusebox? ( chromeos-base/fusebox )
 	chrome_internal? (
 		assistant-dlc? ( chromeos-base/assistant-dlc )
 	)

@@ -42,7 +42,7 @@ USE="${USE} -usbguard -vpn -wimax"
 USE="${USE} -kerberos -kerberos_daemon -system_proxy"
 
 # Disable filesystem extensions.
-USE="${USE} -drivefs -samba -smbprovider"
+USE="${USE} -drivefs -fusebox -samba -smbprovider"
 
 # Remove most of the unused firmware in kernel build (see crbug.com/378877).
 USE="${USE} -firmware_install"

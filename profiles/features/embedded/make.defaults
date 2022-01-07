@@ -37,7 +37,7 @@ USE="${USE} -usb_bouncer -usbguard"
 USE="${USE} -kerberos -kerberos_daemon -system_proxy"
 
 # Disable filesystem extensions.
-USE="${USE} -drivefs -samba -smbprovider"
+USE="${USE} -drivefs -fusebox -samba -smbprovider"
 
 # Disable the diagnostics and telemetry daemon. Features not evaluated on
 # embedded devices.

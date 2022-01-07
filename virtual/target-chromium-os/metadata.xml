@@ -16,6 +16,7 @@
 	<flag name="dlp">Enable Data Leak Prevention daemon</flag>
 	<flag name='cros_ec'>Enables CrOS Embedded Controller.</flag>
 	<flag name='factory_branch'>Enables customization for factory builds.</flag>
+	<flag name='fusebox'>Enable FuseBox daemon.</flag>
 	<flag name='gdmwimax'>Enables WiMax dependencies.</flag>
 	<flag name='iioservice'>Enable Chrome OS IIO sensor service daemon.</flag>
 	<flag name='kerberos_daemon'>Enable Chrome OS Kerberos system daemon</flag>
