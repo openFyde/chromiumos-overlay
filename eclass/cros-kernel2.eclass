@@ -1180,6 +1180,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu_raven2
 	builtin_fw_amdgpu_renoir
 	builtin_fw_amdgpu_stoney
+	builtin_fw_amdgpu_yellow_carp
 	builtin_fw_guc_adl
 	builtin_fw_guc_g9
 	builtin_fw_guc_jsl
@@ -1296,6 +1297,22 @@ builtin_fw_amdgpu_stoney_files=(
 	amdgpu/stoney_sdma.bin
 	amdgpu/stoney_uvd.bin
 	amdgpu/stoney_vce.bin
+)
+
+builtin_fw_amdgpu_yellow_carp_desc="Firmware for AMD Yellow Carp"
+builtin_fw_amdgpu_yellow_carp_files=(
+	amdgpu/yellow_carp_asd.bin
+	amdgpu/yellow_carp_ce.bin
+	amdgpu/yellow_carp_dmcub.bin
+	amdgpu/yellow_carp_me.bin
+	amdgpu/yellow_carp_mec2.bin
+	amdgpu/yellow_carp_mec.bin
+	amdgpu/yellow_carp_pfp.bin
+	amdgpu/yellow_carp_rlc.bin
+	amdgpu/yellow_carp_sdma.bin
+	amdgpu/yellow_carp_ta.bin
+	amdgpu/yellow_carp_toc.bin
+	amdgpu/yellow_carp_vcn.bin
 )
 
 builtin_fw_amdgpu_desc="Firmware for AMD GPU (Deprecated)"

@@ -80,6 +80,7 @@ IUSE_LINUX_FIRMWARE=(
 	amdgpu_renoir
 	amdgpu_stoney
 	amdgpu_vega12
+	amdgpu_yellow_carp
 	bcm4354-bt
 	cros-pd
 	fw_sst
@@ -159,6 +160,7 @@ LICENSE="
 	linux_firmware_amdgpu_renoir? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_stoney? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_vega12? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_yellow_carp? ( LICENSE.amdgpu )
 	linux_firmware_ath3k-all? ( LICENCE.atheros_firmware )
 	linux_firmware_ath3k-ar3011? ( LICENCE.atheros_firmware )
 	linux_firmware_ath3k-ar3012? ( LICENCE.atheros_firmware )
@@ -448,6 +450,11 @@ src_install() {
 
 	if use_fw amdgpu_vega12; then
 		doins_subdir amdgpu/vega12*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_yellow_carp; then
+		doins_subdir amdgpu/yellow_carp*
 		ignore_legacy_amdgpu=1
 	fi
 
