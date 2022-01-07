@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="aa5cb849615b7a8ab885706975935aceb9220414"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "3aeb9bd74a742e861034fd303abdf8af7fadb541" "6118de6c4a69d290eb9a7d85f9931545534156ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="749621a6288cc5e80b31a9e6050437a419209fb9"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "82596a647fcadcbaf46f0e7ccbd31de0decfc0f2" "6118de6c4a69d290eb9a7d85f9931545534156ec" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -84,6 +84,7 @@ src_install() {
 	doexe "${OUT}"/icmp
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
+	doexe "${OUT}"/typec_connector_class_helper
 	doexe "${OUT}"/usb4_devinfo_helper
 	doexe "${OUT}"/bt_usb_disconnect_helper
 
