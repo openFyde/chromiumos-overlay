@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cd55eb001eec83630fac785573c8bc4c8a248259"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "a9c8e55ce2e3a823e9c816f533e1a7ea405146b7" "bdcc5dafcae097d11dcce22f4db58f5f52bdc6f5" "1e355a45768e8a4037b3ad59428062a81495368f" "c268a0456d93a58f0ec85e803ab01a23eb396035" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6ba6a3e1084c81b5f2a534e30b4ed992497c4ab9"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "a9c8e55ce2e3a823e9c816f533e1a7ea405146b7" "bdcc5dafcae097d11dcce22f4db58f5f52bdc6f5" "c624960a2c8270e05dbfc93b37f1ac2a8f8fa0bd" "c268a0456d93a58f0ec85e803ab01a23eb396035" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_s
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="iioservice"
+IUSE="fuzzer iioservice"
 
 COMMON_DEPEND="
 	chromeos-base/libmems:=
@@ -40,6 +40,14 @@ src_install() {
 	if use iioservice; then
 		dosbin "${OUT}"/mems_remove
 	fi
+
+	# Install fuzzers
+	local fuzzer_component_id="811602"
+	insinto /usr/libexec/fuzzers
+	for fuzzer in "${OUT}"/*_fuzzer; do
+		platform_fuzzer_install "${S}"/OWNERS "${fuzzer}" \
+				--comp "${fuzzer_component_id}"
+	done
 }
 
 platform_pkg_test() {
