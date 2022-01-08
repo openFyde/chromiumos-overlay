@@ -91,15 +91,13 @@ pkg_setup() {
 	use lua && lua-single_pkg_setup
 }
 
-pkg_pretend() {
+src_prepare() {
 	if use static; then
 		einfo "Only sys-libs/gmp and dev-libs/nettle are statically linked."
 		use dnssec || einfo "Thus, ${P}[!dnssec,static] makes no sense;" \
 			"in this case the static USE flag does nothing."
 	fi
-}
 
-src_prepare() {
 	default
 
 	if use dhcp-options; then
