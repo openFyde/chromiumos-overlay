@@ -1,13 +1,13 @@
 BDEPEND=dev-vcs/git
-DEFINED_PHASES=info install setup unpack
-DESCRIPTION=Compilation and runtime tests for toolchain
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=dev-libs/openssl:0=
+DESCRIPTION=TPM2.0 library
 EAPI=7
-HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/toolchain-utils/
-IUSE=cros_host cros_workon_tree_df461649df684c45516ccf619564df284b5e98e7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/tpm2/
+IUSE=generic_tpm2 tpm2_simulator tpm2_simulator_manufacturer cros_host cros_workon_tree_5eee531dcabf0f42bd4dfbfbee3727d5b2ab8c5f
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=app-misc/pax-utils dev-lang/python sys-devel/binutils
-SLOT=0/0
+SLOT=0/0.0.1-r141
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	1a1f6f4787b0e2efbd5662ad32cd91d8	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=12aea87c34f8b2895e49407644edbdbe
+_md5_=a6bf82f2068163090917ecbb59beba0b
