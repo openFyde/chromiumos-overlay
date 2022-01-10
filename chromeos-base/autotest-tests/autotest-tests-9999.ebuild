@@ -27,6 +27,7 @@ RDEPEND="
 	!<=chromeos-base/autotest-factory-0.0.1-r4445
 	dev-python/numpy
 	dev-python/pillow
+	dev-python/pydbus
 	dev-python/pygobject
 	dev-python/pytest
 	dev-python/python-uinput
