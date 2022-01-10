@@ -2268,7 +2268,7 @@
         "start_version": 433403
     },
     {
-        "end_version": null,
+        "end_version": 444704,
         "metadata": {
             "info": [],
             "title": "[libunwind][ARM] Handle end of stack during unwind"
@@ -2338,5 +2338,16 @@
         ],
         "rel_patch_path": "cherry/a2a58d91e82db38fbdf88cc317dcb3753d79d492.patch",
         "start_version": 442113
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[libcxx] Add a dependency on unwind in cxx_static, if LIBCXXABI_USE_LLVM_UNWINDER is set\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
+        "start_version": 443104
     }
 ]
