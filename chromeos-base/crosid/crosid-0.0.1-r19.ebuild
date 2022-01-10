@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cd55eb001eec83630fac785573c8bc4c8a248259"
-CROS_WORKON_TREE="a9c8e55ce2e3a823e9c816f533e1a7ea405146b7"
+CROS_WORKON_COMMIT="13ae20ee3d3b33c9f6501c25c86fd3b9b0cdec8b"
+CROS_WORKON_TREE="981b70845918bbffc50b56d6f3f95c72b57a233e"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -24,8 +24,18 @@ src_unpack() {
 	S+="/platform2/chromeos-config/crosid"
 }
 
+src_configure() {
+	emesonargs+=( -Ddefault_library=both )
+	meson_src_configure
+}
+
 src_install() {
 	dobin "${BUILD_DIR}/crosid"
+	dolib.a "${BUILD_DIR}/libcrosid.a"
+	dolib.so "${BUILD_DIR}/libcrosid.so"
+	doheader "${S}/crosid.h"
+
+	meson_src_install
 }
 
 src_test() {
