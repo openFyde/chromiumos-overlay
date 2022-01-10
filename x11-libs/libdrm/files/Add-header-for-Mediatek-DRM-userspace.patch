@@ -1,4 +1,4 @@
-From 7ff43477e7a0193691dade3a3ceb2bc90f9282a7 Mon Sep 17 00:00:00 2001
+From 6823ca1c90fa9f575d5918b70671a9dfa2bb4253 Mon Sep 17 00:00:00 2001
 From: JB Tsai <jb.tsai@mediatek.com>
 Date: Wed, 25 Mar 2015 09:04:16 +0800
 Subject: [PATCH] CHROMIUM: libdrm: Add header for Mediatek DRM userspace
@@ -27,7 +27,7 @@ Change-Id: Idcbe76bbc710c4ee5b08af640fd3ccaadf9d33a0
  create mode 100644 include/drm/mediatek_drm.h
 
 diff --git a/Makefile.sources b/Makefile.sources
-index 55290fe9..cf39acfb 100644
+index 9fa2e7db..07986fd0 100644
 --- a/Makefile.sources
 +++ b/Makefile.sources
 @@ -24,6 +24,7 @@ LIBDRM_INCLUDE_H_FILES := \
@@ -104,10 +104,10 @@ index 00000000..6d87d9c7
 +
 +#endif /* _UAPI_MEDIATEK_DRM_H */
 diff --git a/meson.build b/meson.build
-index fc02f552..2b21a318 100644
+index e936d5c0..b3251e95 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -310,7 +310,7 @@ install_headers('libsync.h', 'xf86drm.h', 'xf86drmMode.h')
+@@ -344,7 +344,7 @@ install_headers('libsync.h', 'xf86drm.h', 'xf86drmMode.h')
  install_headers(
    'include/drm/drm.h', 'include/drm/drm_fourcc.h', 'include/drm/drm_mode.h',
    'include/drm/drm_sarea.h', 'include/drm/i915_drm.h',
@@ -115,7 +115,7 @@ index fc02f552..2b21a318 100644
 +  'include/drm/mach64_drm.h', 'include/drm/mediatek_drm.h', 'include/drm/mga_drm.h',
    'include/drm/msm_drm.h', 'include/drm/nouveau_drm.h',
    'include/drm/qxl_drm.h', 'include/drm/r128_drm.h',
-   'include/drm/radeon_drm.h', 'include/drm/amdgpu_drm.h',
+   'include/drm/radeon_drm.h', 'include/drm/rockchip_drm.h', 'include/drm/amdgpu_drm.h',
 -- 
-2.30.0.365.g02bc693789-goog
+2.31.0
 
