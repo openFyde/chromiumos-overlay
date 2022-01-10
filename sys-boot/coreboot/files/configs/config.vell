@@ -8,7 +8,7 @@ CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-vell.bin"
 CONFIG_CSE_DATA_FILE="cse_data/cse_data-vell.bin"
 
 # Video Blob
-CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt.bin"
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt_vell.bin"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-vell.bin"
