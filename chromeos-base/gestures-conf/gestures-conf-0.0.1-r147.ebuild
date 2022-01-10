@@ -50,6 +50,12 @@ src_install() {
 	elif [[ "${board}" = "daisy" && "${board_variant}" = "${board}" ]]; then
 		doins 50-touchpad-cmt-daisy.conf
 		doins 50-touchpad-cmt-pit.conf # Some Lucas's use Pit Touchpad module
+	elif [[ "${board}" = "reven" ]]; then
+		doins 50-touchpad-cmt-reven.conf
+		# Since reven could be run on Chrome OS devices, it may as well
+		# include configs for their touchpads, so long as those configs
+		# have MatchDMIProduct lines.
+		doins 50-touchpad-cmt-samus.conf
 	elif [ "${board_variant}" = "daisy_spring" ]; then
 		doins 50-touchpad-cmt-spring.conf
 	elif [ "${board_variant}" = "peach_pit" ]; then
