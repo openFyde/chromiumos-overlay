@@ -141,7 +141,6 @@ CLIENT_IUSE_TESTS="
 	+tests_hardware_TrimIntegrity
 	+tests_infra_FirmwareAutoupdate
 	+tests_kernel_AsyncDriverProbe
-	+tests_kernel_FirmwareRequest
 	+tests_kernel_CrosECSysfsAccel
 	+tests_kernel_Delay
 	+tests_kernel_fs_Punybench
