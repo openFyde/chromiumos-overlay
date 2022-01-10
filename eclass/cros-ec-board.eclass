@@ -12,7 +12,6 @@
 #  This class contains function that lists the name of embedded
 #  controllers for a given system.
 #  When found, the array EC_BOARDS is populated.
-#  It no ECs are known or build host tools, bds toolchain is defined.
 #  For example, for a falco machine, EC_BOARDS = [ "falco" ]
 #  For samus, EC_BOARDS = [ "samus", "samus_pd" ]
 #
@@ -44,7 +43,6 @@ EC_EXTRA_BOARD_USE_PREFIX="ec_firmware_extra_"
 # are configured in chromeos-config.  Adjust /firmware/build-targets in your
 # model.yaml or Boxster file instead of appending to the list below.
 EC_BOARD_NAMES=(
-	bds
 	cr50
 	cyan
 	dingdong
@@ -75,9 +73,8 @@ get_ec_boards()
 {
 	EC_BOARDS=()
 	if use cros_host; then
-		# If we are building for the purpose of emitting host-side tools, assume
-		# EC_BOARDS=(bds) for the build.
-		EC_BOARDS=(bds)
+		# We are building for the purpose of emitting host-side tools.
+		EC_BOARDS=(host)
 		return
 	fi
 
@@ -95,10 +92,10 @@ get_ec_boards()
 		done
 	fi
 
-	# Allow building for boards that don't have an EC
-	# (so we can compile test on bots for testing).
 	if [[ ${#EC_BOARDS[@]} -eq 0 ]]; then
-		EC_BOARDS=(bds)
+		einfo "No boards found; assuming we're building for a fuzzer."
+		use fuzzer || die "No EC boards found."
+		return
 	fi
 	einfo "Building for boards: ${EC_BOARDS[*]}"
 }
