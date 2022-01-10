@@ -21,7 +21,7 @@ RDEPEND="x11-libs/libX11:="
 DEPEND="
 	${RDEPEND}
 	>=dev-util/opencl-headers-2021.04.29
-	>=dev-util/spirv-headers-1.5.4.1
+	dev-util/spirv-headers
 "
 
 src_install() {

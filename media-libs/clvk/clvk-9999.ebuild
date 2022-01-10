@@ -48,7 +48,7 @@ DEPEND="
 	>=dev-util/vulkan-headers-1.2.162
 	>=dev-util/opencl-headers-2021.04.29
 	>=dev-util/spirv-tools-2020.6
-	>=dev-util/spirv-headers-1.5.4.1
+	dev-util/spirv-headers
 "
 
 # target runtime dependencies
