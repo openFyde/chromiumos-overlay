@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-COMMON_DEPEND="chromeos-base/vboot_reference:="
+COMMON_DEPEND="chromeos-base/vboot_reference"
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/data_model:=
