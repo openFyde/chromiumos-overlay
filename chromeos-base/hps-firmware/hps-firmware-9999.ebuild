@@ -5,7 +5,6 @@ EAPI=7
 
 inherit cros-workon cros-rust
 
-CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
