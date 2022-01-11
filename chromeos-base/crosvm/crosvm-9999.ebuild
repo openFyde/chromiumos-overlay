@@ -198,8 +198,6 @@ src_compile() {
 }
 
 src_test() {
-	# Some of the tests will use /dev/kvm.
-	addwrite /dev/kvm
 	local test_opts=(
 		# TODO(b/211023371): Re-enable libvda tests.
 		--exclude libvda
@@ -225,9 +223,6 @@ src_test() {
 		"--env" "CROSVM_CARGO_TEST_ROOTFS_IMAGE=${rootfs_image}"
 	)
 
-	# TODO(b/194848000): Reenable when /dev/log starts working inside cros_sdk.
-	test_opts+=( --exclude "integration_tests" )
-
 	# kernel versions between 5.1 and 5.10 have io_uring bugs, skip the io_uring
 	# integration test on these platforms.  See b/189879899
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
@@ -248,7 +243,7 @@ src_test() {
 		test_opts+=( --exclude "crosvm_plugin" )
 	fi
 
-	# Excluding tests that run on a different arch, use /dev/dri,
+	# Excluding tests that run on a different arch, use /dev/kvm, /dev/dri,
 	# /dev/net/tun, or wayland access because the bots don't support these.
 	local args=(
 		--workspace -v
@@ -256,14 +251,30 @@ src_test() {
 		--exclude gpu_display
 		--exclude rutabaga_gfx
 		--exclude crosvm-fuzz
+		# Exclude crates that require KVM.
+		--exclude integration_tests
+		--exclude hypervisor
+		--exclude kvm
+		--exclude kvm_sys
 		# Also exclude the following since their tests are run in their ebuilds.
 		--exclude enumn
 		--exclude sys_util
 		"${test_opts[@]}"
 	)
 
+	# cargo test requires --skip options to be passed to the test itself (after the
+	# dividing -- option), so these are in a separate array from args.
+	local skip_tests=(
+		# Skip tests in devices that need KVM.
+		--skip "irqchip::kvm"
+		# Skip tests in x86_64 that need KVM.
+		--skip "cpuid::tests::feature_and_vendor_name"
+		--skip "test_integration::simple_kvm"
+	)
+
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
+		"${skip_tests[@]}" \
 		|| die "cargo test failed"
 
 	# Plugin tests all require /dev/kvm, but we want to make sure they build
