@@ -26,6 +26,12 @@ src_configure() {
 	cros-common.mk_src_configure
 }
 
+src_test() {
+	pushd script || die
+	python3 -m unittest cyclic_bench_unittest || die
+	popd > /dev/null || die
+}
+
 src_install() {
 	# Install built tools
 	pushd "${OUT}" >/dev/null
@@ -36,5 +42,6 @@ src_install() {
 	dobin src/cras_api_test
 	dobin src/loopback_latency
 	dobin script/alsa_conformance_test.py
-	popd >/dev/null
+	dobin script/cyclic_bench.py
+	popd >/dev/null || die
 }
