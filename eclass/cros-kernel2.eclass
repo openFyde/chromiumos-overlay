@@ -1888,14 +1888,16 @@ kmake() {
 	fi
 
 	if [[ "${CHOST}" != "${cross}" ]]; then
-		unset CC CXX LD STRIP OBJCOPY
+		unset CC CXX LD STRIP OBJCOPY NM AR
 	fi
 
 	tc-export_build_env BUILD_{CC,CXX}
-	CHOST=${cross} tc-export CC CXX LD STRIP OBJCOPY
+	CHOST=${cross} tc-export CC CXX LD STRIP OBJCOPY NM AR
 	if use clang; then
 		STRIP=llvm-strip
 		OBJCOPY=llvm-objcopy
+		NM=llvm-nm
+		AR=llvm-ar
 		CHOST=${cross} clang-setup-env
 	fi
 	# Use ld.lld instead of ${cross}-ld.lld, ${cross}-ld.lld has userspace
@@ -1916,6 +1918,8 @@ kmake() {
 		OBJCOPY="${OBJCOPY}" \
 		REAL_STRIP="${STRIP}" \
 		STRIP="${STRIP}" \
+		NM="${NM}" \
+		AR="${AR}" \
 		CC="${CC} ${linker_arg}" \
 		CC_COMPAT="${CC_COMPAT}" \
 		CXX="${CXX} ${linker_arg}" \
