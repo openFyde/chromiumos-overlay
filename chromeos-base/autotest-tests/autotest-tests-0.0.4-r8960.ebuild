@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="9687b217e9b49f0dfc5b539bd8be67d34cd5f7b4"
-CROS_WORKON_TREE="ee89a738585183519ba9725692521243f621ff03"
+CROS_WORKON_COMMIT="bccdca7201e7455e749dc76377361af90aabb364"
+CROS_WORKON_TREE="09e8463f44d50855f6b962ae14bcfa70e3148379"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -29,6 +29,7 @@ RDEPEND="
 	!<=chromeos-base/autotest-factory-0.0.1-r4445
 	dev-python/numpy
 	dev-python/pillow
+	dev-python/pydbus
 	dev-python/pygobject
 	dev-python/pytest
 	dev-python/python-uinput
