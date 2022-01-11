@@ -10,5 +10,6 @@ sys-firmware/parade-ps8805a3-firmware
 sys-firmware/parade-ps8815a0-firmware
 sys-firmware/parade-ps8815a1-firmware
 sys-firmware/parade-ps8815a2-firmware
+sys-firmware/parade-ps8815a2-app-firmware
 sys-firmware/parade-ps8705a2-firmware
 sys-firmware/parade-ps8705a3-firmware
