@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bae596e20a373d74032fe452ad9a6cc094e9605b"
-CROS_WORKON_TREE="32683e02bc5fecd184874fd53607fef48a66febf"
+CROS_WORKON_COMMIT="ac510987151a209108842c2308d060b10a6b6805"
+CROS_WORKON_TREE="4a65fa05ebd7f05136e8f36ec16d3d4ccb0c970b"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-iris"
 CROS_WORKON_EGIT_BRANCH="chromeos-iris"
@@ -66,7 +66,7 @@ src_configure() {
 		-Dplatforms=''
 		-Dtools=$(usex tools intel '')
 		--buildtype $(usex debug debug release)
-		-Dvulkan-drivers=$(usex vulkan intel '')
+ 		-Dvulkan-drivers=$(usex vulkan intel '')
 	)
 
 	meson_src_configure
