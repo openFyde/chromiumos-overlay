@@ -58,6 +58,12 @@ CROS_WORKON_DESTDIR=(
 	"${COREBOOT_DESTDIR}"
 )
 
+CROS_WORKON_OPTIONAL_CHECKOUT=(
+	""
+	""
+	"use test"
+)
+
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 RESTRICT='strip'
 
