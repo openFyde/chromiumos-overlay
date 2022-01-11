@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="65a55890fe22fda6172f76a16264b2d44fd2e364"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5bf4212fe44c70fffafeadb59be046b309fb40f8" "80bb65ab125f7aaa2eddb0f06313cba045f954c6" "bc5d73e40a959dd5e4fdb5a6431004733015ac5d")
+CROS_WORKON_COMMIT="fab17ad1b1cb30aa6b633541e09a3befff183745"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "80bb65ab125f7aaa2eddb0f06313cba045f954c6" "bc5d73e40a959dd5e4fdb5a6431004733015ac5d")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/features/document_scanning common-mk"
