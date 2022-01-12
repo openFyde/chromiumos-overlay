@@ -76,11 +76,6 @@ UNIBOARD_YAML_DIR="${UNIBOARD_CROS_CONFIG_DIR}/yaml"
 #  This is the installation path to the YAML source file.
 UNIBOARD_YAML_CONFIG="${UNIBOARD_YAML_DIR}/config.yaml"
 
-# @ECLASS-VARIABLE: UNIBOARD_C_CONFIG
-# @DESCRIPTION:
-#  This is the installation path to the C source file.
-UNIBOARD_C_CONFIG="${UNIBOARD_YAML_DIR}/config.c"
-
 # @ECLASS-VARIABLE: CROS_CONFIG_TEST_DIR
 # @DESCRIPTION:
 #  Local to install build specific cros_config test files.

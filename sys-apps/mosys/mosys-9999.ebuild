@@ -49,15 +49,12 @@ src_unpack() {
 src_configure() {
 	local platform_intf=""
 	local emesonargs=(
-		$(meson_use unibuild use_cros_config)
+		"$(meson_use unibuild)"
 		"$(meson_use vpd_file_cache use_vpd_file_cache)"
 		-Darch=$(tc-arch)
 	)
 
 	if use unibuild; then
-		emesonargs+=(
-			"-Dcros_config_data_src=${SYSROOT}${UNIBOARD_C_CONFIG}"
-		)
 		platform_intf="$(cros_config_host get-mosys-platform)"
 	else
 		# TODO(jrosenth): hard code some board to platform_intf

@@ -55,7 +55,6 @@ src_compile() {
 	local input_yaml_files=()
 	local schema_flags=()
 	local yaml="${WORKDIR}/config.yaml"
-	local c_file="${WORKDIR}/config.c"
 	local configfs_image="${WORKDIR}/configfs.img"
 	local gen_yaml="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
 
@@ -85,12 +84,9 @@ src_compile() {
 			|| die "cros_config_schema failed for build config."
 
 		run_cros_config_tool cros_config_schema -c "${yaml}" \
-			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
+			--configfs-output "${configfs_image}" -f "True" \
 			--identity-table-out "${WORKDIR}/identity.bin" \
 			|| die "cros_config_schema failed for platform config."
-	else
-		einfo "Emitting empty C interface config for mosys."
-		cp "${FILESDIR}/empty_config.c" "${c_file}"
 	fi
 }
 
@@ -105,7 +101,6 @@ src_install() {
 	fi
 
 	insinto "${UNIBOARD_YAML_DIR}"
-	doins "${WORKDIR}/config.c"
 	if [[ -e "${WORKDIR}/config.yaml" ]]; then
 		doins "${WORKDIR}/config.yaml"
 	fi
