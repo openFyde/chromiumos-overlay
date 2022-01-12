@@ -38,3 +38,15 @@ src_compile() {
 src_install() {
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/svd2rust"
 }
+
+src_configure() {
+	cros-rust_src_configure
+
+	# svd2rust uses proc-macro2, which decides at runtime whether to use
+	# rustc's proc-macro based on whether calling it panics or not. i.e. it
+	# uses std::panic::catch_unwind. This means that it aborts if panic=abort.
+	# The latest version of proc-macro2 fixes this, provided rustc is >=
+	# 1.57.0. So we can return to using panic=abort once we have updated to
+	# 1.57.0 or later and updated proc-macro2.
+	sed -i -e 's/panic=abort/panic=unwind/' "${CARGO_HOME}/config" || die
+}
