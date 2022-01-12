@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3a0c27bc4a266d514867edc9e5b2264df17cec95"
-CROS_WORKON_TREE="ac044f5c1ebb0e11713a9df10f1896e766088dfb"
+CROS_WORKON_COMMIT="3b3ea529aac33dbd64f656dc0c8cc1be933d0de5"
+CROS_WORKON_TREE="cc2554660f128f6fa62a4a029a65bee8c93a52ac"
 inherit cros-workon cros-rust
 
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
