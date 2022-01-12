@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c80b8dab65b8d61b77f4658dd95e594878451ca1"
+CROS_WORKON_COMMIT="8b42166be21ad96da5710557dc3a036f11b509b5"
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "634ecb9eb2f25c68bfa3c4b9a62a16cf5d53f53a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -26,7 +26,7 @@ IUSE="test"
 COMMON_DEPEND="
 	dev-libs/protobuf:=
 	sys-apps/dbus:=
-	sys-fs/fuse:=
+	=sys-fs/fuse-2.9*:=
 	sys-libs/libcap:=
 "
 
