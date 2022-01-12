@@ -24,7 +24,7 @@ IUSE="test"
 COMMON_DEPEND="
 	dev-libs/protobuf:=
 	sys-apps/dbus:=
-	sys-fs/fuse:=
+	=sys-fs/fuse-2.9*:=
 	sys-libs/libcap:=
 "
 
