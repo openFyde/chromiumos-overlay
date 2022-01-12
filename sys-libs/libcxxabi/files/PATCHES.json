@@ -34,5 +34,16 @@
         ],
         "rel_patch_path": "D109856.patch",
         "start_version": 433403
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[libcxx] Add a dependency on unwind in cxx_static, if LIBCXXABI_USE_LLVM_UNWINDER is set\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
+        "start_version": 443104
     }
 ]
