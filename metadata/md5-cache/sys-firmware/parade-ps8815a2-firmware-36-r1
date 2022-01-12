@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=Google-Partners-Website
 RDEPEND=!sys-boot/chromeos-firmware-ps8815
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8815a2-firmware-32.tar.xz
+SRC_URI=gs://chromeos-localmirror/distfiles/parade-ps8815a2-firmware-36.tar.xz
 _md5_=b3d9de4c9044085b1a34bd1fe1c6614f
