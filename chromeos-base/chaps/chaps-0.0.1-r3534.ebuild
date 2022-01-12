@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0fb256a4a82edd0c98af715e75ff0ddd936bcb2c"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "5fe3eb14a3e1be17e7333cb21ff8f0f939b9e328" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "d2b226582d18266d446e1f16d3ce20df4900034d" "6118de6c4a69d290eb9a7d85f9931545534156ec" "11b22f268354979c627f4ff1871fb7c8ca917d3a" "5b514f90bddced17264997f50fdb519b333d54f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b6aa1c7ef0280c0011cdb87eabbaf2317a66543d"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "8bfa107b3615ee562012f6589e81d78ab47a1cd2" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "d2b226582d18266d446e1f16d3ce20df4900034d" "6118de6c4a69d290eb9a7d85f9931545534156ec" "11b22f268354979c627f4ff1871fb7c8ca917d3a" "5b514f90bddced17264997f50fdb519b333d54f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -101,6 +101,7 @@ src_install() {
 		chaps_attributes_fuzzer
 		chaps_object_store_fuzzer
 		chaps_utility_fuzzer
+		chaps_slot_manager_fuzzer
 	)
 	for fuzzer in "${fuzzers[@]}"; do
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzzer}" \
