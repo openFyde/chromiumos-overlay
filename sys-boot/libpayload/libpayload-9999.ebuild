@@ -6,8 +6,14 @@
 # VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
-CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
+CROS_WORKON_PROJECT=(
+	"chromiumos/third_party/coreboot"
+	"chromiumos/platform/vboot_reference"
+)
+CROS_WORKON_EGIT_BRANCH=(
+	"chromeos-2016.05"
+	"main"
+)
 
 DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
@@ -30,12 +36,24 @@ DEPEND="chromeos-base/chromeos-config:="
 # the package manager to ensure the two versions use the same chromeos-config.
 RDEPEND="${DEPEND}"
 
-CROS_WORKON_LOCALNAME="coreboot"
+CROS_WORKON_LOCALNAME=(
+	"coreboot"
+	"../platform/vboot_reference"
+)
+
+VBOOT_DESTDIR="${S}/3rdparty/vboot"
+CROS_WORKON_DESTDIR=(
+	"${S}"
+	"${S}/3rdparty/vboot"
+)
 
 # commonlib, kconfig and xcompile are reused from coreboot.
 # Everything else is not supposed to matter for
 # libpayload.
-CROS_WORKON_SUBTREE="payloads/libpayload src/commonlib util/kconfig util/xcompile"
+CROS_WORKON_SUBTREE=(
+	"payloads/libpayload src/commonlib util/kconfig util/xcompile"
+	"Makefile firmware"
+)
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
@@ -79,6 +97,7 @@ libpayload_compile() {
 		DOTCONFIG="${dotconfig}"
 		HOSTCC="$(tc-getBUILD_CC)"
 		HOSTCXX="$(tc-getBUILD_CXX)"
+		VBOOT_SOURCE="${VBOOT_DESTDIR}"
 	)
 	use verbose && OPTS+=( "V=1" )
 
@@ -142,9 +161,12 @@ src_install() {
 		name="${LIBPAYLOAD_BUILD_NAMES[${i}]}"
 		target="${LIBPAYLOAD_BUILD_TARGETS[${i}]}"
 
-		emake obj="${T}/${target}" DOTCONFIG="${T}/config.${target}" \
+		emake obj="${T}/${target}" \
+			DOTCONFIG="${T}/config.${target}" VBOOT_SOURCE="${VBOOT_DESTDIR}" \
 			DESTDIR="${D}/firmware/${name}/libpayload" install
-		emake obj="${T}/${target}.gdb" DOTCONFIG="${T}/config_gdb.${target}" \
+		emake obj="${T}/${target}.gdb" \
+			DOTCONFIG="${T}/config_gdb.${target}" \
+			VBOOT_SOURCE="${VBOOT_DESTDIR}" \
 			DESTDIR="${D}/firmware/${name}/libpayload.gdb" install
 	done
 }
