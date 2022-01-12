@@ -129,6 +129,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptMinios
 	+tests_firmware_CorruptRecoveryCache
 	+tests_firmware_Cr50BID
+	+tests_firmware_Cr50CCDFirmwareUpdate
 	+tests_firmware_Cr50CCDServoCap
 	+tests_firmware_Cr50CCDUartStress
 	+tests_firmware_Cr50CheckCap
@@ -139,7 +140,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50DevMode
 	+tests_firmware_Cr50ECReset
 	+tests_firmware_Cr50FactoryResetVC
-	+tests_firmware_Cr50CCDFirmwareUpdate
+	+tests_firmware_Cr50FIPSDS
 	+tests_firmware_Cr50GetName
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Keygen
