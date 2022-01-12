@@ -7,7 +7,6 @@ CROS_WORKON_COMMIT="b8f1ed83743b9eef02381780d2fee70abff6ab84"
 CROS_WORKON_TREE="a6133216a32883edd591cc8403d7ca7719965003"
 inherit cros-workon cros-rust
 
-CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
