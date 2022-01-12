@@ -29,8 +29,10 @@ BDEPEND="
 
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
+	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha:=
 	>=dev-rust/bitflags-1.3.2:= <dev-rust/bitflags-2.0.0
 	=dev-rust/clap-3*:=
+	=dev-rust/colored-2*:=
 	>=dev-rust/cortex-m-0.7.1:= <dev-rust/cortex-m-0.8.0
 	>=dev-rust/cortex-m-rt-0.6.13:= <dev-rust/cortex-m-rt-0.7.0
 	>=dev-rust/cortex-m-rtic-0.5.5:= <dev-rust/cortex-m-rtic-0.6.0
@@ -42,10 +44,12 @@ DEPEND="
 	=dev-rust/embedded-hal-mock-0.8*:=
 	>=dev-rust/git-version-0.3.4:= <dev-rust/git-version-0.4.0
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
+	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
 	=dev-rust/panic-halt-0.2*:=
 	=dev-rust/panic-reset-0.1*:=
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
+	=dev-rust/rustyline-9*:=
 	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
 	>=dev-rust/spi-memory-0.2.0:= <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*:=
@@ -87,6 +91,10 @@ src_prepare() {
 		-e '/^daemon = /d' \
 		-e '/^ftdi = /d' \
 		rust/hps-util/Cargo.toml
+	sed -i \
+		-e '/ optional = true/d' \
+		-e '/^direct /d' \
+		rust/hps-mon/Cargo.toml
 
 	default
 }
@@ -113,7 +121,7 @@ src_compile() {
 	python -m soc.hps_soc --build --no-compile-software || die
 
 	# Build userspace tools
-	for tool in hps-util sign-rom ; do (
+	for tool in hps-mon hps-util sign-rom ; do (
 		cd rust/${tool} || die
 		einfo "Building ${tool}"
 		ecargo_build
@@ -157,6 +165,7 @@ src_test() {
 
 src_install() {
 	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
+	dobin "$(cros-rust_get_build_dir)/hps-mon"
 	dobin "$(cros-rust_get_build_dir)/hps-util"
 
 	insinto "/usr/lib/firmware/hps"
