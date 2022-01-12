@@ -133,3 +133,17 @@ index dd2ba27d..b0624e19 100644
          "//tensorflow:arm_any": [
              "//tensorflow/lite/delegates/hexagon:hexagon_delegate",
          ],
+diff --git a/tensorflow/lite/tools/evaluation/tasks/build_def.bzl b/tensorflow/lite/tools/evaluation/tasks/build_def.bzl
+index 0d71b443..fb99f73d 100644
+--- a/tensorflow/lite/tools/evaluation/tasks/build_def.bzl
++++ b/tensorflow/lite/tools/evaluation/tasks/build_def.bzl
+@@ -10,5 +10,8 @@ def task_linkopts():
+             # Hexagon delegate libraries should be in /data/local/tmp
+             "-Wl,--rpath=/data/local/tmp/",
+         ],
+-        "//conditions:default": [],
++        "//conditions:default": [
++            "-lEGL",
++            "-lGLESv2"
++	],
+     })

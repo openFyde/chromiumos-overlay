@@ -20,7 +20,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 # ChromeOS uses 'minimal' to compile only TensorFlow Lite, compilation without 'minimal' is not supported.
-IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack"
+IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack inference_accuracy_eval"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -34,6 +34,7 @@ bazel_external_uris="
 	https://github.com/bazelbuild/rules_closure/archive/308b05b2419edb5c8ee0471b67a40403df940149.tar.gz -> bazelbuild-rules_closure-308b05b2419edb5c8ee0471b67a40403df940149.tar.gz
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
 	https://github.com/bazelbuild/rules_swift/archive/3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz -> bazelbuild-rules_swift-3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz
+	https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz -> bazelbuild-rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz
 	https://github.com/google/farmhash/archive/0d859a811870d10f53a594927d0d0b97573ad06d.tar.gz -> farmhash-0d859a811870d10f53a594927d0d0b97573ad06d.tar.gz
 	https://github.com/google/gemmlowp/archive/fda83bdc38b118cc6b56753bd540caa49e570745.zip -> gemmlowp-fda83bdc38b118cc6b56753bd540caa49e570745.zip
 	https://github.com/google/ruy/archive/e6c1b8dc8a8b00ee74e7268aac8b18d7260ab1ce.zip -> ruy-e6c1b8dc8a8b00ee74e7268aac8b18d7260ab1ce.zip
@@ -53,6 +54,10 @@ bazel_external_uris="
 	https://github.com/google/XNNPACK/archive/694d2524757f9040e65a02c374e152a462fe57eb.zip -> xnnpack-694d2524757f9040e65a02c374e152a462fe57eb.zip
 	https://github.com/llvm/llvm-project/archive/43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz -> llvm-project-43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz
 	https://storage.googleapis.com/mirror.tensorflow.org/storage.cloud.google.com/download.tensorflow.org/tflite/hexagon_nn_headers_v1.20.0.3.tgz -> hexagon_nn_headers_v1.20.0.3.tgz
+	https://github.com/google/nsync/archive/1.22.0.tar.gz -> nsync-1.22.0.tar.gz
+	https://github.com/google/re2/archive/506cfa4bffd060c06ec338ce50ea3468daa6c814.tar.gz -> re2-506cfa4bffd060c06ec338ce50ea3468daa6c814.tar.gz
+	https://github.com/google/highwayhash/archive/fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz -> highwayhash-fd3d9af80465e4383162e4a7c5e2f406e82dd968.tar.gz
+	https://storage.googleapis.com/mirror.tensorflow.org/pilotfiber.dl.sourceforge.net/project/giflib/giflib-5.2.1.tar.gz -> giflib-5.2.1.tar.gz
 "
 
 SRC_URI="
@@ -157,6 +162,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.7.0-0004-cpuinfo-arm-fix.patch"
 	"${FILESDIR}/tensorflow-2.7.0-0005-gpu.patch"
 	"${FILESDIR}/tensorflow-2.7.0-0006-nnapi-loading-errors.patch"
+	"${FILESDIR}/tensorflow-2.7.0-0007-protobuff-cc-toolchain.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -283,14 +289,12 @@ src_configure() {
 			flatbuffers
 			functools32_archive
 			gast_archive
-			gif
 			hwloc
 			icu
 			jsoncpp_git
 			libjpeg_turbo
 			lmdb
 			nasm
-			nsync
 			opt_einsum_archive
 			org_sqlite
 			pasta
@@ -356,7 +360,11 @@ src_compile() {
 				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 			"$(usex xnnpack '
 				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-			"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')"
+			"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')" \
+			"$(usex inference_accuracy_eval '
+				//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
+				//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
+
 	fi
 
 	if ! use minimal; then
@@ -376,7 +384,10 @@ src_compile() {
 			"$(usex benchmark_model '
 				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 			"$(usex xnnpack '
-				//tensorflow/lite/tools/benchmark:benchmark_model' '')"
+				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+			"$(usex inference_accuracy_eval '
+				//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
+				//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
 	fi
 
 	do_compile() {
@@ -483,6 +494,14 @@ src_install() {
 		if use benchmark_model; then
 			einfo "Install benchmark_model tool"
 			dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
+		fi
+
+		if use inference_accuracy_eval; then
+			into /usr/local/
+			einfo "Install inference diff evaluation tool"
+			newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/inference_diff/run_eval inference_diff_eval
+			einfo "Install object detection evaluation tool"
+			newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/coco_object_detection/run_eval object_detection_eval
 		fi
 
 		if use xnnpack; then
