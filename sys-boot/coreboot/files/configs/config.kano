@@ -5,7 +5,9 @@ CONFIG_BOARD_GOOGLE_KANO=y
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-kano.bin"
 
 # CSE data
-CONFIG_CSE_DATA_FILE="cse_data/cse_data-kano.bin"
+# CONFIG_CSE_DATA_FILE="cse_data/cse_data-kano.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/brya/csme-kano.bin"
+CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/brya/me_rw-kano.bin"
 
 # TO-DO: disable this feature before FSI (b/209092463).
 # CSE sub-partition FW update
