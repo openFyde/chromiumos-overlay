@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="0a3f35aeca760ee1df284a49d12653b62c7d5de0"
-CROS_WORKON_TREE="e51ab8763629e3119818d804fac8eb04ca237f77"
+CROS_WORKON_COMMIT="860159a34b67efddde40fd6852ee831ae18940be"
+CROS_WORKON_TREE="e427e856dd69d8837e48cdf8d09ca093014c7ba1"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -300,7 +300,6 @@ SERVER_IUSE_TESTS="
 	+tests_platform_MTBF
 	power_management? (
 		+tests_platform_PowerStatusStress
-		+tests_power_DeferForFlashrom
 		+tests_power_WakeSources
 	)
 	+tests_platform_Powerwash
