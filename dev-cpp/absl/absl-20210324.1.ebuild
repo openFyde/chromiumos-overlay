@@ -3,49 +3,13 @@
 
 EAPI=6
 
-inherit cmake-utils toolchain-funcs
-
 DESCRIPTION="Abseil - C++ Common Libraries"
 HOMEPAGE="https://abseil.io"
-SRC_URI="https://github.com/abseil/abseil-cpp/archive/refs/tags/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND=""
-DEPEND=""
-
-S="${WORKDIR}/abseil-cpp-${PV}"
-ABSLDIR="${WORKDIR}/${P}_build/absl"
-
-src_prepare() {
-	epatch "${FILESDIR}"/use-std-optional.patch
-	default
-}
-
-src_configure() {
-	local mycmakeargs=(
-		-DBUILD_SHARED_LIBS=on
-		-DCMAKE_CXX_STANDARD=17
-	)
-
-	cmake-utils_src_configure
-}
-
-src_compile() {
-	cmake-utils_src_compile
-
-	local libs=( "${ABSLDIR}"/*/libabsl_*.so )
-	[[ ${#libs[@]} -le 1 ]] && die
-	local linklibs="$(echo "${libs[*]}" | sed -E -e 's|[^ ]*/lib([^ ]*)\.so|-l\1|g')"
-	sed -e "s/@LIBS@/${linklibs}/g" "${FILESDIR}/absl.pc.in" > absl.pc || die
-}
-
-src_install() {
-	cmake-utils_src_install
-
-	insinto /usr/$(get_libdir)/pkgconfig
-	doins absl.pc
-}
+DEPEND=">=dev-cpp/abseil-cpp-20210324.2-r3"
+RDEPEND="${DEPEND}"
