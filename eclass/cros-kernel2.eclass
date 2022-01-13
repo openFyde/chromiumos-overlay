@@ -27,7 +27,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_mali_g57? ( virtual/opengles )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
-	builtin_fw_x86_adl_ucode? ( virtual/coreboot-private-files )
+	builtin_fw_x86_adl_ucode? ( sys-boot/coreboot-private-files-baseboard-brya )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_bdw_ucode? ( chromeos-base/bdw-ucode-firmware-private )
