@@ -60,6 +60,7 @@ src_configure() {
 
 	local mycmakeargs=(
 		-DCLVK_VULKAN_IMPLEMENTATION=system
+		-DCLVK_COMPILER_AVAILABLE=ON
 	)
 	cmake-utils_src_configure
 }
