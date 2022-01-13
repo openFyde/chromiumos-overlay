@@ -42,8 +42,14 @@ DEPEND="virtual/pkgconfig
 RDEPEND="java? ( >=virtual/jre-1.4 )
 	${COMMON_DEP}"
 
+PATCHES=(
+	"${FILESDIR}/${PN}-6.3-configure.ac-fix-LD-STRIP-and-RANLIB-hardcoding.patch"
+)
+
 src_prepare() {
 	java-pkg-opt-2_src_prepare
+
+	epatch "${FILESDIR}/${PN}-6.3-configure.ac-fix-LD-STRIP-and-RANLIB-hardcoding.patch"
 
 	# The code runs `pkg-config` directly instead of locating a suitable
 	# pkg-config wrapper (or respecting $PKG_CONFIG).
