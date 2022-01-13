@@ -76,20 +76,6 @@ UNIBOARD_YAML_DIR="${UNIBOARD_CROS_CONFIG_DIR}/yaml"
 #  This is the installation path to the YAML source file.
 UNIBOARD_YAML_CONFIG="${UNIBOARD_YAML_DIR}/config.yaml"
 
-# @ECLASS-VARIABLE: CROS_CONFIG_TEST_DIR
-# @DESCRIPTION:
-#  Local to install build specific cros_config test files.
-#  These are used for chromeos-config integration testing that verifies
-#  the integrity of the config changes.
-CROS_CONFIG_TEST_DIR="/tmp/chromeos-config"
-
-# @ECLASS-VARIABLE: CROS_CONFIG_BUILD_CONFIG_DUMP_FILE
-# @DESCRIPTION:
-#  Local to install build specific cros_config test files.
-#  These are used for chromeos-config integration testing that verifies
-#  the integrity of the config changes.
-CROS_CONFIG_BUILD_CONFIG_DUMP_FILE="config_dump.json"
-
 # @FUNCTION: _find_configs
 # @USAGE: <directory> <extension>
 # @INTERNAL
@@ -198,18 +184,6 @@ install_generated_config_files() {
 	newins "${FILESDIR}/generated/build_config.json" "config.yaml"
 
 	doins "${FILESDIR}/generated/config.c"
-}
-
-# @FUNCTION: install_private_file_dump
-# @USAGE:
-# @DESCRIPTION:
-# Installs file_dump-private.txt and file_dump-private.sh into
-# $CROS_CONFIG_TEST_DIR.
-install_private_file_dump() {
-	insinto "${CROS_CONFIG_TEST_DIR}"
-	doins "${FILESDIR}/file_dump-private.txt"
-	doins "${FILESDIR}/file_dump-private.sh"
-	chmod 755 "${D}${CROS_CONFIG_TEST_DIR}/file_dump-private.sh"
 }
 
 # @FUNCTION: verify_file_match
