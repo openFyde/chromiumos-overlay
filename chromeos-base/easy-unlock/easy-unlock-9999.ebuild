@@ -38,22 +38,9 @@ pkg_preinst() {
 }
 
 src_install() {
-	exeinto /opt/google/easy_unlock
-	doexe "${OUT}/easy_unlock"
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.EasyUnlock.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.EasyUnlock.service
-
-	insinto /etc/init
-	doins init/easy-unlock.conf
-
-	insinto /usr/share/dbus-1/interfaces
-	doins dbus_bindings/org.chromium.EasyUnlockInterface.xml
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/easy_unlock_test_runner"
+	platform test_all
 }
