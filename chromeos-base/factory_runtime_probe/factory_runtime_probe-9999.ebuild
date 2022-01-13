@@ -52,6 +52,5 @@ pkg_setup() {
 }
 
 src_install() {
-	dobin "${OUT}/factory_runtime_probe"
-	dobin "${OUT}/factory_runtime_probe_installer"
+	platform_install
 }
