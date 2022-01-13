@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cd55eb001eec83630fac785573c8bc4c8a248259"
-CROS_WORKON_TREE="551fda3386eee1a3aa067305c7ef3094a07c56cf"
+CROS_WORKON_COMMIT="96e1b8aa29497f575ce79b4148116ec85dde3e2c"
+CROS_WORKON_TREE="cd2d34d90e657f5fc9404d4f7e3f7923fdd90485"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="chromeos-config/cros_config_host"
@@ -57,7 +57,6 @@ src_compile() {
 	local input_yaml_files=()
 	local schema_flags=()
 	local yaml="${WORKDIR}/config.yaml"
-	local c_file="${WORKDIR}/config.c"
 	local configfs_image="${WORKDIR}/configfs.img"
 	local gen_yaml="${SYSROOT}${UNIBOARD_YAML_DIR}/config.yaml"
 
@@ -87,12 +86,9 @@ src_compile() {
 			|| die "cros_config_schema failed for build config."
 
 		run_cros_config_tool cros_config_schema -c "${yaml}" \
-			--configfs-output "${configfs_image}" -g "${WORKDIR}" -f "True" \
+			--configfs-output "${configfs_image}" -f "True" \
 			--identity-table-out "${WORKDIR}/identity.bin" \
 			|| die "cros_config_schema failed for platform config."
-	else
-		einfo "Emitting empty C interface config for mosys."
-		cp "${FILESDIR}/empty_config.c" "${c_file}"
 	fi
 }
 
@@ -107,7 +103,6 @@ src_install() {
 	fi
 
 	insinto "${UNIBOARD_YAML_DIR}"
-	doins "${WORKDIR}/config.c"
 	if [[ -e "${WORKDIR}/config.yaml" ]]; then
 		doins "${WORKDIR}/config.yaml"
 	fi

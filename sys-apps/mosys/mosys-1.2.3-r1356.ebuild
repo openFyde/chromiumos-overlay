@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("65a55890fe22fda6172f76a16264b2d44fd2e364" "3da15c8cd3b48d00473abc5ff3b063ebfb714fd4")
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "3064576e152ec411f4fff2bafcc34cd8058fa066")
+CROS_WORKON_COMMIT=("96e1b8aa29497f575ce79b4148116ec85dde3e2c" "4fe53c6253ee30f49054ef432cf79e40d7543dda")
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "a62e6a3faf235ba3b7f88a80ba32f60a64dfa683")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -51,15 +51,12 @@ src_unpack() {
 src_configure() {
 	local platform_intf=""
 	local emesonargs=(
-		$(meson_use unibuild use_cros_config)
+		"$(meson_use unibuild)"
 		"$(meson_use vpd_file_cache use_vpd_file_cache)"
 		-Darch=$(tc-arch)
 	)
 
 	if use unibuild; then
-		emesonargs+=(
-			"-Dcros_config_data_src=${SYSROOT}${UNIBOARD_C_CONFIG}"
-		)
 		platform_intf="$(cros_config_host get-mosys-platform)"
 	else
 		# TODO(jrosenth): hard code some board to platform_intf
