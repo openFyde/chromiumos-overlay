@@ -894,6 +894,12 @@ cros-workon_pkg_setup() {
 		addwrite "${out}"
 		mkdir -p -m 755 "${out}"
 		chown ${PORTAGE_USERNAME}:${PORTAGE_GRPNAME} "${out}" "${out%/*}"
+
+		# Recover ownership of .ninja_log to avoid permission deny when used with
+		# meson.eclass. See b:216080295 for more details.
+		if [[ -f "${out}/.ninja_log" ]]; then
+			chown ${PORTAGE_USERNAME}:${PORTAGE_GRPNAME} "${out}/.ninja_log" "${out}/.ninja_deps" || die
+		fi
 	fi
 }
 
