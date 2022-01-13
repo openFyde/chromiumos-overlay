@@ -25,7 +25,6 @@ COMMON_DEPEND="
 	dev-libs/protobuf:=
 	sys-apps/dbus:=
 	=sys-fs/fuse-2.9*:=
-	sys-libs/libcap:=
 "
 
 RDEPEND="${COMMON_DEPEND}"
