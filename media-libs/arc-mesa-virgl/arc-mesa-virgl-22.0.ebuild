@@ -4,8 +4,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e2889fb2d14e5d440941bdc76b6588359d579323"
-CROS_WORKON_TREE="1972ec61637a2ec1152ac8d8fdb91c8df68f2df2"
+CROS_WORKON_COMMIT="d15021435ed546de89668976bdbebc9f9ea200f4"
+CROS_WORKON_TREE="3c8bffb02ed8809f580ad0e50f7a9c436544a577"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa"
 CROS_WORKON_EGIT_BRANCH="master"
@@ -128,20 +128,9 @@ src_prepare() {
 
 	epatch "${FILESDIR}"/FROMLIST-glcpp-Hack-to-handle-expressions-in-line-di.patch
 
-	epatch "${FILESDIR}"/UPSTREAM-venus-fix-all-missing-vn_object_base_fini.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-refactor-failure-path-for-sets-allocation.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-add-vn_descriptor_set_layout_init.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-layout-to-track-more-binding-infos.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-layout-to-track-variable-descriptor-count-bind.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-pool-to-track-pool-state.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-descriptor-set-to-track-descriptor-count-of-la.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-check-descriptor-allocations-against-pool-reso.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-conditionally-enable-async-descriptor-set-allo.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-workaround-a-blob_mem-mappable-size-check-issu.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-renderer-to-check-map-size-only-when-mappable.patch
-	epatch "${FILESDIR}"/UPSTREAM-venus-suggest-the-proper-sampler-ycbcr-model-convers.patch
-	epatch "${FILESDIR}"/BACKPORT-venus-set-maxMipLevels-to-1-for-ahb-images.patch
-	epatch "${FILESDIR}"/UPSTREAM-virgl-Add-an-option-to-disable-coherent.patch
+	# We have to revert it for stability. b/210913891
+	epatch -R "${FILESDIR}"/UPSTREAM-virgl-Link-shader-program.patch
+
 	default
 }
 
