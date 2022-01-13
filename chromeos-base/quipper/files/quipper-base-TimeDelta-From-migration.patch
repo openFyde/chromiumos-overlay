@@ -1,0 +1,37 @@
+From b0e723cbfe4762ab9e31b2ff54c5acbab7ccf487 Mon Sep 17 00:00:00 2001
+From: hscham <hscham@chromium.org>
+Date: Thu, 13 Jan 2022 11:33:52 +0900
+Subject: [PATCH] quipper: migrate base::TimeDelta::From* to base:*
+
+The functions were migrated on upstream in r927512 (crrev.com/c/3198824)
+and removed in r931007 (crrev.com/c/3219846).
+
+Change-Id: I0ae6782e0cc00f409bf0705ba248c68b5f9a44bc
+---
+ compat/cros/detail/thread.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/compat/cros/detail/thread.h b/compat/cros/detail/thread.h
+index 3b1b2b658784..98134d9a99eb 100644
+--- a/compat/cros/detail/thread.h
++++ b/compat/cros/detail/thread.h
+@@ -7,6 +7,7 @@
+ 
+ #include "base/synchronization/waitable_event.h"
+ #include "base/threading/simple_thread.h"
++#include "base/time/time.h"
+ 
+ namespace quipper {
+ 
+@@ -37,7 +38,7 @@ class Notification : public quipper::compat::NotificationInterface {
+   void Wait() override { event_.Wait(); }
+ 
+   bool WaitWithTimeout(int timeout_ms) override {
+-    return event_.TimedWait(base::TimeDelta::FromMilliseconds(timeout_ms));
++    return event_.TimedWait(base::Milliseconds(timeout_ms));
+   }
+ 
+   void Notify() override { event_.Signal(); }
+-- 
+2.34.1.575.g55b058a8bb-goog
+
