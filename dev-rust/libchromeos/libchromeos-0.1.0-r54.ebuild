@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5c9a16eee01d17da50b0a785e687665ac62efb47"
+CROS_WORKON_COMMIT="fd8e10b95137ab90171f6bed7b0f2394bd5ac55f"
 CROS_WORKON_TREE="069cd166859430b00196f59e9f640ceeedcb45e3"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-COMMON_DEPEND="chromeos-base/vboot_reference"
+COMMON_DEPEND="chromeos-base/vboot_reference:="
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/data_model:=
