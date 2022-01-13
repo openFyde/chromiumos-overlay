@@ -2349,5 +2349,17 @@
         ],
         "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
         "start_version": 443104
+    },
+    {
+        "end_version": 446317,
+        "metadata": {
+            "info": [],
+            "title": "[ARM] Add AddrModeT2_i8neg addressing mode support for frame lowering."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "26f6fbe2be1dfb6e734ba34b650606cd18a2a4f7.patch",
+        "start_version": 437113
     }
 ]
