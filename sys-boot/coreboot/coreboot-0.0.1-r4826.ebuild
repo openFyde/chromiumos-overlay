@@ -79,6 +79,7 @@ DEPEND="
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
 	chromeos-base/chromeos-config:=
+	sys-apps/flashrom
 	"
 
 # While this package is never actually executed, we still need to specify
