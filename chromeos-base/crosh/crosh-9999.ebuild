@@ -18,6 +18,7 @@ KEYWORDS="~*"
 IUSE="+rust-crosh"
 
 DEPEND="
+	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0_alpha:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
