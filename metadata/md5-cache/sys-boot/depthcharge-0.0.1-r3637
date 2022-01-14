@@ -4,13 +4,13 @@ DEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpaylo
 DESCRIPTION=coreboot's depthcharge payload
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=detachable fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery test cros_host cros_workon_tree_e1c4e564ea016d635029eb19371baa9b458a0a49_a69e08249f8195b00ecd145b6cb1e3dc468566f3_3db19953428e6c41e3a61a5e66619edb870a3abf has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
+IUSE=detachable fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery test cros_host cros_workon_tree_7b0b7f7c113f4a8bdbec702565eca86385fe9ff7_a69e08249f8195b00ecd145b6cb1e3dc468566f3_796a03c6c82e7b4e510a67e10f6ca6e514c59884 has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpayload:= chromeos-base/chromeos-config:= has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
 REQUIRED_USE=unibuild
 RESTRICT=strip
-SLOT=0/0.0.1-r3635
+SLOT=0/0.0.1-r3637
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	e48a11f7d6c1de3319e88eefeb098574	cros-workon	1a1f6f4787b0e2efbd5662ad32cd91d8	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=ae8542f1a1c23f10fb51883d883f176d
+_md5_=198ba38f030ee6ec71ea80dad5062498
