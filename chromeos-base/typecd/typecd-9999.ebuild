@@ -64,6 +64,7 @@ src_install() {
 		"typecd_port_manager_fuzzer"
 		"typecd_session_manager_proxy_fuzzer"
 		"typecd_udev_monitor_fuzzer"
+		"typecd_usb_monitor_fuzzer"
 	)
 	local fuzz_target
 	for fuzz_target in "${fuzz_targets[@]}"; do
