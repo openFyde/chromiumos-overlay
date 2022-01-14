@@ -71,6 +71,7 @@ src_install() {
 	dosbin "${OUT}"/debugd
 
 	exeinto /usr/libexec/debugd/helpers
+	doexe "${OUT}"/audit_log_filter
 	doexe "${OUT}"/capture_packets
 	doexe "${OUT}"/cups_uri_helper
 	doexe "${OUT}"/dev_features_chrome_remote_debugging
