@@ -65,10 +65,6 @@ RDEPEND="
 	!<chromeos-base/hps-firmware-images-0.0.1-r7
 "
 
-# Integer overflow checks introduce panicking paths into the firmware,
-# which bloats the size of the images with extra strings in .rodata.
-CROS_RUST_OVERFLOW_CHECKS=0
-
 src_unpack() {
 	cros-workon_src_unpack
 	cros-rust_src_unpack
@@ -106,12 +102,21 @@ src_configure() {
 	cros-rust_configure_cargo
 
 	# Override some unwanted rustflags configured by cros-rust_configure_cargo.
+	# For our Cortex-M0 target, we need "fat" LTO and opt-level=z (smallest) to
+	# make everything small enough to fit. Debug assertions and
+	# integer overflow checks introduce panicking paths into the firmware,
+	# which bloats the size of the images with extra strings in .rodata.
 	# TODO(dcallagh): tidy this up properly in cros-rust.eclass.
 	# CROS_BASE_RUSTFLAGS are the same problem.
 	# asan and ubsan are also the same problem.
 	cat <<- EOF >> "${ECARGO_HOME}/config"
 	[target.'cfg(all(target_arch = "arm", target_os = "none"))']
-	rustflags = [ "-Clto=yes", "-Copt-level=z" ]
+	rustflags = [
+		"-Clto=yes",
+		"-Copt-level=z",
+		"-Coverflow-checks=off",
+		"-Cdebug-assertions=off",
+	]
 	EOF
 }
 
