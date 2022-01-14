@@ -61,26 +61,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	insinto /etc/dbus-1/system.d
-	doins server/org.chromium.Attestation.conf
-
-	insinto /etc/init
-	doins server/attestationd.conf
-
-	dosbin "${OUT}"/attestationd
-	dobin "${OUT}"/attestation_client
-
-	insinto /usr/share/policy
-	newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
-
-	insinto /etc/dbus-1/system.d
-	doins pca_agent/server/org.chromium.PcaAgent.conf
-	insinto /etc/init
-	doins pca_agent/server/pca_agentd.conf
-	dosbin "${OUT}"/pca_agentd
-	dobin "${OUT}"/pca_agent_client
-
-	dolib.so "${OUT}"/lib/libattestation.so
+	platform_install
 
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h
@@ -92,18 +73,8 @@ src_install() {
 	# It does no harm to install the header even for non-test image build.
 	insinto /usr/include/attestation/pca-agent/dbus_adaptors
 	doins "${OUT}"/gen/include/attestation/pca-agent/dbus_adaptors/org.chromium.PcaAgent.h
-
-	insinto /usr/share/policy
-	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy
 }
 
 platform_pkg_test() {
-	local tests=(
-		attestation_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
