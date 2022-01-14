@@ -52,16 +52,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dosbin "${OUT}"/authpolicyd
-	dosbin "${OUT}"/authpolicy_parser
-	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.AuthPolicy.conf
-	insinto /etc/init
-	doins etc/init/authpolicyd.conf
-	insinto /usr/share/policy
-	doins seccomp_filters/*.policy
-	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/authpolicyd_uid_allowlist.txt
+	platform_install
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
@@ -76,14 +67,6 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		authpolicy_test
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
-
+	platform test_all
 	platform_fuzzer_test "${OUT}"/preg_parser_fuzzer
 }
