@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="65a55890fe22fda6172f76a16264b2d44fd2e364"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "395ebd509827e9d258f79bb36358bce3c9e69474" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="e25cc2157e703ccaf61105e47cfc13ef999d50b9"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "fbef38de56ffa8692d4d503955b595c58c675032" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,27 +24,9 @@ RDEPEND=""
 DEPEND="chromeos-base/system_api:="
 
 src_install() {
-	dobin "${OUT}"/feedback_client
-	dobin "${OUT}"/feedback_daemon
-
-	insinto /etc/init
-	doins init/feedback_daemon.conf
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.feedback.conf
-
-	insinto /usr/include/feedback
-	doins components/feedback/feedback_common.h
-	doins feedback_service_interface.h
+	platform_install
 }
 
 platform_pkg_test() {
-	local tests=(
-		feedback_daemon_test
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
