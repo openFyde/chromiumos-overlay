@@ -172,3 +172,6 @@ STRIP_MASK="${STRIP_MASK} /firmware/*.elf"
 # We don't want legacy symlink lib cruft anywhere.
 SYMLINK_LIB="no"
 LIBDIR_x86="lib"
+
+# Default kernel config family.
+CROS_KERNEL_FAMILY="chromeos"

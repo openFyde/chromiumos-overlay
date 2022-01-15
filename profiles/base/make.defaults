@@ -145,6 +145,7 @@ LC_MESSAGES="C"
 
 # ChromeOS-specific: BOARD_USE for accessing board value in cros-board.eclass
 #                    CROS_WORKON_TREE for cros-workon
+#                    CROS_KERNEL_FAMILY for kernel config family
 #                    EC_FIRMWARE for compiling the main EC image
 #                    EC_FIRMWARE_EXTRA for compiling other needed EC images
 #                    FPMCU_FIRMWARE for compiling the fingerprint firmware
@@ -172,6 +173,7 @@ USE_EXPAND="
 	${USE_EXPAND}
 	BOARD_USE
 	CROS_WORKON_TREE
+	CROS_KERNEL_FAMILY
 	EC_FIRMWARE
 	EC_FIRMWARE_EXTRA
 	FPMCU_FIRMWARE
