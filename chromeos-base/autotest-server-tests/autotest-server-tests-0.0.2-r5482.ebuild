@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="389f493ac22216aa3860de24b4e56fca102bad07"
-CROS_WORKON_TREE="a94cf155aa8dbf8734691c939d40744f53902add"
+CROS_WORKON_COMMIT="aa1d778245adc6b2b0e9df85808e03793d00f93e"
+CROS_WORKON_TREE="7c009530b9a61b05cb072b693a9dfff16953d4d0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -131,6 +131,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_CorruptMinios
 	+tests_firmware_CorruptRecoveryCache
 	+tests_firmware_Cr50BID
+	+tests_firmware_Cr50CCDFirmwareUpdate
 	+tests_firmware_Cr50CCDServoCap
 	+tests_firmware_Cr50CCDUartStress
 	+tests_firmware_Cr50CheckCap
@@ -141,7 +142,7 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_Cr50DevMode
 	+tests_firmware_Cr50ECReset
 	+tests_firmware_Cr50FactoryResetVC
-	+tests_firmware_Cr50CCDFirmwareUpdate
+	+tests_firmware_Cr50FIPSDS
 	+tests_firmware_Cr50GetName
 	+tests_firmware_Cr50InvalidateRW
 	+tests_firmware_Cr50Keygen
