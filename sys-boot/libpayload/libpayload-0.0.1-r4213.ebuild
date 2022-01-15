@@ -6,10 +6,16 @@
 # VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_COMMIT="43bb3ad3ae171884c1a2a96fb048c455147894e7"
-CROS_WORKON_TREE=("0d5ccf9960a2ed2a84578e1e3a7f4e53aa881eb6" "418f371d20d4ccdde49099bbbb3208fc6a27df97" "0817c42e0f630c1a0975b591f98be39a099842b7" "bacdab8734794201bdb8ad183f79bab4051584db")
-CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
-CROS_WORKON_EGIT_BRANCH="chromeos-2016.05"
+CROS_WORKON_COMMIT=("f84952c3b085c6cb9a09850326a5837d5c250116" "f445b236579e928354b866f7779ffb630d15311c")
+CROS_WORKON_TREE=("0d5ccf9960a2ed2a84578e1e3a7f4e53aa881eb6" "418f371d20d4ccdde49099bbbb3208fc6a27df97" "0817c42e0f630c1a0975b591f98be39a099842b7" "bacdab8734794201bdb8ad183f79bab4051584db" "4f0dee4145abfb6062f4c33db95e950c3e076ae3" "d791abf7a7e729076261ca393e797be426f3f65f")
+CROS_WORKON_PROJECT=(
+	"chromiumos/third_party/coreboot"
+	"chromiumos/platform/vboot_reference"
+)
+CROS_WORKON_EGIT_BRANCH=(
+	"chromeos-2016.05"
+	"main"
+)
 
 DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
@@ -32,12 +38,24 @@ DEPEND="chromeos-base/chromeos-config:="
 # the package manager to ensure the two versions use the same chromeos-config.
 RDEPEND="${DEPEND}"
 
-CROS_WORKON_LOCALNAME="coreboot"
+CROS_WORKON_LOCALNAME=(
+	"coreboot"
+	"../platform/vboot_reference"
+)
+
+VBOOT_DESTDIR="${S}/3rdparty/vboot"
+CROS_WORKON_DESTDIR=(
+	"${S}"
+	"${S}/3rdparty/vboot"
+)
 
 # commonlib, kconfig and xcompile are reused from coreboot.
 # Everything else is not supposed to matter for
 # libpayload.
-CROS_WORKON_SUBTREE="payloads/libpayload src/commonlib util/kconfig util/xcompile"
+CROS_WORKON_SUBTREE=(
+	"payloads/libpayload src/commonlib util/kconfig util/xcompile"
+	"Makefile firmware"
+)
 
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 STRIP_MASK="*"
@@ -81,6 +99,7 @@ libpayload_compile() {
 		DOTCONFIG="${dotconfig}"
 		HOSTCC="$(tc-getBUILD_CC)"
 		HOSTCXX="$(tc-getBUILD_CXX)"
+		VBOOT_SOURCE="${VBOOT_DESTDIR}"
 	)
 	use verbose && OPTS+=( "V=1" )
 
@@ -144,9 +163,12 @@ src_install() {
 		name="${LIBPAYLOAD_BUILD_NAMES[${i}]}"
 		target="${LIBPAYLOAD_BUILD_TARGETS[${i}]}"
 
-		emake obj="${T}/${target}" DOTCONFIG="${T}/config.${target}" \
+		emake obj="${T}/${target}" \
+			DOTCONFIG="${T}/config.${target}" VBOOT_SOURCE="${VBOOT_DESTDIR}" \
 			DESTDIR="${D}/firmware/${name}/libpayload" install
-		emake obj="${T}/${target}.gdb" DOTCONFIG="${T}/config_gdb.${target}" \
+		emake obj="${T}/${target}.gdb" \
+			DOTCONFIG="${T}/config_gdb.${target}" \
+			VBOOT_SOURCE="${VBOOT_DESTDIR}" \
 			DESTDIR="${D}/firmware/${name}/libpayload.gdb" install
 	done
 }
