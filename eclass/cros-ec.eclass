@@ -32,7 +32,7 @@ inherit toolchain-funcs cros-ec-board cros-workon cros-unibuild coreboot-sdk
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 
 LICENSE="CrOS-EC"
-IUSE="quiet verbose coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
+IUSE="quiet verbose +coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"
 
 RDEPEND="
 	fuzzer? (
