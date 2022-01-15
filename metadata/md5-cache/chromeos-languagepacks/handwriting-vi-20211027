@@ -1,0 +1,10 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=Handwriting vi Language Pack for Chromium OS
+EAPI=7
+IUSE=dlc ondevice_handwriting
+KEYWORDS=*
+LICENSE=BSD-Google
+REQUIRED_USE=dlc ondevice_handwriting
+SRC_URI=gs://chromeos-localmirror/distfiles/languagepack-handwriting-vi-20211027.tar.xz
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	4b31053498fd5ebfac3e3b4a1ccc8bb9
+_md5_=61e30f118f73b70554a21a55c60353d9
