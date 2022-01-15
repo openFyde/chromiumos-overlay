@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5afd84500ad6b319a9349eb2edc7ad063942c551"
+CROS_WORKON_COMMIT="32cc8abba5b8a1411d4b48e295761c037460a545"
 CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "a9314e80784cacaa0013e5add051aa20c325b3ab" "bdcc5dafcae097d11dcce22f4db58f5f52bdc6f5" "24f974ecfdcda04a1f60a99570eb164001d04205" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "7860e823ebd0fc5cd98711976a40bec1dcfff4bc" "0365e6af32602dbfdf194d7736ef19ea9a7a3a7f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="-als cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
+IUSE="-als cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr -has_machine_quirks"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -110,6 +110,7 @@ src_install() {
 	use has_keyboard_backlight && doins optional_prefs/has_keyboard_backlight
 	use legacy_power_button && doins optional_prefs/legacy_power_button
 	use powerd_manual_eventlog_add && doins optional_prefs/manual_eventlog_add
+	use has_machine_quirks && doins optional_prefs/has_machine_quirks
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.PowerManager.conf
