@@ -22,6 +22,7 @@ DEPEND="
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
 	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
+	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=
 	=dev-rust/dbus-0.9*:=
@@ -67,6 +68,7 @@ src_install() {
 		insinto /etc/init
 		doins upstart/dugong.conf
 		doexe "${build_dir}/trichechus"
+		doexe "${build_dir}/manatee_memory_service"
 	else
 		dobin "${build_dir}/trichechus"
 	fi
