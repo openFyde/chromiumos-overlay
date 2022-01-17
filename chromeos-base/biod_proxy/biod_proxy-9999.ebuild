@@ -26,11 +26,9 @@ DEPEND="
 "
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbiod_proxy.so
-	insinto /usr/include/biod/biod_proxy/
-	doins ./*.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/biod_proxy_test_runner"
+	platform test_all
 }
