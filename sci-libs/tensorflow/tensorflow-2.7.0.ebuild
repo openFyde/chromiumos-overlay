@@ -52,6 +52,7 @@ bazel_external_uris="
 	https://github.com/abseil/abseil-cpp/archive/997aaf3a28308eba1b9156aa35ab7bca9688e9f6.tar.gz -> abseil-cpp-997aaf3a28308eba1b9156aa35ab7bca9688e9f6.tar.gz
 	https://github.com/google/XNNPACK/archive/694d2524757f9040e65a02c374e152a462fe57eb.zip -> xnnpack-694d2524757f9040e65a02c374e152a462fe57eb.zip
 	https://github.com/llvm/llvm-project/archive/43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz -> llvm-project-43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz
+	https://storage.googleapis.com/mirror.tensorflow.org/storage.cloud.google.com/download.tensorflow.org/tflite/hexagon_nn_headers_v1.20.0.3.tgz -> hexagon_nn_headers_v1.20.0.3.tgz
 "
 
 SRC_URI="
