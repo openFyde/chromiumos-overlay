@@ -35,16 +35,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/image_burner
-
-	insinto /etc/dbus-1/system.d
-	doins ImageBurner.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.ImageBurner.service
-
-	insinto /etc/init
-	doins init/image-burner.conf
+	platform_install
 
 	# TODO(crbug/766130): Remove the following sed block when non-root mount
 	# namespace is by default enabled.
@@ -57,5 +48,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
