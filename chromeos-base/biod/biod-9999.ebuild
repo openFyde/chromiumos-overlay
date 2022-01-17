@@ -72,30 +72,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dobin "${OUT}"/biod
-
-	dobin "${OUT}"/bio_crypto_init
-	dobin "${OUT}"/bio_wash
-
-	dosbin "${OUT}"/bio_fw_updater
-
-	into /usr/local
-	dobin "${OUT}"/biod_client_tool
-
-	insinto /usr/share/policy
-	local seccomp_src_dir="init/seccomp"
-
-	newins "${seccomp_src_dir}/biod-seccomp-${ARCH}.policy" \
-		biod-seccomp.policy
-
-	newins "${seccomp_src_dir}/bio-crypto-init-seccomp-${ARCH}.policy" \
-		bio-crypto-init-seccomp.policy
-
-	insinto /etc/init
-	doins init/*.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.BiometricsDaemon.conf
+	platform_install
 
 	udev_dorules udev/99-biod.rules
 
@@ -113,5 +90,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/biod_test_runner"
+	platform test_all
 }
