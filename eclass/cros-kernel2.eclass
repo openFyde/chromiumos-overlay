@@ -1869,6 +1869,7 @@ kmake() {
 	local cross=${CHOST}
 	local cross_compat
 	local CC_COMPAT
+	local LD_COMPAT
 	case ${ARCH}:${kernel_arch} in
 		x86:x86_64)
 			cross="x86_64-cros-linux-gnu"
@@ -1878,6 +1879,7 @@ kmake() {
 			if use vdso32; then
 				cross_compat="armv7a-cros-linux-gnueabihf-"
 				CC_COMPAT="armv7a-cros-linux-gnueabihf-clang"
+				LD_COMPAT="ld.lld"
 			fi
 			;;
 	esac
@@ -1915,6 +1917,7 @@ kmake() {
 
 	set -- \
 		LD="${linker}" \
+		LD_COMPAT="${LD_COMPAT}" \
 		OBJCOPY="${OBJCOPY}" \
 		REAL_STRIP="${STRIP}" \
 		STRIP="${STRIP}" \
