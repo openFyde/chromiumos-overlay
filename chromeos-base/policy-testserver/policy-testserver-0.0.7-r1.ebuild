@@ -34,10 +34,10 @@ CROS_WORKON_MANUAL_UPREV="1"
 
 CROS_WORKON_COMMIT=(
 	"05d9f22315757117685ad2f5265148f900f18034"
-	"6eb196616d90c5fe9c73ce2dba451ede21ef883c"
-	"aa19774e1a7a223338082db7d9fe65a2ef30e147"
-	"fa5d439ccfcb5813ef9d5aa7b66299e6d24a62da"
-	"4b66a57bf81ff88fb94113426f2f4ffbbd66cb95"
+	"8599944a086c503a4e31a95e226e967f5db560f7"
+	"ca23b3986fe827ea3342495aa494400a18774e2b"
+	"dd7f8ad1e3ee47c4baffdab73521862a18f55508"
+	"ee74da4528c53f8482b70716afd83861bfdb29c3"
 )
 # Must define CROS_WORKON_* variables before inheriting cros-workon.
 inherit cros-constants cros-workon python-any-r1
