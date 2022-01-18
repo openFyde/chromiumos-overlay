@@ -38,5 +38,6 @@ RDEPEND="
 # sci-electronics/nextpnr depends on sci-electronics/prjoxide which pulls in
 # dev-rust packages.
 RDEPEND="${RDEPEND}
+	dev-rust/svd2rust
 	sci-electronics/nextpnr
 "
