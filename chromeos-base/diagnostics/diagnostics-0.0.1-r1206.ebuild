@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="16f060c68e9ee77ac1696ce7e08cb56abb5014a3"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "19caa66b777e9ada88a44a18ed5aa515751045df" "92722f784002bc796ae1b7453292304e082222be" "11a73b9f36b7cd7888b52b6d97e14ba6dfe7ebc6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="90829b9f19c8d8b71ce11f68be15c3cda7b38437"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "19caa66b777e9ada88a44a18ed5aa515751045df" "b566e94be6cfce38e9468fedbf630cae6dcda441" "11a73b9f36b7cd7888b52b6d97e14ba6dfe7ebc6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -124,7 +124,6 @@ src_install() {
 	inst_seccomp "init/cros_healthd-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/ectool_i2cread-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/ectool_pwmgetfanrpm-seccomp.policy"
-	inst_seccomp "cros_healthd/seccomp/modetest-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/memtester-seccomp.policy"
 	inst_seccomp "cros_healthd/seccomp/iw-seccomp.policy"
 
