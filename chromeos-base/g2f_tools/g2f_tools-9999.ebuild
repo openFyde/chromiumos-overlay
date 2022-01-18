@@ -34,10 +34,9 @@ DEPEND="
 	"
 
 src_install() {
-	dobin "${OUT}"/g2ftool
-	dobin "${OUT}"/webauthntool
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/g2f_client_test"
+	platform test_all
 }
