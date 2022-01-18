@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cabfe212e6d46428a5e78aad6d049e2a7aee09f6"
-CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "29f59b0cb41228971f68b60f76d1ecb82f1b19ad" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="02a7b3f5d8539ddb74b9149554292de22d46656b"
+CROS_WORKON_TREE=("bc5d73e40a959dd5e4fdb5a6431004733015ac5d" "5232beae95022dacfaa17c1e5001f36c94844422" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -54,16 +54,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dosbin "${OUT}"/authpolicyd
-	dosbin "${OUT}"/authpolicy_parser
-	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.AuthPolicy.conf
-	insinto /etc/init
-	doins etc/init/authpolicyd.conf
-	insinto /usr/share/policy
-	doins seccomp_filters/*.policy
-	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/authpolicyd_uid_allowlist.txt
+	platform_install
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
@@ -78,14 +69,6 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		authpolicy_test
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
-
+	platform test_all
 	platform_fuzzer_test "${OUT}"/preg_parser_fuzzer
 }
