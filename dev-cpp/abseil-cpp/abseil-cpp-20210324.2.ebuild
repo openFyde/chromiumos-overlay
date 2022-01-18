@@ -38,7 +38,12 @@ PATCHES=(
 	"${FILESDIR}/${PN}-20200923-arm_no_crypto.patch"
 )
 
+ABSLDIR="${WORKDIR}/${P}_build/absl"
+
 src_prepare() {
+	# Workaround to avoid conflict with other packages: see also b/184603259
+	grep -l -R -Z "absl::" . | xargs -0 sed -i 's/absl::/absl::ABSL_OPTION_INLINE_NAMESPACE_NAME::/g'
+
 	cmake_src_prepare
 
 	# un-hardcode abseil compiler flags
@@ -74,4 +79,21 @@ src_configure() {
 		$(usex test -DBUILD_TESTING=ON '') #intentional usex
 	)
 	cmake_src_configure
+}
+
+src_compile() {
+	cmake_src_compile
+
+	local libs=( "${ABSLDIR}"/*/libabsl_*.so )
+	[[ ${#libs[@]} -le 1 ]] && die
+	local linklibs="$(echo "${libs[*]}" | sed -E -e 's|[^ ]*/lib([^ ]*)\.so|-l\1|g')"
+	sed -e "s/@LIBS@/${linklibs}/g" -e "s/@PV@/${PV}/g" \
+		"${FILESDIR}/absl.pc.in" > absl.pc || die
+}
+
+src_install() {
+	cmake_src_install
+
+	insinto /usr/$(get_libdir)/pkgconfig
+	doins absl.pc
 }
