@@ -19,9 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-COMMON_DEPEND="chromeos-base/vboot_reference"
-
-DEPEND="${COMMON_DEPEND}
+DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/futures-0.3*:=
@@ -37,10 +35,11 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
+	dev-rust/vboot_reference-sys:=
 	>=dev-rust/zeroize-1.2.0 <dev-rust/zeroize-2.0.0_alpha:=
 "
 
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	!!<=dev-rust/libchromeos-0.1.0-r2"
 
 src_compile() {
