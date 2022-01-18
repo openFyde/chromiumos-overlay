@@ -172,8 +172,8 @@ REQUIRED_USE="
 # Per Package Comments:
 # --------------------
 # Please add any comments specific to why certain packages are
-# pulled into the dependecy here. This is optional and required only when
-# the dependency isn't obvious
+# pulled into the dependency here. This is optional and required only when
+# the dependency isn't obvious.
 #
 ################################################################################
 
