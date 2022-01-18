@@ -308,6 +308,31 @@ def log_install_paths(install_dir: Path):
     subprocess.check_call([clang, '-E', '-x', 'c++', '/dev/null', '-v'])
     subprocess.check_call([clang, '-print-search-dirs'])
 
+def symlink(src, dst):
+    """Wrapper around os.symlink() to ignore exceptions."""
+    try:
+        os.symlink(src, dst)
+    except FileExistsError:
+        print('Warning: symlink target already exists', dst)
+
+
+def add_symlinks(install_dir: Path):
+    """Create symlinks to llvm tools"""
+    clang_bin = install_dir.joinpath('bin')
+    symlink('llvm-mc', str(clang_bin.joinpath('llvm-mc-11')))
+    symlink('lld', str(clang_bin.joinpath('riscv32-unknown-elf-ld.lld')))
+    symlink('llvm-ar', str(clang_bin.joinpath('llvm-ar-11')))
+    symlink('llvm-ar', str(clang_bin.joinpath('riscv32-unknown-elf-ar')))
+    symlink('llvm-ranlib',
+            str(clang_bin.joinpath('riscv32-unknown-elf-ranlib')))
+    symlink('llvm-objdump', str(clang_bin.joinpath('llvm-objdump-11')))
+    symlink('llvm-objcopy', str(clang_bin.joinpath('llvm-objcopy-11')))
+    symlink('llvm-size', str(clang_bin.joinpath('llvm-size-11')))
+    symlink('llvm-nm', str(clang_bin.joinpath('llvm-nm-11')))
+    symlink('clang', str(clang_bin.joinpath('clang-11')))
+    symlink('clang++', str(clang_bin.joinpath('clang++-11')))
+    symlink('lld', str(clang_bin.joinpath('lld-11')))
+
 
 def get_parser():
     """Creates a parser for commandline args."""
@@ -399,6 +424,7 @@ def main(argv: List[str]):
     remove_path_if_exists(compiler_rt_build_dir)
     build_compiler_rt(llvm_path, compiler_rt_build_dir, install_dir)
 
+    add_symlinks(install_dir)
     log_install_paths(install_dir)
 
 
