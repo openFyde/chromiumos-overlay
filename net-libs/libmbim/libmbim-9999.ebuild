@@ -29,8 +29,8 @@ src_configure() {
 		-Dmbim_username='modem'
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
-		-Dintrospection=disabled
-		-Dman=disabled
+		-Dintrospection=false
+		-Dman=false
 		-Dbash_completion=false
 	)
 	meson_src_configure
