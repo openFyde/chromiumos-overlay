@@ -11,7 +11,8 @@
 #-------------------------------------------------------------------------------
 # 'pcie' devices
 KERNEL=="ttyCMBIM[0-9]", SUBSYSTEM=="ccci_node", GOTO="modem_change_mode"
-KERNEL=="wwan0*", SUBSYSTEM=="wwan", GOTO="modem_change_mode"
+KERNEL=="wwan0mbim*", SUBSYSTEM=="wwan", GOTO="modem_change_mode"
+KERNEL=="wwan0at*", SUBSYSTEM=="wwan", GOTO="modem_end"
 
 #-------------------------------------------------------------------------------
 # 'usb' devices
