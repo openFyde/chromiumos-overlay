@@ -29,7 +29,8 @@ src_configure() {
 		-Dqmi_username='modem'
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
-		-Dintrospection=disabled
+		-Dintrospection=false
+		-Dman=false
 		-Dbash_completion=false
 	)
 	meson_src_configure
