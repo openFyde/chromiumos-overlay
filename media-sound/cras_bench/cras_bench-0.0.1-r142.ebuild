@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="3d916cb23cc080c199f2fc98a9f3ddffd13b9d9d"
-CROS_WORKON_TREE="04b7c8af6f2b8c8ebf1385fef73a22d627b6fdae"
+CROS_WORKON_COMMIT="35b09d44fdba081a73bd9222aa918af00da9f577"
+CROS_WORKON_TREE="2d3127d6f578b73b8c2f2cc07a4ca1502be94cd3"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
