@@ -29,8 +29,6 @@ case "${CATEGORY}/${PN}" in
 	chromeos-base/chromeos-assets ) ;;
 	chromeos-base/chromeos-initramfs ) ;;
 	chromeos-base/gestures-conf ) ;;
-	net-misc/chrony ) ;;
-	sys-apps/systemd ) ;;
 
 	# cros-kernel2.eclass uses cros-board.eclass.  Exempt all kernel
 	# packages for now.
