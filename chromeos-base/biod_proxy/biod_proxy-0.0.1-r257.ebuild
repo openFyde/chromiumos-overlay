@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1f2f295bb96a526fad4748bd6d3f6203a50eaaf3"
-CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "dd1740d37ae9f66d9fbc3af4dd9ed9a5cc73878d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="a90e10e70a8cd1eab1c560b44409edbe14169611"
+CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "91a8084a0348113f93147094dd7280a13def0acf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,11 +28,9 @@ DEPEND="
 "
 
 src_install() {
-	dolib.so "${OUT}"/lib/libbiod_proxy.so
-	insinto /usr/include/biod/biod_proxy/
-	doins ./*.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/biod_proxy_test_runner"
+	platform test_all
 }
