@@ -1,5 +1,27 @@
 [
     {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[test] Cleanup tests with -enable-new-pm in llvm/test/Analysis\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-bd020bbbd29e3a30f6697d6b077d28d79b3a3a9d.patch",
+        "start_version": 437228
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[MemCpyOpt] Fix a variety of scalable-type crashes\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-7fb66d4035960b3c2797eae73d79b8478ff0348e.patch",
+        "start_version": 437427
+    },
+    {
         "end_version": 414798,
         "metadata": {
             "info": [],
@@ -2349,6 +2371,18 @@
         ],
         "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
         "start_version": 443104
+    },
+    {
+        "end_version": 445238,
+        "metadata": {
+            "info": [],
+            "title": "[ARM] Introduce i8neg and i8pos addressing modes"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "b8f1ccb0acf8dccdd3fb706465ec958763987bee.patch",
+        "start_version": 437113
     },
     {
         "end_version": 446317,
