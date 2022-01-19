@@ -27,7 +27,7 @@ src_configure() {
 		--prefix='/usr'
 		-Dlibexecdir='/usr/libexec'
 		-Dgtk_doc=false
-		-Dintrospection=disabled
+		-Dintrospection=false
 	)
 	meson_src_configure
 }
