@@ -140,17 +140,46 @@
         }
     },
     {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"[libcxx] Add a dependency on unwind in cxx_static, if LIBCXXABI_USE_LLVM_UNWINDER is set\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
-        "version_range": {
-            "from": 443104,
-            "until": null
-        }
+      "metadata": {
+          "info": [],
+          "title": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI."
+      },
+      "platforms": [
+          "chromiumos"
+      ],
+      "rel_patch_path": "db126ae243cd70e4f68fd50a7c619740e90e1dc6.patch",
+      "start_version": 422132,
+      "version_range": {
+        "from": 422132,
+        "until": 435269
     }
+  },
+  {
+      "metadata": {
+          "info": [],
+          "title": "[libunwind][ARM] Handle end of stack during unwind"
+      },
+      "platforms": [
+          "chromiumos"
+      ],
+      "rel_patch_path": "D109856.patch",
+      "version_range": {
+        "from": 433403,
+        "until": 444704
+    }
+  },
+  {
+      "metadata": {
+          "info": [],
+          "title": "Revert \"[libcxx] Add a dependency on unwind in cxx_static, if LIBCXXABI_USE_LLVM_UNWINDER is set\""
+      },
+      "platforms": [
+          "chromiumos"
+      ],
+      "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
+      "version_range": {
+        "from": 443104,
+        "until": null
+    }
+  }
 ]

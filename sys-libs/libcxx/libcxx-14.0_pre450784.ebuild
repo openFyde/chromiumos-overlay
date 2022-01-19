@@ -40,10 +40,12 @@ REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 # MULTILIB_USEDEP is defined in an eclass, which shellcheck won't see
 # shellcheck disable=SC2154
 RDEPEND="
-	libcxxabi? ( ${CATEGORY}/libcxxabi[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
+	libcxxabi? ( ${CATEGORY}/libcxxabi )
+	libunwind? ( ${CATEGORY}/llvm-libunwind )
 	libcxxrt? ( ${CATEGORY}/libcxxrt[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
 	!libcxxabi? ( !libcxxrt? ( >=sys-devel/gcc-4.7:=[cxx] ) )
-	!cros_host? ( sys-libs/gcc-libs )"
+	!cros_host? ( sys-libs/gcc-libs )
+	!<=${CATEGORY}/libcxxabi-14.0_pre450784-r1"
 DEPEND="${RDEPEND}
 	cros_host? ( sys-devel/llvm )
 	app-arch/xz-utils"
@@ -78,7 +80,7 @@ src_prepare() {
 
 pkg_setup() {
 	setup_cross_toolchain
-	export CMAKE_USE_DIR="${S}/libcxx"
+	export CMAKE_USE_DIR="${S}/runtimes"
 }
 
 multilib_src_configure() {
@@ -132,28 +134,34 @@ multilib_src_configure() {
 	# Link with libunwind.so.
 	use libunwind && append-ldflags "-shared-libgcc"
 
+	# Enable futex in libc++abi to match prod toolchain.
+	append-cppflags -D_LIBCXXABI_USE_FUTEX
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
-		"-DLLVM_ENABLE_PROJECTS=libcxx"
 		"-DLIBCXX_LIBDIR_SUFFIX=${libdir#lib}"
 		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
 		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLIBCXX_ENABLE_SHARED=ON"
 		"-DLIBCXX_ENABLE_STATIC=$(usex static-libs)"
-		"-DLIBCXX_CXX_ABI=${cxxabi}"
-		"-DLIBCXX_CXX_ABI_INCLUDE_PATHS=${cxxabi_incs}"
 		# we're using our own mechanism for generating linker scripts
 		"-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF"
 		"-DLIBCXX_HAS_MUSL_LIBC=$(usex elibc_musl)"
 		"-DLIBCXX_HAS_GCC_S_LIB=${want_gcc_s}"
 		"-DLIBCXX_USE_COMPILER_RT=$(usex compiler-rt)"
 		"-DLIBCXX_INCLUDE_TESTS=OFF"
-		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
 		"-DCMAKE_SHARED_LINKER_FLAGS=${extra_libs[*]} ${LDFLAGS}"
 		"-DLIBCXX_HAS_ATOMIC_LIB=OFF"
 		"-DCMAKE_C_COMPILER_TARGET=$(get_abi_CTARGET)"
 		"-DCMAKE_CXX_COMPILER_TARGET=$(get_abi_CTARGET)"
+		"-DLLVM_ENABLE_RUNTIMES=libcxxabi;libcxx"
+		"-DLIBCXX_CXX_ABI=${cxxabi}"
+		"-DLIBCXXABI_USE_LLVM_UNWINDER=$(usex libunwind)"
+		"-DLIBCXXABI_LIBDIR_SUFFIX=${libdir#lib}"
+		"-DLIBCXXABI_ENABLE_SHARED=ON"
+		"-DLIBCXXABI_ENABLE_STATIC=$(usex static-libs)"
+		"-DLIBCXXABI_INCLUDE_TESTS=OFF"
+		"-DLIBCXXABI_USE_COMPILER_RT=$(usex compiler-rt)"
 	)
 	if use msan; then
 		mycmakeargs+=(
