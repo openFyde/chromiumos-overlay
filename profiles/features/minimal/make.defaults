@@ -82,5 +82,8 @@ USE="${USE} -racc"
 # Disable disk usage daemon.
 USE="${USE} -spaced"
 
+# Disable ML benchmarking
+USE="${USE} -ml_benchmark_drivers"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""

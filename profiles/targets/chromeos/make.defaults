@@ -118,6 +118,9 @@ USE="${USE} racc"
 # Enable disk usage daemon.
 USE="${USE} spaced"
 
+# Enable ML benchmarking in test images
+USE="${USE} ml_benchmark_drivers"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
