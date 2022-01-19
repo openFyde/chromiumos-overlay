@@ -46,18 +46,9 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
-
-	# Installs attestation-injected-keys
-	dobin "${OUT}/attestation-injected-keys"
-
-	# Installs hwsec-test-va
-	dobin "${OUT}/hwsec-test-va"
-
-	# Install fake pca agent
-	dobin "${OUT}"/fake_pca_agentd
-
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/hwsec-test-utils_testrunner"
+	platform test_all
 }
