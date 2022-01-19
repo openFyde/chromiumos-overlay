@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="42d312ef59caeb385e11afef7c887f8b02520f33"
-CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "3c109b96b2124c441075b7ebaf9f855cd9260505" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bafab3c6b84a32eca551062071857c934a44d115"
+CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "3f549951f59cf658c62f70f4e1a93a61ebb06f64" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -37,16 +37,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/image_burner
-
-	insinto /etc/dbus-1/system.d
-	doins ImageBurner.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.ImageBurner.service
-
-	insinto /etc/init
-	doins init/image-burner.conf
+	platform_install
 
 	# TODO(crbug/766130): Remove the following sed block when non-root mount
 	# namespace is by default enabled.
@@ -59,5 +50,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
