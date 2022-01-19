@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="42d312ef59caeb385e11afef7c887f8b02520f33"
-CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "d81d262abc8e5b1e47c2383e38d271d145d0eed8" "19caa66b777e9ada88a44a18ed5aa515751045df" "213726de762feafb9f887b37f6f63234493bb7f9" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1f2f295bb96a526fad4748bd6d3f6203a50eaaf3"
+CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "dd1740d37ae9f66d9fbc3af4dd9ed9a5cc73878d" "19caa66b777e9ada88a44a18ed5aa515751045df" "213726de762feafb9f887b37f6f63234493bb7f9" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -74,30 +74,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dobin "${OUT}"/biod
-
-	dobin "${OUT}"/bio_crypto_init
-	dobin "${OUT}"/bio_wash
-
-	dosbin "${OUT}"/bio_fw_updater
-
-	into /usr/local
-	dobin "${OUT}"/biod_client_tool
-
-	insinto /usr/share/policy
-	local seccomp_src_dir="init/seccomp"
-
-	newins "${seccomp_src_dir}/biod-seccomp-${ARCH}.policy" \
-		biod-seccomp.policy
-
-	newins "${seccomp_src_dir}/bio-crypto-init-seccomp-${ARCH}.policy" \
-		bio-crypto-init-seccomp.policy
-
-	insinto /etc/init
-	doins init/*.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.BiometricsDaemon.conf
+	platform_install
 
 	udev_dorules udev/99-biod.rules
 
@@ -115,5 +92,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/biod_test_runner"
+	platform test_all
 }
