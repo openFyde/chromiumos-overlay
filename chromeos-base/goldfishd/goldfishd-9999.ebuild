@@ -25,12 +25,9 @@ RDEPEND="
 	"
 
 src_install() {
-	dobin "${OUT}"/goldfishd
-
-	insinto /etc/init
-	doins init/*.conf
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/goldfishd_test_runner"
+	platform test_all
 }
