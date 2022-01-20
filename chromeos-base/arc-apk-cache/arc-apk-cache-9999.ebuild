@@ -31,24 +31,11 @@ DEPEND="
 "
 
 src_install() {
-	insinto /etc/init
-	doins init/apk-cache-cleaner.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	use seccomp && newins \
-		"seccomp/apk-cache-cleaner-seccomp-${ARCH}.policy" \
-		apk-cache-cleaner-seccomp.policy
-
-	dosbin "${OUT}/apk-cache-cleaner"
-	dobin  "${OUT}/apk-cache-ctl"
-	dosbin apk-cache-cleaner-jailed
-
+	platform_install
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/apk_cache_database_fuzzer \
 		--comp 157100
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/apk-cache-cleaner_testrunner"
-	platform_test "run" "${OUT}/apk-cache-ctl_testrunner"
+	platform test_all
 }
