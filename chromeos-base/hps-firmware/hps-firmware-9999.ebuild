@@ -36,7 +36,7 @@ DEPEND="
 	=dev-rust/crc-2*:=
 	>=dev-rust/defmt-0.2.1:= <dev-rust/defmt-0.3.0
 	=dev-rust/defmt-rtt-0.2*:=
-	>=dev-rust/ed25519-compact-0.1.9:= <dev-rust/ed25519-compact-0.2.0
+	=dev-rust/ed25519-compact-1*:=
 	>=dev-rust/embedded-hal-0.2.4:= <dev-rust/embedded-hal-0.3.0
 	=dev-rust/embedded-hal-mock-0.8*:=
 	>=dev-rust/git-version-0.3.4:= <dev-rust/git-version-0.4.0
