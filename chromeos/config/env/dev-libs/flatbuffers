@@ -1,0 +1,11 @@
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Install the experimental flatbuffers reflection schema.
+# TODO(b/211717735): Remove this after the upstream feature request finished.
+# https://github.com/google/flatbuffers/issues/7025
+cros_post_src_install_reflection() {
+	insinto /usr/include/flatbuffers
+	doins reflection/reflection.fbs
+}
