@@ -29,12 +29,14 @@ IUSE="
 	systemd
 	lvm_stateful_partition
 	postinstall_config_efi_and_legacy
+	manage_efi_boot_entries
 "
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
 	chromeos-base/verity
+	manage_efi_boot_entries? ( sys-libs/efivar )
 "
 
 DEPEND="${COMMON_DEPEND}
