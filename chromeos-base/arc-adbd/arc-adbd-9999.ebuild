@@ -25,19 +25,7 @@ RDEPEND="
 "
 
 src_install() {
-	insinto /etc/init
-	if use arcvm; then
-		doins init/arcvm-adbd.conf
-		insinto /etc/dbus-1/system.d
-		doins init/dbus-1/ArcVmAdbd.conf
-	else
-		doins init/arc-adbd.conf
-	fi
-
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp/arc$(usex arcvm vm '')-adbd-${ARCH}.policy" "arc$(usex arcvm vm '')-adbd-seccomp.policy"
-
-	dosbin "${OUT}/arc-adbd"
+	platform_install
 
 	# Install fuzzers.
 	# fuzzer_component_id is unknown/unlisted
