@@ -1,19 +1,19 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c0021a9fe2f3a4aabbaa270c0aa8b21b32007b2f"
-CROS_WORKON_TREE="9bc30422c7ac160b49fef37ba49c5a3d405c3172"
+CROS_WORKON_COMMIT="e15edc29b733f0de46b392f6bf0663fcf0f08f6c"
+CROS_WORKON_TREE="021c45f783a2a565dce17ce8bb5394132d2a3042"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v5.10"
-CROS_WORKON_EGIT_BRANCH="chromeos-5.10"
+CROS_WORKON_LOCALNAME="kernel/v5.15"
+CROS_WORKON_EGIT_BRANCH="chromeos-5.15"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
 
 HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-os-kernel"
-DESCRIPTION="Chrome OS Linux Kernel 5.10"
+DESCRIPTION="Chrome OS Linux Kernel 5.15"
 KEYWORDS="*"
 
 # Change the following (commented out) number to the next prime number
