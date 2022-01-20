@@ -140,6 +140,7 @@ CLIENT_IUSE_TESTS="
 	tests_hardware_TouchScreenPresent
 	+tests_hardware_TrimIntegrity
 	+tests_infra_FirmwareAutoupdate
+	+tests_infra_PythonVersion
 	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_CrosECSysfsAccel
 	+tests_kernel_Delay
