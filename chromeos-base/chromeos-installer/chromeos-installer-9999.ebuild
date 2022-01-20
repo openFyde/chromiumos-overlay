@@ -21,7 +21,15 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd lvm_stateful_partition"
+IUSE="
+	cros_embedded
+	enable_slow_boot_notify
+	-mtd
+	pam
+	systemd
+	lvm_stateful_partition
+	postinstall_config_efi_and_legacy
+"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
