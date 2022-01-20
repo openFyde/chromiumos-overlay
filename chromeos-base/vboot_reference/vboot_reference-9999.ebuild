@@ -86,7 +86,8 @@ src_compile() {
 
 src_test() {
 	! use amd64 && ! use x86 && ewarn "Skipping unittests for non-x86" && return 0
-	vemake BUILD="$(get_build_dir)" runtests
+
+	vemake BUILD="$(get_build_dir)" USE_PLATFORM2_TEST_WRAPPER=1 runtests
 }
 
 src_install() {
