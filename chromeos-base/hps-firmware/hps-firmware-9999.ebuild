@@ -158,6 +158,7 @@ src_compile() {
 	"${CARGO_TARGET_DIR}/${CBUILD}/release/sign-rom" \
 		--input "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
 		--output "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" \
+		--use-insecure-dev-key \
 		|| die
 }
 
