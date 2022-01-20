@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="6672d9933b1c72fcbc292a0d0b68e6929ac527ac"
+CROS_WORKON_COMMIT="0a0c95f0fd18038f9fab5a9097ffbc4a40c646af"
 CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "f4377cc5ee779360b2d2f5c65b812310aeb12b71" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -40,6 +40,40 @@ pkg_preinst() {
 }
 
 src_install() {
+	# Installs the client libraries
+	dolib.a "${OUT}/libmissiveclientlib.a"
+	dolib.a "${OUT}/libmissiveprotostatus.a"
+	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
+	dolib.a "${OUT}/libmissiveprotorecord.a"
+	dolib.a "${OUT}/libmissiveprotointerface.a"
+
+	# Installs the header files to /usr/include/missive/.
+	local header_files=(
+		"client/missive_client.h"
+		"client/report_queue_configuration.h"
+		"client/report_queue_factory.h"
+		"client/report_queue.h"
+		"util/status.h"
+		"util/status_macros.h"
+		"util/statusor.h"
+	)
+	local pd_header_files=(
+		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
+		"${OUT}/gen/include/missive/proto/record.pb.h"
+		"${OUT}/gen/include/missive/proto/status.pb.h"
+	)
+	local f
+	for f in "${header_files[@]}"; do
+		insinto "/usr/include/missive/${f%/*}"
+		doins "${f}"
+	done
+	for f in "${pd_header_files[@]}"; do
+		insinto "/usr/include/missive/proto"
+		doins "${f}"
+	done
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	doins "${OUT}/obj/missive/libmissiveclient.pc"
+
 	# Install binary
 	dobin "${OUT}"/missived
 

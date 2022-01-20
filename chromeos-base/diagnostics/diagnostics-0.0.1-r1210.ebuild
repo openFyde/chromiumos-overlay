@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6672d9933b1c72fcbc292a0d0b68e6929ac527ac"
-CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "19caa66b777e9ada88a44a18ed5aa515751045df" "fe86866b9908b56f6fedd81ac43253e7bdd44a85" "f4377cc5ee779360b2d2f5c65b812310aeb12b71" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0a0c95f0fd18038f9fab5a9097ffbc4a40c646af"
+CROS_WORKON_TREE=("870be7e0752a4ee27e6ed09c6fc7e2a5f11ae344" "19caa66b777e9ada88a44a18ed5aa515751045df" "fe86866b9908b56f6fedd81ac43253e7bdd44a85" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/1044813): Remove chromeos-config once its public headers are fixed.
-CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics missive .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
@@ -27,6 +27,7 @@ IUSE="fuzzer wilco mesa_reven"
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
+	chromeos-base/missive:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
