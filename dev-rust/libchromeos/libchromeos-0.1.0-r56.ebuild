@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e56b09065080a7742da7203d0667c935e13bffe5"
-CROS_WORKON_TREE="069cd166859430b00196f59e9f640ceeedcb45e3"
+CROS_WORKON_COMMIT="a84a4196a4cffd9fb9f1701c896f6a07522a3736"
+CROS_WORKON_TREE="769c1f1daa4e9819ef404687a209c67e5fa72401"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -21,9 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-COMMON_DEPEND="chromeos-base/vboot_reference"
-
-DEPEND="${COMMON_DEPEND}
+DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/futures-0.3*:=
@@ -39,10 +37,11 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
+	dev-rust/vboot_reference-sys:=
 	>=dev-rust/zeroize-1.2.0 <dev-rust/zeroize-2.0.0_alpha:=
 "
 
-RDEPEND="${COMMON_DEPEND}
+RDEPEND="${DEPEND}
 	!!<=dev-rust/libchromeos-0.1.0-r2"
 
 src_compile() {

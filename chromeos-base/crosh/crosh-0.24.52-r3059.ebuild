@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c456288bc0b12b99e13ca474f7063e8d6adf59de"
+CROS_WORKON_COMMIT="a84a4196a4cffd9fb9f1701c896f6a07522a3736"
 CROS_WORKON_TREE="891066c6b783a3e4fc9647ebdf627378cc66968d"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,14 +19,19 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="+rust-crosh"
 
-DEPEND="
+COMMON_DEPEND="
+	chromeos-base/vboot_reference:=
+	sys-apps/dbus
+"
+
+DEPEND="${COMMON_DEPEND}
 	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0_alpha:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
 	=dev-rust/rand-0.7*:=
-	>=dev-rust/regex-1.0.6:= <dev-rust/regex-2.0.0
+	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha:=
 	dev-rust/remain:=
 	=dev-rust/rustyline-7*:=
 	dev-rust/shell-words:=
@@ -35,12 +40,11 @@ DEPEND="
 	dev-rust/tempfile:=
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
 "
-RDEPEND="app-admin/sudo
-	chromeos-base/vboot_reference
+RDEPEND="${COMMON_DEPEND}
+	app-admin/sudo
 	net-misc/iputils
 	net-misc/openssh
 	net-wireless/iw
-	sys-apps/dbus
 	sys-apps/net-tools
 "
 
