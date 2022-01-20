@@ -120,7 +120,8 @@ src_configure() {
 src_compile() {
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
-	python -m soc.hps_soc --build --no-compile-software || die
+	PYTHONPATH="third_party/python/CFU-Playground" \
+		python -m soc.hps_soc --build --no-compile-software || die
 
 	# Build userspace tools
 	for tool in hps-mon hps-util sign-rom ; do (
