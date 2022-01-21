@@ -87,8 +87,13 @@ src_install() {
 	insinto "${TESTSERVER_DIR}"
 	doins -r "${S}"/third_party/tlslite
 	doins -r "${S}"/net/tools/testserver
-	doins -r "${S}"/components/policy/test_support/asn1der.py
-	doins -r "${S}"/components/policy/test_support/policy_testserver.py
+
+	# b/216072837 The Chromium version of policy_testserver.py is not compatible
+	# with cryptography in Chromium OS.
+	# Use a local copy created from the last working commit:
+	# bc9342741b561ff42d5798d58c679af2b47f6d67
+	doins -r "${FILESDIR}"/policy_testserver.py
+	doins -r "${FILESDIR}"/asn1der.py
 
 	insinto "${TESTSERVER_DIR}/proto_bindings"
 	doins "${WORKDIR}/chrome_device_policy_pb2.py"

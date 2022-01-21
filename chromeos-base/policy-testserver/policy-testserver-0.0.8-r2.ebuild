@@ -35,7 +35,7 @@ CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_COMMIT=(
 	"05d9f22315757117685ad2f5265148f900f18034"
 	"8599944a086c503a4e31a95e226e967f5db560f7"
-	"ca23b3986fe827ea3342495aa494400a18774e2b"
+	"47d0dcbb64d9920728f29ba5be0a357a7167fdd9"
 	"dd7f8ad1e3ee47c4baffdab73521862a18f55508"
 	"ee74da4528c53f8482b70716afd83861bfdb29c3"
 )
@@ -94,8 +94,13 @@ src_install() {
 	insinto "${TESTSERVER_DIR}"
 	doins -r "${S}"/third_party/tlslite
 	doins -r "${S}"/net/tools/testserver
-	doins -r "${S}"/components/policy/test_support/asn1der.py
-	doins -r "${S}"/components/policy/test_support/policy_testserver.py
+
+	# b/216072837 The Chromium version of policy_testserver.py is not compatible
+	# with cryptography in Chromium OS.
+	# Use a local copy created from the last working commit:
+	# bc9342741b561ff42d5798d58c679af2b47f6d67
+	doins -r "${FILESDIR}"/policy_testserver.py
+	doins -r "${FILESDIR}"/asn1der.py
 
 	insinto "${TESTSERVER_DIR}/proto_bindings"
 	doins "${WORKDIR}/chrome_device_policy_pb2.py"
