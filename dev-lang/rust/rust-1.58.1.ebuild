@@ -22,7 +22,7 @@ else
 fi
 
 
-BOOTSTRAP_VERSION="1.54.0"
+BOOTSTRAP_VERSION="1.57.0"
 
 DESCRIPTION="Systems programming language from Mozilla"
 HOMEPAGE="http://www.rust-lang.org/"
@@ -49,12 +49,12 @@ PATCHES=(
 	"${FILESDIR}/${P}-no-test-on-build.patch"
 	"${FILESDIR}/${P}-sanitizer-supported.patch"
 	"${FILESDIR}/${P}-cc.patch"
-	"${FILESDIR}/${P}-fix-libunwind-build.patch"
 	"${FILESDIR}/${P}-revert-libunwind-build.patch"
 	"${FILESDIR}/${P}-ld-argv0.patch"
 	"${FILESDIR}/${P}-Handle-sparse-git-repo-without-erroring.patch"
 	"${FILESDIR}/${P}-disable-mutable-noalias.patch"
 	"${FILESDIR}/${P}-add-armv7a-sanitizers.patch"
+	"${FILESDIR}/${P}-fix-libunwind-backtrace-visibility.patch"
 )
 
 S="${WORKDIR}/${MY_P}-src"
@@ -162,6 +162,7 @@ mandir = "share/man"
 
 [rust]
 default-linker = "${CBUILD}-clang"
+description = "${PF}"
 channel = "nightly"
 codegen-units = 0
 llvm-libunwind = 'in-tree'

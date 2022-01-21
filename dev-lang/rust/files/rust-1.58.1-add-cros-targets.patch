@@ -1,16 +1,25 @@
-Because of crbug.com/711369, armv7 target triple's arch and ABI parts differ
-between chromeos and the rust. Until that bug is fixed, we have to add our own
-triple for armv7.
+From b485b029e9c358516fb3483afc6d5374402d3862 Mon Sep 17 00:00:00 2001
+From: Michael Benfield <mbenfield@google.com>
+Date: Fri, 12 Nov 2021 20:08:18 +0000
+Subject: [PATCH] applied
+
+Because of crbug.com/711369, armv7 target triple's arch and ABI parts
+differ between chromeos and rust. Until that bug is fixed, we have to
+add our own triple for armv7.
 
 Additionally, the Rust compiler does not implement a fallback for unknown
 target triple vendors (e.g. "cros" or "pc") to the "unknown" variant, so we
 add copies of the relevant cros targets here as well.
 
+---
+ compiler/rustc_target/src/spec/mod.rs | 4 ++++
+ 1 file changed, 4 insertions(+)
+
 diff --git a/compiler/rustc_target/src/spec/mod.rs b/compiler/rustc_target/src/spec/mod.rs
-index 67f45d3d230..51e0eef6630 100644
+index 273221360b8..465a240d0bd 100644
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -335,6 +335,8 @@ macro_rules! supported_targets {
+@@ -740,6 +740,8 @@ fn $module() {
  supported_targets! {
      ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
      ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
@@ -19,8 +28,8 @@ index 67f45d3d230..51e0eef6630 100644
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
      ("i586-unknown-linux-gnu", i586_unknown_linux_gnu),
      ("mips-unknown-linux-gnu", mips_unknown_linux_gnu),
-@@ -364,11 +366,13 @@ supported_targets! {
-     ("armv5te-unknown-linux-musleabi", armv5te_unknown_linux_musleabi),
+@@ -771,11 +773,13 @@ fn $module() {
+     ("armv5te-unknown-linux-uclibceabi", armv5te_unknown_linux_uclibceabi),
      ("armv7-unknown-linux-gnueabi", armv7_unknown_linux_gnueabi),
      ("armv7-unknown-linux-gnueabihf", armv7_unknown_linux_gnueabihf),
 +    ("armv7a-cros-linux-gnueabihf", armv7a_cros_linux_gnueabihf),
@@ -33,3 +42,6 @@ index 67f45d3d230..51e0eef6630 100644
      ("aarch64-unknown-linux-musl", aarch64_unknown_linux_musl),
      ("x86_64-unknown-linux-musl", x86_64_unknown_linux_musl),
      ("i686-unknown-linux-musl", i686_unknown_linux_musl),
+-- 
+2.31.0
+
