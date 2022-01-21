@@ -58,27 +58,9 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/iioservice
-
-	# Install upstart configuration.
-	insinto /etc/init
-	doins init/*.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Iioservice.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp/iioservice-${ARCH}.policy" iioservice-seccomp.policy
+	platform_install
 }
 
 platform_pkg_test() {
-	local tests=(
-		iioservice_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
