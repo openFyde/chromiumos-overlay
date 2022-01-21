@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="4ed2ee26a94a75715335b7cb040f651205b20ca6"
-CROS_WORKON_TREE="c110d870beca92c1356b5547eedd9a80b1b1d7cb"
+CROS_WORKON_COMMIT="3224399c52bad91569d7cc97581e0379d6a07e80"
+CROS_WORKON_TREE="2f9514b27672f701ebe842af04d99c21b59fbc92"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform/audiotest"
 CROS_WORKON_LOCALNAME="platform/audiotest"
@@ -28,6 +28,12 @@ src_configure() {
 	cros-common.mk_src_configure
 }
 
+src_test() {
+	pushd script || die
+	python3 -m unittest cyclic_bench_unittest || die
+	popd > /dev/null || die
+}
+
 src_install() {
 	# Install built tools
 	pushd "${OUT}" >/dev/null
@@ -38,5 +44,6 @@ src_install() {
 	dobin src/cras_api_test
 	dobin src/loopback_latency
 	dobin script/alsa_conformance_test.py
-	popd >/dev/null
+	dobin script/cyclic_bench.py
+	popd >/dev/null || die
 }

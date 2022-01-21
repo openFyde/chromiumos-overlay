@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cecd6fd785374d314497ede07a60ea03697ba46d"
-CROS_WORKON_TREE=("6f903b6c0a37cd3197a5b32785c4f9c65ad146b8" "113aec10016eaa9629d0db5f3cae59bd9e847a4e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f81528a28c001edb0fbde7f1d1bc77f194171789"
+CROS_WORKON_TREE=("860d4f679951a8fbe05c855405952afe950b33b3" "113aec10016eaa9629d0db5f3cae59bd9e847a4e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,19 +27,7 @@ RDEPEND="
 "
 
 src_install() {
-	insinto /etc/init
-	if use arcvm; then
-		doins init/arcvm-adbd.conf
-		insinto /etc/dbus-1/system.d
-		doins init/dbus-1/ArcVmAdbd.conf
-	else
-		doins init/arc-adbd.conf
-	fi
-
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp/arc$(usex arcvm vm '')-adbd-${ARCH}.policy" "arc$(usex arcvm vm '')-adbd-seccomp.policy"
-
-	dosbin "${OUT}/arc-adbd"
+	platform_install
 
 	# Install fuzzers.
 	# fuzzer_component_id is unknown/unlisted
