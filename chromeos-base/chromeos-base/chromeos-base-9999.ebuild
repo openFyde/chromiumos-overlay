@@ -16,7 +16,7 @@ HOMEPAGE="https://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole"
+IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole kernel-4_4 kernel-3_18"
 
 # We need to make sure timezone-data is merged before us.
 # See pkg_setup below as well as http://crosbug.com/27413
@@ -161,6 +161,18 @@ src_install() {
 		# Install all the udev rules.
 		udev_dorules "${FILESDIR}"/udev-rules/*.rules
 		use vtconsole && udev_dorules "${FILESDIR}"/60-X-tty1-tty2-group-rw.rules
+
+		# b/212196481 : only chromeos kernels v4.14 (and newer) r8152 driver
+		# have support for RTL8153C and RTL8153D. Older kernels should
+		# continue using the "default" driver (cdc_ether or cdc_ncm).
+		# For v4.14 and newer kernels, we can enable WOL functionality even
+		# if the product doesn't officially support WOL. The goal is consistent
+		# behavior for all other driver features across those platforms.
+		#
+		# Revert this change once we stop building/shipping those kernels.
+		if (use kernel-4_4 || use kernel-3_18) ; then
+			rm -f "${D}"/lib/udev/rules.d/??-usb-rtl_nic-net.rules
+		fi
 
 		# Symlink /etc/localtime to something on the stateful
 		# partition. At runtime, the system will take care of
