@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -6,7 +6,7 @@ EAPI=6
 CROS_WORKON_COMMIT="04c6bef3f3d921fa75fed0af7e76e35c1503aba7"
 CROS_WORKON_TREE="a1330a0f10435588391103f58c5e51f90b761004"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.7.2"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.7.4"
 
 PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
@@ -19,7 +19,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
-IUSE="agent amt archive +bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive bash-completion bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
 	dell? ( uefi )
 	fastboot? ( gusb )
@@ -33,6 +33,7 @@ REQUIRED_USE="${PYTHON_REQUIRED_USE}
 BDEPEND="
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc )
+	bash-completion? ( >=app-shells/bash-completion-2.0 )
 	introspection? ( dev-libs/gobject-introspection )
 	man? (
 		app-text/docbook-sgml-utils
@@ -45,17 +46,14 @@ BDEPEND="
 "
 COMMON_DEPEND="
 	>=app-arch/gcab-1.0
-	dev-db/sqlite
-	>=dev-libs/glib-2.45.8:2
+	app-arch/xz-utils
+	>=dev-libs/glib-2.58:2
 	dev-libs/json-glib
-	dev-libs/libgpg-error
 	dev-libs/libgudev:=
 	>=dev-libs/libjcat-0.1.0[gpg?,pkcs7?]
 	>=dev-libs/libxmlb-0.1.13:=[introspection?]
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	net-misc/curl
-	virtual/libelf:0=
-	virtual/udev
 	archive? ( app-arch/libarchive:= )
 	dell? ( >=sys-libs/libsmbios-2.4.0 )
 	elogind? ( >=sys-auth/elogind-211 )
@@ -66,6 +64,7 @@ COMMON_DEPEND="
 	lzma? ( app-arch/xz-utils )
 	modemmanager? ( net-misc/modemmanager[qmi] )
 	policykit? ( >=sys-auth/polkit-0.103 )
+	sqlite? ( dev-db/sqlite )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
 		sys-apps/fwupd-efi
@@ -87,8 +86,6 @@ DEPEND="
 	$(vala_depend)
 	${PYTHON_DEPS}
 	$(python_gen_cond_dep '
-		dev-python/pillow[${PYTHON_USEDEP}]
-		dev-python/pycairo[${PYTHON_USEDEP}]
 		dev-python/pygobject:3[cairo,${PYTHON_USEDEP}]
 	' ${PYTHON_COMPAT} )
 	${RDEPEND}
@@ -123,6 +120,7 @@ src_configure() {
 		$(meson_use fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
 		$(meson_use flashrom plugin_flashrom)
+		$(meson_use gusb plugin_uf2)
 		$(meson_use logitech plugin_logitech_bulkcontroller)
 		$(meson_use modemmanager plugin_modem_manager)
 		$(meson_use nvme plugin_nvme)
@@ -149,6 +147,7 @@ src_configure() {
 		-Defi_binary="false"
 		-Dsupported_build="true"
 		$(meson_use archive libarchive)
+		$(meson_use bash-completion bash_completion)
 		$(meson_use bluetooth bluez)
 		$(meson_use elogind)
 		$(meson_use gnutls)
@@ -157,6 +156,7 @@ src_configure() {
 		$(meson_use man)
 		$(meson_use introspection)
 		$(meson_use policykit polkit)
+		$(meson_use sqlite)
 		$(meson_use systemd)
 		$(meson_use systemd offline)
 		$(meson_use test tests)
