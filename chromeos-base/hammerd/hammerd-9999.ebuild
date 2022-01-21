@@ -39,21 +39,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dobin "${OUT}/hammerd"
-
-	# Install upstart configs and scripts.
-	insinto /etc/init
-	doins init/*.conf
-	exeinto /usr/share/cros/init
-	doexe init/*.sh
-
-	# Install DBus config.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.hammerd.conf
-
-	# Install rsyslog config.
-	insinto /etc/rsyslog.d
-	doins rsyslog/rsyslog.hammerd.conf
+	platform_install
 
 	local fuzzer_component_id="167114"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer \
@@ -63,5 +49,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
