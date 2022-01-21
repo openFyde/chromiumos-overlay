@@ -60,7 +60,12 @@ src_install() {
 		fi
 	fi
 
-	insinto /usr/$(get_libdir)/pkgconfig
+	local daemon_store="/etc/daemon-store/uma-consent"
+	dodir "${daemon_store}"
+	fperms 0774 "${daemon_store}"
+	fowners chronos:chronos-access "${daemon_store}"
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	dolib.so "${OUT}/lib/libmetrics.so"
