@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a4be31189d302c3163001b901bb73f89d1e9144a"
-CROS_WORKON_TREE=("e5822571db2e92a58bc12dacc8e5042494372d19" "013c85902c24c82be5a2aa14086fa3d3cc4b846f" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="dafb9a0366a6819da97ff301160d413ab07471f4"
+CROS_WORKON_TREE=("e5822571db2e92a58bc12dacc8e5042494372d19" "d1a836719da759d410d56e82f686820e69177552" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -73,6 +73,7 @@ src_install() {
 	dosbin "${OUT}"/debugd
 
 	exeinto /usr/libexec/debugd/helpers
+	doexe "${OUT}"/audit_log_filter
 	doexe "${OUT}"/capture_packets
 	doexe "${OUT}"/cups_uri_helper
 	doexe "${OUT}"/dev_features_chrome_remote_debugging
