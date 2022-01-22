@@ -37,21 +37,7 @@ DEPEND="${RDEPEND}
 	>=sys-kernel/linux-headers-3.16
 	elibc_glibc? ( >=sys-libs/glibc-2.7 )"
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-3.1.0-mtu.patch #291907
-	"${FILESDIR}"/${P}-ip-addr-optimistic.patch
-	"${FILESDIR}"/${P}-jetstream-nss-qdisc.patch
-	"${FILESDIR}"/${P}-tc-add-support-for-new-qdisc-arl.patch
-)
-
 src_prepare() {
-	if ! use ipv6 ; then
-		PATCHES+=(
-			"${FILESDIR}"/${PN}-4.2.0-no-ipv6.patch #326849
-		)
-	fi
-
-	epatch "${PATCHES[@]}"
 
 	sed -i \
 		-e '/^CC :=/d' \
@@ -66,7 +52,7 @@ src_prepare() {
 	sed -i \
 		-e 's:/var/run:/run:g' \
 		include/namespace.h \
-		man/man8/ip-netns.8 \
+		lib/fs.c \
 		Makefile || die
 
 	# build against system headers
@@ -100,7 +86,7 @@ src_configure() {
 	IP_CONFIG_SETNS := ${setns}
 	# Use correct iptables dir, #144265 #293709
 	IPT_LIB_DIR := $(use iptables && ${PKG_CONFIG} xtables --variable=xtlibdir)
-	CFLAGS += -DNEED_STRLCPY $(usex minimal "" -DHAVE_LIBMNL)
+	CFLAGS += -DNEED_STRLCPY $(usex minimal "" -DHAVE_LIBMNL) -DHAVE_HANDLE_AT
 	LDLIBS += $(usex minimal "" -lmnl)
 	EOF
 
