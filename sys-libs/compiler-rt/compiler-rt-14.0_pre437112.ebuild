@@ -53,6 +53,8 @@ src_prepare() {
 src_configure() {
 	setup_cross_toolchain
 	append-flags "-fomit-frame-pointer"
+	# CTARGET is defined in an eclass, which shellcheck won't see
+	# shellcheck disable=SC2154
 	if [[ ${CTARGET} == armv7a* ]]; then
 		# Use vfpv3 to be able to target non-neon targets
 		append-flags -mfpu=vfpv3

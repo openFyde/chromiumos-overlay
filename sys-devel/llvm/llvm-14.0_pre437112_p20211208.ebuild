@@ -91,7 +91,7 @@ src_unpack() {
 	git-r3_src_unpack
 
 	if apply_pgo_profile; then
-		cd "${WORKDIR}"
+		cd "${WORKDIR}" || die
 		local profile_hash
 		if use llvm-next; then
 			profile_hash="${LLVM_NEXT_HASH}"
@@ -124,6 +124,7 @@ src_prepare() {
 	cmake_src_prepare
 
 	# Native libdir is used to hold LLVMgold.so
+	# shellcheck disable=SC2034
 	NATIVE_LIBDIR=$(get_libdir)
 }
 

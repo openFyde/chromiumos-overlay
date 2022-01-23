@@ -5,7 +5,7 @@ EAPI=6
 
 # Ninja provides better scalability and cleaner verbose output, and is used
 # throughout all LLVM projects.
-: ${CMAKE_MAKEFILE_GENERATOR:=ninja}
+: "${CMAKE_MAKEFILE_GENERATOR:=ninja}"
 PYTHON_COMPAT=( python3_6 )
 
 inherit cmake-multilib cros-constants cros-llvm git-2 llvm python-any-r1 toolchain-funcs
@@ -28,6 +28,8 @@ IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt +libunwi
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
 
+# MULTILIB_USEDEP is defined in an eclass, which shellcheck won't see
+# shellcheck disable=SC2154
 RDEPEND="
 	libcxxabi? ( ${CATEGORY}/libcxxabi[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
 	libcxxrt? ( ${CATEGORY}/libcxxrt[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
@@ -75,6 +77,8 @@ multilib_src_configure() {
 	local cxxabi cxxabi_incs
 	if use libcxxabi; then
 		cxxabi=libcxxabi
+		# CTARGET is defined in an eclass, which shellcheck won't see
+		# shellcheck disable=SC2154
 		cxxabi_incs="${SYSROOT}/${PREFIX}/include/libcxxabi"
 	elif use libcxxrt; then
 		cxxabi=libcxxrt
@@ -100,7 +104,8 @@ multilib_src_configure() {
 		if tc-is-clang; then
 			# get the full library list out of 'pretend mode'
 			# and grep it for libclang_rt references
-			local args=( $($(tc-getCC) -### -x c - 2>&1 | tail -n 1) )
+			local args
+			IFS=" " read -r -a args <<< "$($(tc-getCC) -### -x c - 2>&1 | tail -n 1)"
 			local i
 			for i in "${args[@]}"; do
 				if [[ ${i} == *libclang_rt* ]]; then
@@ -149,6 +154,7 @@ multilib_src_configure() {
 # Usage: deps
 gen_ldscript() {
 	local output_format
+	# shellcheck disable=SC2086
 	output_format=$($(tc-getCC) ${CFLAGS} ${LDFLAGS} -Wl,--verbose 2>&1 | sed -n 's/^OUTPUT_FORMAT("\([^"]*\)",.*/\1/p')
 	[[ -n ${output_format} ]] && output_format="OUTPUT_FORMAT ( ${output_format} )"
 
