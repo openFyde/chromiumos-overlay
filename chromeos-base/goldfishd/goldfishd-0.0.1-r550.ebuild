@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a4be31189d302c3163001b901bb73f89d1e9144a"
-CROS_WORKON_TREE=("e5822571db2e92a58bc12dacc8e5042494372d19" "13765b1ff67adeffebb9deed2992c18378e5e243" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="4341fd324cb850ddf125483042d89e2428237b54"
+CROS_WORKON_TREE=("e5822571db2e92a58bc12dacc8e5042494372d19" "edd45f0237db5cb88ec74205929105cd17099f7f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,12 +27,9 @@ RDEPEND="
 	"
 
 src_install() {
-	dobin "${OUT}"/goldfishd
-
-	insinto /etc/init
-	doins init/*.conf
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/goldfishd_test_runner"
+	platform test_all
 }
