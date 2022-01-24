@@ -28,8 +28,9 @@ TARGETS_IUSE="
 	minios_ramfs
 	minios_test_ramfs
 "
-IUSE+=" ${TARGETS_IUSE}"
-REQUIRED_USE="|| ( ${TARGETS_IUSE} )"
+IUSE="${IUSE} test ${TARGETS_IUSE}"
+# Allow absence of the build target when running tests via cros_run_unit_tests.
+REQUIRED_USE="|| ( test ${TARGETS_IUSE} )"
 
 # Packages required for building recovery initramfs.
 RECOVERY_DEPENDS="
@@ -161,7 +162,7 @@ src_compile() {
 	for target in ${TARGETS_IUSE}; do
 		use "${target}" && targets+=("${target%_ramfs}")
 	done
-	einfo "Building targets: ${targets[*]}"
+	einfo "Building targets: ${targets[*]:-(only running tests)}"
 
 	local physical_presence
 	if use physical_presence_power ; then
@@ -172,16 +173,31 @@ src_compile() {
 		physical_presence="keyboard"
 	fi
 
-	emake SYSROOT="${SYSROOT}" BOARD="$(get_current_board_with_variant)" \
-		INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
-		INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
-		DETACHABLE="$(usex detachable 1 0)" \
-		LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
-		UNIBUILD="$(usex unibuild 1 0)" \
-		OOBE_CONFIG="$(usex oobe_config 1 0)" \
-		PHYSICAL_PRESENCE="${physical_presence}" \
-		OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
+	if [[ ${#targets[@]} -gt 0 ]]; then
+		emake SYSROOT="${SYSROOT}" \
+			BOARD="$(get_current_board_with_variant)" \
+			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
+			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
+			DETACHABLE="$(usex detachable 1 0)" \
+			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
+			UNIBUILD="$(usex unibuild 1 0)" \
+			OOBE_CONFIG="$(usex oobe_config 1 0)" \
+			PHYSICAL_PRESENCE="${physical_presence}" \
+			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
+			LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
+	fi
+}
+
+src_test() {
+	local targets=()
+	for target in ${TARGETS_IUSE}; do
+		use "${target}" && targets+=("${target%_ramfs}_check")
+	done
+	einfo "Testing targets: ${targets[*]}"
+
+	if [[ ${#targets[@]} -gt 0 ]]; then
+		emake SYSROOT="${SYSROOT}" "${targets[@]}"
+	fi
 }
 
 src_install() {
