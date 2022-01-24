@@ -113,6 +113,7 @@ FACTORY_NETBOOT_DEPENDS="
 HYPERVISOR_DEPENDS="
 	chromeos-base/crosvm
 	chromeos-base/sirenia
+	sys-apps/coreboot-utils
 	virtual/linux-sources
 	"
 
