@@ -2,11 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-inherit cros-workon cros-rust
-
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
+
+inherit cros-workon cros-rust
 
 DESCRIPTION="HPS firmware and tooling"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
