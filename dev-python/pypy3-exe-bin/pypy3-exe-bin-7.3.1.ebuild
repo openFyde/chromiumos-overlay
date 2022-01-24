@@ -105,15 +105,27 @@ src_compile() {
 src_install() {
 	insinto /
 	doins -r usr
-	fperms +x "/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}"
-	pax-mark m "${ED}/usr/lib/pypy3-c-${PYPY_PV}"
+	# Rename pypy3-c binary as .bin
+	mv "${ED}/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}"{,.bin}
+	fperms +x "/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}.bin"
+	pax-mark m "${ED}/usr/lib/pypy3-c-${PYPY_PV}.bin"
 
-	cat <<EOF | newbin - pypy3-c-${PYPY_PV}
+
+	# Create loader script inside /usr/lib/pypy3.6
+	# Use --argv0 since loader script is now located inside the
+	# directory which also contains stdlibs.
+	insinto "/usr/lib/pypy3.6"
+	cat <<EOF | newins - "pypy3-c-${PYPY_PV}"
 #!/bin/sh
 exec /lib64/ld-linux-x86-64.so.2 \
 	--library-path /usr/libexec/${PN} \
-	"/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}" "\$@"
+	--argv0 "\$0" \
+	"/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}.bin" "\$@"
 EOF
+	fperms +x "/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}"
+
+	# Create /usr/bin symlink to loader script under /usr/lib/pypy3.6
+	dosym "/usr/lib/pypy3.6/pypy3-c-${PYPY_PV}" "/usr/bin/pypy3-c-${PYPY_PV}"
 
 	exeinto /usr/libexec/${PN}
 
