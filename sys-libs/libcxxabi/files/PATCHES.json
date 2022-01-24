@@ -24,7 +24,7 @@
         "start_version": 422132
     },
     {
-        "end_version": null,
+        "end_version": 444704,
         "metadata": {
             "info": [],
             "title": "[libunwind][ARM] Handle end of stack during unwind"
