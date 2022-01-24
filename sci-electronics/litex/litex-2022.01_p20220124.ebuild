@@ -1,4 +1,4 @@
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -12,7 +12,8 @@ create FPGA Cores/SOCs, to create FPGA Cores/SoCs, to explore various digital de
 architectures and create full FPGA based systems."
 HOMEPAGE="https://github.com/enjoy-digital/litex"
 
-GIT_REV="c43132f81f1113e83780571b10d004974fe361de"
+GIT_REV="6b3eda16f23d485ebcb13739b2f53d108d8e5451"
+
 SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
 
 LICENSE="BSD-2"
