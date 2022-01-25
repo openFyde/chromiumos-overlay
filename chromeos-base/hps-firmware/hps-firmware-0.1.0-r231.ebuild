@@ -2,13 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-CROS_WORKON_COMMIT="56d4e23f2688eaef02020d6460d4cfea7dba822f"
-CROS_WORKON_TREE="f035cfd77ff111ad888085da4e7ab2277a50a2c2"
-inherit cros-workon cros-rust
-
+CROS_WORKON_COMMIT="405e13249f6bdaf6643d558f968d06a0cea09192"
+CROS_WORKON_TREE="ea5bacf6a91f64a0694da1661b35281f8beac49c"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
+
+inherit cros-workon cros-rust
 
 DESCRIPTION="HPS firmware and tooling"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
@@ -123,7 +122,8 @@ src_configure() {
 src_compile() {
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
-	python -m soc.hps_soc --build --no-compile-software || die
+	PYTHONPATH="third_party/python/CFU-Playground" \
+		python -m soc.hps_soc --build --no-compile-software || die
 
 	# Build userspace tools
 	for tool in hps-mon hps-util sign-rom ; do (
