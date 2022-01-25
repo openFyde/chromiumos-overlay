@@ -16,12 +16,15 @@ LICENSE="SGI-B-2.0"
 KEYWORDS="*"
 IUSE=""
 
-# libX11 needs to be in RDEPEND because we depend on the header being present
-RDEPEND="x11-libs/libX11:="
 DEPEND="
-	${RDEPEND}
+	x11-libs/libX11
 	>=dev-util/opencl-headers-2021.04.29
 	dev-util/spirv-headers
+"
+# Packages need to be in RDEPEND because we depend on the headers being present
+# See http://go/ebuild-faq#dependency-types for detail
+RDEPEND="
+	${DEPEND}
 "
 
 src_install() {
