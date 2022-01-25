@@ -235,6 +235,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	dev-python/jsonrpclib
 	dev-python/mkvparse
 	dev-python/netifaces
+	dev-python/pydbus
 	dev-python/pygobject
 	dev-python/pyserial
 	dev-python/pytest
