@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fe2dc57f0a982baee0c0ccb170d36f7fc30ae1f8"
+CROS_WORKON_COMMIT="199cb0ca548e2095392d6c19020f95693a52b460"
 CROS_WORKON_TREE="08447f957854fe6b186abc4c33067a2241116346"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -39,6 +39,7 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
+	>=dev-rust/zeroize-1.5.0 <dev-rust/zeroize-2.0.0_alpha:=
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus
