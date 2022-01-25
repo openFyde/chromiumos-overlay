@@ -176,4 +176,9 @@ src_install() {
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 	doins build/hps_platform/gateware/hps_platform_build.metadata
+
+	# install into /firmware as part of signing process
+	insinto "/firmware/hps"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
+	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 }
