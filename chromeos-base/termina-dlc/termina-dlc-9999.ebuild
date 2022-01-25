@@ -96,7 +96,7 @@ src_compile() {
 
 src_install() {
 	if use manatee; then
-		insinto "/usr/share/manatee"
+		insinto "/usr/share/manatee/templates"
 		doins termina.json
 	fi
 
