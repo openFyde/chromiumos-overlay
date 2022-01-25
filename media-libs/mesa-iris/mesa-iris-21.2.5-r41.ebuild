@@ -3,11 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="df8b32531bd748600a37223fe2d451444c441b60"
-CROS_WORKON_TREE="1c5a54e05a593c0eb61d7a9c6c33f34874d632ac"
+CROS_WORKON_COMMIT="0a012f29841f4340d99fc4213ba2f360e5a4bb74"
+CROS_WORKON_TREE="4049f13733d26cfc9a9360f0868039fba31959db"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
-CROS_WORKON_LOCALNAME="mesa-freedreno"
-CROS_WORKON_EGIT_BRANCH="chromeos-freedreno"
+CROS_WORKON_LOCALNAME="mesa-iris"
+CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
 KEYWORDS="*"
 
@@ -20,7 +20,7 @@ HOMEPAGE="http://mesa3d.org/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 
-IUSE="debug vulkan libglvnd zstd"
+IUSE="debug libglvnd tools vulkan zstd"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
@@ -48,7 +48,7 @@ src_configure() {
 		-Dglvnd=$(usex libglvnd true false)
 		-Dllvm=disabled
 		-Ddri3=disabled
-		-Dshader-cache=disabled
+		-Dshader-cache-default=false
 		-Dglx=disabled
 		-Degl=enabled
 		-Dgbm=disabled
@@ -56,14 +56,17 @@ src_configure() {
 		-Dgles2=enabled
 		-Dshared-glapi=enabled
 		-Ddri-drivers=
-		-Dgallium-drivers=freedreno
+		-Dgallium-drivers=iris
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
+		-Dglvnd=$(usex libglvnd true false)
 		$(meson_feature zstd)
-		-Dplatforms=
-		-Dtools=freedreno
+		# Set platforms empty to avoid the default "auto" setting. If
+		# platforms is empty meson.build will add surfaceless.
+		-Dplatforms=''
+		-Dtools=$(usex tools intel '')
 		--buildtype $(usex debug debug release)
-		-Dvulkan-drivers=$(usex vulkan freedreno '')
+ 		-Dvulkan-drivers=$(usex vulkan intel '')
 	)
 
 	meson_src_configure
@@ -72,6 +75,5 @@ src_configure() {
 src_install() {
 	meson_src_install
 
-	find "${ED}" -name '*kgsl*' -exec rm -f {} +
 	rm -v -rf "${ED}/usr/include"
 }
