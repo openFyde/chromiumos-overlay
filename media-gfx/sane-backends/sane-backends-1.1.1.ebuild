@@ -182,10 +182,6 @@ src_prepare() {
 	# From Arch
 	eapply "${FILESDIR}"/${PN}-1.0.30-network.patch
 
-	# Patches submitted upstream but not yet included.
-	eapply "${FILESDIR}"/${PN}-1.0.31-epson2.patch
-	eapply "${FILESDIR}"/${PN}-1.0.32-epsonds.patch
-
 	# Upstream sometimes forgets to remove the "git describe" check
 	# in the version, which then fails because .git isn't included in the
 	# released tarball.  Replace it with the plain version number.
@@ -255,15 +251,11 @@ multilib_src_configure() {
 
 	# relative path must be used for tests to work properly
 	# All distributions pass --disable-locking because /var/lock/sane/ would be a world-writable directory
-	# --without-api-spec to not automagically depend on tons of stuff
-	# that break in many ways, bug #636202, #668232, #668350
-	# People can refer to the "Programmer's Documentation" at http://www.sane-project.org/docs.html
 	ECONF_SOURCE=${S} \
 	SANEI_JPEG="sanei_jpeg.o" SANEI_JPEG_LO="sanei_jpeg.lo" \
 	BACKENDS="${BACKENDS}" \
 	econf \
 		--disable-locking \
-		--without-api-spec \
 		"$(use_with gphoto2)" \
 		"$(multilib_native_use_with systemd)" \
 		"$(use_with v4l)" \
