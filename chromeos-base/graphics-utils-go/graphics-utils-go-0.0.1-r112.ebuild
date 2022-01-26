@@ -57,6 +57,7 @@ DEPEND="
 	dev-go/protobuf
 	dev-go/readline
 	dev-go/svgo
+	dev-go/uuid
 "
 
 RDEPEND="${DEPEND}"
