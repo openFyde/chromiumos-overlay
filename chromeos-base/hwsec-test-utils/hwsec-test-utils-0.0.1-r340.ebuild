@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a4be31189d302c3163001b901bb73f89d1e9144a"
-CROS_WORKON_TREE=("28da844e05bf886fb936498b1ff8fffb8a42270e" "e5822571db2e92a58bc12dacc8e5042494372d19" "59bafa725de7a31e16754dcb7cdc6cf9fecf7304" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "d2b226582d18266d446e1f16d3ce20df4900034d" "11b22f268354979c627f4ff1871fb7c8ca917d3a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="22ae861186a5dbe6843eb0a641087cb36207611c"
+CROS_WORKON_TREE=("28da844e05bf886fb936498b1ff8fffb8a42270e" "e5822571db2e92a58bc12dacc8e5042494372d19" "197b339f23c768af21bc929173051300b490788e" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "d2b226582d18266d446e1f16d3ce20df4900034d" "11b22f268354979c627f4ff1871fb7c8ca917d3a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,18 +48,9 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
-
-	# Installs attestation-injected-keys
-	dobin "${OUT}/attestation-injected-keys"
-
-	# Installs hwsec-test-va
-	dobin "${OUT}/hwsec-test-va"
-
-	# Install fake pca agent
-	dobin "${OUT}"/fake_pca_agentd
-
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/hwsec-test-utils_testrunner"
+	platform test_all
 }
