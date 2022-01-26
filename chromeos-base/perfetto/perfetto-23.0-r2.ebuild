@@ -89,7 +89,6 @@ is_hermetic_clang=false
 enable_perfetto_zlib=false
 skip_buildtools_check=true
 perfetto_use_system_protobuf=true
-enable_perfetto_version_gen=false
 enable_perfetto_x64_cpu_opt=false
 "
 	einfo "GN_ARGS = ${GN_ARGS}"
