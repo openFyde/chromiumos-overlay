@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk debugd metrics .gn"
 
 PLATFORM_SUBDIR="debugd"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/"
@@ -116,6 +116,8 @@ src_install() {
 
 	insinto /etc/perf_commands
 	doins -r share/perf_commands/*
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	local daemon_store="/etc/daemon-store/debugd"
 	dodir "${daemon_store}"
