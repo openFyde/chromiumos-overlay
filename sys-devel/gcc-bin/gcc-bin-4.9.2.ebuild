@@ -78,7 +78,7 @@ src_prepare() {
 		# Rebuild the compiler wrapper with a workaround to avoid 512 errors.
 		cd "${WORKDIR}/${abi}/usr/x86_64-pc-linux-gnu/${abi}/gcc-bin/4.9.x" || die
 		rm -f sysroot_wrapper.hardened* || die
-		"${FILESDIR}/compiler_wrapper/build.py" --config=cros.hardened \
+		GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config=cros.hardened \
 			--use_ccache=false \
 			--use_llvm_next=false \
 			--output_file=sysroot_wrapper.hardened.ccache || die
