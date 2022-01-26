@@ -40,23 +40,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dobin "${OUT}"/federated_service
-
-	# Install upstart configuration.
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	newins "seccomp/federated_service-seccomp-${ARCH}.policy" federated_service-seccomp.policy
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Federated.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.Federated.service
+	platform_install
 
 	# Storage path for examples, will be mounted as
 	# /run/daemon-store/federated/<user_hash> after user logs in.
@@ -67,5 +51,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/federated_service_test"
+	platform test_all
 }
