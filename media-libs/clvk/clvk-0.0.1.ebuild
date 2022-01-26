@@ -4,13 +4,13 @@
 EAPI=7
 
 CROS_WORKON_COMMIT=(
-	"fb57b66ddd121a2fbfd6e393c948b09d58dc6216"
-	"3719884e16a3a4978530d1bf0e86c7009df5a855"
+	"a64c0156eb61a51c3d17c14d0741ca27c742fda9"
+	"f99809bdab1710846633b4ec24f5448263e75da7"
 )
 
 CROS_WORKON_TREE=(
-	"fb57b66ddd121a2fbfd6e393c948b09d58dc6216"
-	"3719884e16a3a4978530d1bf0e86c7009df5a855"
+	"a64c0156eb61a51c3d17c14d0741ca27c742fda9"
+	"f99809bdab1710846633b4ec24f5448263e75da7"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -45,8 +45,9 @@ CMAKE_USE_DIR="${CLVK_DIR}"
 DESCRIPTION="Prototype implementation of OpenCL 1.2 on to of Vulkan using clspv as the Compiler"
 HOMEPAGE="https://github.com/kpet/${PN}"
 
-LLVM_SHA1="dea76ccaf40f"
-SRC_URI="https://storage.cloud.google.com/chromeos-localmirror/distfiles/llvm-project-clvk-${LLVM_SHA1}.tgz"
+LLVM_FOLDER="llvm-project-d7630b37ceb8d7032f133e0257724997e4cc76ec"
+LLVM_ARCHIVE="${LLVM_FOLDER}.zip"
+SRC_URI="https://storage.cloud.google.com/chromeos-localmirror/distfiles/${LLVM_ARCHIVE}"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -75,10 +76,11 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
+	PATCHES+=("${FILESDIR}/clvk-CL_MEM_OBJECT_IMAGE1D_BUFFER.patch")
 fi
 
 src_unpack() {
-	unpack "llvm-project-clvk-${LLVM_SHA1}.tgz"
+	unpack "${LLVM_ARCHIVE}"
 	cros-workon_src_unpack
 }
 
@@ -119,7 +121,7 @@ build_host_tools() {
 src_configure() {
 	CMAKE_BUILD_TYPE=$(usex debug Debug RelWithDebInfo)
 
-	local CLVK_LLVM_PROJECT_DIR="${WORKDIR}/llvm-project"
+	local CLVK_LLVM_PROJECT_DIR="${WORKDIR}/${LLVM_FOLDER}"
 	local mycmakeargs=(
 		-DSPIRV_HEADERS_SOURCE_DIR="${ESYSROOT}/usr/"
 		-DSPIRV_TOOLS_SOURCE_DIR="${ESYSROOT}/usr/"
