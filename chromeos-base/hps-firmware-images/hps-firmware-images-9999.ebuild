@@ -14,6 +14,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware-ima
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT 0BSD BSD ISC"
 KEYWORDS="~*"
 
+# before signing firmware files were installed from this source ebuild
+RDEPEND="
+	!<chromeos-base/hps-firmware-0.1.0-r296
+"
+
 src_install() {
 	# Generate a single combined LICENSE file from all applicable license texts,
 	# so that the Chrome OS license scanner can find it.
@@ -23,6 +28,11 @@ src_install() {
 	other projects under other licenses:
 	EOF
 	cat licenses/third-party/* >> LICENSE
+
+	insinto "/usr/lib/firmware/hps"
+	doins "${S}/firmware-signed/fpga_application.bin"
+	doins "${S}/firmware-signed/fpga_bitstream.bin"
+	doins "${S}/firmware-signed/mcu_stage1.bin"
 
 	dobin "${S}"/bin/*
 }
