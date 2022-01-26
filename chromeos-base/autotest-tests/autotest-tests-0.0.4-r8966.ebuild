@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="c7e07effe760bb22551fbc0a4ef6e8c5945f2148"
-CROS_WORKON_TREE="25ad85d16df96c01f28d36f5405f458013090fe6"
+CROS_WORKON_COMMIT="7775c3756a4da891ba5652ad10399ea163cf6884"
+CROS_WORKON_TREE="70408fb0c01f36424f8b146e863c1fc95b029f37"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -142,6 +142,7 @@ CLIENT_IUSE_TESTS="
 	tests_hardware_TouchScreenPresent
 	+tests_hardware_TrimIntegrity
 	+tests_infra_FirmwareAutoupdate
+	+tests_infra_PythonVersion
 	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_CrosECSysfsAccel
 	+tests_kernel_Delay
