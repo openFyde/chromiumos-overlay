@@ -203,7 +203,6 @@ RDEPEND="${RDEPEND}
 	!dev-python/socksipy
 	dev-python/tempita
 	dev-python/ws4py
-	dev-util/bazel
 	dev-util/cmake
 	dev-util/cmocka
 	dev-util/dwarves
@@ -239,6 +238,14 @@ RDEPEND="${RDEPEND}
 	x11-apps/xcursorgen
 	x11-apps/xkbcomp
 	>=x11-misc/util-macros-1.2
+	"
+
+# Multiple versions of Bazel are provided for long-term compatibility.
+# Slot 0 corresponds to the version packaged by upstream Gentoo, while
+# other slots correspond to LTS releases packaged by us.
+RDEPEND="${RDEPEND}
+	dev-util/bazel:0
+	dev-util/bazel:5
 	"
 
 # Various fonts are needed in order to generate messages for the
