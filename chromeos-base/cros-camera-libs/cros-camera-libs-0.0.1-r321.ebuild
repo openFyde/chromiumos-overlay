@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4723a71449219c7181ef94c991404d895f0e0a26"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5822571db2e92a58bc12dacc8e5042494372d19" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "7f51c7075126c1dcfd22cda36f496be674d76b58" "4fc19db9b4296a22585ab7d667733e26ee890457" "8774c42872394c41ac215b85b7d049aeeacca75a" "bc4535a74294d86e7498615d12148925185988ee" "3c5ca428d9c43db3d5231c40ac22d4cb7c77900a" "584fe004f7f53fcd8cb6b718648eb6b29259f78c" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
+CROS_WORKON_COMMIT="a72c1494a397d8448465d88e9835fd007ab00a19"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5822571db2e92a58bc12dacc8e5042494372d19" "64cdc1ea3bcf5a4fe036b8d4a08f1b329dd967f5" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "7ef04f3cd2d09fe922aad4b8764995050b7b7c3f" "4fc19db9b4296a22585ab7d667733e26ee890457" "8774c42872394c41ac215b85b7d049aeeacca75a" "bc4535a74294d86e7498615d12148925185988ee" "3c5ca428d9c43db3d5231c40ac22d4cb7c77900a" "584fe004f7f53fcd8cb6b718648eb6b29259f78c" "77d69659cf481a4d0917b7c100630f3c969b5720" "5344097beef866bd9f20e32d6264c0d33ea1623a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo"
@@ -120,6 +120,7 @@ src_install() {
 
 platform_pkg_test() {
 	local cros_camera_tests=(
+		camera_buffer_pool_test
 		camera_face_detection_test
 		camera_hal3_helpers_test
 		cbm_test
