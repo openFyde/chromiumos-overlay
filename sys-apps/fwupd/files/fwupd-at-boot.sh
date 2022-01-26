@@ -46,7 +46,7 @@ main() {
         ;;
       # USB4/TBT Retimer
       "thunderbolt")
-        udevadm trigger --action=add --settle --subsystem-match=platform
+        udevadm trigger --action=add --settle --subsystem-match=platform --subsystem-match=thunderbolt
         sleep 20 # (crrev.com/c/2670719)
         break 3 # Don't consider other cases as this is max wait time
       esac
