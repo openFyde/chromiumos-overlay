@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a4be31189d302c3163001b901bb73f89d1e9144a"
-CROS_WORKON_TREE=("e5822571db2e92a58bc12dacc8e5042494372d19" "584fe004f7f53fcd8cb6b718648eb6b29259f78c" "ec53f09c90ab01852a988ae91ee8b39d86e06523" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="102a79b6e90b7852fee36fca1626dec18b9153fc"
+CROS_WORKON_TREE=("e5822571db2e92a58bc12dacc8e5042494372d19" "584fe004f7f53fcd8cb6b718648eb6b29259f78c" "6268098ff76ecdabd9f80baee85d4f5594b666f0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -54,6 +54,5 @@ pkg_setup() {
 }
 
 src_install() {
-	dobin "${OUT}/factory_runtime_probe"
-	dobin "${OUT}/factory_runtime_probe_installer"
+	platform_install
 }
