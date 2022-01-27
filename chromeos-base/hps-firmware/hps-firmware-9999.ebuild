@@ -115,6 +115,11 @@ src_configure() {
 		"-Cdebug-assertions=off",
 	]
 	EOF
+
+	# cros-rust_update_cargo_lock tries to handle Cargo.lock but it assumes
+	# there is only one Cargo.lock in the root of the source tree, which is not
+	# true for hps-firmware. For now just delete the ones we have.
+	rm rust/Cargo.lock rust/mcu/Cargo.lock rust/riscv/Cargo.lock
 }
 
 src_compile() {
