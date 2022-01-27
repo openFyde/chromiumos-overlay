@@ -33,14 +33,11 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/mist_testrunner"
+	platform test_all
 }
 
 src_install() {
-	dobin "${OUT}"/mist
-
-	insinto /usr/share/mist
-	doins default.conf
+	platform_install
 
 	udev_dorules 51-mist.rules
 }
