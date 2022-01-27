@@ -41,22 +41,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	dobin "${OUT}"/midis
-
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install midis DBUS configuration file
-	insinto /etc/dbus-1/system.d
-	doins dbus_permissions/org.chromium.Midis.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus_permissions/org.chromium.Midis.service
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp/midis-seccomp-${ARCH}.policy" midis-seccomp.policy
+	platform_install
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/midis_seq_handler_fuzzer
@@ -68,12 +53,5 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		"midis_testrunner"
-	)
-
-	local test
-	for test in "${tests[@]}"; do
-		platform_test "run" "${OUT}"/${test}
-	done
+	platform test_all
 }
