@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8db676969b21ad547ad68a807abfaf45221385e7"
-CROS_WORKON_TREE="b20d898cdca161cd2204ad4d999d816b826175de"
+CROS_WORKON_COMMIT="35839d88f0174f0a0583ec6c07da3a04ca775dd8"
+CROS_WORKON_TREE="a9de9ceffb01a46896f1162a03c6d04ab1c388e5"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -38,7 +38,7 @@ DEPEND="
 	=dev-rust/crc-2*:=
 	>=dev-rust/defmt-0.2.1:= <dev-rust/defmt-0.3.0
 	=dev-rust/defmt-rtt-0.2*:=
-	>=dev-rust/ed25519-compact-0.1.9:= <dev-rust/ed25519-compact-0.2.0
+	=dev-rust/ed25519-compact-1*:=
 	>=dev-rust/embedded-hal-0.2.4:= <dev-rust/embedded-hal-0.3.0
 	=dev-rust/embedded-hal-mock-0.8*:=
 	>=dev-rust/git-version-0.3.4:= <dev-rust/git-version-0.4.0
@@ -160,6 +160,7 @@ src_compile() {
 	"${CARGO_TARGET_DIR}/${CBUILD}/release/sign-rom" \
 		--input "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
 		--output "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" \
+		--use-insecure-dev-key \
 		|| die
 }
 
@@ -178,4 +179,9 @@ src_install() {
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 	doins build/hps_platform/gateware/hps_platform_build.metadata
+
+	# install into /firmware as part of signing process
+	insinto "/firmware/hps"
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
+	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 }
