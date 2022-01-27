@@ -8,7 +8,12 @@ EAPI=6
 : "${CMAKE_MAKEFILE_GENERATOR:=ninja}"
 PYTHON_COMPAT=( python3_6 )
 
-inherit cmake-multilib cros-constants cros-llvm git-2 llvm python-any-r1 toolchain-funcs
+CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
+CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
+CROS_WORKON_LOCALNAME="llvm-project"
+CROS_WORKON_MANUAL_UPREV=1
+
+inherit cmake-multilib cros-constants cros-llvm git-2 llvm python-any-r1 toolchain-funcs cros-workon
 
 DESCRIPTION="New implementation of the C++ standard library, targeting C++11"
 HOMEPAGE="http://libcxx.llvm.org/"
@@ -21,9 +26,13 @@ EGIT_BRANCH=main
 LLVM_HASH="79d58b4d3017d159bf09a77398c9a116128de193" # r437112
 LLVM_NEXT_HASH="18308e171b5b1dd99627a4d88c7d6c5ff21b8c96" # r445002
 
+
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
+if [[ "${PV}" == "9999" ]]; then
+KEYWORDS="~*"
+fi
 IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt +libunwind llvm-next llvm-tot msan +static-libs"
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
@@ -49,7 +58,12 @@ src_unpack() {
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
-	git-2_src_unpack
+	if [[ "${PV}" != "9999" ]]; then
+		# According to cros-workon, CROS_WORKON_COMMIT cannot be enabled in
+		# a 9999 ebuild.
+		CROS_WORKON_COMMIT="${EGIT_COMMIT}"
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {
