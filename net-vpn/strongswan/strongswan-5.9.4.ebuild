@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
@@ -14,7 +14,9 @@ KEYWORDS="*"
 IUSE="+caps curl +constraints debug dhcp eap farp gcrypt +gmp ldap mysql networkmanager +non-root +openssl selinux sqlite systemd pam pkcs11"
 
 STRONGSWAN_PLUGINS_STD="led lookip systime-fix unity vici"
-STRONGSWAN_PLUGINS_OPT="aesni blowfish ccm chapoly ctr forecast gcm ha ipseckey newhope ntru padlock rdrand save-keys unbound whitelist"
+STRONGSWAN_PLUGINS_OPT="aesni blowfish bypass-lan ccm chapoly ctr forecast gcm
+ha ipseckey newhope ntru padlock rdrand save-keys unbound whitelist
+xauth-noauth"
 for mod in $STRONGSWAN_PLUGINS_STD; do
 	IUSE="${IUSE} +strongswan_plugins_${mod}"
 done
@@ -29,7 +31,7 @@ COMMON_DEPEND="!net-misc/openswan
 	caps? ( sys-libs/libcap )
 	curl? ( net-misc/curl )
 	ldap? ( net-nds/openldap )
-	openssl? ( >=dev-libs/openssl-0.9.8:=[-bindist] )
+	openssl? ( >=dev-libs/openssl-0.9.8:=[-bindist(-)] )
 	mysql? ( dev-db/mysql-connector-c:= )
 	sqlite? ( >=dev-db/sqlite-3.3.1 )
 	systemd? ( sys-apps/systemd )
@@ -97,13 +99,6 @@ pkg_setup() {
 	fi
 }
 
-src_prepare() {
-	epatch "${FILESDIR}/${PN}-4.4.1-5.9.3_cert-cache-random.patch"
-	epatch "${FILESDIR}/${PN}-5.6.1-5.9.3_gmp-rsa-ssa-salt-len.patch"
-
-	default
-}
-
 src_configure() {
 	append-flags "-DSTARTER_ALLOW_NON_ROOT" "-DSKIP_KERNEL_IPSEC_MODPROBES"
 	local myconf=""
@@ -150,6 +145,7 @@ src_configure() {
 		--enable-ikev2 \
 		--enable-swanctl \
 		--enable-socket-dynamic \
+		--enable-cmd \
 		$(use_enable curl) \
 		$(use_enable constraints) \
 		$(use_enable ldap) \
@@ -190,6 +186,10 @@ src_configure() {
 src_install() {
 	emake DESTDIR="${D}" install
 
+	if ! use systemd; then
+		rm -rf "${ED}"/lib/systemd || die "Failed removing systemd lib."
+	fi
+
 	doinitd "${FILESDIR}"/ipsec
 
 	local dir_ugid
@@ -225,8 +225,8 @@ src_install() {
 		rm -f "${D}${cfg_file}"
 		dosym "${link_path}/$(basename $cfg_file)" "${cfg_file}"
 	done
-
-	dodoc NEWS README TODO || die
+	
+	dodoc NEWS README TODO
 
 	# shared libs are used only internally and there are no static libs,
 	# so it's safe to get rid of the .la files
