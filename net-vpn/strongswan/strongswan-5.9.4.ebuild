@@ -139,6 +139,8 @@ src_configure() {
 		fi
 	done
 
+	# Some of the unneeded EAP-related options are removed.
+	# See https://crrev.com/c/3418633
 	econf \
 		--disable-static \
 		--enable-ikev1 \
@@ -151,22 +153,8 @@ src_configure() {
 		$(use_enable ldap) \
 		$(use_enable debug leak-detective) \
 		$(use_enable dhcp) \
-		$(use_enable eap eap-sim) \
-		$(use_enable eap eap-sim-file) \
-		$(use_enable eap eap-simaka-sql) \
-		$(use_enable eap eap-simaka-pseudonym) \
-		$(use_enable eap eap-simaka-reauth) \
 		$(use_enable eap eap-identity) \
-		$(use_enable eap eap-md5) \
-		$(use_enable eap eap-aka) \
-		$(use_enable eap eap-aka-3gpp2) \
-		$(use_enable eap md4) \
 		$(use_enable eap eap-mschapv2) \
-		$(use_enable eap eap-radius) \
-		$(use_enable eap eap-tls) \
-		$(use_enable eap eap-ttls) \
-		$(use_enable eap xauth-eap) \
-		$(use_enable eap eap-dynamic) \
 		$(use_enable farp) \
 		$(use_enable gmp) \
 		$(use_enable gcrypt) \
@@ -225,7 +213,7 @@ src_install() {
 		rm -f "${D}${cfg_file}"
 		dosym "${link_path}/$(basename $cfg_file)" "${cfg_file}"
 	done
-	
+
 	dodoc NEWS README TODO
 
 	# shared libs are used only internally and there are no static libs,
