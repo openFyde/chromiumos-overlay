@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "45873bad959cc49e6361543bc213a1767901bfef" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="acdb751aab49d4fbe401377ddb489271e2f66928"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "d8abb5c7857f26a4dca3e966a16ad556853767ba" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,21 +41,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dobin "${OUT}/hammerd"
-
-	# Install upstart configs and scripts.
-	insinto /etc/init
-	doins init/*.conf
-	exeinto /usr/share/cros/init
-	doexe init/*.sh
-
-	# Install DBus config.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.hammerd.conf
-
-	# Install rsyslog config.
-	insinto /etc/rsyslog.d
-	doins rsyslog/rsyslog.hammerd.conf
+	platform_install
 
 	local fuzzer_component_id="167114"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hammerd_load_ec_image_fuzzer \
@@ -65,5 +51,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
