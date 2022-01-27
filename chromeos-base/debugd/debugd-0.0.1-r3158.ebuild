@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "d1a836719da759d410d56e82f686820e69177552" "f08a88a1185b8bf0b1a5a9f882350d204c062196" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d61c5d3ff658a324b9f06f2f2faf84c81e45f63f"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "61a0b2fc888810b91f29e976540d43263ef6ce18" "f08a88a1185b8bf0b1a5a9f882350d204c062196" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk debugd metrics .gn"
 
 PLATFORM_SUBDIR="debugd"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/"
@@ -118,6 +118,8 @@ src_install() {
 
 	insinto /etc/perf_commands
 	doins -r share/perf_commands/*
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	local daemon_store="/etc/daemon-store/debugd"
 	dodir "${daemon_store}"
