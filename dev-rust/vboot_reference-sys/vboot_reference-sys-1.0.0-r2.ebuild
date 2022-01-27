@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="283db281e27e89adabf40fbd8dabd4f489f083f4"
+CROS_WORKON_COMMIT="4d163c53d8ab413a35fe97325ee0c03eec481fe7"
 CROS_WORKON_TREE=("122ceb184fa0013a15fa4a0d4644fec0c6a8778c" "e829420c9fa9f62f2a83f57313a80d8149c52a0c")
 inherit cros-constants
 
@@ -25,6 +25,7 @@ KEYWORDS="*"
 # RDEPEND on chromeos-base/vboot_reference
 DEPEND="
 	chromeos-base/vboot_reference:=
+	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
