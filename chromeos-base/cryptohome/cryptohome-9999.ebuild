@@ -59,7 +59,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/tpm_manager:=
-	>=dev-libs/flatbuffers-2.0.0:=
+	>=dev-libs/flatbuffers-2.0.0-r1:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	sys-apps/flashmap:=
