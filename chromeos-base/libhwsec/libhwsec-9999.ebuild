@@ -36,38 +36,10 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	insinto /usr/include/chromeos/libhwsec
-	doins ./*.h
-
-	insinto /usr/include/chromeos/libhwsec/overalls
-	doins ./overalls/overalls.h
-	doins ./overalls/overalls_api.h
-
-	insinto /usr/include/chromeos/libhwsec/error
-	doins ./error/tpm_error.h
-
-	if use tpm || use fuzzer; then
-		insinto /usr/include/chromeos/libhwsec/test_utils/tpm1
-		doins ./test_utils/tpm1/*.h
-		insinto /usr/include/chromeos/libhwsec/error
-		doins ./error/tpm1_error.h
-	fi
-	if use tpm2 || use fuzzer; then
-		insinto /usr/include/chromeos/libhwsec/error
-		doins ./error/tpm2_error.h
-	fi
-
-	dolib.so "${OUT}"/lib/libhwsec.so
-	dolib.a "${OUT}"/libhwsec_test.a
+	platform_install
 }
 
 
 platform_pkg_test() {
-	local tests=(
-		hwsec_testrunner
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
