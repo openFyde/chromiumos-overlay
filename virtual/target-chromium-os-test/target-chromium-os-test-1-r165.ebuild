@@ -224,6 +224,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 		chromeos-base/vkbench
 		media-libs/clvk
 		media-libs/clvk-test
+		media-libs/opencl-cts
 	)
 	dev-embedded/dfu-programmer
 	dev-go/syzkaller
