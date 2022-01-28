@@ -7,8 +7,8 @@ CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/cros_async"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
-CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_WORKON_SUBTREE}"
 
 inherit cros-workon cros-rust
 
@@ -52,7 +52,7 @@ src_test() {
 			timer::tests::one_shot
 		)
 
-		local args=( $(printf -- "--skip %s\n" "${skip_tests[@]}") )
+		local args=($(printf -- "--skip %s\n" "${skip_tests[@]}"))
 		cros-rust_src_test -- "${args[@]}"
 	else
 		cros-rust_src_test

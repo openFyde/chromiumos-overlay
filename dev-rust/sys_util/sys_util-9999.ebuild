@@ -7,8 +7,8 @@ CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/sys_util"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
-CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_WORKON_SUBTREE}"
 
 inherit cros-workon cros-rust
 
@@ -50,16 +50,16 @@ src_test() {
 	# unhappy since they see memory allocated in the child process that is not
 	# freed (because it is owned by some other thread created by the test runner
 	# in the parent process).
-	cros-rust_use_sanitizers && skip_tests+=( --skip "fork::tests" )
+	cros-rust_use_sanitizers && skip_tests+=(--skip "fork::tests")
 	# The memfd_create() system call first appeared in Linux 3.17.  Skip guest
 	# memory tests for builders with older kernels.
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
 	if ver_test 3.17 -gt "${cut_version}"; then
-		skip_tests+=( --skip "guest_memory::tests" )
+		skip_tests+=(--skip "guest_memory::tests")
 	fi
 
 	# If syslog isn't available, skip the tests.
-	[[ -S /dev/log ]] || skip_tests+=( --skip "syslog::tests" )
+	[[ -S /dev/log ]] || skip_tests+=(--skip "syslog::tests")
 
 	# TODO(crbug.com/1157570) Remove once syslog module works in sandbox.
 	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
