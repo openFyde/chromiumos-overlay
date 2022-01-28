@@ -187,16 +187,11 @@ platform_src_unpack() {
 }
 
 platform_install() {
-	tmpfile=$(mktemp)
-	trap "rm \"${tmpfile}\"" 0
-	if platform install > "${tmpfile}"; then
-		while read -ra line; do
-			echo "${line[@]}"
-			eval "${line[@]}"
-		done < "${tmpfile}"
-	else
-		die "platform install was failed."
-	fi
+	local line
+	while read -ra line; do
+		echo "${line[@]}"
+		eval "${line[@]}"
+	done < <(platform install || die "platform install was failed.")
 }
 
 platform_test() {
