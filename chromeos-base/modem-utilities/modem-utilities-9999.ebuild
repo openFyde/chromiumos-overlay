@@ -25,13 +25,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	dobin modem
-	dobin connectivity
-	dobin config_net_log
-
-	exeinto /usr/lib
-	doexe modem-common.sh
-	doexe connectivity-common.sh
+	platform_install
 
 	dotmpfiles tmpfiles.d/*.conf
 }
