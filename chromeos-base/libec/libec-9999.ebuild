@@ -30,19 +30,9 @@ DEPEND="
 "
 
 src_install() {
-	dolib.so "${OUT}"/lib/libec*.so
-	dolib.a "${OUT}"/libec*.a
-
-	insinto /usr/"$(get_libdir)"/pkgconfig
-	doins "${OUT}"/obj/libec/libec*.pc
-
-	insinto /usr/include/libec
-	doins ./*.h
-
-	insinto /usr/include/libec/fingerprint
-	doins ./fingerprint/*.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libec_tests"
+	platform test_all
 }
