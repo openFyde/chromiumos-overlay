@@ -37,7 +37,7 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
-	>=dev-rust/zeroize-1.5.0 <dev-rust/zeroize-2.0.0_alpha:=
+	>=dev-rust/zeroize-1.5.1 <dev-rust/zeroize-2.0.0_alpha:=
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus
