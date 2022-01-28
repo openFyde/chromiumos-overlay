@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="2a9c3d38534dfc147d2f57b391dcccd528858953"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "7bd2393837bc4162899abba0a3c6977b462df042" "464dfed8aa6ca19001231115bf0fc3c899f5ddcc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="4c89d92a7baaadaf262d27b4f33101d8def73c96"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "7bd2393837bc4162899abba0a3c6977b462df042" "474f659756146b58f5594e2397e22a39734ba89a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -35,14 +35,11 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/mist_testrunner"
+	platform test_all
 }
 
 src_install() {
-	dobin "${OUT}"/mist
-
-	insinto /usr/share/mist
-	doins default.conf
+	platform_install
 
 	udev_dorules 51-mist.rules
 }
