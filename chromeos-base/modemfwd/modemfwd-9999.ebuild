@@ -38,15 +38,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dobin "${OUT}/modemfwd"
-
-	# Upstart configuration
-	insinto /etc/init
-	doins modemfwd.conf
-
-	# DBus configuration
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Modemfwd.conf
+	platform_install
 
 	local fuzzer_component_id="167157"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer \
@@ -56,5 +48,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/modemfw_test"
+	platform test_all
 }
