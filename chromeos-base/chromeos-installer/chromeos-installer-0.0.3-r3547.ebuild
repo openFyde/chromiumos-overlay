@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
+CROS_WORKON_COMMIT="d8fa96162d25df23bb966e54363154ae3a52023f"
 CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "ae29e308b2d5c4be7a633844a08ac796dea6edfc" "0c19659fdf322b30e3cef033b7f21d7a529f58a4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,15 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_embedded enable_slow_boot_notify -mtd pam systemd lvm_stateful_partition"
+IUSE="
+	cros_embedded
+	enable_slow_boot_notify
+	-mtd
+	pam
+	systemd
+	lvm_stateful_partition
+	postinstall_config_efi_and_legacy
+"
 
 COMMON_DEPEND="
 	chromeos-base/libbrillo:=
