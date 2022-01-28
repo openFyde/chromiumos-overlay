@@ -111,6 +111,19 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # the mount point as an indirect method of retrieving the DLC mount point.
 : "${DLC_MOUNT_FILE_REQUIRED:="false"}"
 
+# @ECLASS-VARIABLE: DLC_RESERVED
+# @DESCRIPTION:
+# Determines whether to always eagerly reserve space for the DLC on disk.
+# This should only be used by DLCs which always requires space on the device.
+# (Please consult @chromeos-core-services team before using this)
+: "${DLC_RESERVED:="false"}"
+
+# @ECLASS-VARIABLE: DLC_CRITICAL_UPDATE
+# @DESCRIPTION:
+# Determines whether to always update the DLC with the OS atomically.
+# (Please consult @chromeos-core-services team before using this)
+: "${DLC_CRITICAL_UPDATE:="false"}"
+
 # @FUNCTION: dlc_add_path
 # @USAGE: <path to add the DLC prefix to>
 # @RETURN:
@@ -153,6 +166,10 @@ dlc_src_install() {
 	[[ -z "${DLC_USED_BY}" ]] && die "DLC_USED_BY undefined"
 	[[ "${DLC_MOUNT_FILE_REQUIRED}" =~ ^(true|false)$ ]] \
 		|| die "Invalid DLC_MOUNT_FILE_REQUIRED value"
+	[[ "${DLC_RESERVED}" =~ ^(true|false)$ ]] \
+		|| die "Invalid DLC_RESERVED value"
+	[[ "${DLC_CRITICAL_UPDATE}" =~ ^(true|false)$ ]] \
+		|| die "Invalid DLC_CRITICAL_UPDATE value"
 
 	local args=(
 		--install-root-dir="${D}"
@@ -185,6 +202,14 @@ dlc_src_install() {
 
 	if [[ "${DLC_MOUNT_FILE_REQUIRED}" == "true" ]]; then
 		args+=( --mount-file-required )
+	fi
+
+	if [[ "${DLC_RESERVED}" == "true" ]]; then
+		args+=( --reserved )
+	fi
+
+	if [[ "${DLC_CRITICAL_UPDATE}" == "true" ]]; then
+		args+=( --critical-update )
 	fi
 
 	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
