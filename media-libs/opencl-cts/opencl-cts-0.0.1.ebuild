@@ -36,6 +36,12 @@ BDEPEND="
 
 S="${WORKDIR}/${OPENCL_CTS}"
 
+PATCHES=(
+	"${FILESDIR}/test_select.patch"
+	"${FILESDIR}/test_sub_buffers.patch"
+	"${FILESDIR}/test_int_basic_ops.patch"
+)
+
 src_prepare() {
 	cros_enable_cxx_exceptions
 	cmake-utils_src_prepare
