@@ -82,6 +82,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.19.6-ignore-prebuilt-shared-objects.patch"
 	"${FILESDIR}/${PN}-3.19.6-fix-uninitialized-variable.patch"
 	"${FILESDIR}/${PN}-3.19.6-fix-pixel-color-overflow.patch"
+	"${FILESDIR}/${PN}-3.21.8-disable-python.patch"
 )
 
 CONFIG_CHECK="~PARPORT ~PPDEV"
