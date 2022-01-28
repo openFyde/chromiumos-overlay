@@ -1,0 +1,37 @@
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+CROS_WORKON_COMMIT="2a9c3d38534dfc147d2f57b391dcccd528858953"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "beedfc8e80d6ff50f16a421348a7c2b00de88f2e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7bd2393837bc4162899abba0a3c6977b462df042")
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_SUBTREE="common-mk hps .gn metrics"
+
+PLATFORM_SUBDIR="hps/util"
+
+inherit cros-workon platform
+
+DESCRIPTION="HPS utilities and tool"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/hps"
+
+LICENSE="BSD-Google"
+SLOT="0/0"
+KEYWORDS="*"
+
+COMMON_DEPEND="
+	chromeos-base/metrics:=
+	virtual/libusb:1
+	"
+
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}"
+
+src_install() {
+	platform_src_install
+
+	dobin "${OUT}"/hps
+}
