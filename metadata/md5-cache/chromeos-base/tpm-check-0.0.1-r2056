@@ -1,14 +1,13 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=compile info install postinst prepare setup unpack
-DEPEND=app-crypt/trousers:= chromeos-base/tpm:=
-DESCRIPTION=TPM firmware tests
+DESCRIPTION=tpm check test
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/vboot_reference/
-IUSE=+autotest +tests_hardware_TPMFirmware +tests_hardware_TPMFirmwareServer cros_host cros_workon_tree_31d3dee037f14cf408c271d49381152416fe3d8f +buildcheck autotest opengles
+IUSE=+autotest +tests_hardware_TPMCheck cros_host cros_workon_tree_b8eede8b09c577848905a853b5bdc2db7cd4821e +buildcheck autotest opengles
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=autotest? ( chromeos-base/autotest )
-SLOT=0/0
+SLOT=0/0.0.1-r2056
 _eclasses_=autotest	eadb1cf950e538b3f253d33164e48304	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	d663eb390840a593f34dde9417825e6c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=d6af09fa8d76b2e7f3c621742c9affad
+_md5_=2caa9f2980f9286f88dfb012babf6156

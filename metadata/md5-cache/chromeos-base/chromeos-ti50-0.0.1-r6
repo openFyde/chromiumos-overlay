@@ -5,5 +5,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=chromeos-base/chromeos-cr50-dev chromeos-base/chromeos-cr50-scripts
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles//ti50.ro.0.0.16.rw.0.0.12.tar.xz
-_md5_=5c066df826806d0a7bdd6218c55c76ca
+SRC_URI=gs://chromeos-localmirror/distfiles//ti50.ro.0.0.17.rw.0.0.13.tar.xz
+_md5_=37420d2a1647eab150290ee0659b7cc8
