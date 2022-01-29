@@ -119,6 +119,7 @@ PATCHES=(
 	"${FILESDIR}/5.3.7-Refactor-kernel-symbol-argument-sanity-checking.patch"
 	"${FILESDIR}/5.3.7-Check-vmlinux-kallsyms-arguments.patch"
 	"${FILESDIR}/5.3.7-Add-vmlinux-in-perf-inject.patch"
+	"${FILESDIR}/5.3.7-cs-etm-Remove-callback-cs_etm_find_snapshot.patch"
 )
 
 pkg_setup() {
