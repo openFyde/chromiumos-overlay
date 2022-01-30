@@ -529,6 +529,7 @@ compress_assets() {
 #   $1: Directory containing the input files:
 #       coreboot.rom             - coreboot ROM image containing various pieces
 #       coreboot.rom.serial      - same, but with serial console enabled
+#       coreboot.rom.netboot     - same, but with serial console enabled and ME unlocked
 #       depthcharge/depthcharge.elf - depthcharge ELF payload
 #       depthcharge/dev.elf      - developer version of depthcharge
 #       depthcharge/netboot.elf  - netboot version of depthcharge
@@ -573,6 +574,7 @@ build_images() {
 	local coreboot_file="coreboot.rom"
 	cp "${coreboot_orig}" "${coreboot_file}"
 	cp "${coreboot_orig}.serial" "${coreboot_file}.serial"
+	cp "${coreboot_orig}.netboot" "${coreboot_file}.netboot"
 
 	local depthcharge
 	local depthcharge_dev
@@ -605,6 +607,12 @@ build_images() {
 				"${coreboot_file}.serial" \
 				"ec" \
 				"${froot}/${ec_build_target}"
+			add_ec \
+				"${depthcharge_config}" \
+				"${coreboot_config}" \
+				"${coreboot_file}.netboot" \
+				"ec" \
+				"${froot}/${ec_build_target}"
 		else
 			einfo "Skip adding EC for ${build_name}, no EC target defined."
 		fi
@@ -615,10 +623,12 @@ build_images() {
 	if use pd_sync; then
 		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}" "pd" "${pd_folder}"
 		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.serial" "pd" "${pd_folder}"
+		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.netboot" "pd" "${pd_folder}"
 	fi
 
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
 	setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
+	setup_altfw "${coreboot_build_target}" "${coreboot_file}.netboot"
 
 	# Keeps the find commands from failing with directory not found
 	mkdir -p "raw-assets-rw/${build_name}"
@@ -626,6 +636,7 @@ build_images() {
 	check_assets "${coreboot_file}.serial" "${depthcharge_dev}"
 	add_assets "${coreboot_file}"
 	add_assets "${coreboot_file}.serial"
+	add_assets "${coreboot_file}.netboot"
 
 	build_image "" "${coreboot_file}" "${depthcharge}" "${depthcharge}"
 
@@ -640,7 +651,7 @@ build_images() {
 	# The readonly payload is usually depthcharge and the read/write
 	# payload is usually netboot. This way the netboot image can be used
 	# to boot from USB through recovery mode if necessary.
-	build_image net "${coreboot_file}.serial" "${depthcharge}" "${netboot}"
+	build_image net "${coreboot_file}.netboot" "${depthcharge}" "${netboot}"
 
 	# Set convenient netboot parameter defaults for developers.
 	local name="${build_name:-"${BOARD_USE}"}"

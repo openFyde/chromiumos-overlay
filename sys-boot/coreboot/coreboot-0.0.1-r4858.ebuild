@@ -98,9 +98,11 @@ set_build_env() {
 
 	CONFIG="$(cros-workon_get_build_dir)/${board}.config"
 	CONFIG_SERIAL="$(cros-workon_get_build_dir)/${board}-serial.config"
+	CONFIG_NETBOOT="$(cros-workon_get_build_dir)/${board}-netboot.config"
 	# Strip the .config suffix
 	BUILD_DIR="${CONFIG%.config}"
 	BUILD_DIR_SERIAL="${CONFIG_SERIAL%.config}"
+	BUILD_DIR_NETBOOT="${CONFIG_NETBOOT%.config}"
 }
 
 # Create the coreboot configuration files for a particular board. This
@@ -204,6 +206,10 @@ EOF
 	cat "${file}" >> "${CONFIG_SERIAL}" || die
 	# handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
 	echo >> "${CONFIG_SERIAL}"
+
+	cp "${CONFIG_SERIAL}" "${CONFIG_NETBOOT}"
+	# Unlock management engine in netboot firmware for Intel platform.
+	sed -E -i 's/(CONFIG_LOCK_MANAGEMENT_ENGINE=)y/\1n/g' "${CONFIG_NETBOOT}"
 
 	# Check that we're using coreboot-sdk
 	if ! use coreboot-sdk; then
@@ -368,6 +374,10 @@ src_compile() {
 		# Build a second ROM with serial support for developers.
 		make_coreboot "${BUILD_DIR_SERIAL}" "${CONFIG_SERIAL}"
 		add_fw_blobs "${BUILD_DIR_SERIAL}" "${coreboot}"
+
+		# Build a netboot ROM with serial support and ME unlocked.
+		make_coreboot "${BUILD_DIR_NETBOOT}" "${CONFIG_NETBOOT}"
+		add_fw_blobs "${BUILD_DIR_NETBOOT}" "${coreboot}"
 	done < <(cros_config_host "get-firmware-build-combinations" coreboot || die)
 }
 
@@ -389,6 +399,7 @@ do_install() {
 
 	newins "${BUILD_DIR}/coreboot.rom" coreboot.rom
 	newins "${BUILD_DIR_SERIAL}/coreboot.rom" coreboot.rom.serial
+	newins "${BUILD_DIR_NETBOOT}/coreboot.rom" coreboot.rom.netboot
 
 	OPROM=$( awk 'BEGIN{FS="\""} /CONFIG_VGA_BIOS_FILE=/ { print $2 }' \
 		"${CONFIG}" )
@@ -414,11 +425,13 @@ do_install() {
 	fi
 	newins "${CONFIG}" coreboot.config
 	newins "${CONFIG_SERIAL}" coreboot_serial.config
+	newins "${CONFIG_NETBOOT}" coreboot_netboot.config
 
 	# Keep binaries with debug symbols around for crash dump analysis
 	if [[ -s "${BUILD_DIR}/bl31.elf" ]]; then
 		newins "${BUILD_DIR}/bl31.elf" bl31.elf
 		newins "${BUILD_DIR_SERIAL}/bl31.elf" bl31.serial.elf
+		newins "${BUILD_DIR_NETBOOT}/bl31.elf" bl31.netboot.elf
 	fi
 	insinto "${dest_dir}"/coreboot
 	doins "${BUILD_DIR}"/cbfs/fallback/*.debug
@@ -426,6 +439,9 @@ do_install() {
 	insinto "${dest_dir}"/coreboot_serial
 	doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/*.debug
 	nonfatal doins "${BUILD_DIR_SERIAL}"/cbfs/fallback/bootblock.bin
+	insinto "${dest_dir}"/coreboot_netboot
+	doins "${BUILD_DIR_NETBOOT}"/cbfs/fallback/*.debug
+	nonfatal doins "${BUILD_DIR_NETBOOT}"/cbfs/fallback/bootblock.bin
 
 	# coreboot's static_fw_config.h is copied into libpayload include
 	# directory.
