@@ -39,10 +39,10 @@ DEPEND="
 	=dev-rust/ed25519-compact-1*:=
 	>=dev-rust/embedded-hal-0.2.4:= <dev-rust/embedded-hal-0.3.0
 	=dev-rust/embedded-hal-mock-0.8*:=
-	>=dev-rust/git-version-0.3.4:= <dev-rust/git-version-0.4.0
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
+	=dev-rust/nb-1*:=
 	=dev-rust/panic-halt-0.2*:=
 	=dev-rust/panic-reset-0.1*:=
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
