@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="85a77ecb8029b3a6e1c312652f3c6f8febb25f2c"
-CROS_WORKON_TREE="de2bbefffb62449d5adc863dac487f29a8b77b6a"
+CROS_WORKON_COMMIT="3fb10ee19f9ecccbf48916d56851a9be6f33197a"
+CROS_WORKON_TREE="49a513931dde0b1fdda0797270d7f31274e7c86b"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -117,6 +117,11 @@ src_configure() {
 		"-Cdebug-assertions=off",
 	]
 	EOF
+
+	# cros-rust_update_cargo_lock tries to handle Cargo.lock but it assumes
+	# there is only one Cargo.lock in the root of the source tree, which is not
+	# true for hps-firmware. For now just delete the ones we have.
+	rm rust/Cargo.lock rust/mcu/Cargo.lock rust/riscv/Cargo.lock
 }
 
 src_compile() {
