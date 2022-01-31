@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "a36649c41caf23b6e3f790f2e5e428709286aa16" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="55d2766f22bd47bc74bbc9361a0db5e31e31c050"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "80dae67b133604ca4e0625a9a26fb3410f705e45" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -27,13 +27,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	dobin modem
-	dobin connectivity
-	dobin config_net_log
-
-	exeinto /usr/lib
-	doexe modem-common.sh
-	doexe connectivity-common.sh
+	platform_install
 
 	dotmpfiles tmpfiles.d/*.conf
 }
