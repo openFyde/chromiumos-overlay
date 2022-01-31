@@ -48,14 +48,7 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dobin "${OUT}"/lorgnette
-	insinto /etc/dbus-1/system.d
-	doins dbus_permissions/org.chromium.lorgnette.conf
-	insinto /usr/share/dbus-1/system-services
-	doins dbus_service/org.chromium.lorgnette.service
-	insinto /etc/init
-	doins init/lorgnette.conf
+	platform_install
 	udev_dorules udev/*.rules
 }
 
