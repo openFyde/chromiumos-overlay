@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "defc5f8c0627d2e120d6d81f092dd68ae4d5e440" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="55c43f34f49b7c1726b4c62894cc0006924fcd3b"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "fb008405766fe5622d85f42194c2fb6f302453f7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -40,22 +40,9 @@ pkg_preinst() {
 }
 
 src_install() {
-	exeinto /opt/google/easy_unlock
-	doexe "${OUT}/easy_unlock"
-
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.EasyUnlock.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.EasyUnlock.service
-
-	insinto /etc/init
-	doins init/easy-unlock.conf
-
-	insinto /usr/share/dbus-1/interfaces
-	doins dbus_bindings/org.chromium.EasyUnlockInterface.xml
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/easy_unlock_test_runner"
+	platform test_all
 }
