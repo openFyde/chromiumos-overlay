@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2a9c3d38534dfc147d2f57b391dcccd528858953"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "28da844e05bf886fb936498b1ff8fffb8a42270e" "96d35988caec82b3629053d7749d6eee325a9e87" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "d2b226582d18266d446e1f16d3ce20df4900034d" "7bd2393837bc4162899abba0a3c6977b462df042" "5b514f90bddced17264997f50fdb519b333d54f9" "caf792ad3112847d733761e18f938c16776a96d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="df2710a88b27b512a3e25776efe51d3e10c056c6"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "80cf2e99ba11cdc75069e2b2a4607602a3266766" "96d35988caec82b3629053d7749d6eee325a9e87" "c5a33451499fea8fca057be6ac0b564bb6a6ed63" "d2b226582d18266d446e1f16d3ce20df4900034d" "7bd2393837bc4162899abba0a3c6977b462df042" "5b514f90bddced17264997f50fdb519b333d54f9" "caf792ad3112847d733761e18f938c16776a96d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -63,26 +63,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	insinto /etc/dbus-1/system.d
-	doins server/org.chromium.Attestation.conf
-
-	insinto /etc/init
-	doins server/attestationd.conf
-
-	dosbin "${OUT}"/attestationd
-	dobin "${OUT}"/attestation_client
-
-	insinto /usr/share/policy
-	newins server/attestationd-seccomp-${ARCH}.policy attestationd-seccomp.policy
-
-	insinto /etc/dbus-1/system.d
-	doins pca_agent/server/org.chromium.PcaAgent.conf
-	insinto /etc/init
-	doins pca_agent/server/pca_agentd.conf
-	dosbin "${OUT}"/pca_agentd
-	dobin "${OUT}"/pca_agent_client
-
-	dolib.so "${OUT}"/lib/libattestation.so
+	platform_install
 
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h
@@ -94,18 +75,8 @@ src_install() {
 	# It does no harm to install the header even for non-test image build.
 	insinto /usr/include/attestation/pca-agent/dbus_adaptors
 	doins "${OUT}"/gen/include/attestation/pca-agent/dbus_adaptors/org.chromium.PcaAgent.h
-
-	insinto /usr/share/policy
-	newins "pca_agent/server/pca_agentd-seccomp-${ARCH}.policy" pca_agentd-seccomp.policy
 }
 
 platform_pkg_test() {
-	local tests=(
-		attestation_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
