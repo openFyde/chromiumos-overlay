@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a3388b6635baeb58a7b03f5e184e03cc4870dbf7"
-CROS_WORKON_TREE="9554d8dbb3182b4e19250d7fe20fc313e5aacc7d"
+CROS_WORKON_COMMIT="ae720d277b95260ae39db81827af959115c74494"
+CROS_WORKON_TREE="2a0e24710815440c4ac48cd188baacd8b901c264"
 CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
 
