@@ -122,7 +122,7 @@ RDEPEND="${RDEPEND}
 	)
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
-	!chromeless_tty? ( chromeos-base/screen-capture-utils )
+	!chromeless_tty? ( chromeos-base/screen-capture-utils www-apps/novnc )
 	shill? ( chromeos-base/shill-test-scripts )
 	python_targets_python2_7? ( chromeos-base/touch_firmware_test )
 	chromeos-base/usi-test
