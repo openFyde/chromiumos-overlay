@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=dlc ondevice_handwriting
 SRC_URI=gs://chromeos-localmirror/distfiles/languagepack-handwriting-zh-20211027.tar.xz
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	4b31053498fd5ebfac3e3b4a1ccc8bb9
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	980ce13d2129fa5614d43ffa9d1bb90f
 _md5_=fd15b1309129893f841d34bd350ea3e1
