@@ -150,7 +150,6 @@ set_build_args() {
 		"is_msan=$(usetf msan)"
 		"is_ubsan=$(usetf ubsan)"
 		"is_clang=true"
-		"cros_host_is_clang=true"
 		"clang_use_chrome_plugins=false"
 		"use_thin_lto=$(usetf thinlto)"
 		"clang_use_chrome_plugins=false"
