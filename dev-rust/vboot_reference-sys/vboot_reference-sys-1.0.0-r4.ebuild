@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1e4abafb5ecd3bba89f49a5a076df10ba5a0aaad"
+CROS_WORKON_COMMIT="8d2ec2700398f7d3363ebd194e697ae7358b5028"
 CROS_WORKON_TREE=("122ceb184fa0013a15fa4a0d4644fec0c6a8778c" "e829420c9fa9f62f2a83f57313a80d8149c52a0c")
 inherit cros-constants
 
@@ -28,6 +28,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
 	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
 	=dev-rust/which-4*:=
+	>=virtual/bindgen-0.59:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
