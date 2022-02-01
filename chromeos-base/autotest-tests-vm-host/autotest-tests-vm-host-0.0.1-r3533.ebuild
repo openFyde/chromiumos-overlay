@@ -2,32 +2,30 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="baba8700d60d7c93c279d79e613461a14309802a"
-CROS_WORKON_TREE="6f8448a0bf6f2ed3432ce337d6ae43043c6ca06c"
+
+CROS_WORKON_COMMIT="e2f9c86acc9983c9c45bcc651397c24c558d119f"
+CROS_WORKON_TREE="b504fb0d3cfda94bc8a67543d57f7ffc5dacf45c"
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-PYTHON_COMPAT=( python3_{6..9} )
-
 inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="Compilation and runtime tests for toolchain"
+DESCRIPTION="kvm host autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
+SRC_URI=""
 
 LICENSE="GPL-2"
-SLOT=0
+SLOT="0"
 KEYWORDS="*"
-# Enable autotest by default.
 IUSE="+autotest"
 
-RDEPEND="
-	!<chromeos-base/autotest-tests-0.0.3
-	chromeos-base/toolchain-tests
-"
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_platform_ToolchainTests
+	+tests_vm_CrosVmStart
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
