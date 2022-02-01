@@ -15,6 +15,7 @@ CROS_GO_TEST=(
 )
 
 CROS_GO_BINARIES=(
+	"chromiumos/scanning/scripts/test_scan_source"
 	"chromiumos/scanning/scripts/test_scanner_capabilities"
 )
 
