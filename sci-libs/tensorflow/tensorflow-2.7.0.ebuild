@@ -20,7 +20,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 # ChromeOS uses 'minimal' to compile only TensorFlow Lite, compilation without 'minimal' is not supported.
-IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack ubsan"
+IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -338,9 +338,6 @@ src_compile() {
 	fi
 
 	# fail early if any deps are missing
-	# Ubsan tests fail to build package when using benchmark_model.
-	# Benchmark model is not required for production so have conditionally
-	# disabled benchmark_model when using ubsan.
 	if ! use minimal; then
 		ebazel build -k --nobuild \
 			//tensorflow:libtensorflow_framework.so \
@@ -353,7 +350,8 @@ src_compile() {
 			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 			"$(usex label_image '
 				//tensorflow/lite/examples/label_image:label_image' '')" \
-			"$(usex ubsan '' '//tensorflow/lite/tools/benchmark:benchmark_model' '' '')" \
+			"$(usex benchmark_model '
+				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 			"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')"
 	fi
 
@@ -369,7 +367,8 @@ src_compile() {
 			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 			"$(usex label_image '
 				//tensorflow/lite/examples/label_image:label_image' '')" \
-			"$(usex ubsan '' '//tensorflow/lite/tools/benchmark:benchmark_model' '' '')"
+			"$(usex benchmark_model '
+				//tensorflow/lite/tools/benchmark:benchmark_model' '')"
 	fi
 
 	do_compile() {
