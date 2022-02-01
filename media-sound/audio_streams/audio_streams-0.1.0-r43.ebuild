@@ -3,17 +3,16 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="7259d9813698398b24d6badb13f49e070ce6c835"
-CROS_WORKON_TREE="7085cb0283ee3cbe49d2f1d9b207251b92de1b4c"
+CROS_WORKON_COMMIT="af210150e106c57c50af35f52d6ed0f7e6d5807a"
+CROS_WORKON_TREE=("cbf071d8be6d11c32fde8febdcaad16e82d07947" "9ea474d737512098f2b4a016ca37ab550519ce6b")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
 # is using "provided by ebuild" macro which supported by cros-rust
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/audio_streams"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
-CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
-
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_WORKON_SUBTREE}"
 
 inherit cros-workon cros-rust
 

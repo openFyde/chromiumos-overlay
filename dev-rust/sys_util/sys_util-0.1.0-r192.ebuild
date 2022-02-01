@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="410ea3a1980bfe96968a7dfb7a7d203d43b186b2"
-CROS_WORKON_TREE="eb9cf79266cc0f2b13c6538228866e6324c5a880"
+CROS_WORKON_COMMIT="af210150e106c57c50af35f52d6ed0f7e6d5807a"
+CROS_WORKON_TREE=("230a329a999baef19c06e003027e632f9e716f83" "9ea474d737512098f2b4a016ca37ab550519ce6b")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/sys_util"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
-CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_WORKON_SUBTREE}"
 
 inherit cros-workon cros-rust
 
@@ -52,16 +52,16 @@ src_test() {
 	# unhappy since they see memory allocated in the child process that is not
 	# freed (because it is owned by some other thread created by the test runner
 	# in the parent process).
-	cros-rust_use_sanitizers && skip_tests+=( --skip "fork::tests" )
+	cros-rust_use_sanitizers && skip_tests+=(--skip "fork::tests")
 	# The memfd_create() system call first appeared in Linux 3.17.  Skip guest
 	# memory tests for builders with older kernels.
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
 	if ver_test 3.17 -gt "${cut_version}"; then
-		skip_tests+=( --skip "guest_memory::tests" )
+		skip_tests+=(--skip "guest_memory::tests")
 	fi
 
 	# If syslog isn't available, skip the tests.
-	[[ -S /dev/log ]] || skip_tests+=( --skip "syslog::tests" )
+	[[ -S /dev/log ]] || skip_tests+=(--skip "syslog::tests")
 
 	# TODO(crbug.com/1157570) Remove once syslog module works in sandbox.
 	CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"

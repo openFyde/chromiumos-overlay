@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="77d39fb67305a3c4f58d78b04ace3c13d68c9a69"
-CROS_WORKON_TREE="e08086bd7b16e68c91b242c40c19690537b48757"
+CROS_WORKON_COMMIT="af210150e106c57c50af35f52d6ed0f7e6d5807a"
+CROS_WORKON_TREE=("49b20aeb76f73aa04a7f1a32ad6a7fe9b7a2071b" "9ea474d737512098f2b4a016ca37ab550519ce6b")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/cros_async"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
-CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_WORKON_SUBTREE}"
 
 inherit cros-workon cros-rust
 
@@ -54,7 +54,7 @@ src_test() {
 			timer::tests::one_shot
 		)
 
-		local args=( $(printf -- "--skip %s\n" "${skip_tests[@]}") )
+		local args=($(printf -- "--skip %s\n" "${skip_tests[@]}"))
 		cros-rust_src_test -- "${args[@]}"
 	else
 		cros-rust_src_test
