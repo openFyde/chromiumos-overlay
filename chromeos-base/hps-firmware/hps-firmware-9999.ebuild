@@ -128,21 +128,12 @@ src_compile() {
 	PYTHONPATH="third_party/python/CFU-Playground" \
 		python -m soc.hps_soc --build --no-compile-software || die
 
-	# Build userspace tools
-	for tool in hps-mon hps-util sign-rom ; do (
-		cd rust/${tool} || die
-		einfo "Building ${tool}"
-		ecargo_build
-	) done
-
-	# Also build signing tool for the build host, so that we can use it below
-	if [ "${CBUILD}" != "${CHOST}" ] ; then
-		(
-			cd rust/sign-rom || die
-			einfo "Building sign-rom for build host"
-			ecargo build --target="${CBUILD}" --release
-		)
-	fi
+	# Build signing tool for the build host, so that we can use it below
+	(
+		cd rust/sign-rom || die
+		einfo "Building sign-rom for build host"
+		ecargo build --target="${CBUILD}" --release
+	)
 
 	# Build MCU firmware
 	for crate in stage0 stage1_app ; do (
@@ -173,10 +164,6 @@ src_test() {
 }
 
 src_install() {
-	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
-	dobin "$(cros-rust_get_build_dir)/hps-mon"
-	dobin "$(cros-rust_get_build_dir)/hps-util"
-
 	insinto "/usr/lib/firmware/hps"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
