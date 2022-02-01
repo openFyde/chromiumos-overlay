@@ -59,6 +59,5 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/cryptohome-test-tool
-	dosbin "${OUT}"/cryptohome-tpm-live-test
+	platform_install
 }
