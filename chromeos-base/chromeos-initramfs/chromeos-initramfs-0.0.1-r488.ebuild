@@ -186,6 +186,16 @@ src_compile() {
 		LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
 }
 
+src_test() {
+	local targets=()
+	for target in ${TARGETS_IUSE}; do
+		use "${target}" && targets+=("${target%_ramfs}_check")
+	done
+	einfo "Testing targets: ${targets[*]}"
+
+	emake SYSROOT="${SYSROOT}" "${targets[@]}"
+}
+
 src_install() {
 	insinto /var/lib/initramfs
 	for target in ${TARGETS_IUSE}; do
