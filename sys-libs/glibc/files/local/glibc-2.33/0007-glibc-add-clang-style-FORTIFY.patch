@@ -1,7 +1,7 @@
-From 5b68a17d3b30437cc5cc69f0ed336e58ca04b914 Mon Sep 17 00:00:00 2001
+From 86c3dd92657c5ad8017bc74b3d0d952795efaa4d Mon Sep 17 00:00:00 2001
 From: George Burgess IV <gbiv@google.com>
 Date: Wed, 10 Aug 2016 17:34:09 -0700
-Subject: [PATCH 07/10] glibc: add clang-style FORTIFY.
+Subject: [PATCH 07/11] glibc: add clang-style FORTIFY.
 
 This patch adds support for a clang-style FORTIFY to ChromeOS's glibc.
 
@@ -20,6 +20,7 @@ where clang detects errors at run-time where gcc can't and vice-versa.
 This patch is from
 https://sourceware.org/ml/libc-alpha/2017-09/msg00434.html
 
+[Adrian: forward-ported to glibc 2.33 gentoo patch level 9]
 [Adrian: forward-ported to glibc 2.33]
 [Adrian: forward-ported to glibc 2.32]
 ---
@@ -1040,7 +1041,7 @@ index 57ca262bdf..bace59273d 100644
     run in pedantic mode if the uses are carefully marked using the
     `__extension__' keyword.  But this is not generally available before
 diff --git a/posix/bits/unistd.h b/posix/bits/unistd.h
-index f0831386c7..6759c86404 100644
+index 622adeb2b2..d5687ad906 100644
 --- a/posix/bits/unistd.h
 +++ b/posix/bits/unistd.h
 @@ -26,26 +26,19 @@ extern ssize_t __read_chk (int __fd, void *__buf, size_t __nbytes,
@@ -1222,7 +1223,7 @@ index f0831386c7..6759c86404 100644
  #endif
  
  #ifdef __USE_ATFILE
-@@ -172,30 +137,22 @@ extern ssize_t __REDIRECT_NTH (__readlinkat_alias,
+@@ -172,70 +137,64 @@ extern ssize_t __REDIRECT_NTH (__readlinkat_alias,
  				char *__restrict __buf, size_t __len),
  			       readlinkat)
       __nonnull ((2, 3)) __wur __attr_access ((__write_only__, 3, 4));
@@ -1266,10 +1267,9 @@ index f0831386c7..6759c86404 100644
  #endif
  
  extern char *__getcwd_chk (char *__buf, size_t __size, size_t __buflen)
-@@ -203,40 +160,42 @@ extern char *__getcwd_chk (char *__buf, size_t __size, size_t __buflen)
+      __THROW __wur;
  extern char *__REDIRECT_NTH (__getcwd_alias,
- 			     (char *__buf, size_t __size), getcwd)
-   __wur __attr_access ((__write_only__, 1, 2));
+ 			     (char *__buf, size_t __size), getcwd) __wur;
 -extern char *__REDIRECT_NTH (__getcwd_chk_warn,
 -			     (char *__buf, size_t __size, size_t __buflen),
 -			     __getcwd_chk)
@@ -1329,7 +1329,7 @@ index f0831386c7..6759c86404 100644
  #endif
  
  extern size_t __confstr_chk (int __name, char *__buf, size_t __len,
-@@ -245,51 +204,40 @@ extern size_t __confstr_chk (int __name, char *__buf, size_t __len,
+@@ -244,51 +203,40 @@ extern size_t __confstr_chk (int __name, char *__buf, size_t __len,
  extern size_t __REDIRECT_NTH (__confstr_alias, (int __name, char *__buf,
  						size_t __len), confstr)
     __attr_access ((__write_only__, 2, 3));
@@ -1404,7 +1404,7 @@ index f0831386c7..6759c86404 100644
  
  
  extern int __ttyname_r_chk (int __fd, char *__buf, size_t __buflen,
-@@ -304,21 +252,19 @@ extern int __REDIRECT_NTH (__ttyname_r_chk_warn,
+@@ -303,21 +251,19 @@ extern int __REDIRECT_NTH (__ttyname_r_chk_warn,
       __nonnull ((2)) __warnattr ("ttyname_r called with bigger buflen than "
  				 "size of destination buffer");
  
@@ -1438,7 +1438,7 @@ index f0831386c7..6759c86404 100644
  
  
  #ifdef __USE_POSIX199506
-@@ -326,26 +272,19 @@ extern int __getlogin_r_chk (char *__buf, size_t __buflen, size_t __nreal)
+@@ -325,26 +271,19 @@ extern int __getlogin_r_chk (char *__buf, size_t __buflen, size_t __nreal)
       __nonnull ((1)) __attr_access ((__write_only__, 1, 2));
  extern int __REDIRECT (__getlogin_r_alias, (char *__buf, size_t __buflen),
  		       getlogin_r) __nonnull ((1));
@@ -1474,7 +1474,7 @@ index f0831386c7..6759c86404 100644
  #endif
  
  
-@@ -355,26 +294,20 @@ extern int __gethostname_chk (char *__buf, size_t __buflen, size_t __nreal)
+@@ -354,26 +293,20 @@ extern int __gethostname_chk (char *__buf, size_t __buflen, size_t __nreal)
  extern int __REDIRECT_NTH (__gethostname_alias, (char *__buf, size_t __buflen),
  			   gethostname)
    __nonnull ((1)) __attr_access ((__write_only__, 1, 2));
@@ -1511,7 +1511,7 @@ index f0831386c7..6759c86404 100644
  #endif
  
  
-@@ -385,25 +318,18 @@ extern int __REDIRECT_NTH (__getdomainname_alias, (char *__buf,
+@@ -384,25 +317,18 @@ extern int __REDIRECT_NTH (__getdomainname_alias, (char *__buf,
  						   size_t __buflen),
  			   getdomainname) __nonnull ((1))
    __wur __attr_access ((__write_only__, 1, 2));
@@ -2854,5 +2854,5 @@ index ea2518dc72..23f1ee6177 100644
 +__FORTIFY_FUNCTION_END
  #endif
 -- 
-2.33.0
+2.35.0
 
