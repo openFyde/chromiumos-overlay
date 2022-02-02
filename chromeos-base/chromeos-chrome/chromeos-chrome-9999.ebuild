@@ -1410,6 +1410,7 @@ src_install() {
 	# chromeos-base/chrome-icu is responsible for installing the icu
 	# data, so we remove it from ${D} here.
 	rm "${D_CHROME_DIR}/icudtl.dat" || die
+	rm "${D_CHROME_DIR}/icudtl.dat.hash" || die
 }
 
 pkg_preinst() {
