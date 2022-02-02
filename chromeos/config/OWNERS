@@ -1,4 +1,7 @@
 # ChromeOS bot
 per-file make.conf.amd64-host=3su6n15k.default@developer.gserviceaccount.com
+# TODO(b/217208150): it's unclear that we want to keep the following owner, but
+# adding it lets us unblock the SDK builder.
+per-file make.conf.amd64-host=chromeos-ci-prod@chromeos-bot.iam.gserviceaccount.com
 # ChromeOS release bot
 per-file chromeos_version.sh=chromeos-ci-release@chromeos-bot.iam.gserviceaccount.com
