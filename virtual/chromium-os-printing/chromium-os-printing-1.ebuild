@@ -21,8 +21,11 @@ RDEPEND="
 	net-print/dymo-cups-drivers
 	net-print/epson-inkjet-printer-escpr
 	net-print/starcupsdrv
-	internal? ( net-print/konica-minolta-printing-license )
-	internal? ( net-print/xerox-printing-license )
-	internal? ( net-print/fuji-xerox-printing-license )
+	internal? (
+		net-print/fuji-xerox-printing-license
+		net-print/konica-minolta-printing-license
+		net-print/nec-printing-license
+		net-print/xerox-printing-license
+	)
 	postscript? ( net-print/hplip )
 "
