@@ -24,6 +24,7 @@ IUSE="test"
 DEPEND="
 	=dev-rust/android_log-sys-0.2*:=
 	dev-rust/assertions:=
+	dev-rust/sys_util_core:=
 	dev-rust/data_model:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	=dev-rust/proc-macro2-1*:=
@@ -68,26 +69,10 @@ src_test() {
 	cros-rust_src_test -- --test-threads=1 "${skip_tests[@]}"
 }
 
-src_install() {
-	(
-		cd poll_token_derive || die
-		cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version .)"
-	)
-
-	cros-rust_src_install
-}
-
-pkg_preinst() {
-	cros-rust_pkg_preinst poll_token_derive
-	cros-rust_pkg_preinst
-}
-
+# This crate has moved from sys_util to sys_util_core, however we need to prevent
+# this ebuild file from removing the symlinks added by sys_util_core after they were installed.
+# TODO(b/219578294): Remove once eclass is updated to handle this case.
 pkg_postinst() {
 	cros-rust_pkg_postinst poll_token_derive
 	cros-rust_pkg_postinst
-}
-
-pkg_prerm() {
-	cros-rust_pkg_prerm poll_token_derive
-	cros-rust_pkg_prerm
 }
