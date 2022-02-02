@@ -34,14 +34,9 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/sealed_storage_tool
-	dolib.a "${OUT}"/libsealed_storage.a
-	dolib.so "${OUT}"/lib/libsealed_storage_wrapper.so
-
-	insinto /usr/include/chromeos/sealed_storage
-	doins sealed_storage.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/sealed_storage_testrunner"
+	platform test_all
 }
