@@ -89,18 +89,24 @@ index 505b1ac..e4805c6 100644
  
      // Bind the image to memory
 diff --git a/clvk/src/memory.hpp b/clvk/src/memory.hpp
-index f769339..e4f5cd7 100644
+index f769339..2d4f191 100644
 --- a/clvk/src/memory.hpp
 +++ b/clvk/src/memory.hpp
-@@ -129,6 +129,7 @@ struct cvk_mem : public _cl_mem, api_object<object_magic::memory_object> {
+@@ -129,6 +129,13 @@ struct cvk_mem : public _cl_mem, api_object<object_magic::memory_object> {
      const std::vector<cl_mem_properties>& properties() const {
          return m_properties;
      }
-+    cvk_memory_allocation* memory() const { return m_memory.get(); }
++    cvk_memory_allocation* memory() const {
++        if (m_parent == nullptr) {
++            return m_memory.get();
++        } else {
++            return m_parent->memory();
++        }
++    }
  
      static bool is_image_type(cl_mem_object_type type) {
          return ((type == CL_MEM_OBJECT_IMAGE1D) ||
-@@ -419,6 +420,9 @@ struct cvk_image : public cvk_mem {
+@@ -419,6 +426,9 @@ struct cvk_image : public cvk_mem {
          if (m_image_view != VK_NULL_HANDLE) {
              vkDestroyImageView(vkdev, m_image_view, nullptr);
          }
