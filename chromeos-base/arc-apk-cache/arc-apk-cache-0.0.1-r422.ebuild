@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "f22b7a47dd1fd41244b2da5dae46842455788000" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="48db9361c45cfdd99516e1de59b1fb29a03b05d8"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "be7e4db98879e6e64ca285e4b019ffc3caf057dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,24 +33,11 @@ DEPEND="
 "
 
 src_install() {
-	insinto /etc/init
-	doins init/apk-cache-cleaner.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	use seccomp && newins \
-		"seccomp/apk-cache-cleaner-seccomp-${ARCH}.policy" \
-		apk-cache-cleaner-seccomp.policy
-
-	dosbin "${OUT}/apk-cache-cleaner"
-	dobin  "${OUT}/apk-cache-ctl"
-	dosbin apk-cache-cleaner-jailed
-
+	platform_install
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/apk_cache_database_fuzzer \
 		--comp 157100
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/apk-cache-cleaner_testrunner"
-	platform_test "run" "${OUT}/apk-cache-ctl_testrunner"
+	platform test_all
 }
