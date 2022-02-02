@@ -35,6 +35,7 @@ IUSE="debug"
 DEPEND="
 	>=dev-util/opencl-headers-2021.04.29
 	>=media-libs/clvk-0.0.1
+	>=dev-cpp/gtest-1.10.0
 "
 
 # target runtime dependencies
