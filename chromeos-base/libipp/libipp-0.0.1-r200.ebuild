@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6675915d49cc947138e03a421f7a0eb7d6274f3b"
-CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "9b77862e6eb78243a91eeeaa61b0ed7e1e2f42ab" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="06082046b3071d9f6dd0542e5fdd87cf4b69de6a"
+CROS_WORKON_TREE=("d254346a827bfe8ad73c9b1dc4cefc8d05ae586c" "d97dfe0923014fa72bd59f759082482c55f7690d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,14 +22,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 src_install() {
-	dolib.so "${OUT}/lib/libipp.so"
-
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins libipp.pc
-
-	insinto "/usr/include/chromeos/libipp"
-	doins ipp.h ipp_attribute.h ipp_base.h ipp_collections.h ipp_enums.h \
-			ipp_export.h ipp_operations.h ipp_package.h
+	platform_install
 
 	# Install fuzzer
 	local fuzzer_component_id="167231"
@@ -38,5 +31,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libipp_test"
+	platform test_all
 }
