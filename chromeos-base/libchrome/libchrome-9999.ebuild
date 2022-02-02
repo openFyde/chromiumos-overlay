@@ -126,6 +126,7 @@ src_install() {
 		base/metrics
 		base/numerics
 		base/posix
+		base/power_monitor
 		base/process
 		base/ranges
 		base/strings
