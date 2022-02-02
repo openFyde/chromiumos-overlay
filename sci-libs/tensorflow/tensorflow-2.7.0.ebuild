@@ -345,12 +345,16 @@ src_compile() {
 			//tensorflow:libtensorflow_cc.so \
 			$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')
 	else
+		# Duplication of the benchmark_model artifacts behind different flags is done to allow
+		# other packages to extract out xnnpack artifacts without installing benchmark_model
 		ebazel build -k --nobuild \
 			tensorflow/lite:libtensorflowlite.so \
 			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 			"$(usex label_image '
 				//tensorflow/lite/examples/label_image:label_image' '')" \
 			"$(usex benchmark_model '
+				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+			"$(usex xnnpack '
 				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 			"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')"
 	fi
@@ -361,6 +365,8 @@ src_compile() {
 			//tensorflow:libtensorflow.so
 		ebazel build //tensorflow:libtensorflow_cc.so
 	else
+		# Duplication of the benchmark_model artifacts behind different flags is done to allow
+		# other packages to extract out xnnpack artifacts without installing benchmark_model
 		ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
 			--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 \
 			//tensorflow/lite:libtensorflowlite.so \
@@ -368,6 +374,8 @@ src_compile() {
 			"$(usex label_image '
 				//tensorflow/lite/examples/label_image:label_image' '')" \
 			"$(usex benchmark_model '
+				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+			"$(usex xnnpack '
 				//tensorflow/lite/tools/benchmark:benchmark_model' '')"
 	fi
 
