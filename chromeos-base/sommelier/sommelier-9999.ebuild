@@ -75,6 +75,7 @@ platform_pkg_test() {
 		elog "Skipping meson tests on non-x86 platform"
 	else
 		meson tmp_build_dir -Dgamepad=true -Dtracing=true -Dcommit_loop_fix=true \
+				-Dblack_screen_fix=true \
 				|| die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
