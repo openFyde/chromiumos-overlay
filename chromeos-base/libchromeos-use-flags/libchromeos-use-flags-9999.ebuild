@@ -36,6 +36,7 @@ IUSE="
 	big_little
 	biod
 	borealis_host
+	broken_24hours_wake
 	cfm_enabled_device
 	cheets
 	clear_fast_ink_buffer
