@@ -118,7 +118,10 @@ RDEPEND="${RDEPEND}
 	chromeos-base/cryptohome-dev-utils
 	tpm2? ( chromeos-base/g2f_tools )
 	!chromeless_tty? ( chromeos-base/graphics-utils-go )
-	hps? ( chromeos-base/hps-tool )
+	hps? (
+		chromeos-base/hps-firmware-tools
+		chromeos-base/hps-tool
+	)
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
 	!chromeless_tty? ( chromeos-base/screen-capture-utils )
