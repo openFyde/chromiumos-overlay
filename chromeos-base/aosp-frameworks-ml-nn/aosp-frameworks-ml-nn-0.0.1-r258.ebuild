@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("173280e56d1a113f70c6dff28905457bbfa353d3" "12ed7a78be275865d51857b06dbcf42d4ad8a6d8" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_COMMIT=("2f384e7ec38d4159a9e3e83d0bd1d96edfa100c6" "12ed7a78be275865d51857b06dbcf42d4ad8a6d8" "eee167fa829d108a5678624050425899b348a252")
 CROS_WORKON_TREE=("0a7b5a1cfae096f3966abbfff9976df8159f6343" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2a760fd61515a5455a667c7a9cba7fb0c428daa0" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
@@ -47,12 +47,12 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack-driver fuzzer"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer"
 
 RDEPEND="
 	chromeos-base/nnapi:=
 	dev-libs/openssl:=
-	sci-libs/tensorflow:=
+	sci-libs/tensorflow[xnnpack?]
 "
 
 DEPEND="
@@ -68,7 +68,7 @@ src_configure() {
 		append-cxxflags "-Xclang -fnative-half-type"
 		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
 	fi
-	if use xnnpack-driver; then
+	if use xnnpack; then
 		append-cppflags "-DNNAPI_USE_XNNPACK_DRIVER"
 	fi
 	if use minimal-driver; then
@@ -163,7 +163,7 @@ platform_pkg_test() {
 		# https://github.com/google/sanitizers/wiki/AddressSanitizerContainerOverflow#false-positives
 		export ASAN_OPTIONS+=":detect_container_overflow=0:detect_odr_violation=0:"
 	fi
-	if use xnnpack-driver; then
+	if use xnnpack; then
 		# These tests don't currently work with the XNNPACK driver
 		gtest_excl_filter+="ValidationTestExecutionDeviceMemory.SetInputFromMemory*:"
 		gtest_excl_filter+="ValidationTestExecutionDeviceMemory.SetOutputFromMemory*:"
@@ -182,14 +182,14 @@ platform_pkg_test() {
 		platform_test "run" "${OUT}/${test_target}_testrunner" "0" "${gtest_excl_filter}" "${qemu_gtest_excl_filter}"
 	done
 
-	if use xnnpack-driver; then
+	if use xnnpack; then
 		platform_test "run" "${OUT}/runtime_xnn_testrunner"
 	fi
 }
 
 src_compile() {
 	platform_src_compile
-	if use xnnpack-driver; then
+	if use xnnpack; then
 		platform "compile" "xnn-driver"
 		if use test; then
 			platform "compile" "runtime_xnn_testrunner"
@@ -222,7 +222,7 @@ src_install() {
 		einfo "Installing minimal drivers"
 		dolib.so "${OUT}/lib/libminimal-driver.so"
 	fi
-	if use xnnpack-driver; then
+	if use xnnpack; then
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
