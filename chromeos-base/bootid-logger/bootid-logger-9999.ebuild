@@ -28,9 +28,6 @@ DEPEND="${RDEPEND}"
 src_install() {
 	platform_src_install
 
-	insinto /etc/init
-	doins log-bootid-on-boot.conf
-
 	local fuzzer_component_id="1029735"
 	platform_fuzzer_install "${S}"/../croslog/OWNERS "${OUT}"/bootid_logger_fuzzer \
 		--comp "${fuzzer_component_id}"
