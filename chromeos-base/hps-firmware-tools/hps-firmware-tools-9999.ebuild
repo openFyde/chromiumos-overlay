@@ -48,7 +48,7 @@ DEPEND="
 
 # host tools used to live in hps-firmware
 RDEPEND="
-	!<chromeos-base/hps-firmware-0.0.1-r244
+	!<chromeos-base/hps-firmware-0.1.0-r244
 "
 
 src_unpack() {
