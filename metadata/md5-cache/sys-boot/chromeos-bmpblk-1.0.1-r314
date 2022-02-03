@@ -4,11 +4,11 @@ DEPEND=chromeos-base/chromeos-config:=
 DESCRIPTION=Chrome OS Firmware Bitmap Block
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/bmpblk/
-IUSE=detachable physical_presence_power physical_presence_recovery unibuild cros_host cros_workon_tree_e71184bb896b712e1c72f09832a9183a2c28325a
+IUSE=detachable physical_presence_power physical_presence_recovery unibuild cros_host cros_workon_tree_80c28bef3228391311f3d326dcf05ded796f5a10
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 REQUIRED_USE=unibuild
-SLOT=0/1.0.1-r313
+SLOT=0/1.0.1-r314
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	d663eb390840a593f34dde9417825e6c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=7ff487554459792dc60865b8bd777761
+_md5_=a546ad8bcf5273ae431759e541b86245
