@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="173280e56d1a113f70c6dff28905457bbfa353d3"
-CROS_WORKON_TREE=("0a7b5a1cfae096f3966abbfff9976df8159f6343" "c33bff32c361e992ba80123a6c57f8019e76a151" "7bd2393837bc4162899abba0a3c6977b462df042" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="06f3d425ed9c7188cc401fdfeb7ea35508f0d50e"
+CROS_WORKON_TREE=("0a7b5a1cfae096f3966abbfff9976df8159f6343" "56fb1f2cb0a739df85876d43168ed9b50f076528" "7bd2393837bc4162899abba0a3c6977b462df042" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): remove 'metrics' pulled in from header dependency.
@@ -38,8 +38,7 @@ DEPEND="${RDEPEND}
 	x11-drivers/opengles-headers"
 
 src_install() {
-	dosbin "${OUT}/kmsvnc"
-	dosbin "${OUT}/screenshot"
+	platform_install
 
 	# Component: ARC++ > Eng Velocity.
 	local fuzzer_component_id="515942"
