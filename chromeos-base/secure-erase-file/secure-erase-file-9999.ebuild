@@ -27,9 +27,5 @@ RDEPEND="
 "
 
 src_install() {
-	dobin "${OUT}/secure_erase_file"
-	dolib.so "${OUT}/lib/libsecure_erase_file.so"
-
-	insinto /usr/include/chromeos/secure_erase_file
-	doins secure_erase_file.h
+	platform_install
 }
