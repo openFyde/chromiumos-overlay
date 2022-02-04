@@ -717,6 +717,10 @@ ecargo_test() {
 # Call `ecargo_test` with '--no-run' and '--message-format=json' arguments.
 # Then, use jq to parse and store all the test executables in a global array.
 cros-rust_get_test_executables() {
+	# Make sure all the targets are built before generating the json. This ensures
+	# any error messages will not be hidden.
+	ecargo_test --no-run "$@" || die
+
 	mapfile -t CROS_RUST_TESTS < \
 		<(ecargo_test --no-run --message-format=json "$@" | \
 		jq -r 'select(.profile.test == true) | .filenames[]')
@@ -851,7 +855,6 @@ cros-rust_src_compile() {
 	[[ -z "${CROS_WORKON_PROJECT}" ]] && return 0
 
 	ecargo_build "$@"
-	use test && ecargo_test --no-run "$@"
 }
 
 cros-rust_src_test() {
