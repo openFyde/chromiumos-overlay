@@ -492,8 +492,9 @@ cros-workon_on_die_rebase_check() {
 			local upstream
 			if ! upstream="$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2> /dev/null)"; then
 				eerror
-				eerror "Local branch for '${path[i]}' has no upstream."
-				eerror "You probably need to run:"
+				eerror "A cros-workon package '${P}' failed to build above."
+				eerror "Local branch for '${path[i]}' has no upstream and may be out of sync."
+				eerror "You may need to run:"
 				eerror "git branch --set-upstream-to=m/main && git rebase --preserve-merges"
 				eerror
 				exit
@@ -502,8 +503,9 @@ cros-workon_on_die_rebase_check() {
 			local commits_behind="$(git rev-list --count --left-right "${upstream}"...HEAD | cut -f 1)"
 			if [[ "${commits_behind}" != 0 ]]; then
 				eerror
+				eerror "A cros-workon package '${P}' failed to build above."
 				eerror "Local branch for '${path[i]}' is out of sync."
-				eerror "You probably need to run: git rebase --preserve-merges"
+				eerror "You may need to run: git rebase --preserve-merges"
 				eerror
 			fi
 		)
