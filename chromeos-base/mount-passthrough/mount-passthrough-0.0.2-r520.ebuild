@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="97338e591c234f48c09a2fdae89e7a841e9b2849"
-CROS_WORKON_TREE=("bf8cf9800579132d86350856aa46e5da1141fb28" "5cc3c784efa16690f19c0ffb5d86623972b4452b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1b8d7cda85783ca7f8c5b69c9222783f2c06c483"
+CROS_WORKON_TREE=("bf8cf9800579132d86350856aa46e5da1141fb28" "348e1bcce3f170ce3e4e0be69882434a861acfbd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,11 +27,5 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	dobin "${OUT}"/mount-passthrough
-	dobin mount-passthrough-jailed
-	dobin mount-passthrough-jailed-media
-	dobin mount-passthrough-jailed-play
-
-	insinto /usr/share/arc
-	doins mount-passthrough-jailed-utils.sh
+	platform_install
 }
