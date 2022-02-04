@@ -35,6 +35,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_x86_byt_ucode? ( chromeos-base/byt-ucode-firmware-private )
 	builtin_fw_x86_cml_ucode? ( chromeos-base/cml-ucode-firmware-private )
 	builtin_fw_x86_glk_ucode? ( chromeos-base/glk-ucode-firmware-private )
+	builtin_fw_x86_intel_ucode? ( sys-firmware/intel-ucode-firmware )
 	builtin_fw_x86_jsl_ucode? ( chromeos-base/jsl-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
 	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
@@ -1205,6 +1206,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_byt_ucode
 	builtin_fw_x86_cml_ucode
 	builtin_fw_x86_glk_ucode
+	builtin_fw_x86_intel_ucode
 	builtin_fw_x86_jsl_ucode
 	builtin_fw_x86_kbl_ucode
 	builtin_fw_x86_skl_ucode
@@ -1420,6 +1422,142 @@ builtin_fw_vega12_files=(
 	amdgpu/vega12_sos.bin
 	amdgpu/vega12_uvd.bin
 	amdgpu/vega12_vce.bin
+)
+
+builtin_fw_x86_intel_ucode_desc="Intel ucode for all chips"
+builtin_fw_x86_intel_ucode_files=(
+	intel-ucode/06-03-02
+	intel-ucode/06-05-00
+	intel-ucode/06-05-01
+	intel-ucode/06-05-02
+	intel-ucode/06-05-03
+	intel-ucode/06-06-00
+	intel-ucode/06-06-05
+	intel-ucode/06-06-0a
+	intel-ucode/06-06-0d
+	intel-ucode/06-07-01
+	intel-ucode/06-07-02
+	intel-ucode/06-07-03
+	intel-ucode/06-08-01
+	intel-ucode/06-08-03
+	intel-ucode/06-08-06
+	intel-ucode/06-08-0a
+	intel-ucode/06-09-05
+	intel-ucode/06-0a-00
+	intel-ucode/06-0a-01
+	intel-ucode/06-0b-01
+	intel-ucode/06-0b-04
+	intel-ucode/06-0d-06
+	intel-ucode/06-0e-08
+	intel-ucode/06-0e-0c
+	intel-ucode/06-0f-02
+	intel-ucode/06-0f-06
+	intel-ucode/06-0f-07
+	intel-ucode/06-0f-0a
+	intel-ucode/06-0f-0b
+	intel-ucode/06-0f-0d
+	intel-ucode/06-16-01
+	intel-ucode/06-17-06
+	intel-ucode/06-17-07
+	intel-ucode/06-17-0a
+	intel-ucode/06-1a-04
+	intel-ucode/06-1a-05
+	intel-ucode/06-1c-02
+	intel-ucode/06-1c-0a
+	intel-ucode/06-1d-01
+	intel-ucode/06-1e-05
+	intel-ucode/06-25-02
+	intel-ucode/06-25-05
+	intel-ucode/06-26-01
+	intel-ucode/06-2a-07
+	intel-ucode/06-2c-02
+	intel-ucode/06-2d-06
+	intel-ucode/06-2d-07
+	intel-ucode/06-2e-06
+	intel-ucode/06-2f-02
+	intel-ucode/06-37-08
+	intel-ucode/06-37-09
+	intel-ucode/06-3a-09
+	intel-ucode/06-3c-03
+	intel-ucode/06-3d-04
+	intel-ucode/06-3e-04
+	intel-ucode/06-3e-06
+	intel-ucode/06-3e-07
+	intel-ucode/06-3f-02
+	intel-ucode/06-3f-04
+	intel-ucode/06-45-01
+	intel-ucode/06-46-01
+	intel-ucode/06-47-01
+	intel-ucode/06-4c-03
+	intel-ucode/06-4c-04
+	intel-ucode/06-4d-08
+	intel-ucode/06-4e-03
+	intel-ucode/06-55-03
+	intel-ucode/06-55-04
+	intel-ucode/06-55-05
+	intel-ucode/06-55-06
+	intel-ucode/06-55-07
+	intel-ucode/06-55-0b
+	intel-ucode/06-56-02
+	intel-ucode/06-56-03
+	intel-ucode/06-56-04
+	intel-ucode/06-56-05
+	intel-ucode/06-5c-02
+	intel-ucode/06-5c-09
+	intel-ucode/06-5c-0a
+	intel-ucode/06-5e-03
+	intel-ucode/06-5f-01
+	intel-ucode/06-66-03
+	intel-ucode/06-6a-05
+	intel-ucode/06-6a-06
+	intel-ucode/06-7a-01
+	intel-ucode/06-7a-08
+	intel-ucode/06-7e-05
+	intel-ucode/06-86-04
+	intel-ucode/06-86-05
+	intel-ucode/06-8a-01
+	intel-ucode/06-8c-01
+	intel-ucode/06-8c-02
+	intel-ucode/06-8d-01
+	intel-ucode/06-8e-09
+	intel-ucode/06-8e-0a
+	intel-ucode/06-8e-0b
+	intel-ucode/06-8e-0c
+	intel-ucode/06-96-01
+	intel-ucode/06-9c-00
+	intel-ucode/06-9e-09
+	intel-ucode/06-9e-0a
+	intel-ucode/06-9e-0b
+	intel-ucode/06-9e-0c
+	intel-ucode/06-9e-0d
+	intel-ucode/06-a5-02
+	intel-ucode/06-a5-03
+	intel-ucode/06-a5-05
+	intel-ucode/06-a6-00
+	intel-ucode/06-a6-01
+	intel-ucode/06-a7-01
+	intel-ucode/0f-00-07
+	intel-ucode/0f-00-0a
+	intel-ucode/0f-01-02
+	intel-ucode/0f-02-04
+	intel-ucode/0f-02-05
+	intel-ucode/0f-02-06
+	intel-ucode/0f-02-07
+	intel-ucode/0f-02-09
+	intel-ucode/0f-03-02
+	intel-ucode/0f-03-03
+	intel-ucode/0f-03-04
+	intel-ucode/0f-04-01
+	intel-ucode/0f-04-03
+	intel-ucode/0f-04-04
+	intel-ucode/0f-04-07
+	intel-ucode/0f-04-08
+	intel-ucode/0f-04-09
+	intel-ucode/0f-04-0a
+	intel-ucode/0f-06-02
+	intel-ucode/0f-06-04
+	intel-ucode/0f-06-05
+	intel-ucode/0f-06-08
 )
 
 builtin_fw_x86_adl_ucode_desc="Intel ucode for ADL"
