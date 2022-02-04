@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("173280e56d1a113f70c6dff28905457bbfa353d3" "8300206169b81cf8f6600886bc1f5a86e62ace98")
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "bdcc5dafcae097d11dcce22f4db58f5f52bdc6f5" "c268a0456d93a58f0ec85e803ab01a23eb396035" "0a7b5a1cfae096f3966abbfff9976df8159f6343" "7bd2393837bc4162899abba0a3c6977b462df042" "7b1902bfd171c628068c91fc41e253d0c08df363")
+CROS_WORKON_COMMIT=("de42ce5aad39d64a4a38368a0135b0c1a6fd53fb" "8300206169b81cf8f6600886bc1f5a86e62ace98")
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "ccca68ca7ccf305bbd3d424d4bc383c65217f569" "c268a0456d93a58f0ec85e803ab01a23eb396035" "0a7b5a1cfae096f3966abbfff9976df8159f6343" "7bd2393837bc4162899abba0a3c6977b462df042" "7b1902bfd171c628068c91fc41e253d0c08df363")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -60,27 +60,9 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/iioservice
-
-	# Install upstart configuration.
-	insinto /etc/init
-	doins init/*.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Iioservice.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp/iioservice-${ARCH}.policy" iioservice-seccomp.policy
+	platform_install
 }
 
 platform_pkg_test() {
-	local tests=(
-		iioservice_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
