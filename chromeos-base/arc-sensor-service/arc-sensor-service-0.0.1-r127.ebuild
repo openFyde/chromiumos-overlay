@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="173280e56d1a113f70c6dff28905457bbfa353d3"
-CROS_WORKON_TREE=("0a7b5a1cfae096f3966abbfff9976df8159f6343" "40bdb7fdd860fa79f55c3bf8c1526e8999e0bd22" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="713b02a2beb13beff0334583c294121745ddf34b"
+CROS_WORKON_TREE=("0a7b5a1cfae096f3966abbfff9976df8159f6343" "ea8176237ca94f102e81c98c7c2de00416c2c643" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,15 +29,9 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/arc_sensor_service
-
-	insinto /etc/init
-	doins init/arc-sensor-service.conf
-
-	insinto /etc/dbus-1/system.d
-	doins init/dbus-1/org.chromium.ArcSensorService.conf
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/arc_sensor_service_testrunner"
+	platform test_all
 }

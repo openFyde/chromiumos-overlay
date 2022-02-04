@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="173280e56d1a113f70c6dff28905457bbfa353d3"
+CROS_WORKON_COMMIT="713b02a2beb13beff0334583c294121745ddf34b"
 CROS_WORKON_TREE=("0a7b5a1cfae096f3966abbfff9976df8159f6343" "584fe004f7f53fcd8cb6b718648eb6b29259f78c" "52e931395c6f31b17d3dc0e3a614b08a3b1794c1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -40,15 +40,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dobin "${OUT}/modemfwd"
-
-	# Upstart configuration
-	insinto /etc/init
-	doins modemfwd.conf
-
-	# DBus configuration
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Modemfwd.conf
+	platform_install
 
 	local fuzzer_component_id="167157"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer \
@@ -58,5 +50,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/modemfw_test"
+	platform test_all
 }
