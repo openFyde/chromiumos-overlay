@@ -69,6 +69,7 @@ src_configure() {
 	else
 		econf $(use_enable selinux) \
 			$(use_enable cras-apm webrtc-apm) \
+			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \
 			$(use_enable amd64 fuzzer) \
