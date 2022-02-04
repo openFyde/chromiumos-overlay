@@ -89,6 +89,7 @@ RDEPEND="
 	media-libs/virglrenderer[fuzzer]
 	media-sound/adhd[fuzzer]
 	net-dns/avahi[fuzzer]
+	net-print/hplip[fuzzer]
 	net-wireless/bluez[fuzzer]
 	net-wireless/wpa_supplicant-cros[fuzzer]
 "
