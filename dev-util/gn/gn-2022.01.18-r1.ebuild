@@ -18,7 +18,7 @@ EAPI="5"
 # After that, update GN_X64_SHA1 below with the SHA1 of the gn binary.
 # Finally, run `ebuild <ebuild file name> manifest` to generate the Manifest
 # file.
-GN_X64_SHA1="3e43fac03281e2f5e5ae5f27c8e9a6bb45966ea9"
+GN_X64_SHA1="26d72c1b8889438d29de0711880e0bddde97de1e"
 
 DESCRIPTION="GN (generate ninja) meta-build system"
 HOMEPAGE="https://gn.googlesource.com/gn/"
