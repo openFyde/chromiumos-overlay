@@ -16,6 +16,18 @@ index d13c879..ab57b14 100644
          copy_ptr = &val_memobj;
          ret_size = sizeof(val_memobj);
          break;
+diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
+index 7d1176a..72eefa6 100644
+--- a/clvk/src/device.cpp
++++ b/clvk/src/device.cpp
+@@ -792,6 +792,7 @@ bool cvk_device::supports_capability(spv::Capability capability) const {
+     case spv::CapabilitySampled1D:
+     case spv::CapabilityImage1D:
+     case spv::CapabilityImageQuery:
++    case spv::CapabilityImageBuffer:
+         return true;
+     // Optional capabilities:
+     case spv::CapabilityFloat16:
 diff --git a/clvk/src/memory.cpp b/clvk/src/memory.cpp
 index 505b1ac..e4805c6 100644
 --- a/clvk/src/memory.cpp
