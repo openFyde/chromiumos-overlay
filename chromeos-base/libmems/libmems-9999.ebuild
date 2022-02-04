@@ -27,25 +27,9 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:="
 
 src_install() {
-	dolib.so "${OUT}/lib/libmems.so"
-	dolib.so "${OUT}/lib/libmems_test_support.so"
-
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins libmems.pc
-	doins libmems_test_support.pc
-
-	insinto "/usr/include/chromeos/libmems"
-	doins *.h
+	platform_install
 }
 
 platform_pkg_test() {
-	local tests=(
-		libmems_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
-
