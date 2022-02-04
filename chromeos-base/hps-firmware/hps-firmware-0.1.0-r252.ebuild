@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d85f8c06acb3240ca3b110c200dc6d56489d668c"
-CROS_WORKON_TREE="7bdbce2bb79de807b3026af9def7981110c199e9"
+CROS_WORKON_COMMIT="f17a6524cda3e9cb4431b2c1992f467069b7575c"
+CROS_WORKON_TREE="fd8aca816b3287079e31372dc43ed731bdde1c89"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -82,11 +82,6 @@ src_prepare() {
 	rm rust/Cargo.toml rust/riscv/Cargo.toml
 
 	# Delete some optional dependencies that are not packaged in Chromium OS.
-	sed -i \
-		-e '/ optional = true/d' \
-		-e '/^daemon = /d' \
-		-e '/^ftdi = /d' \
-		rust/hps-util/Cargo.toml
 	sed -i \
 		-e '/ optional = true/d' \
 		-e '/^direct /d' \
