@@ -33,5 +33,5 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/mcastd
+	platform_install
 }
