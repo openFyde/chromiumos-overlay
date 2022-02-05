@@ -31,9 +31,9 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/ml_cmdline
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/ml_cmdline_test"
+	platform test_all
 }
