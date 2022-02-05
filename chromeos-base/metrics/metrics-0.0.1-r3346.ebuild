@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="97338e591c234f48c09a2fdae89e7a841e9b2849"
+CROS_WORKON_COMMIT="3076d813c2333c867034e448ec86013750905950"
 CROS_WORKON_TREE=("bf8cf9800579132d86350856aa46e5da1141fb28" "7bd2393837bc4162899abba0a3c6977b462df042" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -62,7 +62,12 @@ src_install() {
 		fi
 	fi
 
-	insinto /usr/$(get_libdir)/pkgconfig
+	local daemon_store="/etc/daemon-store/uma-consent"
+	dodir "${daemon_store}"
+	fperms 0774 "${daemon_store}"
+	fowners chronos:chronos-access "${daemon_store}"
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	dolib.so "${OUT}/lib/libmetrics.so"

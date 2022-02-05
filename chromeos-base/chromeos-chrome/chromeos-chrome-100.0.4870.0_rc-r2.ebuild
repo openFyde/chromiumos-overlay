@@ -745,6 +745,12 @@ setup_test_lists() {
 		)
 	fi
 
+	if use v4l2_codec; then
+		TEST_FILES+=(
+			v4l2_stateless_decoder
+		)
+	fi
+
 	# TODO(ihf): Figure out how to keep this in sync with telemetry.
 	TOOLS_TELEMETRY_BIN=(
 		bitmaptools
