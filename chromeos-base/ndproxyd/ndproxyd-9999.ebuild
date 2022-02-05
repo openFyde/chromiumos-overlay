@@ -33,6 +33,5 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/ndproxyd
+	platform_install
 }
-
