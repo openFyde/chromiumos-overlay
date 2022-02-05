@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="13ba29db394bd425ea0eb17496a74e43e9404ce0"
-CROS_WORKON_TREE="be37ff4e95f6caee97eb3fb81bb919941645222f"
+CROS_WORKON_COMMIT="b2e7b60073ebe09b5f417d797cf8ad528f7818a7"
+CROS_WORKON_TREE="f1443237757357c42b075c93c649969a2142470e"
 CROS_WORKON_PROJECT="chromiumos/platform/chameleon"
 
 inherit cros-workon
