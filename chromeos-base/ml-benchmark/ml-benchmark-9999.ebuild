@@ -27,10 +27,9 @@ KEYWORDS="~*"
 IUSE=""
 
 src_install() {
-	dobin "${OUT}"/ml_benchmark
-	dolib.so "${OUT}"/lib/libmlbenchmark_proto.so
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/ml_benchmark_test"
+	platform test_all
 }
