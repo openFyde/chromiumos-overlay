@@ -84,7 +84,7 @@ src_install() {
 	into "$(dlc_add_path ${install_dir})"
 	insinto "$(dlc_add_path ${install_dir})"
 	exeinto "$(dlc_add_path ${install_dir})"
-	# only install vm tools image
+	# Only install vm tools image
 	doins "${WORKDIR}"/*/vm_tools.img
 	dlc_src_install
 }

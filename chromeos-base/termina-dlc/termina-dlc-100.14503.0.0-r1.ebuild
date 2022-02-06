@@ -89,14 +89,14 @@ src_compile() {
 	if use manatee; then
 		local digest
 		digest="$(sha256sum "${WORKDIR}/guest-vm-base/vm_kernel" | cut -f1 -d' ' | grep -o .. | \
-			awk 'BEGIN { printf "[" } NR!=1 { printf ", " } { printf "%d", ("0x" +$0) + 0 } END { printf "]" }')"
+			awk 'BEGIN { printf "[" } NR!=1 { printf ", " } { printf("%d", strtonum("0x"$0)) } END { printf "]" }')"
 		sed -e "s/@kernel_digest@/${digest}/" "${FILESDIR}/termina.json.in" > termina.json
 	fi
 }
 
 src_install() {
 	if use manatee; then
-		insinto "/usr/share/manatee"
+		insinto "/usr/share/manatee/templates"
 		doins termina.json
 	fi
 
