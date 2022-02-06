@@ -32,6 +32,7 @@ DEPEND="
 	=dev-rust/embedded-hal-mock-0.8*:=
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
+	>=dev-rust/linux-embedded-hal-0.3.1:= <dev-rust/linux-embedded-hal-0.4
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*:=
 	=dev-rust/panic-halt-0.2*:=
