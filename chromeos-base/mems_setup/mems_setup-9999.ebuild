@@ -34,10 +34,7 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	udev_dorules 99-mems_setup.rules
-	dosbin "${OUT}"/mems_setup
-	if use iioservice; then
-		dosbin "${OUT}"/mems_remove
-	fi
+	platform_install
 
 	# Install fuzzers
 	local fuzzer_component_id="811602"
@@ -49,12 +46,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		mems_setup_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
