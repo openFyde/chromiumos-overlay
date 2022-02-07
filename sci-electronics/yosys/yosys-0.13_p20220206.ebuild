@@ -6,9 +6,9 @@ EAPI=7
 inherit toolchain-funcs
 
 DESCRIPTION="A framework for Verilog RTL synthesis."
-HOMEPAGE="http://www.clifford.at/yosys/"
+HOMEPAGE="https://yosyshq.net/yosys/"
 
-GIT_REV="bc027b2cae9a85b887684930705762fac720b529"
+GIT_REV="9c93668954fe2ec7aa1fb64573f6e9bf97824b60"
 
 # These have to match Yosys Makefile's ABCREV and ABCURL variables.
 ABC_GIT_REV="f6fa2dd"
