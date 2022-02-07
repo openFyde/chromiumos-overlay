@@ -34,6 +34,11 @@ src_install() {
 	doins "${OUT}/lib/libfeatures.pc"
 	doins "${OUT}/lib/libfeatures_c.pc"
 
+	insinto "/usr/include/featured"
+	doins feature_export.h
+	doins c_feature_library.h
+	doins feature_library.h
+
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
 	doins share/org.chromium.featured.conf
