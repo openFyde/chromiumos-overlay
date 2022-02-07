@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4c66028160989449364d1ce3de6432e2660a151b"
-CROS_WORKON_TREE=("cb7bda3ddc60323aa7d53c8bd42c83ffa6370512" "b4c941de5ccd331283b7b8fd7f05bfb423285edd" "454140bcc172ade9d8e2cf121434ad3a08c070ac" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1ea6493d45606eaea0470aa25c3104e2d92c7378"
+CROS_WORKON_TREE=("cb7bda3ddc60323aa7d53c8bd42c83ffa6370512" "b4c941de5ccd331283b7b8fd7f05bfb423285edd" "f7a5c28ce71839ff0d0dacba07676137f40971a1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,19 +32,9 @@ DEPEND="
 "
 
 src_install() {
-	dolib.so "${OUT}"/lib/libec*.so
-	dolib.a "${OUT}"/libec*.a
-
-	insinto /usr/"$(get_libdir)"/pkgconfig
-	doins "${OUT}"/obj/libec/libec*.pc
-
-	insinto /usr/include/libec
-	doins ./*.h
-
-	insinto /usr/include/libec/fingerprint
-	doins ./fingerprint/*.h
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/libec_tests"
+	platform test_all
 }
