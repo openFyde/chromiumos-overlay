@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="66a0020f477c0dc878a35611742e938c1f785715"
-CROS_WORKON_TREE="d7a824e280e161aa86bcb4f3fdacfcaeec18c3ad"
+CROS_WORKON_COMMIT="99cc852d3013f9501a756abfeada19b4510a3800"
+CROS_WORKON_TREE="910c831f25604af691ece1bc9bc5b71431f6660e"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
