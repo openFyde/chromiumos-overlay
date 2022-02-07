@@ -35,6 +35,7 @@ RDEPEND="
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
+	chromeos-base/featured
 "
 
 DEPEND="
