@@ -39,7 +39,10 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE="cros_host mma +pci static"
 
-LIB_DEPEND="sys-apps/pciutils[static-libs(+)]"
+LIB_DEPEND="
+	sys-apps/pciutils[static-libs(+)]
+	sys-apps/flashrom
+"
 RDEPEND="!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
 DEPEND="${RDEPEND}
 	static? ( ${LIB_DEPEND} )
