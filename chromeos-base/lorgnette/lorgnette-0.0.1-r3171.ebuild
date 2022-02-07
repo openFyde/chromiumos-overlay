@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4c66028160989449364d1ce3de6432e2660a151b"
-CROS_WORKON_TREE=("b4c941de5ccd331283b7b8fd7f05bfb423285edd" "2584de9987ff897a0cb4de79c3057467cdc95ebd" "7bd2393837bc4162899abba0a3c6977b462df042" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="91910781bdabc6aa7b80c342c57ed0cb94b47c5f"
+CROS_WORKON_TREE=("b4c941de5ccd331283b7b8fd7f05bfb423285edd" "f20f529f56eefe82cfda04ab24f43e952cca4d2a" "7bd2393837bc4162899abba0a3c6977b462df042" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -50,14 +50,7 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dobin "${OUT}"/lorgnette
-	insinto /etc/dbus-1/system.d
-	doins dbus_permissions/org.chromium.lorgnette.conf
-	insinto /usr/share/dbus-1/system-services
-	doins dbus_service/org.chromium.lorgnette.service
-	insinto /etc/init
-	doins init/lorgnette.conf
+	platform_install
 	udev_dorules udev/*.rules
 }
 
