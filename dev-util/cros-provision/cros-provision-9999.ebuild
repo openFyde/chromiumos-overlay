@@ -41,3 +41,10 @@ DEPEND="
 	chromeos-base/cros-config-api
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# CGO_ENABLED=0 will make the executable statically linked.
+	export CGO_ENABLED=0
+
+	default
+}
