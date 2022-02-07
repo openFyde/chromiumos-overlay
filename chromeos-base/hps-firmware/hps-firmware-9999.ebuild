@@ -149,6 +149,12 @@ src_compile() {
 	)
 	export PATH="${PATH}:${WORKDIR}/riscv-gnu-toolchain-installed/bin"
 
+	# Build FPGA application
+	# TODO(b/201365430): this is not the whole application yet
+	einfo "Building FPGA application"
+	gn gen build || die
+	ninja -C build riscv-gcc/libtflite-micro.a || die
+
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
 	PYTHONPATH="third_party/python/CFU-Playground" \
