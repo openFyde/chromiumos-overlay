@@ -19,14 +19,19 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="+sata mmc nvme"
 
-DEPEND=""
+DEPEND="
+	test? (
+		sys-apps/diffutils
+	)
+"
 
-RDEPEND="${DEPEND}
+RDEPEND="
 	chromeos-base/chromeos-common-script
 	dev-util/shflags
 	sata? ( sys-apps/hdparm )
 	mmc? ( sys-apps/mmc-utils )
-	nvme? ( sys-apps/nvme-cli )"
+	nvme? ( sys-apps/nvme-cli )
+"
 
 platform_pkg_test() {
 	# We can test all, even if mmc or nvme are not installed.
