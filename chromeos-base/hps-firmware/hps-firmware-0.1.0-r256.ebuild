@@ -7,13 +7,20 @@ CROS_WORKON_TREE="910c831f25604af691ece1bc9bc5b71431f6660e"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
-inherit cros-workon cros-rust
+inherit cros-workon cros-rust toolchain-funcs
 
 DESCRIPTION="HPS firmware and tooling"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+SRC_URI="
+	https://github.com/riscv-collab/riscv-gnu-toolchain/archive/refs/tags/2021.04.23.tar.gz -> riscv-gnu-toolchain-2021.04.23.tar.gz
+	https://github.com/riscv-collab/riscv-binutils-gdb/archive/f35674005e609660f5f45005a9e095541ca4c5fe.tar.gz -> riscv-binutils-gdb-f35674005e609660f5f45005a9e095541ca4c5fe.tar.gz
+	https://github.com/riscv-collab/riscv-gcc/archive/03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6.tar.gz -> riscv-gcc-03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6.tar.gz
+	ftp://sourceware.org/pub/newlib/newlib-4.1.0.tar.gz
+"
 
 BDEPEND="
 	dev-rust/svd2rust
@@ -118,9 +125,38 @@ src_configure() {
 	# there is only one Cargo.lock in the root of the source tree, which is not
 	# true for hps-firmware. For now just delete the ones we have.
 	rm rust/Cargo.lock rust/mcu/Cargo.lock rust/riscv/Cargo.lock
+
+	# Configure riscv-gnu-toolchain
+	(
+		cd "${WORKDIR}/riscv-gnu-toolchain-2021.04.23" || die
+		econf_build \
+			--prefix="${WORKDIR}/riscv-gnu-toolchain-installed" \
+			--with-host="${CBUILD}" \
+			--with-multilib-generator="rv32i-ilp32--" \
+			--with-binutils-src="${WORKDIR}/riscv-binutils-gdb-f35674005e609660f5f45005a9e095541ca4c5fe" \
+			--with-gcc-src="${WORKDIR}/riscv-gcc-03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6" \
+			--with-newlib-src="${WORKDIR}/newlib-4.1.0" \
+			--disable-gdb
+	)
 }
 
 src_compile() {
+	# Build riscv-gnu-toolchain to get a C++ compiler
+	(
+		cd "${WORKDIR}/riscv-gnu-toolchain-2021.04.23" || die
+		# Work around a defective check in libiberty ./configure which invokes unprefixed 'cc'
+		export ac_cv_prog_cc_x86_64_pc_linux_gnu_clang_c_o=yes
+		export ac_cv_prog_cc_cc_c_o=yes
+		tc-env_build emake
+	)
+	export PATH="${PATH}:${WORKDIR}/riscv-gnu-toolchain-installed/bin"
+
+	# Build FPGA application
+	# TODO(b/201365430): this is not the whole application yet
+	einfo "Building FPGA application"
+	gn gen build || die
+	ninja -C build riscv-gcc/libtflite-micro.a || die
+
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
 	PYTHONPATH="third_party/python/CFU-Playground" \
