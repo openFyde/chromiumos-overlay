@@ -30,9 +30,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	cd "${OUT}"
-	dobin run_oci
-
+	platform_install
 	# Component maps to ChromeOS>Software>ARC++>Core
 	local fuzzer_component_id="488493"
 	platform_fuzzer_install "${S}/OWNERS" "${OUT}/run_oci_utils_fuzzer" \
@@ -40,14 +38,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		container_config_parser_test
-		run_oci_test
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		# platform_test takes care of setting up your test environment
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
