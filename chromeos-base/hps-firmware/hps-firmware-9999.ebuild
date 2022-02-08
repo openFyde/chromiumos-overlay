@@ -37,7 +37,7 @@ DEPEND="
 	>=dev-rust/bitflags-1.3.2:= <dev-rust/bitflags-2.0.0
 	=dev-rust/clap-3*:=
 	=dev-rust/colored-2*:=
-	>=dev-rust/cortex-m-0.7.1:= <dev-rust/cortex-m-0.8.0
+	>=dev-rust/cortex-m-0.6.2:= <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rt-0.6.13:= <dev-rust/cortex-m-rt-0.7.0
 	>=dev-rust/cortex-m-rtic-0.5.5:= <dev-rust/cortex-m-rtic-0.6.0
 	=dev-rust/crc-2*:=
