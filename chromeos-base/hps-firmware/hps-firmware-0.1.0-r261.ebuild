@@ -132,7 +132,7 @@ src_configure() {
 		econf_build \
 			--prefix="${WORKDIR}/riscv-gnu-toolchain-installed" \
 			--with-host="${CBUILD}" \
-			--with-multilib-generator="rv32i-ilp32--" \
+			--with-multilib-generator="rv32im-ilp32--" \
 			--with-binutils-src="${WORKDIR}/riscv-binutils-gdb-f35674005e609660f5f45005a9e095541ca4c5fe" \
 			--with-gcc-src="${WORKDIR}/riscv-gcc-03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6" \
 			--with-newlib-src="${WORKDIR}/newlib-4.1.0" \
