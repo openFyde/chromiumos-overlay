@@ -54,27 +54,11 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}/rmad"
+	platform_install
 
 	dotmpfiles tmpfiles.d/*.conf
-
-	# Install upstart configs and scripts.
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Rmad.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.Rmad.service
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	newins "seccomp/rmad-seccomp-${ARCH}.policy" rmad-seccomp.policy
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/rmad_test"
+	platform test_all
 }
