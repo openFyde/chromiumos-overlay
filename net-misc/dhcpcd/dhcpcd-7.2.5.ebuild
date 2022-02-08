@@ -50,6 +50,7 @@ src_prepare()
 	epatch "${FILESDIR}"/patches/${P}-Correct-length-check-in-BPF-ARP-filter.patch
 	epatch "${FILESDIR}"/patches/${P}-More-robust-checks-for-packet-reception.patch
 	epatch "${FILESDIR}"/patches/${P}-Additional-ARP-packet-checks.patch
+	epatch "${FILESDIR}"/patches/${P}-Fix-handling-of-hostname-argument.patch
 }
 
 src_configure()
