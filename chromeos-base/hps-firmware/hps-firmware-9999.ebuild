@@ -197,7 +197,6 @@ src_test() {
 
 src_install() {
 	insinto "/usr/lib/firmware/hps"
-	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 	doins build/hps_platform/gateware/hps_platform_build.metadata
