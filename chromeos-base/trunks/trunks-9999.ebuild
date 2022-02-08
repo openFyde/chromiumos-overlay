@@ -102,6 +102,7 @@ src_install() {
 	# are used by unittest and fuzzer.
 	if use test || use fuzzer; then
 		dolib.a "${OUT}"/libtrunks_test.a
+		dolib.a "${OUT}"/libtrunksd_lib.a
 	fi
 
 	if use pinweaver_csme && use generic_tpm2; then
