@@ -31,7 +31,6 @@ IUSE="
 	ti50_onboard
 	tpm_dynamic
 	tpm2_simulator
-	vtpm_proxy
 "
 
 REQUIRED_USE="
@@ -46,10 +45,8 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/power_manager-client:=
 	ftdi_tpm? ( dev-embedded/libftdi:= )
-	tpm2_simulator? (
-		chromeos-base/tpm2:=
-		vtpm_proxy? ( chromeos-base/tpm2-simulator:= )
-	)
+	test? ( chromeos-base/tpm2:=[test] )
+	tpm2_simulator? ( chromeos-base/tpm2-simulator:= )
 	dev-libs/protobuf:=
 	fuzzer? (
 		dev-cpp/gtest:=
@@ -75,9 +72,7 @@ src_install() {
 	doins org.chromium.Trunks.conf
 
 	insinto /etc/init
-	if use tpm2_simulator && ! use vtpm_proxy; then
-		newins trunksd.conf.tpm2_simulator trunksd.conf
-	elif use cr50_onboard || use ti50_onboard; then
+	if use cr50_onboard || use ti50_onboard; then
 		newins trunksd.conf.cr50 trunksd.conf
 	else
 		doins trunksd.conf
