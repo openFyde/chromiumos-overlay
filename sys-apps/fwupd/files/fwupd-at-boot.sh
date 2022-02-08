@@ -26,33 +26,8 @@ main() {
   # Show boot alert.
   chromeos-boot-alert update_fwupd_firmware
 
-  local i
-  # Give it time for enumeration to detect devices.
-  for i in "${pending[@]}"; do
-    local seconds=0
-    local plugins
-    plugins="$(cat "${i}")"
-
-    local p
-    for p in ${plugins}; do
-      case "${p}" in
-      # USB Peripherals
-      "ccgx"|"synaptics_cxaudio"|"synaptics_mst"|"vli")
-        seconds=2
-        ;;
-      "emmc")
-        # Trigger mmc/block events to adjust ownership
-        udevadm trigger --action=add --settle --subsystem-match=mmc --subsystem-match=block
-        ;;
-      # USB4/TBT Retimer
-      "thunderbolt")
-        udevadm trigger --action=add --settle --subsystem-match=platform --subsystem-match=thunderbolt
-        sleep 20 # (crrev.com/c/2670719)
-        break 3 # Don't consider other cases as this is max wait time
-      esac
-    done
-    sleep "${seconds}"
-  done
+  # Make sure udev is ready
+  start udev-trigger
 
   for i in "${pending[@]}"; do
     # Trigger fwupdtool-update job, which blocks until the job completes.
