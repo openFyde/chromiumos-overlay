@@ -26,8 +26,8 @@ IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm_dynamic tpm2 tpm2_simulator uprev-4-to-5
-	user_session_isolation +vault_legacy_mount vtpm_proxy"
+	test tpm tpm_dynamic tpm2 uprev-4-to-5 user_session_isolation
+	+vault_legacy_mount"
 
 REQUIRED_USE="
 	device_mapper
@@ -132,9 +132,7 @@ src_install() {
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
-		if use tpm2_simulator && ! use vtpm_proxy; then
-			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
-		elif use tpm_dynamic; then
+		if use tpm_dynamic; then
 			newins init/lockbox-cache.conf.tpm_dynamic lockbox-cache.conf
 		else
 			doins init/lockbox-cache.conf
@@ -162,9 +160,7 @@ src_install() {
 		fi
 	fi
 	exeinto /usr/share/cros/init
-	if use tpm2_simulator && ! use vtpm_proxy; then
-		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
-	elif use tpm_dynamic; then
+	if use tpm_dynamic; then
 		newexe init/lockbox-cache.sh.tpm_dynamic lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
