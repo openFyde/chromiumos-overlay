@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="9610708ff22554840673f87331dc1d6e31eee252"
+CROS_WORKON_COMMIT="12f86a90d13ce834971190cc8e7843a1e4fc5866"
 CROS_WORKON_TREE="8030f6283c9b6d2bc013d99823b2202618871f8c"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -43,3 +43,10 @@ DEPEND="
 	chromeos-base/cros-config-api
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# CGO_ENABLED=0 will make the executable statically linked.
+	export CGO_ENABLED=0
+
+	default
+}
