@@ -4,13 +4,13 @@ DEPEND=>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0 >=dev-rust/bayer-0.1.5 
 DESCRIPTION=HPS firmware and tooling
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/hps-firmware
-IUSE=cros_host cros_workon_tree_d5bf4c977993ddbfd612006887b154965c7f2194 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_bea4955d1cc69781bb2bc9482942a21500d10994 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!<chromeos-base/hps-firmware-images-0.0.1-r7
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r258
+SLOT=0/0.1.0-r259
 SRC_URI=https://github.com/riscv-collab/riscv-gnu-toolchain/archive/refs/tags/2021.04.23.tar.gz -> riscv-gnu-toolchain-2021.04.23.tar.gz https://github.com/riscv-collab/riscv-binutils-gdb/archive/f35674005e609660f5f45005a9e095541ca4c5fe.tar.gz -> riscv-binutils-gdb-f35674005e609660f5f45005a9e095541ca4c5fe.tar.gz https://github.com/riscv-collab/riscv-gcc/archive/03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6.tar.gz -> riscv-gcc-03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6.tar.gz ftp://sourceware.org/pub/newlib/newlib-4.1.0.tar.gz
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6d98e6a8842851c3fa8c9e4c3867a2bb	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=13f9e0f57fdbfd47d1ff2b15dc24d634
+_md5_=8312376e16f02e5bca4d0ba74705f285
