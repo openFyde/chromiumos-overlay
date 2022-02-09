@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9008a68c3f05ac8915e7d582ae142cf7dbec45b2"
-CROS_WORKON_TREE=("2cf4c35678adb92c195b64eced57e539eaf07f08" "7a45043b590ed65443c95ba26f28b4bacabb1323" "0fe42c776d218392a636fb7810eaf289bf79ab47" "d2b226582d18266d446e1f16d3ce20df4900034d" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bef92b75255e22009c670266e3c817b82fd0fb0f"
+CROS_WORKON_TREE=("2cf4c35678adb92c195b64eced57e539eaf07f08" "e8dfc02112d47c803e57228a62836b549196f818" "0fe42c776d218392a636fb7810eaf289bf79ab47" "d2b226582d18266d446e1f16d3ce20df4900034d" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -61,7 +61,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/tpm_manager:=
-	>=dev-libs/flatbuffers-2.0.0:=
+	>=dev-libs/flatbuffers-2.0.0-r1:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	sys-apps/flashmap:=
