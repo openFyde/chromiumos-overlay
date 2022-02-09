@@ -3,7 +3,12 @@
 
 EAPI=6
 
-inherit cros-constants cmake-multilib git-2 cros-llvm toolchain-funcs
+CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
+CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
+CROS_WORKON_LOCALNAME="llvm-project"
+CROS_WORKON_MANUAL_UPREV=1
+
+inherit cros-constants cmake-multilib git-2 cros-llvm toolchain-funcs cros-workon
 
 DESCRIPTION="lldb-server, for the LLDB debugger"
 HOMEPAGE="https://github.com/llvm/llvm-project"
@@ -18,6 +23,9 @@ LLVM_NEXT_HASH="18308e171b5b1dd99627a4d88c7d6c5ff21b8c96" # r445002
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
+if [[ "${PV}" == "9999" ]]; then
+	KEYWORDS="~*"
+fi
 IUSE="cros_host llvm-next llvm-tot"
 RDEPEND=""
 
@@ -47,7 +55,10 @@ src_unpack() {
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
-	git-2_src_unpack
+	if [[ "${PV}" != "9999" ]]; then
+		CROS_WORKON_COMMIT="${EGIT_COMMIT}"
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {

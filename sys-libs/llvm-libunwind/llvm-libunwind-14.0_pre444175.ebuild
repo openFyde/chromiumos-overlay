@@ -3,7 +3,12 @@
 
 EAPI=6
 
-inherit cros-fuzzer cros-sanitizers cros-constants cmake-multilib cmake-utils git-2 cros-llvm
+CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
+CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
+CROS_WORKON_LOCALNAME="llvm-project"
+CROS_WORKON_MANUAL_UPREV=1
+
+inherit cros-fuzzer cros-sanitizers cros-constants cmake-multilib cmake-utils git-2 cros-llvm cros-workon
 
 DESCRIPTION="C++ runtime stack unwinder from LLVM"
 HOMEPAGE="https://github.com/llvm-mirror/libunwind"
@@ -18,6 +23,9 @@ LLVM_NEXT_HASH="18308e171b5b1dd99627a4d88c7d6c5ff21b8c96" # r445002
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
+if [[ "${PV}" == "9999" ]]; then
+	KEYWORDS="~*"
+fi
 IUSE="cros_host debug llvm-next llvm-tot +static-libs +shared-libs +synth_libgcc +compiler-rt"
 RDEPEND="!${CATEGORY}/libunwind"
 
@@ -36,7 +44,10 @@ src_unpack() {
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
-	git-2_src_unpack
+	if [[ "${PV}" != "9999" ]]; then
+		CROS_WORKON_COMMIT="${EGIT_COMMIT}"
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {
@@ -136,6 +147,8 @@ multilib_src_install() {
 	fi
 
 	echo "Creating ${out_file} using libunwind.a + compiler-rt".
+	# Ignore split word warnings, we need them for flags.
+	# shellcheck disable=SC2086
 	$(tc-getCC) -o "${my_installdir}"/"${out_file}"                                 \
 		${CFLAGS}                                                                   \
 		${LDFLAGS}                                                                  \
@@ -163,6 +176,6 @@ multilib_src_install() {
 		ln -s libgcc_s.so.1 "${my_installdir}"/libunwind.so.1.0 || die
 		ln -s libgcc_s.so.1 "${my_installdir}"/libgcc_s.so || die
 		ln -s libunwind.a "${my_installdir}"/libgcc_eh.a || die
-		cp ${COMPILER_RT_BUILTINS} "${my_installdir}"/libgcc.a || die
+		cp "${COMPILER_RT_BUILTINS}" "${my_installdir}"/libgcc.a || die
 	fi
 }

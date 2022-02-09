@@ -3,10 +3,15 @@
 
 EAPI=6
 
-: ${CMAKE_MAKEFILE_GENERATOR:=ninja}
+: "${CMAKE_MAKEFILE_GENERATOR:=ninja}"
 PYTHON_COMPAT=( python3_6 )
 
-inherit cmake-multilib cros-constants cros-llvm flag-o-matic git-2 llvm python-any-r1
+CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
+CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
+CROS_WORKON_LOCALNAME="llvm-project"
+CROS_WORKON_MANUAL_UPREV=1
+
+inherit cmake-multilib cros-constants cros-llvm flag-o-matic git-2 llvm python-any-r1 cros-workon
 
 DESCRIPTION="Low level support for a standard C++ library"
 HOMEPAGE="http://libcxxabi.llvm.org/"
@@ -22,6 +27,9 @@ LLVM_NEXT_HASH="18308e171b5b1dd99627a4d88c7d6c5ff21b8c96" # r445002
 LICENSE="|| ( UoI-NCSA MIT )"
 SLOT="0"
 KEYWORDS="*"
+if [[ "${PV}" == "9999" ]]; then
+	KEYWORDS="~*"
+fi
 IUSE="+compiler-rt cros_host +libunwind msan llvm-next llvm-tot +static-libs"
 
 RDEPEND="
@@ -52,7 +60,10 @@ src_unpack() {
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
-	git-2_src_unpack
+	if [[ "${PV}" != "9999" ]]; then
+		CROS_WORKON_COMMIT="${EGIT_COMMIT}"
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {
@@ -149,4 +160,3 @@ multilib_src_install_all() {
 	insinto "${PREFIX}"/include/libcxxabi
 	doins -r "${S}"/libcxxabi/include/.
 }
-

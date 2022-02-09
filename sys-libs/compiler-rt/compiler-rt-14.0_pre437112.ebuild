@@ -4,7 +4,12 @@
 
 EAPI=6
 
-inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm
+CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
+CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
+CROS_WORKON_LOCALNAME="llvm-project"
+CROS_WORKON_MANUAL_UPREV=1
+
+inherit eutils toolchain-funcs cros-constants cmake-utils git-2 cros-llvm cros-workon
 
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
@@ -19,6 +24,9 @@ HOMEPAGE="http://compiler-rt.llvm.org/"
 LICENSE="UoI-NCSA"
 SLOT="0"
 KEYWORDS="*"
+if [[ "${PV}" == "9999" ]]; then
+	KEYWORDS="~*"
+fi
 IUSE="+llvm-crt llvm-next llvm-tot"
 DEPEND="sys-devel/llvm"
 if [[ ${CATEGORY} == cross-* ]] ; then
@@ -38,7 +46,10 @@ src_unpack() {
 	else
 		export EGIT_COMMIT="${LLVM_HASH}"
 	fi
-	git-2_src_unpack
+	if [[ "${PV}" != "9999" ]]; then
+		CROS_WORKON_COMMIT="${EGIT_COMMIT}"
+	fi
+	cros-workon_src_unpack
 }
 
 src_prepare() {
