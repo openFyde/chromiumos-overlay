@@ -99,6 +99,7 @@ IUSE_LINUX_FIRMWARE=(
 	ibt_ax201
 	ibt_ax211
 	ibt-hw
+	ice
 	ipu3_fw
 	keyspan_usb
 	marvell-mwlwifi
@@ -188,6 +189,7 @@ LICENSE="
 	linux_firmware_ibt_ax201? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax211? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt-hw? ( LICENCE.ibt_firmware )
+	linux_firmware_ice? ( LICENSE.ice )
 	linux_firmware_keyspan_usb? ( LICENSE.keyspan_usb )
 	linux_firmware_marvell-mwlwifi? ( LICENCE.Marvell )
 	linux_firmware_marvell-pcie8897? ( LICENCE.NXP )
@@ -379,6 +381,7 @@ src_install() {
 	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
 	use_fw ibt_ax211 && doins_subdir intel/ibt-0040-0041.*
 	use_fw ibt-hw && doins_subdir intel/ibt-hw-*.bseq
+	use_fw ice && doins_subdir intel/ice/ddp/*
 	use_fw keyspan_usb && doins_subdir keyspan/*
 	use_fw marvell-mwlwifi && doins_subdir mwlwifi/*.bin
 	use_fw marvell-pcie8897 && doins_subdir mrvl/pcie8897_uapsta.bin
