@@ -26,16 +26,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	# D-Bus configuration.
-	insinto /etc/dbus-1/system.d
-	doins dbus_bindings/org.chromium.Spaced.conf
-
-	dolib.so "${OUT}"/lib/libspaced.so
-	dosbin "${OUT}"/spaced
-	dosbin "${OUT}"/spaced_cli
-
-	insinto /etc/init
-	doins init/spaced.conf
+	platform_install
 
 	if use seccomp; then
 		local policy="seccomp/spaced-seccomp-${ARCH}.policy"
@@ -46,11 +37,8 @@ src_install() {
 			--default-action trap "${policy}" "${policy_out}" \
 			|| die "failed to compile seccomp policy ${policy}"
 	fi
-
-	insinto "/usr/include/spaced"
-	doins ./*.h
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}"/libspaced_unittests
+	platform test_all
 }
