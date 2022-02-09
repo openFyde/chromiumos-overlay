@@ -1194,6 +1194,7 @@ CONFIG_DEBUG_KOBJECT_RELEASE=y
 FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu
 	builtin_fw_amdgpu_carrizo
+	builtin_fw_amdgpu_gc_10_3_7
 	builtin_fw_amdgpu_green_sardine
 	builtin_fw_amdgpu_picasso
 	builtin_fw_amdgpu_raven2
@@ -1243,6 +1244,22 @@ builtin_fw_amdgpu_carrizo_files=(
 	amdgpu/carrizo_sdma1.bin
 	amdgpu/carrizo_uvd.bin
 	amdgpu/carrizo_vce.bin
+)
+
+builtin_fw_amdgpu_gc_10_3_7_desc="Firmware for AMD GC 10.3.7"
+builtin_fw_amdgpu_gc_10_3_7_files=(
+	amdgpu/dcn_3_1_6_dmcub.bin
+	amdgpu/gc_10_3_7_ce.bin
+	amdgpu/gc_10_3_7_me.bin
+	amdgpu/gc_10_3_7_mec2.bin
+	amdgpu/gc_10_3_7_mec.bin
+	amdgpu/gc_10_3_7_pfp.bin
+	amdgpu/gc_10_3_7_rlc.bin
+	amdgpu/psp_13_0_8_asd.bin
+	amdgpu/psp_13_0_8_ta.bin
+	amdgpu/psp_13_0_8_toc.bin
+	amdgpu/sdma_5_2_7.bin
+	amdgpu/yellow_carp_vcn.bin
 )
 
 builtin_fw_amdgpu_green_sardine_desc="Firmware for AMD Green Sardine"

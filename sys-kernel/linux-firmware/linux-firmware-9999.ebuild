@@ -75,6 +75,7 @@ IUSE_LINUX_FIRMWARE=(
 	ath11k_wcn6855
 	amd_ucode
 	amdgpu_carrizo
+	amdgpu_gc_10_3_7
 	amdgpu_green_sardine
 	amdgpu_picasso
 	amdgpu_raven2
@@ -157,6 +158,7 @@ LICENSE="
 	linux_firmware_adsp_skl? ( LICENCE.adsp_sst )
 	linux_firmware_amd_ucode? ( LICENSE.amd-ucode )
 	linux_firmware_amdgpu_carrizo? ( LICENSE.amdgpu )
+	linux_firmware_amdgpu_gc_10_3_7? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_green_sardine? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_picasso? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_raven2? ( LICENSE.amdgpu )
@@ -425,6 +427,15 @@ src_install() {
 
 	if use_fw amdgpu_carrizo; then
 		doins_subdir amdgpu/carrizo*
+		ignore_legacy_amdgpu=1
+	fi
+
+	if use_fw amdgpu_gc_10_3_7; then
+		doins_subdir amdgpu/dcn_3_1_6*
+		doins_subdir amdgpu/gc_10_3_7_*
+		doins_subdir amdgpu/psp_13_0_8_*
+		doins_subdir amdgpu/sdma_5_2_7*
+		doins_subdir amdgpu/yellow_carp_vcn.bin
 		ignore_legacy_amdgpu=1
 	fi
 
