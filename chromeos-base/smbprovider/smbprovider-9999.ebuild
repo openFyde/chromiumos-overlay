@@ -46,19 +46,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dosbin "${OUT}"/smbproviderd
-
-	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.SmbProvider.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.SmbProvider.service
-
-	insinto /etc/init
-	doins etc/init/smbproviderd.conf
-
-	insinto /usr/share/policy
-	newins seccomp_filters/smbprovider-seccomp-"${ARCH}".policy smbprovider-seccomp.policy
+	platform_install
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer
@@ -70,11 +58,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		smbprovider_test
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
