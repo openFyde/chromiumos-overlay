@@ -24,6 +24,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
 	"${FILESDIR}"/${PN}-20.4.1_custom_cflags.patch
 	"${FILESDIR}"/0001-Fix-Overlapping-Comparision-66.patch
+	"${FILESDIR}"/0002-BACKPORT-Adding-support-for-ADL-N-85.patch
 )
 
 multilib_src_configure() {
