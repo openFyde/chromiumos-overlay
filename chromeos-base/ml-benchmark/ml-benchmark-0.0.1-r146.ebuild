@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="9b6058925e9e33ed247dd1dc16fd50c22ef44c14"
-CROS_WORKON_TREE=("2cf4c35678adb92c195b64eced57e539eaf07f08" "20d593bc4f76d08b642ac2d57ed2f4f9af04ce50" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="32a82a3dcfb375ee82183bfcb101860086b8a8ef"
+CROS_WORKON_TREE=("2cf4c35678adb92c195b64eced57e539eaf07f08" "2d83d86ccfaa3dbd848977c4eb594efe75f3c668" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -29,10 +29,9 @@ KEYWORDS="*"
 IUSE=""
 
 src_install() {
-	dobin "${OUT}"/ml_benchmark
-	dolib.so "${OUT}"/lib/libmlbenchmark_proto.so
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/ml_benchmark_test"
+	platform test_all
 }

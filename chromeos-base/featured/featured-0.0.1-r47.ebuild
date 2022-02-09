@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e92727bf39e3da0b90088f041d1f0521a4492ce9"
+CROS_WORKON_COMMIT="32a82a3dcfb375ee82183bfcb101860086b8a8ef"
 CROS_WORKON_TREE=("2cf4c35678adb92c195b64eced57e539eaf07f08" "e6d3266e1144e97a3914f1e4116368b08b29b4c6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -35,6 +35,11 @@ src_install() {
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	doins "${OUT}/lib/libfeatures.pc"
 	doins "${OUT}/lib/libfeatures_c.pc"
+
+	insinto "/usr/include/featured"
+	doins feature_export.h
+	doins c_feature_library.h
+	doins feature_library.h
 
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
