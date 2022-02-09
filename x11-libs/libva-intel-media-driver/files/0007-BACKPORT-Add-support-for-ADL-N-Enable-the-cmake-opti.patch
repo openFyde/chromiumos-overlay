@@ -1,0 +1,36 @@
+From 8186776c984c55f4c37ea3aec61f3715d38cc6af Mon Sep 17 00:00:00 2001
+From: Sudarshan S <sudarshan.s@intel.com>
+Date: Wed, 19 Jan 2022 16:06:10 +0530
+Subject: [PATCH 2/2] BACKPORT: Add support for ADL-N: Enable the cmake options
+
+---
+ media_driver/cmake/linux/media_gen_flags_linux.cmake | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/media_driver/cmake/linux/media_gen_flags_linux.cmake b/media_driver/cmake/linux/media_gen_flags_linux.cmake
+index d0ae90202ce8..92834578cdf1 100644
+--- a/media_driver/cmake/linux/media_gen_flags_linux.cmake
++++ b/media_driver/cmake/linux/media_gen_flags_linux.cmake
+@@ -81,6 +81,10 @@ cmake_dependent_option(GEN12_ADLP
+     "Enabled ADLP support (Gen12)" ON
+     "GEN12_TGLLP" OFF)
+ 
++cmake_dependent_option(GEN12_ADLN
++    "Enabled ADLN support (Gen12)" ON
++    "GEN12_TGLLP" OFF)
++
+ if(GEN8)
+     add_definitions(-DIGFX_GEN8_SUPPORTED)
+ endif()
+@@ -168,4 +172,8 @@ if(GEN12_ADLP)
+     add_definitions(-DIGFX_GEN12_ADLP_SUPPORTED)
+ endif()
+ 
++if(GEN12_ADLN)
++    add_definitions(-DIGFX_GEN12_ADLN_SUPPORTED)
++endif()
++
+ include(${MEDIA_EXT_CMAKE}/ext/linux/media_gen_flags_linux_ext.cmake OPTIONAL)
+-- 
+2.17.1
+
