@@ -16,6 +16,7 @@ KEYWORDS="~*"
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
 	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha:=
+	=dev-rust/bindgen-0.59*
 	>=dev-rust/bitflags-1.3.2:= <dev-rust/bitflags-2.0.0
 	=dev-rust/clap-3*:=
 	=dev-rust/colored-2*:=
@@ -35,6 +36,8 @@ DEPEND="
 	=dev-rust/nb-1*:=
 	=dev-rust/panic-halt-0.2*:=
 	=dev-rust/panic-reset-0.1*:=
+	=dev-rust/riscv-0.7*:=
+	=dev-rust/riscv-rt-0.8*:=
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
 	=dev-rust/rustyline-9*:=
 	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
@@ -65,7 +68,7 @@ src_prepare() {
 	# ChromeOS, uses dependencies for which we don't yet have ebuilds. We don't
 	# currently delete rust/mcu/Cargo.toml, since it includes the optimization
 	# settings used for stage0 and stage1_app.
-	rm rust/Cargo.toml rust/riscv/Cargo.toml
+	rm rust/Cargo.toml
 
 	# Delete some optional dependencies that are not packaged in Chromium OS.
 	sed -i \

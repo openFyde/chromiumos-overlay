@@ -21,6 +21,7 @@ SRC_URI="
 "
 
 BDEPEND="
+	dev-embedded/hps-sdk
 	dev-rust/svd2rust
 	sci-electronics/litespi
 	sci-electronics/litex
@@ -34,6 +35,7 @@ BDEPEND="
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
 	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha:=
+	=dev-rust/bindgen-0.59*
 	>=dev-rust/bitflags-1.3.2:= <dev-rust/bitflags-2.0.0
 	=dev-rust/clap-3*:=
 	=dev-rust/colored-2*:=
@@ -53,6 +55,8 @@ DEPEND="
 	=dev-rust/nb-1*:=
 	=dev-rust/panic-halt-0.2*:=
 	=dev-rust/panic-reset-0.1*:=
+	=dev-rust/riscv-0.7*:=
+	=dev-rust/riscv-rt-0.8*:=
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
 	=dev-rust/rustyline-9*:=
 	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
@@ -62,12 +66,13 @@ DEPEND="
 	=dev-rust/ufmt-write-0.1*:=
 	>=dev-rust/panic-rtt-target-0.1.2:= <dev-rust/panic-rtt-target-0.2.0
 	>=dev-rust/rtt-target-0.3.1:= <dev-rust/rtt-target-0.4.0
-	chromeos-base/hps-firmware-images:=
 "
 
-# /usr/lib/firmware/hps/fpga_bitstream.bin moved from hps-firmware-images to here
+# /usr/lib/firmware/hps/fpga_bitstream.bin and
+# /usr/lib/firmware/hps/fpga_application.bin
+# moved from hps-firmware-images to here
 RDEPEND="
-	!<chromeos-base/hps-firmware-images-0.0.1-r7
+	!<chromeos-base/hps-firmware-images-0.0.1-r17
 "
 
 src_unpack() {
@@ -84,7 +89,7 @@ src_prepare() {
 	# ChromeOS, uses dependencies for which we don't yet have ebuilds. We don't
 	# currently delete rust/mcu/Cargo.toml, since it includes the optimization
 	# settings used for stage0 and stage1_app.
-	rm rust/Cargo.toml rust/riscv/Cargo.toml
+	rm rust/Cargo.toml
 
 	# Delete some optional dependencies that are not packaged in Chromium OS.
 	sed -i \
@@ -96,6 +101,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use Rust from hps-sdk, since the main Chrome OS Rust compiler
+	# does not yet support RISC-V.
+	export PATH="/opt/hps-sdk/bin:${PATH}"
+
 	# CROS_BASE_RUSTFLAGS are for the AP, they are not applicable to
 	# HPS firmware, which is cross-compiled for STM32
 	unset CROS_BASE_RUSTFLAGS
@@ -150,22 +159,28 @@ src_compile() {
 	)
 	export PATH="${PATH}:${WORKDIR}/riscv-gnu-toolchain-installed/bin"
 
-	# Build FPGA application
-	# TODO(b/201365430): this is not the whole application yet
-	einfo "Building FPGA application"
-	gn gen build || die
-	ninja -C build riscv-gcc/libtflite-micro.a || die
-
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
 	PYTHONPATH="third_party/python/CFU-Playground" \
 		python -m soc.hps_soc --build --no-compile-software || die
 
+	# Build FPGA application
+	einfo "Building FPGA application"
+	(
+		cd rust/riscv/fpga_rom || die
+		ecargo build --release
+	)
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
+	llvm-objcopy -O binary \
+		"${CARGO_TARGET_DIR}/riscv32i-unknown-none-elf/release/fpga_rom" \
+		"${S}/build/hps_platform/fpga_rom.bin" || die
+
 	# Build signing tool for the build host, so that we can use it below
 	(
 		cd rust/sign-rom || die
 		einfo "Building sign-rom for build host"
-		ecargo build --target="${CBUILD}" --release
+		# TODO(b/218953559): this should be --target=$CBUILD, fix hps-sdk
+		ecargo build --target=x86_64-unknown-linux-gnu --release
 	)
 
 	# Build MCU firmware
@@ -173,7 +188,7 @@ src_compile() {
 		einfo "Building MCU firmware ${crate}"
 		cd rust/mcu/${crate} || die
 		HPS_SPI_BIT="${S}/build/hps_platform/gateware/hps_platform.bit" \
-			HPS_SPI_BIN="${SYSROOT}/firmware/hps/fpga_application.bin" \
+			HPS_SPI_BIN="${S}/build/hps_platform/fpga_rom.bin" \
 			ecargo build \
 			--target="thumbv6m-none-eabi" \
 			--release
@@ -186,7 +201,7 @@ src_compile() {
 
 	# Sign MCU stage1 firmware with dev key
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
-	"${CARGO_TARGET_DIR}/${CBUILD}/release/sign-rom" \
+	"${CARGO_TARGET_DIR}/x86_64-unknown-linux-gnu/release/sign-rom" \
 		--input "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
 		--output "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" \
 		--use-insecure-dev-key \
@@ -203,6 +218,7 @@ src_install() {
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
+	newins build/hps_platform/fpga_rom.bin fpga_application.bin
 	doins build/hps_platform/gateware/hps_platform_build.metadata
 
 	# install into /firmware as part of signing process
@@ -210,4 +226,5 @@ src_install() {
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
+	newins build/hps_platform/fpga_rom.bin fpga_application.bin
 }
