@@ -7,8 +7,14 @@ samba_mask="
   /usr/sbin
   /usr/bin/cifsdd
   /usr/bin/dbwrap_tool
+  /usr/bin/dumpmscat
   /usr/bin/eventlogadm
   /usr/bin/findsmb
+  /usr/bin/gentest
+  /usr/bin/locktest
+  /usr/bin/masktest
+  /usr/bin/mdsearch
+  /usr/bin/mvxattr
   /usr/bin/ndrdump
   /usr/bin/nmblookup
   /usr/bin/ntlm_auth
@@ -21,6 +27,7 @@ samba_mask="
   /usr/bin/regshell
   /usr/bin/regtree
   /usr/bin/rpcclient
+  /usr/bin/samba-tool
   /usr/bin/samba-regedit
   /usr/bin/sharesec
   /usr/bin/smbcacls
@@ -37,6 +44,7 @@ samba_mask="
   /usr/lib*/samba/idmap
   /usr/lib*/samba/libidmap-samba4.so
   /usr/lib*/samba/nss_info
+  /usr/lib*/samba/vfs/*
   /usr/lib/tmpfiles.d/samba.conf
   /usr/libexec/cups/backend/smb
 "
