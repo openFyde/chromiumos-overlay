@@ -14,18 +14,8 @@ HOMEPAGE="https://linuxcontainers.org/lxd/introduction/ https://github.com/lxc/l
 CROS_GO_PACKAGES=(
 )
 
-CROS_GO_WORKSPACE="${S}/_dist"
+CROS_GO_WORKSPACE="${S}/go"
 EGO_PN="github.com/lxc/lxd"
-BIN_PATH="/opt/google/lxd-next/usr/bin"
-CROS_GO_BINARIES=(
-	"${EGO_PN}/lxd:${BIN_PATH}/lxd"
-	"${EGO_PN}/fuidshift:${BIN_PATH}/fuidshift"
-	"${EGO_PN}/lxd-agent:${BIN_PATH}/lxd-agent"
-	"${EGO_PN}/lxd-benchmark:${BIN_PATH}/lxd-benchmark"
-	"${EGO_PN}/lxd-p2c:${BIN_PATH}/lxd-p2c"
-	"${EGO_PN}/lxc:${BIN_PATH}/lxc"
-	"${EGO_PN}/lxc-to-lxd:${BIN_PATH}/lxc-to-lxd"
-)
 
 # Needs to include licenses for all bundled programs and libraries.
 LICENSE="Apache-2.0 BSD BSD-2 LGPL-3 MIT MPL-2.0"
@@ -121,10 +111,12 @@ src_compile() {
 	export CGO_LDFLAGS="${CGO_LDFLAGS} -L${install_root}/$(get_libdir)"
 	export GO111MODULE=on
 
-	cros-go_src_compile
+	for bin in lxd lxc fuidshift lxd-agent lxd-benchmark lxd-p2c lxc-to-lxd; do
+		cros_go install -v "${EGO_PN}/${bin}" || die "Failed to build ${bin}"
+	done
 
 	if use nls; then
-		cd "${S}/_dist/src/${EGO_PN}" || die
+		cd "${S}" || die
 		emake -f "${S}/Makefile" build-mo
 	fi
 }
@@ -152,6 +144,9 @@ src_install() {
 
 	cd "${DEPS}/dqlite" || die
 	emake DESTDIR="${D}/opt/google/lxd-next" install
+
+	exeinto "/opt/google/lxd-next/usr/bin"
+	doexe "${CROS_GO_WORKSPACE}"/bin/*
 
 	cd "${S}" || die
 	newbashcomp "${S}/scripts/bash/lxd-client" lxc
