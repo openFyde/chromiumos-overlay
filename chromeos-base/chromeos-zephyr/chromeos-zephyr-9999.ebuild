@@ -63,19 +63,11 @@ run_zmake() {
 src_configure() {
 	tc-export CC
 
-	local board project project_dir
+	local board project
 
 	while read -r board && read -r project; do
 		if [[ -z "${project}" ]]; then
 			continue
-		fi
-
-		# TODO(jrosenth): remove below once all configs using project
-		# name instead of path.
-		project_dir="${S}/modules/ec/zephyr/${project}"
-		if [[ -d "${project_dir}" ]]; then
-			ewarn "Config zephyr-ec=${project} needs migrated to project name"
-			project="${project_dir}"
 		fi
 
 		local build_dir="build-${board}"
