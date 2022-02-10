@@ -29,8 +29,8 @@ IUSE="
 	+afdo_use
 	afdo_verify
 	+accessibility
-	amd_oemcrypto
 	app_shell
+	arc_hw_oemcrypto
 	asan
 	+authpolicy
 	+build_tests
@@ -257,7 +257,7 @@ set_build_args() {
 		"is_debug=false"
 		"${EXTRA_GN_ARGS}"
 		"enable_pseudolocales=$(usetf cros-debug)"
-		"use_arc_protected_media=$(usetf amd_oemcrypto)"
+		"use_arc_protected_media=$(usetf arc_hw_oemcrypto)"
 		"use_chromeos_protected_av1=$(usetf intel_oemcrypto)"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
 		"use_iioservice=$(usetf iioservice)"
