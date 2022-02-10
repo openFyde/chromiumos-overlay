@@ -21,5 +21,5 @@ KEYWORDS="~*"
 IUSE=""
 
 src_install() {
-	dobin "${OUT}"/st_flash
+	platform_install
 }
