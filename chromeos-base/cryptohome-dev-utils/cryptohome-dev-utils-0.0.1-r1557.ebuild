@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="93ae5b9f3bd19d6467242b4911f5a0abf0e764b3"
-CROS_WORKON_TREE=("2f8a3fd5e0af952f605c8e7b8afa1ecedad683fa" "0fbe97f121b7f1686b056e0cc4873c75397ada1d" "0fe42c776d218392a636fb7810eaf289bf79ab47" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1c7f95802c665953561c4ad97448fcce95df3469"
+CROS_WORKON_TREE=("2f8a3fd5e0af952f605c8e7b8afa1ecedad683fa" "f86d115b32643e49f21f2ee4256cb88873f1c8b7" "0fe42c776d218392a636fb7810eaf289bf79ab47" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -61,6 +61,5 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/cryptohome-test-tool
-	dosbin "${OUT}"/cryptohome-tpm-live-test
+	platform_install
 }
