@@ -50,6 +50,7 @@ DEPEND="
 	=dev-rust/embedded-hal-mock-0.8*:=
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
+	>=dev-rust/indicatif-0.16.2:= <dev-rust/indicatif-0.17
 	>=dev-rust/linux-embedded-hal-0.3.1:= <dev-rust/linux-embedded-hal-0.4
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*:=
@@ -60,6 +61,7 @@ DEPEND="
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
 	=dev-rust/rustyline-9*:=
 	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
+	>=dev-rust/simple_logger-1.13.0:= <dev-rust/simple_logger-2
 	>=dev-rust/spi-memory-0.2.0:= <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*:=
 	=dev-rust/ufmt-0.1*:=
@@ -83,13 +85,6 @@ src_unpack() {
 src_prepare() {
 	# Not using cros-rust_src_prepare because it wrongly assumes Cargo.toml is
 	# in the root of ${S} and we don't need its manipulations anyway.
-
-	# Delete the top-level workspace Cargo.toml. This avoids build breakages if
-	# that workspace, which includes various development tools not built in
-	# ChromeOS, uses dependencies for which we don't yet have ebuilds. We don't
-	# currently delete rust/mcu/Cargo.toml, since it includes the optimization
-	# settings used for stage0 and stage1_app.
-	rm rust/Cargo.toml
 
 	# Delete some optional dependencies that are not packaged in Chromium OS.
 	sed -i \
