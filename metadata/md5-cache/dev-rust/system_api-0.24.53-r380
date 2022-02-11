@@ -4,12 +4,12 @@ DEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= >=dev-rust/protob
 DESCRIPTION=Chrome OS system API D-Bus bindings for Rust.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system_api/
-IUSE=cros_host cros_workon_tree_694e293be399eb4be02ff2540daa84cb552cb29d_a0d8550678a1ed2a4ab62782049032a024bf40df_b4f216525f44716ad01f39b0d8fe4a59e448992b_e1b5a03bdb350d1f65e14e63f144f5a9d5fc552b_e54be0f555fddae41c01fbbcabed7ed7973d78f3_0fb497918a556fc7f79f1d7e5cede1d85be01409 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_b9e3997804783b3f8466e8c9acfd9a0b2472694a_a0d8550678a1ed2a4ab62782049032a024bf40df_b4f216525f44716ad01f39b0d8fe4a59e448992b_e1b5a03bdb350d1f65e14e63f144f5a9d5fc552b_e54be0f555fddae41c01fbbcabed7ed7973d78f3_0fb497918a556fc7f79f1d7e5cede1d85be01409 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= >=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3 >=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3 !chromeos-base/system_api-rust
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.24.53-r379
+SLOT=0/0.24.53-r380
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6d98e6a8842851c3fa8c9e4c3867a2bb	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=13defd9c390fc1178df65700c6202e05
+_md5_=fd5942681102148022d417c9d6108f39
