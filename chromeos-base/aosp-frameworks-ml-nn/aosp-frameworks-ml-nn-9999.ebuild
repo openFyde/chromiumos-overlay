@@ -35,6 +35,7 @@ CROS_WORKON_SUBTREE=(
 	""
 	""
 )
+CROS_WORKON_INCREMENTAL_BUILD=1
 
 PLATFORM_SUBDIR="aosp/frameworks/ml"
 
@@ -196,6 +197,8 @@ src_compile() {
 }
 
 src_install() {
+	platform_src_install
+
 	einfo "Installing runtime & common Headers."
 	insinto /usr/include/aosp/frameworks/ml/nn/common
 	doins -r "${S}"/common/include

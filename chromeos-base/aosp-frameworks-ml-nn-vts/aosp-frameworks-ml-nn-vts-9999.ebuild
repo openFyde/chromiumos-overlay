@@ -35,6 +35,7 @@ CROS_WORKON_SUBTREE=(
 	""
 	""
 )
+CROS_WORKON_INCREMENTAL_BUILD=1
 
 PLATFORM_SUBDIR="aosp/frameworks/ml/chromeos/tests"
 
@@ -64,6 +65,8 @@ src_configure() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/cros_nnapi_vts_1_0"
 	dobin "${OUT}/cros_nnapi_vts_1_1"
 	dobin "${OUT}/cros_nnapi_vts_1_2"
