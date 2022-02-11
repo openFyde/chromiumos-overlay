@@ -189,14 +189,14 @@ src_install() {
 	# Disable encrypted reboot vault if it is not used.
 	if ! use encrypted_reboot_vault; then
 		sed -i '/USE_ENCRYPTED_REBOOT_VAULT=/s:=1:=0:' \
-			"${D}/sbin/chromeos_startup" ||
+			"${D}/sbin/chromeos_startup.sh" ||
 			die "Failed to replace USE_ENCRYPTED_REBOOT_VAULT in chromeos_startup"
 	fi
 
 	# Enable lvm stateful partition.
 	if use lvm_stateful_partition; then
 		sed -i '/USE_LVM_STATEFUL_PARTITION=/s:=0:=1:' \
-			"${D}/sbin/chromeos_startup" ||
+			"${D}/sbin/chromeos_startup.sh" ||
 			die "Failed to replace USE_LVM_STATEFUL_PARTITION in chromeos_startup"
 	fi
 
