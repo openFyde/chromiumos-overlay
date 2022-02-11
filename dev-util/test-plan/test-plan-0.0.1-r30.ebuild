@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="618901efed11f1c54c55e7413d46bbc2f6c48d76"
-CROS_WORKON_TREE="ab470340f3f017816ff9d72a15646651315ea6cc"
+CROS_WORKON_COMMIT="7f50d12fe70af3bc0a77bcbf1a20ff3432ca9786"
+CROS_WORKON_TREE="bfeb1437eeaad32aae038bffe1ba9267da0fc865"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
 CROS_WORKON_SUBTREE="src/chromiumos/test/plan"
@@ -34,6 +34,7 @@ CROS_GO_VERSION="${PF}"
 DEPEND="
 	chromeos-base/cros-config-api
 	dev-go/glog
+	dev-go/infra-proto
 	dev-go/luci-go-common
 	dev-go/maruel-subcommands
 	dev-go/protobuf
