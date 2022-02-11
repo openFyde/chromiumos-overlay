@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="07c65ddc3d0f3a2d0d1e267604dd6a707ca57d3e"
+CROS_WORKON_COMMIT="53ec8c0ce6ba079fc34ff5b630cbed14b941551b"
 CROS_WORKON_TREE=("2f8a3fd5e0af952f605c8e7b8afa1ecedad683fa" "6b905a4c0dfe4b4184e9962fce28ff0d66161e67" "7bd2393837bc4162899abba0a3c6977b462df042" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -191,14 +191,14 @@ src_install() {
 	# Disable encrypted reboot vault if it is not used.
 	if ! use encrypted_reboot_vault; then
 		sed -i '/USE_ENCRYPTED_REBOOT_VAULT=/s:=1:=0:' \
-			"${D}/sbin/chromeos_startup" ||
+			"${D}/sbin/chromeos_startup.sh" ||
 			die "Failed to replace USE_ENCRYPTED_REBOOT_VAULT in chromeos_startup"
 	fi
 
 	# Enable lvm stateful partition.
 	if use lvm_stateful_partition; then
 		sed -i '/USE_LVM_STATEFUL_PARTITION=/s:=0:=1:' \
-			"${D}/sbin/chromeos_startup" ||
+			"${D}/sbin/chromeos_startup.sh" ||
 			die "Failed to replace USE_LVM_STATEFUL_PARTITION in chromeos_startup"
 	fi
 
