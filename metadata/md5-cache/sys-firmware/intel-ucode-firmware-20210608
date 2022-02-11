@@ -1,0 +1,10 @@
+DEFINED_PHASES=install
+DESCRIPTION=Intel processor microcode updates
+EAPI=7
+HOMEPAGE=https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files
+KEYWORDS=-* amd64
+LICENSE=intel-ucode
+RDEPEND=!sys-firmware/intel-microcode
+SLOT=0/20210608
+SRC_URI=https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/microcode-20210608.tar.gz
+_md5_=05bda08591562fbb80c2d343bce5cb88
