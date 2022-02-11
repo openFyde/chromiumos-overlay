@@ -84,6 +84,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.19.6-fix-pixel-color-overflow.patch"
 	"${FILESDIR}/${PN}-3.21.8-disable-python.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-unpack-bits.patch"
+	"${FILESDIR}/${PN}-3.21.8-fix-uninitialized-variable-printerbuffer.patch"
 )
 
 CONFIG_CHECK="~PARPORT ~PPDEV"
