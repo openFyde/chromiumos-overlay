@@ -49,6 +49,7 @@ IUSE="
 	debug_fission
 	+dwarf5
 	+fonts
+	hibernate
 	hw_details
 	goma
 	goma_thinlto
@@ -185,6 +186,7 @@ RDEPEND="${RDEPEND}
 	)
 	oobe_config? ( chromeos-base/oobe_config )
 	iioservice? ( chromeos-base/iioservice )
+	hibernate? ( chromeos-base/hiberman )
 	"
 
 DEPEND="${DEPEND}
@@ -265,6 +267,7 @@ set_build_args() {
 		"use_xkbcommon=$(usetf xkbcommon)"
 		"enable_remoting=$(usetf chrome_remoting)"
 		"enable_nacl=$(use_nacl; echotf)"
+		"enable_hibernate=$(usetf hibernate)"
 		# use_system_minigbm is set below.
 
 		"is_cfm=$(usetf cfm)"
