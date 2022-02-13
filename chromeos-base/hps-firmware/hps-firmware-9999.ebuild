@@ -109,6 +109,7 @@ src_configure() {
 	# TODO(dcallagh): tidy this up properly in cros-rust.eclass.
 	# CROS_BASE_RUSTFLAGS are the same problem.
 	# asan and ubsan are also the same problem.
+	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
 	cat <<- EOF >> "${ECARGO_HOME}/config"
 	[target.'cfg(all(target_arch = "arm", target_os = "none"))']
 	rustflags = [
@@ -177,12 +178,14 @@ src_compile() {
 			--target="thumbv6m-none-eabi" \
 			--release
 		einfo "Flattening MCU firmware image ${crate}"
+		# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 		llvm-objcopy -O binary \
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}" \
 			"${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/${crate}.bin" || die
 	) done
 
 	# Sign MCU stage1 firmware with dev key
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	"${CARGO_TARGET_DIR}/${CBUILD}/release/sign-rom" \
 		--input "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
 		--output "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" \
@@ -197,12 +200,14 @@ src_test() {
 
 src_install() {
 	insinto "/usr/lib/firmware/hps"
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 	doins build/hps_platform/gateware/hps_platform_build.metadata
 
 	# install into /firmware as part of signing process
 	insinto "/firmware/hps"
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 }
