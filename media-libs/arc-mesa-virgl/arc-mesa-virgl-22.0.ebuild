@@ -131,6 +131,8 @@ src_prepare() {
 	# We have to revert it for stability. b/210913891
 	epatch -R "${FILESDIR}"/UPSTREAM-virgl-Link-shader-program.patch
 
+	epatch "${FILESDIR}"/UPSTREAM-venus-use-64KB-alignment-for-suballocations.patch
+
 	default
 }
 
