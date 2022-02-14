@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -47,7 +47,6 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	net-misc/dhcpcd
-	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
 	wireguard? ( net-vpn/wireguard-tools )
 "
