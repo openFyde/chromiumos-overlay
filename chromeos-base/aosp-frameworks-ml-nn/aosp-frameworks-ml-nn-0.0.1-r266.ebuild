@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("874c2a7bd09b0c6b0d944efa2b859ae51da414c3" "12ed7a78be275865d51857b06dbcf42d4ad8a6d8" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_COMMIT=("eb9532c6ef023df29e4a70dc897865e24bd98cb3" "12ed7a78be275865d51857b06dbcf42d4ad8a6d8" "eee167fa829d108a5678624050425899b348a252")
 CROS_WORKON_TREE=("ba51cdbc1f93611f21a434aa8577a98ed1e9d5f8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2a760fd61515a5455a667c7a9cba7fb0c428daa0" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
@@ -37,6 +37,7 @@ CROS_WORKON_SUBTREE=(
 	""
 	""
 )
+CROS_WORKON_INCREMENTAL_BUILD=1
 
 PLATFORM_SUBDIR="aosp/frameworks/ml"
 
@@ -198,6 +199,8 @@ src_compile() {
 }
 
 src_install() {
+	platform_src_install
+
 	einfo "Installing runtime & common Headers."
 	insinto /usr/include/aosp/frameworks/ml/nn/common
 	doins -r "${S}"/common/include

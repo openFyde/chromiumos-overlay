@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("8484b5c49f489c935b76fe4b1ef0f9bdd6630c1d" "0eef4c5574a033a5584a0711d332b41e01ab50c2" "bfa3b34f638375b505004095ea3e7a60b3cc7788" "8eb6edf6e05c2328605ad351da806fa37cefc068" "3fd1887ee80978cd249ae443c9eeb38f40f02e54")
-CROS_WORKON_TREE=("88a953cd5d605fb92e4f55f82737b6f00950d708" "b179ccd74d7d387aea458358f205107cb12fddd9" "0806a13ff4dc41aca5ba34176c1b41611c195645" "bea004e95973d9e20bbeb07189966519fc74e8e4" "4dd9af6b9c7dc8dbfdfe0ae74e3bbc8e16713c2b")
+CROS_WORKON_COMMIT=("8484b5c49f489c935b76fe4b1ef0f9bdd6630c1d" "0eef4c5574a033a5584a0711d332b41e01ab50c2" "bfa3b34f638375b505004095ea3e7a60b3cc7788" "8eb6edf6e05c2328605ad351da806fa37cefc068" "a857836603e2237f6b1841308e7e115cd74f052b")
+CROS_WORKON_TREE=("88a953cd5d605fb92e4f55f82737b6f00950d708" "b179ccd74d7d387aea458358f205107cb12fddd9" "0806a13ff4dc41aca5ba34176c1b41611c195645" "bea004e95973d9e20bbeb07189966519fc74e8e4" "92b9403004fc75afde0b8a2de18227ab35ef1ca4")
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/zephyr"
@@ -65,19 +65,11 @@ run_zmake() {
 src_configure() {
 	tc-export CC
 
-	local board project project_dir
+	local board project
 
 	while read -r board && read -r project; do
 		if [[ -z "${project}" ]]; then
 			continue
-		fi
-
-		# TODO(jrosenth): remove below once all configs using project
-		# name instead of path.
-		project_dir="${S}/modules/ec/zephyr/${project}"
-		if [[ -d "${project_dir}" ]]; then
-			ewarn "Config zephyr-ec=${project} needs migrated to project name"
-			project="${project_dir}"
 		fi
 
 		local build_dir="build-${board}"
