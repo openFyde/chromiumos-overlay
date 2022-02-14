@@ -38,6 +38,7 @@ src_configure() {
 	append-ldflags "$(${CHOST}-cups-config --libs)"
 	append-ldflags "$($(tc-getPKG_CONFIG) --libs libchrome)"
 	append-cppflags "$($(tc-getPKG_CONFIG) --cflags libchrome)"
+	append-cxxflags -std=gnu++17
 }
 
 src_compile() {
