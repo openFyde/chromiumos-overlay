@@ -23,7 +23,6 @@ IUSE="fuzzer arcvm jetstream_routing"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
-	!chromeos-base/arc-networkd
 	chromeos-base/metrics:=
 	chromeos-base/shill-net:=
 	chromeos-base/system_api:=[fuzzer?]
