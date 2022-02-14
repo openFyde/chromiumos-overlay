@@ -44,21 +44,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/system_proxy
-	dosbin "${OUT}"/system_proxy_worker
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.SystemProxy.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.SystemProxy.service
-
-	insinto /etc/init
-	doins init/system-proxy.conf
-
-	insinto /usr/share/policy
-	newins seccomp/system-proxy-seccomp-"${ARCH}".policy system-proxy-seccomp.policy
-	newins seccomp/system-proxy-worker-seccomp-"${ARCH}".policy system-proxy-worker-seccomp.policy
+	platform_install
 
 	if use fuzzer; then
 		local fuzzer_component_id="156085"
@@ -72,5 +58,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/system-proxy_test"
+	platform test_all
 }
