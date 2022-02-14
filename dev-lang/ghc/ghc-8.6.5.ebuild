@@ -402,6 +402,11 @@ src_unpack() {
 src_prepare() {
 	ghc_setup_cflags
 
+	# allow GCC usage because of the pre-built bootstrap GHC (stage 0). There is a
+	# bug report to replace with a pure LLVM build:
+	# https://issuetracker.google.com/219056517
+	cros_allow_gnu_build_tools
+
 	if ! use ghcbootstrap && [[ ${CHOST} != *-darwin* && ${CHOST} != *-solaris* ]]; then
 		# Modify the wrapper script from the binary tarball to use GHC_PERSISTENT_FLAGS.
 		# See bug #313635.
