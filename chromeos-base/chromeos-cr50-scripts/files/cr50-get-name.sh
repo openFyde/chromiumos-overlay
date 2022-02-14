@@ -15,10 +15,12 @@
 #
 # The output is the file name of the Cr50 image to use printed to stdout.
 #
+
+. "/usr/share/cros/gsc-constants.sh"
+
 cr50_get_name() {
   local board_flags
   local board_id
-  local cr50_image_base_name="/opt/google/cr50/firmware/cr50.bin"
   local ext="prod"  # Prod is a safer default option.
   local logger_tag="cr50_get_name"
   local updater="$1"
@@ -63,5 +65,5 @@ cr50_get_name() {
   logger -t "${logger_tag}" \
     "board_id: '${board_id}' board_flags: '${board_flags}', extension: '${ext}'"
 
-  printf "${cr50_image_base_name}.${ext}"
+  printf "%s.%s" "$(gsc_image_base_name)" "${ext}"
 }

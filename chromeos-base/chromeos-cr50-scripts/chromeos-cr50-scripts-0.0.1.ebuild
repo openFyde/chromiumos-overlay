@@ -10,7 +10,7 @@ DESCRIPTION="Ebuild to support the Chrome OS Cr50 device."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="generic_tpm2 cr50_disable_sleep_in_suspend"
+IUSE="generic_tpm2 cr50_onboard ti50_onboard cr50_disable_sleep_in_suspend"
 
 RDEPEND="
 	chromeos-base/ec-utils
@@ -70,6 +70,15 @@ src_install() {
 			die "Can't set PLATFORM_INDEX to true for ${f}"
 	fi
 	done
+
+	if use ti50_onboard; then
+		f="ti50-constants.sh"
+	elif use cr50_onboard || use generic_tpm2; then
+		f="cr50-constants.sh"
+	else
+		die "Neither GSC nor generic TPM2 is used"
+	fi
+	newexe "${FILESDIR}/${f}" "gsc-constants.sh"
 
 	insinto /opt/google/cr50/ro_db
 	doins "${FILESDIR}"/ro_db/*.db
