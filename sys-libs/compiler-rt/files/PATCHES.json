@@ -178,5 +178,18 @@
         ],
         "rel_patch_path": "4e1a6c07052b466a2a1cd0c3ff150e4e89a6d87a.patch",
         "start_version": 433403
+    },
+    {
+        "end_version": 452761,
+        "metadata": {
+            "info": [],
+            "title": "[sanitizer] Check if directory exists before trying to create"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "634da7a1c61ee8c173e90a841eb1f4ea03caa20b.patch",
+        "start_version": 438528
     }
 ]
