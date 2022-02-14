@@ -3,11 +3,11 @@ DEPEND=libressl? ( dev-libs/libressl:0= ) !libressl? ( internal-tls? ( dev-libs/
 DESCRIPTION=IEEE 802.11 wireless LAN Host AP daemon
 EAPI=6
 HOMEPAGE=http://w1.fi
-IUSE=internal-tls ipv6 libressl logwatch netlink sqlite +suiteb +wps +crda cros_host cros_workon_tree_77d08a8aafb2a90dd9f1b554f8d3dfb28e98c87c savedconfig
+IUSE=internal-tls ipv6 libressl logwatch netlink sqlite +suiteb +wps +crda cros_host cros_workon_tree_fb2fe77fb2cb8d99332dfbd26212cbbfc3e2494e savedconfig
 KEYWORDS=*
 LICENSE=BSD
 PROPERTIES=live
 RDEPEND=libressl? ( dev-libs/libressl:0= ) !libressl? ( internal-tls? ( dev-libs/libtommath ) !internal-tls? ( dev-libs/openssl:0=[-bindist] ) ) kernel_linux? ( dev-libs/libnl:3 crda? ( net-wireless/crda ) ) netlink? ( net-libs/libnfnetlink ) sqlite? ( >=dev-db/sqlite-3 )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	3c71f7f071c8eef67417b728224b1702	desktop	b1d22ac8bdd4679ab79c71aca235009d	epatch	ed88001f77c6dd0d5f09e45c1a5b480e	estack	686eaab303305a908fd57b2fd7617800	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	ltprune	2729691420b6deeda2a90b1f1183fb55	multilib	2477ebe553d3e4d2c606191fe6c33602	portability	536c5e70c5fb252ed3b769e04aa3f05b	preserve-libs	ef207dc62baddfddfd39a164d9797648	savedconfig	973a6df1a0949eba28a185eac79de815	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf
-_md5_=0f39e8009c1044ebf89dabf6fbd59516
+_md5_=3ef56e40f34a34a801f8370220b11465
