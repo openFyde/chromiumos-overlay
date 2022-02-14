@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 # These USE flags are used in patchpanel/BUILD.gn
-IUSE="fuzzer arcvm jetstream_routing"
+IUSE="fuzzer arcvm"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
