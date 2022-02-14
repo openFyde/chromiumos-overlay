@@ -29,15 +29,9 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
-	dobin "${OUT}/timberslide"
-
-	# Install upstart configs and scripts
-	insinto /etc/init
-	doins init/*.conf
-	exeinto /usr/share/cros/init
-	doexe init/*.sh
+	platform_install
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/timberslide_test_runner"
+	platform test_all
 }
