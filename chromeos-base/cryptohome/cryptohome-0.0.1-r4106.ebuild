@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1c8321dcff48464f88916b5a1e00b40df120cfd3"
-CROS_WORKON_TREE=("ba51cdbc1f93611f21a434aa8577a98ed1e9d5f8" "bd49f835ffb67b4390adbf47a7a7988455dc6a60" "0fe42c776d218392a636fb7810eaf289bf79ab47" "d2b226582d18266d446e1f16d3ce20df4900034d" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7919fc1be16057f4d8980cd80c6aa050c9d707d6"
+CROS_WORKON_TREE=("ba51cdbc1f93611f21a434aa8577a98ed1e9d5f8" "44bf30566623d47b3115c3fae4b22aee7c2a45d7" "0fe42c776d218392a636fb7810eaf289bf79ab47" "d2b226582d18266d446e1f16d3ce20df4900034d" "1a305e65cfaf27dd42734a37eda080d40b377d6c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -28,8 +28,8 @@ IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm_dynamic tpm2 tpm2_simulator uprev-4-to-5
-	user_session_isolation +vault_legacy_mount vtpm_proxy"
+	test tpm tpm_dynamic tpm2 uprev-4-to-5 user_session_isolation
+	+vault_legacy_mount"
 
 REQUIRED_USE="
 	device_mapper
@@ -134,9 +134,7 @@ src_install() {
 		doins init/init-homedirs.conf
 		doins init/mount-encrypted.conf
 		doins init/send-mount-encrypted-metrics.conf
-		if use tpm2_simulator && ! use vtpm_proxy; then
-			newins init/lockbox-cache.conf.tpm2_simulator lockbox-cache.conf
-		elif use tpm_dynamic; then
+		if use tpm_dynamic; then
 			newins init/lockbox-cache.conf.tpm_dynamic lockbox-cache.conf
 		else
 			doins init/lockbox-cache.conf
@@ -164,9 +162,7 @@ src_install() {
 		fi
 	fi
 	exeinto /usr/share/cros/init
-	if use tpm2_simulator && ! use vtpm_proxy; then
-		newexe init/lockbox-cache.sh.tpm2_simulator lockbox-cache.sh
-	elif use tpm_dynamic; then
+	if use tpm_dynamic; then
 		newexe init/lockbox-cache.sh.tpm_dynamic lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
