@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="37ea5153cd2bf86fce8aee3213b0d4c63a323c68"
+CROS_WORKON_COMMIT="720bd664b27e47addbc1f5902014da55527f9fec"
 CROS_WORKON_TREE="6622294506459b596ae21d6e09141cb54b49c956"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -39,9 +39,7 @@ DEPEND="
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
-# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
-# installing binpkgs since the full source tree is required to use the crate.
-RDEPEND="${DEPEND}
+RDEPEND="
 	sys-apps/dbus
 "
 
