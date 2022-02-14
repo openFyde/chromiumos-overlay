@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7a654ddde4bc972389f27e43907a96028627ec23"
-CROS_WORKON_TREE=("ba51cdbc1f93611f21a434aa8577a98ed1e9d5f8" "0fe42c776d218392a636fb7810eaf289bf79ab47" "d2b226582d18266d446e1f16d3ce20df4900034d" "7dbb54592f1dadb985c773aeec05a36323703d2f" "a34f61d4d558a2837c41cb1feb16e37d7da8ca06" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7919fc1be16057f4d8980cd80c6aa050c9d707d6"
+CROS_WORKON_TREE=("ba51cdbc1f93611f21a434aa8577a98ed1e9d5f8" "0fe42c776d218392a636fb7810eaf289bf79ab47" "d2b226582d18266d446e1f16d3ce20df4900034d" "7dbb54592f1dadb985c773aeec05a36323703d2f" "e5f1d0cb879d75a4dc97e80c837b39552edb422c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,7 +33,6 @@ IUSE="
 	ti50_onboard
 	tpm_dynamic
 	tpm2_simulator
-	vtpm_proxy
 "
 
 REQUIRED_USE="
@@ -48,10 +47,8 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/power_manager-client:=
 	ftdi_tpm? ( dev-embedded/libftdi:= )
-	tpm2_simulator? (
-		chromeos-base/tpm2:=
-		vtpm_proxy? ( chromeos-base/tpm2-simulator:= )
-	)
+	test? ( chromeos-base/tpm2:=[test] )
+	tpm2_simulator? ( chromeos-base/tpm2-simulator:= )
 	dev-libs/protobuf:=
 	fuzzer? (
 		dev-cpp/gtest:=
@@ -77,9 +74,7 @@ src_install() {
 	doins org.chromium.Trunks.conf
 
 	insinto /etc/init
-	if use tpm2_simulator && ! use vtpm_proxy; then
-		newins trunksd.conf.tpm2_simulator trunksd.conf
-	elif use cr50_onboard || use ti50_onboard; then
+	if use cr50_onboard || use ti50_onboard; then
 		newins trunksd.conf.cr50 trunksd.conf
 	else
 		doins trunksd.conf
