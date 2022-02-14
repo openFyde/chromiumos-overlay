@@ -94,7 +94,7 @@ DEPEND="${COMMON_DEPEND}
 src_install() {
 	pushd "${OUT}" || die
 	dosbin cryptohomed cryptohome cryptohome-path homedirs_initializer \
-		lockbox-cache tpm-manager
+		lockbox-cache tpm-manager stateful-recovery
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
@@ -213,8 +213,9 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/fake_platform_unittest"
-	platform_test "run" "${OUT}/cryptohome_testrunner"
-	platform_test "run" "${OUT}/mount_encrypted_unittests"
 	platform_test "run" "${OUT}/boot_lockbox_unittests"
+	platform_test "run" "${OUT}/cryptohome_testrunner"
+	platform_test "run" "${OUT}/fake_platform_unittest"
+	platform_test "run" "${OUT}/mount_encrypted_unittests"
+	platform_test "run" "${OUT}/stateful_recovery_unittests"
 }
