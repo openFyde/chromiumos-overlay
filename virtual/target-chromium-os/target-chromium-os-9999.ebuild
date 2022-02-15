@@ -384,6 +384,7 @@ RDEPEND="
 	arc-camera3? ( chromeos-base/cros-camera )
 	fwupd? (
 		sys-apps/fwupd
+		sys-firmware/fwupd-peripherals
 		mmc? ( sys-firmware/mmc-firmware )
 	)
 	smbprovider? (
