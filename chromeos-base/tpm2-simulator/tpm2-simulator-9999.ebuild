@@ -36,18 +36,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	# Install init scripts
-	insinto /etc/init
-	doins init/tpm2-simulator.conf
-
-	# Install executables
-	dobin "${OUT}"/tpm2-simulator
-	dobin "${OUT}"/tpm2-simulator-init
-	dobin "${OUT}"/tpm2-simulator-stop
-
-	# Install seccomp policy for cryptohome-proxy
-	insinto /usr/share/policy
-	newins "seccomp/tpm2-simulator-${ARCH}.policy" tpm2-simulator.policy
+	platform_install
 }
 
 pkg_preinst() {
