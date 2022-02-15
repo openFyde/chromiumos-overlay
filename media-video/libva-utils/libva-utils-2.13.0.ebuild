@@ -26,6 +26,7 @@ RDEPEND="${DEPEND}"
 
 PATCHES=(
 	"${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
+	"${FILESDIR}"/0002-exclude-vgem-node-and-invalid-drm-node-in-vainfo.patch
 )
 
 # CONTRIBUTING.md and README.md are available only in .tar.gz tarballs and in git

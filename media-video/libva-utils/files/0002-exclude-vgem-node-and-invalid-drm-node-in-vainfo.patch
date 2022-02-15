@@ -1,0 +1,109 @@
+From d5c8726421dd9d5de7080ac1b3849945a27aeaf0 Mon Sep 17 00:00:00 2001
+From: Carl Zhang <carl.zhang@intel.com>
+Date: Fri, 28 Jan 2022 12:50:07 -0500
+Subject: [PATCH] exclude vgem node and invalid drm node in vainfo
+
+call drm function to avoid invalid node
+check the name of vgem
+
+Signed-off-by: Carl Zhang <carl.zhang@intel.com>
+(cherry picked from commit bfb6b98ed62ac14a840ba62639ab902a23912258)
+---
+ common/Makefile.am      |  2 +-
+ common/va_display_drm.c | 18 +++++++++++++++++-
+ configure.ac            |  1 +
+ meson.build             |  1 +
+ 4 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/common/Makefile.am b/common/Makefile.am
+index 1b8bc4d..0473e9a 100644
+--- a/common/Makefile.am
++++ b/common/Makefile.am
+@@ -41,7 +41,7 @@ endif
+ 
+ if USE_DRM
+ source_c		+= va_display_drm.c
+-libva_display_cflags	+= $(DRM_CFLAGS) $(LIBVA_DRM_CFLAGS)
++libva_display_cflags	+= $(DRM_CFLAGS) $(LIBVA_DRM_CFLAGS) $(DRM_CFLAGS)
+ libva_display_libs	+= $(DRM_LIBS) $(LIBVA_DRM_LIBS)
+ endif
+ 
+diff --git a/common/va_display_drm.c b/common/va_display_drm.c
+index 4d9c656..0bbbe45 100644
+--- a/common/va_display_drm.c
++++ b/common/va_display_drm.c
+@@ -24,6 +24,7 @@
+ 
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <string.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+ #ifdef IN_LIBVA
+@@ -31,6 +32,7 @@
+ #else
+ # include <va/va_drm.h>
+ #endif
++#include <xf86drm.h>
+ #include "va_display.h"
+ 
+ static int drm_fd = -1;
+@@ -41,10 +43,12 @@ va_open_display_drm(void)
+ {
+     VADisplay va_dpy;
+     int i;
+-
++    drmVersionPtr version;
+     static const char *drm_device_paths[] = {
+         "/dev/dri/renderD128",
+         "/dev/dri/card0",
++        "/dev/dri/renderD129",
++        "/dev/dri/card1",
+         NULL
+     };
+ 
+@@ -72,6 +76,18 @@ va_open_display_drm(void)
+         if (drm_fd < 0)
+             continue;
+ 
++        version = drmGetVersion(drm_fd);
++        if (!version) {
++            close(drm_fd);
++            continue;
++        }
++        if (!strncmp(version->name, "vgem", 4)) {
++            drmFreeVersion(version);
++            close(drm_fd);
++            continue;
++        }
++        drmFreeVersion(version);
++
+         va_dpy = vaGetDisplayDRM(drm_fd);
+         if (va_dpy)
+             return va_dpy;
+diff --git a/configure.ac b/configure.ac
+index 153430e..493f7e4 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -149,6 +149,7 @@ AM_CONDITIONAL(USE_SSP, test "$ssp_cc" = "yes")
+ 
+ # Check for DRM (mandatory)
+ PKG_CHECK_MODULES([LIBVA_DRM], [libva-drm])
++PKG_CHECK_MODULES([DRM], [libdrm])
+ 
+ # Check for libva (for dynamic linking)
+ LIBVA_API_MIN_VERSION=libva_api_min_version
+diff --git a/meson.build b/meson.build
+index b35179e..22e595f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -21,6 +21,7 @@ if get_option('drm') != 'false'
+   require_drm = get_option('drm') == 'true'
+   drm_deps = [
+     dependency('libva-drm', required: require_drm),
++    dependency('drm', required: require_drm),
+   ]
+   use_drm = true
+   foreach d : drm_deps
+-- 
+2.31.0
