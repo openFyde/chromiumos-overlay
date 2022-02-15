@@ -63,20 +63,19 @@ run_zmake() {
 src_configure() {
 	tc-export CC
 
-	local board project
+	local project
+	local root_build_dir="build"
 
-	while read -r board && read -r project; do
+	while read -r _ && read -r project; do
 		if [[ -z "${project}" ]]; then
 			continue
 		fi
 
-		local build_dir="build-${board}"
-
-		run_zmake configure "${project}" -B "${build_dir}" \
-			|| die "Failed to configure ${build_dir}."
-
-		ZEPHYR_EC_BUILD_DIRECTORIES+=("${build_dir}")
+		ZEPHYR_EC_PROJECTS+=("${project}")
+		ZEPHYR_EC_BUILD_DIRECTORIES+=("${root_build_dir}/${project}")
 	done < <(cros_config_host "get-firmware-build-combinations" zephyr-ec || die)
+	run_zmake configure -B "${root_build_dir}" "${ZEPHYR_EC_PROJECTS[@]}" \
+		|| die "Failed to configure ${root_build_dir}."
 }
 
 src_compile() {
@@ -88,11 +87,15 @@ src_compile() {
 }
 
 src_install() {
-	for build_dir in "${ZEPHYR_EC_BUILD_DIRECTORIES[@]}"; do
-		board="$(echo "${build_dir}" |cut -d/ -f1)"
-		board="${board#build-}"
+	local firmware_name project
+	local root_build_dir="build"
 
-		insinto "/firmware/${board}"
-		doins "${build_dir}"/output/*
-	done
+	while read -r firmware_name && read -r project; do
+		if [[ -z "${project}" ]]; then
+			continue
+		fi
+
+		insinto "/firmware/${firmware_name}"
+		doins "${root_build_dir}/${project}"/output/*
+	done < <(cros_config_host "get-firmware-build-combinations" zephyr-ec || die)
 }
