@@ -47,9 +47,6 @@ src_prepare() {
 
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 
-	eapply "${FILESDIR}/rust-1.58.1-fix-libunwind-backtrace-visibility.patch"
-	eapply "${FILESDIR}/rust-1.58.1-add-cros-targets.patch"
-
 	# Copy "unknown" vendor targets to create cros_sdk target triple
 	# variants as referred to in 0001-add-cros-targets.patch and RUSTC_TARGET_TRIPLES.
 	# armv7a is treated specially because the cros toolchain differs in
@@ -61,6 +58,19 @@ src_prepare() {
 	sed -e 's:"unknown":"cros":g' armv7_unknown_linux_gnueabihf.rs >armv7a_cros_linux_gnueabihf.rs || die
 	sed -e 's:"unknown":"cros":g' aarch64_unknown_linux_gnu.rs >aarch64_cros_linux_gnu.rs || die
 	popd || die
+
+	eapply "${FILESDIR}/rust-1.58.1-add-cros-targets.patch"
+	eapply "${FILESDIR}/rust-1.58.1-fix-rpath.patch"
+	eapply "${FILESDIR}/rust-1.58.1-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
+	eapply "${FILESDIR}/rust-1.58.1-no-test-on-build.patch"
+	eapply "${FILESDIR}/rust-1.58.1-sanitizer-supported.patch"
+	eapply "${FILESDIR}/rust-1.58.1-cc.patch"
+	eapply "${FILESDIR}/rust-1.58.1-revert-libunwind-build.patch"
+	eapply "${FILESDIR}/rust-1.58.1-ld-argv0.patch"
+	eapply "${FILESDIR}/rust-1.58.1-Handle-sparse-git-repo-without-erroring.patch"
+	eapply "${FILESDIR}/rust-1.58.1-disable-mutable-noalias.patch"
+	eapply "${FILESDIR}/rust-1.58.1-add-armv7a-sanitizers.patch"
+	eapply "${FILESDIR}/rust-1.58.1-fix-libunwind-backtrace-visibility.patch"
 
 	# For the rustc_llvm module, the build will link with -nodefaultlibs and manually choose the
 	# std C++ library. For x86_64 Linux, the build script always chooses libstdc++ which will not
@@ -75,7 +85,14 @@ src_configure() {
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 	cat >config.toml <<EOF
 [build]
-target = ["x86_64-unknown-linux-gnu", "x86_64-cros-linux-gnu", "thumbv6m-none-eabi", "riscv32i-unknown-none-elf"]
+target = [
+	"x86_64-unknown-linux-gnu",
+	"aarch64-cros-linux-gnu",
+	"armv7a-cros-linux-gnueabihf",
+	"x86_64-cros-linux-gnu",
+	"thumbv6m-none-eabi",
+	"riscv32i-unknown-none-elf",
+]
 cargo = "${WORKDIR}/cargo-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}/cargo/bin/cargo"
 rustc = "${WORKDIR}/rustc-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}/rustc/bin/rustc"
 docs = false
@@ -89,7 +106,7 @@ profiler = false
 
 [llvm]
 ninja = true
-targets = "ARM;RISCV;X86"
+targets = "AArch64;ARM;RISCV;X86"
 experimental-targets = ""
 
 [install]
@@ -111,6 +128,16 @@ default-linker = "${CBUILD}-clang"
 cc = "${CBUILD}-clang"
 cxx = "${CBUILD}-clang++"
 linker = "${CBUILD}-clang++"
+
+[target.aarch64-cros-linux-gnu]
+cc = "aarch64-cros-linux-gnu-clang"
+cxx = "aarch64-cros-linux-gnu-clang++"
+linker = "aarch64-cros-linux-gnu-clang++"
+
+[target.armv7a-cros-linux-gnueabihf]
+cc = "armv7a-cros-linux-gnueabihf-clang"
+cxx = "armv7a-cros-linux-gnueabihf-clang++"
+linker = "armv7a-cros-linux-gnueabihf-clang++"
 
 [target.x86_64-cros-linux-gnu]
 cc = "x86_64-cros-linux-gnu-clang"
