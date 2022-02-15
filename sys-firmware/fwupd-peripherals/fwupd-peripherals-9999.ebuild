@@ -13,6 +13,8 @@ inherit cros-workon cros-fwupd
 DESCRIPTION="Installs peripherals firmware update files used by fwupd."
 HOMEPAGE="https://fwupd.org/lvfs/devices/"
 FILENAMES=(
+	# Dell WD19/WD19DC/WD19TB
+	"4e3f12fc1901c05790ab17ff2223a79631477aa87979498874c4c262cfafc144-WD19FirmwareUpdateLinux_01.00.21.cab"
 	# HP USB-C Dock G5
 	"c15a0df7386812781d1f376fe54729e64f69b2a8a6c4b580914d4f6740e4fcc3-HP-USBC_DOCK_G5-V1.0.13.0.cab"
 )
