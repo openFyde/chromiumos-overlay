@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="33d5302592b452613b571257b0c46b3ba6d6a41f"
-CROS_WORKON_TREE="326fb9e7f0ff09b0852072a0d08c5a7e2b0fb6ff"
+CROS_WORKON_COMMIT="adf066ed67f5d7e4677dde65e85625da8461e39a"
+CROS_WORKON_TREE="229ea420857314349af3a2a30eeec6152b1e5aee"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -39,7 +39,7 @@ DEPEND="
 	>=dev-rust/bitflags-1.3.2:= <dev-rust/bitflags-2.0.0
 	=dev-rust/clap-3*:=
 	=dev-rust/colored-2*:=
-	>=dev-rust/cortex-m-0.7.1:= <dev-rust/cortex-m-0.8.0
+	>=dev-rust/cortex-m-0.6.2:= <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rt-0.6.13:= <dev-rust/cortex-m-rt-0.7.0
 	>=dev-rust/cortex-m-rtic-0.5.5:= <dev-rust/cortex-m-rtic-0.6.0
 	=dev-rust/crc-2*:=
