@@ -9,7 +9,7 @@ inherit distutils-r1
 DESCRIPTION="LiteSPI provides a small footprint and configurable SPI core."
 HOMEPAGE="https://github.com/litex-hub/litespi"
 
-GIT_REV="4cb907881bb75999e4c6bb68e211dd5cfc301de9"
+GIT_REV="a2a25c09e050b97f8d121d8eb9b18d601f4dc3b7"
 SRC_URI="https://github.com/litex-hub/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
 
 LICENSE="BSD-2"

@@ -23,7 +23,7 @@ SRC_URI="
 BDEPEND="
 	dev-embedded/hps-sdk
 	dev-rust/svd2rust
-	sci-electronics/litespi
+	>=sci-electronics/litespi-2021.12_p20220215
 	sci-electronics/litex
 	sci-electronics/nextpnr
 	sci-electronics/nmigen
