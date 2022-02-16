@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6590bf889be372437f8137593d501bd9769a4f4b"
-CROS_WORKON_TREE="7d60301c24f933d3e785b249f3339521cc90dd50"
+CROS_WORKON_COMMIT="89598cf1079a84cc38c28141488903748a010e89"
+CROS_WORKON_TREE="eed948040edc46de104c2d2371d6a87c1a486e28"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="lorgnette/hwtests"
@@ -17,6 +17,7 @@ CROS_GO_TEST=(
 )
 
 CROS_GO_BINARIES=(
+	"chromiumos/scanning/scripts/test_scan_source"
 	"chromiumos/scanning/scripts/test_scanner_capabilities"
 )
 
