@@ -27,11 +27,13 @@ IUSE="
 	+oobe_config prjquota -s3halt +syslog systemd tpm2 +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
+# re2 is needed for process_killer.
 COMMON_DEPEND="
 	chromeos-base/bootstat:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/vboot_reference:=
+	dev-libs/re2:=
 	sys-apps/rootdev:=
 "
 
@@ -82,6 +84,7 @@ platform_pkg_test() {
 		clobber_state_test
 		file_attrs_cleaner_test
 		periodic_scheduler_test
+		process_killer_test
 		usermode-helper_test
 		utils_test
 	)
@@ -154,6 +157,7 @@ src_install_upstart() {
 src_install() {
 	# Install helper to run periodic tasks.
 	dobin "${OUT}"/periodic_scheduler
+	dobin "${OUT}"/process_killer
 
 	if use syslog; then
 		# Install log cleaning script and run it daily.
