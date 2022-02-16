@@ -25,7 +25,7 @@ BDEPEND="
 	dev-rust/svd2rust
 	>=sci-electronics/litespi-2021.12_p20220215
 	sci-electronics/litex
-	sci-electronics/nextpnr
+	>=sci-electronics/nextpnr-0.1_p20220210
 	sci-electronics/nmigen
 	sci-electronics/prjoxide
 	sci-electronics/pythondata-cpu-vexriscv
