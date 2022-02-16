@@ -110,7 +110,7 @@ inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizer
 IUSE="amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm pkg_postrm
 
 DEPEND="
 	>=virtual/rust-1.39.0:=
@@ -930,6 +930,37 @@ _cleanup_registry_link() {
 	fi
 }
 
+# @FUNCTION: _create_registry_link
+# @INTERNAL
+# @USAGE: [crate name] [crate version]
+# @DESCRIPTION:
+# Link a library crate from the local registry. This is repeated in the postrm
+# and postinst stages.
+_create_registry_link() {
+	local name="${1:-${CROS_RUST_CRATE_NAME}}"
+	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
+	local crate="${name}-${version}"
+
+	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
+	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
+
+	if [[ "${version}" == "9999" && -L "${crate_dir}" ]]; then
+		crate_dir="$(readlink -f "${crate_dir}")"
+		crate="$(basename "${crate_dir}")"
+	fi
+
+	# Only install the link if there is a library crates to register. This avoids
+	# dangling symlinks in the case that this only installs executables, or the
+	# ebuild is being removed.
+	local dest="${registry_dir}/${crate}"
+	if [[ -e "${crate_dir}" && ! -L "${dest}" ]]; then
+		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
+		mkdir -p "${registry_dir}"
+		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
+			ln -srT "${crate_dir}" "${dest}" || die
+	fi
+}
+
 # @FUNCTION: cros-rust_pkg_preinst
 # @USAGE: [crate name] [crate version]
 # @DESCRIPTION:
@@ -955,27 +986,7 @@ cros-rust_pkg_postinst() {
 		die "${FUNCNAME[0]}() should only be used in pkg_postinst() phase"
 	fi
 
-	local name="${1:-${CROS_RUST_CRATE_NAME}}"
-	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
-	local crate="${name}-${version}"
-
-	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
-	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
-
-	if [[ "${version}" == "9999" && -L "${crate_dir}" ]]; then
-		crate_dir="$(readlink -f "${crate_dir}")"
-		crate="$(basename "${crate_dir}")"
-	fi
-
-	# Don't install links for binary-only crates as they won't have any
-	# library crates to register.  This avoids dangling symlinks.
-	if [[ -e "${crate_dir}" ]]; then
-		local dest="${registry_dir}/${crate}"
-		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
-		mkdir -p "${registry_dir}"
-		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
-			ln -srT "${crate_dir}" "${dest}" || die
-	fi
+	_create_registry_link "$@"
 }
 
 # @FUNCTION: cros-rust_pkg_prerm
@@ -989,6 +1000,21 @@ cros-rust_pkg_prerm() {
 	fi
 
 	_cleanup_registry_link "$@"
+}
+
+# @FUNCTION: cros-rust_pkg_postrm
+# @USAGE: [crate name] [crate version]
+# @DESCRIPTION:
+# Conditionally relink a library crate if the destination exists. In the rare
+# case that a crate is moved from one ebuild to another, this ensures the
+# cros_rust_registry is consistent.
+cros-rust_pkg_postrm() {
+	debug-print-function "${FUNCNAME[0]}" "$@"
+	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_postrm" ]]; then
+		die "${FUNCNAME[0]}() should only be used in pkg_postrm() phase"
+	fi
+
+	_create_registry_link "$@"
 }
 
 # @FUNCTION: cros-rust_get_crate_version
