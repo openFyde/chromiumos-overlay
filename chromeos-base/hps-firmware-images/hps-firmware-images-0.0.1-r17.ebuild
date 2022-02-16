@@ -26,13 +26,5 @@ src_install() {
 	EOF
 	cat licenses/third-party/* >> LICENSE
 
-	# install into /firmware as part of signing process
-	insinto "/firmware/hps"
-	doins "${S}/firmware-bin/fpga_application.bin"
-
-	# install into rootfs
-	insinto "/usr/lib/firmware/hps"
-	doins "${S}/firmware-bin/fpga_application.bin"
-
 	dobin "${S}"/bin/*
 }
