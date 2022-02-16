@@ -212,7 +212,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/policy_utils
 	chromeos-base/protofiles
 	chromeos-base/pywalt
-	!chromeless_tty? ( chromeos-base/screen-capture-utils )
+	!chromeless_tty? ( chromeos-base/screen-capture-utils www-apps/novnc )
 	chromeos-base/secure-wipe
 	shill? (
 		chromeos-base/shill-test-scripts
