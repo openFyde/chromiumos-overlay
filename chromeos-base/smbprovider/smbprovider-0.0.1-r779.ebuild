@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1d7ee2dfa1aff8ad039f9a3e35309c0d6b450ad3"
-CROS_WORKON_TREE=("adb7e529d9a6937314eaebaf0b47b08a1c154a07" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "ddbeeaa37f2e9ba54ba4b6c5e354766066cff22e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="884ae2370101795564897d4f830a68a340662beb"
+CROS_WORKON_TREE=("adb7e529d9a6937314eaebaf0b47b08a1c154a07" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "6935de9c607604d4683af55f8043bfb526d3cdb1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,19 +48,7 @@ pkg_setup() {
 }
 
 src_install() {
-	dosbin "${OUT}"/smbproviderd
-
-	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.SmbProvider.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins org.chromium.SmbProvider.service
-
-	insinto /etc/init
-	doins etc/init/smbproviderd.conf
-
-	insinto /usr/share/policy
-	newins seccomp_filters/smbprovider-seccomp-"${ARCH}".policy smbprovider-seccomp.policy
+	platform_install
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer
@@ -72,11 +60,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		smbprovider_test
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
