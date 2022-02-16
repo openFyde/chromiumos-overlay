@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="fa90b7265be7c6006d2dab65e6870e1ffbfde7f5"
-CROS_WORKON_TREE="5e301e11ecff2716f0a43bd48348261f5b55ba1e"
+CROS_WORKON_COMMIT="8080261ea9620c352a356cef1f6f87632f53e625"
+CROS_WORKON_TREE="24108f15b002de32b180ecaa0fab461afd10ddcc"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -25,9 +25,9 @@ SRC_URI="
 BDEPEND="
 	dev-embedded/hps-sdk
 	dev-rust/svd2rust
-	sci-electronics/litespi
+	>=sci-electronics/litespi-2021.12_p20220215
 	sci-electronics/litex
-	sci-electronics/nextpnr
+	>=sci-electronics/nextpnr-0.1_p20220210
 	sci-electronics/nmigen
 	sci-electronics/prjoxide
 	sci-electronics/pythondata-cpu-vexriscv
