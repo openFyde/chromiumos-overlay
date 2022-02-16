@@ -49,8 +49,6 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-ZEPHYR_EC_BUILD_DIRECTORIES=()
-
 # Run zmake from the EC source directory, with default arguments for
 # modules and Zephyr base location for this ebuild.
 run_zmake() {
@@ -60,30 +58,22 @@ run_zmake() {
 		"$@"
 }
 
-src_configure() {
+src_compile() {
 	tc-export CC
 
 	local project
 	local root_build_dir="build"
+	local projects=()
 
 	while read -r _ && read -r project; do
 		if [[ -z "${project}" ]]; then
 			continue
 		fi
 
-		ZEPHYR_EC_PROJECTS+=("${project}")
-		ZEPHYR_EC_BUILD_DIRECTORIES+=("${root_build_dir}/${project}")
+		projects+=("${project}")
 	done < <(cros_config_host "get-firmware-build-combinations" zephyr-ec || die)
-	run_zmake configure -B "${root_build_dir}" "${ZEPHYR_EC_PROJECTS[@]}" \
-		|| die "Failed to configure ${root_build_dir}."
-}
-
-src_compile() {
-	tc-export CC
-
-	for build_dir in "${ZEPHYR_EC_BUILD_DIRECTORIES[@]}"; do
-		run_zmake build "${build_dir}" || die "Failed to build ${build_dir}."
-	done
+	run_zmake build -B "${root_build_dir}" "${projects[@]}" \
+		|| die "Failed to build ${projects[*]} in ${root_build_dir}."
 }
 
 src_install() {
