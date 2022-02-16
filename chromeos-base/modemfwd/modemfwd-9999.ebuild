@@ -3,7 +3,6 @@
 
 EAPI=7
 
-CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -41,8 +40,6 @@ src_install() {
 	platform_install
 
 	local fuzzer_component_id="167157"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_fuzzer \
-		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
