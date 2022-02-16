@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("1d7ee2dfa1aff8ad039f9a3e35309c0d6b450ad3" "06a8cf268baf9530267c9581801b8f8749ec9312")
-CROS_WORKON_TREE=("adb7e529d9a6937314eaebaf0b47b08a1c154a07" "e7d961954cc97d91b18ed02eb9cf81712bed25e5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6718d517ad45eb8b0afcbe192ffb2655ca23c068")
+CROS_WORKON_COMMIT=("1e2041fbf39585032282569f32458d1f1c4778c3" "06a8cf268baf9530267c9581801b8f8749ec9312")
+CROS_WORKON_TREE=("adb7e529d9a6937314eaebaf0b47b08a1c154a07" "1dc86efdcfdaf1aa0f9cbaf949d36e5901dc6513" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6718d517ad45eb8b0afcbe192ffb2655ca23c068")
 CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"chromium/src/media/midi"
@@ -43,22 +43,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	dobin "${OUT}"/midis
-
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install midis DBUS configuration file
-	insinto /etc/dbus-1/system.d
-	doins dbus_permissions/org.chromium.Midis.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus_permissions/org.chromium.Midis.service
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp/midis-seccomp-${ARCH}.policy" midis-seccomp.policy
+	platform_install
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/midis_seq_handler_fuzzer
@@ -70,12 +55,5 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		"midis_testrunner"
-	)
-
-	local test
-	for test in "${tests[@]}"; do
-		platform_test "run" "${OUT}"/${test}
-	done
+	platform test_all
 }
