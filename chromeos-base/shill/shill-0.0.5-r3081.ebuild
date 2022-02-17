@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8052f629b7b97302f5cbd539f580d760e248b6c2"
+CROS_WORKON_COMMIT="1b67b51f8a964b1d6801d7f51e38a9993344bdb2"
 CROS_WORKON_TREE=("59f8259ba32d739ab167ad0b7cfe950cd542b165" "e9cd1b40193eb604d4cc5ac03cff40f0c668eabe" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "5aee866013f7e54b7b71b3c071faec21e0686efb" "edff23c4314e97f1cf04270862dcf49a0c46cf7e" "5277c98d28375e59faa9d2834904f94563715ce0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular dhcpv6 fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -49,7 +49,6 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	net-misc/dhcpcd
-	dhcpv6? ( net-misc/dhcpcd[ipv6] )
 	vpn? ( net-vpn/openvpn )
 	wireguard? ( net-vpn/wireguard-tools )
 "
