@@ -17,7 +17,7 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 EGIT_BRANCH=main
 
-LLVM_HASH="f8e615462b4f1376674530cc55ab6b8993cec726" # r444175
+LLVM_HASH="18308e171b5b1dd99627a4d88c7d6c5ff21b8c96" # r445002
 LLVM_NEXT_HASH="18308e171b5b1dd99627a4d88c7d6c5ff21b8c96" # r445002
 
 LICENSE="|| ( UoI-NCSA MIT )"
