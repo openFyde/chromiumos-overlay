@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8052f629b7b97302f5cbd539f580d760e248b6c2"
+CROS_WORKON_COMMIT="1b67b51f8a964b1d6801d7f51e38a9993344bdb2"
 CROS_WORKON_TREE=("59f8259ba32d739ab167ad0b7cfe950cd542b165" "5aee866013f7e54b7b71b3c071faec21e0686efb" "8282a26e7c5536469875a021dbf7b5a9fdc3b026" "bd51dc6d72f4ff70f112344d7c66b9320fe6ef05" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 # These USE flags are used in patchpanel/BUILD.gn
-IUSE="fuzzer arcvm jetstream_routing"
+IUSE="fuzzer arcvm"
 
 COMMON_DEPEND="
 	dev-libs/protobuf:=
