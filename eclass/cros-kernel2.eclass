@@ -2218,6 +2218,11 @@ cros-kernel2_src_prepare() {
 		fi
 	fi
 
+	# Allow use of GNU tools for configs not using llvm tools.
+	if ! use lld || ! use llvm_ias; then
+		cros_allow_gnu_build_tools
+	fi
+
 	if [[ ${CROS_WORKON_INCREMENTAL_BUILD} != "1" ]]; then
 		mkdir -p "$(cros-workon_get_build_dir)"
 	fi
