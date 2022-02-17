@@ -99,3 +99,8 @@ pkg_prerm() {
 	cros-rust_pkg_prerm wire_format_derive
 	cros-rust_pkg_prerm p9
 }
+
+pkg_postrm() {
+	cros-rust_pkg_postrm wire_format_derive
+	cros-rust_pkg_postrm p9
+}

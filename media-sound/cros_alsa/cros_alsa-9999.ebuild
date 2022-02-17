@@ -64,6 +64,11 @@ src_install() {
 	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
 }
 
+pkg_preinst() {
+	cros-rust_pkg_preinst cros_alsa_derive
+	cros-rust_pkg_preinst cros_alsa
+}
+
 pkg_postinst() {
 	cros-rust_pkg_postinst cros_alsa_derive
 	cros-rust_pkg_postinst cros_alsa
@@ -72,4 +77,9 @@ pkg_postinst() {
 pkg_prerm() {
 	cros-rust_pkg_prerm cros_alsa_derive
 	cros-rust_pkg_prerm cros_alsa
+}
+
+pkg_postrm() {
+	cros-rust_pkg_postrm cros_alsa_derive
+	cros-rust_pkg_postrm cros_alsa
 }
