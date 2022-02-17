@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1d7ee2dfa1aff8ad039f9a3e35309c0d6b450ad3"
-CROS_WORKON_TREE=("adb7e529d9a6937314eaebaf0b47b08a1c154a07" "a0651b91bf4490f1c2f97d07d94ef6601b113302" "b2c3d6190a6cdd80884e1aabc36ce7cad87863d0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5a614ceeb7b13215a3fc14ffb799732e822912cd"
+CROS_WORKON_TREE=("adb7e529d9a6937314eaebaf0b47b08a1c154a07" "356f1f6294b75be3dc79348a1cf68b07c023df79" "b2c3d6190a6cdd80884e1aabc36ce7cad87863d0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): remove 'metrics' pulled in from header dependency.
