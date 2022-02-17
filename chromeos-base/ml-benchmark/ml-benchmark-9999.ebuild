@@ -16,6 +16,7 @@ inherit cros-workon platform
 # chromeos-base/ml_benchmark blocked due to package rename
 RDEPEND="
 	!chromeos-base/ml_benchmark
+	vulkan? ( media-libs/clvk )
 "
 
 DEPEND="${RDEPEND}
@@ -24,7 +25,7 @@ DEPEND="${RDEPEND}
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE=""
+IUSE="vulkan"
 
 src_install() {
 	platform_install
