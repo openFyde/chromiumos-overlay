@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8052f629b7b97302f5cbd539f580d760e248b6c2"
-CROS_WORKON_TREE=("59f8259ba32d739ab167ad0b7cfe950cd542b165" "faab8c8b70f5628803d3118908de5ad84d2ee6e6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="657a0114fc3990120b89ff613fba832a1462d9a7"
+CROS_WORKON_TREE=("59f8259ba32d739ab167ad0b7cfe950cd542b165" "5dc05fbca65f19ba10ddb8d67988cb5ba2f80127" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,16 +28,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	# D-Bus configuration.
-	insinto /etc/dbus-1/system.d
-	doins dbus_bindings/org.chromium.Spaced.conf
-
-	dolib.so "${OUT}"/lib/libspaced.so
-	dosbin "${OUT}"/spaced
-	dosbin "${OUT}"/spaced_cli
-
-	insinto /etc/init
-	doins init/spaced.conf
+	platform_install
 
 	if use seccomp; then
 		local policy="seccomp/spaced-seccomp-${ARCH}.policy"
@@ -48,11 +39,8 @@ src_install() {
 			--default-action trap "${policy}" "${policy_out}" \
 			|| die "failed to compile seccomp policy ${policy}"
 	fi
-
-	insinto "/usr/include/spaced"
-	doins ./*.h
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}"/libspaced_unittests
+	platform test_all
 }
