@@ -492,8 +492,8 @@ EOF
 	done
 
 	# Block uses of unallowed GCC/Binutils usage in ${ABI}-tool format.
-	# Temporarily allow haskell, ffmpeg (for ranlib) and bootstub (for objcopy)
-	# packages.
+	# Temporarily allow haskell, ffmpeg (for ranlib), kernel (b/219990272)
+	# and bootstub (for objcopy) packages.
 	local prefixed_tool gnu_gcc_binutils_tools
 	mkdir -p "${dir}/gnu_tools"
 	gnu_gcc_binutils_tools=(ar gcc ld nm objcopy ranlib strip)
@@ -505,6 +505,7 @@ EOF
 			dev-util/shellcheck:*|\
 			media-video/ffmpeg:*|\
 			sys-boot/bootstub:*|\
+			sys-kernel/chromeos-kernel-*:*|\
 			*/linux-headers:*) continue
 			;;
 		esac
