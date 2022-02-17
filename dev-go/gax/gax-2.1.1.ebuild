@@ -31,5 +31,6 @@ RESTRICT="binchecks strip"
 DEPEND="
 	dev-go/gapi-googleapi
 	dev-go/grpc
+	dev-go/yaml:0
 "
 RDEPEND="${DEPEND}"

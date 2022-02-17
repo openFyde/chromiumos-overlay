@@ -58,5 +58,6 @@ DEPEND="
 	dev-go/protobuf
 	dev-go/starlark-go
 	dev-go/txtpbfmt
+	dev-go/yaml:0
 "
 RDEPEND="${DEPEND}"

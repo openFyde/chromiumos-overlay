@@ -33,5 +33,6 @@ RESTRICT="binchecks strip"
 DEPEND="
 	dev-go/crypto
 	dev-go/xerrors
+	dev-go/yaml:0
 "
 RDEPEND="${DEPEND}"

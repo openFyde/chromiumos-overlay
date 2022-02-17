@@ -36,5 +36,8 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/gcp-compute"
+DEPEND="
+	dev-go/gcp-compute
+	dev-go/yaml:0
+"
 RDEPEND="${DEPEND}"
