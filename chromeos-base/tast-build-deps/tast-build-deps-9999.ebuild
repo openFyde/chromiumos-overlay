@@ -59,7 +59,7 @@ DEPEND="
 	dev-go/uuid
 	dev-go/vnc2video
 	dev-go/vsock
-	dev-go/yaml
+	dev-go/yaml:0
 "
 
 RDEPEND="${DEPEND}"
