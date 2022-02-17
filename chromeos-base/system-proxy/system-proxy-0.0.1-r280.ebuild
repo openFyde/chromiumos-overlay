@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8052f629b7b97302f5cbd539f580d760e248b6c2"
-CROS_WORKON_TREE=("59f8259ba32d739ab167ad0b7cfe950cd542b165" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "c0185e0988d699be62f2b6a30e330b99ec52b50c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c7d65980e25f698ec30f2e4691eae7f19fc7080e"
+CROS_WORKON_TREE=("59f8259ba32d739ab167ad0b7cfe950cd542b165" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "6b3657e75752e8ce42a30350af9fde4acb4bd4af" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -46,21 +46,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/system_proxy
-	dosbin "${OUT}"/system_proxy_worker
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.SystemProxy.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.SystemProxy.service
-
-	insinto /etc/init
-	doins init/system-proxy.conf
-
-	insinto /usr/share/policy
-	newins seccomp/system-proxy-seccomp-"${ARCH}".policy system-proxy-seccomp.policy
-	newins seccomp/system-proxy-worker-seccomp-"${ARCH}".policy system-proxy-worker-seccomp.policy
+	platform_install
 
 	if use fuzzer; then
 		local fuzzer_component_id="156085"
@@ -74,5 +60,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/system-proxy_test"
+	platform test_all
 }
