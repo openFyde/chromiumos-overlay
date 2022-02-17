@@ -1,0 +1,37 @@
+From: Pranav Batra <batrapranav@chromium.org>
+
+Always use tempbuffer instead of the input buffer, even if numpix equals
+AdjustedInputWidth, to prevent said input buffer from overflowing because
+AdjustedInputWidth >= InputWidth.
+
+--- a/prnt/hpcups/Halftoner.cpp
++++ b/prnt/hpcups/Halftoner.cpp
+@@ -480,7 +480,6 @@ bool Halftoner::Process
+ 
+         fRasterOdd        = ( 1 & nNextRaster ) ? 0 : 1;
+ 
+-        BYTE* input;
+         unsigned int numpix;
+ 
+         for (i=StartPlane; i <= EndPlane; i++)
+@@ -492,17 +491,17 @@ bool Halftoner::Process
+                 memcpy(tempBuffer,pbyInputKRGBRaster->rasterdata[COLORTYPE_COLOR],InputWidth);
+                 int factor = NumRows[i] * ResBoost;
+                 PixelMultiply(tempBuffer, InputWidth, factor);
+-                input=tempBuffer;
+                 numpix = OutputWidth[i];
+             }
+             else
+             {
+-                input=pbyInputKRGBRaster->rasterdata[COLORTYPE_COLOR];
++                memset(tempBuffer, 0, AdjustedInputWidth);
++                memcpy(tempBuffer, pbyInputKRGBRaster->rasterdata[COLORTYPE_COLOR], InputWidth);
+                 numpix = AdjustedInputWidth;
+             }
+ 
+             fDitherParms[i].fNumPix = numpix;
+-            fDitherParms[i].fInput = input;
++            fDitherParms[i].fInput = tempBuffer;
+             fDitherParms[i].fErr = ErrBuff[i];
+             fDitherParms[i].fErr++; // This is for serpentine
+             fDitherParms[i].fSymmetricFlag = true;   // Symmetric only

@@ -85,6 +85,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21.8-disable-python.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-unpack-bits.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-uninitialized-variable-printerbuffer.patch"
+	"${FILESDIR}/${PN}-3.21.8-fix-halftoner-input-buffer.patch"
 )
 
 CONFIG_CHECK="~PARPORT ~PPDEV"
