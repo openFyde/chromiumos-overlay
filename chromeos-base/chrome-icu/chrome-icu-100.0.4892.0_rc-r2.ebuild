@@ -615,6 +615,7 @@ src_install() {
 	# Install to chrome folder to make chrome work.
 	insinto "${CHROME_DIR}"
 	doins "${build_dir}/icudtl.dat"
+	doins "${build_dir}/icudtl.dat.hash"
 
 	# Install icu header to /usr/include/icu${CHROME_ICU_POSTFIX}/.
 	local icu_headers=(
