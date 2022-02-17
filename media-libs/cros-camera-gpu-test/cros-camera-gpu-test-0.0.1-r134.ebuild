@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8052f629b7b97302f5cbd539f580d760e248b6c2"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "bc4535a74294d86e7498615d12148925185988ee" "8aea57128c1adc8ea0b845047ce01733cecaf5c1" "fbddd9afcadf5f64e0acba0ec48d1bf6db792eee" "59f8259ba32d739ab167ad0b7cfe950cd542b165")
+CROS_WORKON_COMMIT="94c770d686c275d23c4bd808104ec1629052b6aa"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "423489798d35908e40bb1a044213aaef49cc3a3b" "8aea57128c1adc8ea0b845047ce01733cecaf5c1" "fbddd9afcadf5f64e0acba0ec48d1bf6db792eee" "59f8259ba32d739ab167ad0b7cfe950cd542b165")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/include camera/gpu camera/common common-mk"
