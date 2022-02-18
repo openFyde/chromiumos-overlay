@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk crosdns .gn"
 
 PLATFORM_SUBDIR="crosdns"
 
-inherit cros-fuzzer cros-sanitizers cros-workon platform user
+inherit cros-fuzzer cros-sanitizers cros-workon platform tmpfiles user
 
 DESCRIPTION="Local hostname modifier service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crosdns"
@@ -47,6 +47,8 @@ src_install() {
 	# Install the init script.
 	insinto /etc/init
 	doins init/crosdns.conf
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/hosts_modifier_fuzzer
