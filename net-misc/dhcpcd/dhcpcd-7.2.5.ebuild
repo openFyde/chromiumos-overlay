@@ -39,11 +39,9 @@ src_prepare()
 	epatch "${FILESDIR}"/patches/${P}-Add-ability-to-disable-hook-scripts.patch
 	epatch "${FILESDIR}"/patches/${P}-Improve-debugability.patch
 	epatch "${FILESDIR}"/patches/${P}-Add-DBus-RPC-support.patch
-	epatch "${FILESDIR}"/patches/${P}-ChromiumOS-DHCPv6-support.patch
 	epatch "${FILESDIR}"/patches/${P}-Ensure-gateway-probe-is-broadcast.patch
 	epatch "${FILESDIR}"/patches/${P}-Change-vendor_encapsulated_options-to-binhex.patch
 	epatch "${FILESDIR}"/patches/${P}-Handle-DHCP-iSNS-option.patch
-	epatch "${FILESDIR}"/patches/${P}-Send-more-DHCPv6-options-over-DBus.patch
 	epatch "${FILESDIR}"/patches/${P}-Add-more-ARP-related-info-to-logs.patch
 	epatch "${FILESDIR}"/patches/${P}-Stop-only-active-interfaces-via-DBus.patch
 	epatch "${FILESDIR}"/patches/${P}-Include-frame-header-in-buffer-length.patch
