@@ -13,6 +13,7 @@ PLATFORM2_PATHS=(
 	featured
 	metrics
 	.gn
+	sirenia
 
 	vm_tools/BUILD.gn
 	vm_tools/host
@@ -70,6 +71,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/dlcservice-client:=
 	chromeos-base/featured:=
+	chromeos-base/manatee-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vm_protos:=
