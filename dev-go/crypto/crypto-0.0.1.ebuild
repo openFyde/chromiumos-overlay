@@ -3,16 +3,19 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="go.googlesource.com/crypto:golang.org/x/crypto 505ab145d0a99da450461ae2c1a9f6cd10d1f447"
+CROS_GO_SOURCE="go.googlesource.com/crypto:golang.org/x/crypto aa10faf2a1f825c8ba49e90899862da2a0d353ca"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/crypto/argon2"
 	"golang.org/x/crypto/blake2b"
+	"golang.org/x/crypto/blowfish"
+	"golang.org/x/crypto/chacha20"
 	"golang.org/x/crypto/ed25519"
 	"golang.org/x/crypto/ed25519/internal/edwards25519"
+	"golang.org/x/crypto/curve25519/internal/field"
 	"golang.org/x/crypto/curve25519"
+	"golang.org/x/crypto/internal/poly1305"
 	"golang.org/x/crypto/hkdf"
-	"golang.org/x/crypto/internal/chacha20"
 	"golang.org/x/crypto/internal/subtle"
 	"golang.org/x/crypto/nacl/box"
 	"golang.org/x/crypto/nacl/secretbox"
@@ -22,6 +25,7 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/crypto/poly1305"
 	"golang.org/x/crypto/salsa20/salsa"
 	"golang.org/x/crypto/scrypt"
+	"golang.org/x/crypto/ssh/internal/bcrypt_pbkdf"
 	"golang.org/x/crypto/ssh"
 	"golang.org/x/crypto/ssh/agent"
 	"golang.org/x/crypto/ssh/terminal"
@@ -45,5 +49,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/go-sys
+	dev-go/net
+	dev-go/term
 "
 RDEPEND=""
