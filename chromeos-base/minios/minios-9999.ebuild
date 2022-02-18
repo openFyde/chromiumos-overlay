@@ -40,6 +40,7 @@ platform_pkg_test() {
 src_install() {
 	into "/build/initramfs"
 	dobin "${OUT}/minios"
+	dobin "${OUT}/minios_client"
 	dobin scripts/root_partition_for_recovery
 	dobin scripts/stateful_partition_for_recovery
 
