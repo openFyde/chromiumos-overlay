@@ -24,6 +24,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/misspell
 	dev-go/crypto
 	dev-go/go-sys
 	sys-libs/pam:=
