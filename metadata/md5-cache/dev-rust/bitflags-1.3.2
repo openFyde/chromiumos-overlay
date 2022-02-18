@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare prerm setup test unpack
 DEPEND=>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0_alpha:= =dev-rust/rustc-std-workspace-core-1*:= >=virtual/rust-1.39.0:= virtual/rust-binaries:=
 DESCRIPTION=A macro to generate structures which behave like bitflags.
 EAPI=7
@@ -10,5 +10,5 @@ RDEPEND=>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0_alp
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=1.3.2/r0
 SRC_URI=https://crates.io/api/v1/crates/bitflags/1.3.2/download -> bitflags-1.3.2.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6d98e6a8842851c3fa8c9e4c3867a2bb	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=db4584cf9d08b4333ea7d32ecc69de69

@@ -1,4 +1,4 @@
-DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare prerm setup test unpack
 DEPEND=>=dev-rust/backtrace-0.3.49 <dev-rust/backtrace-0.4.0_alpha:= =dev-rust/cfg-if-1*:= >=dev-rust/instant-0.1.4 <dev-rust/instant-0.2.0_alpha:= >=dev-rust/petgraph-0.5.1 <dev-rust/petgraph-0.6.0_alpha:= >=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha:= >=dev-rust/thread-id-3.3.0 <dev-rust/thread-id-4.0.0_alpha:= >=dev-rust/libc-0.2.71 <dev-rust/libc-0.3.0_alpha:= >=virtual/rust-1.39.0:= virtual/rust-binaries:=
 DESCRIPTION=An advanced API for creating custom synchronization primitives.
 EAPI=7
@@ -10,5 +10,5 @@ RDEPEND=>=dev-rust/backtrace-0.3.49 <dev-rust/backtrace-0.4.0_alpha:= =dev-rust/
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.8.3/r0
 SRC_URI=https://crates.io/api/v1/crates/parking_lot_core/0.8.3/download -> parking_lot_core-0.8.3.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6d98e6a8842851c3fa8c9e4c3867a2bb	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=e4714a64a29797a4c4d9142a4a7164d0
