@@ -225,6 +225,8 @@ multilib_src_install() {
 multilib_src_install_all() {
 	# install tmpfiles.d
 	dotmpfiles "${FILESDIR}/tmpfiles.d/cupsd.conf"
+	insinto /usr/lib/tmpfiles.d/on-demand/
+	doins "${FILESDIR}/tmpfiles.d/on-demand/"*.conf
 
 	# move the default config file to docs
 	dodoc "${ED}"/etc/cups/cupsd.conf.default
@@ -298,7 +300,6 @@ multilib_src_install_all() {
 	doins "${FILESDIR}"/{cupsd,cups-files}.conf
 	if use upstart; then
 		insinto /etc/init
-		doins "${FILESDIR}"/init/cups-pre-upstart-socket-bridge.conf
 		doins "${FILESDIR}"/init/cups-post-upstart-socket-bridge.conf
 		doins "${FILESDIR}"/init/cupsd.conf
 	fi
