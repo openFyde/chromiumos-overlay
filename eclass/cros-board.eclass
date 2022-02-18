@@ -427,6 +427,7 @@ ALL_BOARDS=(
 	shadowkeep
 	#shogun
 	sklrvp
+	skyrim
 	#slippy
 	#smaug
 	#smaug-cheets
