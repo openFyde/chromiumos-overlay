@@ -40,5 +40,7 @@ DEPEND="
 	test? (
 		dev-go/cmp
 		dev-go/sync
-	)"
+	)
+	dev-go/websocket
+"
 RDEPEND="dev-go/websocket"
