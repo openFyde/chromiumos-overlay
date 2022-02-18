@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk chromeos-dbus-bindings .gn"
 PLATFORM_SUBDIR="${PN}"
 PLATFORM_NATIVE_TEST="yes"
 
-inherit cros-workon platform
+inherit cros-go cros-workon platform
 
 DESCRIPTION="Utility for building Chrome D-Bus bindings from an XML description"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-dbus-bindings"
@@ -22,12 +22,28 @@ SLOT="0"
 KEYWORDS="~*"
 IUSE=""
 
+CROS_GO_BINARIES=(
+	"chromiumos/dbusbindings/cmd/generator:/usr/bin/go-generate-chromeos-dbus-bindings"
+)
+
 RDEPEND="
 	dev-libs/expat
 	sys-apps/dbus"
 DEPEND="${RDEPEND}"
 
+src_unpack() {
+	platform_src_unpack
+	CROS_GO_WORKSPACE="${S}/go"
+}
+
+src_compile() {
+	cros-go_src_compile
+	platform_src_compile
+}
+
 src_install() {
+	cros-go_src_install
+
 	dobin "${OUT}"/generate-chromeos-dbus-bindings
 
 	local fuzzer_component_id="931982"
@@ -36,6 +52,7 @@ src_install() {
 			--comp "${fuzzer_component_id}"
 }
 
-platform_pkg_test() {
+src_test() {
 	platform_test "run" "${OUT}/chromeos_dbus_bindings_unittest"
+	cros-go_src_test
 }
