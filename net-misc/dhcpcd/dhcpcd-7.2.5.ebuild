@@ -17,7 +17,7 @@ DESCRIPTION="A fully featured, yet light weight RFC2131 compliant DHCP client"
 HOMEPAGE="http://roy.marples.name/projects/dhcpcd/"
 LICENSE="BSD-2"
 SLOT="0"
-IUSE="elibc_glibc +embedded ipv6 kernel_linux +udev +dbus"
+IUSE="elibc_glibc +embedded kernel_linux +udev +dbus"
 
 COMMON_DEPEND="udev? ( virtual/udev )
 		dbus? ( sys-apps/dbus )"
@@ -67,9 +67,9 @@ src_configure()
 		--dbdir=/var/lib/dhcpcd \
 		--rundir=/run/dhcpcd \
 		"$(use_enable embedded)" \
-		"$(use_enable ipv6)" \
 		"$(use_enable dbus)" \
 		${dev} \
+		--disable-inet6 \
 		CC="$(tc-getCC)" \
 		${hooks}
 	# Update DUID file path so it is writable by dhcp user.
