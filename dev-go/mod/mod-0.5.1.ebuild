@@ -3,8 +3,8 @@
 
 EAPI=7
 
-# pick mod at the current head of release-branch.go1.15
-# commit 859b3ef565e237f9f1a0fb6b55385c497545680d (HEAD -> release-branch.go1.15, tag: v0.3.0, origin/release-branch.go1.15)
+# pick mod at the current head of release-branch.go1.17
+# commit 49f84bccfd3469cb3095201f7855641bcc8eb49a (tag: v0.5.1, origin/release-branch.go1.17)
 CROS_GO_SOURCE="go.googlesource.com/mod:golang.org/x/mod v${PV}"
 
 CROS_GO_PACKAGES=(
@@ -31,6 +31,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/crypto
 	dev-go/xerrors
 "
 RDEPEND="${DEPEND}"
