@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="d68b83ccc4a645edeeeeaba39e8fe4e079a01aa2"
-CROS_WORKON_TREE="5cc9a8b99ac89b6694f77a27a11613fe1a430581"
+CROS_WORKON_COMMIT="f0c71bd1151cca91ff171e5f9a4582488a3f1dc5"
+CROS_WORKON_TREE="2b5cdcf058f6528d1f4a9ea0462e331242a0b418"
 CROS_WORKON_PROJECT="chromiumos/platform/btsocket"
 CROS_WORKON_LOCALNAME="../platform/btsocket"
 
