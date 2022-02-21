@@ -76,8 +76,6 @@ pkg_setup() {
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.0.5-omit-sysconfig.patch # bug 558854
-	"${FILESDIR}"/${P}-liburing-sync1.patch #820545
-	"${FILESDIR}"/${P}-liburing-sync2.patch #820545
 )
 
 VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/linuxcontainers.asc
