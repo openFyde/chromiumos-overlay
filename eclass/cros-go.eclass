@@ -148,6 +148,14 @@ parse_binspec() {
 # Flags to pass to "go vet" if CROS_GO_VET is set.
 # See https://golang.org/cmd/vet/ for available flags.
 
+# @FUNCTION: cros-go_out_dir
+# @RETURN: an output directory for compiled CROS_GO_BINARIES
+cros-go_out_dir() {
+	cros_go_out="${T}/go_output"
+	mkdir -p "${cros_go_out}"
+	echo "${cros_go_out}"
+}
+
 inherit toolchain-funcs
 
 DEPEND="dev-lang/go"
@@ -318,6 +326,7 @@ go_vet() {
 # @DESCRIPTION:
 # Build CROS_GO_BINARIES.
 cros-go_src_compile() {
+	out_dir=$(cros-go_out_dir)
 	local bin
 	local source
 	local target
@@ -327,7 +336,7 @@ cros-go_src_compile() {
 		IFS=: read source target installdir <<<"$(parse_binspec "${bin}")"
 		cros_go build -v \
 			${CROS_GO_VERSION:+"-ldflags=-X main.Version=${CROS_GO_VERSION}"} \
-			-o "${target}" \
+			-o "${out_dir}/${target}" \
 			"${source}"
 	done
 
@@ -350,6 +359,7 @@ cros-go_src_test() {
 # @DESCRIPTION:
 # Install CROS_GO_BINARIES and CROS_GO_PACKAGES.
 cros-go_src_install() {
+	out_dir=$(cros-go_out_dir)
 	# Install the compiled binaries.
 	local bin
 	local source
@@ -361,7 +371,7 @@ cros-go_src_install() {
 		(
 			# Run in sub-shell so we do not modify env.
 			exeinto "${installdir}"
-			doexe "${target}"
+			doexe "${out_dir}/${target}"
 		)
 	done
 
