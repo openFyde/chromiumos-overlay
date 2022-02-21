@@ -1,9 +1,9 @@
-# Copyright 2015 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
-CROS_GO_SOURCE="go.googlesource.com/text:golang.org/x/text 1cbadb444a806fd9430d14ad08967ed91da4fa0a"
+CROS_GO_SOURCE="go.googlesource.com/text:golang.org/x/text v${PV}"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/text/encoding"
