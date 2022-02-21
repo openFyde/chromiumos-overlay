@@ -1,11 +1,9 @@
-# Copyright 2015 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
-# pick go-tools at the current head of release-branch.go1.15
-# c1934b75d054975b79a8179cb6f0a9b8b3fa33cd (HEAD -> release-branch.go1.15)
-CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools c1934b75d054975b79a8179cb6f0a9b8b3fa33cd"
+CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools v${PN}"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/ast/astutil"
@@ -25,6 +23,7 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/internal/gopathwalk"
 	"golang.org/x/tools/internal/packagesinternal"
 	"golang.org/x/tools/internal/typesinternal"
+	"golang.org/x/tools/internal/typeparams"
 	"golang.org/x/tools/imports"
 	"golang.org/x/tools/internal/imports"
 )
@@ -55,6 +54,9 @@ RESTRICT="binchecks strip"
 DEPEND="
 	dev-go/mod
 	dev-go/net
+	dev-go/sync
 	dev-go/xerrors
+	dev-go/text
+	dev-go/goldmark
 "
 RDEPEND="${DEPEND}"
