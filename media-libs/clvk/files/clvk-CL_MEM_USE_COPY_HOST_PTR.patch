@@ -1,8 +1,8 @@
 diff --git a/clvk/src/api.cpp b/clvk/src/api.cpp
-index e387df3..4b22d65 100644
+index c86fe36..8f02e6e 100644
 --- a/clvk/src/api.cpp
 +++ b/clvk/src/api.cpp
-@@ -3894,13 +3894,6 @@ cl_mem cvk_create_image(cl_context context, cl_mem_flags flags,
+@@ -3956,13 +3956,6 @@ cl_mem cvk_create_image(cl_context context, cl_mem_flags flags,
          return nullptr;
      }
  
@@ -17,7 +17,7 @@ index e387df3..4b22d65 100644
          cvk_image::create(icd_downcast(context), flags, image_desc,
                            image_format, host_ptr, std::move(properties));
 diff --git a/clvk/src/memory.cpp b/clvk/src/memory.cpp
-index 6343cc9..505b1ac 100644
+index 9f95b39..5c4a194 100644
 --- a/clvk/src/memory.cpp
 +++ b/clvk/src/memory.cpp
 @@ -15,6 +15,7 @@
@@ -28,7 +28,7 @@ index 6343cc9..505b1ac 100644
  
  bool cvk_mem::map() {
      std::lock_guard<std::mutex> lock(m_map_lock);
-@@ -253,38 +254,59 @@ bool cvk_image::init() {
+@@ -253,39 +254,60 @@ bool cvk_image::init() {
      // Translate image type and size
      VkImageType image_type;
      VkImageViewType view_type;
@@ -59,6 +59,7 @@ index 6343cc9..505b1ac 100644
 +    size_t host_ptr_size = 0;
  
      switch (m_desc.image_type) {
+     case CL_MEM_OBJECT_IMAGE1D_BUFFER:
      case CL_MEM_OBJECT_IMAGE1D:
          image_type = VK_IMAGE_TYPE_1D;
          view_type = VK_IMAGE_VIEW_TYPE_1D;
@@ -96,8 +97,8 @@ index 6343cc9..505b1ac 100644
          view_type = VK_IMAGE_VIEW_TYPE_3D;
 +        host_ptr_size = slice_pitch * m_extent.depth;
          break;
-     case CL_MEM_OBJECT_IMAGE1D_BUFFER: // TODO support that
      default:
+         CVK_ASSERT(false);
 @@ -294,12 +316,6 @@ bool cvk_image::init() {
          break;
      }
@@ -120,17 +121,8 @@ index 6343cc9..505b1ac 100644
          1,                       // mipLevels
          array_layers,            // arrayLayers
          VK_SAMPLE_COUNT_1_BIT,   // samples
-@@ -339,7 +355,7 @@ bool cvk_image::init() {
-         return false;
-     }
- 
--    // Selec memory type
-+    // Select memory type
-     cvk_device::allocation_parameters params =
-         device->select_memory_for(m_image);
-     if (params.memory_type_index == VK_MAX_MEMORY_TYPES) {
-@@ -358,7 +374,7 @@ bool cvk_image::init() {
-         return false;
+@@ -364,7 +380,7 @@ bool cvk_image::init() {
+         }
      }
  
 -    // Bind the buffer to memory
@@ -138,7 +130,7 @@ index 6343cc9..505b1ac 100644
      res = vkBindImageMemory(vkdev, m_image, m_memory->vulkan_memory(), 0);
  
      if (res != VK_SUCCESS) {
-@@ -388,7 +404,32 @@ bool cvk_image::init() {
+@@ -394,7 +410,32 @@ bool cvk_image::init() {
      res =
          vkCreateImageView(vkdev, &imageViewCreateInfo, nullptr, &m_image_view);
  
@@ -172,7 +164,7 @@ index 6343cc9..505b1ac 100644
  }
  
  void cvk_image::prepare_fill_pattern(const void* input_pattern,
-@@ -526,3 +567,135 @@ void cvk_image::prepare_fill_pattern(const void* input_pattern,
+@@ -533,3 +574,135 @@ void cvk_image::prepare_fill_pattern(const void* input_pattern,
          CVK_ASSERT(false);
      }
  }
@@ -309,7 +301,7 @@ index 6343cc9..505b1ac 100644
 +    return true;
 +}
 diff --git a/clvk/src/memory.hpp b/clvk/src/memory.hpp
-index 94d8336..f769339 100644
+index eb54a79..8c86f55 100644
 --- a/clvk/src/memory.hpp
 +++ b/clvk/src/memory.hpp
 @@ -20,6 +20,8 @@
@@ -321,7 +313,7 @@ index 94d8336..f769339 100644
  struct cvk_memory_allocation {
  
      cvk_memory_allocation(VkDevice dev, VkDeviceSize size, uint32_t type_index)
-@@ -406,7 +408,8 @@ struct cvk_image : public cvk_mem {
+@@ -414,7 +416,8 @@ struct cvk_image : public cvk_mem {
                    /* FIXME parent_offset */ 0, std::move(properties),
                    desc->image_type),
            m_desc(*desc), m_format(*format), m_image(VK_NULL_HANDLE),
@@ -331,7 +323,7 @@ index 94d8336..f769339 100644
  
      ~cvk_image() {
          auto vkdev = m_context->device()->vulkan_device();
-@@ -511,6 +514,8 @@ struct cvk_image : public cvk_mem {
+@@ -522,6 +525,8 @@ struct cvk_image : public cvk_mem {
                                fill_pattern_array& pattern,
                                size_t* size_ret) const;
  
@@ -340,7 +332,7 @@ index 94d8336..f769339 100644
  private:
      bool init();
  
-@@ -565,9 +570,14 @@ private:
+@@ -576,9 +581,14 @@ private:
  
      const cl_image_desc m_desc;
      const cl_image_format m_format;
@@ -356,10 +348,10 @@ index 94d8336..f769339 100644
  
  using cvk_image_holder = refcounted_holder<cvk_image>;
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index b02174a..a4c87d9 100644
+index 470d4ab..b80dec9 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
-@@ -666,6 +666,20 @@ cvk_command_kernel::build_batchable_inner(cvk_command_buffer& command_buffer) {
+@@ -669,6 +669,20 @@ cvk_command_kernel::build_batchable_inner(cvk_command_buffer& command_buffer) {
      return CL_SUCCESS;
  }
  
@@ -380,7 +372,7 @@ index b02174a..a4c87d9 100644
  bool cvk_command_batchable::can_be_batched() const {
      bool unresolved_user_event_dependencies = false;
      bool unresolved_other_queue_dependencies = false;
-@@ -778,6 +792,10 @@ cl_int cvk_command_batchable::get_timestamp_query_results(cl_ulong* start,
+@@ -781,6 +795,10 @@ cl_int cvk_command_batchable::get_timestamp_query_results(cl_ulong* start,
  cl_int cvk_command_batchable::do_action() {
      CVK_ASSERT(m_command_buffer);
  
@@ -391,7 +383,7 @@ index b02174a..a4c87d9 100644
      bool profiling = m_queue->has_property(CL_QUEUE_PROFILING_ENABLE);
      auto dev = m_queue->device();
  
-@@ -832,6 +850,12 @@ cl_int cvk_command_batch::do_action() {
+@@ -835,6 +853,12 @@ cl_int cvk_command_batch::do_action() {
  
      cvk_info("executing batch of %lu commands", m_commands.size());
  
@@ -404,7 +396,7 @@ index b02174a..a4c87d9 100644
      cl_ulong sync_host, sync_dev;
      auto dev = m_queue->device();
      if (dev->has_timer_support()) {
-@@ -1311,6 +1335,10 @@ void cvk_command_buffer_image_copy::build_inner_image_to_buffer(
+@@ -1314,6 +1338,10 @@ void cvk_command_buffer_image_copy::build_inner_image_to_buffer(
                             1, &region);
  }
  
@@ -415,7 +407,7 @@ index b02174a..a4c87d9 100644
  void cvk_command_buffer_image_copy::build_inner_buffer_to_image(
      cvk_command_buffer& cmdbuf, const VkBufferImageCopy& region) {
      VkBufferMemoryBarrier bufferBarrier = {
-@@ -1403,6 +1431,16 @@ cl_int cvk_command_image_image_copy::build_batchable_inner(
+@@ -1406,6 +1434,16 @@ cl_int cvk_command_image_image_copy::build_batchable_inner(
      return CL_SUCCESS;
  }
  
@@ -433,7 +425,7 @@ index b02174a..a4c87d9 100644
      // TODO use bigger memcpy's when possible
      size_t num_elems = m_region[2] * m_region[1] * m_region[0];
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 48d8903..a56e5e8 100644
+index 773e991..381876d 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -647,6 +647,8 @@ struct cvk_command_batchable : public cvk_command {
@@ -445,16 +437,16 @@ index 48d8903..a56e5e8 100644
  private:
      std::unique_ptr<cvk_command_buffer> m_command_buffer;
      VkQueryPool m_query_pool;
-@@ -675,6 +677,8 @@ struct cvk_command_kernel : public cvk_command_batchable {
+@@ -705,6 +707,8 @@ struct cvk_command_kernel : public cvk_command_batchable {
      CHECK_RETURN cl_int
      build_batchable_inner(cvk_command_buffer& cmdbuf) override final;
  
 +    bool prepare_resources_for_device() override final;
 +
  private:
-     struct cvk_ndrange {
-         std::array<uint32_t, 3> offset;
-@@ -788,6 +792,8 @@ struct cvk_command_buffer_image_copy : public cvk_command_batchable {
+     CHECK_RETURN cl_int
+     build_and_dispatch_regions(cvk_command_buffer& command_buffer);
+@@ -811,6 +815,8 @@ struct cvk_command_buffer_image_copy : public cvk_command_batchable {
      CHECK_RETURN cl_int
      build_batchable_inner(cvk_command_buffer& cmdbuf) override final;
  
@@ -463,7 +455,7 @@ index 48d8903..a56e5e8 100644
  private:
      void build_inner_image_to_buffer(cvk_command_buffer& cmdbuf,
                                       const VkBufferImageCopy& region);
-@@ -903,6 +909,8 @@ struct cvk_command_image_image_copy : public cvk_command_batchable {
+@@ -926,6 +932,8 @@ struct cvk_command_image_image_copy : public cvk_command_batchable {
      CHECK_RETURN cl_int
      build_batchable_inner(cvk_command_buffer& cmdbuf) override final;
  

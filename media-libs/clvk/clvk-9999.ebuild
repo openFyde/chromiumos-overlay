@@ -35,9 +35,16 @@ CMAKE_USE_DIR="${CLVK_DIR}"
 DESCRIPTION="Prototype implementation of OpenCL 1.2 on to of Vulkan using clspv as the Compiler"
 HOMEPAGE="https://github.com/kpet/${PN}"
 
-LLVM_FOLDER="llvm-project-d7630b37ceb8d7032f133e0257724997e4cc76ec"
+LLVM_FOLDER="llvm-project-88b9d1a49aba54171804da355f00c8fe0483f428"
 LLVM_ARCHIVE="${LLVM_FOLDER}.zip"
-SRC_URI="https://storage.cloud.google.com/chromeos-localmirror/distfiles/${LLVM_ARCHIVE}"
+
+SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-a836197d52aced43f49b7f9a2386424ce734acba"
+SPIRV_LLVM_TRANSLATOR_ARCHIVE="${SPIRV_LLVM_TRANSLATOR_FOLDER}.zip"
+
+SRC_URI="
+https://storage.cloud.google.com/chromeos-localmirror/distfiles/${LLVM_ARCHIVE}
+https://storage.cloud.google.com/chromeos-localmirror/distfiles/${SPIRV_LLVM_TRANSLATOR_ARCHIVE}
+"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -46,16 +53,16 @@ IUSE="debug"
 
 # target build dependencies
 DEPEND="
-	>=dev-util/vulkan-headers-1.2.162
+	>=dev-util/vulkan-headers-1.3.204
 	>=dev-util/opencl-headers-2021.04.29
-	>=dev-util/spirv-tools-2020.6
-	dev-util/spirv-headers
+	>=dev-util/spirv-tools-1.3.204
+	>=dev-util/spirv-headers-1.3.204
 "
 
 # target runtime dependencies
 RDEPEND="
-	>=dev-util/spirv-tools-2020.6
-	>=media-libs/vulkan-loader-1.2.162
+	>=dev-util/spirv-tools-1.3.204
+	>=media-libs/vulkan-loader-1.3.204
 "
 
 # host build dependencies
@@ -66,11 +73,11 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
-	PATCHES+=("${FILESDIR}/clvk-CL_MEM_OBJECT_IMAGE1D_BUFFER.patch")
 fi
 
 src_unpack() {
 	unpack "${LLVM_ARCHIVE}"
+	unpack "${SPIRV_LLVM_TRANSLATOR_ARCHIVE}"
 	cros-workon_src_unpack
 }
 
@@ -112,9 +119,13 @@ src_configure() {
 	CMAKE_BUILD_TYPE=$(usex debug Debug RelWithDebInfo)
 
 	local CLVK_LLVM_PROJECT_DIR="${WORKDIR}/${LLVM_FOLDER}"
+	local CLVK_SPIRV_LLVM_TRANSLATOR_DIR="${WORKDIR}/${SPIRV_LLVM_TRANSLATOR_FOLDER}"
 	local mycmakeargs=(
 		-DSPIRV_HEADERS_SOURCE_DIR="${ESYSROOT}/usr/"
 		-DSPIRV_TOOLS_SOURCE_DIR="${ESYSROOT}/usr/"
+
+		-DLLVM_SPIRV_SOURCE="${CLVK_SPIRV_LLVM_TRANSLATOR_DIR}"
+		-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR="${SPIRV_HEADERS_SOURCE_DIR}"
 
 		-DCLSPV_SOURCE_DIR="${CLSPV_DIR}"
 		-DCLSPV_LLVM_SOURCE_DIR="${CLVK_LLVM_PROJECT_DIR}/llvm"
