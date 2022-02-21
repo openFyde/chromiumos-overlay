@@ -25,5 +25,5 @@ IUSE=""
 
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/yaml:0"
+DEPEND="dev-go/yaml"
 RDEPEND=""

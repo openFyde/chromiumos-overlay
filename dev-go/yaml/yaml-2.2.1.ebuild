@@ -1,7 +1,7 @@
-# Copyright 2022 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=7
+EAPI=6
 
 CROS_GO_SOURCE="github.com/go-yaml/yaml:gopkg.in/yaml.v2 v${PV}"
 
@@ -21,5 +21,5 @@ KEYWORDS="*"
 IUSE="test"
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/check"
+DEPEND="test? ( dev-go/check )"
 RDEPEND=""
