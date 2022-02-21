@@ -1,9 +1,9 @@
-# Copyright 2015 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
-CROS_GO_SOURCE="go.googlesource.com/net:golang.org/x/net 6f5299370f2bb1ac5d41c561fd1e5da511c2a3db"
+CROS_GO_SOURCE="go.googlesource.com/net:golang.org/x/net 4f30a5c0130f199e0dfd54e9de49f9367cabf1ad"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/net/bpf"
@@ -45,5 +45,9 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND=""
+DEPEND="
+	dev-go/term
+	dev-go/text
+	dev-go/go-sys
+"
 RDEPEND="dev-go/text"
