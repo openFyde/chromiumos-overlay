@@ -39,7 +39,7 @@ DEPEND="
 	dev-go/kobject:=
 	dev-go/netlink:=
 	dev-go/vsock:=
-	dev-go/yaml:0
+	dev-go/yaml:=
 "
 
 RDEPEND="${COMMON_DEPEND}"
