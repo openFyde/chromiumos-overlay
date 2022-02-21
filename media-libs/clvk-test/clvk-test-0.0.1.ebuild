@@ -3,9 +3,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a64c0156eb61a51c3d17c14d0741ca27c742fda9"
+CROS_WORKON_COMMIT="bd606e480bbb2f2ace60d63790a94b82c5bc41e7"
 
-CROS_WORKON_TREE="a64c0156eb61a51c3d17c14d0741ca27c742fda9"
+CROS_WORKON_TREE="bd606e480bbb2f2ace60d63790a94b82c5bc41e7"
 
 CROS_WORKON_MANUAL_UPREV="1"
 
@@ -40,8 +40,6 @@ DEPEND="
 
 # target runtime dependencies
 RDEPEND="
-	>=dev-util/spirv-tools-2020.6
-	>=media-libs/vulkan-loader-1.2.162
 	>=media-libs/clvk-0.0.1
 "
 
@@ -50,22 +48,18 @@ BDEPEND="
 	>=dev-util/cmake-3.13.4
 "
 
-PATCHES=()
-if [[ ${PV} != "9999" ]]; then
-	PATCHES+=("${FILESDIR}/cmake.patch")
-fi
-
 src_prepare() {
 	cmake-utils_src_prepare
 	eapply_user
 }
 
 src_configure() {
-	CMAKE_BUILD_TYPE=$(usex debug Debug RelWithDebInfo)
-
 	local mycmakeargs=(
 		-DCLVK_VULKAN_IMPLEMENTATION=system
 		-DCLVK_COMPILER_AVAILABLE=ON
+		-DBUILD_SHARED_LIBS=OFF
+		-DCLVK_BUILD_STATIC_TESTS=OFF
+		-DCMAKE_CXX_STANDARD_LIBRARIES="-lpthread" # needed for api_tests
 	)
 	cmake-utils_src_configure
 }

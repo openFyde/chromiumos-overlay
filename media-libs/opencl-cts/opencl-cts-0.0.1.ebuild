@@ -24,8 +24,6 @@ DEPEND="
 
 # target runtime dependencies
 RDEPEND="
-	>=dev-util/spirv-tools-2020.6
-	>=media-libs/vulkan-loader-1.2.162
 	>=media-libs/clvk-0.0.1
 "
 
