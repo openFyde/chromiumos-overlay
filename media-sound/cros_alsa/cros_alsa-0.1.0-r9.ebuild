@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c6e4aba147e2a5b68ff645efe777b798b7dd404f"
+CROS_WORKON_COMMIT="6320199f5e5a8d238b001ddfe331866ac7abc902"
 CROS_WORKON_TREE="ac7030d4fb6d28b578e0d8b9b28e3cbe60550a92"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -66,6 +66,11 @@ src_install() {
 	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
 }
 
+pkg_preinst() {
+	cros-rust_pkg_preinst cros_alsa_derive
+	cros-rust_pkg_preinst cros_alsa
+}
+
 pkg_postinst() {
 	cros-rust_pkg_postinst cros_alsa_derive
 	cros-rust_pkg_postinst cros_alsa
@@ -74,4 +79,9 @@ pkg_postinst() {
 pkg_prerm() {
 	cros-rust_pkg_prerm cros_alsa_derive
 	cros-rust_pkg_prerm cros_alsa
+}
+
+pkg_postrm() {
+	cros-rust_pkg_postrm cros_alsa_derive
+	cros-rust_pkg_postrm cros_alsa
 }
