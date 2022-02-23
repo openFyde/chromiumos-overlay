@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils libhwsec libhwsec-foundation trunks .gn"
+CROS_WORKON_SUBTREE="attestation common-mk hwsec-test-utils libhwsec libhwsec-foundation tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="hwsec-test-utils"
 
@@ -32,6 +32,7 @@ RDEPEND="
 	tpm? (
 		app-crypt/trousers:=
 	)
+	chromeos-base/libhwsec:=
 "
 
 DEPEND="${RDEPEND}
