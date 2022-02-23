@@ -10,7 +10,7 @@ DESCRIPTION="Ebuild to support the Chrome OS Cr50 device."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="generic_tpm2"
+IUSE="generic_tpm2 cr50_disable_sleep_in_suspend"
 
 RDEPEND="
 	chromeos-base/ec-utils
@@ -39,10 +39,15 @@ src_install() {
 		doins "${FILESDIR}/${f}"
 	done
 
+	if use cr50_disable_sleep_in_suspend; then
+		doins "${FILESDIR}/cr50-disable-sleep.conf"
+	fi
+
 	udev_dorules "${FILESDIR}"/99-cr50.rules
 
 	exeinto /usr/share/cros
 	files=(
+		cr50-disable-sleep.sh
 		cr50-flash-log.sh
 		cr50-get-name.sh
 		cr50-read-board-id.sh
