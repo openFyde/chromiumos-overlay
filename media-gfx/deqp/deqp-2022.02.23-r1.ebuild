@@ -11,16 +11,16 @@ DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://github.com/KhronosGroup/VK-GL-CTS"
 
 # This corresponds to a commit for the chosen tag/branch.
-MY_DEQP_COMMIT='34639fb3f8b467b261624a1b2863b5e808bb7aef'
+MY_DEQP_COMMIT='a8fc4961d753dc2bddb1f78bdb91a21960a1ed57'
 
 # When building the Vulkan CTS, dEQP requires that certain external
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_AMBER_COMMIT='8797ee109e7a6ea4d1f58f387f757545fa35325b'
-MY_GLSLANG_COMMIT='9158061398a96033c990e69156bd28c67114544b'
-MY_SPIRV_TOOLS_COMMIT='11cd875ed88484f93943071083b4821b4c3d2193'
-MY_SPIRV_HEADERS_COMMIT='cf653e4ca4858583802b0d1656bc934edff6bd7f'
+MY_AMBER_COMMIT='615ab4863f7d2e31d3037d0c6a0f641fd6fc0d07'
+MY_GLSLANG_COMMIT='c34bb3b6c55f6ab084124ad964be95a699700d34'
+MY_SPIRV_TOOLS_COMMIT='20b122b2e0d43fcc322a383354d1a3f4514e3757'
+MY_SPIRV_HEADERS_COMMIT='b42ba6d92faf6b4938e6f22ddd186dbdacc98d78'
 
 SRC_URI="https://github.com/KhronosGroup/VK-GL-CTS/archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
