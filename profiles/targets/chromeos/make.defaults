@@ -174,4 +174,4 @@ SYMLINK_LIB="no"
 LIBDIR_x86="lib"
 
 # Default kernel config family.
-CROS_KERNEL_FAMILY="chromeos"
+CHROMEOS_KERNEL_FAMILY="chromeos"

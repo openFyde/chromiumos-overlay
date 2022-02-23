@@ -46,22 +46,22 @@ DEPEND="sys-kernel/linux-firmware
 WIRELESS_VERSIONS=( 4.2 )
 WIRELESS_SUFFIXES=( "${WIRELESS_VERSIONS[@]/.}" )
 
-CROS_KERNEL_FAMILY_VALUES=(
+CHROMEOS_KERNEL_FAMILY_VALUES=(
 	arcvm
 	chromeos
 	manatee
 	termina
 )
 
-CROS_KERNEL_FAMILY_FLAGS=(
-	"${CROS_KERNEL_FAMILY_VALUES[@]/#/cros_kernel_family_}"
+CHROMEOS_KERNEL_FAMILY_FLAGS=(
+	"${CHROMEOS_KERNEL_FAMILY_VALUES[@]/#/chromeos_kernel_family_}"
 )
 
 IUSE="
 	apply_patches
 	-asan
 	buildtest
-	${CROS_KERNEL_FAMILY_FLAGS[*]}
+	${CHROMEOS_KERNEL_FAMILY_FLAGS[*]}
 	+clang
 	-compilation_database
 	-device_tree
@@ -94,7 +94,7 @@ IUSE="
 	-lxc
 "
 REQUIRED_USE="
-	^^ ( ${CROS_KERNEL_FAMILY_FLAGS[*]} )
+	^^ ( ${CHROMEOS_KERNEL_FAMILY_FLAGS[*]} )
 	compilation_database? ( clang )
 	?? ( fit_compression_kernel_lz4 fit_compression_kernel_lzma )
 	frozen_gcc? ( !clang )
@@ -1676,17 +1676,17 @@ REQUIRED_USE+="
 	recovery_ramfs? ( || ( tpm tpm2 ) )
 "
 
-# Get the CROS_KERNEL_FAMILY from the use flags(cros_kernel_family_*).
+# Get the CHROMEOS_KERNEL_FAMILY from the use flags(chromeos_kernel_family_*).
 _get_kernel_family() {
 	local i
-	for i in "${!CROS_KERNEL_FAMILY_FLAGS[@]}"; do
-		if use "${CROS_KERNEL_FAMILY_FLAGS[${i}]}"; then
-			echo "${CROS_KERNEL_FAMILY_VALUES[${i}]}"
+	for i in "${!CHROMEOS_KERNEL_FAMILY_FLAGS[@]}"; do
+		if use "${CHROMEOS_KERNEL_FAMILY_FLAGS[${i}]}"; then
+			echo "${CHROMEOS_KERNEL_FAMILY_VALUES[${i}]}"
 			return
 		fi
 	done
 
-	die "cros kernel family use flag not defined!"
+	die "chromeos kernel family use flag not defined!"
 }
 
 # If an overlay has eclass overrides, but doesn't actually override this
@@ -2313,7 +2313,7 @@ cros-kernel2_src_configure() {
 		if [ -e chromeos/scripts/prepareconfig ] ; then
 			local kernel_family=$(_get_kernel_family)
 			einfo "Using family: ${kernel_family}"
-			CROS_KERNEL_FAMILY="${kernel_family}" chromeos/scripts/prepareconfig \
+			CHROMEOS_KERNEL_FAMILY="${kernel_family}" chromeos/scripts/prepareconfig \
 				"${config}" "${build_cfg}" || die
 		else
 			config="$(eclass_dir)/${cfgarch}_defconfig"
