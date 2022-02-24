@@ -60,6 +60,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/bitflags-1*:=
 	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
+	=dev-rust/cfg-if-1*:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	=dev-rust/dbus-0.8*:=
