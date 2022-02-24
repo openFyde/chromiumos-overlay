@@ -25,7 +25,8 @@ KEYWORDS="~*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
-VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} llvmpipe mach64 mga nouveau powervr r128 savage sis vmware tdfx via freedreno virgl"
+VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} llvmpipe mach64 mga nouveau powervr
+	r128 savage sis vmware tdfx via freedreno virgl mediatek"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
@@ -321,7 +322,7 @@ multilib_src_install_all_cheets() {
 
 		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
-		if use video_cards_intel; then
+		if use video_cards_intel || use video_cards_mediatek; then
 			doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
 		else
 			doins "${FILESDIR}/android.hardware.vulkan.level-0.xml"
