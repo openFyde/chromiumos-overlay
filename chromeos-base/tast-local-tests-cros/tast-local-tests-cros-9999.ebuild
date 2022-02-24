@@ -54,6 +54,7 @@ RDEPEND="
 		)
 	)
 	dev-libs/openssl:0=
+	dev-python/pyftdi
 	arc? (
 		chromeos-base/tast-local-apks-cros
 		dev-util/android-tools
