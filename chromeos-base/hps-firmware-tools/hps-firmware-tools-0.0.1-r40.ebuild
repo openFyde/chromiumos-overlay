@@ -75,11 +75,6 @@ src_prepare() {
 	# Delete some optional dependencies that are not packaged in Chromium OS.
 	sed -i \
 		-e '/ optional = true/d' \
-		-e '/^daemon = /d' \
-		-e '/^ftdi = /d' \
-		rust/hps-util/Cargo.toml
-	sed -i \
-		-e '/ optional = true/d' \
 		-e '/^direct /d' \
 		rust/hps-mon/Cargo.toml
 
