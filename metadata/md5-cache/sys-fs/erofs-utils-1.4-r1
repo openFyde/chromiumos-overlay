@@ -1,0 +1,13 @@
+BDEPEND=>=app-portage/elt-patches-20170815
+DEFINED_PHASES=install prepare
+DEPEND=app-arch/lz4:= !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4
+DESCRIPTION=Userspace utilities for linux-erofs file system
+EAPI=7
+HOMEPAGE=https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git
+KEYWORDS=*
+LICENSE=GPL-2
+RDEPEND=app-arch/lz4:=
+SLOT=0
+SRC_URI=https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/snapshot/erofs-utils-1.4.tar.gz
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=387f72444a780135ae2757dc39691635
