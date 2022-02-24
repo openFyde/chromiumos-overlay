@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="cabfa3546d5c74a0db6b35b97a14fd2aae80e8ef"
-CROS_WORKON_TREE="dafdde6c2fdba3df8ee15547c355b67c553246e6"
+CROS_WORKON_COMMIT="ec335c53a29f189f9291a97c3826cc6e4b733bb5"
+CROS_WORKON_TREE="480d56792a8ad8f719683bcde4cc72c935669187"
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 
 inherit meson cros-sanitizers cros-workon udev
