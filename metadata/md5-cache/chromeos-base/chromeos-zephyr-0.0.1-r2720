@@ -1,0 +1,14 @@
+BDEPEND=chromeos-base/zephyr-build-tools dev-python/docopt dev-python/pykwalify dev-util/ninja dev-vcs/git chromeos-base/chromeos-config-host:=
+DEFINED_PHASES=compile info install setup unpack
+DEPEND=chromeos-base/chromeos-config has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
+DESCRIPTION=Zephyr based Embedded Controller firmware
+EAPI=7
+IUSE=unibuild cros_host cros_workon_tree_f24fe43001168f5c58ad2fa8402f94cedf7f6bd9_b179ccd74d7d387aea458358f205107cb12fddd9_0806a13ff4dc41aca5ba34176c1b41611c195645_bea004e95973d9e20bbeb07189966519fc74e8e4_ece1b9b23d5e031962dd037f0c3ad39ae3f4d2d9 has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
+KEYWORDS=*
+LICENSE=Apache-2.0 BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/chromeos-config has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
+REQUIRED_USE=unibuild
+SLOT=0/0.0.1-r2720
+_eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-unibuild	0d7d10969ffc8ec9d48610ec978d6298	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=dff5935d2796b1b071aaf96c9b5a890c
