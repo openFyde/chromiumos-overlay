@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a07e062599a84706ae0995b67e6f0b5e563ed81e"
-CROS_WORKON_TREE=("8478dc3bc65690142c4953b004b2724360b349b1" "f3709ae4d2a6f2bc9f122479e9bd09f2d36a5380" "6c62976d54d7f97f7fdf322dd9c086afaa321925" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2feca00852e32e3476c05819680dc1e0b3019ac8"
+CROS_WORKON_TREE=("8478dc3bc65690142c4953b004b2724360b349b1" "28119455ecaa9c8afca0e45a700be020be9f70a7" "6c62976d54d7f97f7fdf322dd9c086afaa321925" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -29,11 +29,13 @@ IUSE="
 	+oobe_config prjquota -s3halt +syslog systemd tpm2 +udev vivid vtconsole"
 
 # secure-erase-file, vboot_reference, and rootdev are needed for clobber-state.
+# re2 is needed for process_killer.
 COMMON_DEPEND="
 	chromeos-base/bootstat:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
 	chromeos-base/vboot_reference:=
+	dev-libs/re2:=
 	sys-apps/rootdev:=
 "
 
@@ -84,6 +86,7 @@ platform_pkg_test() {
 		clobber_state_test
 		file_attrs_cleaner_test
 		periodic_scheduler_test
+		process_killer_test
 		usermode-helper_test
 		utils_test
 	)
@@ -156,6 +159,7 @@ src_install_upstart() {
 src_install() {
 	# Install helper to run periodic tasks.
 	dobin "${OUT}"/periodic_scheduler
+	dobin "${OUT}"/process_killer
 
 	if use syslog; then
 		# Install log cleaning script and run it daily.

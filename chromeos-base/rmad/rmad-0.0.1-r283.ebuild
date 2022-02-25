@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0d0ab3da2891e12e52146ad9559e452b805e576d"
-CROS_WORKON_TREE=("8478dc3bc65690142c4953b004b2724360b349b1" "bea140d13f7cf1092e4c89a45011c04c28327972" "1b6791d8f3bd43faefbaff3664ccf8eeabdfa502" "f09f4711e5043f57c202260d0214f64c0eab5431" "6c62976d54d7f97f7fdf322dd9c086afaa321925" "c6c353422ab7bd6bc93a5ed4b214ac28ba2fbf49" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2feca00852e32e3476c05819680dc1e0b3019ac8"
+CROS_WORKON_TREE=("8478dc3bc65690142c4953b004b2724360b349b1" "bea140d13f7cf1092e4c89a45011c04c28327972" "1b6791d8f3bd43faefbaff3664ccf8eeabdfa502" "f09f4711e5043f57c202260d0214f64c0eab5431" "6c62976d54d7f97f7fdf322dd9c086afaa321925" "f582e95c139364975d4a1e0bdd9881f1baabd68c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -56,27 +56,11 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}/rmad"
+	platform_install
 
 	dotmpfiles tmpfiles.d/*.conf
-
-	# Install upstart configs and scripts.
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Rmad.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.Rmad.service
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	newins "seccomp/rmad-seccomp-${ARCH}.policy" rmad-seccomp.policy
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/rmad_test"
+	platform test_all
 }
