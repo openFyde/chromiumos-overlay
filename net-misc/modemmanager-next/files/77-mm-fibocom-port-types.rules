@@ -16,3 +16,9 @@ ACTION=="add|change|move", SUBSYSTEMS=="tty", ENV{ID_VENDOR_ID}=="2cb7", ENV{ID_
 # The AT channels are used by modemfwd for firmware update related managed,
 # mark them as ignored by ModemManager to avoid perturbations.
 ACTION=="add|change|move", SUBSYSTEMS=="tty", ENV{ID_VENDOR_ID}=="2cb7", ENV{ID_MODEL_ID}=="01a0", ENV{ID_MM_PORT_IGNORE}="1"
+
+# Fibocom FM101 (2cb7:01a2) has 1 MBIM port and 3 AT channel serial ports.
+# The MBIM port alone is sufficient for 3GPP related functionalities.
+# The AT channels are used by modemfwd for firmware update related managed,
+# mark them as ignored by ModemManager to avoid perturbations.
+ACTION=="add|change|move", SUBSYSTEMS=="tty", ENV{ID_VENDOR_ID}=="2cb7", ENV{ID_MODEL_ID}=="01a2", ENV{ID_MM_PORT_IGNORE}="1"
