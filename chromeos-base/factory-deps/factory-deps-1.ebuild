@@ -104,6 +104,12 @@ FACTORY_TEST_RDEPEND+="
 	chromeos-base/cros-config-api
 "
 
+# Packages used for Widevine keybox provisioning tests.
+FACTORY_TEST_RDEPEND+="
+	dev-python/crcmod
+	dev-python/pycryptodome
+"
+
 ################################################################################
 # Assemble the final RDEPEND variable for portage
 ################################################################################
