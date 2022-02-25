@@ -2536,5 +2536,18 @@
         ],
         "rel_patch_path": "cherry/cd284b7ac0615afc6e0f1a30da2777e361de27a3.patch",
         "start_version": 445002
+    },
+    {
+        "end_version": 446080,
+        "metadata": {
+            "info": [],
+            "title": "[ThinLTO][MC] Use conditional assignments for promotion aliases"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/9a74c753fe3fb40afeb0660060538678dd77d060.patch",
+        "start_version": 437112
     }
 ]
