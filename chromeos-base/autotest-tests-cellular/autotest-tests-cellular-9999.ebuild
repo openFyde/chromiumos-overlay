@@ -30,9 +30,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_cellular_ActivateLTE
 	+tests_cellular_ConnectFailure
-	+tests_cellular_DeferredRegistration
 	+tests_cellular_DisableWhileConnecting
 	+tests_cellular_DisconnectFailure
 	+tests_cellular_HermesErrorScenarios
@@ -41,22 +39,14 @@ IUSE_TESTS="
 	+tests_cellular_Hermes_Restart_SlotSwitch
 	+tests_cellular_Hermes_SingleProfile
 	+tests_cellular_Identifiers
-	+tests_cellular_OutOfCreditsSubscriptionState
 	+tests_cellular_SIMLocking
 	+tests_cellular_SafetyDance
-	+tests_cellular_ScanningProperty
-	+tests_cellular_ServiceName
 	+tests_cellular_Smoke
 	+tests_cellular_StressEnable
 	+tests_cellular_ValidateTestEnvironment
 "
 
 IUSE_MBIM_TESTS="
-	+tests_cellular_MbimComplianceControlCommand
-	+tests_cellular_MbimComplianceControlRequest
-	+tests_cellular_MbimComplianceDataTransfer
-	+tests_cellular_MbimComplianceDescriptor
-	+tests_cellular_MbimComplianceError
 "
 
 IUSE_TESTS="${IUSE_TESTS} ${IUSE_MBIM_TESTS}"

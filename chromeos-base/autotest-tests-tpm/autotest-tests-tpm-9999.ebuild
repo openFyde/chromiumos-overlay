@@ -33,10 +33,8 @@ IUSE_TESTS="
 	+tests_hardware_TPMCheck
 	+tests_kernel_TPMStress
 	+tests_platform_Pkcs11InitUnderErrors
-	+tests_platform_Pkcs11ChangeAuthData
 	+tests_platform_Pkcs11Events
 	+tests_platform_Pkcs11LoadPerf
-	+tests_platform_TPMEvict
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

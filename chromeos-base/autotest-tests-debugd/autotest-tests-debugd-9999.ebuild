@@ -22,14 +22,6 @@ RDEPEND="
 "
 
 IUSE_TESTS="
-	+tests_platform_TraceClockMonotonic
-	+tests_platform_DebugDaemonGetNetworkStatus
-	+tests_platform_DebugDaemonGetPerfData
-	+tests_platform_DebugDaemonGetPerfOutputFd
-	+tests_platform_DebugDaemonGetRoutes
-	+tests_platform_DebugDaemonPerfDataInFeedbackLogs
-	+tests_platform_DebugDaemonPing
-	+tests_platform_DebugDaemonTracePath
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

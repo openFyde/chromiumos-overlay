@@ -22,32 +22,11 @@ IUSE="+autotest -chromeless_tests -chromeless_tty containers +seccomp selinux"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
-	containers? (
-		tests_security_Libcontainer? (
-			chromeos-base/minijail:=
-			chromeos-base/libcontainer:=
-		)
-	)
 "
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	!chromeless_tty? (
-		!chromeless_tests? (
-			+tests_security_RendererSandbox
-			+tests_security_SessionManagerDbusEndpoints
-		)
-	)
-	seccomp? (
-		+tests_security_SeccompSyscallFilters
-	)
-	containers? ( +tests_security_Libcontainer )
 	+tests_security_NosymfollowMountOption
-	+tests_security_ProcessManagementPolicy
-	+tests_security_RootfsOwners
-	+tests_security_SysVIPC
-	x86? ( +tests_security_x86Registers )
-	amd64? ( +tests_security_x86Registers )
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

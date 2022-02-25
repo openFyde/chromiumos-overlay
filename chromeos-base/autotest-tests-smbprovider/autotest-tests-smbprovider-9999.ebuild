@@ -27,7 +27,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_enterprise_SmbProviderDaemon
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
