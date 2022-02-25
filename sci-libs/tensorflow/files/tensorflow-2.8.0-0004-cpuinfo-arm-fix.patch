@@ -16,7 +16,7 @@ index 00000000..bbd619a4
 ++++ b/src/arm/linux/cp.h
 +@@ -37,8 +37,6 @@
 + 	#endif
-+ 
++
 + 	static inline uint32_t read_wcid(void) {
 +-		uint32_t wcid;
 +-		__asm__ __volatile__("MRC p1, 0, %[wcid], c0, c0" : [wcid] "=r" (wcid));
@@ -31,6 +31,6 @@ index dfccc34f..4895fb07 100644
 @@ -12,4 +12,5 @@ def repo():
              "https://github.com/pytorch/cpuinfo/archive/5916273f79a21551890fd3d56fc5375a78d1598d.zip",
          ],
-         build_file = "//third_party/cpuinfo:BUILD.bazel",
-+        patch_file = str(Label("//third_party/cpuinfo:cpuinfo.patch")),
+         build_file = "//third_party/cpuinfo:cpuinfo.BUILD",
++        patch_file = [str(Label("//third_party/cpuinfo:cpuinfo.patch"))],
      )

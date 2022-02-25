@@ -25,16 +25,17 @@ IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack inference
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
 	https://github.com/bazelbuild/platforms/releases/download/0.0.2/platforms-0.0.2.tar.gz -> bazelbuild-platforms-0.0.2.tar.gz
-	https://github.com/bazelbuild/apple_support/archive/501b4afb27745c4813a88ffa28acd901408014e4.tar.gz -> bazelbuild-apple_support-501b4afb27745c4813a88ffa28acd901408014e4.tar.gz
+	https://github.com/bazelbuild/apple_support/releases/download/0.10.0/apple_support.0.10.0.tar.gz -> bazelbuild-apple_support.0.10.0.tar.gz
 	https://github.com/bazelbuild/bazel-toolchains/archive/dfc67056200b674accd08d8f9a21e328098c07e2.tar.gz -> bazel-toolchains-dfc67056200b674accd08d8f9a21e328098c07e2.tar.gz
 	https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz
 	https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip -> bazelbuild-rules_android-v0.1.1.zip
-	https://github.com/bazelbuild/rules_apple/archive/5131f3d46794bf227d296c82f30c2499c9de3c5b.tar.gz -> bazelbuild-rules_apple-5131f3d46794bf227d296c82f30c2499c9de3c5b.tar.gz
+	https://github.com/bazelbuild/rules_apple/releases/download/0.31.3/rules_apple.0.31.3.tar.gz -> bazelbuild-rules_apple.0.31.3.tar.gz
 	https://github.com/bazelbuild/rules_cc/archive/40548a2974f1aea06215272d9c2b47a14a24e556.tar.gz -> bazelbuild-rules_cc-40548a2974f1aea06215272d9c2b47a14a24e556.tar.gz
 	https://github.com/bazelbuild/rules_closure/archive/308b05b2419edb5c8ee0471b67a40403df940149.tar.gz -> bazelbuild-rules_closure-308b05b2419edb5c8ee0471b67a40403df940149.tar.gz
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
-	https://github.com/bazelbuild/rules_swift/archive/3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz -> bazelbuild-rules_swift-3eeeb53cebda55b349d64c9fc144e18c5f7c0eb8.tar.gz
-	https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz -> bazelbuild-rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz
+	https://github.com/bazelbuild/rules_swift/releases/download/0.21.0/rules_swift.0.21.0.tar.gz -> bazelbuild-rules_swift.0.21.0.tar.gz
+	https://github.com/bazelbuild/rules_pkg/releases/download/0.2.5/rules_pkg-0.2.5.tar.gz -> bazelbuild-rules_pkg-0.2.5.tar.gz
+	https://github.com/bazelbuild/rules_proto/archive/a0761ed101b939e19d83b2da5f59034bffc19c12.zip -> bazelbuild-rules_proto-a0761ed101b939e19d83b2da5f59034bffc19c12.zip
 	https://github.com/google/farmhash/archive/0d859a811870d10f53a594927d0d0b97573ad06d.tar.gz -> farmhash-0d859a811870d10f53a594927d0d0b97573ad06d.tar.gz
 	https://github.com/google/gemmlowp/archive/fda83bdc38b118cc6b56753bd540caa49e570745.zip -> gemmlowp-fda83bdc38b118cc6b56753bd540caa49e570745.zip
 	https://github.com/google/ruy/archive/e6c1b8dc8a8b00ee74e7268aac8b18d7260ab1ce.zip -> ruy-e6c1b8dc8a8b00ee74e7268aac8b18d7260ab1ce.zip
@@ -45,14 +46,13 @@ bazel_external_uris="
 	https://github.com/Maratyszcza/FP16/archive/4dfe081cf6bcd15db339cf2680b9281b8451eeb3.zip -> FP16-4dfe081cf6bcd15db339cf2680b9281b8451eeb3.zip
 	https://github.com/Maratyszcza/FXdiv/archive/63058eff77e11aa15bf531df5dd34395ec3017c8.zip -> FXdiv-63058eff77e11aa15bf531df5dd34395ec3017c8.zip
 	https://github.com/Maratyszcza/pthreadpool/archive/b8374f80e42010941bda6c85b0e3f1a1bd77a1e0.zip -> pthreadpool-b8374f80e42010941bda6c85b0e3f1a1bd77a1e0.zip
-	https://github.com/tensorflow/toolchains/archive/v1.2.7.tar.gz -> tensorflow_toolchains_v1.2.7.tar.gz
-	https://github.com/tensorflow/runtime/archive/64c92c8013b557087351c91b5423b6046d10f206.tar.gz -> tf_runtime-64c92c8013b557087351c91b5423b6046d10f206.tar.gz
-	https://gitlab.com/libeigen/eigen/-/archive/7792b1e909a98703181aecb8810b4b654004c25d/eigen-7792b1e909a98703181aecb8810b4b654004c25d.tar.gz -> eigen-7792b1e909a98703181aecb8810b4b654004c25d.tar.gz
+	https://github.com/tensorflow/toolchains/archive/v1.3.2.tar.gz -> tensorflow_toolchains_v1.3.2.tar.gz
+	https://github.com/tensorflow/runtime/archive/c3e082762b7664bbc7ffd2c39e86464928e27c0c.tar.gz -> tf_runtime-c3e082762b7664bbc7ffd2c39e86464928e27c0c.tar.gz
+	https://gitlab.com/libeigen/eigen/-/archive/085c2fc5d53f391afcccce21c45e15f61c827ab1/eigen-085c2fc5d53f391afcccce21c45e15f61c827ab1.tar.gz -> eigen-085c2fc5d53f391afcccce21c45e15f61c827ab1.tar.gz
 	https://github.com/KhronosGroup/OpenCL-Headers/archive/0d5f18c6e7196863bc1557a693f1509adfcee056.tar.gz -> OpenCL-Headers-0d5f18c6e7196863bc1557a693f1509adfcee056.tar.gz
 	https://github.com/KhronosGroup/Vulkan-Headers/archive/ec2db85225ab410bc6829251bef6c578aaed5868.tar.gz -> Vulkan-Headers-ec2db85225ab410bc6829251bef6c578aaed5868.tar.gz
 	https://github.com/abseil/abseil-cpp/archive/997aaf3a28308eba1b9156aa35ab7bca9688e9f6.tar.gz -> abseil-cpp-997aaf3a28308eba1b9156aa35ab7bca9688e9f6.tar.gz
-	https://github.com/google/XNNPACK/archive/694d2524757f9040e65a02c374e152a462fe57eb.zip -> xnnpack-694d2524757f9040e65a02c374e152a462fe57eb.zip
-	https://github.com/llvm/llvm-project/archive/43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz -> llvm-project-43d6991c2a4cc2ac374e68c029634f2b59ffdfdf.tar.gz
+	https://github.com/google/XNNPACK/archive/113092317754c7dea47bfb3cb49c4f59c3c1fa10.zip -> xnnpack-113092317754c7dea47bfb3cb49c4f59c3c1fa10.zip
 	https://storage.googleapis.com/mirror.tensorflow.org/storage.cloud.google.com/download.tensorflow.org/tflite/hexagon_nn_headers_v1.20.0.3.tgz -> hexagon_nn_headers_v1.20.0.3.tgz
 	https://github.com/google/nsync/archive/1.22.0.tar.gz -> nsync-1.22.0.tar.gz
 	https://github.com/google/re2/archive/506cfa4bffd060c06ec338ce50ea3468daa6c814.tar.gz -> re2-506cfa4bffd060c06ec338ce50ea3468daa6c814.tar.gz
@@ -143,7 +143,7 @@ BDEPEND="
 	>=dev-libs/protobuf-3.8.0
 	dev-java/java-config
 	dev-lang/swig
-	=dev-util/bazel-3*
+	=dev-util/bazel-4*
 	cuda? (
 		>=dev-util/nvidia-cuda-toolkit-9.1[profiler]
 	)
@@ -156,13 +156,14 @@ BDEPEND="
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 PATCHES=(
-	"${FILESDIR}/tensorflow-2.7.0-0001-workspace.patch"
-	"${FILESDIR}/tensorflow-2.7.0-0002-ashmem-create.patch"
-	"${FILESDIR}/tensorflow-2.7.0-0003-nnapi-delegates.patch"
-	"${FILESDIR}/tensorflow-2.7.0-0004-cpuinfo-arm-fix.patch"
-	"${FILESDIR}/tensorflow-2.7.0-0005-gpu.patch"
-	"${FILESDIR}/tensorflow-2.7.0-0006-nnapi-loading-errors.patch"
-	"${FILESDIR}/tensorflow-2.7.0-0007-protobuff-cc-toolchain.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0001-workspace.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0002-ashmem-create.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0003-nnapi-delegates.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0004-cpuinfo-arm-fix.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0005-gpu.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0006-nnapi-loading-errors.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0007-protobuff-cc-toolchain.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0008-remove-llvm-repo.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
