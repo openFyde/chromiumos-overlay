@@ -18,7 +18,7 @@ RDEPEND="chromeos-base/chromeos-cr50-dev
 #
 # For now only the PrePVT image is installed until ti50 development gets
 # further along
-PRE_PVT_IMAGE="ti50.ro.0.0.17.rw.0.0.13"
+PRE_PVT_IMAGE="ti50.ro.0.0.17.rw.0.0.14"
 
 # Ensure all images and included in the manifest.
 TI50_BASE_NAMES=( "${PRE_PVT_IMAGE}" )
