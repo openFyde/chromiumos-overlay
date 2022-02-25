@@ -77,6 +77,7 @@ IUSE="
 	houdini64
 	hps
 	iioservice
+	inference_accuracy_eval
 	internal
 	iwlwifi_rescan
 	kernel-4_4
