@@ -9,6 +9,6 @@ KEYWORDS=*
 LICENSE=GPL-3
 RDEPEND=>=chromeos-base/chrome-icu-89 dev-libs/libzip:= sys-fs/fuse:0
 SLOT=0
-SRC_URI=https://github.com/google/mount-zip/archive/v1.0.4.tar.gz -> mount-zip-1.0.4.tar.gz
+SRC_URI=https://github.com/google/mount-zip/archive/v1.0.5.tar.gz -> mount-zip-1.0.5.tar.gz
 _eclasses_=cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=f7f4af71916a4c1d31d496a95b197cbe
