@@ -104,7 +104,6 @@ src_prepare() {
 
 	sed -e '/platform-integrity/d' \
 		-i plugins/meson.build || die #753521
-	sed -e "/^gcab/s/^/#/" -i meson.build || die
 	if ! use nls ; then
 		echo > po/LINGUAS || die
 	fi
