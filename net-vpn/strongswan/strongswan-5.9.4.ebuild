@@ -99,6 +99,11 @@ pkg_setup() {
 	fi
 }
 
+src_prepare() {
+	epatch "${FILESDIR}/${PN}-5.5.0-5.9.4_eap_success.patch"
+	default
+}
+
 src_configure() {
 	append-flags "-DSTARTER_ALLOW_NON_ROOT" "-DSKIP_KERNEL_IPSEC_MODPROBES"
 	local myconf=""
