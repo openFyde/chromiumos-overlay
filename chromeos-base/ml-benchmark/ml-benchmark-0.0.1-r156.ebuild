@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0d0ab3da2891e12e52146ad9559e452b805e576d"
+CROS_WORKON_COMMIT="4891fe6af5efbe0982d3da196bee19aa8e055a35"
 CROS_WORKON_TREE=("8478dc3bc65690142c4953b004b2724360b349b1" "fdd0209826719268c01d190ed7bbfa76b177f2f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,6 +18,7 @@ inherit cros-workon platform
 # chromeos-base/ml_benchmark blocked due to package rename
 RDEPEND="
 	!chromeos-base/ml_benchmark
+	vulkan? ( media-libs/clvk )
 "
 
 DEPEND="${RDEPEND}
@@ -26,7 +27,7 @@ DEPEND="${RDEPEND}
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE=""
+IUSE="vulkan"
 
 src_install() {
 	platform_install
