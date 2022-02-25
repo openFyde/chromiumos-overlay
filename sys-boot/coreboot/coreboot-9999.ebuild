@@ -14,6 +14,8 @@ CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot/blobs"
 	"chromiumos/third_party/coreboot/intel-microcode"
 	"chromiumos/third_party/cbootimage"
+	"chromiumos/third_party/coreboot/libgfxinit"
+	"chromiumos/third_party/coreboot/libhwbase"
 )
 CROS_WORKON_LOCALNAME=(
 	"coreboot"
@@ -23,6 +25,8 @@ CROS_WORKON_LOCALNAME=(
 	"coreboot/3rdparty/blobs"
 	"coreboot/3rdparty/intel-microcode"
 	"cbootimage"
+	"coreboot/3rdparty/libgfxinit"
+	"coreboot/3rdparty/libhwbase"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}"
@@ -32,6 +36,8 @@ CROS_WORKON_DESTDIR=(
 	"${S}/3rdparty/blobs"
 	"${S}/3rdparty/intel-microcode"
 	"${S}/util/nvidia/cbootimage"
+	"${S}/3rdparty/libgfxinit"
+	"${S}/3rdparty/libhwbase"
 )
 
 CROS_WORKON_EGIT_BRANCH=(
@@ -42,6 +48,8 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 	"master"
 	"master"
+	"main"
+	"main"
 )
 
 inherit cros-workon toolchain-funcs cros-unibuild coreboot-sdk
