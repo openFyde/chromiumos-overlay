@@ -81,6 +81,7 @@ IUSE="${IUSE} +bmpblk unibuild"
 # overlays, and avoid creating virtual packages.
 # See b/178642474
 IUSE="${IUSE} coreboot-private-files-board coreboot-private-files-chipset"
+IUSE="${IUSE} +fsp_gop"
 
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
@@ -193,7 +194,9 @@ EOF
 	fi
 	# Use FSP's GOP in favor of coreboot's Ada based Intel graphics init
 	# which we don't include at this time. A no-op on non-FSP/GOP devices.
-	echo "CONFIG_RUN_FSP_GOP=y" >> "${CONFIG}"
+	if use fsp_gop; then
+		echo "CONFIG_RUN_FSP_GOP=y" >> "${CONFIG}"
+	fi
 
 	# Override the automatic options created above with board config.
 	local board_config="${FILESDIR}/configs/config.${board}"
