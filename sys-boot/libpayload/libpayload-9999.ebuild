@@ -24,6 +24,8 @@ IUSE="coreboot-sdk unibuild verbose"
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
 REQUIRED_USE="unibuild"
+# Make sure we don't use SDK gcc anymore.
+REQUIRED_USE+=" coreboot-sdk"
 
 DEPEND="chromeos-base/chromeos-config:="
 
