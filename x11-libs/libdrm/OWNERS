@@ -1,0 +1,3 @@
+set noparent
+include chromiumos/platform/graphics:/OWNERS.libdrm
+include chromiumos/overlays/portage-stable:/OWNERS.general
