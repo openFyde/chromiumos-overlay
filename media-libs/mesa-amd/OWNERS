@@ -1,2 +1,3 @@
 set noparent
 include chromiumos/platform/graphics:/OWNERS.mesa_amd
+include chromiumos/overlays/portage-stable:/OWNERS.general
