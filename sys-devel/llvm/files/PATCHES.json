@@ -2549,5 +2549,18 @@
         ],
         "rel_patch_path": "cherry/9a74c753fe3fb40afeb0660060538678dd77d060.patch",
         "start_version": 437112
+    },
+    {
+        "end_version": 451711,
+        "metadata": {
+            "info": [],
+            "title": "[ELF] Support REL-format R_AARCH64_NONE relocation"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/f457863ae345d2635026501f5383e0e625869639.patch",
+        "start_version": 445002
     }
 ]
