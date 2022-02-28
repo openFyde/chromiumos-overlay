@@ -62,11 +62,11 @@ src_configure() {
 	local emesonargs=(
 		-Dinstall-test-programs=true
 		$(meson_use video_cards_amdgpu amdgpu)
-		$(meson_use video_cards_exynos exynos-experimental-api)
+		$(meson_use video_cards_exynos exynos)
 		$(meson_use video_cards_freedreno freedreno)
 		$(meson_use video_cards_intel intel)
 		$(meson_use video_cards_nouveau nouveau)
-		$(meson_use video_cards_omap omap-experimental-api)
+		$(meson_use video_cards_omap omap)
 		$(meson_use video_cards_radeon radeon)
 		$(meson_use video_cards_vc4 vc4)
 		$(meson_use video_cards_vmware vmwgfx)
