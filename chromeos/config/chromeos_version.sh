@@ -31,7 +31,7 @@ if [ -z "${FLAGS_version}" ]; then
   if [ ${CHROMEOS_OFFICIAL:-0} -ne 1 ]; then
     # For developer builds, overwrite CHROMEOS_PATCH with a date string
     # for use by auto-updater.
-    CHROMEOS_PATCH=$(date +%Y_%m_%d_%H%M)
+    CHROMEOS_PATCH="${CHROMEOS_PATCH}"-d$(date +%Y_%m_%d_%H%M%S)
   fi
 
   # Version string. Not indentied to appease bash.
