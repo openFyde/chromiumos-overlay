@@ -28,6 +28,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_x86_adl_ucode? ( sys-boot/coreboot-private-files-baseboard-brya )
+	builtin_fw_x86_amd_ucode? ( sys-kernel/linux-firmware[linux_firmware_amd_ucode] )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
 	builtin_fw_x86_bdw_ucode? ( chromeos-base/bdw-ucode-firmware-private )
@@ -1214,6 +1215,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_t210_xusb
 	builtin_fw_vega12
 	builtin_fw_x86_adl_ucode
+	builtin_fw_x86_amd_ucode
 	builtin_fw_x86_aml_ucode
 	builtin_fw_x86_apl_ucode
 	builtin_fw_x86_bdw_ucode
@@ -1437,6 +1439,15 @@ builtin_fw_vega12_files=(
 	amdgpu/vega12_sos.bin
 	amdgpu/vega12_uvd.bin
 	amdgpu/vega12_vce.bin
+)
+
+builtin_fw_x86_amd_ucode_desc="AMD ucode for all chips"
+builtin_fw_x86_amd_ucode_files=(
+	amd-ucode/microcode_amd.bin
+	amd-ucode/microcode_amd_fam15h.bin
+	amd-ucode/microcode_amd_fam16h.bin
+	amd-ucode/microcode_amd_fam17h.bin
+	amd-ucode/microcode_amd_fam19h.bin
 )
 
 builtin_fw_x86_intel_ucode_desc="Intel ucode for all chips"
