@@ -305,7 +305,7 @@ multilib_src_configure() {
 		-Dgallium-vdpau=false
 		-Dgallium-xvmc=false
 		-Dgallium-omx=disabled
-		-Dgallum-xa=false
+		-Dgallium-xa=false
 		-Dasm=false
 		-Dglx=disabled
 		-Ddri3=false

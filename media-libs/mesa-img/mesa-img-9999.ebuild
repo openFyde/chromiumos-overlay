@@ -168,14 +168,12 @@ src_configure() {
 	append-flags "-UENABLE_SHADER_CACHE"
 
 	emesonargs+=(
-		-Dexecmem=false
 		-Dglvnd=$(usex libglvnd true false)
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
 		$(meson_use egl)
 		$(meson_use gbm)
-		$(meson_use X gl)
 		$(meson_use gles1)
 		$(meson_use gles2)
 		$(meson_use selinux)

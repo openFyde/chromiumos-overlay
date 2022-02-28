@@ -202,7 +202,6 @@ src_configure() {
 		-Degl-native-platform="surfaceless"
 		$(meson_feature egl)
 		$(meson_feature gbm)
-		$(meson_feature X gl)
 		$(meson_feature gles1)
 		$(meson_feature gles2)
 		$(meson_feature zstd)
