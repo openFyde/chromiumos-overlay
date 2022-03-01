@@ -6,7 +6,7 @@ EAPI=6
 CROS_WORKON_COMMIT="1a88adcae96825105152fc6ade6dbbed6adad840"
 CROS_WORKON_TREE="efe9511cb92f9f1b7c9e516359c3230fa34a6d05"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.7.4"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.7.6"
 
 PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
@@ -106,7 +106,6 @@ src_prepare() {
 
 	sed -e '/platform-integrity/d' \
 		-i plugins/meson.build || die #753521
-	sed -e "/^gcab/s/^/#/" -i meson.build || die
 	if ! use nls ; then
 		echo > po/LINGUAS || die
 	fi
