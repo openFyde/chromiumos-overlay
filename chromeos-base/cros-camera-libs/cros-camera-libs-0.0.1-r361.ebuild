@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f35f2919309cf11b0ddd9deb24a6b145d40d9254"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a625767bb59509159091f2ab0b71f8b9b4b2e353" "4a0dedab080195bdc122d2289118df4af3ddca2c" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "f5091e006c7b14557be20a5acb7d02293df79e69" "8b52ead16a7e23edef807702151d800def144050" "8aea57128c1adc8ea0b845047ce01733cecaf5c1" "423489798d35908e40bb1a044213aaef49cc3a3b" "17c0af603db6e69e7d5b07fe21738237ebe29f3f" "bea140d13f7cf1092e4c89a45011c04c28327972" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "5344097beef866bd9f20e32d6264c0d33ea1623a")
+CROS_WORKON_COMMIT="1f9d9f4574a9655d844c7ef46f138da7228a93a9"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a625767bb59509159091f2ab0b71f8b9b4b2e353" "4a0dedab080195bdc122d2289118df4af3ddca2c" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "a4c500ab9b3c0bc4232aa527a6cbd18f786338a4" "cb410200827b0e0e8a13e27ee2d8beee28948361" "8aea57128c1adc8ea0b845047ce01733cecaf5c1" "080361d5d45e74e7927e56bab774531748d1a569" "17c0af603db6e69e7d5b07fe21738237ebe29f3f" "bea140d13f7cf1092e4c89a45011c04c28327972" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "5344097beef866bd9f20e32d6264c0d33ea1623a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo"
@@ -22,6 +22,9 @@ KEYWORDS="*"
 
 # 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
 IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
+
+# Auto face framing depends on the face detection feature.
+REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
 
 BDEPEND="virtual/pkgconfig"
 
@@ -43,6 +46,7 @@ RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
+	camera_feature_auto_framing? ( media-libs/cros-camera-libautoframing:= )
 	camera_feature_hdrnet? ( media-libs/cros-camera-libgcam:= )
 	camera_feature_portrait_mode? ( media-libs/cros-camera-effect-portrait-mode:= )
 	media-libs/libexif:=
