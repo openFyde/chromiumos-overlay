@@ -145,6 +145,7 @@ RDEPEND="${RDEPEND}
 	dev-python/protobuf-python
 	dev-python/cherrypy
 	dev-python/dbus-python
+	dev-python/pydbus
 	dev-python/hid-tools
 	python_targets_python2_7? ( dev-util/hdctools )
 	lldbserver? ( dev-util/lldb-server )

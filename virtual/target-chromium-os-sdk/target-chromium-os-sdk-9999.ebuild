@@ -192,6 +192,7 @@ RDEPEND="${RDEPEND}
 	dev-python/py
 	dev-python/pycairo
 	dev-python/pycparser
+	dev-python/pydbus
 	dev-python/pygobject
 	dev-python/pyopenssl
 	dev-python/pytest
