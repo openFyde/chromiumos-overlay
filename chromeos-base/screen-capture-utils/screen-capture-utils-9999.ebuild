@@ -5,8 +5,7 @@ EAPI=7
 
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-# TODO(crbug.com/809389): remove 'metrics' pulled in from header dependency.
-CROS_WORKON_SUBTREE="common-mk screen-capture-utils metrics .gn"
+CROS_WORKON_SUBTREE="common-mk screen-capture-utils .gn"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -24,7 +23,6 @@ IUSE=""
 # Mark the old screenshot package as blocker so it gets automatically removed in
 # incremental builds.
 RDEPEND="
-	chromeos-base/metrics
 	!chromeos-base/screenshot
 	media-libs/libpng:0=
 	media-libs/minigbm:=
