@@ -1,0 +1,8 @@
+DEFINED_PHASES=install
+DESCRIPTION=Google3 auto-framing libraries for Chrome OS.
+EAPI=7
+KEYWORDS=-* amd64
+LICENSE=BSD-Google
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-camera-libautoframing-2022.02.24.tbz2
+_md5_=62f27b437f687cda8b171f15992080d7
