@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools v${PN}"
+CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools v${PV}"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/ast/astutil"
