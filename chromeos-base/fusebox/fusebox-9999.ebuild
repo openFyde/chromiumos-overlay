@@ -37,7 +37,7 @@ src_install() {
 	dobin "${OUT}"/fusebox
 
 	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.FuseBoxService.conf dbus/org.chromium.FuseBoxClient.conf
+	doins dbus/org.chromium.FuseBoxService.conf dbus/org.chromium.FuseBoxReverseService.conf
 }
 
 platform_pkg_test() {
