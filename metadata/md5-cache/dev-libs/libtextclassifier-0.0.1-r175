@@ -1,0 +1,15 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/chrome-icu:= dev-libs/flatbuffers:= sci-libs/tensorflow:= sys-libs/zlib:= !<chromeos-base/ml-0.0.1-r369 dev-libs/libutf:= dev-libs/marisa-aosp:= >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=Library for classifying text
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/libtextclassifier/
+IUSE=cros_host cros_workon_tree_b50e5ebc78fa3b45d6c6ea0ede1aa648d160fb92_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_4fa2be0611424952390eb570106ed5944e294b46 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_b50e5ebc78fa3b45d6c6ea0ede1aa648d160fb92_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_4fa2be0611424952390eb570106ed5944e294b46 cros-debug compilation_database cros_host test
+KEYWORDS=*
+LICENSE=Apache-2.0
+PROPERTIES=live live
+RDEPEND=chromeos-base/chrome-icu:= dev-libs/flatbuffers:= sci-libs/tensorflow:= sys-libs/zlib:= !<chromeos-base/ml-0.0.1-r369 >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
+SLOT=0/0.0.1-r175
+SRC_URI=gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711_vocab-v1.fb
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	36d32a1662085fe36bb5f0f4fe41537a	libchrome-version	f89118941e7f3c3825d2fe216c977c57	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	3cd45e0ec06b0edbdb2db25321182570	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=42396235d8699e80c08e72733240f81c
