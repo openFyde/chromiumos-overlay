@@ -118,6 +118,7 @@ src_install() {
 	# space on the root filesystem.
 	local plugins=(
 		altair-lte
+		fibocom
 		generic
 		huawei
 		longcheer
@@ -162,7 +163,6 @@ src_install() {
 
 	# Install Chrome OS specific udev rules.
 	udev_dorules "${FILESDIR}/52-mm-modem-permissions.rules"
-	udev_dorules "${FILESDIR}/77-mm-fibocom-port-types.rules"
 	udev_dorules "${FILESDIR}/77-mm-huawei-configuration.rules"
 	exeinto "$(get_udevdir)"
 	doexe "${FILESDIR}/mm-huawei-configuration-switch.sh"
