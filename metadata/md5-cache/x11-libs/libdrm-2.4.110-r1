@@ -4,8 +4,8 @@ DEPEND=dev-libs/libpthread-stubs udev? ( virtual/udev ) video_cards_amdgpu? ( de
 DESCRIPTION=X.Org libdrm library
 EAPI=7
 HOMEPAGE=http://dri.freedesktop.org/
-IUSE=video_cards_amdgpu video_cards_exynos video_cards_freedreno video_cards_intel video_cards_nouveau video_cards_omap video_cards_radeon video_cards_vc4 video_cards_vmware libkms manpages +udev cros_host cros_workon_tree_
-KEYWORDS=~*
+IUSE=video_cards_amdgpu video_cards_exynos video_cards_freedreno video_cards_intel video_cards_nouveau video_cards_omap video_cards_radeon video_cards_vc4 video_cards_vmware libkms manpages +udev cros_host cros_workon_tree_f2dad5f135f56bf9e56b44d5b9637ffb59d38f23
+KEYWORDS=*
 LICENSE=|| ( MIT X )
 PROPERTIES=live
 RDEPEND=dev-libs/libpthread-stubs udev? ( virtual/udev ) video_cards_amdgpu? ( dev-util/cunit ) video_cards_intel? ( >=x11-libs/libpciaccess-0.10 ) !<x11-libs/libdrm-tests-2.4.58-r3
