@@ -6,7 +6,7 @@
 # VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_COMMIT=("801687b38b1c72e7b8dab2f9ccf5ea0c5e9d5922" "07a7bc69641129e937ab702b95e893d4a5ba45fd")
+CROS_WORKON_COMMIT=("801687b38b1c72e7b8dab2f9ccf5ea0c5e9d5922" "c31013768eb4ed052c54df50c398f70f2d7ef36d")
 CROS_WORKON_TREE=("22ffb0b4c6caf0b99a3773595e5d59aecc2054a5" "dcb83fabc80ab81194351fbb80e61d666efd7ccd" "0817c42e0f630c1a0975b591f98be39a099842b7" "bacdab8734794201bdb8ad183f79bab4051584db" "6340fb29293d883ab8792c9d2ff249fb14776f2e" "2e2f24b87140cd3280bde18e487c3261801201f9")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
@@ -26,6 +26,8 @@ IUSE="coreboot-sdk unibuild verbose"
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
 REQUIRED_USE="unibuild"
+# Make sure we don't use SDK gcc anymore.
+REQUIRED_USE+=" coreboot-sdk"
 
 DEPEND="chromeos-base/chromeos-config:="
 

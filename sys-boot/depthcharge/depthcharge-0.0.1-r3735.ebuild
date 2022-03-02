@@ -174,15 +174,6 @@ src_compile() {
 	local builddir
 	local libpayload
 
-	# Firmware related binaries are compiled with a 32-bit toolchain
-	# on 64-bit platforms
-	if use amd64 ; then
-		export CROSS_COMPILE="i686-pc-linux-gnu-"
-		export CC="${CROSS_COMPILE}gcc"
-	else
-		export CROSS_COMPILE=${CHOST}-
-	fi
-
 	pushd depthcharge >/dev/null || \
 		die "Failed to change into ${PWD}/depthcharge"
 
