@@ -4,12 +4,12 @@ DEPEND==dev-rust/rand_core-0.4*:= >=virtual/rust-1.39.0:= virtual/rust-binaries:
 DESCRIPTION=Support crate for running rust fuzzers on Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cros-fuzz
-IUSE=fuzzer test cros_host cros_workon_tree_80f9e4e3017742fbd3ac33518375b8856b695bab cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=fuzzer test cros_host cros_workon_tree_da10078d8a9a6c62eb10a07b2ab233ad80ab2ce2 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND==dev-rust/rand_core-0.4*:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r210
+SLOT=0/0.1.0-r211
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=02eee4bb48dccd644d477f2e3b2aaa50
+_md5_=46927cd42916054c65fa8793f3b8116d
