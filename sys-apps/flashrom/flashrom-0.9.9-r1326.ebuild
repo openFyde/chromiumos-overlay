@@ -29,7 +29,6 @@ IUSE="
 	+digilent_spi
 	+drkaiser
 	+dummy
-	ene_lpc
 	+ft2232_spi
 	+gfxnvidia
 	+internal
@@ -38,7 +37,6 @@ IUSE="
 	+linux_mtd
 	+linux_spi
 	+lspcon_i2c_spi
-	mec1308
 	mstarddc_spi
 	+nic3com
 	+nicintel
@@ -114,7 +112,6 @@ src_configure() {
 		$(meson_use digilent_spi config_digilent_spi)
 		$(meson_use drkaiser config_drkaiser)
 		$(meson_use dummy config_dummy)
-		$(meson_use ene_lpc config_ene_lpc)
 		$(meson_use ft2232_spi config_ft2232_spi)
 		$(meson_use gfxnvidia config_gfxnvidia)
 		$(meson_use internal config_internal)
@@ -123,7 +120,6 @@ src_configure() {
 		$(meson_use linux_mtd config_linux_mtd)
 		$(meson_use linux_spi config_linux_spi)
 		$(meson_use lspcon_i2c_spi config_lspcon_i2c_spi)
-		$(meson_use mec1308 config_mec1308)
 		$(meson_use mstarddc_spi config_mstarddc_spi)
 		$(meson_use nic3com config_nic3com)
 		$(meson_use nicintel_eeprom config_nicintel_eeprom)
