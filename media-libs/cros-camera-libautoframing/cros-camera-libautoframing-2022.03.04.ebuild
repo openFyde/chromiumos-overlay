@@ -4,7 +4,7 @@
 EAPI=7
 
 DESCRIPTION="Google3 auto-framing libraries for Chrome OS."
-# PV 2022.02.24: built at cl/430470469.
+# Version 2022.03.04: built at cl/432274608.
 SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-camera-libautoframing-${PV}.tbz2"
 
 LICENSE="BSD-Google"
