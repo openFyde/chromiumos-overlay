@@ -22,6 +22,7 @@ IUSE="test"
 DEPEND="
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	=dev-rust/remain-0.2*:=
+	=dev-rust/serde-1*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 
