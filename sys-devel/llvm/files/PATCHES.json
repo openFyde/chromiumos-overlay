@@ -1,6 +1,5 @@
 [
     {
-        "end_version": 445113,
         "metadata": {
             "info": [],
             "title": "Revert \"tsan: new runtime (v3)\""
@@ -9,10 +8,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/09859113ed23ea11ce5726f0d19bc57e93ecbaab.patch",
-        "start_version": 444647
+        "version_range": {
+            "from": 444647,
+            "until": 445113
+        }
     },
     {
-        "end_version": 445145,
         "metadata": {
             "info": [],
             "title": "[Analyzer][solver] Simplification: Do a fixpoint iteration before the eq class merge"
@@ -21,10 +22,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/20f8733d4b8d5bdb93080b8824de57b7fae31785.patch",
-        "start_version": 444923
+        "version_range": {
+            "from": 444923,
+            "until": 445145
+        }
     },
     {
-        "end_version": 446091,
         "metadata": {
             "info": [],
             "title": "Revert \"X86InstrInfo: Support immediates that are +1/-1 different in optimizeCompareInstr\""
@@ -33,10 +36,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/ea81cea8163a1a0e54df42103ee1c657bbf03791.patch",
-        "start_version": 442651
+        "version_range": {
+            "from": 442651,
+            "until": 446091
+        }
     },
     {
-        "end_version": 448047,
         "metadata": {
             "info": [],
             "title": "Revert \"[AArch64] Emit .cfi_negate_ra_state for PAC-auth instructions.\""
@@ -45,10 +50,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/131c06e6da79c5f3ca6761676d084f46252436eb.patch",
-        "start_version": 441265
+        "version_range": {
+            "from": 441265,
+            "until": 448047
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[test] Cleanup tests with -enable-new-pm in llvm/test/Analysis\""
@@ -57,10 +64,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-bd020bbbd29e3a30f6697d6b077d28d79b3a3a9d.patch",
-        "start_version": 437228
+        "version_range": {
+            "from": 437228,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[MemCpyOpt] Fix a variety of scalable-type crashes\""
@@ -69,10 +78,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-7fb66d4035960b3c2797eae73d79b8478ff0348e.patch",
-        "start_version": 437427
+        "version_range": {
+            "from": 437427,
+            "until": null
+        }
     },
     {
-        "end_version": 414798,
         "metadata": {
             "info": [],
             "title": "Adds a allowlist of packages that have known memory leaks"
@@ -81,10 +92,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-next-leak-allowlist.v2.patch",
-        "start_version": 370808
+        "version_range": {
+            "from": 370808,
+            "until": 414798
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Adds a allowlist of packages that have known memory leaks"
@@ -93,10 +106,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-leak-allowlist.v3.patch",
-        "start_version": 414798
+        "version_range": {
+            "from": 414798,
+            "until": null
+        }
     },
     {
-        "end_version": 408666,
         "metadata": {
             "info": [],
             "title": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault"
@@ -105,10 +120,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "clang-4.0-asan-default-path.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": 408666
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault"
@@ -117,10 +134,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "clang-12.0-asan-default-path.patch",
-        "start_version": 408666
+        "version_range": {
+            "from": 408666,
+            "until": null
+        }
     },
     {
-        "end_version": 388757,
         "metadata": {
             "info": [],
             "title": "Makes llvm not generate .cgprofile entries when we\ndo not use integrated-as"
@@ -129,10 +148,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-9.0-no-cgprofile.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": 388757
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Used as destination of target generators"
@@ -141,10 +162,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cmake/llvm-3.8-allow_custom_cmake_build_types.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Fixes crbug/591436. Force fallback to traditional executable detection"
@@ -153,10 +176,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-8.0-clang-executable-detection.v2.patch",
-        "start_version": 370808
+        "version_range": {
+            "from": 370808,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Temporary workaround. Breakpad cannot handle Dwarf\nVersion 4. Works around issue by forcing Debug Frames\nversion of Dwarf to be version 1, while leaving the rest of\nthe Dwarf data at version 4"
@@ -165,10 +190,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-3.9-dwarf-version.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": null
+        }
     },
     {
-        "end_version": 420001,
         "metadata": {
             "info": [],
             "title": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary"
@@ -177,10 +204,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-3.8-invocation.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": 420001
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Uses argv[0] to get host system information. Created\na wrapper of LLD and real lld becomes lld.elf so the LLD\ncannot get the host system information and dies"
@@ -189,10 +218,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "lld-10.0-invoke-name.patch",
-        "start_version": 365730
+        "version_range": {
+            "from": 365730,
+            "until": null
+        }
     },
     {
-        "end_version": 384465,
         "metadata": {
             "info": [],
             "title": "Fix type-dependency of bitfields in templates"
@@ -201,10 +232,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a58017e5cae5be948fd1913b68d46553e87aa622.patch",
-        "start_version": 380035
+        "version_range": {
+            "from": 380035,
+            "until": 384465
+        }
     },
     {
-        "end_version": 384546,
         "metadata": {
             "info": [],
             "title": "[ARM] Fix infinite loop when lowering STRICT_FP_EXTEND"
@@ -213,10 +246,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0ec57972967dfb43fc022c2e3788be041d1db730.patch",
-        "start_version": 380035
+        "version_range": {
+            "from": 380035,
+            "until": 384546
+        }
     },
     {
-        "end_version": 385989,
         "metadata": {
             "info": [],
             "title": "[DAGCombine] Fix alias analysis for unaligned accesses"
@@ -225,10 +260,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/1de10705594c7a2c9b8fde901c391bd84062ae04.patch",
-        "start_version": 380035
+        "version_range": {
+            "from": 380035,
+            "until": 385989
+        }
     },
     {
-        "end_version": 386784,
         "metadata": {
             "info": [],
             "title": "[cmake] By default do not build compiler-rt with PGO"
@@ -237,10 +274,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/20dfcf189d224e637377970318a021c81d2fbde0.patch",
-        "start_version": 380035
+        "version_range": {
+            "from": 380035,
+            "until": 386784
+        }
     },
     {
-        "end_version": 386785,
         "metadata": {
             "info": [],
             "title": "[cmake] Strip quotes in compiler-rt/lib/crt; error if checks fail"
@@ -249,10 +288,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/cfc3e7f458f8798782c01a0dadf872c60340c23e.patch",
-        "start_version": 380035
+        "version_range": {
+            "from": 380035,
+            "until": 386785
+        }
     },
     {
-        "end_version": 385452,
         "metadata": {
             "info": [],
             "title": "[Sema] Fix pointer-to-int-cast diagnostic for _Bool"
@@ -261,10 +302,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/56eb15a1c71061043d50aa669407816bc08dfb5d.patch",
-        "start_version": 384785
+        "version_range": {
+            "from": 384785,
+            "until": 385452
+        }
     },
     {
-        "end_version": 386665,
         "metadata": {
             "info": [],
             "title": "[Sema] Add -Wpointer-to-enum-cast and -Wvoid-pointer-to-enum-cast"
@@ -273,10 +316,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/2a41b31fcdfcb67ab7038fc2ffb606fd50b83a84.patch",
-        "start_version": 384785
+        "version_range": {
+            "from": 384785,
+            "until": 386665
+        }
     },
     {
-        "end_version": 386077,
         "metadata": {
             "info": [],
             "title": "[X86] Don't add DELETED_NODES to DAG combine worklist after calling"
@@ -285,10 +330,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/2f4f8fcf64c67ee327e19b74a82a2330cfb32312.patch",
-        "start_version": 385457
+        "version_range": {
+            "from": 385457,
+            "until": 386077
+        }
     },
     {
-        "end_version": 386151,
         "metadata": {
             "info": [],
             "title": "[ThinLTO/LowerTypeTests] Handle unpromoted local type ids"
@@ -297,10 +344,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/873c0d0786dcf22f4af39f65df824917f70f2170.patch",
-        "start_version": 384279
+        "version_range": {
+            "from": 384279,
+            "until": 386151
+        }
     },
     {
-        "end_version": 386180,
         "metadata": {
             "info": [],
             "title": "Revert Restore [WPD/LowerTypeTests] Delay lowering/removal of type tests until after ICP"
@@ -309,10 +358,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/80bf137fa132ea33204e98bbefa924afe9258a4e.patch",
-        "start_version": 384279
+        "version_range": {
+            "from": 384279,
+            "until": 386180
+        }
     },
     {
-        "end_version": 387212,
         "metadata": {
             "info": [],
             "title": "Revert Reland [DebugInfo] Enable the debug entry values feature by default"
@@ -321,10 +372,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/f82b32a51e22cc56d20f695772797127d3f9d85a.patch",
-        "start_version": 386806
+        "version_range": {
+            "from": 386806,
+            "until": 387212
+        }
     },
     {
-        "end_version": 385016,
         "metadata": {
             "info": [],
             "title": "[JumpThreading] Skip unconditional PredBB when threading jumps through two basic blocks"
@@ -333,10 +386,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/13a97305ba77f44eccba16087320c8aa016ac6da.patch",
-        "start_version": 383663
+        "version_range": {
+            "from": 383663,
+            "until": 385016
+        }
     },
     {
-        "end_version": 383972,
         "metadata": {
             "info": [],
             "title": "Revert \"[ARM] Improve codegen of volatile load/store of i64\""
@@ -345,10 +400,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/af2a38458197e07cbd03ea9446714008488826d8.patch",
-        "start_version": 380711
+        "version_range": {
+            "from": 380711,
+            "until": 383972
+        }
     },
     {
-        "end_version": 384124,
         "metadata": {
             "info": [],
             "title": "Revert \"[InstCombine][DebugInfo] Fold constants wrapped in metadata\""
@@ -357,10 +414,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/982944525c7706c4dee00042d5b7cf2f0d87804f.patch",
-        "start_version": 383041
+        "version_range": {
+            "from": 383041,
+            "until": 384124
+        }
     },
     {
-        "end_version": 385655,
         "metadata": {
             "info": [],
             "title": "Revert \"[LICM] Support hosting of dynamic allocas out of loops\""
@@ -369,10 +428,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/14845b2c459021e3dbf2ead52d707d4a7db40cbb.patch",
-        "start_version": 376772
+        "version_range": {
+            "from": 376772,
+            "until": 385655
+        }
     },
     {
-        "end_version": 386178,
         "metadata": {
             "info": [],
             "title": "Revert \"[clang] detect switch fallthrough marked by a comment (PR43465)\""
@@ -381,10 +442,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/c61401b89742f230b7e6a2cc0548fbf7442e906d.patch",
-        "start_version": 383396
+        "version_range": {
+            "from": 383396,
+            "until": 386178
+        }
     },
     {
-        "end_version": 387062,
         "metadata": {
             "info": [],
             "title": "[CUDA] Warn about unsupported CUDA SDK version only if it's used."
@@ -393,10 +456,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/eb2ba2ea953b5ea73cdbb598f77470bde1c6a011.patch",
-        "start_version": 382740
+        "version_range": {
+            "from": 382740,
+            "until": 387062
+        }
     },
     {
-        "end_version": 387801,
         "metadata": {
             "info": [],
             "title": "[DAGCombiner] Do not fold truncate(build_vector(..)) if it creates an illegal type"
@@ -405,10 +470,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/edcfb47ff6d5562e22207f364c65f84302aa346b.patch",
-        "start_version": 383902
+        "version_range": {
+            "from": 383902,
+            "until": 387801
+        }
     },
     {
-        "end_version": 391452,
         "metadata": {
             "info": [],
             "title": "Revert d437fba8ef626b6d8b7928540f630163a9b04021"
@@ -417,10 +484,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-d437fba8ef626b6d8b7928540f630163a9b04021.patch",
-        "start_version": 383902
+        "version_range": {
+            "from": 383902,
+            "until": 391452
+        }
     },
     {
-        "end_version": 387810,
         "metadata": {
             "info": [],
             "title": "PR45181: Fix another invalid DIExpression combination"
@@ -429,10 +498,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/636665331bbd4c369a9f33c4d35fb9a863c94646.patch",
-        "start_version": 387675
+        "version_range": {
+            "from": 387675,
+            "until": 387810
+        }
     },
     {
-        "end_version": 387475,
         "metadata": {
             "info": [],
             "title": "[clang][AArch64] readd support for 'p' inline asm constraint"
@@ -441,10 +512,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/5d90f886bc022e7c9144a0ef08ea7ccde7e66030.patch",
-        "start_version": 387430
+        "version_range": {
+            "from": 387430,
+            "until": 387475
+        }
     },
     {
-        "end_version": 388672,
         "metadata": {
             "info": [],
             "title": "Revert \"[GISel]: Fix incorrect IRTranslation while translating null pointer types\""
@@ -453,10 +526,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b8fc192d42af56b17b7d940e6c226f4969e0d851.patch",
-        "start_version": 328218
+        "version_range": {
+            "from": 328218,
+            "until": 388672
+        }
     },
     {
-        "end_version": 388144,
         "metadata": {
             "info": [],
             "title": "Revert \"Convert a reachable llvm_unreachable into an assert.\""
@@ -465,10 +540,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/7339fca25facb566e969b6ce01f23ac96499d574.patch",
-        "start_version": 386862
+        "version_range": {
+            "from": 386862,
+            "until": 388144
+        }
     },
     {
-        "end_version": 388115,
         "metadata": {
             "info": [],
             "title": "Revert \"Include static prof data when collecting loop BBs\""
@@ -477,10 +554,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/c3417592c847b8bd67deab21bbe6d62a49bde234.patch",
-        "start_version": 385160
+        "version_range": {
+            "from": 385160,
+            "until": 388115
+        }
     },
     {
-        "end_version": 387942,
         "metadata": {
             "info": [],
             "title": "Revert \"[FIX] Do not copy an llvm::function_ref if it has to be reused\""
@@ -489,10 +568,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0d0b90105f92f6cd9cc7004d565834f4429183fb.patch",
-        "start_version": 384779
+        "version_range": {
+            "from": 384779,
+            "until": 387942
+        }
     },
     {
-        "end_version": 387904,
         "metadata": {
             "info": [],
             "title": "Revert \"EHScopeStack::Cleanup has virtual functions so the destructor should be too.\""
@@ -501,10 +582,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b5eafda8d3ef02f9f78e090725564dd28e573322.patch",
-        "start_version": 386136
+        "version_range": {
+            "from": 386136,
+            "until": 387904
+        }
     },
     {
-        "end_version": 387882,
         "metadata": {
             "info": [],
             "title": "Revert rGe6a7e3b5e3e7 \"[X86][SSE] matchShuffleWithSHUFPD - add support for unary shuffles.\""
@@ -513,10 +596,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/f424d51c3e195de786204a93a9ccf6367bb26c8e.patch",
-        "start_version": 386843
+        "version_range": {
+            "from": 386843,
+            "until": 387882
+        }
     },
     {
-        "end_version": 387755,
         "metadata": {
             "info": [],
             "title": "Revert \"Generate Callee Saved Register (CSR) related cfi directives like .cfi_restore.\""
@@ -525,10 +610,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a035726e5aae18bb9be1e61d9aef2a102c3b33ba.patch",
-        "start_version": 386407
+        "version_range": {
+            "from": 386407,
+            "until": 387755
+        }
     },
     {
-        "end_version": 387517,
         "metadata": {
             "info": [],
             "title": "Revert \"Avoid emitting unreachable SP adjustments after `throw`\""
@@ -537,10 +624,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/4e0fe038f438ae1679eae9e156e1f248595b2373.patch",
-        "start_version": 386616
+        "version_range": {
+            "from": 386616,
+            "until": 387517
+        }
     },
     {
-        "end_version": 393974,
         "metadata": {
             "info": [],
             "title": "Revert \"[ARM] Improve codegen of volatile load/store of i64\""
@@ -549,10 +638,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/872ee78f65f47fae19d4f8db7396eb56d902aef1.patch",
-        "start_version": 386906
+        "version_range": {
+            "from": 386906,
+            "until": 393974
+        }
     },
     {
-        "end_version": 394897,
         "metadata": {
             "info": [],
             "title": "[LV] Make sure the MaxVF is a power-of-2 by rounding down."
@@ -561,10 +652,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b446ec56a2987ba02dc2c80d42100be4a4689215.patch",
-        "start_version": 394115
+        "version_range": {
+            "from": 394115,
+            "until": 394897
+        }
     },
     {
-        "end_version": 391929,
         "metadata": {
             "info": [],
             "title": "[ELF] --gdb-index: support .debug_loclists"
@@ -573,10 +666,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/1ccde533425a4ba9d379510206ad680ff9702129.patch",
-        "start_version": 391452
+        "version_range": {
+            "from": 391452,
+            "until": 391929
+        }
     },
     {
-        "end_version": 400503,
         "metadata": {
             "info": [],
             "title": "[JumpThreading] ProcessBranchOnXOR(): bailout if any pred ends in indirect branch (PR46857)"
@@ -585,10 +680,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/1da9834557cd4302a5183b8228ce063e69f82602.patch",
-        "start_version": 398304
+        "version_range": {
+            "from": 398304,
+            "until": 400503
+        }
     },
     {
-        "end_version": 401013,
         "metadata": {
             "info": [],
             "title": "Fix a crash when the sample profile uses md5 and -sample-profile-merge-inlinee is enabled."
@@ -597,10 +694,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/836991d3676fda06d0f07c816ba855c8a0c3e0aa.patch",
-        "start_version": 398649
+        "version_range": {
+            "from": 398649,
+            "until": 401013
+        }
     },
     {
-        "end_version": 401056,
         "metadata": {
             "info": [],
             "title": "[AutoFDO] Avoid merging inlinee samples multiple times"
@@ -609,10 +708,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d23c1d6a8dddf0e1b9b9fa64726941e402ede8af.patch",
-        "start_version": 398649
+        "version_range": {
+            "from": 398649,
+            "until": 401056
+        }
     },
     {
-        "end_version": 401838,
         "metadata": {
             "info": [],
             "title": "[ELF]: --icf: don't fold sections referencing sections with LCDA after D84610"
@@ -621,10 +722,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/164a02d0fa461c623446bb5e3ee15516bcfad13c.patch",
-        "start_version": 401512
+        "version_range": {
+            "from": 401512,
+            "until": 401838
+        }
     },
     {
-        "end_version": 401875,
         "metadata": {
             "info": [],
             "title": "[ELF] Support .cfi_signal_frame"
@@ -633,10 +736,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d30d46193876102a6bc99b527dfaf79be4b09515.patch",
-        "start_version": 401512
+        "version_range": {
+            "from": 401512,
+            "until": 401875
+        }
     },
     {
-        "end_version": 401725,
         "metadata": {
             "info": [],
             "title": "[msan] Support %ms in scanf."
@@ -645,10 +750,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/aa57cabae2fc5abc08ab3e17b45f2890fc7c9e42.patch",
-        "start_version": 394483
+        "version_range": {
+            "from": 394483,
+            "until": 401725
+        }
     },
     {
-        "end_version": 401729,
         "metadata": {
             "info": [],
             "title": "[ELF] Change tombstone values to (.debug_ranges/.debug_loc) 1 and (other .debug_*) 0"
@@ -657,10 +764,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/004be4037e1e9c6092323c5c9268acb3ecf9176c.patch",
-        "start_version": 397144
+        "version_range": {
+            "from": 397144,
+            "until": 401729
+        }
     },
     {
-        "end_version": 398009,
         "metadata": {
             "info": [],
             "title": "Implement AVX ABI Warning/error"
@@ -669,10 +778,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/2831a317b689c7f005a29f008a8e4c24485c0711.patch",
-        "start_version": 394483
+        "version_range": {
+            "from": 394483,
+            "until": 398009
+        }
     },
     {
-        "end_version": 401010,
         "metadata": {
             "info": [],
             "title": "Make a test case more flexible on Windows wrt the number of backslashes."
@@ -681,10 +792,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9f0225894254c4706519c85d6fc06c5382903fef.patch",
-        "start_version": 400963
+        "version_range": {
+            "from": 400963,
+            "until": 401010
+        }
     },
     {
-        "end_version": 401024,
         "metadata": {
             "info": [],
             "title": "Revert \"[ELF] Add --dependency-file option\""
@@ -693,10 +806,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0bd918c828feb599b278c1876a33caa9c295be6a.patch",
-        "start_version": 400963
+        "version_range": {
+            "from": 400963,
+            "until": 401024
+        }
     },
     {
-        "end_version": 400648,
         "metadata": {
             "info": [],
             "title": "Revert \"Switch to using -debug-info-kind=constructor as default (from =limited)\""
@@ -705,10 +820,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/394db2259575ef3cac8d3d37836b11eb2373c435.patch",
-        "start_version": 398830
+        "version_range": {
+            "from": 398830,
+            "until": 400648
+        }
     },
     {
-        "end_version": 399711,
         "metadata": {
             "info": [],
             "title": "[InstCombine] Add test for PR46680 (NFC)"
@@ -717,10 +834,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/13ae440de4a408cf9d1a448def09769ecbecfdf7.patch",
-        "start_version": 398993
+        "version_range": {
+            "from": 398993,
+            "until": 399711
+        }
     },
     {
-        "end_version": 399722,
         "metadata": {
             "info": [],
             "title": "[InstCombine] Fix store merge worklist management (PR46680)"
@@ -729,10 +848,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d12ec0f752e7f2c7f7252539da2d124264ec33f7.patch",
-        "start_version": 398993
+        "version_range": {
+            "from": 398993,
+            "until": 399722
+        }
     },
     {
-        "end_version": 399726,
         "metadata": {
             "info": [],
             "title": "Reland \"[InstCombine] Lower infinite combine loop detection thresholds\""
@@ -741,10 +862,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/2f3862eb9f21e8a0d48505637fefe6e5e295c18c.patch",
-        "start_version": 398993
+        "version_range": {
+            "from": 398993,
+            "until": 399726
+        }
     },
     {
-        "end_version": 399661,
         "metadata": {
             "info": [],
             "title": "Revert \"[AddressSanitizer] Don't use weak linkage for __{start,stop}_asan_globals\""
@@ -753,10 +876,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/cf5df40c4cf1a53a02ab1d56a488642e3dda8f6d.patch",
-        "start_version": 395282
+        "version_range": {
+            "from": 395282,
+            "until": 399661
+        }
     },
     {
-        "end_version": 399218,
         "metadata": {
             "info": [],
             "title": "Revert \"[SCEV][IndVarSimplify] insert point should not be block front.\""
@@ -765,10 +890,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/1cd1c1d62edc6693a3854b22d53c9bbc1b149798.patch",
-        "start_version": 398848
+        "version_range": {
+            "from": 398848,
+            "until": 399218
+        }
     },
     {
-        "end_version": 399140,
         "metadata": {
             "info": [],
             "title": "Revert \"[InstCombine] Drop debug loc in TryToSinkInstruction (reland)\""
@@ -777,10 +904,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/3d52b1e81b7b3891d9132d826d4889119fad7d00.patch",
-        "start_version": 397614
+        "version_range": {
+            "from": 397614,
+            "until": 399140
+        }
     },
     {
-        "end_version": 398603,
         "metadata": {
             "info": [],
             "title": "[DWARF] Add cuttoff guarding quadratic validThroughout behaviour"
@@ -789,10 +918,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b9d977b0ca60c54f11615ca9d144c9f08b29fd85.patch",
-        "start_version": 398603
+        "version_range": {
+            "from": 398603,
+            "until": 398603
+        }
     },
     {
-        "end_version": 402778,
         "metadata": {
             "info": [],
             "title": "PR44685: DebugInfo: Handle address-use-invalid type units referencing non-type units"
@@ -801,10 +932,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/be3ef93bf58aa5546c7baadfb21d43b75fbb4e24.patch",
-        "start_version": 394483
+        "version_range": {
+            "from": 394483,
+            "until": 402778
+        }
     },
     {
-        "end_version": 401652,
         "metadata": {
             "info": [],
             "title": "[GlobalISel][InlineAsm] Fix matching input constraint to physreg"
@@ -813,10 +946,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d893278bba01b0e1209e8b8accbdd5cfa75a0932.patch",
-        "start_version": 399163
+        "version_range": {
+            "from": 399163,
+            "until": 401652
+        }
     },
     {
-        "end_version": 402304,
         "metadata": {
             "info": [],
             "title": "PR47138: Don't crash if the preferred alignment of an invalid record type is requested."
@@ -825,10 +960,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/269bc3f5df6c3b75de515a48063c6941ef8fbbe6.patch",
-        "start_version": 400541
+        "version_range": {
+            "from": 400541,
+            "until": 402304
+        }
     },
     {
-        "end_version": 405976,
         "metadata": {
             "info": [],
             "title": "Revert \"Canonicalize declaration pointers when forming APValues.\""
@@ -837,10 +974,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/15d94a7d0f8f0d6b3b5308fff51b286957e45650.patch",
-        "start_version": 405408
+        "version_range": {
+            "from": 405408,
+            "until": 405976
+        }
     },
     {
-        "end_version": 404294,
         "metadata": {
             "info": [],
             "title": "Revert \"Canonicalize declaration pointers when forming APValues.\""
@@ -849,10 +988,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/7b0332389afd705f46b02fcf87ec3414b8dece34.patch",
-        "start_version": 404252
+        "version_range": {
+            "from": 404252,
+            "until": 404294
+        }
     },
     {
-        "end_version": 399458,
         "metadata": {
             "info": [],
             "title": "Remove TwoAddressInstructionPass::sink3AddrInstruction."
@@ -861,10 +1002,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/60433c63acb71935111304d71e41b7ee982398f8.patch",
-        "start_version": 398032
+        "version_range": {
+            "from": 398032,
+            "until": 399458
+        }
     },
     {
-        "end_version": 399638,
         "metadata": {
             "info": [],
             "title": "[llvm] Add contains(KeyType) -> bool methods to SmallPtrSet"
@@ -873,10 +1016,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a0385bd7acd6e1d16224b4257f4cb50e59f1d75e.patch",
-        "start_version": 398032
+        "version_range": {
+            "from": 398032,
+            "until": 399638
+        }
     },
     {
-        "end_version": 407147,
         "metadata": {
             "info": [],
             "title": "Revert \"Outline non returning functions unless a longjmp\""
@@ -885,10 +1030,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9afb1c566e8cb396da495e2fbbbc53e1814cc3a1.patch",
-        "start_version": 401139
+        "version_range": {
+            "from": 401139,
+            "until": 407147
+        }
     },
     {
-        "end_version": 404489,
         "metadata": {
             "info": [],
             "title": "Reland [SimplifyCFG][LoopRotate] SimplifyCFG: disable common instruction hoisting by default, enable late in pipeline"
@@ -897,10 +1044,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/bb7d3af1139c36270bc9948605e06f40e4c51541.patch",
-        "start_version": 403178
+        "version_range": {
+            "from": 403178,
+            "until": 404489
+        }
     },
     {
-        "end_version": 405159,
         "metadata": {
             "info": [],
             "title": "Revert \"RegAllocFast: Record internal state based on register units\""
@@ -909,10 +1058,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a21387c65470417c58021f8d3194a4510bb64f46.patch",
-        "start_version": 404250
+        "version_range": {
+            "from": 404250,
+            "until": 405159
+        }
     },
     {
-        "end_version": 404300,
         "metadata": {
             "info": [],
             "title": "[NFC][Asan] Rename internal enum value."
@@ -921,10 +1072,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/99a93c3a223e3bfc9a9781bfbf98d2fd4551f923.patch",
-        "start_version": 404249
+        "version_range": {
+            "from": 404249,
+            "until": 404300
+        }
     },
     {
-        "end_version": 404300,
         "metadata": {
             "info": [],
             "title": "[NFC][Asan] Inline enum doc strings"
@@ -933,10 +1086,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a9c0bf04043462d43013bc5616aa48f6d3e16b88.patch",
-        "start_version": 404249
+        "version_range": {
+            "from": 404249,
+            "until": 404300
+        }
     },
     {
-        "end_version": 404300,
         "metadata": {
             "info": [],
             "title": "[NFC][Asan] Reformat some allocator code"
@@ -945,10 +1100,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/48ac5b4833b60f00f0923db11ea31e7316bc78c6.patch",
-        "start_version": 404249
+        "version_range": {
+            "from": 404249,
+            "until": 404300
+        }
     },
     {
-        "end_version": 404300,
         "metadata": {
             "info": [],
             "title": "Revert \"[Asan] Cleanup atomic usage in allocator\""
@@ -957,10 +1114,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/dbf04aaade235a0d76c6ad549c091c9fd0ada0e8.patch",
-        "start_version": 404249
+        "version_range": {
+            "from": 404249,
+            "until": 404300
+        }
     },
     {
-        "end_version": 409407,
         "metadata": {
             "info": [],
             "title": "[Sema] adds basic -Wfree-nonheap-object functionality"
@@ -969,10 +1128,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/425a83a5f069eb1a692145d2c92e6d3bfe564a62.patch",
-        "start_version": 399094
+        "version_range": {
+            "from": 399094,
+            "until": 409407
+        }
     },
     {
-        "end_version": 409842,
         "metadata": {
             "info": [],
             "title": "[Sema] adds -Wfree-nonheap-object member var checks"
@@ -981,10 +1142,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/ba18bc4925d8cbd4a9354629617cbcafbbd48941.patch",
-        "start_version": 399094
+        "version_range": {
+            "from": 399094,
+            "until": 409842
+        }
     },
     {
-        "end_version": 405613,
         "metadata": {
             "info": [],
             "title": "PR47468: Fix findPHICopyInsertPoint, so that copies aren't incorrectly inserted after an INLINEASM_BR."
@@ -993,10 +1156,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/f7a53d82c0902147909f28a9295a9d00b4b27d38.patch",
-        "start_version": 398032
+        "version_range": {
+            "from": 398032,
+            "until": 405613
+        }
     },
     {
-        "end_version": 407943,
         "metadata": {
             "info": [],
             "title": "[Driver]: fix compiler-rt path when printing libgcc for baremetal"
@@ -1005,10 +1170,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/18432bea764863d1c42fd569bd3846673ee4e802.patch",
-        "start_version": 399094
+        "version_range": {
+            "from": 399094,
+            "until": 407943
+        }
     },
     {
-        "end_version": 408784,
         "metadata": {
             "info": [],
             "title": "[Inliner] Run always-inliner in inliner-wrapper"
@@ -1017,10 +1184,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0291e2c9330930bd74bfb8206cf6447a84bf492c.patch",
-        "start_version": 399094
+        "version_range": {
+            "from": 399094,
+            "until": 408784
+        }
     },
     {
-        "end_version": 408314,
         "metadata": {
             "info": [],
             "title": "Fix compiler-rt build on Windows after D89640"
@@ -1029,10 +1198,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a7acee89d68473183cc5021d952a56cdf0ae27d3.patch",
-        "start_version": 408224
+        "version_range": {
+            "from": 408224,
+            "until": 408314
+        }
     },
     {
-        "end_version": 408400,
         "metadata": {
             "info": [],
             "title": "Revert \"[Sanitizers] Remove OpenBSD support\" + 1"
@@ -1041,10 +1212,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/7ecd60bb7022bb681b9dc01a9c232fd93b4b169c.patch",
-        "start_version": 408224
+        "version_range": {
+            "from": 408224,
+            "until": 408400
+        }
     },
     {
-        "end_version": 408302,
         "metadata": {
             "info": [],
             "title": "Revert \"[PM/CC1] Add -f[no-]split-cold-code CC1 option to toggle splitting\""
@@ -1053,10 +1226,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0628bea5137047232f37c94b74bf26aa9b55f605.patch",
-        "start_version": 408079
+        "version_range": {
+            "from": 408079,
+            "until": 408302
+        }
     },
     {
-        "end_version": 436311,
         "metadata": {
             "info": [],
             "title": "clang: disable assert for DK_Linker diagnostics"
@@ -1065,10 +1240,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "disable-dk_linker-assert.patch",
-        "start_version": 399095
+        "version_range": {
+            "from": 399095,
+            "until": 436311
+        }
     },
     {
-        "end_version": 408442,
         "metadata": {
             "info": [],
             "title": "Revert \"[ARM][LowOverheadLoops] Adjust Start insertion.\""
@@ -1077,10 +1254,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/6dcbc323fd8778ba6db1c4e76c809f93fc82efc5.patch",
-        "start_version": 406792
+        "version_range": {
+            "from": 406792,
+            "until": 408442
+        }
     },
     {
-        "end_version": 408654,
         "metadata": {
             "info": [],
             "title": "Revert several changes related to llvm-symbolizer exiting non-zero on failure."
@@ -1089,10 +1268,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a67d164a82bc535025bb65736ee4e5f381500ed8.patch",
-        "start_version": 407995
+        "version_range": {
+            "from": 407995,
+            "until": 408654
+        }
     },
     {
-        "end_version": 408753,
         "metadata": {
             "info": [],
             "title": "Revert \"[CodeExtractor] Don't create bitcasts when inserting lifetime markers (NFCI)\""
@@ -1101,10 +1282,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/099bffe7f7df41d66195ce33e91888a4a16c6b4a.patch",
-        "start_version": 406638
+        "version_range": {
+            "from": 406638,
+            "until": 408753
+        }
     },
     {
-        "end_version": 408780,
         "metadata": {
             "info": [],
             "title": "Revert \"[MBP] Add whole chain to BlockFilterSet instead of individual BB\""
@@ -1113,10 +1296,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/e42f6c0ac05bae37be8e2a5fd8861773646eae1b.patch",
-        "start_version": 407951
+        "version_range": {
+            "from": 407951,
+            "until": 408780
+        }
     },
     {
-        "end_version": 408846,
         "metadata": {
             "info": [],
             "title": "Revert \"[Statepoints] Allow deopt GC pointer on VReg if gc-live bundle is empty.\""
@@ -1125,10 +1310,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/4f7ee55971e7f7a27af69c501e4b395c4079decb.patch",
-        "start_version": 407564
+        "version_range": {
+            "from": 407564,
+            "until": 408846
+        }
     },
     {
-        "end_version": 409948,
         "metadata": {
             "info": [],
             "title": "Revert \"[CodeGen] [WinException] Only produce handler data at the end of the function if needed\""
@@ -1137,10 +1324,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/cbf25fbed5b46ec47e3ce2799ed9095f2f18ea8f.patch",
-        "start_version": 405820
+        "version_range": {
+            "from": 405820,
+            "until": 409948
+        }
     },
     {
-        "end_version": 410801,
         "metadata": {
             "info": [],
             "title": "Revert \"Reland [CFGuard] Add address-taken IAT tables and delay-load support\""
@@ -1149,10 +1338,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/418f18c6cdfe56e77669e2f4d3df3bca1020156d.patch",
-        "start_version": 407828
+        "version_range": {
+            "from": 407828,
+            "until": 410801
+        }
     },
     {
-        "end_version": 412204,
         "metadata": {
             "info": [],
             "title": "Revert \"[DebugInfo] Improve dbg preservation in LSR.\""
@@ -1161,10 +1352,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/808fcfe5944755f08ae88722070302fcf9135e58.patch",
-        "start_version": 407380
+        "version_range": {
+            "from": 407380,
+            "until": 412204
+        }
     },
     {
-        "end_version": 414416,
         "metadata": {
             "info": [],
             "title": "Revert \"[AMDGPU][HIP] Switch default DWARF version to 5\""
@@ -1173,10 +1366,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/ffba47df76460905965df4b54cf6ba945d2eb1ce.patch",
-        "start_version": 408148
+        "version_range": {
+            "from": 408148,
+            "until": 414416
+        }
     },
     {
-        "end_version": 414302,
         "metadata": {
             "info": [],
             "title": "[ARM] Implement harden-sls-retbr for ARM mode"
@@ -1185,10 +1380,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/195f44278c4361a4a32377a98a1e3a15203d3647.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414302
+        }
     },
     {
-        "end_version": 414304,
         "metadata": {
             "info": [],
             "title": "[ARM] Implement harden-sls-retbr for Thumb mode"
@@ -1197,10 +1394,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/320fd3314e378ae6242a2dde97250a8a94d68e27.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414304
+        }
     },
     {
-        "end_version": 414305,
         "metadata": {
             "info": [],
             "title": "[ARM] Harden indirect calls against SLS"
@@ -1209,10 +1408,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a4c1f5160e6d1de9a9959ecbf329c2acf4f3ed31.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414305
+        }
     },
     {
-        "end_version": 414306,
         "metadata": {
             "info": [],
             "title": "[ARM] harden-sls-blr: avoid r12 and lr in indirect calls."
@@ -1221,10 +1422,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/df8ed3928377edc6e9241a56680b694ffa9f4d6d.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414306
+        }
     },
     {
-        "end_version": 414307,
         "metadata": {
             "info": [],
             "title": "[ARM] Add clang command line support for -mharden-sls="
@@ -1233,10 +1436,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9c895aea118a2f50ca8413372363c3ff6ecc21bf.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414307
+        }
     },
     {
-        "end_version": 415982,
         "metadata": {
             "info": [],
             "title": "[Driver] -gsplit-dwarf: Produce .dwo regardless of -gN for -fthinlto-index="
@@ -1245,10 +1450,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/53b34601abf1d48e8df210ab8127b16fd35e275a.patch",
-        "start_version": 413220
+        "version_range": {
+            "from": 413220,
+            "until": 415982
+        }
     },
     {
-        "end_version": 416525,
         "metadata": {
             "info": [],
             "title": "Revert \"[clang] Change builtin object size when subobject is invalid\""
@@ -1257,10 +1464,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b270fd59f0a86fe737853abc43e76b9d29a67eea.patch",
-        "start_version": 415398
+        "version_range": {
+            "from": 415398,
+            "until": 416525
+        }
     },
     {
-        "end_version": 416715,
         "metadata": {
             "info": [],
             "title": "[ARM] Adjust isSaturatingConditional to return a new SDValue. NFC"
@@ -1269,10 +1478,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9ae73cdbc1e59fd3149e60efd2b96e68e8d1669b.patch",
-        "start_version": 405885
+        "version_range": {
+            "from": 405885,
+            "until": 416715
+        }
     },
     {
-        "end_version": 416728,
         "metadata": {
             "info": [],
             "title": "[ARM] Disable sign extended SSAT pattern recognition."
@@ -1281,10 +1492,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/af0332498405b3a4074cef09845bbacfd4fd594f.patch",
-        "start_version": 405885
+        "version_range": {
+            "from": 405885,
+            "until": 416728
+        }
     },
     {
-        "end_version": 417334,
         "metadata": {
             "info": [],
             "title": "[ARM][RegisterScavenging] Don't consider LR liveout if it is not reloaded"
@@ -1293,10 +1506,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b9ed8ebe0e2ffa803b0bda60f9bbc9bb26f95000.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 417334
+        }
     },
     {
-        "end_version": 417900,
         "metadata": {
             "info": [],
             "title": "Revert \"[ConstantFold] Fold more operations to poison\""
@@ -1305,10 +1520,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/06829034ca64b8c83a5b20d8abe5ddbfe7af0004.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 417900
+        }
     },
     {
-        "end_version": 418036,
         "metadata": {
             "info": [],
             "title": "[ELF] Allow R_386_GOTOFF from .debug_info"
@@ -1317,10 +1534,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b3165a70ae83b46dc145f335dfa9690ece361e92.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 418036
+        }
     },
     {
-        "end_version": 414124,
         "metadata": {
             "info": [],
             "title": "[Clang] Make nomerge attribute a function attribute as well as a statement attribute."
@@ -1329,10 +1548,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/fb0f7288051eb2745bb9211306f53ff9aa6f73e2.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414124
+        }
     },
     {
-        "end_version": 414886,
         "metadata": {
             "info": [],
             "title": "test file update for e53bbd9951"
@@ -1341,10 +1562,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "test-nomerge-fd739804e0591468762eb87488a497a3f7d4afb0.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 414886
+        }
     },
     {
-        "end_version": 415826,
         "metadata": {
             "info": [],
             "title": "[IR] move nomerge attribute from function declaration/definition to callsites"
@@ -1353,10 +1576,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/e53bbd99516fc7b612df1ae08d48288d0b8784ea.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 415826
+        }
     },
     {
-        "end_version": 418870,
         "metadata": {
             "info": [],
             "title": "[llvm-objcopy] preserve file ownership when overwritten by root"
@@ -1365,10 +1590,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/c2a84771bb63947695ea50b89160c02b36fb634d.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 418870
+        }
     },
     {
-        "end_version": 418680,
         "metadata": {
             "info": [],
             "title": "[clang][Arm] Fix handling of -Wa,-implicit-it="
@@ -1377,10 +1604,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a680bc3a31d36d321ccf3801bdcff74d58842bfa.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 418680
+        }
     },
     {
-        "end_version": 418542,
         "metadata": {
             "info": [],
             "title": "[Thumb2] support `movs pc, lr` alias for `subs pc, lr, #0`/`eret`"
@@ -1389,10 +1618,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/68945a8686708c6e4c74b9aeb231b8c4e1731181.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 418542
+        }
     },
     {
-        "end_version": 418022,
         "metadata": {
             "info": [],
             "title": "[clang][Arm] Fix handling of -Wa,-march="
@@ -1401,10 +1632,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/1d51c699b9e2ebc5bcfdbe85c74cc871426333d4.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 418022
+        }
     },
     {
-        "end_version": 418887,
         "metadata": {
             "info": [],
             "title": "[X86] Add reduced test case for PR49162"
@@ -1413,10 +1646,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/5ca3ef98a71598d368f6f4aaf0b385b50b67ce4a.patch",
-        "start_version": 416609
+        "version_range": {
+            "from": 416609,
+            "until": 418887
+        }
     },
     {
-        "end_version": 418889,
         "metadata": {
             "info": [],
             "title": "[DAG] Fix shift amount limit in SimplifyDemandedBits trunc(shift(x,c)) to truncated bitwidth"
@@ -1425,10 +1660,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/7ad0c573bd4a68dc81886037457d47daa3d6aa24.patch",
-        "start_version": 416609
+        "version_range": {
+            "from": 416609,
+            "until": 418889
+        }
     },
     {
-        "end_version": 418289,
         "metadata": {
             "info": [],
             "title": "Revert \"[Sema] Fix -Warray-bounds false negative when casting an out-of-bounds array item\""
@@ -1437,10 +1674,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9083d0a40d980928f2f45236a4616528a7ab19ce.patch",
-        "start_version": 417894
+        "version_range": {
+            "from": 417894,
+            "until": 418289
+        }
     },
     {
-        "end_version": 416636,
         "metadata": {
             "info": [],
             "title": "[CUDA] Normalize handling of defauled dtor."
@@ -1449,10 +1688,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/127091bfd5edf10495fee4724fd21c666e5d79c1.patch",
-        "start_version": 416183
+        "version_range": {
+            "from": 416183,
+            "until": 416636
+        }
     },
     {
-        "end_version": 420106,
         "metadata": {
             "info": [],
             "title": "[Utils] collectBitParts - bail for integers > 128-bits"
@@ -1461,10 +1702,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/455d43b951ae31dac133a8650532797f01343a36.patch",
-        "start_version": 419881
+        "version_range": {
+            "from": 419881,
+            "until": 420106
+        }
     },
     {
-        "end_version": 417956,
         "metadata": {
             "info": [],
             "title": "[libc++] [P0879] constexpr std::sort"
@@ -1473,10 +1716,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/493f1407927cdf6db2e08f150ed9f9b8abe4ac45.patch",
-        "start_version": 417943
+        "version_range": {
+            "from": 417943,
+            "until": 417956
+        }
     },
     {
-        "end_version": 417837,
         "metadata": {
             "info": [],
             "title": "Disable CFI in __get_elem to allow casting a pointer to uninitialized memory"
@@ -1485,10 +1730,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/bab74864168bb5e28ecbc0294fe1095d8da7f569.patch",
-        "start_version": 415517
+        "version_range": {
+            "from": 415517,
+            "until": 417837
+        }
     },
     {
-        "end_version": 418174,
         "metadata": {
             "info": [],
             "title": "[libc++] Further improve the contiguous-iterator story, and fix some bugs."
@@ -1497,10 +1744,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/85167fb7c2920ca8874b197ef397e8e6b9d87c73.patch",
-        "start_version": 417943
+        "version_range": {
+            "from": 417943,
+            "until": 418174
+        }
     },
     {
-        "end_version": 417053,
         "metadata": {
             "info": [],
             "title": "Restore GNU , ## __VA_ARGS__ behavior in MSVC mode"
@@ -1509,10 +1758,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b43c26d036dcbf7a6881f39e4434cf059364022a.patch",
-        "start_version": 416931
+        "version_range": {
+            "from": 416931,
+            "until": 417053
+        }
     },
     {
-        "end_version": 417272,
         "metadata": {
             "info": [],
             "title": "Revert \"Suppress non-conforming GNU paste extension in all standard-conforming modes\""
@@ -1521,10 +1772,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/61a66e4b5ec18e9e73c2f6334f6b7f7dd4bca77e.patch",
-        "start_version": 416931
+        "version_range": {
+            "from": 416931,
+            "until": 417272
+        }
     },
     {
-        "end_version": 419929,
         "metadata": {
             "info": [],
             "title": "[llvm-objcopy] If input=output, preserve umask bits, otherwise drop S_ISUID/S_ISGID bits"
@@ -1533,10 +1786,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/17b4e695ce0ef89eac4a37df2df49d4c0e700766.patch",
-        "start_version": 412851
+        "version_range": {
+            "from": 412851,
+            "until": 419929
+        }
     },
     {
-        "end_version": 420477,
         "metadata": {
             "info": [],
             "title": "[libunwind] [risc-v] This patch is for fixing immediate build failure when Cross Unwinding enabled. Follow up patch will cleanup some Macros handling."
@@ -1545,10 +1800,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/5c3fc5093aaf7d9422459d295eb4eb769abcbaa4.patch",
-        "start_version": 420365
+        "version_range": {
+            "from": 420365,
+            "until": 420477
+        }
     },
     {
-        "end_version": 417022,
         "metadata": {
             "info": [],
             "title": "[GVN] do not repeat PRE on failure to split critical edge"
@@ -1557,10 +1814,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d36812892c16b551f058774babbc8727737f80cd.patch",
-        "start_version": 416183
+        "version_range": {
+            "from": 416183,
+            "until": 417022
+        }
     },
     {
-        "end_version": 420692,
         "metadata": {
             "info": [],
             "title": "[clang] removes check against integral-to-pointer conversion..."
@@ -1569,10 +1828,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9830901b341cfb884cdef00e0335c6e3e62d107a.patch",
-        "start_version": 420025
+        "version_range": {
+            "from": 420025,
+            "until": 420692
+        }
     },
     {
-        "end_version": 415620,
         "metadata": {
             "info": [],
             "title": "[NFCI][SimplifyCFG] Prefer to add Insert edges before Delete edges into DomTreeUpdater, if reasonable"
@@ -1581,10 +1842,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/8e8d214c4a6c417e42996faeb9211a5c2e32111f.patch",
-        "start_version": 415439
+        "version_range": {
+            "from": 415439,
+            "until": 415620
+        }
     },
     {
-        "end_version": 418243,
         "metadata": {
             "info": [],
             "title": "[Transforms/Utils] Use range-based for loops (NFC)"
@@ -1593,10 +1856,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/be23012d5a84fefdb6d0a267f9ffb4bafb4804d7.patch",
-        "start_version": 415439
+        "version_range": {
+            "from": 415439,
+            "until": 418243
+        }
     },
     {
-        "end_version": 418586,
         "metadata": {
             "info": [],
             "title": "ValueMapper: Rename RF_MoveDistinctMDs => RF_ReuseAndMutateDistinctMDs, NFC"
@@ -1605,10 +1870,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/fa35c1f80f0ea080a7cbc581416929b0a654f25c.patch",
-        "start_version": 415439
+        "version_range": {
+            "from": 415439,
+            "until": 418586
+        }
     },
     {
-        "end_version": 419003,
         "metadata": {
             "info": [],
             "title": "TransformUtils: Fix metadata handling in CloneModule (and improve CloneFunctionInto)"
@@ -1617,10 +1884,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/22a52dfddcefad4f275eb8ad1cc0e200074c2d8a.patch",
-        "start_version": 415439
+        "version_range": {
+            "from": 415439,
+            "until": 419003
+        }
     },
     {
-        "end_version": 419941,
         "metadata": {
             "info": [],
             "title": "Transforms: Clone distinct nodes in metadata mapper unless RF_ReuseAndMutateDistinctMDs"
@@ -1629,10 +1898,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/01701646d5555409a6fad920f0e4801d79c154ea.patch",
-        "start_version": 415439
+        "version_range": {
+            "from": 415439,
+            "until": 419941
+        }
     },
     {
-        "end_version": 416430,
         "metadata": {
             "info": [],
             "title": "Revert \"[SLP]Merge reorder and reuse shuffles.\""
@@ -1641,10 +1912,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/e463bd53c03ff9183bd30030477dfe6f3b2fdd0c.patch",
-        "start_version": 413046
+        "version_range": {
+            "from": 413046,
+            "until": 416430
+        }
     },
     {
-        "end_version": 424173,
         "metadata": {
             "info": [],
             "title": "Fix chrome os failure after 021de7cf80268091cf13485a538b611b37d0b33e."
@@ -1653,10 +1926,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/ee8a5e4bc2c986b8e6c07e81fb58dc1e5a5c2d17.patch",
-        "start_version": 421934
+        "version_range": {
+            "from": 421934,
+            "until": 424173
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary"
@@ -1665,10 +1940,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-11.0-invocation.patch",
-        "start_version": 420001
+        "version_range": {
+            "from": 420001,
+            "until": null
+        }
     },
     {
-        "end_version": 423928,
         "metadata": {
             "info": [],
             "title": "Revert \"Reduce the number of attributes attached to each function\""
@@ -1677,10 +1954,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/2cb8c10342ee5d040725abb1166feb92a64c7df6.patch",
-        "start_version": 419850
+        "version_range": {
+            "from": 419850,
+            "until": 423928
+        }
     },
     {
-        "end_version": 422916,
         "metadata": {
             "info": [],
             "title": "Revert \"[ArgPromotion] Copy additional metadata for loads.\""
@@ -1689,10 +1968,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/4622648a069a988d3b7b3ecd3f1b6993518d85b5.patch",
-        "start_version": 421649
+        "version_range": {
+            "from": 421649,
+            "until": 422916
+        }
     },
     {
-        "end_version": 426368,
         "metadata": {
             "info": [],
             "title": "[clang] accept -fsanitize-ignorelist= in addition to -fsanitize-blacklist="
@@ -1701,10 +1982,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d7ec48d71bd67118e7996c45e9c7fb1b09d4f59a.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 426368
+        }
     },
     {
-        "end_version": 427980,
         "metadata": {
             "info": [],
             "title": "[ARM][AArch64] SLSHardening: make non-comdat thunks possible"
@@ -1713,10 +1996,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/801ab71032e157eb7bcd38efeb6486742a7c53bb.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 427980
+        }
     },
     {
-        "end_version": 431743,
         "metadata": {
             "info": [],
             "title": "[ThinLTO] Respect ClearDSOLocalOnDeclarations for unimported functions"
@@ -1725,10 +2010,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/252a1eecc04080d852ba58c6727970c688eb1619.patch",
-        "start_version": 389603
+        "version_range": {
+            "from": 389603,
+            "until": 431743
+        }
     },
     {
-        "end_version": 428786,
         "metadata": {
             "info": [],
             "title": "[InstCombine] fix miscompile from vector select substitution"
@@ -1737,10 +2024,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/7bb8bfa0622b8ee55c3f748004dcf4d83d48cf97.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 428786
+        }
     },
     {
-        "end_version": 428883,
         "metadata": {
             "info": [],
             "title": "[SLP]Better detection of perfect/shuffles matches for gather nodes."
@@ -1749,10 +2038,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/36911971a58d1ba8b15e97790ac816eaadb0603e.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 428883
+        }
     },
     {
-        "end_version": 429138,
         "metadata": {
             "info": [],
             "title": "[LTO] Fix -fwhole-program-vtables handling after HIP ThinLTO patch"
@@ -1761,10 +2052,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/d0ee8b64ecf359737ce550d8f47f465ab6657be7.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 429138
+        }
     },
     {
-        "end_version": 429620,
         "metadata": {
             "info": [],
             "title": "[X86] Check destination element type before forming VTRUNCS/VTRUNCUS in combineTruncateWithSat."
@@ -1773,10 +2066,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/765ef4bb2af604ea2bbd6c1bffaa6e1600804c9e.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 429620
+        }
     },
     {
-        "end_version": 430140,
         "metadata": {
             "info": [],
             "title": "[libcxx][atomic] Fix failure mapping in compare_exchange_{strong,weak}."
@@ -1785,10 +2080,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/6d33362dafb66b3af4717990d9a06450ec13f367.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 430140
+        }
     },
     {
-        "end_version": 433358,
         "metadata": {
             "info": [],
             "title": "Revert \"Add workaround for false positive in -Wfree-nonheap-object\""
@@ -1797,10 +2094,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0082764605cc0e7e0363a41ffa77d214c3157aa6.patch",
-        "start_version": 423544
+        "version_range": {
+            "from": 423544,
+            "until": 433358
+        }
     },
     {
-        "end_version": 432955,
         "metadata": {
             "info": [],
             "title": "[X86] Remove incorrect use of known bits in shuffle simplification."
@@ -1809,10 +2108,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/6601be441974cb1b91c47ee20bf9a284076cf6dd.patch",
-        "start_version": 425001
+        "version_range": {
+            "from": 425001,
+            "until": 432955
+        }
     },
     {
-        "end_version": 430742,
         "metadata": {
             "info": [],
             "title": "Revert \"[cmake] [compiler-rt] Call llvm_setup_rpath() when adding shared libraries.\""
@@ -1821,10 +2122,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/21c008d5a5b1e0c2ec3c1659cff961f4b0ccea2c.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 430742
+        }
     },
     {
-        "end_version": 429922,
         "metadata": {
             "info": [],
             "title": "Revert \"Revert \"DirectoryWatcher: add an implementation for Windows\"\""
@@ -1833,10 +2136,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/76f1baa7875acd88bdd4b431eed6e2d2decfc0fe.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 429922
+        }
     },
     {
-        "end_version": 429832,
         "metadata": {
             "info": [],
             "title": "Revert \"[lldb] Add support for evaluating expressions in static member functions\""
@@ -1845,10 +2150,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/4125b46232caf6a558470670f87b56ccb46d61aa.patch",
-        "start_version": 425233
+        "version_range": {
+            "from": 425233,
+            "until": 429832
+        }
     },
     {
-        "end_version": 429480,
         "metadata": {
             "info": [],
             "title": "Revert \"3rd Reapply \"[DebugInfo] Use variadic debug values to salvage BinOps and GEP instrs with non-const operands\"\""
@@ -1857,10 +2164,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/386b66b2fc297cda121a3cc8a36887a6ecbcfc68.patch",
-        "start_version": 428070
+        "version_range": {
+            "from": 428070,
+            "until": 429480
+        }
     },
     {
-        "end_version": 429323,
         "metadata": {
             "info": [],
             "title": "Revert \"[LoopUnrollAndJam] Change LoopUnrollAndJamPass to LoopNest pass\""
@@ -1869,10 +2178,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0a9d0799316c7a601a0b20a123bd99922ac6455b.patch",
-        "start_version": 428636
+        "version_range": {
+            "from": 428636,
+            "until": 429323
+        }
     },
     {
-        "end_version": 428788,
         "metadata": {
             "info": [],
             "title": "Revert \"[clang-tidy] Simplify static assert check\""
@@ -1881,10 +2192,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/be6b9e8ae71768d2e09ec14619ca4ecfdef553fa.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 428788
+        }
     },
     {
-        "end_version": 428737,
         "metadata": {
             "info": [],
             "title": "Revert \"[clang][Parse] Add parsing support for C++ attributes on using-declarations\""
@@ -1893,10 +2206,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/f63adf5b67f7a25b15f81d3a1a207aba4f226dc4.patch",
-        "start_version": 428722
+        "version_range": {
+            "from": 428722,
+            "until": 428737
+        }
     },
     {
-        "end_version": 428763,
         "metadata": {
             "info": [],
             "title": "Revert \"[libc++] NFC: Move unwrap_iter to its own header\""
@@ -1905,10 +2220,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b13edf6e907b32d0b8da09dfe08fa271638eca3c.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 428763
+        }
     },
     {
-        "end_version": 428728,
         "metadata": {
             "info": [],
             "title": "Revert \"[NFCI][LoopDeletion] Do not call complex analysis for known non-zero BTC\""
@@ -1917,10 +2234,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/dd226803c220f02a5987f0ee9f9ac3ffe2b35c09.patch",
-        "start_version": 428588
+        "version_range": {
+            "from": 428588,
+            "until": 428728
+        }
     },
     {
-        "end_version": 428729,
         "metadata": {
             "info": [],
             "title": "Revert \"[NFC] Reuse existing variables instead of re-requesting successors\""
@@ -1929,10 +2248,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/807fc7cdc97fc172b4967707a7718e7333351bff.patch",
-        "start_version": 428587
+        "version_range": {
+            "from": 428587,
+            "until": 428729
+        }
     },
     {
-        "end_version": 428730,
         "metadata": {
             "info": [],
             "title": "Revert \"[NFC] Formatting fix\""
@@ -1941,10 +2262,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/fd553312031c7d8085fa6ee0755a957796eadf05.patch",
-        "start_version": 428581
+        "version_range": {
+            "from": 428581,
+            "until": 428730
+        }
     },
     {
-        "end_version": 428731,
         "metadata": {
             "info": [],
             "title": "Revert \"[NFCI][LoopDeletion] Only query SCEV about loop successor if another successor is also in loop\""
@@ -1953,10 +2276,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/24bd657202379595b514ee17241f019294e86bc9.patch",
-        "start_version": 428580
+        "version_range": {
+            "from": 428580,
+            "until": 428731
+        }
     },
     {
-        "end_version": 428732,
         "metadata": {
             "info": [],
             "title": "Revert \"Return \"[LoopDeletion] Break backedge if we can prove that the loop is exited on 1st iteration\" (try 2)\""
@@ -1965,10 +2290,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0159652058ca555b05db6a209fe9cf660c3bf8e6.patch",
-        "start_version": 428490
+        "version_range": {
+            "from": 428490,
+            "until": 428732
+        }
     },
     {
-        "end_version": 428781,
         "metadata": {
             "info": [],
             "title": "Revert \"[NFC] Use ArgListEntry indirect types more in ISel lowering\""
@@ -1977,10 +2304,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/3a6f12f9156bcebf38965d96007bd942024c75be.patch",
-        "start_version": 427793
+        "version_range": {
+            "from": 427793,
+            "until": 428781
+        }
     },
     {
-        "end_version": 428782,
         "metadata": {
             "info": [],
             "title": "Revert \"[TargetLowering] Only inspect attributes in the arguments for ArgListEntry\""
@@ -1989,10 +2318,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/71cca4f728d7421e40ec9aec0816313391fe9b59.patch",
-        "start_version": 427792
+        "version_range": {
+            "from": 427792,
+            "until": 428782
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[MemCpyOpt] Allow specifying --enable-memcpyopt-without-libcalls more than once\""
@@ -2001,10 +2332,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-30dfd3449e45ac371012c6e46c77ab9089496d4e.patch",
-        "start_version": 436746
+        "version_range": {
+            "from": 436746,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[MemCpyOpt] Optimize MemoryDef insertion\""
@@ -2013,10 +2346,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-17db125b487faa69d789b80d47b19da49522b168.patch",
-        "start_version": 435224
+        "version_range": {
+            "from": 435224,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[MemCpyOpt] Remove MemDepAnalysis-based implementation\""
@@ -2025,10 +2360,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-88003cea1c6eb3ebcb18b4f1b9d0e2052dd76fe4.patch",
-        "start_version": 435043
+        "version_range": {
+            "from": 435043,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"MemCpyOptimizer.cpp - hasUndefContentsMSSA - Pass DataLayout by reference. NFCI\""
@@ -2037,10 +2374,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-596004a94748e427ff59956e74d8ed4eb0e109d4.patch",
-        "start_version": 429466
+        "version_range": {
+            "from": 429466,
+            "until": null
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\""
@@ -2049,10 +2388,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-f5446b769a7929806f72256fccd4826d66502e59.patch",
-        "start_version": 425181
+        "version_range": {
+            "from": 425181,
+            "until": null
+        }
     },
     {
-        "end_version": 429795,
         "metadata": {
             "info": [],
             "title": "[compiler-rt] [builtins] [AArch64] Add missing AArch64 data synchronization barrier (dsb) to __clear_cache"
@@ -2061,10 +2402,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/6455418d3d2a2de1a8251cc2ccf2e87b9ae3112d.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 429795
+        }
     },
     {
-        "end_version": 431151,
         "metadata": {
             "info": [],
             "title": "DebugInfo: LTO with -g inlined into -gmlt combined with Split DWARF without CU cross-references"
@@ -2073,10 +2416,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/1b112c80a68697687189ddf5bb01b2edacb618af.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 431151
+        }
     },
     {
-        "end_version": 432575,
         "metadata": {
             "info": [],
             "title": "[ELF] --fortran-common: prefer STB_WEAK to COMMON"
@@ -2085,10 +2430,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/7de2173c2a4c45711831cfee3ccf53690c76ff07.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 432575
+        }
     },
     {
-        "end_version": 433637,
         "metadata": {
             "info": [],
             "title": "[NewPM] Add CrossDSOCFI pass irrespective of LTO optimization level"
@@ -2097,10 +2444,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/c45e17f11f508d1aea97eded3f1bda2a448f2032.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 433637
+        }
     },
     {
-        "end_version": 435268,
         "metadata": {
             "info": [],
             "title": "[Unwind] Split unwind.h"
@@ -2109,10 +2458,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9ed1c7e4964382b95a5886279c0dfc7147a57b17.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 435268
+        }
     },
     {
-        "end_version": 435269,
         "metadata": {
             "info": [],
             "title": "[Arm][Unwind][libc++abi] Add _Unwind_ForcedUnwind to EHABI."
@@ -2121,10 +2472,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/db126ae243cd70e4f68fd50a7c619740e90e1dc6.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 435269
+        }
     },
     {
-        "end_version": 435270,
         "metadata": {
             "info": [],
             "title": "[libunwind] Compile with -Wunused-but-set-variable"
@@ -2133,10 +2486,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/6b6d3447317673015f62206b2669c2d0a74132dc.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 435270
+        }
     },
     {
-        "end_version": 435201,
         "metadata": {
             "info": [],
             "title": "libunwind: add missing break statements in EHABI"
@@ -2145,10 +2500,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/08a5ac36b956edeb989b4a65269a829eac26a5a2.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 435201
+        }
     },
     {
-        "end_version": 434174,
         "metadata": {
             "info": [],
             "title": "[MBP] findBestLoopTopHelper should exit if OldTop is not a chain header"
@@ -2157,10 +2514,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/50b62731452cb83979bbf3c06e828d26a4698dca.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 434174
+        }
     },
     {
-        "end_version": 434684,
         "metadata": {
             "info": [],
             "title": "[MC][CodeGen] Emit constant pools earlier"
@@ -2169,10 +2528,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/ad253446208a06902d3bc4939ac7a64f8026cc84.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 434684
+        }
     },
     {
-        "end_version": 437403,
         "metadata": {
             "info": [],
             "title": "PR45881: Properly use CXXThisOverride for templated lambda"
@@ -2181,10 +2542,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/61d1cce2f83571c00f76144d42a2dea2cb3ab1ca.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 437403
+        }
     },
     {
-        "end_version": 437409,
         "metadata": {
             "info": [],
             "title": "[SampleFDO] Allow forward compatibility when adding a new section for extbinary format."
@@ -2193,10 +2556,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/8eb617d719bdc6a4ed7773925d2421b9bbdd4b7a.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 437409
+        }
     },
     {
-        "end_version": 438900,
         "metadata": {
             "info": [],
             "title": "Fixed a bug in https://reviews.llvm.org/rG8eb617d719bdc6a4ed7773925d2421b9bbdd4b7a"
@@ -2205,10 +2570,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/e8b376547b4b77671c36607ade025d3272699e7a.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 438900
+        }
     },
     {
-        "end_version": 438901,
         "metadata": {
             "info": [],
             "title": "Add REQUIRES: zlib in forward-compatible.test since it handles compressed file"
@@ -2217,10 +2584,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/80865f7579d619dee4ffd5abb72f641ef74dedbb.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 438901
+        }
     },
     {
-        "end_version": 433150,
         "metadata": {
             "info": [],
             "title": "[VPlan] Fix formatting glitch from d2a73fb44ea0b8."
@@ -2229,10 +2598,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/82834a673246f27a541ffcc57e0eb65b008102ef.patch",
-        "start_version": 433149
+        "version_range": {
+            "from": 433149,
+            "until": 433150
+        }
     },
     {
-        "end_version": 433723,
         "metadata": {
             "info": [],
             "title": "Revert \"[VPlan] Add recipe for first-order rec phis, make splicing explicit.\""
@@ -2241,10 +2612,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/b1777b04dc4b1a9fee0e7effa7e177892ab32ef0.patch",
-        "start_version": 433149
+        "version_range": {
+            "from": 433149,
+            "until": 433723
+        }
     },
     {
-        "end_version": 433807,
         "metadata": {
             "info": [],
             "title": "[DebugInfo] Correctly update debug users of SSA values in tail duplication"
@@ -2253,10 +2626,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/31e75512174e1bdaa242ee5c7f30fe56e68c3748.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 433807
+        }
     },
     {
-        "end_version": 433562,
         "metadata": {
             "info": [],
             "title": "Revert \"[DSE] Transform memset + malloc --> calloc (PR25892)\""
@@ -2265,10 +2640,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/bc536c710150f53b5ae5cd6b7693636e77992d0a.patch",
-        "start_version": 433123
+        "version_range": {
+            "from": 433123,
+            "until": 433562
+        }
     },
     {
-        "end_version": 433927,
         "metadata": {
             "info": [],
             "title": "Revert \"sanitizer_common: split LibIgnore into fast/slow paths\""
@@ -2277,10 +2654,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/35e76a939cabbaa40aeeb572c3cf4039c3077fdf.patch",
-        "start_version": 432235
+        "version_range": {
+            "from": 432235,
+            "until": 433927
+        }
     },
     {
-        "end_version": 434116,
         "metadata": {
             "info": [],
             "title": "Revert \"Revert of D49126 [PredicateInfo] Use custom mangling to support ssa_copy with unnamed types.\""
@@ -2289,10 +2668,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/dc5570d149ca6a0931413bf1ad469eb8f9517f82.patch",
-        "start_version": 422246
+        "version_range": {
+            "from": 422246,
+            "until": 434116
+        }
     },
     {
-        "end_version": 434483,
         "metadata": {
             "info": [],
             "title": "Revert \"[libcxx][CI] Work around Arm buildkite failures\""
@@ -2301,10 +2682,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/e517a2405f39a174e65e4105106ae39704f88e4d.patch",
-        "start_version": 432148
+        "version_range": {
+            "from": 432148,
+            "until": 434483
+        }
     },
     {
-        "end_version": 434836,
         "metadata": {
             "info": [],
             "title": "Revert \"[SystemZ][z/OS] Update target specific __attribute__((aligned)) value for test\""
@@ -2313,10 +2696,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/91e399519580930623e1eb7be43374f0ba8aba41.patch",
-        "start_version": 407500
+        "version_range": {
+            "from": 407500,
+            "until": 434836
+        }
     },
     {
-        "end_version": 435471,
         "metadata": {
             "info": [],
             "title": "Revert \"[SCEV] Remove premature assert. PR46786\""
@@ -2325,10 +2710,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0dc6b597db4d8b25f3df96a8f6574be732e18fdd.patch",
-        "start_version": 400017
+        "version_range": {
+            "from": 400017,
+            "until": 435471
+        }
     },
     {
-        "end_version": 442917,
         "metadata": {
             "info": [],
             "title": "[compiler-rt] Produce the right arch suffix for arm baremetal"
@@ -2337,10 +2724,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/db27867dfc95257faf5baa40436370df67647847.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 442917
+        }
     },
     {
-        "end_version": 444704,
         "metadata": {
             "info": [],
             "title": "[libunwind][ARM] Handle end of stack during unwind"
@@ -2349,10 +2738,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/D109856.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 444704
+        }
     },
     {
-        "end_version": 441343,
         "metadata": {
             "info": [],
             "title": "[msan] Add stat-family interceptors on Linux"
@@ -2361,10 +2752,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/4e1a6c07052b466a2a1cd0c3ff150e4e89a6d87a.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 441343
+        }
     },
     {
-        "end_version": 445396,
         "metadata": {
             "info": [],
             "title": "CodeGen: Strip exception specifications from function types in CFI type names."
@@ -2373,10 +2766,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0a14674f276b598d23353290635fc62f93e9ab30.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 445396
+        }
     },
     {
-        "end_version": 438858,
         "metadata": {
             "info": [],
             "title": "Revert \"Allow rematerialization of virtual reg uses\""
@@ -2385,10 +2780,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/08d7eec06e8cf5c15a96ce11f311f1480291a441.patch",
-        "start_version": 436284
+        "version_range": {
+            "from": 436284,
+            "until": 438858
+        }
     },
     {
-        "end_version": 437625,
         "metadata": {
             "info": [],
             "title": "Revert \"[AMDGPU] Split entry basic block after alloca instructions.\""
@@ -2397,10 +2794,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/0c28814015cdd9a48a9ed7e4bc3545f352a1bb77.patch",
-        "start_version": 436857
+        "version_range": {
+            "from": 436857,
+            "until": 437625
+        }
     },
     {
-        "end_version": 442617,
         "metadata": {
             "info": [],
             "title": "Revert \"X86InstrInfo: Support immediates that are +1/-1 different in optimizeCompareInstr\""
@@ -2409,10 +2808,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/a2a58d91e82db38fbdf88cc317dcb3753d79d492.patch",
-        "start_version": 442113
+        "version_range": {
+            "from": 442113,
+            "until": 442617
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Revert \"[libcxx] Add a dependency on unwind in cxx_static, if LIBCXXABI_USE_LLVM_UNWINDER is set\""
@@ -2421,10 +2822,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
-        "start_version": 443104
+        "version_range": {
+            "from": 443104,
+            "until": null
+        }
     },
     {
-        "end_version": 445238,
         "metadata": {
             "info": [],
             "title": "[ARM] Introduce i8neg and i8pos addressing modes"
@@ -2433,10 +2836,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "b8f1ccb0acf8dccdd3fb706465ec958763987bee.patch",
-        "start_version": 437113
+        "version_range": {
+            "from": 437113,
+            "until": 445238
+        }
     },
     {
-        "end_version": 446317,
         "metadata": {
             "info": [],
             "title": "[ARM] Add AddrModeT2_i8neg addressing mode support for frame lowering."
@@ -2445,10 +2850,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "26f6fbe2be1dfb6e734ba34b650606cd18a2a4f7.patch",
-        "start_version": 437113
+        "version_range": {
+            "from": 437113,
+            "until": 446317
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "[libcxx] Crash when dereferencing nullopt for std::optional"
@@ -2457,10 +2864,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "5778284149254d019b3f127dc32475ab7b72a7d6.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": null
+        }
     },
     {
-        "end_version": 445729,
         "metadata": {
             "info": [],
             "title": "[UPSTREAM] Revert \"Revert \"Use VersionTuple for parsing versions in Triple, fixing issues that caused the original change to be reverted. This makes it possible to distinguish between \"16\" and \"16.0\" after parsing, which previously was not possible.\"\""
@@ -2470,10 +2879,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/219672b8dd06c4765185fa3161c98437d49b4a1b.patch",
-        "start_version": 445002
+        "version_range": {
+            "from": 445002,
+            "until": 445729
+        }
     },
     {
-        "end_version": 451237,
         "metadata": {
             "info": [],
             "title": "[UPSTREAM] [hwasan] work around lifetime issue with setjmp."
@@ -2483,10 +2894,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/aefb2e134dd715c2c48a7b826d2d56db51ce63ac.patch",
-        "start_version": 445002
+        "version_range": {
+            "from": 445002,
+            "until": 451237
+        }
     },
     {
-        "end_version": 452761,
         "metadata": {
             "info": [],
             "title": "[sanitizer] Check if directory exists before trying to create"
@@ -2496,10 +2909,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/634da7a1c61ee8c173e90a841eb1f4ea03caa20b.patch",
-        "start_version": 438528
+        "version_range": {
+            "from": 438528,
+            "until": 452761
+        }
     },
     {
-        "end_version": 445406,
         "metadata": {
             "info": [],
             "title": "[UPSTREAM] [clang][ARM] relax -mtp=cp15 for non-thumb cases"
@@ -2509,10 +2924,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9f95bc7dc18390199553cf2ea3bfcdc6a95717ef.patch",
-        "start_version": 445002
+        "version_range": {
+            "from": 445002,
+            "until": 445406
+        }
     },
     {
-        "end_version": 445576,
         "metadata": {
             "info": [],
             "title": "[UPSTREAM] [clang][ARM] only check -mtp=cp15 for non-asm sources"
@@ -2522,10 +2939,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/73ee4e1cbd643028d63200f05199a128609aba5f.patch",
-        "start_version": 445002
+        "version_range": {
+            "from": 445002,
+            "until": 445576
+        }
     },
     {
-        "end_version": 447356,
         "metadata": {
             "info": [],
             "title": "[UPSTREAM] [clang][ARM] re-use arm::isHardTPSupported for hardware TLS check"
@@ -2535,10 +2954,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/cd284b7ac0615afc6e0f1a30da2777e361de27a3.patch",
-        "start_version": 445002
+        "version_range": {
+            "from": 445002,
+            "until": 447356
+        }
     },
     {
-        "end_version": 446080,
         "metadata": {
             "info": [],
             "title": "[ThinLTO][MC] Use conditional assignments for promotion aliases"
@@ -2548,10 +2969,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/9a74c753fe3fb40afeb0660060538678dd77d060.patch",
-        "start_version": 437112
+        "version_range": {
+            "from": 437112,
+            "until": 446080
+        }
     },
     {
-        "end_version": 451711,
         "metadata": {
             "info": [],
             "title": "[ELF] Support REL-format R_AARCH64_NONE relocation"
@@ -2561,6 +2984,9 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/f457863ae345d2635026501f5383e0e625869639.patch",
-        "start_version": 445002
+        "version_range": {
+            "from": 445002,
+            "until": 451711
+        }
     }
 ]

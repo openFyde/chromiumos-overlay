@@ -1,6 +1,5 @@
 [
     {
-        "end_version": 392069,
         "metadata": {
             "info": [],
             "title": "Link libcxx with gcc_eh when linking with gcc_s is not desired"
@@ -9,10 +8,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "libcxx-10-use-libgcc_eh.patch",
-        "start_version": 374056
+        "version_range": {
+            "from": 374056,
+            "until": 392069
+        }
     },
     {
-        "end_version": 419078,
         "metadata": {
             "info": [],
             "title": "Link libcxx with gcc_eh when linking with gcc_s is not desired"
@@ -21,10 +22,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "libcxx-11-use-libgcc_eh.patch",
-        "start_version": 392069
+        "version_range": {
+            "from": 392069,
+            "until": 419078
+        }
     },
     {
-        "end_version": 387601,
         "metadata": {
             "info": [],
             "title": "[libc++] Add missing visibility annotation for __base"
@@ -33,10 +36,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "cherry/30ccc2e8d24b53273aae9cc21740f02ffb3018dc.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": 387601
+        }
     },
     {
-        "end_version": 417956,
         "metadata": {
             "info": [],
             "title": "[libc++] [P0879] constexpr std::sort"
@@ -45,10 +50,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "493f1407927cdf6db2e08f150ed9f9b8abe4ac45.patch",
-        "start_version": 417943
+        "version_range": {
+            "from": 417943,
+            "until": 417956
+        }
     },
     {
-        "end_version": 418174,
         "metadata": {
             "info": [],
             "title": "[libc++] Further improve the contiguous-iterator story, and fix some bugs."
@@ -57,10 +64,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "85167fb7c2920ca8874b197ef397e8e6b9d87c73.patch",
-        "start_version": 417943
+        "version_range": {
+            "from": 417943,
+            "until": 418174
+        }
     },
     {
-        "end_version": 417837,
         "metadata": {
             "info": [],
             "title": "Disable CFI in __get_elem to allow casting a pointer to uninitialized memory"
@@ -69,10 +78,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "bab74864168bb5e28ecbc0294fe1095d8da7f569.patch",
-        "start_version": 415517
+        "version_range": {
+            "from": 415517,
+            "until": 417837
+        }
     },
     {
-        "end_version": 430140,
         "metadata": {
             "info": [],
             "title": "[libcxx][atomic] Fix failure mapping in compare_exchange_{strong,weak}."
@@ -81,10 +92,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "6d33362dafb66b3af4717990d9a06450ec13f367.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 430140
+        }
     },
     {
-        "end_version": 428763,
         "metadata": {
             "info": [],
             "title": "Revert \"[libc++] NFC: Move unwrap_iter to its own header\""
@@ -93,10 +106,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "b13edf6e907b32d0b8da09dfe08fa271638eca3c.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 428763
+        }
     },
     {
-        "end_version": 434483,
         "metadata": {
             "info": [],
             "title": "Revert \"[libcxx][CI] Work around Arm buildkite failures\""
@@ -105,7 +120,10 @@
             "chromiumos"
         ],
         "rel_patch_path": "e517a2405f39a174e65e4105106ae39704f88e4d.patch",
-        "start_version": 432148
+        "version_range": {
+            "from": 432148,
+            "until": 434483
+        }
     },
     {
         "metadata": {
@@ -116,7 +134,10 @@
             "chromiumos"
         ],
         "rel_patch_path": "5778284149254d019b3f127dc32475ab7b72a7d6.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": null
+        }
     },
     {
         "metadata": {
@@ -127,6 +148,9 @@
             "chromiumos"
         ],
         "rel_patch_path": "revert-b1c9d3d29a1e3cc6a9ad6f0fd1a3a0fa15800f64.patch",
-        "start_version": 443104
+        "version_range": {
+            "from": 443104,
+            "until": null
+        }
     }
 ]

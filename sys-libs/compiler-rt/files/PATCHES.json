@@ -1,6 +1,5 @@
 [
     {
-        "end_version": 414798,
         "metadata": {
             "info": [],
             "title": "Adds a allowlist of packages that have known memory leaks"
@@ -9,10 +8,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-next-leak-allowlist.v2.patch",
-        "start_version": 370808
+        "version_range": {
+            "from": 370808,
+            "until": 414798
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Adds a allowlist of packages that have known memory leaks"
@@ -21,10 +22,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "llvm-leak-allowlist.v3.patch",
-        "start_version": 414798
+        "version_range": {
+            "from": 414798,
+            "until": null
+        }
     },
     {
-        "end_version": 408666,
         "metadata": {
             "info": [],
             "title": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault"
@@ -33,10 +36,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "clang-4.0-asan-default-path.patch",
-        "start_version": 0
+        "version_range": {
+            "from": 0,
+            "until": 408666
+        }
     },
     {
-        "end_version": null,
         "metadata": {
             "info": [],
             "title": "Sets the ASAN message to go to /va/log/asan${pid} by\ndefault"
@@ -45,10 +50,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "clang-12.0-asan-default-path.patch",
-        "start_version": 408666
+        "version_range": {
+            "from": 408666,
+            "until": null
+        }
     },
     {
-        "end_version": 401725,
         "metadata": {
             "info": [],
             "title": "[msan] Support %ms in scanf."
@@ -57,10 +64,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "aa57cabae2fc5abc08ab3e17b45f2890fc7c9e42.patch",
-        "start_version": 394483
+        "version_range": {
+            "from": 394483,
+            "until": 401725
+        }
     },
     {
-        "end_version": 408314,
         "metadata": {
             "info": [],
             "title": "Fix compiler-rt build on Windows after D89640"
@@ -69,10 +78,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "a7acee89d68473183cc5021d952a56cdf0ae27d3.patch",
-        "start_version": 408224
+        "version_range": {
+            "from": 408224,
+            "until": 408314
+        }
     },
     {
-        "end_version": 408400,
         "metadata": {
             "info": [],
             "title": "Revert \"[Sanitizers] Remove OpenBSD support\" + 1"
@@ -81,10 +92,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "7ecd60bb7022bb681b9dc01a9c232fd93b4b169c.patch",
-        "start_version": 408224
+        "version_range": {
+            "from": 408224,
+            "until": 408400
+        }
     },
     {
-        "end_version": 426368,
         "metadata": {
             "info": [],
             "title": "[clang] accept -fsanitize-ignorelist= in addition to -fsanitize-blacklist="
@@ -93,10 +106,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "d7ec48d71bd67118e7996c45e9c7fb1b09d4f59a.patch",
-        "start_version": 422132
+        "version_range": {
+            "from": 422132,
+            "until": 426368
+        }
     },
     {
-        "end_version": 430742,
         "metadata": {
             "info": [],
             "title": "Revert \"[cmake] [compiler-rt] Call llvm_setup_rpath() when adding shared libraries.\""
@@ -105,10 +120,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "21c008d5a5b1e0c2ec3c1659cff961f4b0ccea2c.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 430742
+        }
     },
     {
-        "end_version": 429795,
         "metadata": {
             "info": [],
             "title": "[compiler-rt] [builtins] [AArch64] Add missing AArch64 data synchronization barrier (dsb) to __clear_cache"
@@ -117,10 +134,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "6455418d3d2a2de1a8251cc2ccf2e87b9ae3112d.patch",
-        "start_version": 428724
+        "version_range": {
+            "from": 428724,
+            "until": 429795
+        }
     },
     {
-        "end_version": 433927,
         "metadata": {
             "info": [],
             "title": "Revert \"sanitizer_common: split LibIgnore into fast/slow paths\""
@@ -129,10 +148,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "35e76a939cabbaa40aeeb572c3cf4039c3077fdf.patch",
-        "start_version": 432235
+        "version_range": {
+            "from": 432235,
+            "until": 433927
+        }
     },
     {
-        "end_version": 434778,
         "metadata": {
             "info": [],
             "title": "[compiler-rt] [builtins] [arm32] Enable ARM32 fuzzing support"
@@ -141,10 +162,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "fuzzer-enable-arm32.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 434778
+        }
     },
     {
-        "end_version": 444177,
         "metadata": {
             "info": [],
             "title": "[compiler-rt] [builtins] [arm32] Enable ARM32 fuzzing support"
@@ -153,10 +176,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "2782cb8da0b3c180fa7c8627cb255a026f3d25a2.patch",
-        "start_version": 434778
+        "version_range": {
+            "from": 434778,
+            "until": 444177
+        }
     },
     {
-        "end_version": 442917,
         "metadata": {
             "info": [],
             "title": "[compiler-rt] Produce the right arch suffix for arm baremetal"
@@ -165,10 +190,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "db27867dfc95257faf5baa40436370df67647847.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 442917
+        }
     },
     {
-        "end_version": 441343,
         "metadata": {
             "info": [],
             "title": "[msan] Add stat-family interceptors on Linux"
@@ -177,10 +204,12 @@
             "chromiumos"
         ],
         "rel_patch_path": "4e1a6c07052b466a2a1cd0c3ff150e4e89a6d87a.patch",
-        "start_version": 433403
+        "version_range": {
+            "from": 433403,
+            "until": 441343
+        }
     },
     {
-        "end_version": 452761,
         "metadata": {
             "info": [],
             "title": "[sanitizer] Check if directory exists before trying to create"
@@ -190,6 +219,9 @@
             "chromiumos"
         ],
         "rel_patch_path": "634da7a1c61ee8c173e90a841eb1f4ea03caa20b.patch",
-        "start_version": 438528
+        "version_range": {
+            "from": 438528,
+            "until": 452761
+        }
     }
 ]
