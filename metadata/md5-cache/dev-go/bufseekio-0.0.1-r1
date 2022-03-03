@@ -8,5 +8,5 @@ LICENSE=MIT
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/sunfish-shogi/bufseekio/archive/e5e41a4a1c4c3aa91b37213834257b960f1aed9c.tar.gz -> github.com-sunfish-shogi-bufseekio-e5e41a4a1c4c3aa91b37213834257b960f1aed9c.tar.gz
-_eclasses_=cros-go	dac85c3271572c8bed5a845ea12f3e93	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-go	f783aa800876cbcbdf7528391f45b8be	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=99dce7bd69dc6ddec45baf60e525c563

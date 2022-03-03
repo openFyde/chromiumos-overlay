@@ -9,5 +9,5 @@ RDEPEND=dev-go/gapi-iamcredentials dev-go/gapi-storage dev-go/gapi-transport dev
 RESTRICT=binchecks
 SLOT=0
 SRC_URI=https://github.com/GoogleCloudPlatform/google-cloud-go/archive/ae85bf6f82f4807ee46a814b416659cf0a766f0f.tar.gz -> github.com-GoogleCloudPlatform-google-cloud-go-ae85bf6f82f4807ee46a814b416659cf0a766f0f.tar.gz
-_eclasses_=cros-go	dac85c3271572c8bed5a845ea12f3e93	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-go	f783aa800876cbcbdf7528391f45b8be	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=dba03db039393e8a4602136b9e6d08c7
