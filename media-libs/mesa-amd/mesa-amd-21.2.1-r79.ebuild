@@ -87,7 +87,6 @@ src_configure() {
 		-Dplatforms=
 		-Degl=true
 		-Dgbm=false
-		-Dgl=false
 		-Dgles1=false
 		-Dgles2=true
 		$(meson_feature zstd)

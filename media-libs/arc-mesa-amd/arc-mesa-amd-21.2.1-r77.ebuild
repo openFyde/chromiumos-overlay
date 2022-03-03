@@ -91,8 +91,7 @@ multilib_src_configure() {
 		-Dgallium-vdpau=false
 		-Dgallium-xvmc=false
 		-Dgallium-omx=disabled
-		-Dgallum-xa=false
-		-Dasm=false
+		-Dgallium-xa=false
 		-Dglx=disabled
 		-Ddri3=false
 		-Dgles-lib-suffix=_mesa
