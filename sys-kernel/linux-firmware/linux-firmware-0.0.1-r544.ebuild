@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="ae09267732b807f22bc5a928e891cca627b7706d"
-CROS_WORKON_TREE="618bab6321269c279484dcfa707937ad4e5821c5"
+CROS_WORKON_COMMIT="308fa5efe3ac7168663bf271650927eb61ab8e1c"
+CROS_WORKON_TREE="9c6624b63ff9a88b9242e90ad793990dbdf230c6"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -75,6 +75,7 @@ IUSE_LINUX_FIRMWARE=(
 	ath10k_qca6174a-3
 	ath10k_wcn3990
 	ath11k_wcn6855
+	amd_ucode
 	amdgpu_carrizo
 	amdgpu_green_sardine
 	amdgpu_picasso
@@ -156,6 +157,7 @@ LICENSE="
 	linux_firmware_adsp_glk? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_kbl? ( LICENCE.adsp_sst )
 	linux_firmware_adsp_skl? ( LICENCE.adsp_sst )
+	linux_firmware_amd_ucode? ( LICENSE.amd-ucode )
 	linux_firmware_amdgpu_carrizo? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_green_sardine? ( LICENSE.amdgpu )
 	linux_firmware_amdgpu_picasso? ( LICENSE.amdgpu )
@@ -359,6 +361,7 @@ src_install() {
 	use_fw adsp_glk && doins_subdir intel/dsp_fw_glk*
 	use_fw adsp_kbl && doins_subdir intel/dsp_fw_kbl*
 	use_fw adsp_skl && doins_subdir intel/dsp_fw_*
+	use_fw amd_ucode && doins_subdir amd-ucode/*.bin
 	use_fw ath9k_htc && doins htc_*.fw
 	use_fw ath10k_qca6174a-5 && doins_subdir ath10k/QCA6174/hw3.0/{firmware-6,board-2}.bin
 	use_fw ath10k_qca6174a-3 && doins_subdir ath10k/QCA6174/hw3.0/{firmware-sdio-6,board-2}.bin
