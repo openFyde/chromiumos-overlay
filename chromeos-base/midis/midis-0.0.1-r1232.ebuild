@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("f253d9dea38f46cd256f5a9193982628f2b1b5e6" "77cc36d72b2a07ce056c6dc57290b2e094db7931")
-CROS_WORKON_TREE=("b50e5ebc78fa3b45d6c6ea0ede1aa648d160fb92" "1dc86efdcfdaf1aa0f9cbaf949d36e5901dc6513" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4baf7cba90f916c94dd07c5746355f65e2ee0d8e")
+CROS_WORKON_COMMIT=("7ce6cd70ec728f33b45fc3681197803e61ccef62" "77cc36d72b2a07ce056c6dc57290b2e094db7931")
+CROS_WORKON_TREE=("b50e5ebc78fa3b45d6c6ea0ede1aa648d160fb92" "ef02013a6fbc1a70ca4ef1f103b41d94d0eca5b1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4baf7cba90f916c94dd07c5746355f65e2ee0d8e")
 CROS_WORKON_LOCALNAME=(
 	"platform2"
 	"chromium/src/media/midi"
