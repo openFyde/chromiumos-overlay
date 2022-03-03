@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -33,7 +33,6 @@ COMMON_DEPEND="
 	chromeos-base/shill-net:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
-	pppoe? ( net-dialup/ppp:= )
 	vpn? ( net-dialup/ppp:= )
 	net-dns/c-ares:=
 	net-libs/libtirpc:=
@@ -121,7 +120,7 @@ src_install() {
 	exeinto "${shims_dir}"
 
 	use vpn && doexe "${OUT}"/openvpn-script
-	if use cellular || use pppoe || use vpn; then
+	if use cellular || use vpn; then
 		newexe "${OUT}"/lib/libshill-pppd-plugin.so shill-pppd-plugin.so
 	fi
 
