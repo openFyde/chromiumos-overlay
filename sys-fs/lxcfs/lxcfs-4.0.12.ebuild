@@ -40,6 +40,10 @@ src_configure() {
 	# May be able to drop when/if ported to meson, but re-test w/ x86 chroot
 	append-lfs-flags
 
+	# Replace help2man for /bin/true to avoid issues when
+	# cross-compiling (b/196492646)
+	export ac_cv_path_HELP2MAN=/bin/true
+
 	# Without the localstatedir the filesystem isn't mounted correctly
 	# Without with-distro ./configure will fail when cross-compiling
 	econf --localstatedir=/var --with-distro=gentoo --disable-static \
