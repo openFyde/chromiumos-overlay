@@ -36,7 +36,7 @@ ARC_PLATFORM_SDK_VERSION=28
 
 IUSE="${IUSE_VIDEO_CARDS}
 	android_aep -android_gles2 -android_gles30
-	+android_gles31 -android_gles32 -android_vulkan_compute_0 -swvulkan
+	+android_gles31 -android_gles32 -android_vulkan_compute_0 -angle -swvulkan
 	+cheets classic debug dri +egl +gallium
 	-gbm +gles1 +gles2 -llvm +nptl pic selinux +shared-glapi -vulkan -X xlib-glx
 	cheets_user cheets_user_64"
@@ -47,6 +47,7 @@ IUSE="${IUSE_VIDEO_CARDS}
 REQUIRED_USE="
 	^^ ( android_gles2 android_gles30 android_gles31 android_gles32 )
 	android_aep? ( !android_gles2 !android_gles30 )
+	angle? ( vulkan !egl )
 	android_vulkan_compute_0? ( vulkan )"
 
 DEPEND="cheets? (
@@ -146,7 +147,9 @@ multilib_src_configure() {
 		ewarn "USE flags. No hardware drivers will be built."
 	fi
 
-	gallium_enable virgl
+	if use egl; then
+		gallium_enable virgl
+	fi
 
 	if use vulkan; then
 		vulkan_enable virtio-experimental
@@ -198,8 +201,8 @@ multilib_src_configure() {
 		-Ddri3=false
 		-Dgles-lib-suffix=_mesa
 		-Degl-lib-suffix=_mesa
+		-Dplatforms="${EGL_PLATFORM}"
 		$(meson_use llvm)
-		$(use egl && echo "-Dplatforms=${EGL_PLATFORM}")
 		$(meson_use egl)
 		$(meson_use gbm)
 		$(meson_use gles1)
@@ -224,6 +227,15 @@ multilib_src_compile() {
 }
 
 multilib_src_install_cheets() {
+	if use vulkan; then
+		exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/hw"
+		newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
+	fi
+
+	if ! use egl; then
+		return
+	fi
+
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)"
 	newexe ${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0 libglapi.so.0
 
@@ -234,11 +246,6 @@ multilib_src_install_cheets() {
 
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/dri"
 	newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so virtio_gpu_dri.so
-
-	if use vulkan; then
-		exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/hw"
-		newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
-	fi
 }
 
 multilib_src_install() {
@@ -304,7 +311,10 @@ multilib_src_install_all_cheets() {
 
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_VM_PREFIX}/vendor/etc/init"
-	if use android_gles32; then
+	if use angle; then
+		einfo "Using angle."
+		doins "${FILESDIR}/angle/init.gpu.rc"
+	elif use android_gles32; then
 		doins "${FILESDIR}/gles32/init.gpu.rc"
 	elif use android_gles31; then
 		doins "${FILESDIR}/gles31/init.gpu.rc"
