@@ -2988,5 +2988,47 @@
             "from": 445002,
             "until": 451711
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[x86] try harder to scalarize a vector load with extracted integer op uses\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/7b03725097872fbd3369a7213c1d98b372aa2d78.patch",
+        "version_range": {
+            "from": 450740,
+            "until": 451631
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[DebugInfo][InstrRef] Accept register-reads after isel in any block"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/0e96d95d13d9f7b2a96bcaa569ce0a0181a6c7f3.patch",
+        "version_range": {
+            "from": 448639,
+            "until": 454831
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[AArch64] Bail out for float operands in SetCC optimization."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/23091f7d504afde4bba3fc885718a1633746e063.patch",
+        "version_range": {
+            "from": 450729,
+            "until": 451016
+        }
     }
 ]
