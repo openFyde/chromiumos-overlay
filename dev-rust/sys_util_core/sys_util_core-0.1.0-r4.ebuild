@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3451ef4d006c03ed768235fbaee8b3a28764acca"
+CROS_WORKON_COMMIT="b8e498f743aed439ddbc6f08d342b403c0bed8be"
 CROS_WORKON_TREE=("4fb2832b0e1202b4e30ace56c41f5e1000cac28b" "657879d7112bd65f190dbbf687daca14399681d0")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/sys_util_core"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
-CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_WORKON_SUBTREE}"
 
 inherit cros-workon cros-rust
 
@@ -24,6 +24,7 @@ IUSE="test"
 DEPEND="
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	=dev-rust/remain-0.2*:=
+	=dev-rust/serde-1*:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 
