@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="3df0554cf662482ff78867206f406e790a91075c"
-CROS_WORKON_TREE="af83fec5f201d6b7e569affc40e3b2f301e2d939"
+CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
+CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -35,10 +35,8 @@ IUSE_TESTS="
 	+tests_hardware_TPMCheck
 	+tests_kernel_TPMStress
 	+tests_platform_Pkcs11InitUnderErrors
-	+tests_platform_Pkcs11ChangeAuthData
 	+tests_platform_Pkcs11Events
 	+tests_platform_Pkcs11LoadPerf
-	+tests_platform_TPMEvict
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

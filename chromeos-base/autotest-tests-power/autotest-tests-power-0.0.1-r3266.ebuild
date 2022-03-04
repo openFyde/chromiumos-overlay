@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9110f3b9282dff5e919d4145cc7ad1d499f64046"
-CROS_WORKON_TREE="6d68981e5ce5df734d579cb9cfe6f4c1a0722a22"
+CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
+CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -30,13 +30,10 @@ DEPEND="${RDEPEND}"
 
 # cros/power_suspend depends on shill-test-scripts.
 IUSE_TESTS="
-	+tests_hardware_Backlight
 	+tests_power_ARMSettings
 	+tests_power_Backlight
-	+tests_power_BacklightControl
 	+tests_power_BacklightSuspend
 	+tests_power_BatteryCharge
-	+tests_power_BatteryDesignCapacity
 	+tests_power_CheckAC
 	+tests_power_CheckAfterSuspend
 	+tests_power_CPUFreq
@@ -45,21 +42,17 @@ IUSE_TESTS="
 	+tests_power_Dummy
 	+tests_power_HotCPUSuspend
 	+tests_power_KernelSuspend
-	+tests_power_MemorySuspend
-	+tests_power_NoConsoleSuspend
 	+tests_power_ProbeDriver
 	shill? ( +tests_power_Resume )
 	+tests_power_Standby
 	+tests_power_StatsCPUFreq
 	+tests_power_StatsCPUIdle
-	+tests_power_StatsUSB
 	+tests_power_Status
 	shill? (
 		+tests_power_SuspendStress
 		+tests_power_SuspendToIdle
 	)
 	+tests_power_WaitForCoolDown
-	+tests_power_WakeupRTC
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

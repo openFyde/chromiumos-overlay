@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f927341fc47e4d03337314ef669d0152716d931c"
-CROS_WORKON_TREE="15eb42bb3a2037b3fafd2d7882e031dfb97b33ab"
+CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
+CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -32,9 +32,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_cellular_ActivateLTE
 	+tests_cellular_ConnectFailure
-	+tests_cellular_DeferredRegistration
 	+tests_cellular_DisableWhileConnecting
 	+tests_cellular_DisconnectFailure
 	+tests_cellular_HermesErrorScenarios
@@ -43,22 +41,14 @@ IUSE_TESTS="
 	+tests_cellular_Hermes_Restart_SlotSwitch
 	+tests_cellular_Hermes_SingleProfile
 	+tests_cellular_Identifiers
-	+tests_cellular_OutOfCreditsSubscriptionState
 	+tests_cellular_SIMLocking
 	+tests_cellular_SafetyDance
-	+tests_cellular_ScanningProperty
-	+tests_cellular_ServiceName
 	+tests_cellular_Smoke
 	+tests_cellular_StressEnable
 	+tests_cellular_ValidateTestEnvironment
 "
 
 IUSE_MBIM_TESTS="
-	+tests_cellular_MbimComplianceControlCommand
-	+tests_cellular_MbimComplianceControlRequest
-	+tests_cellular_MbimComplianceDataTransfer
-	+tests_cellular_MbimComplianceDescriptor
-	+tests_cellular_MbimComplianceError
 "
 
 IUSE_TESTS="${IUSE_TESTS} ${IUSE_MBIM_TESTS}"

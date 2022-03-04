@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="b615993f9d8c1a4a2e1e81099a3379dbead35fcd"
-CROS_WORKON_TREE="2b7fca31d6975d890a7d4aa9c6155cb97e5a13ec"
+CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
+CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -55,8 +55,6 @@ SERVER_IUSE_TESTS="
 	+tests_audio_InternalCardNodes
 	+tests_audio_LeftRightInternalSpeaker
 	+tests_audio_MediaBasicVerification
-	+tests_audio_PowerConsumption
-	+tests_audiovideo_AVSync
 	+tests_autoupdate_Basic
 	+tests_autoupdate_CatchBadSignatures
 	+tests_autoupdate_Cellular
@@ -92,25 +90,13 @@ SERVER_IUSE_TESTS="
 	)
 	+tests_cellular_Callbox_AssertCellularData
 	+tests_cellular_Callbox_AssertSMS
-	+tests_cheets_LabDependencies
-	debugd? ( +tests_debugd_DevTools )
-	+tests_crosperf_Wrapper
 	+tests_display_EdidStress
-	+tests_display_HDCPScreen
 	+tests_display_HotPlugAtBoot
 	+tests_display_HotPlugAtSuspend
-	+tests_display_HotPlugNoisy
-	+tests_display_LidCloseOpen
-	+tests_display_NoEdid
 	+tests_display_Resolution
 	+tests_display_ResolutionList
 	+tests_display_ServerChameleonConnection
-	+tests_display_SuspendStress
 	+tests_display_SwitchMode
-	+tests_enterprise_ClearTPM
-	+tests_enterprise_KioskEnrollmentServer
-	+tests_enterprise_LongevityTrackerServer
-	+tests_enterprise_OnlineDemoMode
 	+tests_factory_Basic
 	+tests_firmware_Bmpblk
 	+tests_firmware_CgptStress
@@ -269,56 +255,30 @@ SERVER_IUSE_TESTS="
 	+tests_hardware_StorageQualTrimStress
 	+tests_hardware_StorageQualV2
 	+tests_hardware_StorageStress
-	+tests_infra_ServerPythonVersion
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
-	+tests_kernel_ExternalUsbPeripheralsDetectionTest
-	+tests_kernel_IdlePerf
-	+tests_kernel_MemoryRamoop
-	moblab? (
-		+tests_moblab_RunSuite
-		+tests_moblab_StorageQual
-	)
-	+tests_moblab_Setup
-	+tests_network_FirewallHolePunchServer
 	+tests_p2p_EndToEndTest
-	+tests_platform_ActivateDate
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
-	+tests_platform_BootPerfServer
 	+tests_platform_CompromisedStatefulPartition
 	+tests_platform_CorruptRootfs
 	+tests_platform_CrashStateful
-	+tests_platform_ExternalUsbPeripherals
-	+tests_platform_FetchCloudConfig
 	+tests_platform_FlashErasers
 	+tests_platform_Flashrom
 	+tests_platform_HWwatchdog
 	+tests_platform_InitLoginPerfServer
-	+tests_platform_InstallTestImage
-	+tests_platform_InternalDisplay
 	+tests_platform_KernelErrorPaths
 	+tests_platform_MTBF
 	power_management? (
 		+tests_platform_PowerStatusStress
 		+tests_power_WakeSources
 	)
-	+tests_platform_Powerwash
-	+tests_platform_RotationFps
 	+tests_platform_ServoPowerStateController
 	+tests_platform_StageAndRecover
 	+tests_platform_SyncCrash
 	readahead? ( +tests_platform_UReadAheadServer )
-	+tests_platform_Vpd
 	+tests_policy_DeviceServer
-	+tests_policy_WilcoServerUSBPowershare
 	+tests_power_BrightnessResetAfterReboot
-	+tests_power_ChargeControlWrapper
-	+tests_power_MeetCall
-	+tests_power_Monitoring
-	+tests_power_LW
-	+tests_power_PowerlogWrapper
-	+tests_power_RPMTest
 	+tests_power_ServoChargeStress
 	+tests_power_ServodWrapper
 	+tests_provision_CheetsUpdate
@@ -335,7 +295,6 @@ SERVER_IUSE_TESTS="
 	+tests_servo_LogGrab
 	+tests_servo_Verification
 	+tests_servohost_Reboot
-	+tests_stress_ClientTestReboot
 	+tests_stress_EnrollmentRetainment
 	+tests_stub_FailServer
 	+tests_stub_PassServer

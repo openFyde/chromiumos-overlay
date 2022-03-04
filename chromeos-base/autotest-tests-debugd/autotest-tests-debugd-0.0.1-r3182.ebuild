@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="baba8700d60d7c93c279d79e613461a14309802a"
-CROS_WORKON_TREE="6f8448a0bf6f2ed3432ce337d6ae43043c6ca06c"
+CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
+CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -24,14 +24,6 @@ RDEPEND="
 "
 
 IUSE_TESTS="
-	+tests_platform_TraceClockMonotonic
-	+tests_platform_DebugDaemonGetNetworkStatus
-	+tests_platform_DebugDaemonGetPerfData
-	+tests_platform_DebugDaemonGetPerfOutputFd
-	+tests_platform_DebugDaemonGetRoutes
-	+tests_platform_DebugDaemonPerfDataInFeedbackLogs
-	+tests_platform_DebugDaemonPing
-	+tests_platform_DebugDaemonTracePath
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
