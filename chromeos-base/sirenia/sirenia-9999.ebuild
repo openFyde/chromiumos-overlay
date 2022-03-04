@@ -23,6 +23,7 @@ DEPEND="
 	=dev-rust/anyhow-1*:=
 	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
 	dev-rust/chromeos-dbus-bindings:=
+	dev-rust/data_model:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.5*:=
 	=dev-rust/flexbuffers-2*:=
