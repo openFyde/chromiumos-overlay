@@ -30,6 +30,7 @@ IUSE="
 	dlc_test
 	has-kernelnext
 	is-kernelnext
+	minios
 	-moblab
 	+power_management
 	+readahead
@@ -276,6 +277,7 @@ SERVER_IUSE_TESTS="
 	+tests_hardware_StorageStress
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
+	minios? ( +tests_nbr_EndToEndTest )
 	+tests_p2p_EndToEndTest
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
