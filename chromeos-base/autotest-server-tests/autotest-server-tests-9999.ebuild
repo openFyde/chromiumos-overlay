@@ -15,7 +15,28 @@ SLOT="0"
 KEYWORDS="~*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 -chromeless_tests -chromeless_tty debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="
+	android-container
+	android-container-pi
+	android-vm-rvc
+	+autotest
+	biod
+	+cellular
+	+cheets_user
+	cheets_user_64
+	-chromeless_tests
+	-chromeless_tty
+	debugd
+	dlc_test
+	has-kernelnext
+	is-kernelnext
+	-moblab
+	+power_management
+	+readahead
+	+tpm
+	tpm2
+	"
+
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
