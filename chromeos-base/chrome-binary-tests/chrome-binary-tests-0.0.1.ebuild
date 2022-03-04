@@ -50,4 +50,8 @@ src_install() {
 		doexe "${BINARY_DIR}/decode_test"
 		doexe "${BINARY_DIR}/vaapi_unittest"
 	fi
+
+	if use v4l2_codec; then
+		doexe "${BINARY_DIR}/v4l2_stateless_decoder"
+	fi
 }
