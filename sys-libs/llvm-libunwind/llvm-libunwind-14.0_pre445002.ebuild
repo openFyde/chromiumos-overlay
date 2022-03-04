@@ -35,7 +35,7 @@ DEPEND="${RDEPEND}
 pkg_setup() {
 	# Setup llvm toolchain for cross-compilation
 	setup_cross_toolchain
-	export CMAKE_USE_DIR="${S}/libunwind"
+	export CMAKE_USE_DIR="${S}/runtimes"
 }
 
 src_unpack() {
@@ -83,7 +83,6 @@ multilib_src_configure() {
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		"${mycmakeargs[@]}"
-		"-DLLVM_ENABLE_PROJECTS=libunwind"
 		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
 		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLLVM_LIBDIR_SUFFIX=${libdir#lib}"
@@ -95,6 +94,7 @@ multilib_src_configure() {
 		"-DLIBUNWIND_USE_COMPILER_RT=$(usex compiler-rt)"
 		"-DLIBUNWIND_TARGET_TRIPLE=$(get_abi_CTARGET)"
 		"-DCMAKE_INSTALL_PREFIX=${PREFIX}"
+		"-DLLVM_ENABLE_RUNTIMES=libunwind"
 		# Avoid old libstdc++ errors when bootstrapping.
 		"-DLLVM_ENABLE_LIBCXX=ON"
 		"-DLIBUNWIND_HAS_COMMENT_LIB_PRAGMA=OFF"
