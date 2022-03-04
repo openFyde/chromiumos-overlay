@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="0565c830a87d245e20d184a44a641696a8675e37"
-CROS_WORKON_TREE="e92fad049ade951451b4a2602f0b46cf40c8d7d9"
+CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
+CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -27,16 +27,12 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
 	+tests_network_DhcpClasslessStaticRoute
-	+tests_network_DhcpFailureWithStaticIP
 	+tests_network_DhcpNak
 	+tests_network_DhcpNegotiationSuccess
 	+tests_network_DhcpNegotiationTimeout
 	+tests_network_DhcpNonAsciiParameter
 	+tests_network_DhcpRenew
-	+tests_network_DhcpRenewWithOptionSubset
-	+tests_network_DhcpRequestHostName
 	+tests_network_DhcpStaticIP
-	+tests_network_DhcpVendorEncapsulatedOptions
 	+tests_network_DhcpWpadNegotiation
 	+tests_network_WiFiInvalidParameters
 	+tests_network_WiFiResume
