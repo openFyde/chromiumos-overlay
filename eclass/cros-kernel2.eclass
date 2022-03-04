@@ -17,7 +17,7 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
 SLOT="0"
 
-BDEPEND="sys-apps/debianutils"
+BDEPEND="sys-apps/debianutils sys-devel/sparse"
 DEPEND="sys-kernel/linux-firmware
 	factory_netboot_ramfs? ( chromeos-base/chromeos-initramfs[factory_netboot_ramfs] )
 	factory_shim_ramfs? ( chromeos-base/chromeos-initramfs[factory_shim_ramfs] )
@@ -93,6 +93,7 @@ IUSE="
 	-criu
 	-docker
 	-lxc
+	sparse
 "
 REQUIRED_USE="
 	^^ ( ${CHROMEOS_KERNEL_FAMILY_FLAGS[*]} )
@@ -2205,6 +2206,11 @@ kmake() {
 		kernel_warning_level="W=${kernel_warning_level}"
 	fi
 
+	local sparse=""
+	if use sparse; then
+		sparse="C=1"
+	fi
+
 	ARCH=${kernel_arch} \
 		CROSS_COMPILE="${cross}-" \
 		CROSS_COMPILE_COMPAT="${cross_compat}" \
@@ -2213,6 +2219,7 @@ kmake() {
 		V="${VERBOSE:-0}" \
 		O="$(cros-workon_get_build_dir)" \
 		${kernel_warning_level} \
+		${sparse} \
 		"$@"
 }
 
