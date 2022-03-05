@@ -2946,5 +2946,33 @@
             "from": 450729,
             "until": 451016
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[AArch64] Adds SUBS and ADDS instructions to the MIPeepholeOpt.\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/22eb1dae3fb20ca8ada865de1d95baab0e08a060.patch",
+        "version_range": {
+            "from": 452697,
+            "until": 452764
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[DAG] Ensure type is legal for bswap(shl(x,c)) -> zext(bswap(trunc(shl(x,c-bw/2)))) fold"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/fadd20f80d6968a5a8623e0d1f804337ce084dcb.patch",
+        "version_range": {
+            "from": 454067,
+            "until": 454267
+        }
     }
 ]
