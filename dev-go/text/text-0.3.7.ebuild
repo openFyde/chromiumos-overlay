@@ -10,10 +10,16 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/text/encoding/charmap"
 	"golang.org/x/text/encoding/internal"
 	"golang.org/x/text/encoding/internal/identifier"
+	"golang.org/x/text/internal/gen"
+	"golang.org/x/text/internal/testtext"
+	"golang.org/x/text/internal/ucd"
 	"golang.org/x/text/secure/bidirule"
 	"golang.org/x/text/transform"
 	"golang.org/x/text/unicode/bidi"
+	"golang.org/x/text/unicode/cldr"
 	"golang.org/x/text/unicode/norm"
+	"golang.org/x/text/unicode/rangetable"
+	"golang.org/x/text/unicode/runenames"
 )
 
 CROS_GO_TEST=(
