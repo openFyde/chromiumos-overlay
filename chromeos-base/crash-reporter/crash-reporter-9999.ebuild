@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk crash-reporter metrics .gn"
+CROS_WORKON_SUBTREE="common-mk crash-reporter libcrossystem metrics .gn"
 
 PLATFORM_SUBDIR="crash-reporter"
 
@@ -22,6 +22,7 @@ KEYWORDS="~*"
 IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers"
 
 COMMON_DEPEND="
+	chromeos-base/libcrossystem:=
 	chromeos-base/minijail:=
 	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
