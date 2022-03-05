@@ -4,5 +4,5 @@ EAPI=7
 KEYWORDS=-* amd64
 LICENSE=BSD-Google
 SLOT=0
-SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-camera-libautoframing-2022.02.24.tbz2
-_md5_=62f27b437f687cda8b171f15992080d7
+SRC_URI=gs://chromeos-localmirror/distfiles/chromeos-camera-libautoframing-2022.03.04.tbz2
+_md5_=5beedd6e59e43119544690fa32317251
