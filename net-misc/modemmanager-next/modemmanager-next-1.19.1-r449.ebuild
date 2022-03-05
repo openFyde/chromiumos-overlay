@@ -3,8 +3,8 @@
 # Based on gentoo's modemmanager ebuild
 
 EAPI=6
-CROS_WORKON_COMMIT="5c6287cb991cea544d999867967ce82bdceac6f4"
-CROS_WORKON_TREE="ffff763ba64256c21aaa89bae9263662f598d0f7"
+CROS_WORKON_COMMIT="db2370fcc1df5ccdb492f98544b7a5ebde86c528"
+CROS_WORKON_TREE="a43cf5daa6de1480f896bbcdf07123c90b121723"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -120,6 +120,7 @@ src_install() {
 	# space on the root filesystem.
 	local plugins=(
 		altair-lte
+		fibocom
 		generic
 		huawei
 		longcheer
@@ -164,7 +165,6 @@ src_install() {
 
 	# Install Chrome OS specific udev rules.
 	udev_dorules "${FILESDIR}/52-mm-modem-permissions.rules"
-	udev_dorules "${FILESDIR}/77-mm-fibocom-port-types.rules"
 	udev_dorules "${FILESDIR}/77-mm-huawei-configuration.rules"
 	exeinto "$(get_udevdir)"
 	doexe "${FILESDIR}/mm-huawei-configuration-switch.sh"
