@@ -8,7 +8,7 @@ EAPI=7
 CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 43724f9ea8cfe9ecde3dd00c5b763498f9840a03"
 
 CROS_GO_PACKAGES=(
-	"google.golang.org/genproto/googleapis/api/expr/v1alpha1"
+	"google.golang.org/genproto/googleapis/chromeos/uidetection/v1/..."
 )
 
 CROS_GO_TEST=(
@@ -28,6 +28,7 @@ IUSE=""
 RESTRICT="binchecks"
 
 DEPEND="
-	dev-go/genproto-rpc
+	dev-go/genproto
+	dev-go/grpc
 "
 RDEPEND="${DEPEND}"

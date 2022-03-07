@@ -5,7 +5,7 @@ EAPI=5
 
 # The dev-go/genproto* packages are all built from this repo.  They should
 # be updated together.
-CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 848deb03c04d9a338463a46b71f28a63b81c461b"
+CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto 43724f9ea8cfe9ecde3dd00c5b763498f9840a03"
 
 CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/api"
