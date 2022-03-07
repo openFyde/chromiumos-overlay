@@ -80,6 +80,20 @@
         "rel_patch_path": "llvm-leak-allowlist.v3.patch",
         "version_range": {
             "from": 414798,
+            "until": 445947
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Adds a allowlist of packages that have known memory leaks"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "llvm-leak-allowlist.v4.patch",
+        "version_range": {
+            "from": 445947,
             "until": null
         }
     },
