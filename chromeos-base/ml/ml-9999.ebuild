@@ -110,6 +110,7 @@ src_install() {
 	newins "seccomp/ml_service-SodaModel-seccomp-${ARCH}.policy" ml_service-SodaModel-seccomp.policy
 	newins "seccomp/ml_service-TextClassifierModel-seccomp-${ARCH}.policy" ml_service-TextClassifierModel-seccomp.policy
 	newins "seccomp/ml_service-GrammarCheckerModel-seccomp-${ARCH}.policy" ml_service-GrammarCheckerModel-seccomp.policy
+	newins "seccomp/ml_service-WebPlatformFlatBufferModel-seccomp-${ARCH}.policy" ml_service-WebPlatformFlatBufferModel-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
