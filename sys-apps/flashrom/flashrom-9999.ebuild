@@ -57,6 +57,8 @@ IUSE="
 	+wiki
 "
 
+RESTRICT="!test? ( test )"
+
 LIB_DEPEND="
 	atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	atapromise? ( sys-apps/pciutils[static-libs(+)] )
