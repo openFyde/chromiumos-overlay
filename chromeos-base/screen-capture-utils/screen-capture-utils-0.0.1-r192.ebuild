@@ -3,12 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bd127f360ef6e9cf085a55ae15ed8c08dc8d507a"
-CROS_WORKON_TREE=("6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2" "356f1f6294b75be3dc79348a1cf68b07c023df79" "4a0dedab080195bdc122d2289118df4af3ddca2c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="6aac88b1872b9ea68df024a4b8686b0abe6e58fd"
+CROS_WORKON_TREE=("6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2" "1f2480a045fc592f2e7e80bcfcfb233f44b24b85" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-# TODO(crbug.com/809389): remove 'metrics' pulled in from header dependency.
-CROS_WORKON_SUBTREE="common-mk screen-capture-utils metrics .gn"
+CROS_WORKON_SUBTREE="common-mk screen-capture-utils .gn"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -26,7 +25,6 @@ IUSE=""
 # Mark the old screenshot package as blocker so it gets automatically removed in
 # incremental builds.
 RDEPEND="
-	chromeos-base/metrics
 	!chromeos-base/screenshot
 	media-libs/libpng:0=
 	media-libs/minigbm:=

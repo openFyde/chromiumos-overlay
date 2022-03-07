@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("83622b22fbe0ca94c7c881de17c4495933c97f0b" "5b684f3e5e98114c147210c88a8e27e9ca0c6cc1")
-CROS_WORKON_TREE=("d7fbdd78901e95cd82060cb7707cf8f05bf33fdd" "6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT=("5dfea87732cb434dd8722c7251dfca89ea45c30a" "6aac88b1872b9ea68df024a4b8686b0abe6e58fd")
+CROS_WORKON_TREE=("225dafdc503614b061f4f13c5efa28ae91c6bf8e" "6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/metrics/github.com/google/perfetto/perfetto_proto"
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/trace/github.com/google/perfetto/perfetto_proto"
