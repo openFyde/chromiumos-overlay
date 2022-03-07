@@ -34,6 +34,7 @@ COMMON_DEPEND="
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
 	chromeos-base/cbor:=
+	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/cryptohome-client:=
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
