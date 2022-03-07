@@ -58,34 +58,6 @@
     {
         "metadata": {
             "info": [],
-            "title": "Revert \"[test] Cleanup tests with -enable-new-pm in llvm/test/Analysis\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-bd020bbbd29e3a30f6697d6b077d28d79b3a3a9d.patch",
-        "version_range": {
-            "from": 437228,
-            "until": null
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"[MemCpyOpt] Fix a variety of scalable-type crashes\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-7fb66d4035960b3c2797eae73d79b8478ff0348e.patch",
-        "version_range": {
-            "from": 437427,
-            "until": null
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
             "title": "Adds a allowlist of packages that have known memory leaks"
         },
         "platforms": [
@@ -2321,76 +2293,6 @@
         "version_range": {
             "from": 427792,
             "until": 428782
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"[MemCpyOpt] Allow specifying --enable-memcpyopt-without-libcalls more than once\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-30dfd3449e45ac371012c6e46c77ab9089496d4e.patch",
-        "version_range": {
-            "from": 436746,
-            "until": null
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"[MemCpyOpt] Optimize MemoryDef insertion\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-17db125b487faa69d789b80d47b19da49522b168.patch",
-        "version_range": {
-            "from": 435224,
-            "until": null
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"[MemCpyOpt] Remove MemDepAnalysis-based implementation\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-88003cea1c6eb3ebcb18b4f1b9d0e2052dd76fe4.patch",
-        "version_range": {
-            "from": 435043,
-            "until": null
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"MemCpyOptimizer.cpp - hasUndefContentsMSSA - Pass DataLayout by reference. NFCI\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-596004a94748e427ff59956e74d8ed4eb0e109d4.patch",
-        "version_range": {
-            "from": 429466,
-            "until": null
-        }
-    },
-    {
-        "metadata": {
-            "info": [],
-            "title": "Revert \"[MemCpyOpt] Allow variable lengths in memcpy optimizer\""
-        },
-        "platforms": [
-            "chromiumos"
-        ],
-        "rel_patch_path": "revert-f5446b769a7929806f72256fccd4826d66502e59.patch",
-        "version_range": {
-            "from": 425181,
-            "until": null
         }
     },
     {
