@@ -1,29 +1,31 @@
-# Copyright 2014 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="a9eb4084b2f1c074f917cf3518e490e7f2d9697b"
-CROS_WORKON_TREE="b08ae3b37a84fb7661d3bc7b72ab3553faec9694"
+
+CROS_WORKON_COMMIT="b94bcafd304462b0d735cb48d602849683efe09a"
+CROS_WORKON_TREE="e13dcb69af90e80cf9a63960474f4bdf3eaf7af1"
+PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="debugd autotests"
+DESCRIPTION="kvm host autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-# Enable autotest by default.
 IUSE="+autotest"
 
-RDEPEND="
-	!<chromeos-base/autotest-tests-0.0.3
-"
+RDEPEND=""
+DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
+	+tests_vm_CrosVmStart
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
