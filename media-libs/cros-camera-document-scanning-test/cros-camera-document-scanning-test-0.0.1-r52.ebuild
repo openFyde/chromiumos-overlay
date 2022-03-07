@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bd127f360ef6e9cf085a55ae15ed8c08dc8d507a"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e5bab9aeb635f426a5f77597edb46ad386ad0f7c" "80bb65ab125f7aaa2eddb0f06313cba045f954c6" "6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2")
+CROS_WORKON_COMMIT="00a46ce905b6dcd3047be8e095362952b5aa7bc3"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "263ebcdbb24ad3dc64e7ee04e08058af459c3fad" "7627e6797f3edbcec56c490a77967a4d416ccf15" "6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/features/document_scanning common-mk"
@@ -24,7 +24,7 @@ KEYWORDS="*"
 RDEPEND="
 	chromeos-base/libbrillo:=
 	dev-cpp/gtest:=
-	media-libs/cros-camera-document-scanning:="
+	media-libs/cros-camera-libfs:="
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
