@@ -54,7 +54,10 @@ DEPEND="
 DELTA_GENERATOR_RDEPEND="
 	app-arch/unzip:=
 	app-arch/xz-utils:=
-	sys-libs/e2fsprogs-libs:=
+	|| (
+		>=sys-fs/e2fsprogs-1.46.4-r5:=
+		sys-libs/e2fsprogs-libs:=
+	)
 	sys-fs/squashfs-tools
 "
 
