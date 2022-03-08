@@ -20,7 +20,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arc_adb_sideloading cheets client_id fuzzer systemd user_session_isolation"
+IUSE="arc_adb_sideloading cheets flex_id fuzzer systemd user_session_isolation"
 
 COMMON_DEPEND="chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
@@ -37,7 +37,7 @@ COMMON_DEPEND="chromeos-base/bootstat:=
 "
 
 RDEPEND="${COMMON_DEPEND}
-	client_id? ( chromeos-base/client_id:= )
+	flex_id? ( chromeos-base/flex_id:= )
 "
 
 DEPEND="${COMMON_DEPEND}

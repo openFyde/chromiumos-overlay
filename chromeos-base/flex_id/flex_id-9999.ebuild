@@ -5,23 +5,25 @@ EAPI=7
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk client_id .gn"
+CROS_WORKON_SUBTREE="common-mk flex_id .gn"
 
-PLATFORM_SUBDIR="client_id"
+PLATFORM_SUBDIR="flex_id"
 
 inherit cros-workon platform
 
-DESCRIPTION="Utility to generate Client ID for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/client_id"
+DESCRIPTION="Utility to generate Flex ID for Chromium OS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/flex_id"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
+RDEPEND="!chromeos-base/client_id"
+
 src_install() {
-	dobin "${OUT}"/client_id
+	dobin "${OUT}"/flex_id_tool
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/client_id_test"
+	platform_test "run" "${OUT}/flex_id_test"
 }
