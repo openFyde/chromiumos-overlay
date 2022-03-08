@@ -2974,5 +2974,20 @@
             "from": 454067,
             "until": 454267
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Rename `disable-noundef-analysis` flag to `-[no-]enable-noundef-analysis`"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "Rename-disable-noundef-analysis-flag-to-no-enable-noundef-analysis.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 453474
+        }
     }
 ]
