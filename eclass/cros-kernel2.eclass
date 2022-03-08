@@ -1,5 +1,8 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
+#
+# Shellcheck doesn't understand our CONFIG_FRAMGMENTS expansion.
+# shellcheck disable=SC2034
 
 # Check for EAPI 4+
 case "${EAPI:-0}" in
@@ -1710,6 +1713,7 @@ _get_kernel_family() {
 # add a check to locate the cros-kernel/ regardless of what's going on.
 ECLASSDIR_LOCAL=${BASH_SOURCE[0]%/*}
 eclass_dir() {
+	# shellcheck disable=SC2154
 	local d="${ECLASSDIR}/cros-kernel"
 	if [[ ! -d ${d} ]] ; then
 		d="${ECLASSDIR_LOCAL}/cros-kernel"
@@ -1777,7 +1781,7 @@ install_kernel_sources() {
 	dodir "${dest_source_dir}"
 	local f
 	for f in "${S}"/*; do
-		[[ "$f" == "${S}/build" ]] && continue
+		[[ "${f}" == "${S}/build" ]] && continue
 		cp -pPR "${f}" "${D}/${dest_source_dir}" ||
 			die "Failed to copy kernel source tree"
 	done
@@ -1804,6 +1808,7 @@ get_build_cfg() {
 # - "chromiumos-<arch>" if CHROMEOS_KERNEL_SPLITCONFIG is not defined
 get_build_arch() {
 	if [[ "${ARCH}" == "arm"  ||  "${ARCH}" == "arm64" ]]; then
+		# shellcheck disable=SC2154
 		case "${CHROMEOS_KERNEL_SPLITCONFIG}" in
 			*exynos*)
 				echo "exynos5"
@@ -1959,7 +1964,7 @@ _cros-kernel2_get_compat() {
 		result+="\"${s}\","
 	done
 
-	printf "${result%,}"
+	printf "%s" "${result%,}"
 }
 
 # @FUNCTION: _cros-kernel2_emit_its_script
@@ -2013,7 +2018,7 @@ _cros-kernel2_emit_its_script() {
 		fi
 		cat >> "${its_out}" <<-EOF || die
 			fdt@${iter} {
-				description = "$(basename ${dtb})";
+				description = "$(basename "${dtb}")";
 				data = /incbin/("${dtb}");
 				type = "flat_dt";
 				arch = "${kernel_arch}";
@@ -2104,6 +2109,8 @@ kmake() {
 		linker_arg="-fuse-ld=bfd"
 	fi
 
+	# BUILD_CC, BUILD_CXX come from an eclass that shellcheck won't see.
+	# shellcheck disable=SC2154
 	set -- \
 		LD="${linker}" \
 		LD_COMPAT="${LD_COMPAT}" \
@@ -2120,6 +2127,9 @@ kmake() {
 		HOSTPKG_CONFIG="${BUILD_PKG_CONFIG}" \
 		"$@"
 
+	# The kernel Makefile allows this optionally set from the environment,
+	# so we do too.
+	# shellcheck disable=SC2154,SC2153
 	local kcflags="${KCFLAGS}"
 	local afdo_filename afdo_option
 	if use clang; then
@@ -2227,7 +2237,7 @@ cros-kernel2_src_unpack() {
 		die
 	fi
 
-	pushd "${WORKDIR}" > /dev/null
+	pushd "${WORKDIR}" >/dev/null || die
 	if use kernel_afdo; then
 		unpack "${AFDO_GCOV}.xz"
 
@@ -2242,7 +2252,7 @@ cros-kernel2_src_unpack() {
 				"${AFDO_GCOV}" || die
 		fi
 	fi
-	popd > /dev/null
+	popd >/dev/null || die
 }
 
 cros-kernel2_src_prepare() {
@@ -2334,7 +2344,7 @@ cros-kernel2_src_configure() {
 	fi
 
 	local fragment
-	for fragment in ${CONFIG_FRAGMENTS[@]}; do
+	for fragment in "${CONFIG_FRAGMENTS[@]}"; do
 		local config="${fragment}_config"
 		local status
 
@@ -2342,7 +2352,7 @@ cros-kernel2_src_configure() {
 			die "'${fragment}' listed in CONFIG_FRAGMENTS, but ${config} is not set up"
 		fi
 
-		if use ${fragment}; then
+		if use "${fragment}"; then
 			status="enabling"
 		else
 			config="${fragment}_config_disable"
@@ -2360,9 +2370,7 @@ cros-kernel2_src_configure() {
 			ewarn "${warning_msg}"
 		fi
 
-		echo "${!config}" | \
-			sed -e "s|%ROOT%|${SYSROOT}|g" \
-			>> "${build_cfg}" || die
+		echo "${!config//%ROOT%/${SYSROOT}}" >> "${build_cfg}" || die
 	done
 
 	local -a builtin_fw
@@ -2373,7 +2381,7 @@ cros-kernel2_src_configure() {
 			die "'${fragment}' listed in FIRMWARE_BINARIES, but ${files} is not set up"
 		fi
 
-		if use ${fragment}; then
+		if use "${fragment}"; then
 			local msg="${fragment}_desc"
 			elog "   - Embedding ${!msg} firmware"
 			builtin_fw+=( "${!files}" )
@@ -2431,7 +2439,7 @@ cros-kernel2_src_configure() {
 get_dtb_name() {
 	local dtb_dir=${1}
 	# Add sort to stabilize the dtb ordering.
-	find ${dtb_dir} -name "*.dtb" | LC_COLLATE=C sort
+	find "${dtb_dir}" -name "*.dtb" | LC_COLLATE=C sort
 }
 
 gen_compilation_database() {
@@ -2455,6 +2463,7 @@ gen_compilation_database() {
 	# Make relative include paths absolute.
 	sed -i -e "s:-I\./:-I${build_dir}/:g" "${db_chroot}" || die
 
+	# shellcheck disable=SC2154
 	local ext_chroot_path="${EXTERNAL_TRUNK_PATH}/chroot"
 	local in_chroot_path="$(readlink -f "${src_dir}")"
 	local ext_src_path="${EXTERNAL_TRUNK_PATH}/${in_chroot_path#/mnt/host/source/}"
@@ -2502,21 +2511,23 @@ _cros-kernel2_compile() {
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	case ${kernel_arch} in
 		arm)
-			build_targets=(
-				$(usex device_tree 'zImage dtbs' uImage)
-				$(usex boot_dts_device_tree dtbs '')
-			)
+			if use device_tree; then
+				build_targets=( "zImage" "dtbs" )
+			else
+				build_targets=( "uImage" )
+			fi
+			use boot_dts_device_tree && build_targets+=( "dtbs" )
 			;;
 		arm64)
 			build_targets=(
-				Image dtbs
+				"Image" "dtbs"
 			)
 			;;
 		mips)
 			build_targets=(
 				vmlinuz.bin
-				$(usex device_tree 'dtbs' '')
 			)
+			use device_tree && build_targets+=( "dtbs" )
 			;;
 		*)
 			build_targets=(
@@ -2539,7 +2550,7 @@ _cros-kernel2_compile() {
 	local arch_dir="$(cros-workon_get_build_dir)/arch"
 	[[ -d "${arch_dir}" ]] && find "${arch_dir}" -name '*.dtb' -delete
 
-	kmake -k ${build_targets[@]}
+	kmake -k "${build_targets[@]}"
 
 	if use compilation_database; then
 		gen_compilation_database
@@ -2673,6 +2684,10 @@ cros-kernel2_src_install() {
 
 		if use device_tree; then
 			local its_script="${kernel_dir}/its_script"
+			# get_dtb_name() produces a line-separated list, and we *want* to
+			# split on whitespace for _cros-kernel2_emit_its_script(). These
+			# are simple filenames, so this should be OK.
+			# shellcheck disable=SC2046
 			_cros-kernel2_emit_its_script "${its_script}" \
 				"${kernel_dir}" $(get_dtb_name "${dtb_dir}")
 			mkimage -D "-I dts -O dtb -p 2048" -f "${its_script}" \
@@ -2705,13 +2720,13 @@ cros-kernel2_src_install() {
 		esac
 	fi
 	if use arm || use arm64 || use mips; then
-		pushd "$(dirname "${kernel_bin}")" > /dev/null
+		pushd "$(dirname "${kernel_bin}")" >/dev/null || die
 		case ${kernel_arch} in
 			arm)
-				ln -sf $(basename "${zimage_bin}") zImage || die
+				ln -sf "$(basename "${zimage_bin}")" zImage || die
 				;;
 		esac
-		popd > /dev/null
+		popd >/dev/null || die
 	fi
 	if [ ! -e "${install_dir}/boot/vmlinuz" ]; then
 		ln -sf "vmlinuz-${version}" "${install_dir}/boot/vmlinuz" || die
