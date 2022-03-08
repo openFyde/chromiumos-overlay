@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bd127f360ef6e9cf085a55ae15ed8c08dc8d507a"
+CROS_WORKON_COMMIT="c0da091abdae05040cc3aee1f14c6973ea34841b"
 CROS_WORKON_TREE=("6aa4b259533027a10db1d4f89ed4cf9fbc0b65a2" "97266a4772907835fdab5d56b3ca24ed9c1c7a0e" "fb2b8277318fb7e7eff84f5c7669a46bf60f19f5" "4a0dedab080195bdc122d2289118df4af3ddca2c" "2acba33c99f07fa000bb44a4df3a65a8fe313bb1" "f2d40af57565d38865e0c642a767ea512753e6de" "b1c7898d3f42051cbba6426c62b35476a8de5b72" "fb2b8277318fb7e7eff84f5c7669a46bf60f19f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,6 +36,7 @@ COMMON_DEPEND="
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
 	chromeos-base/cbor:=
+	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/cryptohome-client:=
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
