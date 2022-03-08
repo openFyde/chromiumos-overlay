@@ -2498,36 +2498,39 @@ directory (outside of the chroot) to compile_commands_no_chroot.json." \
 }
 
 _cros-kernel2_compile() {
-	local build_targets=()  # use make default target
+	local build_targets
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 	case ${kernel_arch} in
 		arm)
 			build_targets=(
 				$(usex device_tree 'zImage dtbs' uImage)
 				$(usex boot_dts_device_tree dtbs '')
-				$(cros_chkconfig_present MODULES && echo "modules")
-				$(use kgdb &&
-					sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile)
 			)
 			;;
 		arm64)
 			build_targets=(
 				Image dtbs
-				$(cros_chkconfig_present MODULES && echo "modules")
-				$(use kgdb &&
-					sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile)
 			)
 			;;
 		mips)
 			build_targets=(
 				vmlinuz.bin
 				$(usex device_tree 'dtbs' '')
-				$(cros_chkconfig_present MODULES && echo "modules")
-				$(use kgdb &&
-					sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile)
+			)
+			;;
+		*)
+			build_targets=(
+				all
 			)
 			;;
 	esac
+
+	cros_chkconfig_present MODULES && build_targets+=( "modules" )
+
+	# Some older kernels don't have a scripts_gdb target, so we want this
+	# to be an empty array, not an array with an empty string in it.
+	# shellcheck disable=SC2207
+	use kgdb && build_targets+=( $(sed -nE 's/^(scripts_gdb):.*$/\1/p' Makefile) )
 
 	# If a .dts file is deleted from the source code it won't disappear
 	# from the output in the next incremental build.  Nuke all dtbs so we
