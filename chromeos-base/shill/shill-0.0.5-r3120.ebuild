@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="100d6bbe61dc8deeff37d882534f75140ee86435"
+CROS_WORKON_COMMIT="5a0babb11b70900cf8fae1141d74ae082100379c"
 CROS_WORKON_TREE=("2b96bf0df6b827fb170d7007df3796e532d9e912" "01be5723e15b095d2a9fb6db1d5f908f7d0847c0" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "7d0b94e616409b0715a6689794e15b6e8108071a" "2e2695faa3e681ea976e4cb579c997dcfcefa4bc" "b77be93bd5b9a461cc8508aa57571afd308e97ce" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cellular fuzzer pppoe sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -35,7 +35,6 @@ COMMON_DEPEND="
 	chromeos-base/shill-net:=
 	dev-libs/re2:=
 	cellular? ( net-dialup/ppp:= )
-	pppoe? ( net-dialup/ppp:= )
 	vpn? ( net-dialup/ppp:= )
 	net-dns/c-ares:=
 	net-libs/libtirpc:=
@@ -123,7 +122,7 @@ src_install() {
 	exeinto "${shims_dir}"
 
 	use vpn && doexe "${OUT}"/openvpn-script
-	if use cellular || use pppoe || use vpn; then
+	if use cellular || use vpn; then
 		newexe "${OUT}"/lib/libshill-pppd-plugin.so shill-pppd-plugin.so
 	fi
 
