@@ -19,7 +19,7 @@ HOMEPAGE="http://dev.chromium.org/chromium-os/packages/power_manager"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-als cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr -has_machine_quirks"
+IUSE="-als cellular +cras cros_embedded +display_backlight fuzzer -has_keyboard_backlight iioservice -keyboard_includes_side_buttons keyboard_convertible_no_side_buttons -legacy_power_button -powerd_manual_eventlog_add +powerknobs systemd +touchpad_wakeup -touchscreen_wakeup unibuild wilco qrtr"
 REQUIRED_USE="
 	?? ( keyboard_includes_side_buttons keyboard_convertible_no_side_buttons )"
 
@@ -108,7 +108,6 @@ src_install() {
 	use has_keyboard_backlight && doins optional_prefs/has_keyboard_backlight
 	use legacy_power_button && doins optional_prefs/legacy_power_button
 	use powerd_manual_eventlog_add && doins optional_prefs/manual_eventlog_add
-	use has_machine_quirks && doins optional_prefs/has_machine_quirks
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.PowerManager.conf
