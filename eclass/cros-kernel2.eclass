@@ -1753,8 +1753,8 @@ kernelrelease() {
 # test-flags-CC tests each flag individually and returns the
 # supported flags, which is not what we need here.
 cc_option() {
-	local t="$(test-flags-CC $1)"
-	[[ "${t}" == "$1" ]]
+	local t="$(test-flags-CC "$@")"
+	[[ "${t}" == "$*" ]]
 }
 
 # @FUNCTION: install_kernel_sources
@@ -2151,9 +2151,9 @@ kmake() {
 			if use clang; then
 				kcflags+=" $(test-flags-CC -mretpoline)"
 			else
-				if cc_option "${indirect_branch_options_v1[*]}"; then
+				if cc_option "${indirect_branch_options_v1[@]}"; then
 					kcflags+=" ${indirect_branch_options_v1[*]}"
-				elif cc_option "${indirect_branch_options_v2[*]}"; then
+				elif cc_option "${indirect_branch_options_v2[@]}"; then
 					kcflags+=" ${indirect_branch_options_v2[*]}"
 				fi
 			fi
