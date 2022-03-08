@@ -42,9 +42,6 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_x86_whl_ucode? ( chromeos-base/whl-ucode-firmware-private )
 "
 
-WIRELESS_VERSIONS=( 4.2 )
-WIRELESS_SUFFIXES=( "${WIRELESS_VERSIONS[@]/.}" )
-
 CHROMEOS_KERNEL_FAMILY_VALUES=(
 	arcvm
 	chromeos
@@ -76,7 +73,6 @@ IUSE="
 	+lld
 	+llvm_ias
 	nfc
-	${WIRELESS_SUFFIXES[*]/#/-wireless}
 	-wifi_testbed_ap
 	-boot_dts_device_tree
 	-nowerror
@@ -2055,17 +2051,6 @@ _cros-kernel2_emit_its_script() {
 }
 
 kmake() {
-	local wifi_version
-	local v
-	for v in ${WIRELESS_VERSIONS[@]}; do
-		if use wireless${v/.} ; then
-			[ -n "${wifi_version}" ] &&
-				die "Wireless ${v} AND ${wifi_version} both set"
-			wifi_version=${v}
-			set -- "$@" WIFIVERSION="-${v}"
-		fi
-	done
-
 	# Allow override of kernel arch.
 	local kernel_arch=${CHROMEOS_KERNEL_ARCH:-$(tc-arch-kernel)}
 
