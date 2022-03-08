@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1d53c29f5b05a318a6e8ba3b1cd6ac7b02e3c2aa"
-CROS_WORKON_TREE="04c58873e02fd56b37dcd7bc3c2eb3df3387c750"
+CROS_WORKON_COMMIT="41fc77cd028ec6093f90696ec73840845e768c92"
+CROS_WORKON_TREE="6d0da3b544b6af88f9eb50d1a39142174909e2ff"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware-images"
 CROS_WORKON_LOCALNAME="platform/hps-firmware-images"
 
@@ -16,6 +16,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware-ima
 LICENSE="BSD-Google BSD-2 Apache-2.0 MIT 0BSD BSD ISC"
 KEYWORDS="*"
 
+# before signing firmware files were installed from this source ebuild
+RDEPEND="
+	!<chromeos-base/hps-firmware-0.1.0-r296
+"
+
 src_install() {
 	# Generate a single combined LICENSE file from all applicable license texts,
 	# so that the Chrome OS license scanner can find it.
@@ -25,6 +30,11 @@ src_install() {
 	other projects under other licenses:
 	EOF
 	cat licenses/third-party/* >> LICENSE
+
+	insinto "/usr/lib/firmware/hps"
+	doins "${S}/firmware-signed/fpga_application.bin"
+	doins "${S}/firmware-signed/fpga_bitstream.bin"
+	doins "${S}/firmware-signed/mcu_stage1.bin"
 
 	dobin "${S}"/bin/*
 }

@@ -216,14 +216,13 @@ src_test() {
 }
 
 src_install() {
+	# install build metadata for use by:
+	# https://source.corp.google.com/chromeos_internal/src/platform/tast-tests-private/src/chromiumos/tast/local/bundles/crosint/hps/fpga_gateware_stats.go
 	insinto "/usr/lib/firmware/hps"
-	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
-	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
-	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
-	newins build/hps_platform/fpga_rom.bin fpga_application.bin
 	doins build/hps_platform/gateware/hps_platform_build.metadata
 
 	# install into /firmware as part of signing process
+	# signed release firmware is installed by hps-firmware-images ebuild
 	insinto "/firmware/hps"
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
