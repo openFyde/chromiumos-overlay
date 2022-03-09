@@ -111,6 +111,7 @@ ALL_BOARDS=(
 	brask
 	#bruteus
 	brya
+	brya-lvm-stateful
 	brya-manatee
 	bubs
 	buddy
@@ -251,6 +252,7 @@ ALL_BOARDS=(
 	hatch-borealis
 	hatch-diskswap
 	hatch-kernelnext
+	hatch-lvm-stateful
 	hatch-manatee
 	heli
 	herobrine
@@ -552,20 +554,20 @@ fi
 # Also add cros_host so that we can inherit this eclass in ebuilds
 # that get emerged both in the cros-sdk and for target boards.
 # See REQUIRED_USE below.
-IUSE="${CROS_BOARDS[@]/#/${BOARD_USE_PREFIX}} cros_host unibuild"
+IUSE="${CROS_BOARDS[*]/#/${BOARD_USE_PREFIX}} cros_host unibuild"
 
 # Echo the current board, with variant. The arguments are:
 #   1: default, the value to return when no board is found; default: ""
 get_current_board_with_variant()
 {
-	[[ $# -gt 1 ]] && die "Usage: ${FUNCNAME} [default]"
+	[[ $# -gt 1 ]] && die "Usage: ${FUNCNAME[0]} [default]"
 
 	local b
 	local current
 	local default_board="$1"
 
 	for b in "${CROS_BOARDS[@]}"; do
-		if use ${BOARD_USE_PREFIX}${b}; then
+		if use "${BOARD_USE_PREFIX}${b}"; then
 			if [[ -n "${current}" ]]; then
 				die "More than one board is set: ${current} and ${b}"
 			fi
@@ -574,7 +576,7 @@ get_current_board_with_variant()
 	done
 
 	if [[ -n "${current}" ]]; then
-		echo ${current}
+		echo "${current}"
 		return
 	fi
 
