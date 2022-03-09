@@ -70,6 +70,12 @@ src_configure() {
 		use minigbm_platform_sc7280 && append-cppflags -DSC_7280
 		export DRV_MSM=1
 		append-cppflags -DDRV_MSM
+
+		# On ARC++ UBWC causes visible green artifacts to appear during
+		# window resize eg. during video playback.
+		# This sould be removed once window resizing will handle UBWC
+		# correctly. See b/195709707
+		use arcpp && append-cppflags -DQCOM_DISABLE_COMPRESSED_NV12
 	fi
 
 	if use video_cards_amdgpu; then
