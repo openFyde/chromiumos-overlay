@@ -26,7 +26,6 @@ TARGETS_IUSE="
 	hypervisor_ramfs
 	recovery_ramfs
 	minios_ramfs
-	minios_test_ramfs
 "
 IUSE+=" ${TARGETS_IUSE}"
 REQUIRED_USE="|| ( ${TARGETS_IUSE} )"
@@ -60,12 +59,6 @@ MINIOS_DEPENDS="
 	sys-apps/pv
 	virtual/assets
 	virtual/chromeos-regions
-	"
-
-MINIOS_TEST_DEPENDS="
-	${MINIOS_DEPENDS}
-	chromeos-base/chromeos-test-root
-	virtual/target-os-test
 	"
 
 # Packages required for building factory installer shim initramfs.
@@ -123,7 +116,6 @@ DEPEND="
 	recovery_ramfs? ( ${RECOVERY_DEPENDS} )
 	hypervisor_ramfs? ( ${HYPERVISOR_DEPENDS} )
 	minios_ramfs? ( ${MINIOS_DEPENDS} )
-	minios_test_ramfs? ( ${MINIOS_TEST_DEPENDS} )
 	sys-apps/busybox[-make-symlinks]
 	sys-fs/lvm2
 	virtual/chromeos-bsp-initramfs
