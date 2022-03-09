@@ -2989,5 +2989,19 @@
             "from": 450784,
             "until": 453474
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"Disable -Wmissing-prototypes for internal linkage functions that aren't explicitly marked \"static\"\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/85ee1d3ca1d06b6bd3477515b8d0c72c8df7c069.patch",
+        "version_range": {
+            "from": 451081,
+            "until": 455343
+        }
     }
 ]
