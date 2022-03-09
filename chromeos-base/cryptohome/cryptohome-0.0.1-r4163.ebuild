@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b0c676e258052689c96ff295035d4cb68424a12"
-CROS_WORKON_TREE=("945578e86a0ba4f2fd2f15f9b368a26a919b3d4d" "9529d9b8523aeec9b87d762539215c7cc3388cc3" "fb2b8277318fb7e7eff84f5c7669a46bf60f19f5" "b1c7898d3f42051cbba6426c62b35476a8de5b72" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="27c649357f4398556be196f2bde0bd7db497cbb2"
+CROS_WORKON_TREE=("945578e86a0ba4f2fd2f15f9b368a26a919b3d4d" "5607393bd297f68ed0ab8626d2c97dbe62016f4b" "fb2b8277318fb7e7eff84f5c7669a46bf60f19f5" "b1c7898d3f42051cbba6426c62b35476a8de5b72" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -28,8 +28,8 @@ IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm_dynamic tpm2 uprev-4-to-5 user_session_isolation
-	+vault_legacy_mount"
+	test tpm tpm_dynamic tpm2 tpm2_simulator uprev-4-to-5
+	user_session_isolation +vault_legacy_mount vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
