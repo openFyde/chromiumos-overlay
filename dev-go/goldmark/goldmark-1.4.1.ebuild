@@ -12,6 +12,7 @@ CROS_GO_PACKAGES=(
 	"github.com/yuin/goldmark/renderer"
 	"github.com/yuin/goldmark/renderer/html"
 	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/testutil"
 	"github.com/yuin/goldmark/util"
 )
 
