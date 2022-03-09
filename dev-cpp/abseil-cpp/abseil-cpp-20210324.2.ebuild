@@ -41,9 +41,6 @@ PATCHES=(
 ABSLDIR="${WORKDIR}/${P}_build/absl"
 
 src_prepare() {
-	# Workaround to avoid conflict with other packages: see also b/184603259
-	grep -l -R -Z "absl::" . | xargs -0 sed -i 's/absl::/absl::ABSL_OPTION_INLINE_NAMESPACE_NAME::/g'
-
 	cmake_src_prepare
 
 	# un-hardcode abseil compiler flags
