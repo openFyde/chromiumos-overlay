@@ -27,6 +27,7 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/net/proxy"
 	"golang.org/x/net/publicsuffix"
 	"golang.org/x/net/trace"
+	"golang.org/x/net/websocket"
 )
 
 CROS_GO_TEST=(
