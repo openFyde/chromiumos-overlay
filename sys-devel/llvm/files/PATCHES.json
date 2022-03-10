@@ -3003,5 +3003,20 @@
             "from": 451081,
             "until": 455343
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [ELF] Check COMMON symbols for PROVIDE and don't redefine COMMON symbols edata/end/etext"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/fc0aa8424ca98da29a9c7aa15b4427d47504ba87.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 453919
+        }
     }
 ]
