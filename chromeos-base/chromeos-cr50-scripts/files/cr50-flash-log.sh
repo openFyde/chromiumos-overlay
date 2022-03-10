@@ -16,7 +16,6 @@
 TIMESTAMP_FILE_DIR="/mnt/stateful_partition/unencrypted/preserve"
 TIMESTAMP_FILE_BASE="cr50_flog_timestamp"
 TIMESTAMP_FILE="${TIMESTAMP_FILE_DIR}/${TIMESTAMP_FILE_BASE}"
-TOP_PID="$$"
 
 script_name="$(basename "$0")"
 
@@ -30,6 +29,8 @@ die() {
   logit "Fatal error: ${text}"
   exit 1
 }
+
+. "/usr/share/cros/gsc-constants.sh"
 
 main() {
   local exit_code
@@ -60,6 +61,7 @@ main() {
     local event_id
     local new_stamp
 
+    # shellcheck disable=SC2086
     set -- ${entry}
 
     new_stamp=$1
@@ -76,7 +78,7 @@ main() {
       event_id="$(printf "%x" $(( 200 + 0x$3 )))"
     fi
 
-    metrics_client -s "Platform.Cr50.FlashLog" "0x${event_id}"
+    metrics_client -s "$(gsc_metrics_prefix).FlashLog" "0x${event_id}"
     exit_code="$?"
     if [ "${exit_code}" = 0 ]; then
       echo "${new_stamp}" > "${TIMESTAMP_FILE}"
