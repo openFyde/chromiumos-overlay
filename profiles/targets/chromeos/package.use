@@ -113,7 +113,7 @@ sys-apps/baselayout	-auto_seed_etc_files
 sys-apps/coreutils	multicall
 sys-apps/dbus		-X
 sys-apps/fwupd		-gpg -man pkcs7 synaptics thunderbolt
-sys-apps/hwids		-net
+sys-apps/hwdata		-net -usb
 sys-apps/mawk		forced-sandbox
 sys-apps/sed		forced-sandbox
 sys-apps/smartmontools	minimal -daemon

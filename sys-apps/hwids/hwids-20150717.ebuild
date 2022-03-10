@@ -17,7 +17,7 @@ fi
 
 LICENSE="|| ( GPL-2 BSD ) public-domain"
 SLOT="0"
-IUSE="+net +pci +udev +usb +hwids-lite"
+IUSE="+udev +hwids-lite"
 
 DEPEND="udev? (
 	dev-lang/perl
@@ -26,6 +26,8 @@ DEPEND="udev? (
 [[ ${PV} == "99999999" ]] && DEPEND+=" udev? ( net-misc/curl )"
 RDEPEND="!<sys-apps/pciutils-3.1.9-r2
 	!<sys-apps/usbutils-005-r1"
+# Net/PCI/USB data files are now installed by hwdata.
+RDEPEND+=" sys-apps/hwdata"
 
 S=${WORKDIR}/hwids-${P}
 
@@ -54,10 +56,10 @@ src_prepare() {
 
 _emake() {
 	emake \
-		NET=$(usex net) \
-		PCI=$(usex pci) \
+		NET=no \
+		PCI=no \
 		UDEV=$(usex udev) \
-		USB=$(usex usb) \
+		USB=no \
 		"$@"
 }
 
@@ -75,6 +77,5 @@ src_install() {
 	if use hwids-lite; then
 		cd "${D}/$(get_udevdir)/hwdb.d" || die
 		rm 20-OUI.hwdb 20-pci-vendor-model.hwdb || die
-		use usb && ( rm "${D}/usr/share/misc/usb.ids" || die )
 	fi
 }
