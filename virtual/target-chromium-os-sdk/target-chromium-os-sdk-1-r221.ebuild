@@ -431,9 +431,11 @@ RDEPEND="${RDEPEND}
 	dev-libs/closure-library
 	dev-libs/closure_linter
 	dev-python/autopep8
+	dev-python/crcmod
 	dev-python/django
 	dev-python/jsonrpclib
 	dev-python/jsonschema
+	dev-python/pycryptodome
 	dev-python/python-gnupg
 	dev-python/requests
 	dev-python/sphinx
