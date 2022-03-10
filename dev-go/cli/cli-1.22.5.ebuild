@@ -24,5 +24,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	dev-go/toml
+	dev-go/yaml:0
+	dev-go/go-md2man
+"
 RDEPEND=""
