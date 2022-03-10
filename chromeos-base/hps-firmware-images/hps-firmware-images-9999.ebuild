@@ -29,8 +29,16 @@ src_install() {
 	EOF
 	cat licenses/third-party/* >> LICENSE
 
+	# Extract stage1 version (currently this is just the first 4 bytes of the
+	# stage1 signature).
+	python3 -c "with open('firmware-signed/mcu_stage1.bin', 'rb') as f:
+		f.seek(20);
+		print(int.from_bytes(f.read(4), 'big'))" \
+		>firmware-signed/mcu_stage1.version.txt || die
+
 	insinto "/usr/lib/firmware/hps"
 	doins "${S}/firmware-signed/fpga_application.bin"
 	doins "${S}/firmware-signed/fpga_bitstream.bin"
 	doins "${S}/firmware-signed/mcu_stage1.bin"
+	doins "${S}/firmware-signed/mcu_stage1.version.txt"
 }
