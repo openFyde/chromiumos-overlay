@@ -232,6 +232,11 @@ multilib_src_install_cheets() {
 		newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
 	fi
 
+	# Install symlink for angle GLESv2 lib
+	if use angle; then
+		dosym egl/libGLESv2_angle.so "${ARC_VM_PREFIX}/vendor/$(get_libdir)/libGLESv2_angle.so"
+	fi
+
 	if ! use egl; then
 		return
 	fi
