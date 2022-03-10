@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk chromeos-config modemfwd .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config metrics modemfwd .gn"
 
 PLATFORM_SUBDIR="modemfwd"
 
@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	app-arch/xz-utils:=
 	chromeos-base/chromeos-config:=
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/metrics:=
 	dev-libs/protobuf:=
 	net-misc/modemmanager-next:=
 "
