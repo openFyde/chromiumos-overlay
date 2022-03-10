@@ -3018,5 +3018,33 @@
             "from": 450784,
             "until": 453919
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[InstCombine] add tests to show miscompiled smin/smax; NFC"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/cc8f98198799fe3a5f00e2fc0edcb5d90c124d2f.patch",
+        "version_range": {
+            "from": 454000,
+            "until": 455352
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[Analysis] remove bogus smin/smax pattern detection"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/b48fe158e0a8d77fd3e28e90e512589601680ad8.patch",
+        "version_range": {
+            "from": 454000,
+            "until": 455353
+        }
     }
 ]
