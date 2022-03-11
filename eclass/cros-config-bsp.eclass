@@ -46,29 +46,63 @@ BDEPEND="
 	dev-go/lucicfg
 "
 
-src_compile() {
-	# Re-establish the symlinks as they exist in the source tree
-	ln -s "${S}/config" "${S}/${PROGRAM}/config"
-	(cd "${S}/${PROGRAM}" && \
-		lucicfg generate --config-dir generated config.star \
-		) || die "Failed to generate '${PROGRAM}' from source starlark"
+EXPORT_FUNCTIONS src_compile src_install
+
+cros-config-bsp_build_config() {
+	local config_dir=$1
+	local starlark_file=$2
+	lucicfg generate --config-dir "${config_dir}" "${starlark_file}" \
+		|| die "Failed to generate config under $(pwd)."
+}
+
+cros-config-bsp_proto_converter() {
+	local program_config=$1
+	local project_config=$2
+	local output_dir=$3
+
+	if [[ ! -e "${program_config}" || ! -e "${project_config}" ]]; then
+		die "'${program_config}' and '${project_config}' must exist."
+	fi
+
+	rm -rf "${output_dir}"
+	mkdir -p "${output_dir}"
+	cros_config_proto_converter \
+		--output "${output_dir}/project-config.json" \
+		--program_config "${program_config}" \
+		--project_configs "${project_config}" \
+		|| die "Failed to run cros_config_proto_converter."
+}
+
+cros-config-bsp_gen_config() {
+	# Re-establish the symlinks as they exist in the source tree.
+	ln -sfT "${S}/config" "${S}/${PROGRAM}/config" \
+		|| die "Failed to create '${PROGRAM}' link."
+	(
+		cd "${S}/${PROGRAM}" || die "Unable to cd into ${PROGRAM}."
+		cros-config-bsp_build_config generated config.star
+	)
+	local project
 	for project in "${PROJECTS[@]}"; do
-		ln -s "${S}/config" "${S}/${project}/config"
-		ln -s "${S}/${PROGRAM}" "${S}/${project}/program"
-		output_dir="sw_build_config/platform/chromeos-config/generated"
-		(cd "${S}/${project}" && \
-			lucicfg generate --config-dir generated config.star && \
-			cros_config_proto_converter \
-			--output "${output_dir}/project-config.json" \
-			--program_config "${S}/${PROGRAM}/generated/config.jsonproto" \
-			--project_configs "${S}/${project}/generated/config.jsonproto"
-					) || die "Failed to generate '${project}' config from source starlark"
+		ln -sfT "${S}/config" "${S}/${project}/config" \
+			|| die "Failed to create '${project}/config' link."
+		ln -sfT "${S}/${PROGRAM}" "${S}/${project}/program" \
+			|| die "Failed to create '${project}/program' link."
+		local output_dir="sw_build_config/platform/chromeos-config/generated"
+		(
+			cd "${S}/${project}" || die "Unable to cd into ${project}."
+			cros-config-bsp_build_config generated config.star
+			cros-config-bsp_proto_converter "program/generated/config.jsonproto" \
+				"generated/config.jsonproto" "${output_dir}"
+		)
 	done
+}
+
+cros-config-bsp_src_compile() {
+	cros-config-bsp_gen_config
 	platform_json_compile
 }
 
-
-src_install() {
+cros-config-bsp_src_install() {
 	platform_json_install
 
 	unibuild_install_files arc-files "${WORKDIR}/project-config.json"
