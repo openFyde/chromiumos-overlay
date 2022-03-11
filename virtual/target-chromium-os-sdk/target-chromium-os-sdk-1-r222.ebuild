@@ -316,6 +316,7 @@ RDEPEND="${RDEPEND}
 	sys-apps/man-pages
 	sys-apps/pv
 	sys-devel/smatch
+	sys-devel/sparse
 	"
 
 # Host dependencies used by chromite on build servers
