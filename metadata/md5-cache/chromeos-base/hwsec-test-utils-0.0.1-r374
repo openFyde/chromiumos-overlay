@@ -1,0 +1,15 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=tpm2? ( chromeos-base/trunks:= ) tpm? ( app-crypt/trousers:= ) chromeos-base/libhwsec:= tpm2? ( chromeos-base/trunks:=[test?] ) chromeos-base/attestation:= chromeos-base/libhwsec-foundation:= chromeos-base/system_api:= dev-libs/openssl:= dev-libs/protobuf:= >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=Hwsec-related test-only features. This package resides in test images only.
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/master/hwsec-test-utils/
+IUSE=test tpm tpm_dynamic tpm2 cros_host cros_workon_tree_3e8ec46db7a894d8f90bf457f66dbe4e3efad0e1_00b374f6b15393c518134ba6455d055e7912cc54_ce7eb54f774ce6513df73f7c525107039d352b24_fb2b8277318fb7e7eff84f5c7669a46bf60f19f5_b1c7898d3f42051cbba6426c62b35476a8de5b72_2acba33c99f07fa000bb44a4df3a65a8fe313bb1_97266a4772907835fdab5d56b3ca24ed9c1c7a0e_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_3e8ec46db7a894d8f90bf457f66dbe4e3efad0e1_00b374f6b15393c518134ba6455d055e7912cc54_ce7eb54f774ce6513df73f7c525107039d352b24_fb2b8277318fb7e7eff84f5c7669a46bf60f19f5_b1c7898d3f42051cbba6426c62b35476a8de5b72_2acba33c99f07fa000bb44a4df3a65a8fe313bb1_97266a4772907835fdab5d56b3ca24ed9c1c7a0e_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=tpm2? ( chromeos-base/trunks:= ) tpm? ( app-crypt/trousers:= ) chromeos-base/libhwsec:= >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
+REQUIRED_USE=tpm_dynamic? ( tpm tpm2 ) !tpm_dynamic? ( ?? ( tpm tpm2 ) )
+SLOT=0/0.0.1-r374
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	36d32a1662085fe36bb5f0f4fe41537a	libchrome-version	f89118941e7f3c3825d2fe216c977c57	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	3cd45e0ec06b0edbdb2db25321182570	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=d76dadb5d0be649ae7cf0080b8d681b7
