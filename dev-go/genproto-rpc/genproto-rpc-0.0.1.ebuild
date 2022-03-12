@@ -29,7 +29,10 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/protobuf"
+DEPEND="
+	dev-go/protobuf
+	dev-go/protobuf-legacy-api
+"
 RDEPEND="
 	${DEPEND}
 "

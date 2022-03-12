@@ -53,6 +53,7 @@ DEPEND="
 	dev-go/oauth2
 	dev-go/perfetto-protos
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/selinux
 	dev-go/subcommands
 	dev-go/sync

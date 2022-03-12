@@ -42,6 +42,7 @@ DEPEND="
 	dev-go/net
 	dev-go/opencensus
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/sync
 "
 RDEPEND="${DEPEND}"

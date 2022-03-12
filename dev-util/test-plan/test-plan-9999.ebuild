@@ -36,6 +36,7 @@ DEPEND="
 	dev-go/luci-go-common
 	dev-go/maruel-subcommands
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 "
 RDEPEND="${DEPEND}"
 

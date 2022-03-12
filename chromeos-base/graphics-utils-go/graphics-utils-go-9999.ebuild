@@ -53,6 +53,7 @@ DEPEND="
 	dev-go/golang-freetype
 	dev-go/gonum-plot
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/readline
 	dev-go/svgo
 	dev-go/uuid

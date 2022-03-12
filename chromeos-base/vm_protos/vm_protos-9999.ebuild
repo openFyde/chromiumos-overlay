@@ -31,6 +31,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	dev-go/protobuf:=
+	dev-go/protobuf-legacy-api:=
 	dev-go/grpc:=
 "
 

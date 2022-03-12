@@ -38,6 +38,7 @@ DEPEND="
 	dev-go/luci-go-common
 	dev-go/mock
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	chromeos-base/cros-config-api
 "
 RDEPEND="${DEPEND}"

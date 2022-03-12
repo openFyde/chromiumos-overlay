@@ -66,6 +66,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/crypto
 	dev-go/grpc
 	dev-go/text

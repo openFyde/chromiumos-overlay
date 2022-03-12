@@ -44,5 +44,6 @@ DEPEND="
 	dev-go/genproto
 	dev-go/golang-groupcache
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 "
 RDEPEND="${DEPEND}"

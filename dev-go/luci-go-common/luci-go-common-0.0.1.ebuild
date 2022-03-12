@@ -56,6 +56,7 @@ DEPEND="
 	dev-go/httprouter
 	dev-go/klauspost-compress
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/starlark-go
 	dev-go/txtpbfmt
 	dev-go/yaml:0

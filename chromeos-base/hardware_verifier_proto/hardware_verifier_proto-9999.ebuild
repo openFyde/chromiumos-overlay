@@ -27,6 +27,7 @@ DEPEND="
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 "
 
 src_unpack() {

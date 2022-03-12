@@ -52,6 +52,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	dev-go/protobuf-legacy-api:=
 "
 
 RDEPEND="

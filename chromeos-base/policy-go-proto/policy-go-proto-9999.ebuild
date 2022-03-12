@@ -24,6 +24,7 @@ KEYWORDS="~*"
 DEPEND="
 	>=chromeos-base/protofiles-0.0.48:=
 	dev-go/protobuf:=
+	dev-go/protobuf-legacy-api:=
 	dev-libs/protobuf:=
 "
 

@@ -1,19 +1,15 @@
-# Copyright 2017 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 CROS_GO_SOURCE=(
-	"github.com/golang/protobuf v1.5.2"
 	"github.com/protocolbuffers/protobuf-go:google.golang.org/protobuf v${PV}"
 )
 
 CROS_GO_PACKAGES=(
-	"github.com/golang/protobuf/descriptor"
-	"github.com/golang/protobuf/jsonpb"
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/protoc-gen-go/descriptor"
-	"github.com/golang/protobuf/ptypes/..."
+	"google.golang.org/protobuf/cmd/protoc-gen-go/internal_gengo"
+	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/encoding/..."
 	"google.golang.org/protobuf/internal/descfmt"
 	"google.golang.org/protobuf/internal/descopts"
@@ -28,18 +24,17 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/protobuf/internal/msgfmt"
 	"google.golang.org/protobuf/internal/order"
 	"google.golang.org/protobuf/internal/pragma"
+	"google.golang.org/protobuf/internal/protobuild"
+	"google.golang.org/protobuf/internal/protolegacy"
 	"google.golang.org/protobuf/internal/set"
 	"google.golang.org/protobuf/internal/strs"
+	"google.golang.org/protobuf/internal/testprotos/..."
 	"google.golang.org/protobuf/internal/version"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/..."
 	"google.golang.org/protobuf/runtime/..."
 	"google.golang.org/protobuf/testing/..."
 	"google.golang.org/protobuf/types/..."
-)
-
-CROS_GO_BINARIES=(
-	"github.com/golang/protobuf/protoc-gen-go"
 )
 
 inherit cros-go

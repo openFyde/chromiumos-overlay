@@ -32,6 +32,7 @@ SLOT="0"
 # protobuf dep is for using protoc at build-time to generate perfetto's headers.
 BDEPEND="
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 "
 
 RDEPEND="

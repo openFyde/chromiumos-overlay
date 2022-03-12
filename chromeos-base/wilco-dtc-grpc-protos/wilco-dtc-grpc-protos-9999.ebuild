@@ -26,6 +26,7 @@ KEYWORDS="~*"
 
 RDEPEND="
 	dev-libs/protobuf:=
+	dev-go/protobuf-legacy-api:=
 	net-libs/grpc:=
 "
 DEPEND="

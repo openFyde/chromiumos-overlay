@@ -73,6 +73,7 @@ DEPEND="
 	dev-go/httprouter
 	dev-go/net
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/text
 	dev-go/websocket
 	dev-lang/tcl

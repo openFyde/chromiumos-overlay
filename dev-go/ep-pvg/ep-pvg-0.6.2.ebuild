@@ -29,5 +29,6 @@ RESTRICT="binchecks"
 
 DEPEND="
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 "
 RDEPEND="${DEPEND}"

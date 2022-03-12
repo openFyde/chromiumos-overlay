@@ -39,6 +39,7 @@ DEPEND="
 	dev-go/cmp
 	dev-go/go-sys
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-go/xerrors
 "
 

@@ -35,6 +35,7 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	dev-go/protobuf:=
+	dev-go/protobuf-legacy-api:=
 "
 
 src_unpack() {

@@ -62,6 +62,7 @@ DEPEND="
 	dev-go/go-sys
 	dev-go/net
 	dev-go/oauth2
+	dev-go/protobuf-legacy-api
 	dev-go/yaml:0
 "
 RDEPEND="
