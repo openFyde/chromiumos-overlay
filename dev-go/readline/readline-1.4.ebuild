@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/chzyer/readline v1.4"
+CROS_GO_SOURCE="github.com/chzyer/readline v${PV}"
 
 CROS_GO_PACKAGES=(
 	"github.com/chzyer/readline"
