@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/golang/glog 44145f04b68cf362d9c4df2182967c2275eaefed"
+CROS_GO_SOURCE="github.com/golang/glog v${PV}"
 
 CROS_GO_PACKAGES=(
 	"github.com/golang/glog"
