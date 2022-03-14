@@ -23,6 +23,7 @@ RDEPEND="
 	>=dev-db/sqlite-3.8.2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	virtual/pkgconfig
+	>=dev-libs/nss-${PV}[${MULTILIB_USEDEP}]
 "
 DEPEND="${RDEPEND}"
 BDEPEND="dev-lang/perl"
@@ -31,18 +32,25 @@ RESTRICT="test"
 
 S="${WORKDIR}/${P}/${PN}"
 
-MULTILIB_CHOST_TOOLS=(
-	/usr/bin/nss-config
-)
-
 PATCHES=(
 	# Custom changes for gentoo
 	"${FILESDIR}/${PN}-3.53-gentoo-fixups.patch"
 	"${FILESDIR}/${PN}-3.21-gentoo-fixup-warnings.patch"
 	"${FILESDIR}/${PN}-3.23-hppa-byte_order.patch"
+	# CrOS specific fix crbug.com/1132030
+	"${FILESDIR}/${PN}-3.44-prefer-writable-tokens-for-trust.patch"
+	# local fix for https://bugs.gentoo.org/834846
+	"${FILESDIR}/${PN}-3.68.2-nss-ld-fixup.patch"
 )
 
 src_prepare() {
+	# use host shlibsign if need be crbug.com/884946
+	if tc-is-cross-compiler ; then
+		PATCHES+=(
+			"${FILESDIR}/${PN}-3.38-shlibsign-path-pollution.patch"
+		)
+	fi
+
 	default
 
 	if use cacert ; then
@@ -198,170 +206,57 @@ multilib_src_compile() {
 	done
 }
 
-# Altering these 3 libraries breaks the CHK verification.
-# All of the following cause it to break:
-# - stripping
-# - prelink
-# - ELF signing
-# http://www.mozilla.org/projects/security/pki/nss/tech-notes/tn6.html
-# Either we have to NOT strip them, or we have to forcibly resign after
-# stripping.
-#local_libdir="$(get_libdir)"
-#export STRIP_MASK="
-#	*/${local_libdir}/libfreebl3.so*
-#	*/${local_libdir}/libnssdbm3.so*
-#	*/${local_libdir}/libsoftokn3.so*"
-
-export NSS_CHK_SIGN_LIBS="freebl3 nssdbm3 softokn3"
-
-generate_chk() {
-	local shlibsign="$1"
-	local libdir="$2"
-	einfo "Resigning core NSS libraries for FIPS validation"
-	shift 2
-	local i
-	for i in ${NSS_CHK_SIGN_LIBS} ; do
-		local libname=lib${i}.so
-		local chkname=lib${i}.chk
-		"${shlibsign}" \
-			-i "${libdir}"/${libname} \
-			-o "${libdir}"/${chkname}.tmp \
-		&& mv -f \
-			"${libdir}"/${chkname}.tmp \
-			"${libdir}"/${chkname} \
-		|| die "Failed to sign ${libname}"
-	done
-}
-
-cleanup_chk() {
-	local libdir="$1"
-	shift 1
-	local i
-	for i in ${NSS_CHK_SIGN_LIBS} ; do
-		local libfname="${libdir}/lib${i}.so"
-		# If the major version has changed, then we have old chk files.
-		[ ! -f "${libfname}" -a -f "${libfname}.chk" ] \
-			&& rm -f "${libfname}.chk"
-	done
-}
-
 multilib_src_install() {
-	pushd dist >/dev/null || die
-
-	dodir /usr/$(get_libdir)
-	cp -L */lib/*$(get_libname) "${ED}"/usr/$(get_libdir) || die "copying shared libs failed"
-	local i
-	for i in crmf freebl nssb nssckfw ; do
-		cp -L */lib/lib${i}.a "${ED}"/usr/$(get_libdir) || die "copying libs failed"
-	done
-
-	# Install nss-config and pkgconfig file
-	dodir /usr/bin
-	cp -L */bin/nss-config "${ED}"/usr/bin || die
-	dodir /usr/$(get_libdir)/pkgconfig
-	cp -L */lib/pkgconfig/nss.pc "${ED}"/usr/$(get_libdir)/pkgconfig || die
-
-	# create an nss-softokn.pc from nss.pc for libfreebl and some private headers
-	# bug 517266
-	sed 	-e 's#Libs:#Libs: -lfreebl#' \
-		-e 's#Cflags:#Cflags: -I${includedir}/private#' \
-		*/lib/pkgconfig/nss.pc >"${ED}"/usr/$(get_libdir)/pkgconfig/nss-softokn.pc \
-		|| die "could not create nss-softokn.pc"
-
-	# all the include files
-	insinto /usr/include/nss
-	doins public/nss/*.{h,api}
-	insinto /usr/include/nss/private
-	doins private/nss/{blapi,alghmac,cmac}.h
-
-	popd >/dev/null || die
-
 	local f nssutils
-	# Always enabled because we need it for chk generation.
-	nssutils=( shlibsign )
 
-	if multilib_is_native_abi ; then
-		if use utils; then
-			# The tests we do not need to install.
-			#nssutils_test="bltest crmftest dbtest dertimetest
-			#fipstest remtest sdrtest"
-			# checkcert utils has been removed in nss-3.22:
-			# https://bugzilla.mozilla.org/show_bug.cgi?id=1187545
-			# https://hg.mozilla.org/projects/nss/rev/df1729d37870
-			# certcgi has been removed in nss-3.36:
-			# https://bugzilla.mozilla.org/show_bug.cgi?id=1426602
-			nssutils+=(
-				addbuiltin
-				atob
-				baddbdir
-				btoa
-				certutil
-				cmsutil
-				conflict
-				crlutil
-				derdump
-				digest
-				makepqg
-				mangle
-				modutil
-				multinit
-				nonspr10
-				ocspclnt
-				oidcalc
-				p7content
-				p7env
-				p7sign
-				p7verify
-				pk11mode
-				pk12util
-				pp
-				rsaperf
-				selfserv
-				signtool
-				signver
-				ssltap
-				strsclnt
-				symkeyutil
-				tstclnt
-				vfychain
-				vfyserv
-			)
-			# install man-pages for utils (bug #516810)
-			doman doc/nroff/*.1
-		fi
-		pushd dist/*/bin >/dev/null || die
-		for f in ${nssutils[@]}; do
-			dobin ${f}
-		done
-		popd >/dev/null || die
-	fi
-
-	# Prelink breaks the CHK files. We don't have any reliable way to run
-	# shlibsign after prelink.
-	dodir /etc/prelink.conf.d
-	printf -- "-b ${EPREFIX}/usr/$(get_libdir)/lib%s.so\n" ${NSS_CHK_SIGN_LIBS} \
-		> "${ED}"/etc/prelink.conf.d/nss.conf
-}
-
-pkg_postinst() {
-	multilib_pkg_postinst() {
-		# We must re-sign the libraries AFTER they are stripped.
-		local shlibsign="${EROOT}/usr/bin/shlibsign"
-		# See if we can execute it (cross-compiling & such). #436216
-		"${shlibsign}" -h >&/dev/null
-		if [[ $? -gt 1 ]] ; then
-			shlibsign="shlibsign"
-		fi
-		generate_chk "${shlibsign}" "${EROOT}"/usr/$(get_libdir)
-	}
-
-	multilib_foreach_abi multilib_pkg_postinst
-}
-
-pkg_postrm() {
-	multilib_pkg_postrm() {
-		cleanup_chk "${EROOT}"/usr/$(get_libdir)
-	}
-
-	multilib_foreach_abi multilib_pkg_postrm
+	# The tests we do not need to install.
+	#nssutils_test="bltest crmftest dbtest dertimetest
+	#fipstest remtest sdrtest"
+	# checkcert utils has been removed in nss-3.22:
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1187545
+	# https://hg.mozilla.org/projects/nss/rev/df1729d37870
+	# certcgi has been removed in nss-3.36:
+	# https://bugzilla.mozilla.org/show_bug.cgi?id=1426602
+	nssutils=(
+		addbuiltin
+		atob
+		baddbdir
+		btoa
+		certutil
+		cmsutil
+		conflict
+		crlutil
+		derdump
+		digest
+		makepqg
+		mangle
+		modutil
+		multinit
+		nonspr10
+		ocspclnt
+		oidcalc
+		p7content
+		p7env
+		p7sign
+		p7verify
+		pk11mode
+		pk12util
+		pp
+		rsaperf
+		selfserv
+		signtool
+		signver
+		ssltap
+		strsclnt
+		symkeyutil
+		tstclnt
+		vfychain
+		vfyserv
+	)
+	pushd dist/*/bin >/dev/null || die
+	into /usr/local
+	for f in "${nssutils[@]}"; do
+		dobin "${f}"
+	done
+	popd >/dev/null || die
 }

@@ -18,13 +18,16 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="cacert utils cpu_flags_ppc_altivec cpu_flags_ppc_vsx"
 # pkg-config called by nss-config -> virtual/pkgconfig in RDEPEND
-RDEPEND="
+DEPEND="
 	>=dev-libs/nspr-${NSPR_VER}[${MULTILIB_USEDEP}]
 	>=dev-db/sqlite-3.8.2[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	virtual/pkgconfig
 "
-DEPEND="${RDEPEND}"
+RDEPEND="
+	${RDEPEND}
+	!<app-crypt/nss-${PV}[${MULTILIB_USEDEP}]
+"
 BDEPEND="dev-lang/perl"
 
 RESTRICT="test"
@@ -40,9 +43,20 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.53-gentoo-fixups.patch"
 	"${FILESDIR}/${PN}-3.21-gentoo-fixup-warnings.patch"
 	"${FILESDIR}/${PN}-3.23-hppa-byte_order.patch"
+	# CrOS specific fix crbug.com/1132030
+	"${FILESDIR}/${PN}-3.44-prefer-writable-tokens-for-trust.patch"
+	# local fix for https://bugs.gentoo.org/834846
+	"${FILESDIR}/${PN}-3.68.2-nss-ld-fixup.patch"
 )
 
 src_prepare() {
+	# use host shlibsign if need be crbug.com/884946
+	if tc-is-cross-compiler ; then
+		PATCHES+=(
+			"${FILESDIR}/${PN}-3.38-shlibsign-path-pollution.patch"
+		)
+	fi
+
 	default
 
 	if use cacert ; then
@@ -346,12 +360,8 @@ multilib_src_install() {
 pkg_postinst() {
 	multilib_pkg_postinst() {
 		# We must re-sign the libraries AFTER they are stripped.
-		local shlibsign="${EROOT}/usr/bin/shlibsign"
-		# See if we can execute it (cross-compiling & such). #436216
-		"${shlibsign}" -h >&/dev/null
-		if [[ $? -gt 1 ]] ; then
-			shlibsign="shlibsign"
-		fi
+		# Always use the CrOS SDK's shlibsign. b/226445278
+		local shlibsign="shlibsign"
 		generate_chk "${shlibsign}" "${EROOT}"/usr/$(get_libdir)
 	}
 
