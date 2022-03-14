@@ -32,7 +32,7 @@ CROS_GO_VET=(
 )
 
 DEPEND="
-	dev-go/genproto-rpc
+	dev-go/genproto
 	dev-go/mock
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api

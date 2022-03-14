@@ -37,6 +37,6 @@ RESTRICT="binchecks"
 DEPEND="
 	dev-go/cncf-xds
 	dev-go/ep-pvg
-	dev-go/genproto-api-expr
+	dev-go/genproto
 "
 RDEPEND="${DEPEND}"

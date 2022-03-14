@@ -38,7 +38,6 @@ DEPEND="
 	dev-go/fscrypt
 	dev-go/gapi-drive
 	dev-go/genproto
-	dev-go/genproto-chromeosuidetection
 	dev-go/godebug
 	dev-go/golang-evdev
 	dev-go/golint

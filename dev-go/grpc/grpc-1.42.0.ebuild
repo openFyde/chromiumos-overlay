@@ -62,7 +62,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/ep-gcp
-	dev-go/genproto-rpc
+	dev-go/genproto
 	dev-go/go-sys
 	dev-go/net
 	dev-go/oauth2
