@@ -9,11 +9,13 @@ CROS_GO_SOURCE=(
 
 CROS_GO_PACKAGES=(
 	"github.com/golang/protobuf/descriptor"
+	"github.com/golang/protobuf/internal/gengogrpc"
 	"github.com/golang/protobuf/internal/testprotos/proto2_proto"
 	"github.com/golang/protobuf/internal/testprotos/proto3_proto"
 	"github.com/golang/protobuf/internal/testprotos/jsonpb_proto"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/protoc-gen-go"
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
 	"github.com/golang/protobuf/ptypes/..."
 )

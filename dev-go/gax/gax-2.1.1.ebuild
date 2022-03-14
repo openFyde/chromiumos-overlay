@@ -29,7 +29,12 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/gapi-googleapi
+	dev-go/genproto
+	dev-go/go-tools
+	dev-go/golint
 	dev-go/grpc
+	dev-go/net
+	dev-go/protobuf
 	dev-go/yaml:0
 "
 RDEPEND="${DEPEND}"

@@ -11,6 +11,7 @@ CROS_GO_BINARIES=(
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/lint"
+	"golang.org/x/lint/golint"
 )
 
 inherit cros-go
