@@ -99,6 +99,9 @@ src_test() {
 	pushd uprev || die
 	python3 ./run_tests.py || die "failed python3 libchrome/uprev/run_tests.py"
 	popd || die
+	pushd developer-tools || die
+	python3 -m unittest test_change_header || die "failed python3 test_change_headerpy"
+	popd || die
 	popd || die
 	platform_test "run" "${OUT}/optional_unittests"
 }
