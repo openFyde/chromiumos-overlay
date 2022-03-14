@@ -28,6 +28,8 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/grpc/encoding/proto"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/internal/..."
+	"google.golang.org/grpc/interop/grpc_testing"
+	"google.golang.org/grpc/interop/grpc_testing/core"
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/peer"
@@ -37,7 +39,9 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/grpc/stats"
 	"google.golang.org/grpc/status"
 	"google.golang.org/grpc/tap"
+	"google.golang.org/grpc/test/codec_perf"
 	"google.golang.org/grpc/test/grpc_testing"
+	"google.golang.org/grpc/testdata"
 )
 
 CROS_GO_TEST=(

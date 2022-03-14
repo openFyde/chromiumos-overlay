@@ -9,7 +9,9 @@ CROS_GO_PACKAGES=(
 	"github.com/cncf/xds/go/udpa/annotations"
 	"github.com/cncf/xds/go/xds/annotations/v3"
 	"github.com/cncf/xds/go/xds/core/v3"
+	"github.com/cncf/xds/go/xds/data/orca/v3"
 	"github.com/cncf/xds/go/xds/type/matcher/v3"
+	"github.com/cncf/xds/go/xds/type/v3"
 )
 
 CROS_GO_TEST=(
