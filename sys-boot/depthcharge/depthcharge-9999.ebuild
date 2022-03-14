@@ -245,6 +245,7 @@ make_unittests() {
 
 	use verbose && OPTS+=( "V=1" )
 	emake "${OPTS[@]}" "unit-tests"
+	emake "${OPTS[@]}" "test-screenshot"
 }
 
 src_test() {
