@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile info install postinst prepare setup test unpack
+DEPEND=chromeos-base/tast-cmd:= chromeos-base/tast-proto dev-util/lro-server dev-lang/go
+DESCRIPTION=Test execution server for running tests and capturing results
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/execution
+IUSE=cros_host cros_workon_tree_4c6c9e8625d43d40ada57d38ce842c7cb1bc2a1f_a5b7a8cfa5fee66dae2198d608c1767f315ab13d
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/tast-cmd:= chromeos-base/tast-proto dev-util/lro-server
+SLOT=0/0.0.1-r7
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-go	f783aa800876cbcbdf7528391f45b8be	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=f3273363d522c11b5d35ea4b80c2ae7e
