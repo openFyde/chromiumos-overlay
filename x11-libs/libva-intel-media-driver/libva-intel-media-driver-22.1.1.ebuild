@@ -15,21 +15,10 @@ LICENSE="MIT BSD"
 SLOT="0"
 IUSE="ihd_cmrtlib"
 
-DEPEND=">=media-libs/gmmlib-21.3.1
+DEPEND=">=media-libs/gmmlib-22.0.1
 	>=x11-libs/libva-2.13.0
 "
 RDEPEND="${DEPEND}"
-
-PATCHES=(
-	"${FILESDIR}"/0001-Disable-IPC-usage.patch
-	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
-	"${FILESDIR}"/0003-Disable-Media-Memory-Compression-MMC-on-ADL.patch
-	"${FILESDIR}"/0004-Encode-GLK-enable-VP8.patch
-	"${FILESDIR}"/0005-fix-bitwise-or-warning.patch
-	"${FILESDIR}"/0006-BACKPORT-Upstream-upstream-ADLN.patch
-	"${FILESDIR}"/0007-BACKPORT-Add-support-for-ADL-N-Enable-the-cmake-opti.patch
-
-)
 
 src_configure() {
 	local mycmakeargs=(
