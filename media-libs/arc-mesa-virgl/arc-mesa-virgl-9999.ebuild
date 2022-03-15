@@ -29,9 +29,6 @@ for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
-# TODO(b/160748345): Remove hardcoded ARC_PLATFORM_SDK_VERSION when fixed.
-ARC_PLATFORM_SDK_VERSION=28
-
 IUSE="${IUSE_VIDEO_CARDS}
 	android_aep -android_gles2 -android_gles30
 	+android_gles31 -android_gles32 -android_vulkan_compute_0 -angle -swvulkan
