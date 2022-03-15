@@ -87,8 +87,12 @@ src_compile() {
 	fi
 
 	if use manatee; then
+		local subdir=guest-vm-base
+		if [[ ${PV} == 9999 ]]; then
+			subdir=vm
+		fi
 		local digest
-		digest="$(sha256sum "${WORKDIR}/guest-vm-base/vm_kernel" | cut -f1 -d' ' | grep -o .. | \
+		digest="$(sha256sum "${WORKDIR}/${subdir}/vm_kernel" | cut -f1 -d' ' | grep -o .. | \
 			awk 'BEGIN { printf "[" } NR!=1 { printf ", " } { printf("%d", strtonum("0x"$0)) } END { printf "]" }')"
 		sed -e "s/@kernel_digest@/${digest}/" "${FILESDIR}/termina.json.in" > termina.json
 	fi
