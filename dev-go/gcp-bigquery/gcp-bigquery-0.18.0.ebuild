@@ -29,8 +29,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/gapi
-	dev-go/gcp-civil
-	dev-go/gcp-internal
+	dev-go/gcp
 	dev-go/genproto
 "
 RDEPEND="${DEPEND}"

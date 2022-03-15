@@ -32,8 +32,8 @@ RESTRICT="binchecks strip"
 DEPEND="
 	dev-go/gapi
 	dev-go/gax:1
+	dev-go/gcp
 	dev-go/gcp-iam
-	dev-go/gcp-internal
 	dev-go/genproto
 	dev-go/grpc
 	dev-go/net

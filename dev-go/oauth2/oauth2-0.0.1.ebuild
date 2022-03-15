@@ -37,6 +37,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/gcp
 	dev-go/gcp-compute
 	dev-go/net
 	dev-go/yaml:0

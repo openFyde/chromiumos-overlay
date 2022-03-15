@@ -30,8 +30,8 @@ RESTRICT="binchecks"
 
 DEPEND="
 	dev-go/gapi
+	dev-go/gcp
 	dev-go/gcp-iam
-	dev-go/gcp-internal
 	dev-go/gcp-trace
 	dev-go/genproto
 "
