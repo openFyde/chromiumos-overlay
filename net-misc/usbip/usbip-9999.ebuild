@@ -20,7 +20,7 @@ IUSE="static-libs tcpd"
 RESTRICT=""
 
 RDEPEND=">=dev-libs/glib-2.6
-	sys-apps/hwids
+	sys-apps/hwdata
 	>=sys-kernel/linux-headers-3.17
 	virtual/libudev
 	tcpd? ( sys-apps/tcp-wrappers )"
@@ -48,8 +48,8 @@ src_prepare() {
 src_configure() {
 	econf \
 		$(use_enable static-libs static) \
-		$(use tcpd || echo --without-tcp-wrappers) \
-		--with-usbids-dir=/usr/share/misc
+		"$(use_with tcpd tcp-wrappers)" \
+		--with-usbids-dir=/usr/share/hwdata
 }
 
 src_install() {
