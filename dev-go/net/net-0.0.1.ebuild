@@ -16,6 +16,7 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/net/http/httpproxy"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/hpack"
+	"golang.org/x/net/icmp"
 	"golang.org/x/net/idna"
 	"golang.org/x/net/internal/iana"
 	"golang.org/x/net/internal/socket"
