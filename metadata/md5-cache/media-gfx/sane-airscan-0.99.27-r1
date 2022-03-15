@@ -10,5 +10,5 @@ LICENSE=GPL-2
 RDEPEND=dev-libs/libxml2:= media-gfx/sane-backends:= media-libs/libjpeg-turbo:= media-libs/libpng:= net-dns/avahi:= net-libs/libsoup:=
 SLOT=0/0.99.27-r1
 SRC_URI=https://github.com/alexpevzner/sane-airscan/archive/0.99.27.tar.gz -> sane-airscan-0.99.27.tar.gz
-_eclasses_=cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	meson	9f3e84959ae1d60e19bc91f212774dcc	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	meson	442750103f76e55fa682dc35c5018c1d	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=9550b6773e3d3c79c9170932b4ea7c53
