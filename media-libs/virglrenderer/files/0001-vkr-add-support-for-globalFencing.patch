@@ -1,17 +1,17 @@
-From 02816abfad42bf3848ff4170a9bff04ebed573af Mon Sep 17 00:00:00 2001
+From b946abbdd9423078953091636f8fd4fa87657691 Mon Sep 17 00:00:00 2001
 From: Yiwei Zhang <zzyiwei@chromium.org>
-Date: Fri, 11 Feb 2022 22:19:20 +0000
+Date: Tue, 15 Mar 2022 20:10:34 +0000
 Subject: [PATCH] vkr: add support for globalFencing
 
 Squashed commit of the following:
 
-commit 2f2323421e08bada422a06eb2dc5c579320930a2
+commit 9a6e1e0ca48a0b0db1ef3b16c98e7f435f1b1ba7
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Dec 10 14:10:48 2021 -0800
 
     proxy: stub out export_fence
 
-commit 4a835075e774484176151d5aecc80316a69e4cfe
+commit 255f2b6bf8f609e67a76aa3c965faf9791894cf3
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Wed Oct 13 11:27:34 2021 -0700
 
@@ -20,7 +20,7 @@ Date:   Wed Oct 13 11:27:34 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Ryan Neph <ryanneph@google.com>
 
-commit a89f8e2795c7349637db9e792ae4f1abdb7e9b32
+commit fae385e83bc3388f5799d1d1acf93142edbda598
 Author: Ryan Neph <ryanneph@google.com>
 Date:   Mon Oct 4 16:24:35 2021 -0700
 
@@ -37,7 +37,7 @@ Date:   Mon Oct 4 16:24:35 2021 -0700
     Signed-off-by: Ryan Neph <ryanneph@google.com>
     Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 
-commit e67a81aecf54cd1478e45d1078523b002fb685cb
+commit 3ed8b82eda0fc81c5a1bf54cbd4f7d845db817fc
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Jun 8 12:39:00 2021 -0700
 
@@ -46,7 +46,7 @@ Date:   Tue Jun 8 12:39:00 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 02179bfee975957088e2d53f30d0a6a89affdbdc
+commit 469bca51f1446f09c1709f6a27fef2171026f452
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:22:18 2021 -0700
 
@@ -70,7 +70,7 @@ Date:   Tue Mar 16 16:22:18 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 8a920bc4c8b87365fba5a7b97dc87525352fdfb8
+commit 4a9db99506204ed69c76ca0e6ccd6cad79f5c564
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:50:02 2021 -0700
 
@@ -83,7 +83,7 @@ Date:   Tue Mar 16 16:50:02 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 244666fe35343e6969a7a170e9f8760026d3ee70
+commit 1710d8ed1450e355c1c0ffec643dd8647f773c8f
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:33:44 2021 -0700
 
@@ -95,7 +95,7 @@ Date:   Fri Jun 11 14:33:44 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit c92cad8c7861672d499ebac9b48aad6a73530a43
+commit 1abd2716c532b0a98234f2a86d1ed325cf8d3bbf
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:41:52 2021 -0700
 
@@ -109,7 +109,7 @@ Date:   Fri Jun 11 14:41:52 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 316a0d08935b985dc0989998d6f3c09c8edc59e0
+commit 4c515bbe749adb0af73de0ea0905b90372556425
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:21:35 2021 -0700
 
@@ -123,7 +123,7 @@ Date:   Tue Mar 16 16:21:35 2021 -0700
 
     v2: do the same to proxy_context
 
-commit aa6049cfc7ff40b14bb099913ec5465293928eb9
+commit e7e0d3c77e85981add92f71241a2e0c3f43c5559
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 4 12:24:02 2021 -0700
 
@@ -136,7 +136,7 @@ Date:   Fri Jun 4 12:24:02 2021 -0700
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 ---
  src/proxy/proxy_context.c       |  14 +-
- src/venus/vkr_context.c         | 111 ++++++++++++-
+ src/venus/vkr_context.c         | 112 ++++++++++++-
  src/venus/vkr_context.h         |   2 +
  src/venus/vkr_device.c          |  27 ++++
  src/venus/vkr_physical_device.c |  34 +++-
@@ -148,10 +148,10 @@ Date:   Fri Jun 4 12:24:02 2021 -0700
  src/vrend_decode.c              |   6 +-
  src/vrend_renderer.c            |   4 +-
  src/vrend_renderer.h            |   3 +-
- 13 files changed, 471 insertions(+), 28 deletions(-)
+ 13 files changed, 472 insertions(+), 28 deletions(-)
 
 diff --git a/src/proxy/proxy_context.c b/src/proxy/proxy_context.c
-index fcbc374..7e474fe 100644
+index b5d15ca..f8de144 100644
 --- a/src/proxy/proxy_context.c
 +++ b/src/proxy/proxy_context.c
 @@ -128,7 +128,7 @@ proxy_context_retire_timeline_fences_locked(struct proxy_context *ctx,
@@ -188,7 +188,7 @@ index fcbc374..7e474fe 100644
        .ring_index = ring_idx,
        .seqno = seqno,
     };
-@@ -522,6 +531,7 @@ proxy_context_init_base(struct proxy_context *ctx)
+@@ -523,6 +532,7 @@ proxy_context_init_base(struct proxy_context *ctx)
     ctx->base.get_fencing_fd = proxy_context_get_fencing_fd;
     ctx->base.retire_fences = proxy_context_retire_fences;
     ctx->base.submit_fence = proxy_context_submit_fence;
@@ -197,7 +197,7 @@ index fcbc374..7e474fe 100644
  
  static bool
 diff --git a/src/venus/vkr_context.c b/src/venus/vkr_context.c
-index b60c79b..fb8eabb 100644
+index b547813..5e8aa20 100644
 --- a/src/venus/vkr_context.c
 +++ b/src/venus/vkr_context.c
 @@ -131,7 +131,30 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
@@ -232,7 +232,7 @@ index b60c79b..fb8eabb 100644
     if (!queue)
        return -EINVAL;
     struct vkr_device *dev = queue->device;
-@@ -177,6 +200,81 @@ vkr_context_submit_fence(struct virgl_context *base,
+@@ -180,6 +203,82 @@ vkr_context_submit_fence(struct virgl_context *base,
     return ret;
  }
  
@@ -288,13 +288,14 @@ index b60c79b..fb8eabb 100644
 +   struct vkr_device *dev = ctx->queue_id_0_queue->device;
 +   if (!dev->physical_device->KHR_external_fence_fd)
 +      return -1;
++   struct vn_device_proc_table *vk = &dev->proc_table;
 +
 +   const VkFenceGetFdInfoKHR get_fd_info = {
 +      .sType = VK_STRUCTURE_TYPE_FENCE_GET_FD_INFO_KHR,
 +      .fence = sync->fence,
 +      .handleType = VK_EXTERNAL_FENCE_HANDLE_TYPE_SYNC_FD_BIT,
 +   };
-+   VkResult result = dev->get_fence_fd(dev->base.handle.device, &get_fd_info, out_fd);
++   VkResult result = vk->GetFenceFdKHR(dev->base.handle.device, &get_fd_info, out_fd);
 +
 +   return result == VK_SUCCESS ? 0 : -1;
 +}
@@ -314,7 +315,7 @@ index b60c79b..fb8eabb 100644
  static void
  vkr_context_retire_fences_locked(struct virgl_context *base)
  {
-@@ -186,10 +284,13 @@ vkr_context_retire_fences_locked(struct virgl_context *base)
+@@ -189,10 +288,13 @@ vkr_context_retire_fences_locked(struct virgl_context *base)
  
     assert(!(vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB));
  
@@ -330,7 +331,7 @@ index b60c79b..fb8eabb 100644
        free(sync);
     }
     list_inithead(&ctx->signaled_syncs);
-@@ -208,7 +309,8 @@ vkr_context_retire_fences_locked(struct virgl_context *base)
+@@ -211,7 +313,8 @@ vkr_context_retire_fences_locked(struct virgl_context *base)
        vkr_queue_get_signaled_syncs(queue, &retired_syncs, &queue_empty);
  
        LIST_FOR_EACH_ENTRY_SAFE (sync, sync_tmp, &retired_syncs, head) {
@@ -340,7 +341,7 @@ index b60c79b..fb8eabb 100644
           vkr_device_free_queue_sync(dev, sync);
        }
  
-@@ -551,6 +653,7 @@ vkr_context_init_base(struct vkr_context *ctx)
+@@ -548,6 +651,7 @@ vkr_context_init_base(struct vkr_context *ctx)
     ctx->base.get_fencing_fd = vkr_context_get_fencing_fd;
     ctx->base.retire_fences = vkr_context_retire_fences;
     ctx->base.submit_fence = vkr_context_submit_fence;
@@ -349,7 +350,7 @@ index b60c79b..fb8eabb 100644
  
  static uint32_t
 diff --git a/src/venus/vkr_context.h b/src/venus/vkr_context.h
-index 1aede4b..80828b4 100644
+index ccbf5d9..d43cd0b 100644
 --- a/src/venus/vkr_context.h
 +++ b/src/venus/vkr_context.h
 @@ -63,6 +63,8 @@ struct vkr_context {
@@ -362,10 +363,10 @@ index 1aede4b..80828b4 100644
     char *instance_name;
  };
 diff --git a/src/venus/vkr_device.c b/src/venus/vkr_device.c
-index e38cc8b..865cd78 100644
+index 4cd4f93..9f7e29f 100644
 --- a/src/venus/vkr_device.c
 +++ b/src/venus/vkr_device.c
-@@ -223,6 +223,27 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+@@ -84,6 +84,27 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
     struct vkr_physical_device *physical_dev =
        vkr_physical_device_from_handle(args->physicalDevice);
  
@@ -393,7 +394,7 @@ index e38cc8b..865cd78 100644
     /* append extensions for our own use */
     const char **exts = NULL;
     uint32_t ext_count = args->pCreateInfo->enabledExtensionCount;
-@@ -289,6 +310,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
+@@ -150,6 +171,9 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
     list_add(&dev->base.track_head, &physical_dev->devices);
  
     vkr_context_add_object(ctx, &dev->base);
@@ -403,7 +404,7 @@ index e38cc8b..865cd78 100644
  }
  
  static void
-@@ -415,6 +439,9 @@ vkr_device_destroy(struct vkr_context *ctx, struct vkr_device *dev)
+@@ -279,6 +303,9 @@ vkr_device_destroy(struct vkr_context *ctx, struct vkr_device *dev)
  
     list_del(&dev->base.track_head);
  
@@ -414,7 +415,7 @@ index e38cc8b..865cd78 100644
  }
  
 diff --git a/src/venus/vkr_physical_device.c b/src/venus/vkr_physical_device.c
-index 95cf706..b7ea536 100644
+index d98a9b8..861cb1b 100644
 --- a/src/venus/vkr_physical_device.c
 +++ b/src/venus/vkr_physical_device.c
 @@ -61,6 +61,9 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
@@ -436,7 +437,7 @@ index 95cf706..b7ea536 100644
     if (result != VK_SUCCESS) {
        free(physical_devs);
        free(handles);
-@@ -344,20 +349,27 @@ vkr_dispatch_vkEnumeratePhysicalDeviceGroups(
+@@ -353,20 +358,27 @@ vkr_dispatch_vkEnumeratePhysicalDeviceGroups(
        return;
  
     /* XXX this assumes vkEnumeratePhysicalDevices is called first */
@@ -469,7 +470,7 @@ index 95cf706..b7ea536 100644
     }
  
     free(args->pPhysicalDeviceGroupProperties);
-@@ -426,6 +438,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties(
+@@ -435,6 +447,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties(
     vkGetPhysicalDeviceQueueFamilyProperties(args->physicalDevice,
                                              args->pQueueFamilyPropertyCount,
                                              args->pQueueFamilyProperties);
@@ -482,7 +483,7 @@ index 95cf706..b7ea536 100644
  }
  
  static void
-@@ -548,6 +566,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties2(
+@@ -557,6 +575,12 @@ vkr_dispatch_vkGetPhysicalDeviceQueueFamilyProperties2(
     vkGetPhysicalDeviceQueueFamilyProperties2(args->physicalDevice,
                                               args->pQueueFamilyPropertyCount,
                                               args->pQueueFamilyProperties);
@@ -496,10 +497,10 @@ index 95cf706..b7ea536 100644
  
  static void
 diff --git a/src/venus/vkr_physical_device.h b/src/venus/vkr_physical_device.h
-index 73e5e40..dd5a310 100644
+index d3cfe29..543d0b4 100644
 --- a/src/venus/vkr_physical_device.h
 +++ b/src/venus/vkr_physical_device.h
-@@ -29,6 +29,8 @@ struct vkr_physical_device {
+@@ -33,6 +33,8 @@ struct vkr_physical_device {
     struct gbm_device *gbm_device;
  
     struct list_head devices;
@@ -509,19 +510,19 @@ index 73e5e40..dd5a310 100644
  VKR_DEFINE_OBJECT_CAST(physical_device, VK_OBJECT_TYPE_PHYSICAL_DEVICE, VkPhysicalDevice)
  
 diff --git a/src/venus/vkr_queue.c b/src/venus/vkr_queue.c
-index 8b3c150..c43a2df 100644
+index 9309d7b..48f1fb9 100644
 --- a/src/venus/vkr_queue.c
 +++ b/src/venus/vkr_queue.c
-@@ -124,7 +124,7 @@ vkr_queue_sync_retire(struct vkr_context *ctx,
-                       struct vkr_queue_sync *sync)
- {
+@@ -131,7 +131,7 @@ vkr_queue_sync_retire(struct vkr_context *ctx,
+    struct vn_device_proc_table *vk = &dev->proc_table;
+ 
     if (vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB) {
 -      ctx->base.fence_retire(&ctx->base, sync->queue_id, sync->fence_cookie);
 +      ctx->base.fence_retire(&ctx->base, sync->flags, sync->queue_id, sync->fence_cookie);
        vkr_device_free_queue_sync(dev, sync);
     } else {
-       vkDestroyFence(dev->base.handle.device, sync->fence, NULL);
-@@ -170,6 +170,9 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
+       vk->DestroyFence(dev->base.handle.device, sync->fence, NULL);
+@@ -177,6 +177,9 @@ vkr_queue_destroy(struct vkr_context *ctx, struct vkr_queue *queue)
     list_del(&queue->busy_head);
     list_del(&queue->base.track_head);
  
@@ -531,7 +532,7 @@ index 8b3c150..c43a2df 100644
     if (queue->base.id)
        vkr_context_remove_object(ctx, &queue->base);
     else
-@@ -212,7 +215,8 @@ vkr_queue_thread(void *arg)
+@@ -225,7 +228,8 @@ vkr_queue_thread(void *arg)
        list_del(&sync->head);
  
        if (vkr_renderer_flags & VKR_RENDERER_ASYNC_FENCE_CB) {
@@ -541,7 +542,7 @@ index 8b3c150..c43a2df 100644
           vkr_device_free_queue_sync(queue->device, sync);
        } else {
           list_addtail(&sync->head, &queue->signaled_syncs);
-@@ -282,6 +286,7 @@ vkr_queue_create(struct vkr_context *ctx,
+@@ -295,6 +299,7 @@ vkr_queue_create(struct vkr_context *ctx,
  
  static void
  vkr_queue_assign_object_id(struct vkr_context *ctx,
@@ -549,7 +550,7 @@ index 8b3c150..c43a2df 100644
                             struct vkr_queue *queue,
                             vkr_object_id id)
  {
-@@ -295,6 +300,9 @@ vkr_queue_assign_object_id(struct vkr_context *ctx,
+@@ -308,6 +313,9 @@ vkr_queue_assign_object_id(struct vkr_context *ctx,
  
     queue->base.id = id;
  
@@ -559,7 +560,7 @@ index 8b3c150..c43a2df 100644
     vkr_context_add_object(ctx, &queue->base);
  }
  
-@@ -331,7 +339,7 @@ vkr_dispatch_vkGetDeviceQueue(struct vn_dispatch_context *dispatch,
+@@ -344,7 +352,7 @@ vkr_dispatch_vkGetDeviceQueue(struct vn_dispatch_context *dispatch,
  
     const vkr_object_id id =
        vkr_cs_handle_load_id((const void **)args->pQueue, VK_OBJECT_TYPE_QUEUE);
@@ -568,7 +569,7 @@ index 8b3c150..c43a2df 100644
  }
  
  static void
-@@ -352,7 +360,7 @@ vkr_dispatch_vkGetDeviceQueue2(struct vn_dispatch_context *dispatch,
+@@ -365,7 +373,7 @@ vkr_dispatch_vkGetDeviceQueue2(struct vn_dispatch_context *dispatch,
  
     const vkr_object_id id =
        vkr_cs_handle_load_id((const void **)args->pQueue, VK_OBJECT_TYPE_QUEUE);
@@ -578,10 +579,10 @@ index 8b3c150..c43a2df 100644
  
  static void
 diff --git a/src/venus/vkr_transport.c b/src/venus/vkr_transport.c
-index ab7f31d..0c0a625 100644
+index 745b124..b3ed04a 100644
 --- a/src/venus/vkr_transport.c
 +++ b/src/venus/vkr_transport.c
-@@ -307,7 +307,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
+@@ -317,7 +317,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
  {
     const VkVenusExperimentalFeatures100000MESA features = {
        .memoryResourceAllocationSize = VK_TRUE,
@@ -981,10 +982,10 @@ index 29674b3..9c0ebb4 100644
 +   return ret;
  }
 diff --git a/src/vrend_decode.c b/src/vrend_decode.c
-index 621cf0c..7d3636f 100644
+index 31b14f6..40c80fe 100644
 --- a/src/vrend_decode.c
 +++ b/src/vrend_decode.c
-@@ -1510,11 +1510,12 @@ static int vrend_decode_pipe_resource_set_type(struct vrend_context *ctx, const
+@@ -1506,11 +1506,12 @@ static int vrend_decode_pipe_resource_set_type(struct vrend_context *ctx, const
  static void vrend_decode_ctx_init_base(struct vrend_decode_ctx *dctx,
                                         uint32_t ctx_id);
  
@@ -999,17 +1000,17 @@ index 621cf0c..7d3636f 100644
  }
  
  struct virgl_context *vrend_renderer_context_create(uint32_t handle,
-@@ -1794,4 +1795,5 @@ static void vrend_decode_ctx_init_base(struct vrend_decode_ctx *dctx,
+@@ -1790,4 +1791,5 @@ static void vrend_decode_ctx_init_base(struct vrend_decode_ctx *dctx,
     ctx->get_fencing_fd = vrend_decode_ctx_get_fencing_fd;
     ctx->retire_fences = vrend_decode_ctx_retire_fences;
     ctx->submit_fence = vrend_decode_ctx_submit_fence;
 +   ctx->export_fence = NULL;
  }
 diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-index b964b95..6fb659c 100644
+index 08c067f..ee3573a 100644
 --- a/src/vrend_renderer.c
 +++ b/src/vrend_renderer.c
-@@ -6257,7 +6257,7 @@ static void wait_sync(struct vrend_fence *fence)
+@@ -6338,7 +6338,7 @@ static void wait_sync(struct vrend_fence *fence)
     mtx_unlock(&vrend_state.fence_mutex);
  
     if (vrend_state.use_async_fence_cb) {
@@ -1018,7 +1019,7 @@ index b964b95..6fb659c 100644
        free_fence_locked(fence);
        return;
     }
-@@ -9813,7 +9813,7 @@ void vrend_renderer_check_fences(void)
+@@ -9914,7 +9914,7 @@ void vrend_renderer_check_fences(void)
  
     LIST_FOR_EACH_ENTRY_SAFE(fence, stor, &retired_fences, fences) {
        struct vrend_context *ctx = fence->ctx;
@@ -1028,10 +1029,10 @@ index b964b95..6fb659c 100644
        free_fence_locked(fence);
     }
 diff --git a/src/vrend_renderer.h b/src/vrend_renderer.h
-index 73cb0d9..74654ce 100644
+index fbd3149..46c9f8b 100644
 --- a/src/vrend_renderer.h
 +++ b/src/vrend_renderer.h
-@@ -111,7 +111,8 @@ struct vrend_format_table {
+@@ -113,7 +113,8 @@ struct vrend_format_table {
     uint32_t flags;
  };
  
