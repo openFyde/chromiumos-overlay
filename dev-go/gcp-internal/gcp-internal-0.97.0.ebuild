@@ -39,6 +39,8 @@ DEPEND="
 	dev-go/gax:1
 	dev-go/genproto
 	dev-go/net
+	dev-go/martian
 	dev-go/opencensus
+	dev-go/protoc-gen-go-grpc
 "
 RDEPEND="${DEPEND}"
