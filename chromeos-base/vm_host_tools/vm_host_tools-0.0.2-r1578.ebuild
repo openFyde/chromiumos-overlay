@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ddcc94ff34a259fc6b8d47de2096a511ee45a109"
+CROS_WORKON_COMMIT="4ec3ebb8d3a2df83da572ef4be99ff94aa6e85da"
 CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "fbe41bee104ff4df12013ed4140b953fa704d759" "252d446a8eff95d46efbaa67556405056abf432a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "3f44e8d77bbd9c7d11759607c785d5b5155cacba" "7ef75a42aba67052842459f221271e681184cc89" "e3b073386571c2f310b5dc9eb179d60db62d0314" "dbc0caa5a8069a51f3821099fd9e938ce98205d5" "3ace6fdf4b70f625dc47e81c194b8f92e840b623" "1036dde4d43d184c131c8c5de556e895870e2994" "49d30ddddeef5feefdad25e5c32cfd8b7b40b9d5" "c1a53785c4c668fe9e020912949679cee0f337a6" "e2598f8160f0e1089268ae21cb458eb6bc46d71e" "d59c930e552bd37c28d6a28b36124b8d2413fe7c" "9810247054961cb8639bad6bc185331754e21bb1" "fa62109f340296eacfec7022cbe3242f1bd4879d" "af7c9c6d25610d01525f53b4c72445fb15f79f03" "4b930736bc7da8c301f27c7a82718e7d605de289" "68b86394265699731d795155ad6e998ec55e5463" "81465f23987dd2c482006411430ef171e856c5fe")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -89,9 +89,9 @@ get_vmlog_forwarder_start_services() {
 }
 
 get_vmlog_forwarder_stop_services() {
-	local stop_services="stopped vm_concierge"
+	local stop_services="stopping vm_concierge"
 	if use wilco; then
-		stop_services+=" and stopped wilco_dtc_dispatcher"
+		stop_services+=" and stopping wilco_dtc_dispatcher"
 	fi
 	echo "${stop_services}"
 }
