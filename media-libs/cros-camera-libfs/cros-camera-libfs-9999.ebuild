@@ -37,7 +37,7 @@ IUSE="
 REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
-PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.03.04.tbz2"
+PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.03.17.tbz2"
 PACKAGE_DOCUMENT_SCANNING="chromeos-document-scanning-lib-2021.11.10.tar.bz2"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2022.02.24.tar.bz2"
