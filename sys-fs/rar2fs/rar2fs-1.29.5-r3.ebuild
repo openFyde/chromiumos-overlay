@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-1.29.5-fix-crash-in-collect-files.patch"
 	"${FILESDIR}/${PN}-1.29.5-password-from-stdin.patch"
 	"${FILESDIR}/${PN}-1.29.5-no-archive-path-on-stdout.patch"
+	"${FILESDIR}/${PN}-1.29.5-thread-termination.patch"
 )
 
 src_prepare() {
