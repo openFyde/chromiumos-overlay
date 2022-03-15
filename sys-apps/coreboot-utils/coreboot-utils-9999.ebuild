@@ -26,7 +26,7 @@ CROS_WORKON_EGIT_BRANCH=(
 # coreboot:util/*: tools built by this ebuild
 # vboot: minimum set of files and directories to build vboot_lib for cbfstool
 CROS_WORKON_SUBTREE=(
-	"src/arch/x86/include/arch src/commonlib src/vendorcode/intel util/archive util/cbmem util/cbfstool util/ifdtool util/inteltool util/mma util/nvramtool util/superiotool"
+	"src/arch/x86/include/arch src/commonlib src/vendorcode/intel util/archive util/cbmem util/cbfstool util/ifdtool util/inteltool util/mma util/nvramtool util/superiotool util/amdfwtool"
 	"Makefile cgpt host firmware futility"
 )
 
@@ -75,6 +75,7 @@ src_compile() {
 	if is_x86; then
 		if use cros_host; then
 			_emake -C util/ifdtool
+			_emake -C util/amdfwtool
 		else
 			_emake -C util/superiotool \
 				CONFIG_PCI=$(usex pci)
@@ -97,6 +98,7 @@ src_install() {
 	if is_x86; then
 		if use cros_host; then
 			dobin util/ifdtool/ifdtool
+			dobin util/amdfwtool/amdfwread
 		else
 			dobin util/superiotool/superiotool
 			dobin util/inteltool/inteltool
