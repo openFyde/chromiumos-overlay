@@ -29,8 +29,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/cmp
-	dev-go/gapi-option
-	dev-go/gapi-transport
+	dev-go/gapi
 	dev-go/gax:1
 	dev-go/genproto
 	dev-go/grpc

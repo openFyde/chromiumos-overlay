@@ -30,7 +30,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/crypto
-	dev-go/gapi-storage
+	dev-go/gapi
 	dev-go/oauth2
 	dev-go/sftp
 	dev-go/text

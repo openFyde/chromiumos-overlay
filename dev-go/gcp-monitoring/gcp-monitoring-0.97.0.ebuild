@@ -28,9 +28,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/gapi-iterator
-	dev-go/gapi-option
-	dev-go/gapi-transport
+	dev-go/gapi
 	dev-go/gax:1
 "
 RDEPEND="${DEPEND}"

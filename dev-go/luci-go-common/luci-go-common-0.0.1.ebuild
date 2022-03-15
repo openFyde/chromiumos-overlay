@@ -51,7 +51,7 @@ IUSE=""
 
 DEPEND="
 	dev-go/appengine
-	dev-go/gapi-googleapi
+	dev-go/gapi
 	dev-go/grpc
 	dev-go/httprouter
 	dev-go/klauspost-compress

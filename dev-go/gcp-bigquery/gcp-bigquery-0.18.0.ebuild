@@ -28,12 +28,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/gapi-bigquery
-	dev-go/gapi-googleapi
-	dev-go/gapi-iterator
-	dev-go/gapi-option
-	dev-go/gapi-storage
-	dev-go/gapi-transport
+	dev-go/gapi
 	dev-go/gcp-civil
 	dev-go/gcp-internal
 	dev-go/genproto

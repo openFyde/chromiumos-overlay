@@ -29,9 +29,7 @@ IUSE=""
 RESTRICT="binchecks"
 
 DEPEND="
-	dev-go/gapi-iamcredentials
-	dev-go/gapi-storage
-	dev-go/gapi-transport
+	dev-go/gapi
 	dev-go/gcp-iam
 	dev-go/gcp-internal
 	dev-go/gcp-trace

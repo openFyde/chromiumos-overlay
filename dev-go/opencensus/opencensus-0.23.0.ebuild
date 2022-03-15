@@ -42,7 +42,7 @@ RESTRICT="binchecks strip"
 DEPEND="
 	dev-go/appengine
 	dev-go/cmp
-	dev-go/gapi-bundler
+	dev-go/gapi
 	dev-go/genproto
 	dev-go/golang-groupcache
 	dev-go/grpc

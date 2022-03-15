@@ -28,6 +28,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/gapi
 	dev-go/gax:1
 	dev-go/genproto
 	dev-go/grpc

@@ -32,9 +32,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/gapi-googleapi
-	dev-go/gapi-iterator
-	dev-go/gapi-transport
+	dev-go/gapi
 	dev-go/grpc
 	dev-go/gax:1
 	dev-go/genproto

@@ -28,7 +28,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/gapi-googleapi
+	dev-go/gapi
 	dev-go/genproto
 	dev-go/go-tools
 	dev-go/golint
