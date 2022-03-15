@@ -38,7 +38,7 @@ PLATFORM_SUBDIR="vm_tools"
 inherit cros-go cros-workon platform user
 
 DESCRIPTION="VM guest tools for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

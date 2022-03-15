@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="patchpanel/ndproxyd"
 inherit cros-workon libchrome platform
 
 DESCRIPTION="NDProxy daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/network/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/network/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

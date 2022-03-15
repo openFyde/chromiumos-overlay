@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="vm_tools/sommelier"
 inherit cros-workon platform
 
 DESCRIPTION="A Wayland compositor for use in CrOS VMs"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/sommelier"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/sommelier"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

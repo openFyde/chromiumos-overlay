@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="bootstat"
 inherit cros-workon platform
 
 DESCRIPTION="Chrome OS Boot Time Statistics Utilities"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/bootstat/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/bootstat/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

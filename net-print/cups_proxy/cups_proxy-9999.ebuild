@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="cups_proxy"
 inherit tmpfiles cros-workon platform user
 
 DESCRIPTION="CUPS Proxy Daemon for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cups_proxy/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cups_proxy/"
 
 LICENSE="BSD-Google"
 SLOT="0"

@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="userfeedback"
 inherit cros-workon systemd
 
 DESCRIPTION="Log scripts used by userfeedback to report cros system information"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/userfeedback/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/userfeedback/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk avtest_label_detect .gn"
 inherit cros-sanitizers cros-workon cros-common.mk
 
 DESCRIPTION="Autotest label detector for audio/video/camera"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/avtest_label_detect"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/avtest_label_detect"
 
 LICENSE="BSD-Google"
 SLOT="0"

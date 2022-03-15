@@ -15,7 +15,7 @@ inherit cros-workon platform user
 
 DESCRIPTION="A daemon that provides authentication support for system services
 and ARC apps behind an authenticated web proxy."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system-proxy/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system-proxy/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

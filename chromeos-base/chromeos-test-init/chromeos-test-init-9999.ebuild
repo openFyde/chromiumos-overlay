@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="init/upstart/test-init"
 inherit cros-workon
 
 DESCRIPTION="Additional upstart jobs that will be installed on test images"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/init/"
 
 LICENSE="BSD-Google"
 SLOT="0"

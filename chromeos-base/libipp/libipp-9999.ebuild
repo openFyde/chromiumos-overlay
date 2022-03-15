@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="libipp"
 inherit cros-workon platform
 
 DESCRIPTION="The library for building and parsing IPP (Internet Printing Protocol) frames."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libipp/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libipp/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

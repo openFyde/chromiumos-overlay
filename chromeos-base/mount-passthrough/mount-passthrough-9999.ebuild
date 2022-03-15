@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/mount-passthrough"
 inherit cros-workon platform
 
 DESCRIPTION="Mounts the specified directory with different owner UID and GID"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/mount-passthrough"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/mount-passthrough"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

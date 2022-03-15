@@ -14,7 +14,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-workon python-single-r1
 
 DESCRIPTION="shill's test scripts"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"

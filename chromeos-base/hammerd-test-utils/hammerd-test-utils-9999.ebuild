@@ -16,7 +16,7 @@ PYTHON_COMPAT=( python3_{6..8} )
 inherit cros-workon platform distutils-r1
 
 DESCRIPTION="Python wrapper of hammerd API and some python utility scripts."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hammerd/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hammerd/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

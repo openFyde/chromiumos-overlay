@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="oobe_config"
 inherit cros-workon platform user
 
 DESCRIPTION="Provides utilities to save and restore OOBE config."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/oobe_config/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_config/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

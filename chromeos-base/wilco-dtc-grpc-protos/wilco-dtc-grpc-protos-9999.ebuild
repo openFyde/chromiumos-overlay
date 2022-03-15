@@ -19,7 +19,7 @@ WANT_LIBBRILLO="no"
 inherit cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS Wilco DTC proto/gRPC API"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics/grpc"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnostics/grpc"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"

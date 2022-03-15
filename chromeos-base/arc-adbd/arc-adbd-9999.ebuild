@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/adbd"
 inherit cros-workon platform
 
 DESCRIPTION="Container to run Android's adbd proxy."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/adbd"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/adbd"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="hammerd"
 inherit cros-workon platform user
 
 DESCRIPTION="A daemon to update EC firmware of hammer, the base of the detachable."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hammerd/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hammerd/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

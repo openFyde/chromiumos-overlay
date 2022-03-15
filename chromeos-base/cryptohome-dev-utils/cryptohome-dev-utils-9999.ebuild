@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="cryptohome/dev-utils"
 inherit cros-workon platform
 
 DESCRIPTION="Cryptohome developer and testing utilities for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

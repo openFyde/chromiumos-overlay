@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="shill"
 inherit cros-workon platform systemd tmpfiles udev user
 
 DESCRIPTION="Shill Connection Manager for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

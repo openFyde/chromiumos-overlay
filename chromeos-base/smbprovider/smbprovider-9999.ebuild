@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="smbprovider"
 inherit cros-workon platform user
 
 DESCRIPTION="Provides access to Samba file share"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smbprovider/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/smbprovider/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

@@ -26,7 +26,7 @@ PLATFORM_SUBDIR="chromeos-config"
 inherit cros-workon platform gtest
 
 DESCRIPTION="Chrome OS configuration tools"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-config"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-config"
 
 LICENSE="BSD-Google"
 SLOT=0

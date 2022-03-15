@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="regions"
 inherit cros-workon
 
 DESCRIPTION="Chromium OS Region Data"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/regions/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/regions/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

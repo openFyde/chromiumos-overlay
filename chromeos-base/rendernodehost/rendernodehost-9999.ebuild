@@ -16,7 +16,7 @@ WANT_LIBCHROME="no"
 inherit cros-workon platform
 
 DESCRIPTION="host service for render node forwarding"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/rendernodehost/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/rendernodehost/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

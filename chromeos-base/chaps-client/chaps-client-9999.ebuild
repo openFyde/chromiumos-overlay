@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="chaps/client"
 inherit cros-workon platform
 
 DESCRIPTION="chaps D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chaps/client/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chaps/client/"
 
 LICENSE="BSD-Google"
 SLOT="0"

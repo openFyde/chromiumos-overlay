@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="arc/apk-cache"
 inherit cros-workon platform
 
 DESCRIPTION="Maintains APK cache in ARC."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/apk-cache"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/apk-cache"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

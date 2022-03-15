@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="debugd"
 inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Chrome OS debugging service"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/debugd/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/debugd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="arcvm cellular iwlwifi_dump nvme sata tpm"

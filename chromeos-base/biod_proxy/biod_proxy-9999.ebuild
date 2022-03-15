@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="biod/biod_proxy"
 inherit cros-workon platform
 
 DESCRIPTION="DBus Proxy Library for Biometrics Daemon for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/README.md"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/biod/README.md"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="modem-utilities"
 inherit cros-workon tmpfiles platform
 
 DESCRIPTION="Chromium OS modem utilities"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modem-utilities/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/modem-utilities/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"

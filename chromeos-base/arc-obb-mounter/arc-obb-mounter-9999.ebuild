@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/container/obb-mounter"
 inherit cros-workon platform
 
 DESCRIPTION="D-Bus service to mount OBB files"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/obb-mounter"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/obb-mounter"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

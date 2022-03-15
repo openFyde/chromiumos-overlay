@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="policy_utils"
 inherit cros-workon platform
 
 DESCRIPTION="Device-policy-management library and tool for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/policy_utils/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/policy_utils/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="secure_erase_file"
 inherit cros-workon platform
 
 DESCRIPTION="Secure file erasure for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/secure_erase_file/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secure_erase_file/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

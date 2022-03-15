@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="dlp"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="A daemon that provides support for Data Leak Prevention restrictions for file accesses."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlp/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlp/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

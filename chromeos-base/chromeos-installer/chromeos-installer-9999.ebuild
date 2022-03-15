@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="installer"
 inherit cros-workon platform systemd
 
 DESCRIPTION="Chrome OS Installer"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/installer/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/installer/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

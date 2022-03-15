@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="libtpmcrypto"
 inherit cros-workon platform
 
 DESCRIPTION="Encrypts/Decrypts data to a serialized proto with TPM sealed key."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libtpmcrypto/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libtpmcrypto/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

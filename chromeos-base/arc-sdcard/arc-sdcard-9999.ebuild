@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/container/sdcard"
 inherit cros-workon platform
 
 DESCRIPTION="Container to run Android's sdcard daemon."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/sdcard"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/sdcard"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/container/myfiles .gn"
 inherit cros-workon
 
 DESCRIPTION="Container to run Android's MyFiles daemon."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/myfiles"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/myfiles"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

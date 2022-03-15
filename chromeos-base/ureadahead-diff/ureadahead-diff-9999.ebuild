@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="ureadahead-diff"
 inherit cros-workon platform
 
 DESCRIPTION="Calculate common part and difference of two ureadahead packs"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/ureadahead-diff"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/ureadahead-diff"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

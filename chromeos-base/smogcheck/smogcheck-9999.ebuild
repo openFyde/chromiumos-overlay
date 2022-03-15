@@ -12,7 +12,7 @@ CROS_WORKON_OUTOFTREE_BUILD="1"
 inherit cros-common.mk cros-sanitizers cros-workon cros-debug
 
 DESCRIPTION="TPM SmogCheck library"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smogcheck/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/smogcheck/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

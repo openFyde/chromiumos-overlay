@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="shill/client"
 inherit cros-workon platform
 
 DESCRIPTION="Shill DBus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/shill/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/"
 
 LICENSE="BSD-Google"
 SLOT="0"

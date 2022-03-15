@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="usb_bouncer"
 inherit tmpfiles cros-workon platform user cros-fuzzer cros-sanitizers
 
 DESCRIPTION="Manage the usbguard whitelist"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/usb_bouncer/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/usb_bouncer/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

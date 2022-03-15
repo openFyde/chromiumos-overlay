@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="u2fd"
 inherit cros-workon platform user
 
 DESCRIPTION="U2FHID Emulation Daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fhid"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fhid"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

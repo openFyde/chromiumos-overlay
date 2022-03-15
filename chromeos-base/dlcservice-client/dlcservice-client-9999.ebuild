@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="dlcservice/client"
 inherit cros-workon platform
 
 DESCRIPTION="DlcService D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcservice/client"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservice/client"
 
 LICENSE="BSD-Google"
 SLOT="0"

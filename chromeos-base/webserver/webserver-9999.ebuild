@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="webserver"
 inherit cros-workon platform user
 
 DESCRIPTION="HTTP sever interface library"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/webserver/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/webserver/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

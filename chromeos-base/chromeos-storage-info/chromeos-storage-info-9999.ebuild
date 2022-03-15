@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="storage_info"
 inherit cros-workon platform
 
 DESCRIPTION="Chrome OS storage info tools"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/storage_info/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/storage_info/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

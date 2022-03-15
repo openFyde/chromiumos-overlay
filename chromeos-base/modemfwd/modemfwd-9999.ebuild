@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="modemfwd"
 inherit cros-workon platform user
 
 DESCRIPTION="Modem firmware updater daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/modemfwd"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/modemfwd"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

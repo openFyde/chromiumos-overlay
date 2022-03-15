@@ -13,7 +13,7 @@ PLATFORM_NATIVE_TEST="yes"
 inherit cros-workon platform systemd user
 
 DESCRIPTION="MTP daemon for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mtpd"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/mtpd"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

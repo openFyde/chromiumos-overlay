@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="imageloader/client"
 inherit cros-workon platform
 
 DESCRIPTION="ImageLoader DBus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/imageloader/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/imageloader/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

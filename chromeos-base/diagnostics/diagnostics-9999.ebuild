@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="diagnostics"
 inherit cros-workon cros-unibuild platform udev user
 
 DESCRIPTION="Device telemetry and diagnostics for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnostics"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -31,7 +31,7 @@ BUILD_DIR="${WORKDIR}/${BORINGSSL_P}_build"
 inherit flag-o-matic cmake-utils cros-workon platform user
 
 DESCRIPTION="Android keymaster service in Chrome OS."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/keymaster"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/keymaster"
 SRC_URI="https://github.com/google/${BORINGSSL_PN}/archive/${BORINGSSL_PV}.tar.gz -> ${BORINGSSL_P}.tar.gz"
 
 LICENSE="BSD-Google"

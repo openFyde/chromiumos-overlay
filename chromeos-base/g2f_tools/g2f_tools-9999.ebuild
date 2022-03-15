@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="u2fd"
 inherit cros-workon platform
 
 DESCRIPTION="G2F gnubby (U2F+GCSE) development and testing tools"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/u2fd"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="secure-wipe"
 inherit cros-workon platform
 
 DESCRIPTION="Secure wipe"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/secure-wipe/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secure-wipe/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

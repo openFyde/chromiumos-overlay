@@ -12,7 +12,7 @@ PYTHON_COMPAT=( python{3_6,3_7} )
 inherit cros-workon distutils-r1
 
 DESCRIPTION="Chrome OS configuration host tools"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-config"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-config"
 
 LICENSE="BSD-Google"
 SLOT=0

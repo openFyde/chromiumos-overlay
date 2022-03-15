@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="crosdns"
 inherit cros-fuzzer cros-sanitizers cros-workon platform tmpfiles user
 
 DESCRIPTION="Local hostname modifier service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/crosdns"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosdns"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

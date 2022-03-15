@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="hardware_verifier"
 inherit cros-workon cros-unibuild platform user
 
 DESCRIPTION="Hardware Verifier Tool/Lib for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardware_verifier/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hardware_verifier/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

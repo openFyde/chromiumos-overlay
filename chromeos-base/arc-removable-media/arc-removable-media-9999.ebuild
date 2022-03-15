@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/container/removable-media .gn"
 inherit cros-workon
 
 DESCRIPTION="Container to run Android's removable-media daemon."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/removable-media"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/removable-media"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

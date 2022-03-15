@@ -17,7 +17,7 @@ PLATFORM_SUBDIR="policy_proto"
 inherit cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS policy protocol buffer binding for go"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/policy_proto"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/policy_proto"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

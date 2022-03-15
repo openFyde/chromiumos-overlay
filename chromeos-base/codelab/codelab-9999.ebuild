@@ -12,7 +12,7 @@ PLATFORM_SUBDIR="codelab"
 inherit cros-workon platform
 
 DESCRIPTION="Developer codelab for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/codelab/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/codelab/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

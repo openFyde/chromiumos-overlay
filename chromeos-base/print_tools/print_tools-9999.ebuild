@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="print_tools"
 inherit cros-workon platform
 
 DESCRIPTION="Various tools for the native printing system."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/print_tools/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/print_tools/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

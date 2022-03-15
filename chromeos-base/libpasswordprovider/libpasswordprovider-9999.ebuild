@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="libpasswordprovider"
 inherit cros-workon platform
 
 DESCRIPTION="Library for storing and retrieving user password"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libpasswordprovider"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libpasswordprovider"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

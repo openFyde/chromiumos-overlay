@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="sealed_storage"
 inherit cros-workon platform
 
 DESCRIPTION="Library for sealing data to device identity and state"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/sealed_storage"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sealed_storage"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

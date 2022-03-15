@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="imageloader"
 inherit cros-workon platform user
 
 DESCRIPTION="Allow mounting verified utility images"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/imageloader/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/imageloader/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

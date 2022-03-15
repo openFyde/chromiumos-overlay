@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="login_manager"
 inherit tmpfiles cros-workon cros-unibuild platform systemd user
 
 DESCRIPTION="Login manager for Chromium OS."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-login/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-login/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

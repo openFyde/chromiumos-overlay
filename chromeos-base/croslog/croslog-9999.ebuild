@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="croslog"
 inherit cros-workon platform
 
 DESCRIPTION="Log viewer for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/croslog"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/croslog"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

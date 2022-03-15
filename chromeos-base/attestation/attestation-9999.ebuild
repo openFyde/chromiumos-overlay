@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="attestation"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="Attestation service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attestation/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestation/"
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"

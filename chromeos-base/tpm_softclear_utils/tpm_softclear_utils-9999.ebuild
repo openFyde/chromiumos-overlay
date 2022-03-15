@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="tpm_softclear_utils"
 inherit cros-workon platform
 
 DESCRIPTION="Utilities for soft-clearing TPM. This package resides in test images only."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_softclear_utils/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm_softclear_utils/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

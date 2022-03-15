@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="tpm2-simulator"
 inherit cros-workon platform user
 
 DESCRIPTION="TPM 2.0 Simulator"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm2-simulator/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm2-simulator/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

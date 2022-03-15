@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="hwsec-test-utils"
 inherit cros-workon platform
 
 DESCRIPTION="Hwsec-related test-only features. This package resides in test images only."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hwsec-test-utils/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hwsec-test-utils/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

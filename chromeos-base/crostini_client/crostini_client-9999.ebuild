@@ -10,7 +10,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 inherit cros-workon cros-rust
 
 DESCRIPTION="Command-line client for controlling crostini"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools/crostini_client/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools/crostini_client/"
 
 LICENSE="BSD-Google"
 SLOT="0"

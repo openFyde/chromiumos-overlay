@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="power_manager/client"
 inherit cros-workon platform
 
 DESCRIPTION="Power manager DBus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/power_manager/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/power_manager/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

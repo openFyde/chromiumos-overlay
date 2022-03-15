@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="virtual_file_provider"
 inherit cros-workon platform user
 
 DESCRIPTION="D-Bus service to provide virtual file"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/virtual_file_provider"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/virtual_file_provider"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

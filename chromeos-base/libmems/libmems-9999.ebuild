@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="libmems"
 inherit cros-workon platform
 
 DESCRIPTION="MEMS support library for Chromium OS."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libmems"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libmems"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

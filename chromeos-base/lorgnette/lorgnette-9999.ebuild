@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="lorgnette"
 inherit cros-workon platform user udev
 
 DESCRIPTION="Document Scanning service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/lorgnette/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/lorgnette/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"

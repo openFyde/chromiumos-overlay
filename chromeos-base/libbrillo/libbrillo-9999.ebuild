@@ -18,7 +18,7 @@ WANT_LIBBRILLO="no"
 inherit cros-workon platform
 
 DESCRIPTION="Base library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libbrillo/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libbrillo/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="glib-bridge"
 inherit cros-workon platform
 
 DESCRIPTION="libchrome-glib message loop bridge"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/glib-bridge"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/glib-bridge"
 
 LICENSE="BSD-Google"
 SLOT="0"

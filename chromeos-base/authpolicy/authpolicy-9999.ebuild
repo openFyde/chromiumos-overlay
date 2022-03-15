@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="authpolicy"
 inherit cros-workon platform user
 
 DESCRIPTION="Provides authentication to LDAP and fetching device/user policies"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/authpolicy/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/authpolicy/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

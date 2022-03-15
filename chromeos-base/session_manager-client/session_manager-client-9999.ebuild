@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="login_manager/session_manager-client"
 inherit cros-workon platform
 
 DESCRIPTION="Session manager (chromeos-login) DBus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/login_manager/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/login_manager/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

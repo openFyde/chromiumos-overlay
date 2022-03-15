@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/vm/scripts .gn"
 inherit cros-workon
 
 DESCRIPTION="ARCVM common scripts."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/scripts"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/scripts"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="tpm_manager/client"
 inherit cros-workon platform
 
 DESCRIPTION="TPM Manager D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_manager/client/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm_manager/client/"
 
 LICENSE="BSD-Google"
 SLOT="0"

@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/vm/scripts/init/mount-media-dirs .gn"
 inherit cros-workon
 
 DESCRIPTION="Mount media directories on a mount point shared with ARCVM."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/scripts/init/mount-media-dirs"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/scripts/init/mount-media-dirs"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

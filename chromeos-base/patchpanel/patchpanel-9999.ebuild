@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="patchpanel"
 inherit cros-workon libchrome platform user
 
 DESCRIPTION="Patchpanel network connectivity management daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/patchpanel/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/patchpanel/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

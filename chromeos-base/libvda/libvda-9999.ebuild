@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/vm/libvda"
 inherit cros-workon platform
 
 DESCRIPTION="libvda CrOS video decoding library"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/libvda"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/libvda"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

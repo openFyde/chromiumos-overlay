@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="kerberos"
 inherit cros-workon platform user
 
 DESCRIPTION="Requests and manages Kerberos tickets to enable Kerberos SSO"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/kerberos/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/kerberos/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="arc/vm/boot_notification_server"
 inherit cros-workon platform user
 
 DESCRIPTION="ARCVM boot notification server"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/boot_notification_server"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/boot_notification_server"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

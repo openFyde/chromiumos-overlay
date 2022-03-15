@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="runtime_probe"
 inherit cros-workon cros-unibuild platform user udev
 
 DESCRIPTION="Runtime probing on device componenets."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/runtime_probe/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/runtime_probe/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

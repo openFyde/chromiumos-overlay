@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="attestation/client"
 inherit cros-workon platform
 
 DESCRIPTION="Attestation D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/attestation/client/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestation/client/"
 
 LICENSE="BSD-Google"
 SLOT="0"

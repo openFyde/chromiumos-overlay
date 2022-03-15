@@ -10,7 +10,7 @@ PYTHON_COMPAT=( python3_{6,7,8} pypy3 )
 inherit cros-workon python-r1
 
 DESCRIPTION="Chromium OS Fingerprint user study software"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/biod/study"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/biod/study"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

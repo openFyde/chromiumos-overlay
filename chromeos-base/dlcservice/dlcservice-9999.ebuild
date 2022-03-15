@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="dlcservice"
 inherit cros-workon platform user
 
 DESCRIPTION="A D-Bus service for Downloadable Content (DLC)"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/dlcservice/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservice/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="chromeos-common-script"
 inherit cros-workon platform
 
 DESCRIPTION="Chrome OS storage info tools"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-common-script/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-common-script/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="smbfs"
 inherit cros-workon platform user
 
 DESCRIPTION="FUSE filesystem to mount SMB shares."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/smbfs/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/smbfs/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

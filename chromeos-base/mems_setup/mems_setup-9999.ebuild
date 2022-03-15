@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="mems_setup"
 inherit cros-workon cros-unibuild platform udev
 
 DESCRIPTION="MEMS Setup for Chromium OS."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mems_setup"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/mems_setup"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -200,7 +200,7 @@ the test returns TEST\_NA as a test result.
 
 This is realized by calling DeviceCapability().check\_capability().
 
-[device\_capability.py](https://chromium.googlesource.com/chromiumos/third\_party/autotest/+/master/client/cros/video/device\_capability.py)
+[device\_capability.py](https://chromium.googlesource.com/chromiumos/third\_party/autotest/+/HEAD/client/cros/video/device\_capability.py)
 
 ### DeviceCapability: decide if a test should run on DUT
 

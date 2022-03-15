@@ -17,7 +17,7 @@ PLATFORM_SUBDIR="hardware_verifier/proto"
 inherit cros-workon cros-go platform
 
 DESCRIPTION="Hardware Verifier go proto for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/hardware_verifier/proto"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hardware_verifier/proto"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

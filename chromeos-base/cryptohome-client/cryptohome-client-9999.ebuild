@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="cryptohome/client"
 inherit cros-workon platform
 
 DESCRIPTION="Cryptohome D-Bus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

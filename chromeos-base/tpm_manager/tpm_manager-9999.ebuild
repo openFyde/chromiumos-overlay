@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="tpm_manager"
 inherit cros-workon platform user
 
 DESCRIPTION="Daemon to manage TPM ownership."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/tpm_manager/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm_manager/"
 
 LICENSE="Apache-2.0"
 SLOT="0"

@@ -16,7 +16,7 @@ PLATFORM_SUBDIR="trunks"
 inherit cros-workon platform user
 
 DESCRIPTION="Trunks service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/trunks/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/trunks/"
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"

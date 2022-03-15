@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="syslog-cat"
 inherit cros-workon platform
 
 DESCRIPTION="Simple command to forward stdout/err to syslog"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/syslog-cat"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/syslog-cat"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

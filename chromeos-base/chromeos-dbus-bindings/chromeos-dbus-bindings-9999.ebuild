@@ -15,7 +15,7 @@ PLATFORM_NATIVE_TEST="yes"
 inherit cros-go cros-workon platform
 
 DESCRIPTION="Utility for building Chrome D-Bus bindings from an XML description"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/chromeos-dbus-bindings"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-dbus-bindings"
 
 LICENSE="BSD-Google"
 SLOT="0"

@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="touch_firmware_calibration"
 inherit cros-workon platform user udev
 
 DESCRIPTION="Touch Firmware Calibration"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/touch_firmware_calibration/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/touch_firmware_calibration/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

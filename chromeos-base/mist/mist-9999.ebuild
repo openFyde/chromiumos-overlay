@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="mist"
 inherit cros-workon platform udev
 
 DESCRIPTION="Chromium OS Modem Interface Switching Tool"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/mist/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/mist/"
 
 LICENSE="BSD-Google"
 SLOT="0"

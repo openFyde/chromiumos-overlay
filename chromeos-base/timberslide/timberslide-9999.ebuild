@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="timberslide"
 inherit cros-workon platform
 
 DESCRIPTION="EC log concatenator for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/timberslide/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/timberslide/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

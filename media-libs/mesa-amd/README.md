@@ -1,6 +1,6 @@
 ### mesa-amd dev and uprev process
 
-mesa-amd follows a traditional [cros_workon](https://chromium.googlesource.com/chromiumos/docs/+/master/developer_guide.md#making-changes-to-packages-whose-source-code-is-checked-into-chromium-os-git-repositories) workflow where changes are made directly to src/third_party/mesa-amd. This is different from the [mesa](https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/media-libs/mesa/mesa-9999.ebuild) project, which follows the CROS_WORKON_MANUAL_UPREV workflow.
+mesa-amd follows a traditional [cros_workon](https://chromium.googlesource.com/chromiumos/docs/+/HEAD/developer_guide.md#making-changes-to-packages-whose-source-code-is-checked-into-chromium-os-git-repositories) workflow where changes are made directly to src/third_party/mesa-amd. This is different from the [mesa](https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/media-libs/mesa/mesa-9999.ebuild) project, which follows the CROS_WORKON_MANUAL_UPREV workflow.
 
 Working in mesa-amd takes an "upstream first" philosophy, and downstream changes represent technical debt and should be avoided. Commit messages for downstream changes in mesa-amd are [prefixed in a similar fashion](https://chromium.googlesource.com/chromiumos/docs/+/HEAD/kernel_development.md#commit-messages-summary-lines-chromium_upstream_fromlist_backport) as changes in the kernel and elsewhere in Chrome OS.
 

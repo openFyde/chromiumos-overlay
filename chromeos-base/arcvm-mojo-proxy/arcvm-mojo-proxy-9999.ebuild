@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/vm/mojo_proxy"
 inherit cros-workon platform
 
 DESCRIPTION="ARCVM mojo proxy."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/mojo_proxy"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/mojo_proxy"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

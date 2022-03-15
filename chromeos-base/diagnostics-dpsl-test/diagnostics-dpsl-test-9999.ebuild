@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="diagnostics/dpsl"
 inherit cros-workon platform
 
 DESCRIPTION="Diagnostics DPSL test designed to be run inside VM"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics/dpsl/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnostics/dpsl/"
 
 LICENSE="BSD-Google"
 SLOT="0"

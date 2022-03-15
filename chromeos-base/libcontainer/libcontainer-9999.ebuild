@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="libcontainer"
 inherit cros-workon platform user
 
 DESCRIPTION="Library to run jailed containers on Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libcontainer/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libcontainer/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

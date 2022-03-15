@@ -41,7 +41,7 @@ PLATFORM_SUBDIR="vm_tools"
 inherit tmpfiles cros-workon platform udev user arc-build-constants
 
 DESCRIPTION="VM host tools for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vm_tools"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

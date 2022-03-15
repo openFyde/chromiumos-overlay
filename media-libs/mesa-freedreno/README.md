@@ -47,7 +47,7 @@ release branch of the `chromeos-freedreno` branch (for example
 `release-R76-12239.B-chromeos-freedreno`).
 
 Downstream commits follow the convention of
-https://chromium.googlesource.com/chromiumos/docs/+/master/kernel_faq.md,
+https://chromium.googlesource.com/chromiumos/docs/+/HEAD/kernel_development.md,
 in particular, using the `CHROMIUM:`, `FROMLIST:` etc commit message
 prefixes to highlight that a commit is downstream and identify the
 type of downstream commit.
@@ -109,7 +109,7 @@ index c865c7de10c..f92489b9d51 100644
 +++ b/src/compiler/nir/nir_lower_io_to_temporaries.c
 @@ -364,4 +364,6 @@ nir_lower_io_to_temporaries(nir_shader *shader, nir_function_impl *entrypoint,
     exec_list_append(&shader->globals, &state.old_outputs);
- 
+
     nir_fixup_deref_modes(shader);
 +
 +   _mesa_hash_table_destroy(state.input_map, NULL);

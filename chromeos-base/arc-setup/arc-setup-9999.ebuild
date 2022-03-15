@@ -16,7 +16,7 @@ PLATFORM_SUBDIR="arc/setup"
 inherit tmpfiles cros-workon cros-unibuild platform
 
 DESCRIPTION="Set up environment to run ARC."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/setup"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/setup"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

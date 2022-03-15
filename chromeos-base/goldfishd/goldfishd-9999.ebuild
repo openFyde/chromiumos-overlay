@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="goldfishd"
 inherit cros-workon platform
 
 DESCRIPTION="Android Emulator Daemon for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/goldfishd/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/goldfishd/"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

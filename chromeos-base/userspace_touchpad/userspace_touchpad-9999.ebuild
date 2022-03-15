@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="userspace_touchpad"
 inherit cros-workon platform
 
 DESCRIPTION="Userspace Touchpad"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/userspace_touchpad/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/userspace_touchpad/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

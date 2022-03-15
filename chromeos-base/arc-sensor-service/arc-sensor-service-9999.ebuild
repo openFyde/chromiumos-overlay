@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="arc/vm/sensor_service"
 inherit cros-workon platform
 
 DESCRIPTION="ARC sensor service."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/vm/sensor_service"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/sensor_service"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

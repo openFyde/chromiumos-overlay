@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/container/bundle .gn"
 inherit cros-workon user
 
 DESCRIPTION="Container to run Android."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/bundle"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/bundle"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

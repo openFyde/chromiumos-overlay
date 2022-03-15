@@ -14,7 +14,7 @@ PLATFORM_SUBDIR="feedback"
 inherit cros-workon platform
 
 DESCRIPTION="Feedback service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/feedback/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/feedback/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 

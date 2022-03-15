@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="libhwsec"
 inherit cros-workon platform
 
 DESCRIPTION="Crypto and utility functions used in TPM related daemons."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/libhwsec/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libhwsec/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk arc/container/scripts .gn"
 inherit cros-workon
 
 DESCRIPTION="ARC++ common scripts."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/arc/container/scripts"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/scripts"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

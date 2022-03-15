@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="init"
 inherit tmpfiles cros-workon platform user
 
 DESCRIPTION="Upstart init scripts for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/init/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/init/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

@@ -16,7 +16,7 @@ PLATFORM_SUBDIR="cryptohome"
 inherit tmpfiles cros-workon cros-unibuild platform systemd udev user
 
 DESCRIPTION="Encrypted home directories for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/cryptohome/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

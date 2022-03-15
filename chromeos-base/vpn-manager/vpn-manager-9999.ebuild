@@ -13,7 +13,7 @@ PLATFORM_SUBDIR="vpn-manager"
 inherit cros-workon platform
 
 DESCRIPTION="L2TP/IPsec VPN manager for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/vpn-manager/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vpn-manager/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""

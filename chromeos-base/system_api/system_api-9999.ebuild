@@ -18,7 +18,7 @@ WANT_LIBBRILLO="no"
 inherit cros-fuzzer cros-go cros-workon platform
 
 DESCRIPTION="Chrome OS system API (D-Bus service names, etc.)"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/system_api/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system_api/"
 LICENSE="BSD-Google"
 # The subslot should be manually bumped any time protobuf is upgraded
 # to a newer version whose libraries are incompatible with the
