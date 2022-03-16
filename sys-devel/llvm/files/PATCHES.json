@@ -3166,5 +3166,19 @@
             "from": 450784,
             "until": 451267
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[msan] Add interceptors for Linux 64-bit stat variants"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/1f82d0f795d11376adf3e62fc35fd98bb46e82b0.patch",
+        "version_range": {
+            "from": 450752,
+            "until": 455926
+        }
     }
 ]
