@@ -22,6 +22,7 @@ DEPEND="
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
+	dev-rust/balloon_control:=
 	=dev-rust/base64-0.13*:=
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.8*:=
