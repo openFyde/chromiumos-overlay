@@ -36,7 +36,9 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
     ppdClose(file);
     header.HWResolution[0] = 300;
     header.HWResolution[1] = 300;
-    strcpy(header.cupsString[0], "PlainNormalColor");
+    int len = sizeof(header.cupsString[0]) - 1;
+    strncpy(header.cupsString[0], "PlainNormalColor", len);
+    header.cupsString[0][len] = NULL;
     once = false;
   }
 
@@ -64,13 +66,10 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
   const char* argv[] = {/*uri*/ "",         /*job id*/ "1",
                         /*user*/ "chronos", /*title*/ "Untitled",
                         /*copies*/ "1",     /*options*/ ""};
-  error = filter.StartPrintJob(sizeof(argv) / sizeof(argv[0]),
-                               const_cast<char**>(argv));
-  if (error) {
-    std::cerr << "filter.StartPrintJob failed: error code " << error
-              << std::endl;
-    abort();
-  }
+  // This command may fail and return a non-zero error code
+  // if the input raster header is malformed.
+  filter.StartPrintJob(sizeof(argv) / sizeof(argv[0]),
+                       const_cast<char**>(argv));
 
   return 0;
 }
