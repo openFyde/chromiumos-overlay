@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a7204dc4636bdd5de12186286f16f179e8323021"
-CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "8d9f0365ffbec8f142885c1806cc2d9e59de7e0b" "c483b9613962116a8881cefbe046d52ce851e598" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "1858f1195f67e4b1923d6e70db51a39fe3ecc2ab" "252d446a8eff95d46efbaa67556405056abf432a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3d468bf74a55866470df35fa35ed8535c15cbb11"
+CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "8d9f0365ffbec8f142885c1806cc2d9e59de7e0b" "c483b9613962116a8881cefbe046d52ce851e598" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "13ba61af9802b874c2ca0aabd095bb2f6a0cb59a" "252d446a8eff95d46efbaa67556405056abf432a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="arc_adb_sideloading cheets client_id fuzzer systemd user_session_isolation"
+IUSE="arc_adb_sideloading cheets flex_id fuzzer systemd user_session_isolation"
 
 COMMON_DEPEND="chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
@@ -39,7 +39,7 @@ COMMON_DEPEND="chromeos-base/bootstat:=
 "
 
 RDEPEND="${COMMON_DEPEND}
-	client_id? ( chromeos-base/client_id:= )
+	flex_id? ( chromeos-base/flex_id:= )
 "
 
 DEPEND="${COMMON_DEPEND}
