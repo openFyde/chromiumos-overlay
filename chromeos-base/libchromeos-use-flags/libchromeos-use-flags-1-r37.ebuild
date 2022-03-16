@@ -33,6 +33,7 @@ IUSE="
 	arc_transition_m_to_n
 	arcpp
 	arcvm
+	arcvm_virtio_blk_data
 	asan
 	background_blur
 	big_little
