@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 # 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
-IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
+IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se qualcomm_camx"
 
 # Auto face framing depends on the face detection feature.
 REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
@@ -80,9 +80,9 @@ src_install() {
 	insinto /usr/share/policy
 	newins "seccomp_filter/cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
 
-	# The sandboxed GPU service is used by Portrait Mode feature and IPU6SE
-	# camera HAL.
-	if use camera_feature_portrait_mode || use ipu6se; then
+	# The sandboxed GPU service is used by Portrait Mode feature, IPU6SE
+	# and Qualcomm Camx camera HAL.
+	if use camera_feature_portrait_mode || use ipu6se || use qualcomm_camx; then
 		insinto /etc/init
 		doins init/cros-camera-gpu-algo.conf
 
