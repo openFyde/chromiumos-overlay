@@ -3,19 +3,21 @@
 
 EAPI="7"
 
-inherit flag-o-matic toolchain-funcs multilib-minimal
+inherit flag-o-matic toolchain-funcs multilib-minimal verify-sig
 
 MY_P=${P/_/-}
 
 DESCRIPTION="full-strength general purpose cryptography library (including SSL and TLS)"
 HOMEPAGE="https://www.openssl.org/"
-SRC_URI="mirror://openssl/source/${MY_P}.tar.gz"
+SRC_URI="mirror://openssl/source/${MY_P}.tar.gz
+	verify-sig? ( mirror://openssl/source/${MY_P}.tar.gz.asc )"
+VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/openssl.org.asc
 
 LICENSE="openssl"
 SLOT="0/1.1" # .so version of libssl/libcrypto
 [[ "${PV}" = *_pre* ]] || \
 KEYWORDS="*"
-IUSE="+asm bindist rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-compression tls-heartbeat vanilla"
+IUSE="+asm rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-compression tls-heartbeat vanilla verify-sig bindist"
 RESTRICT="!test? ( test )"
 
 RDEPEND=">=app-misc/c_rehash-1.7-r1
@@ -28,7 +30,8 @@ BDEPEND="
 		sys-apps/diffutils
 		sys-devel/bc
 		kernel_linux? ( sys-process/procps )
-	)"
+	)
+	verify-sig? ( sec-keys/openpgp-keys-openssl )"
 PDEPEND="app-misc/ca-certificates"
 
 PATCHES=(
