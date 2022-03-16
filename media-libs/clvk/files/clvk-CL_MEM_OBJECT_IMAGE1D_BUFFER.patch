@@ -1,0 +1,130 @@
+diff --git a/clvk/src/api.cpp b/clvk/src/api.cpp
+index d13c879..ab57b14 100644
+--- a/clvk/src/api.cpp
++++ b/clvk/src/api.cpp
+@@ -1836,7 +1836,12 @@ cl_int CLVK_API_CALL clGetMemObjectInfo(cl_mem mem, cl_mem_info param_name,
+         ret_size = sizeof(val_uint);
+         break;
+     case CL_MEM_ASSOCIATED_MEMOBJECT:
+-        val_memobj = memobj->parent();
++        if (memobj->is_image_type()) {
++            auto img = static_cast<cvk_image*>(mem);
++            val_memobj = img->buffer();
++        } else {
++            val_memobj = memobj->parent();
++        }
+         copy_ptr = &val_memobj;
+         ret_size = sizeof(val_memobj);
+         break;
+diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
+index 7d1176a..72eefa6 100644
+--- a/clvk/src/device.cpp
++++ b/clvk/src/device.cpp
+@@ -792,6 +792,7 @@ bool cvk_device::supports_capability(spv::Capability capability) const {
+     case spv::CapabilitySampled1D:
+     case spv::CapabilityImage1D:
+     case spv::CapabilityImageQuery:
++    case spv::CapabilityImageBuffer:
+         return true;
+     // Optional capabilities:
+     case spv::CapabilityFloat16:
+diff --git a/clvk/src/memory.cpp b/clvk/src/memory.cpp
+index 505b1ac..e4805c6 100644
+--- a/clvk/src/memory.cpp
++++ b/clvk/src/memory.cpp
+@@ -14,6 +14,7 @@
+ 
+ #include <cmath>
+ 
++#include "CL/cl.h"
+ #include "memory.hpp"
+ #include "queue.hpp"
+ 
+@@ -277,6 +278,7 @@ bool cvk_image::init() {
+     size_t host_ptr_size = 0;
+ 
+     switch (m_desc.image_type) {
++    case CL_MEM_OBJECT_IMAGE1D_BUFFER:
+     case CL_MEM_OBJECT_IMAGE1D:
+         image_type = VK_IMAGE_TYPE_1D;
+         view_type = VK_IMAGE_VIEW_TYPE_1D;
+@@ -308,7 +310,6 @@ bool cvk_image::init() {
+         view_type = VK_IMAGE_VIEW_TYPE_3D;
+         host_ptr_size = slice_pitch * m_extent.depth;
+         break;
+-    case CL_MEM_OBJECT_IMAGE1D_BUFFER: // TODO support that
+     default:
+         CVK_ASSERT(false);
+         image_type = VK_IMAGE_TYPE_MAX_ENUM;
+@@ -355,23 +356,29 @@ bool cvk_image::init() {
+         return false;
+     }
+ 
+-    // Select memory type
+-    cvk_device::allocation_parameters params =
+-        device->select_memory_for(m_image);
+-    if (params.memory_type_index == VK_MAX_MEMORY_TYPES) {
+-        cvk_error_fn("Could not get memory type!");
+-        return false;
+-    }
++    if (m_desc.image_type == CL_MEM_OBJECT_IMAGE1D_BUFFER) {
++        auto buffer = static_cast<cvk_mem*>(m_desc.buffer);
++        m_memory = std::unique_ptr<cvk_memory_allocation>(buffer->memory());
++        buffer->retain();
++    } else {
++        // Select memory type
++        cvk_device::allocation_parameters params =
++            device->select_memory_for(m_image);
++        if (params.memory_type_index == VK_MAX_MEMORY_TYPES) {
++            cvk_error_fn("Could not get memory type!");
++            return false;
++        }
+ 
+-    // Allocate memory
+-    m_memory = std::make_unique<cvk_memory_allocation>(
+-        vkdev, params.size, params.memory_type_index);
++        // Allocate memory
++        m_memory = std::make_unique<cvk_memory_allocation>(
++            vkdev, params.size, params.memory_type_index);
+ 
+-    res = m_memory->allocate();
++        res = m_memory->allocate();
+ 
+-    if (res != VK_SUCCESS) {
+-        cvk_error_fn("Could not allocate memory!");
+-        return false;
++        if (res != VK_SUCCESS) {
++            cvk_error_fn("Could not allocate memory!");
++            return false;
++        }
+     }
+ 
+     // Bind the image to memory
+diff --git a/clvk/src/memory.hpp b/clvk/src/memory.hpp
+index f769339..2d4f191 100644
+--- a/clvk/src/memory.hpp
++++ b/clvk/src/memory.hpp
+@@ -129,6 +129,13 @@ struct cvk_mem : public _cl_mem, api_object<object_magic::memory_object> {
+     const std::vector<cl_mem_properties>& properties() const {
+         return m_properties;
+     }
++    cvk_memory_allocation* memory() const {
++        if (m_parent == nullptr) {
++            return m_memory.get();
++        } else {
++            return m_parent->memory();
++        }
++    }
+ 
+     static bool is_image_type(cl_mem_object_type type) {
+         return ((type == CL_MEM_OBJECT_IMAGE1D) ||
+@@ -419,6 +426,9 @@ struct cvk_image : public cvk_mem {
+         if (m_image_view != VK_NULL_HANDLE) {
+             vkDestroyImageView(vkdev, m_image_view, nullptr);
+         }
++        if (buffer() != nullptr) {
++            buffer()->release();
++        }
+     }
+ 
+     static cvk_image* create(cvk_context* ctx, cl_mem_flags flags,
