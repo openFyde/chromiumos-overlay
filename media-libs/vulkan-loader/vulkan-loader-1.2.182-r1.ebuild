@@ -1,10 +1,11 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2021 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 MY_PN=Vulkan-Loader
-CMAKE_ECLASS="cmake"
+CMAKE_ECLASS="cmake-utils"
+CMAKE_MAKEFILE_GENERATOR="emake"
 inherit flag-o-matic cmake-multilib toolchain-funcs
 
 if [[ ${PV} == *9999* ]]; then
@@ -12,9 +13,9 @@ if [[ ${PV} == *9999* ]]; then
 	EGIT_SUBMODULES=()
 	inherit git-r3
 else
-	SRC_URI="https://github.com/KhronosGroup/${MY_PN}/archive/sdk-${PV}.tar.gz -> ${P}.tar.gz"
+	SRC_URI="https://github.com/KhronosGroup/${MY_PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="*"
-	S="${WORKDIR}"/${MY_PN}-sdk-${PV}
+	S="${WORKDIR}"/${MY_PN}-${PV}
 fi
 
 DESCRIPTION="Vulkan Installable Client Driver (ICD) Loader"
@@ -39,6 +40,10 @@ PATCHES=(
 	"${FILESDIR}"/CHROMIUM-Fix-cross-compilation.patch
 )
 
+src_prepare() {
+	cmake-utils_src_prepare
+}
+
 multilib_src_configure() {
 	# Integrated clang assembler doesn't work with x86 - Bug #698164
 	if tc-is-clang && [[ ${ABI} == x86 ]]; then
@@ -54,13 +59,13 @@ multilib_src_configure() {
 		-DBUILD_WSI_XLIB_SUPPORT=$(usex X)
 		-DVULKAN_HEADERS_INSTALL_DIR="${ESYSROOT}/usr"
 	)
-	cmake_src_configure
+	cmake-utils_src_configure
 }
 
 multilib_src_install() {
 	keepdir /etc/vulkan/icd.d
 
-	cmake_src_install
+	cmake-utils_src_install
 }
 
 pkg_postinst() {
