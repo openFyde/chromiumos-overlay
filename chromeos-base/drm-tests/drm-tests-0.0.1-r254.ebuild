@@ -54,6 +54,7 @@ src_install() {
 		dmabuf_test \
 		gamma_test \
 		linear_bo_test \
+		mali_stats \
 		mapped_access_perf_test \
 		mapped_texture_test \
 		mmap_test \
