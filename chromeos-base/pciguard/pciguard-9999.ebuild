@@ -33,10 +33,6 @@ src_install() {
 	insinto /usr/share/policy
 	newins "${S}/seccomp/pciguard-seccomp-${ARCH}.policy" pciguard-seccomp.policy
 
-	# Install the minijail configuration file
-	insinto /usr/share/minijail
-	newins "${S}/minijail/pciguard.config" pciguard.config
-
 	# Install the upstart configuration files
 	insinto /etc/init
 	doins "${S}"/init/*.conf
