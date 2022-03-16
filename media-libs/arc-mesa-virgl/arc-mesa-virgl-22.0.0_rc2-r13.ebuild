@@ -13,8 +13,6 @@ CROS_WORKON_EGIT_BRANCH="chromeos-arcvm"
 
 inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
-OPENGL_DIR="xorg-x11"
-
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
@@ -32,9 +30,6 @@ VIDEO_CARDS="${INTEL_CARDS} ${RADEON_CARDS} llvmpipe mach64 mga nouveau powervr
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
-
-# TODO(b/160748345): Remove hardcoded ARC_PLATFORM_SDK_VERSION when fixed.
-ARC_PLATFORM_SDK_VERSION=28
 
 IUSE="${IUSE_VIDEO_CARDS}
 	android_aep -android_gles2 -android_gles30
@@ -64,13 +59,11 @@ RDEPEND="${DEPEND}"
 QA_EXECSTACK="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 
-# Think about: ggi, fbcon, no-X configs
+# Fix lint errors
+: "${ARC_VM_PREFIX:=}"
+: "${ARC_SYSROOT:=}"
 
-driver_list() {
-	local uniq_driver=($(printf "%s\n" "$@" | sort -u))
-	local IFS=,
-	echo "${uniq_driver[*]}"
-}
+# Think about: ggi, fbcon, no-X configs
 
 pkg_setup() {
 	# workaround toc-issue wrt #386545
@@ -150,11 +143,11 @@ multilib_src_configure() {
 	fi
 
 	if use egl; then
-		gallium_enable virgl
+		GALLIUM_DRIVERS=virgl
 	fi
 
 	if use vulkan; then
-		vulkan_enable virtio-experimental
+		VULKAN_DRIVERS=virtio-experimental
 	fi
 
 	export LLVM_CONFIG=${SYSROOT}/usr/bin/llvm-config-host
@@ -164,8 +157,6 @@ multilib_src_configure() {
 		#
 		# cheets-specific overrides
 		#
-
-		MESA_PLATFORM_SDK_VERSION=${ARC_PLATFORM_SDK_VERSION}
 
 		# Use llvm-config coming from ARC++ build.
 		export LLVM_CONFIG="${ARC_SYSROOT}/build/bin/llvm-config-host"
@@ -192,9 +183,9 @@ multilib_src_configure() {
 	arc-build-create-cross-file
 
 	emesonargs+=(
-		$(use cheets && echo "--prefix=${ARC_VM_PREFIX}/vendor")
-		$(use cheets && echo "--sysconfdir=/system/vendor/etc")
-		$(use cheets && echo "-Ddri-search-path=/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri")
+		--prefix="${ARC_VM_PREFIX}/vendor"
+		--sysconfdir=/system/vendor/etc
+		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
 		-Dgallium-va=false
 		-Dgallium-vdpau=false
 		-Dgallium-xvmc=false
@@ -211,12 +202,12 @@ multilib_src_configure() {
 		$(meson_use gles2)
 		$(meson_use selinux)
 		$(meson_use shared-glapi)
-		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[@]}")
-		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[@]}")
-		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[@]}")
+		-Ddri-drivers=
+		-Dgallium-drivers="${GALLIUM_DRIVERS}"
+		-Dvulkan-drivers="${VULKAN_DRIVERS}"
 		--buildtype $(usex debug debug release)
-		$(use cheets && echo "--cross-file=${ARC_CROSS_FILE}")
-		$(use cheets && echo "-Dplatform-sdk-version=${ARC_PLATFORM_SDK_VERSION}")
+		--cross-file="${ARC_CROSS_FILE}"
+		-Dplatform-sdk-version="${ARC_PLATFORM_SDK_VERSION}"
 	)
 
 	meson_src_configure
@@ -228,7 +219,7 @@ multilib_src_compile() {
 	meson_src_compile
 }
 
-multilib_src_install_cheets() {
+multilib_src_install() {
 	if use vulkan; then
 		exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/hw"
 		newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
@@ -244,72 +235,18 @@ multilib_src_install_cheets() {
 	fi
 
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)"
-	newexe ${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0 libglapi.so.0
+	newexe "${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0" libglapi.so.0
 
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/egl"
-	newexe ${BUILD_DIR}/src/egl/libEGL_mesa.so libEGL_mesa.so
-	newexe ${BUILD_DIR}/src/mapi/es1api/libGLESv1_CM_mesa.so libGLESv1_CM_mesa.so
-	newexe ${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so libGLESv2_mesa.so
+	newexe "${BUILD_DIR}/src/egl/libEGL_mesa.so" libEGL_mesa.so
+	newexe "${BUILD_DIR}/src/mapi/es1api/libGLESv1_CM_mesa.so" libGLESv1_CM_mesa.so
+	newexe "${BUILD_DIR}/src/mapi/es2api/libGLESv2_mesa.so" libGLESv2_mesa.so
 
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/dri"
-	newexe ${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so virtio_gpu_dri.so
+	newexe "${BUILD_DIR}/src/gallium/targets/dri/libgallium_dri.so" virtio_gpu_dri.so
 }
 
-multilib_src_install() {
-	if use cheets; then
-		multilib_src_install_cheets
-		return
-	fi
-
-	meson_src_install
-
-	# Remove redundant headers
-	# GLU and GLUT
-	rm -f "${D}"/usr/include/GL/glu*.h || die "Removing GLU and GLUT headers failed."
-	# Glew includes
-	rm -f "${D}"/usr/include/GL/{glew,glxew,wglew}.h \
-		|| die "Removing glew includes failed."
-
-	# Move libGL and others from /usr/lib to /usr/lib/opengl/blah/lib
-	# because user can eselect desired GL provider.
-	ebegin "Moving libGL and friends for dynamic switching"
-		dodir /usr/$(get_libdir)/opengl/${OPENGL_DIR}/{lib,extensions,include}
-		local x
-		for x in "${D}"/usr/$(get_libdir)/libGL.{la,a,so*}; do
-			if [ -f ${x} -o -L ${x} ]; then
-				mv -f "${x}" "${D}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/lib \
-					|| die "Failed to move ${x}"
-			fi
-		done
-		for x in "${D}"/usr/include/GL/{gl.h,glx.h,glext.h,glxext.h}; do
-			if [ -f ${x} -o -L ${x} ]; then
-				mv -f "${x}" "${D}"/usr/$(get_libdir)/opengl/${OPENGL_DIR}/include \
-					|| die "Failed to move ${x}"
-			fi
-		done
-	eend $?
-
-	dodir /usr/$(get_libdir)/dri
-	insinto "/usr/$(get_libdir)/dri/"
-	insopts -m0755
-	# install the gallium drivers we use
-	local gallium_drivers_files=( i915_dri.so nouveau_dri.so r300_dri.so r600_dri.so msm_dri.so swrast_dri.so )
-	for x in ${gallium_drivers_files[@]}; do
-		if [ -f "${S}/$(get_libdir)/gallium/${x}" ]; then
-			doins "${S}/$(get_libdir)/gallium/${x}"
-		fi
-	done
-
-	# install classic drivers we use
-	local classic_drivers_files=( i810_dri.so i965_dri.so nouveau_vieux_dri.so radeon_dri.so r200_dri.so )
-	for x in ${classic_drivers_files[@]}; do
-		if [ -f "${S}/$(get_libdir)/${x}" ]; then
-			doins "${S}/$(get_libdir)/${x}"
-		fi
-	done
-}
-
-multilib_src_install_all_cheets() {
+multilib_src_install_all() {
 	# For documentation on the feature set represented by each XML file
 	# installed into /vendor/etc/permissions, see
 	# <https://developer.android.com/reference/android/content/pm/PackageManager.html>.
@@ -366,68 +303,4 @@ multilib_src_install_all_cheets() {
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_VM_PREFIX}/vendor/include/GL"
 	doins -r "${S}/include/GL/internal"
-}
-
-multilib_src_install_all() {
-	if use cheets; then
-		multilib_src_install_all_cheets
-		return
-	fi
-}
-
-pkg_postinst() {
-	if use cheets; then
-		return
-	fi
-
-	# Switch to the xorg implementation.
-	echo
-	eselect opengl set --use-old ${OPENGL_DIR}
-}
-
-# $1 - VIDEO_CARDS flag
-# other args - names of DRI drivers to enable
-driver_enable() {
-	case $# in
-		# for enabling unconditionally
-		1)
-			DRI_DRIVERS+=("$1")
-			;;
-		*)
-			if use $1; then
-				shift
-				DRI_DRIVERS+=("$@")
-			fi
-			;;
-	esac
-}
-
-gallium_enable() {
-	case $# in
-		# for enabling unconditionally
-		1)
-			GALLIUM_DRIVERS+=("$1")
-			;;
-		*)
-			if use $1; then
-				shift
-				GALLIUM_DRIVERS+=("$@")
-			fi
-			;;
-	esac
-}
-
-vulkan_enable() {
-	case $# in
-		# for enabling unconditionally
-		1)
-			VULKAN_DRIVERS+=("$1")
-			;;
-		*)
-			if use $1; then
-				shift
-				VULKAN_DRIVERS+=("$@")
-			fi
-			;;
-	esac
 }
