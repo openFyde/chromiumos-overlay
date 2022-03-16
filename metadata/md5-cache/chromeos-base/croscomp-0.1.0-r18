@@ -4,7 +4,7 @@ DEPEND=>=x11-libs/libdrm-2.4.94:= dev-libs/expat:= dev-libs/libevdev:= dev-libs/
 DESCRIPTION=ChromeOS System Compositor
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/croscomp/
-IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86 cros_host cros_workon_tree_bf6d715752a340855c1d5c0824f00f144772dfe8
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86 cros_host cros_workon_tree_d89ee096ee2031369ad183dcb6e3fadfd372283b
 KEYWORDS=*
 LICENSE=MIT BSD-Google
 PROPERTIES=live
@@ -12,4 +12,4 @@ RDEPEND=>=x11-libs/libdrm-2.4.94:= dev-libs/expat:= dev-libs/libevdev:= dev-libs
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	442750103f76e55fa682dc35c5018c1d	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=d2b1f532aad63f28000c4942af259a81
+_md5_=5e88765a746a884663b7b585b3d11aa4
