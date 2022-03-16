@@ -29,6 +29,10 @@ main() {
   # Make sure udev is ready
   start udev-trigger
 
+  # Explicitly start fwupd daemon without relaying on dbus activation
+  # during early boot stages.
+  start fwupd
+
   for i in "${pending[@]}"; do
     # Trigger fwupdtool-update job, which blocks until the job completes.
     /sbin/initctl emit fwupdtool-update GUID="${i##*/}" \
