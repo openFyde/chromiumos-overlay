@@ -48,6 +48,10 @@
 
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon flag-o-matic toolchain-funcs multiprocessing
 
+# Define these so they can be appended to.
+DEPEND=""
+RDEPEND=""
+
 [[ "${WANT_LIBCHROME}" == "yes" ]] && inherit libchrome
 
 # Sanity check: libbrillo can't exist without libchrome.
@@ -55,8 +59,8 @@ if [[ "${WANT_LIBBRILLO}" == "yes" ]]; then
 	if [[ "${WANT_LIBCHROME}" == "no" ]]; then
 		die "libbrillo requires libchrome"
 	fi
-	DEPEND=">=chromeos-base/libbrillo-0.0.1-r1651:="
-	RDEPEND=">=chromeos-base/libbrillo-0.0.1-r1651:="
+	DEPEND+=" >=chromeos-base/libbrillo-0.0.1-r1651:="
+	RDEPEND+=" >=chromeos-base/libbrillo-0.0.1-r1651:="
 fi
 
 # While not all packages utilize USE=test, it's common to write gn conditionals
@@ -69,7 +73,7 @@ IUSE="compilation_database cros_host test"
 # it doesn't add any real overhead. As we often use the FRIEND_TEST macro
 # provided by gtest/gtest_prod.h in regular class definitions, the gtest
 # dependency is needed outside test as well.
-DEPEND="
+DEPEND+="
 	cros_host? ( dev-util/gn )
 	>=dev-cpp/gtest-1.10.0:=
 "
