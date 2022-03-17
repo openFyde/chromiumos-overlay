@@ -46,6 +46,7 @@ FACTORY_TEST_RDEPEND="
 	net-misc/htpdate
 	sys-apps/iproute2
 	sys-apps/lshw
+	sys-apps/mosys
 "
 
 # Packages used by audio related tests
