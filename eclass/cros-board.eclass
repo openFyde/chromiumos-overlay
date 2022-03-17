@@ -258,6 +258,7 @@ ALL_BOARDS=(
 	#iclrvp
 	#ironhide
 	jacuzzi
+	jacuzzi64
 	jacuzzi-kernelnext
 	#jadeite
 	#jaguar
