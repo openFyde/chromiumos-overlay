@@ -3180,5 +3180,17 @@
             "from": 450752,
             "until": 455926
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"Add BITINT_MAXWIDTH support\""
+        },
+        "platforms": [],
+        "rel_patch_path": "cherry/fad7e491a0770ac4336934030ac67d77e7af5520.patch",
+        "version_range": {
+            "from": 450780,
+            "until": 450807
+        }
     }
 ]
