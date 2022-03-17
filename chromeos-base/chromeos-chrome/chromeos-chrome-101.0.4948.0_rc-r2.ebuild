@@ -144,6 +144,7 @@ add_orderfiles
 
 RDEPEND="${RDEPEND}
 	app-arch/bzip2
+	app-arch/sharutils
 	app-crypt/mit-krb5
 	app-misc/edid-decode
 	authpolicy? ( chromeos-base/authpolicy )
