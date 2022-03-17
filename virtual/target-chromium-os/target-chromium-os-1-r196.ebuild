@@ -232,71 +232,8 @@ RDEPEND="
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	ondevice_handwriting? (
-		chromeos-base/languagepack-handwriting-es
-		chromeos-languagepacks/handwriting-am
-		chromeos-languagepacks/handwriting-ar
-		chromeos-languagepacks/handwriting-be
-		chromeos-languagepacks/handwriting-bg
-		chromeos-languagepacks/handwriting-bn
-		chromeos-languagepacks/handwriting-ca
-		chromeos-languagepacks/handwriting-cs
-		chromeos-languagepacks/handwriting-da
-		chromeos-languagepacks/handwriting-de
-		chromeos-languagepacks/handwriting-el
 		chromeos-languagepacks/handwriting-es
-		chromeos-languagepacks/handwriting-et
-		chromeos-languagepacks/handwriting-fa
-		chromeos-languagepacks/handwriting-fi
-		chromeos-languagepacks/handwriting-fr
-		chromeos-languagepacks/handwriting-ga
-		chromeos-languagepacks/handwriting-gu
-		chromeos-languagepacks/handwriting-hi
-		chromeos-languagepacks/handwriting-hr
-		chromeos-languagepacks/handwriting-hu
-		chromeos-languagepacks/handwriting-hy
-		chromeos-languagepacks/handwriting-id
-		chromeos-languagepacks/handwriting-is
-		chromeos-languagepacks/handwriting-it
-		chromeos-languagepacks/handwriting-iw
 		chromeos-languagepacks/handwriting-ja
-		chromeos-languagepacks/handwriting-ka
-		chromeos-languagepacks/handwriting-kk
-		chromeos-languagepacks/handwriting-km
-		chromeos-languagepacks/handwriting-kn
-		chromeos-languagepacks/handwriting-ko
-		chromeos-languagepacks/handwriting-lo
-		chromeos-languagepacks/handwriting-lt
-		chromeos-languagepacks/handwriting-lv
-		chromeos-languagepacks/handwriting-ml
-		chromeos-languagepacks/handwriting-mn
-		chromeos-languagepacks/handwriting-mr
-		chromeos-languagepacks/handwriting-ms
-		chromeos-languagepacks/handwriting-mt
-		chromeos-languagepacks/handwriting-my
-		chromeos-languagepacks/handwriting-ne
-		chromeos-languagepacks/handwriting-nl
-		chromeos-languagepacks/handwriting-no
-		chromeos-languagepacks/handwriting-or
-		chromeos-languagepacks/handwriting-pa
-		chromeos-languagepacks/handwriting-pl
-		chromeos-languagepacks/handwriting-pt
-		chromeos-languagepacks/handwriting-ro
-		chromeos-languagepacks/handwriting-ru
-		chromeos-languagepacks/handwriting-si
-		chromeos-languagepacks/handwriting-sk
-		chromeos-languagepacks/handwriting-sl
-		chromeos-languagepacks/handwriting-sr
-		chromeos-languagepacks/handwriting-sv
-		chromeos-languagepacks/handwriting-ta
-		chromeos-languagepacks/handwriting-te
-		chromeos-languagepacks/handwriting-th
-		chromeos-languagepacks/handwriting-ti
-		chromeos-languagepacks/handwriting-tl
-		chromeos-languagepacks/handwriting-tr
-		chromeos-languagepacks/handwriting-uk
-		chromeos-languagepacks/handwriting-ur
-		chromeos-languagepacks/handwriting-vi
-		chromeos-languagepacks/handwriting-zh
 	)
 	hps? (
 		chromeos-base/hpsd
