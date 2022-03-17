@@ -23,6 +23,7 @@ IUSE="
 	asan
 	arc-camera1
 	arc-camera3
+	assistant-dlc
 	biod
 	bluetooth
 	bootchart
@@ -335,6 +336,7 @@ RDEPEND="
 	lacros_rootfs? ( chromeos-base/chromeos-lacros )
 	dns-proxy? ( chromeos-base/dns-proxy )
 	featured? ( chromeos-base/featured )
+	assistant-dlc? ( chromeos-base/assistant-dlc )
 "
 
 ################################################################################
