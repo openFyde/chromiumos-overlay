@@ -65,6 +65,7 @@ LIB_DEPEND="
 	atahpt? ( sys-apps/pciutils[static-libs(+)] )
 	atapromise? ( sys-apps/pciutils[static-libs(+)] )
 	atavia? ( sys-apps/pciutils[static-libs(+)] )
+	chromeos-base/libec[static-libs(+)]
 	ch341a_spi? ( virtual/libusb:1[static-libs(+)] )
 	dediprog? ( virtual/libusb:1[static-libs(+)] )
 	developerbox_spi? ( virtual/libusb:1[static-libs(+)] )

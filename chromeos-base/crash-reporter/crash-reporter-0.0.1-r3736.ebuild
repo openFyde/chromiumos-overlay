@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ddcc94ff34a259fc6b8d47de2096a511ee45a109"
-CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "fdc04efa6462cb0babe099db9ad4f28eb86c5194" "252d446a8eff95d46efbaa67556405056abf432a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="922f5fc4459a0932ea4a3544fe6776aff675e251"
+CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "5f163442c601d7a37696923baf2a8d48b0835302" "c964dbdc4fbc6a4ad9ad6ae0d1cd36f7e70dfcf2" "252d446a8eff95d46efbaa67556405056abf432a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk crash-reporter metrics .gn"
+CROS_WORKON_SUBTREE="common-mk crash-reporter libcrossystem metrics .gn"
 
 PLATFORM_SUBDIR="crash-reporter"
 
@@ -24,6 +24,7 @@ KEYWORDS="*"
 IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers"
 
 COMMON_DEPEND="
+	chromeos-base/libcrossystem:=
 	chromeos-base/minijail:=
 	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
