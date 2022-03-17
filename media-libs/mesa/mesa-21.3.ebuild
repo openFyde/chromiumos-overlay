@@ -91,6 +91,10 @@ DEPEND="${RDEPEND}
 	llvm? ( sys-devel/llvm )
 "
 
+PATCHES=(
+	"${FILESDIR}"/FROMLIST-anv-advertise-rectangularLines-only-for-Gen10.patch
+)
+
 driver_list() {
 	local drivers="$(sort -u <<< "${1// /$'\n'}")"
 	echo "${drivers//$'\n'/,}"
