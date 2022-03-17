@@ -2,8 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
-CROS_WORKON_LOCALNAME="platform/hps-firmware2"
+CROS_WORKON_PROJECT=("chromiumos/platform/hps-firmware" "chromiumos/platform/hps-firmware-images")
+CROS_WORKON_LOCALNAME=("platform/hps-firmware2" "platform/hps-firmware-images")
+CROS_WORKON_DESTDIR=("${S}" "${S}/hps-firmware-images")
 
 inherit cros-workon cros-rust
 
@@ -50,8 +51,10 @@ DEPEND="
 "
 
 # host tools used to live in hps-firmware
+# hps-factory used to live in hps-firmware-images
 RDEPEND="
 	!<chromeos-base/hps-firmware-0.1.0-r244
+	!<chromeos-base/hps-firmware-images-0.0.1-r28
 "
 
 src_unpack() {
@@ -105,4 +108,7 @@ src_install() {
 	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
 	dobin "$(cros-rust_get_build_dir)/hps-mon"
 	dobin "$(cros-rust_get_build_dir)/hps-util"
+
+	# TODO(b/206034105): build hps-factory from source instead
+	dobin hps-firmware-images/bin/*
 }
