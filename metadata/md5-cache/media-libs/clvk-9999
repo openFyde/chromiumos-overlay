@@ -1,6 +1,6 @@
 BDEPEND=>=dev-util/cmake-3.13.4 dev-util/ninja >=dev-util/cmake-3.9.6 dev-vcs/git
 DEFINED_PHASES=compile configure info install prepare setup test unpack
-DEPEND=>=dev-util/vulkan-headers-1.3.204 >=dev-util/opencl-headers-2021.04.29 >=dev-util/spirv-tools-1.3.204 >=dev-util/spirv-headers-1.3.204
+DEPEND=>=dev-util/vulkan-headers-1.2.162 >=dev-util/opencl-headers-2021.04.29 >=dev-util/spirv-tools-2020.6 dev-util/spirv-headers
 DESCRIPTION=Prototype implementation of OpenCL 1.2 on to of Vulkan using clspv as the Compiler
 EAPI=7
 HOMEPAGE=https://github.com/kpet/clvk
@@ -8,8 +8,8 @@ IUSE=debug cros_host cros_workon_tree_
 KEYWORDS=~*
 LICENSE=Apache-2.0
 PROPERTIES=live
-RDEPEND=>=dev-util/spirv-tools-1.3.204 >=media-libs/vulkan-loader-1.3.204
+RDEPEND=>=dev-util/spirv-tools-2020.6 >=media-libs/vulkan-loader-1.2.162
 SLOT=0
-SRC_URI=https://storage.cloud.google.com/chromeos-localmirror/distfiles/llvm-project-88b9d1a49aba54171804da355f00c8fe0483f428.zip https://storage.cloud.google.com/chromeos-localmirror/distfiles/SPIRV-LLVM-Translator-a836197d52aced43f49b7f9a2386424ce734acba.zip
+SRC_URI=https://storage.cloud.google.com/chromeos-localmirror/distfiles/llvm-project-d7630b37ceb8d7032f133e0257724997e4cc76ec.zip
 _eclasses_=cmake-utils	91d6ef31dc426240577497cacbf2508c	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=b6deaaaf0720c90c2c60f53219767bab
+_md5_=1af0d31ea005eaad1eb2429ff4ca5fbd
