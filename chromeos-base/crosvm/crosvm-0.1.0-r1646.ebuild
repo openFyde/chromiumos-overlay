@@ -65,6 +65,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/cfg-if-1*:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
+	=dev-rust/crossbeam-utils-0.8*:=
 	=dev-rust/dbus-0.8*:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/enumn-0.1*:=
