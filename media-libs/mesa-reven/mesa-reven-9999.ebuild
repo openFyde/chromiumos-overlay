@@ -138,6 +138,9 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
+		# Enable vaapi drivers for Nvidia and AMD.
+		-Dgallium-va=enabled
+		-Dva-libs-path="${EPREFIX}"/usr/$(get_libdir)/va/drivers
 	)
 
 	meson_src_configure
