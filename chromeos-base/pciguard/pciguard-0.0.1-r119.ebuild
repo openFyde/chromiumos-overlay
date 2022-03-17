@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ddcc94ff34a259fc6b8d47de2096a511ee45a109"
-CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "67e7be6d23006bdd5f08190f90facd1bcfaf157d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2a72481293764ffdaad44b5d06229c1396da7832"
+CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "82aac01954111ca6ae2dd2db8921c958ff4feb94" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,10 +34,6 @@ src_install() {
 	# Install the seccomp policy
 	insinto /usr/share/policy
 	newins "${S}/seccomp/pciguard-seccomp-${ARCH}.policy" pciguard-seccomp.policy
-
-	# Install the minijail configuration file
-	insinto /usr/share/minijail
-	newins "${S}/minijail/pciguard.config" pciguard.config
 
 	# Install the upstart configuration files
 	insinto /etc/init
