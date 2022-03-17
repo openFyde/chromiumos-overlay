@@ -38,6 +38,7 @@ COMMON_DEPEND="
 	dev-libs/libgcrypt:=
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
+	x11-libs/libva:=
 	zstd? ( app-arch/zstd )
 	>=x11-libs/libdrm-2.4.60:=
 "
@@ -138,6 +139,9 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
+		# Enable vaapi drivers for Nvidia and AMD.
+		-Dgallium-va=enabled
+		-Dva-libs-path="${EPREFIX}/usr/$(get_libdir)/va/drivers"
 	)
 
 	meson_src_configure
