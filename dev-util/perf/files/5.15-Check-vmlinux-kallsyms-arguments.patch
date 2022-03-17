@@ -1,8 +1,3 @@
-Local modifications in the patch:
-- removed symbol.h include in builtin-probe since it's still there in 5.3.7;
-- removed refs to annotate_check_args because --prefix patch 3b0b16bf8cb92
-pulls many dependency conflicts in 5.3.7.
-
 From 7cc72553ac03ec20afe2dec91dce4624ccd379b8 Mon Sep 17 00:00:00 2001
 From: James Clark <james.clark@arm.com>
 Date: Mon, 18 Oct 2021 14:48:42 +0100
@@ -63,6 +58,14 @@ diff --git a/tools/perf/builtin-probe.c b/tools/perf/builtin-probe.c
 index e1dd51f2874b..c31627af75d4 100644
 --- a/tools/perf/builtin-probe.c
 +++ b/tools/perf/builtin-probe.c
+@@ -21,6 +21,7 @@
+ #include "util/build-id.h"
+ #include "util/strlist.h"
+ #include "util/strfilter.h"
++#include "util/symbol.h"
+ #include "util/symbol_conf.h"
+ #include "util/debug.h"
+ #include <subcmd/parse-options.h>
 @@ -629,6 +630,10 @@ __cmd_probe(int argc, const char **argv)
  		params.command = 'a';
  	}
@@ -137,9 +140,9 @@ index 020c4f110c10..1fc390f136dd 100644
 +	if (status)
 +		goto out_delete_evlist;
 +
- 	if (!top.evlist->nr_entries &&
- 	    perf_evlist__add_default(top.evlist) < 0) {
- 		pr_err("Not enough memory for event selector list\n");
+ 	if (annotate_check_args(&top.annotation_opts) < 0)
+ 		goto out_delete_evlist;
+ 
 -- 
 2.34.0.rc0.344.g81b53c2807-goog
 
