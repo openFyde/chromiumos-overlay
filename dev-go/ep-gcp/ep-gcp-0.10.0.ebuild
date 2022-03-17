@@ -38,5 +38,10 @@ DEPEND="
 	dev-go/cncf-xds
 	dev-go/ep-pvg
 	dev-go/genproto
+	dev-go/go-sys
+	dev-go/net
+	dev-go/protobuf
+	dev-go/protobuf-legacy-api
+	dev-go/testify
 "
 RDEPEND="${DEPEND}"
