@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="78c04589fb5e1daecdfdfc7d4ce7cd2a43a8eb26"
-CROS_WORKON_TREE="3f44e8d77bbd9c7d11759607c785d5b5155cacba"
+CROS_WORKON_COMMIT="7d6f718889bcafa9a2f15b051184a40f6ec49a76"
+CROS_WORKON_TREE="a69a2ddb61b112873a17eae9b87926f8b3ad1bee"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,6 +24,7 @@ DEPEND="
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
 	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
+	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=
 	=dev-rust/dbus-0.9*:=
@@ -69,6 +70,7 @@ src_install() {
 		insinto /etc/init
 		doins upstart/dugong.conf
 		doexe "${build_dir}/trichechus"
+		doexe "${build_dir}/manatee_memory_service"
 	else
 		dobin "${build_dir}/trichechus"
 	fi
