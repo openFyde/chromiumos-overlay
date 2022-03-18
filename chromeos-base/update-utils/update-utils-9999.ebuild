@@ -34,12 +34,13 @@ src_install() {
 
 	insinto /etc/init
 	doins nebraska/nebraska.conf
+	sed -i "s:@LIBDIR@:$(get_libdir):g" "${ED}"/etc/init/nebraska.conf || die
 }
 
 src_test() {
 	# Run the unit tests.
 	python_test() {
-		"$PYTHON" nebraska/nebraska_unittest.py || die
+		"${PYTHON}" nebraska/nebraska_unittest.py || die
 	}
 	python_foreach_impl python_test
 }
