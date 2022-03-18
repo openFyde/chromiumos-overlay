@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="59c5b445169de47061dfec9e4fbc95cc30b73515"
-CROS_WORKON_TREE="d3be73225289971dfa047c4d8a53a4e9c5ef4006"
+CROS_WORKON_COMMIT="ecab7cc34ee7f7a8806712221043ecf5798b3ba3"
+CROS_WORKON_TREE="6ab3b75e74c302e2a50d9fcd920ba1f1eb7c5462"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -17,7 +17,29 @@ SLOT="0"
 KEYWORDS="*"
 
 # Enable autotest by default.
-IUSE="android-container android-container-pi android-vm-rvc +autotest biod +cellular +cheets_user cheets_user_64 -chromeless_tests -chromeless_tty debugd dlc_test has-kernelnext is-kernelnext -moblab +power_management +readahead +tpm tpm2"
+IUSE="
+	android-container
+	android-container-pi
+	android-vm-rvc
+	+autotest
+	biod
+	+cellular
+	+cheets_user
+	cheets_user_64
+	-chromeless_tests
+	-chromeless_tty
+	debugd
+	dlc_test
+	has-kernelnext
+	is-kernelnext
+	minios
+	-moblab
+	+power_management
+	+readahead
+	+tpm
+	tpm2
+	"
+
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
 RDEPEND=""
@@ -257,6 +279,7 @@ SERVER_IUSE_TESTS="
 	+tests_hardware_StorageStress
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
+	minios? ( +tests_nbr_EndToEndTest )
 	+tests_p2p_EndToEndTest
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
