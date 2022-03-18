@@ -27,6 +27,7 @@ DEPEND="
 
 src_install() {
 	platform_install
+	platform_src_install
 
 	local fuzzer_component_id="931982"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/croslog_log_parser_fuzzer \
