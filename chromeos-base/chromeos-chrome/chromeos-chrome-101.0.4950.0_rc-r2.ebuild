@@ -14,8 +14,7 @@
 
 EAPI=7
 
-# TODO(crbug.com/984182): We force Python 2 because depot_tools doesn't support Python 3.
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python3_{6..9} )
 inherit autotest-deponly binutils-funcs chromium-source cros-credentials cros-constants cros-sanitizers eutils flag-o-matic git-2 multilib toolchain-funcs user python-any-r1 multiprocessing
 
 DESCRIPTION="Open-source version of Google Chrome web browser"
@@ -889,10 +888,6 @@ src_configure() {
 	export PATH=${PATH}:${DEPOT_TOOLS}
 
 	export DEPOT_TOOLS_GSUTIL_BIN_DIR="${CHROME_CACHE_DIR}/gsutil_bin"
-	# The venv logic seems to misbehave when cross-compiling.  Since our SDK
-	# should include all the necessary modules, just disable it (for now).
-	# https://crbug.com/808434
-	export VPYTHON_BYPASS="manually managed python not supported by chrome operations"
 
 	# TODO(rcui): crosbug.com/20435. Investigate removal of runhooks
 	# useflag when chrome build switches to Ninja inside the chroot.
@@ -1184,7 +1179,7 @@ install_telemetry_dep_resources() {
 		CROS_DEPS=${CHROME_ROOT}/src/tools/cros/bootstrap_deps
 		# sed removes the leading path including src/ converting it to relative.
 		# To avoid silent failures assert the success.
-		DEPS_LIST=$(python ${FIND_DEPS} ${PERF_DEPS} ${CROS_DEPS} | \
+		DEPS_LIST=$(${FIND_DEPS} ${PERF_DEPS} ${CROS_DEPS} | \
 			sed -e 's|^'${CHROME_ROOT}/src/'||'; assert)
 		install_test_resources "${test_dir}" "${DEPS_LIST}"
 		# For crosperf, which uses some tests only available on internal builds.
