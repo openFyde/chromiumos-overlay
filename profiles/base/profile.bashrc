@@ -310,6 +310,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-kernel/chromeos-kernel-4_19-ht:*|\
 		sys-kernel/chromeos-kernel-4_4:*|\
 		sys-kernel/chromeos-kernel-5_10:*|\
+		sys-kernel/chromeos-kernel-5_10-cros:*|\
 		sys-kernel/chromeos-kernel-5_10-manatee:*|\
 		sys-kernel/chromeos-kernel-5_4:*|\
 		sys-kernel/chromeos-kernel-5_4-manatee:*|\
