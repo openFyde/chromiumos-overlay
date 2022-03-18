@@ -21,7 +21,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override minios +power_management systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override minios +power_management report_requisition systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -71,7 +71,7 @@ platform_pkg_test() {
 
 	# The unittests will try to exec `./helpers`, so make sure we're in
 	# the right dir to execute things.
-	cd "${OUT}"
+	cd "${OUT}" || die
 	# The tests also want keys to be in the current dir.
 	# .pub.pem files are generated on the "gen" directory.
 	cp "${S}"/unittest_key*.pem ./ || die
