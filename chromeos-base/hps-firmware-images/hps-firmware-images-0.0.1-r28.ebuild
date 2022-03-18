@@ -35,6 +35,4 @@ src_install() {
 	doins "${S}/firmware-signed/fpga_application.bin"
 	doins "${S}/firmware-signed/fpga_bitstream.bin"
 	doins "${S}/firmware-signed/mcu_stage1.bin"
-
-	dobin "${S}"/bin/*
 }

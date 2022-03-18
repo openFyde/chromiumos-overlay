@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="db2dfea2ebd30f86df0c26ad28833c45612ad0a4"
+CROS_WORKON_COMMIT="f00145091452131019fad8dc6d59ce37583adb2a"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "72ad526cf92e8bf7ec7552cc703c6baa90b98d24" "38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "d275c3518812f1c663bec0178f2d432b59dfdace")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,13 +19,9 @@ DESCRIPTION="Chrome OS HPS daemon."
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="hpsd-roflash"
 
 RDEPEND="
 	chromeos-base/metrics:=
-	hpsd-roflash? (
-		dev-libs/libgpiod
-	)
 	virtual/libusb:1
 "
 
@@ -46,10 +42,6 @@ src_install() {
 	# Install upstart configuration.
 	insinto /etc/init
 	doins daemon/init/hpsd.conf
-
-	if use hpsd-roflash ; then
-		doins daemon/init/hpsd_roflash.conf
-	fi
 
 	insinto /etc/dbus-1/system.d
 	doins daemon/dbus/org.chromium.Hps.conf
