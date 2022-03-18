@@ -122,6 +122,7 @@ src_install() {
 		doins init/crash-boot-collect.conf
 		if ! use vm-containers; then
 			doins init/crash-sender.conf
+			doins init/crash-sender-login.conf
 		fi
 		use cros_embedded || doins init/anomaly-detector.conf
 	fi
