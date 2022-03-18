@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -22,8 +22,8 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="acl addc ads ceph client cluster cups debug dmapi fam glusterfs
-gpg iprint json ldap pam profiling-data python quota regedit selinux
+IUSE="acl addc ads ceph client cluster cpu_flags_x86_aes cups debug fam
+glusterfs gpg iprint json ldap pam profiling-data python quota regedit selinux
 snapper spotlight syslog system-heimdal +system-mitkrb5 systemd test winbind
 zeroconf"
 
@@ -63,30 +63,28 @@ COMMON_DEPEND="
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	dev-perl/Parse-Yapp
 	>=net-libs/gnutls-3.4.7[${MULTILIB_USEDEP}]
-	sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
-	>=sys-libs/ldb-2.4.1[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	<sys-libs/ldb-2.5.0[ldap(+)?,python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	|| (
+		>=sys-fs/e2fsprogs-1.46.4-r51[${MULTILIB_USEDEP}]
+		sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
+	)
+	>=sys-libs/ldb-2.4.1[ldap(+)?,${MULTILIB_USEDEP}]
+	<sys-libs/ldb-2.5.0[ldap(+)?,${MULTILIB_USEDEP}]
 	sys-libs/libcap[${MULTILIB_USEDEP}]
 	sys-libs/ncurses:0=
 	sys-libs/readline:0=
-	>=sys-libs/talloc-2.3.3[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	>=sys-libs/tdb-1.4.4[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
-	>=sys-libs/tevent-0.11.0[python?,${PYTHON_SINGLE_USEDEP},${MULTILIB_USEDEP}]
+	>=sys-libs/talloc-2.3.3[${MULTILIB_USEDEP}]
+	>=sys-libs/tdb-1.4.4[${MULTILIB_USEDEP}]
+	>=sys-libs/tevent-0.11.0[${MULTILIB_USEDEP}]
 	sys-libs/zlib[${MULTILIB_USEDEP}]
 	virtual/libcrypt:=[${MULTILIB_USEDEP}]
 	virtual/libiconv
-	addc? (
-		$(python_gen_cond_dep 'dev-python/dnspython:=[${PYTHON_USEDEP}]')
-		$(python_gen_cond_dep 'dev-python/markdown:=[${PYTHON_USEDEP}]')
-	)
 	acl? ( virtual/acl )
 	ceph? ( sys-cluster/ceph )
 	cluster? ( net-libs/rpcsvc-proto )
 	cups? ( net-print/cups )
 	debug? ( dev-util/lttng-ust )
-	dmapi? ( sys-apps/dmapi )
 	fam? ( virtual/fam )
-	gpg? ( app-crypt/gpgme )
+	gpg? ( app-crypt/gpgme:= )
 	json? ( dev-libs/jansson:= )
 	ldap? ( net-nds/openldap[${MULTILIB_USEDEP}] )
 	pam? ( sys-libs/pam )
@@ -204,6 +202,7 @@ multilib_src_configure() {
 		--nopyc
 		--nopyo
 		--without-winexe
+		--accel-aes="$(usex cpu_flags_x86_aes intelaesni none)"
 		--with-libiconv="${SYSROOT}/usr"
 		$(multilib_native_use_with acl acl-support)
 		$(multilib_native_usex addc '' '--without-ad-dc')
@@ -211,7 +210,7 @@ multilib_src_configure() {
 		$(multilib_native_use_enable ceph cephfs)
 		$(multilib_native_use_with cluster cluster-support)
 		$(multilib_native_use_enable cups)
-		$(multilib_native_use_with dmapi)
+		--without-dmapi
 		$(multilib_native_use_with fam)
 		$(multilib_native_use_enable glusterfs)
 		$(multilib_native_use_with gpg gpgme)
@@ -277,7 +276,8 @@ multilib_src_install() {
 
 		# create symlink for cups (bug #552310)
 		if use cups ; then
-			dosym ../../../bin/smbspool /usr/libexec/cups/backend/smb
+			dosym ../../../bin/smbspool \
+				/usr/libexec/cups/backend/smb
 		fi
 
 		# install example config file

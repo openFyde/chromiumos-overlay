@@ -3,9 +3,11 @@ changes necessary for use in Chrome OS. These changes include:
 - Various cross-compilation fixes needed for aarch64 and lld linking,
   including the addition of samba.bashrc to ensure WAF is called with the
   appropriate cross-compilation answers file
-- Features disabled and conditional dependencies (i.e. perl and python) to
+- Features disabled and conditional dependencies (i.e. perl) to
   minimise files installed in the rootfs and avoid unnecessary build-time
   dependencies
+- Remove Python dependencies, these are mainly for bindings used to interface
+  with the Samba server which we don't use on ChromeOS.
 - Linking against chrome-base/chrome-icu, which is the canonical way to get
   libicu on Chrome OS
 - Disabling installation of systemd units / services as no service components
