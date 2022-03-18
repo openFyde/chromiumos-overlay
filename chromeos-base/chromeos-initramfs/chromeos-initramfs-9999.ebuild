@@ -53,6 +53,7 @@ MINIOS_DEPENDS="
 	chromeos-base/chromeos-installer
 	chromeos-base/factory_installer
 	chromeos-base/common-assets
+	chromeos-base/update-utils
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
 	sys-apps/flashrom
