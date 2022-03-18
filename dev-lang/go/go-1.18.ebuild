@@ -45,7 +45,7 @@ get_goroot() {
 }
 
 get_goarch() {
-	case "$(tc-arch $1)" in
+	case "$(tc-arch "$1")" in
 		amd64) echo "amd64" ;;
 		x86) echo "386" ;;
 		arm) echo "arm" ;;
@@ -67,10 +67,10 @@ src_configure() {
 
 src_compile() {
 	einfo "Building the bootstrap compiler."
-	cd "${GOROOT_BOOTSTRAP}/src"
+	cd "${GOROOT_BOOTSTRAP}/src" || die
 	./make.bash || die
 
-	cd "${S}/src"
+	cd "${S}/src" || die
 	einfo "Building the cross compiler for ${CTARGET}."
 	local go_target_cc="$(tc-getTARGET_CC)"
 	local go_target_cxx="$(tc-getTARGET_CXX)"
@@ -85,7 +85,7 @@ src_compile() {
 
 	if is_cross ; then
 		einfo "Building the standard library with -buildmode=pie."
-		GOOS="linux" GOARCH="$(get_goarch ${CTARGET})" CGO_ENABLED="1" \
+		GOOS="linux" GOARCH="$(get_goarch "${CTARGET}")" CGO_ENABLED="1" \
 			CC="$(tc-getTARGET_CC)" \
 			CXX="$(tc-getTARGET_CXX)" \
 			GOROOT="${S}" \
@@ -95,7 +95,7 @@ src_compile() {
 
 src_install() {
 	local goroot="$(get_goroot)"
-	local tooldir="pkg/tool/linux_$(get_goarch ${CBUILD})"
+	local tooldir="pkg/tool/linux_$(get_goarch "${CBUILD}")"
 
 	insinto "${goroot}"
 	doins -r src lib
@@ -105,9 +105,9 @@ src_install() {
 
 	insinto "${goroot}/pkg"
 	doins -r "pkg/include"
-	doins -r "pkg/linux_$(get_goarch ${CTARGET})"
+	doins -r "pkg/linux_$(get_goarch "${CTARGET}")"
 	if is_cross ; then
-		doins -r "pkg/linux_$(get_goarch ${CTARGET})_shared"
+		doins -r "pkg/linux_$(get_goarch "${CTARGET}")_shared"
 	fi
 
 	exeinto "${goroot}/${tooldir}"
@@ -129,7 +129,7 @@ src_install() {
 	fi
 
 	# Fill in variable values in the compiler wrapper.
-	sed -e "s:@GOARCH@:$(get_goarch ${CTARGET}):" \
+	sed -e "s:@GOARCH@:$(get_goarch "${CTARGET}"):" \
 		-e "s:@CC@:$(tc-getTARGET_CC):" \
 		-e "s:@CXX@:$(tc-getTARGET_CXX):" \
 		-e "s:@GOTOOL@:${GOROOT_FINAL}/bin/go:" \
