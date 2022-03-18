@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-Disable-Media-Memory-Compression-MMC-on-ADL.patch
 	"${FILESDIR}"/0004-fix-bitwise-or-warning.patch
 	"${FILESDIR}"/0005-BACKPORT-Upstream-upstream-ADLN.patch
+	"${FILESDIR}"/0006-BACKPORT-Add-support-for-ADL-N-Enable-the-cmake-opti.patch
 )
 
 src_configure() {
