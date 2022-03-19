@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fba0704594783a611e13037200373066b18cf04b"
-CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "fa9e0224d5eed5e277f2ec9cbf51890a24f33fa3" "620ade7a334bdd89754c11926314f2dea3586b47" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="015699047f6ab3a64afcd3d8e36d5aafef468331"
+CROS_WORKON_TREE=("38a9b1daf75f7eb99a4e2bce2be48157069e9a15" "fa9e0224d5eed5e277f2ec9cbf51890a24f33fa3" "d275c3518812f1c663bec0178f2d432b59dfdace" "620ade7a334bdd89754c11926314f2dea3586b47" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk chromeos-config modemfwd .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config metrics modemfwd .gn"
 
 PLATFORM_SUBDIR="modemfwd"
 
@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	app-arch/xz-utils:=
 	chromeos-base/chromeos-config:=
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/metrics:=
 	dev-libs/protobuf:=
 	net-misc/modemmanager-next:=
 "
