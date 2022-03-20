@@ -114,6 +114,24 @@ parse_binspec() {
 # will set main.Version string variable to package version and
 # revision (if any) of the ebuild.
 
+# @ECLASS-VARIABLE: CROS_GO_SKIP_DEP_CHECK
+# @DESCRIPTION:
+# Temporary workaround to allow circular dependencies like:
+# google.golang.org/genproto/googleapis/chromeos/uidetection/v1 requires
+# google.golang.org/grpc which requires other packages in
+# google.golang.org/genproto
+# In the past these have been fixed in GOPATH mode by splitting packages
+# in various ebuilds like dev-go/genproto vs dev-go/genproto-rpc (etc.)
+# and building them sequentially while ignoring upstream module definitions.
+# When switching to Go modules, we need to respect upstream module boundaries
+# and let the Go modules dependency system properly handle circular deps.
+# So in order to merge for eg dev-go/genproto with dev-go/genproto-rpc, we
+# need the temporary ability to relax the dep checking on circular deps.
+# This variable addition and use is temporary for the GOPATH -> Go modules
+# transition and will go away when switching to modules mode.
+# For example:
+#   CROS_GO_SKIP_DEP_CHECK="1"
+
 # @ECLASS-VARIABLE: CROS_GO_PACKAGES
 # @DESCRIPTION:
 # Go packages to install in /usr/lib/gopath.
@@ -401,6 +419,9 @@ cros-go_src_install() {
 cros-go_pkg_postinst() {
 	# This only works if we're building and installing from source.
 	[[ "${MERGE_TYPE}" == "source" ]] || return
+
+	# See CROS_GO_SKIP_DEP_CHECK description for details
+	[[ -n "${CROS_GO_SKIP_DEP_CHECK}" ]] && return
 
 	# Get the list of packages from the workspace in ${S}.
 	local pkglist=()
