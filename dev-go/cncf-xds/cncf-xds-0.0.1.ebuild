@@ -3,8 +3,6 @@
 
 EAPI=7
 
-# The dev-go/gcp* packages are all built from this repo. They should
-# be updated together.
 CROS_GO_SOURCE="github.com/cncf/xds:github.com/cncf/xds 01c748900fbb8fd467c4f091385123c4715312fb"
 
 CROS_GO_PACKAGES=(
