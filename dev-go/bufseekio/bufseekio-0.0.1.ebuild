@@ -21,5 +21,5 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND=""
+DEPEND="dev-go/testify"
 RDEPEND=""

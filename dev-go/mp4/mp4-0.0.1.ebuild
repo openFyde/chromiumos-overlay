@@ -24,6 +24,8 @@ RESTRICT="binchecks strip"
 DEPEND="
 	dev-go/bufseekio
 	dev-go/crypto
+	dev-go/go-spew
+	dev-go/testify
 	dev-go/yaml:0
 "
 RDEPEND="${DEPEND}"
