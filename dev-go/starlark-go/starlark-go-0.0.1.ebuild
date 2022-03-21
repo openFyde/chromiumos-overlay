@@ -5,9 +5,6 @@ EAPI=7
 
 CROS_GO_SOURCE=(
 	"github.com/google/starlark-go:go.starlark.net 87f333178d5942de51b193111d6f636c79833ea5"
-	"github.com/chzyer/logex v1.1.10"
-	"github.com/chzyer/readline 2972be24d48e78746da79ba8e24e8b488c9880de"
-	"github.com/chzyer/test a1ea475d72b168a29f44221e0ad031a842642302"
 )
 
 CROS_GO_BINARIES=(
@@ -38,8 +35,11 @@ KEYWORDS="*"
 DEPEND="
 	dev-go/cmp
 	dev-go/go-sys
+	dev-go/logex
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
+	dev-go/readline
+	dev-go/test
 	dev-go/xerrors
 "
 
