@@ -28,7 +28,9 @@ IUSE=""
 RESTRICT="binchecks"
 
 DEPEND="
+	dev-go/afero
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
+	dev-go/strcase
 "
 RDEPEND="${DEPEND}"
