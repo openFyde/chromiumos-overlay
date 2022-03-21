@@ -24,7 +24,7 @@ SLOT="0/${PV%%.*}"
 KEYWORDS="*"
 IUSE="test"
 
-DEPEND="!=dev-cpp/absl-20210324.1"
+DEPEND="!<=dev-cpp/absl-20210324.1-r2"
 RDEPEND="${DEPEND}"
 
 BDEPEND="
@@ -36,6 +36,8 @@ RESTRICT="!test? ( test )"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-20200923-arm_no_crypto.patch"
+	"${FILESDIR}/use-std-optional.patch"
+
 )
 
 ABSLDIR="${WORKDIR}/${P}_build/absl"
