@@ -399,6 +399,35 @@ roundup_multiple() {
   echo $(( ( ( number + (alignment - 1) ) / alignment ) * alignment ))
 }
 
+INTEGRITY_LOOP_DEV=""
+DATA_LOOP_DEV=""
+# If we're unable to setup writeback just make sure we clean up any
+# mounts or devices which may have been left.
+cleanup_writeback_and_die() {
+  # During cleanup we want to allow failures as we're unsure of the state
+  # of the system we want the chance to clean everything up.
+  set +e
+
+  # If there is an error we want to make sure we cleanup.
+  /sbin/dmsetup remove --deferred "${ZRAM_WRITEBACK_NAME}" 2>/dev/null
+  /sbin/dmsetup remove --deferred "${ZRAM_INTEGRITY_NAME}" 2>/dev/null
+
+  if [ -n "${INTEGRITY_LOOP_DEV}" ]; then
+    losetup -d "${INTEGRITY_LOOP_DEV}" 2>/dev/null
+  fi
+  if [ -n "${DATA_LOOP_DEV}" ]; then
+    losetup -d "${DATA_LOOP_DEV}" 2>/dev/null
+  fi
+
+  umount "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" 2>/dev/null
+  rm -rf "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" 2>/dev/null
+
+  # echo it to stderr (this is for debugd).
+  echo "$*" >&2
+
+  die "$*"
+}
+
 # Enable zram writeback with a given |size| specified in MB.
 enable_zram_writeback() {
   local writeback_size_mb
@@ -416,7 +445,8 @@ enable_zram_writeback() {
   elif [ "$(cat "${ZRAM_BACKING_DEV}")" != "none" ]; then
     die "zram already has a backing device assigned"
   elif [ -e "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" ]; then
-    die "zram writeback integrity mount already exists"
+    mountpoint -q "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" && die "zram writeback integrity ramfs is mounted"
+    rm -rf "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" 2>/dev/null || die "unable to rm dir ${ZRAM_WRITEBACK_INTEGRITY_MOUNT}"
   fi
 
   local total_blocks free_blocks block_size pct_free
@@ -451,65 +481,75 @@ enable_zram_writeback() {
     log_warning "zram writeback, requested size of ${old_size}MB" \
          "is ${pct_of_free}% of the free disk space. Size will be reduced to ${writeback_size_mb}MB"
   fi
-  writeback_size_bytes=$(roundup_multiple $((writeback_size_mb * MB)) 512)
+  writeback_size_bytes=$(roundup_multiple $((writeback_size_mb * MB)) "${block_size}")
 
   # Because we rounded up writeback_size bytes recalculate the number of blocks used.
-  blocks_to_use=$((writeback_size_bytes / block_size + 1))
+  blocks_to_use=$((writeback_size_bytes / block_size))
 
   # Create the actual writeback space on the stateful partition.
-  local data_filename table data_loop_dev
+  local data_filename table
   data_filename=$(mktemp -p "${STATEFUL_PARTITION}" -t "zram_writeback.XXXXXX.swp")
   fallocate -l "${writeback_size_bytes}" "${data_filename}" ||
-       die "unable to fallocate writeback file"
+       cleanup_writeback_and_die "unable to fallocate writeback file"
 
-  data_loop_dev=$(losetup --show --direct-io=on -f "${data_filename}")
-  if [ -z "${data_loop_dev}" ]; then
-    die "zram writeback unable to setup loop device"
+  # See drivers/block/loop.c:230
+  #  We support direct I/O only if lo_offset is aligned with the
+  #  logical I/O size of backing device, and the logical block
+  #  size of loop is bigger than the backing device's and the loop
+  #  needn't transform transfer.
+  DATA_LOOP_DEV=$(losetup --show --direct-io=on --sector-size="${block_size}" -f "${data_filename}")
+  if [ -z "${DATA_LOOP_DEV}" ]; then
+    cleanup_writeback_and_die "zram writeback unable to setup loop device"
   fi
-  rm "${data_filename}" || die "error: unable to unlink zram writeback file"
+  rm "${data_filename}" || cleanup_writeback_and_die "error: unable to unlink zram writeback file"
 
   # Create a dm-integrity device to use with dm-crypt.
-  local integrity_loop_dev integrity_table ramfs_size_bytes
+  local integrity_table ramfs_size_bytes
   # AES-GCM uses a fixed 12 byte IV. The other 12 bytes are auth tag.
   local integrity_bytes_per_block=24
-  local ramfs_size_mb=$(( blocks_to_use * integrity_bytes_per_block / MB + 1 ))
-  ramfs_size_bytes=$(roundup_multiple $((ramfs_size_mb * MB)) 512)
+  # Eight 512 byte sectors are required for the superblock and eight padding sectors.
+  local initial_size=$((16*512))
+  ramfs_size_bytes=$(roundup_multiple $(( blocks_to_use * integrity_bytes_per_block + initial_size)) "${MB}")
+
   # shellcheck disable=2174
-  mkdir -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -m 0700 || die "cannot create integrity mount"
+  mkdir -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -m 0700 || cleanup_writeback_and_die "cannot create integrity mount"
   mount -t ramfs -n \
-      -o size="${ramfs_size_bytes},nodev,noexec,nosuid,noatime,mode=0700" \
+      -o size="${ramfs_size_bytes},noexec,nosuid,noatime,mode=0700" \
       "zram-writeback-integrity" "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" \
-        || die "unable to mount ramfs"
+        || cleanup_writeback_and_die "unable to mount ramfs"
   integrity_filename=$(mktemp -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -t "zram_writeback.integrity.XXXXXX.swp")
   dd if=/dev/zero of="${integrity_filename}" iflag=count_bytes count="${ramfs_size_bytes}" status=none \
-      || die "unable to zero integrity file"
-  integrity_loop_dev=$(losetup --show -f "${integrity_filename}")
-  if [ -z "${integrity_loop_dev}" ]; then
-    die "ram writeback unable to setup integrity loop device"
-  fi
-  rm "${integrity_filename}" || die "unable to unlink zram writeback integrity file"
+    || cleanup_writeback_and_die "unable to zero integrity file"
 
-  # Note: These devices must be protected with LSM, permissions are inadequate.
-  integrity_table="0 $(blockdev --getsz "${data_loop_dev}") integrity \
-      ${data_loop_dev} 0 ${integrity_bytes_per_block} \
-      D 2 block_size:4096 meta_device:${integrity_loop_dev}"
+  INTEGRITY_LOOP_DEV=$(losetup --show -f "${integrity_filename}")
+  if [ -z "${INTEGRITY_LOOP_DEV}" ]; then
+    cleanup_writeback_and_die "ram writeback unable to setup integrity loop device"
+  fi
+  rm "${integrity_filename}" || cleanup_writeback_and_die "unable to unlink zram writeback integrity file"
+
+  integrity_table="0 $(blockdev --getsz "${DATA_LOOP_DEV}") integrity \
+      ${DATA_LOOP_DEV} 0 ${integrity_bytes_per_block} \
+      D 2 block_size:${block_size} meta_device:${INTEGRITY_LOOP_DEV}"
   /sbin/dmsetup create "${ZRAM_INTEGRITY_NAME}" --table "${integrity_table}" ||
-      die "/sbin/dmsetup unable to create zram integrity device"
+      cleanup_writeback_and_die "/sbin/dmsetup unable to create zram integrity device"
 
   # Both loop devices have been taken by the dm-integrity device, let's close them.
-  losetup -d "${data_loop_dev}"
-  losetup -d "${integrity_loop_dev}"
+  losetup -d "${DATA_LOOP_DEV}" || cleanup_writeback_and_die "Unable to remove loop"
+  losetup -d "${INTEGRITY_LOOP_DEV}" || cleanup_writeback_and_die "Unable to remove loop"
+
+  # We can now clear these as they don't need to be cleaned up.
+  DATA_LOOP_DEV=""
+  INTEGRITY_LOOP_DEV=""
 
   table="0 $(blockdev --getsz "${ZRAM_INTEGRITY_DEV}") crypt capi:gcm(aes)-random \
       $(openssl rand -hex 32) \
       0 ${ZRAM_INTEGRITY_DEV} 0 4 allow_discards submit_from_crypt_cpus \
-      sector_size:4096 integrity:${integrity_bytes_per_block}:aead"
+      sector_size:${block_size} integrity:${integrity_bytes_per_block}:aead"
   /sbin/dmsetup create "${ZRAM_WRITEBACK_NAME}" --table "${table}" ||
-      die "/sbin/dmsetup create ${ZRAM_WRITEBACK_NAME} failed"
+    cleanup_writeback_and_die "/sbin/dmsetup create ${ZRAM_WRITEBACK_NAME} failed"
 
-  # Note: don't die so we can still cleanup the devices.
   echo "${ZRAM_WRITEBACK_DEV_ENC}" > "${ZRAM_BACKING_DEV}" ||
-      log_error "unable to enable zram writeback with ${ZRAM_WRITEBACK_DEV_ENC}"
+    cleanup_writeback_and_die "unable to enable zram writeback with ${ZRAM_WRITEBACK_DEV_ENC}"
 
   # Now that the dm-crypt device has been opened by zram we can issue
   # a deferred remove which will cause it to be automatically removed
@@ -517,7 +557,10 @@ enable_zram_writeback() {
   /sbin/dmsetup remove --deferred "${ZRAM_WRITEBACK_NAME}"
   /sbin/dmsetup remove --deferred "${ZRAM_INTEGRITY_NAME}"
 
-  log_info "enabled swap zram writeback with size ${writeback_size_mb}MB"
+  log_info "Enabled swap zram writeback with size ${writeback_size_mb}MB"
+
+  # Make sure debugd can forward a success message.
+  echo "Enabled writeback with size ${writeback_size_mb}MB"
 }
 
 set_parameter() {
