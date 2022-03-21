@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassi
 
 MODEL_URI=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711_vocab-v1.fb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v714_vocab-with_beginner_words-20220318.fb"
 )
 
 SRC_URI="${MODEL_URI[*]}"
