@@ -30,5 +30,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	dev-go/net
+	dev-go/protobuf-legacy-api
+	dev-go/text
+"
 RDEPEND="${DEPEND}"
