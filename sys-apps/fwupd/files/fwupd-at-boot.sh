@@ -29,6 +29,9 @@ main() {
   # Make sure udev is ready
   start udev-trigger
 
+  # Make sure powerd is up for fwupd's powerd plugin to work.
+  start powerd
+
   # Explicitly start fwupd daemon without relaying on dbus activation
   # during early boot stages.
   start fwupd
