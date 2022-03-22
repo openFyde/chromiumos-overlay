@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("e99df6abbf4934783d34655ca736a5ad3b327fbf" "26187f1d4e2534fe9d2fe90e7ce82af23ada1866" "34c8e74f55763c8866f26985e9ccc597e9739ffd")
-CROS_WORKON_TREE=("20a2012e92865d528d2d288f045a552862a1cac2" "8a9327ae1d77f03c9532a89185b4e338c4e40907" "1a91cc80475a15916af9aba6a7a64e59b3524567")
+CROS_WORKON_COMMIT=("51461759ad2cd09f4d0b4589eb0af81944bac8b7" "26187f1d4e2534fe9d2fe90e7ce82af23ada1866" "34c8e74f55763c8866f26985e9ccc597e9739ffd")
+CROS_WORKON_TREE=("3836c894c8b7961c25396bc5827643522060099b" "8a9327ae1d77f03c9532a89185b4e338c4e40907" "1a91cc80475a15916af9aba6a7a64e59b3524567")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/depthcharge"
 	"chromiumos/platform/vboot_reference"
@@ -247,6 +247,7 @@ make_unittests() {
 
 	use verbose && OPTS+=( "V=1" )
 	emake "${OPTS[@]}" "unit-tests"
+	emake "${OPTS[@]}" "test-screenshot"
 }
 
 src_test() {
