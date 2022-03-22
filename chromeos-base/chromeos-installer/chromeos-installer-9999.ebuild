@@ -68,6 +68,9 @@ src_install() {
 
 	# Enable lvm stateful partition.
 	if use lvm_stateful_partition; then
+		# We are replacing expansions in a shell file, and shellcheck thinks we want
+		# to expand those in this context. Ignore it.
+		# shellcheck disable=SC2016
 		sed -i '/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
 			"${D}/usr/sbin/chromeos-install" ||
 			die "Failed to set 'lvm_stateful' in chromeos-install"
