@@ -109,6 +109,7 @@ RDEPEND="${RDEPEND}
 # Needed to build Android/ARC userland code.
 RDEPEND="${RDEPEND}
 	app-misc/jq
+	chromeos-base/mk-payload
 	sys-devel/aapt
 	sys-devel/arc-toolchain-master
 	sys-devel/arc-toolchain-p
