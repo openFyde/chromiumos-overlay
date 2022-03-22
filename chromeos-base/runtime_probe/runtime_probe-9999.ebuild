@@ -46,6 +46,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/runtime_probe"
 
 	# Install upstart configs and scripts.
