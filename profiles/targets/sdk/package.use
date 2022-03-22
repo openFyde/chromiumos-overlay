@@ -147,6 +147,11 @@ dev-python/pygobject -cairo
 # Disable crypt for vim so sodium is not used.
 app-editors/vim -crypt
 
+# cbindgen expects to be able to unwind panics rather than immediately abort.
+# This behavior is not compatible with the -Cpanic=abort flag normally
+# added by cros-rust eclass. Disable this flag for cbindgen.
+dev-rust/cbindgen -panic-abort
+
 # Freeze Python 2.7 versions for all existing packages.  We'll slowly trim this
 # list down as packages don't need them.  New packages should *not* be added
 # here as new code should be using Python 3.

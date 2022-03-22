@@ -107,7 +107,7 @@ fi
 
 inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizers
 
-IUSE="amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86"
+IUSE="amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm pkg_postrm
@@ -440,8 +440,11 @@ cros-rust_configure_cargo() {
 		fi
 	fi
 
-	# We don't want to abort during tests.
-	use test || rustflags+=( -Cpanic=abort )
+	# Set the panic=abort flag if it is turned on for the package.
+	if use panic-abort; then
+		# But never abort during tests.
+		use test || rustflags+=( -Cpanic=abort )
+	fi
 
 	if use cros-debug || [[ "${CROS_RUST_OVERFLOW_CHECKS}" == "1" ]]; then
 		rustflags+=( -Coverflow-checks=on )
