@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="78f06f64ad4395b6cf7eac250593ae48f6da1b7d"
-CROS_WORKON_TREE=("4a5014026787ab30d197b30eb40d6b4359a0ee09" "38f2392e6ac1e3d3a94c3935ce0e927761676bbd" "c964dbdc4fbc6a4ad9ad6ae0d1cd36f7e70dfcf2" "585043b64272d5bc15a587e32781ee524308c67c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="578456595295e46aefe1f76ef3ae3b5620a28a38"
+CROS_WORKON_TREE=("4a5014026787ab30d197b30eb40d6b4359a0ee09" "100161a097ca7e004f592c87162cd7671f5ffdad" "c964dbdc4fbc6a4ad9ad6ae0d1cd36f7e70dfcf2" "585043b64272d5bc15a587e32781ee524308c67c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -124,6 +124,7 @@ src_install() {
 		doins init/crash-boot-collect.conf
 		if ! use vm-containers; then
 			doins init/crash-sender.conf
+			doins init/crash-sender-login.conf
 		fi
 		use cros_embedded || doins init/anomaly-detector.conf
 	fi
