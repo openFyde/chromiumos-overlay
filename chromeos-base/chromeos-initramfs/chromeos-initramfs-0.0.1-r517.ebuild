@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="e17d4e94faeb6af7fe738024296d6435d3146916"
-CROS_WORKON_TREE="04d014bdbe1073ba5471bd2bba4ee5feb5322bb8"
+CROS_WORKON_COMMIT="aced46e0d739cbae40886940c0f35ec0d9f920ad"
+CROS_WORKON_TREE="06e43eeb077f1aae7795024b18c51695e7628891"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -55,6 +55,7 @@ MINIOS_DEPENDS="
 	chromeos-base/chromeos-installer
 	chromeos-base/factory_installer
 	chromeos-base/common-assets
+	chromeos-base/update-utils
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
 	sys-apps/flashrom
