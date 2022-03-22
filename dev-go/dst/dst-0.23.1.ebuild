@@ -22,7 +22,13 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/crypto
+	dev-go/demangle
+	dev-go/go-arch
+	dev-go/go-billy
+	dev-go/go-diff
+	dev-go/go-tools
 	dev-go/jennifer
-	>=dev-go/go-tools-0.0.1-r13
+	dev-go/pprof
 "
 RDEPEND="${DEPEND}"

@@ -28,6 +28,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/gapi-internal
 	dev-go/gapi-gensupport
 	dev-go/gapi-googleapi
 	dev-go/net
