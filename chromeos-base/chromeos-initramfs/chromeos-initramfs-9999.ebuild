@@ -107,6 +107,7 @@ HYPERVISOR_DEPENDS="
 	chromeos-base/sirenia
 	sys-apps/coreboot-utils
 	virtual/linux-sources
+	virtual/manatee-apps
 	"
 
 DEPEND="
