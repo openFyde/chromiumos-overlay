@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk installer verity .gn"
+CROS_WORKON_SUBTREE="chromeos-config common-mk installer verity .gn"
 
 PLATFORM_SUBDIR="installer"
 
@@ -36,7 +36,7 @@ COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
 	chromeos-base/verity
-	manage_efi_boot_entries? ( sys-libs/efivar )
+	manage_efi_boot_entries? ( chromeos-base/chromeos-config sys-libs/efivar )
 "
 
 DEPEND="${COMMON_DEPEND}
