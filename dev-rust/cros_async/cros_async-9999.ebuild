@@ -34,8 +34,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2:=
+	media-sound/audio_streams:=
 "
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	!<=dev-rust/cros_async-0.1.0-r38"
 
 src_test() {
 	# The io_uring implementation on kernels older than 5.10 was buggy so skip
