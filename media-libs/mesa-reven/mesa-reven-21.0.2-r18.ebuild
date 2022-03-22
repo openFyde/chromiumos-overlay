@@ -5,8 +5,6 @@ EAPI=7
 
 CROS_WORKON_COMMIT="2bcb6c3b3e6b1efc97c3219fb994b7e164650a46"
 CROS_WORKON_TREE="774f755ad7cad94b468934205903c21ac82a69d5"
-MESON_AUTO_DEPEND=no
-
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
@@ -137,9 +135,9 @@ src_configure() {
 		$(meson_feature gles2)
 		$(meson_feature zstd)
 		$(meson_use selinux)
-		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
-		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
-		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
+		-Ddri-drivers="$(driver_list "${DRI_DRIVERS[*]}")"
+		-Dgallium-drivers="$(driver_list "${GALLIUM_DRIVERS[*]}")"
+		-Dvulkan-drivers="$(driver_list "${VULKAN_DRIVERS[*]}")"
 		--buildtype $(usex debug debug release)
 		# Enable vaapi drivers for Nvidia and AMD.
 		-Dgallium-va=enabled
@@ -163,21 +161,21 @@ src_install() {
 # $1 - VIDEO_CARDS flag (check skipped for "--")
 # other args - names of DRI drivers to enable
 dri_driver_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		DRI_DRIVERS+=("$@")
 	fi
 }
 
 gallium_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		GALLIUM_DRIVERS+=("$@")
 	fi
 }
 
 vulkan_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		VULKAN_DRIVERS+=("$@")
 	fi
