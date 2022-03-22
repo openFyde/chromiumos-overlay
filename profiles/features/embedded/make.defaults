@@ -24,10 +24,10 @@ USE="${USE} -memd"
 # out any locally-collected metrics, in the absence of Chrome.
 USE="${USE} metrics_uploader"
 
-# Disable ML Service until/unless features on embedded devices need it. Also
-# disable on-device grammar check and text suggestions since they depend on
-# ML Service to function.
+# Disable ML Service until/unless features on embedded devices need it.
+# Also disable features that depend on ML Service to function.
 USE="${USE} -ml_service -ondevice_grammar -ondevice_text_suggestions"
+USE="${USE} -ondevice_handwriting"
 
 # Disable usbguard and usb_bouncer on embedded CrOS because they currently only
 # protect the lockscreen.

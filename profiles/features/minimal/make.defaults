@@ -34,6 +34,7 @@ USE="${USE} -attestation -cellular chromeless_tty -crash_reporting"
 USE="${USE} -cros_disks cros_embedded -diagnostics -debugd -encrypted_stateful"
 USE="${USE} -featured -gdmwimax -iioservice -lorgnette -memd -mist -missive -ml_service"
 USE="${USE} -ondevice_grammar -ondevice_text_suggestions -pam -passive_metrics"
+USE="${USE} -ondevice_handwriting"
 USE="${USE} -perfetto -power_management -scanner -secanomalyd -tpm -usb_bouncer"
 USE="${USE} -usbguard -vpn -wimax"
 

@@ -1,0 +1,5 @@
+# Initial value just for style purposes.
+USE=""
+
+# No ARM64 handwriting library yet.
+USE="${USE} -ondevice_handwriting"
