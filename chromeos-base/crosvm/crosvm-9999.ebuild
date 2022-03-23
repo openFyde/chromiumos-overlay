@@ -279,6 +279,9 @@ src_test() {
 		--skip "test_integration::simple_kvm"
 	)
 
+	# If syslog isn't available, skip the tests.
+	[[ -S /dev/log ]] || skip_tests+=(--skip "unix::syslog")
+
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
 		"${skip_tests[@]}" \
