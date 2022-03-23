@@ -20,6 +20,7 @@ SLOT="0"
 KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="
+	asan
 	chromeless_tty
 	cras
 	diag
@@ -34,6 +35,7 @@ IUSE="
 	+shill
 	tpm
 	tpm2
+	ubsan
 	usb
 	vaapi
 	video_cards_amdgpu
@@ -119,7 +121,11 @@ RDEPEND="${RDEPEND}
 	tpm2? ( chromeos-base/g2f_tools )
 	!chromeless_tty? ( chromeos-base/graphics-utils-go )
 	hps? (
-		chromeos-base/hps-firmware-tools
+		!asan? (
+			!ubsan? (
+				chromeos-base/hps-firmware-tools
+			)
+		)
 		chromeos-base/hps-tool
 	)
 	chromeos-base/policy_utils

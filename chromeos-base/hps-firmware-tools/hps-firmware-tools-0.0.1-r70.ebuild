@@ -2,11 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("27f603d44c8f5b66fa46bae2d699fc4debb60f2e" "7e05e609fe2084af3c307a025c453035d4e2db87")
-CROS_WORKON_TREE=("c37b34549d1e4743ee6963462ac532e6eafe5526" "ba711a194fe8cfb4bdde9766b3acb302bc6c94d1")
-CROS_WORKON_PROJECT=("chromiumos/platform/hps-firmware" "chromiumos/platform/hps-firmware-images")
-CROS_WORKON_LOCALNAME=("platform/hps-firmware2" "platform/hps-firmware-images")
-CROS_WORKON_DESTDIR=("${S}" "${S}/hps-firmware-images")
+CROS_WORKON_COMMIT="27f603d44c8f5b66fa46bae2d699fc4debb60f2e"
+CROS_WORKON_TREE="c37b34549d1e4743ee6963462ac532e6eafe5526"
+CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
+CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
 inherit cros-workon cros-rust
 
@@ -15,6 +14,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+BDEPEND="
+	dev-embedded/hps-sdk
+"
 
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
@@ -34,6 +37,7 @@ DEPEND="
 	=dev-rust/embedded-hal-mock-0.8*:=
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
+	>=dev-rust/indicatif-0.16.2:= <dev-rust/indicatif-0.17
 	>=dev-rust/linux-embedded-hal-0.3.1:= <dev-rust/linux-embedded-hal-0.4
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*:=
@@ -44,6 +48,7 @@ DEPEND="
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
 	=dev-rust/rustyline-9*:=
 	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
+	>=dev-rust/simple_logger-1.13.0:= <dev-rust/simple_logger-2
 	>=dev-rust/spi-memory-0.2.0:= <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*:=
 	=dev-rust/ufmt-0.1*:=
@@ -68,13 +73,6 @@ src_prepare() {
 	# Not using cros-rust_src_prepare because it wrongly assumes Cargo.toml is
 	# in the root of ${S} and we don't need its manipulations anyway.
 
-	# Delete the top-level workspace Cargo.toml. This avoids build breakages if
-	# that workspace, which includes various development tools not built in
-	# ChromeOS, uses dependencies for which we don't yet have ebuilds. We don't
-	# currently delete rust/mcu/Cargo.toml, since it includes the optimization
-	# settings used for stage0 and stage1_app.
-	rm rust/Cargo.toml
-
 	# Delete some optional dependencies that are not packaged in Chromium OS.
 	sed -i \
 		-e '/ optional = true/d' \
@@ -85,7 +83,33 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use Rust from hps-sdk, since the main Chrome OS Rust compiler
+	# does not yet support RISC-V.
+	export PATH="/opt/hps-sdk/bin:${PATH}"
+
+	# CROS_BASE_RUSTFLAGS are for the AP, they are not applicable to
+	# HPS firmware, which is cross-compiled for STM32
+	unset CROS_BASE_RUSTFLAGS
 	cros-rust_configure_cargo
+
+	# Override some unwanted rustflags configured by cros-rust_configure_cargo.
+	# For our Cortex-M0 target, we need "fat" LTO and opt-level=z (smallest) to
+	# make everything small enough to fit. Debug assertions and
+	# integer overflow checks introduce panicking paths into the firmware,
+	# which bloats the size of the images with extra strings in .rodata.
+	# TODO(dcallagh): tidy this up properly in cros-rust.eclass.
+	# CROS_BASE_RUSTFLAGS are the same problem.
+	# asan and ubsan are also the same problem.
+	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
+	cat <<- EOF >> "${ECARGO_HOME}/config"
+	[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+	rustflags = [
+		"-Clto=yes",
+		"-Copt-level=z",
+		"-Coverflow-checks=off",
+		"-Cdebug-assertions=off",
+	]
+	EOF
 
 	# cros-rust_update_cargo_lock tries to handle Cargo.lock but it assumes
 	# there is only one Cargo.lock in the root of the source tree, which is not
@@ -94,7 +118,7 @@ src_configure() {
 }
 
 src_compile() {
-	for tool in hps-mon hps-util sign-rom ; do (
+	for tool in hps-factory hps-mon hps-util sign-rom ; do (
 		cd rust/${tool} || die
 		einfo "Building ${tool}"
 		ecargo_build
@@ -108,9 +132,7 @@ src_test() {
 
 src_install() {
 	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
+	dobin "$(cros-rust_get_build_dir)/hps-factory"
 	dobin "$(cros-rust_get_build_dir)/hps-mon"
 	dobin "$(cros-rust_get_build_dir)/hps-util"
-
-	# TODO(b/206034105): build hps-factory from source instead
-	dobin hps-firmware-images/bin/*
 }
