@@ -27,6 +27,7 @@ DEPEND="
 	dev-go/misspell
 	dev-go/crypto
 	dev-go/go-sys
+	dev-go/staticcheck
 	sys-libs/pam:=
 "
 RDEPEND="${DEPEND}"

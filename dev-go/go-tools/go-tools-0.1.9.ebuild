@@ -6,7 +6,13 @@ EAPI=7
 CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools v${PV}"
 
 CROS_GO_PACKAGES=(
+	"golang.org/x/tools/go/analysis"
+	"golang.org/x/tools/go/analysis/analysistest"
+	"golang.org/x/tools/go/analysis/internal/analysisflags"
+	"golang.org/x/tools/go/analysis/internal/checker"
+	"golang.org/x/tools/go/analysis/passes/inspect"
 	"golang.org/x/tools/go/ast/astutil"
+	"golang.org/x/tools/go/ast/inspector"
 	"golang.org/x/tools/go/buildutil"
 	"golang.org/x/tools/go/gcexportdata"
 	"golang.org/x/tools/go/internal/cgo"
@@ -14,6 +20,9 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/internal/packagesdriver"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/packages"
+	"golang.org/x/tools/go/types/objectpath"
+	"golang.org/x/tools/go/types/typeutil"
+	"golang.org/x/tools/internal/analysisinternal"
 	"golang.org/x/tools/internal/event"
 	"golang.org/x/tools/internal/event/core"
 	"golang.org/x/tools/internal/event/keys"
@@ -21,11 +30,16 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/internal/fastwalk"
 	"golang.org/x/tools/internal/gocommand"
 	"golang.org/x/tools/internal/gopathwalk"
+	"golang.org/x/tools/internal/lsp/fuzzy"
+	"golang.org/x/tools/internal/lsp/diff/..."
 	"golang.org/x/tools/internal/packagesinternal"
+	"golang.org/x/tools/internal/span"
+	"golang.org/x/tools/internal/testenv"
 	"golang.org/x/tools/internal/typesinternal"
 	"golang.org/x/tools/internal/typeparams"
 	"golang.org/x/tools/imports"
 	"golang.org/x/tools/internal/imports"
+	"golang.org/x/tools/txtar"
 )
 
 CROS_GO_TEST=(
