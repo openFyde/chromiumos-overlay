@@ -20,9 +20,9 @@ FONTS_HASHES=(
 )
 NPM_HASHES=(
 	# Current one.
-	2cd2dd365999ae139b6b0fb62a5a09e2a7fb5ab1c0926cf1968a1dec9b74fea5
-	# Next one.
 	16e0b36c0c3d448c7fd00d1db3ba27ff8477007fb4b0eae31ae25960aeae3fbc
+	# Next one.
+	50a933e09257e1f586db44434d81a3cc6b6e7d1c7506a92f3d33a644462e543d
 )
 PLUGIN_VERSIONS=(
 	# Current one.
