@@ -24,9 +24,14 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/misspell
+	dev-go/cli
 	dev-go/crypto
+	dev-go/errors
+	dev-go/go-tools
 	dev-go/go-sys
+	dev-go/golint
+	dev-go/misspell
+	dev-go/protobuf-legacy-api
 	dev-go/staticcheck
 	sys-libs/pam:=
 "
