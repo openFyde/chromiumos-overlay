@@ -34,7 +34,7 @@ DEPEND="
 	dev-go/gapi-iterator
 	dev-go/gapi-option
 	dev-go/gapi-transport
-	dev-go/gax
+	dev-go/gax:1
 	dev-go/gcp-iam
 	dev-go/gcp-internal
 	dev-go/genproto

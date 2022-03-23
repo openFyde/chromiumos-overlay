@@ -31,6 +31,6 @@ DEPEND="
 	dev-go/gapi-iterator
 	dev-go/gapi-option
 	dev-go/gapi-transport
-	dev-go/gax
+	dev-go/gax:1
 "
 RDEPEND="${DEPEND}"

@@ -31,7 +31,7 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/cmp
-	dev-go/gax
+	dev-go/gax:1
 	dev-go/grpc
 	dev-go/oauth2
 "

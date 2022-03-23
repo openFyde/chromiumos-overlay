@@ -31,7 +31,7 @@ DEPEND="
 	dev-go/cmp
 	dev-go/gapi-option
 	dev-go/gapi-transport
-	dev-go/gax
+	dev-go/gax:1
 	dev-go/genproto
 	dev-go/grpc
 	dev-go/net

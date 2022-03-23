@@ -3,12 +3,12 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/googleapis/gax-go v${PV}"
+# these are v1.0 compatible bindings implemented using the v2 API
+# and shipped together with v2, see the dev-go/gax:0 dependency
+CROS_GO_SOURCE="github.com/googleapis/gax-go v2.1.1"
 
 CROS_GO_PACKAGES=(
-	"github.com/googleapis/gax-go/v2"
-	"github.com/googleapis/gax-go/v2/apierror"
-	"github.com/googleapis/gax-go/v2/apierror/internal/proto"
+	"github.com/googleapis/gax-go"
 )
 
 CROS_GO_TEST=(
@@ -22,14 +22,12 @@ HOMEPAGE="https://github.com/googleapis/gax-go"
 SRC_URI="$(cros-go_src_uri)"
 
 LICENSE="BSD-Google"
-SLOT="0"
+SLOT="1"
 KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/gapi-googleapi
-	dev-go/grpc
-	dev-go/yaml:0
+	dev-go/gax:0
 "
 RDEPEND="${DEPEND}"

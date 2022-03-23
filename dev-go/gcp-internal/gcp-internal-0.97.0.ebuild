@@ -36,7 +36,7 @@ DEPEND="
 	dev-go/gapi-iterator
 	dev-go/gapi-transport
 	dev-go/grpc
-	dev-go/gax
+	dev-go/gax:1
 	dev-go/genproto
 	dev-go/net
 	dev-go/opencensus
