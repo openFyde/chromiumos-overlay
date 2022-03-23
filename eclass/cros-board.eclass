@@ -53,6 +53,7 @@ BOARD_USE_PREFIX="board_use_"
 # they won't be accidentally recycled in the future.
 ALL_BOARDS=(
 	#acorn
+	adlnrvp
 	adlrvp
 	ambassador
 	#amd64-corei7
