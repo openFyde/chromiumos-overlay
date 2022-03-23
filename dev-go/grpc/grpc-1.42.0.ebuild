@@ -61,12 +61,17 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/cmp
+	dev-go/cncf-xds
+	dev-go/glog
 	dev-go/ep-gcp
 	dev-go/genproto
 	dev-go/go-sys
 	dev-go/net
 	dev-go/oauth2
 	dev-go/protobuf-legacy-api
+	dev-go/uuid
+	dev-go/xxhash
 	dev-go/yaml:0
 "
 RDEPEND="
