@@ -4,10 +4,10 @@
 EAPI=7
 
 CROS_WORKON_COMMIT="d3dd622e0de6989e8f61b630460ebdc0abf027c8"
-CROS_WORKON_TREE=("56d9d8c7985c3b8f3004b1e4f228ed8c10c0a451" "7f3e5fc773241b39ba2871e5f8137afc531fe999" "ea43f6195343484635e7ae72cbad1d89c20b7598" "ce80faefc788dca9f2c9ce019c05160e2deac4d3" "94d6fa07c131edb4f5e5c5be94906d9a99d7fb7b")
+CROS_WORKON_TREE=("56d9d8c7985c3b8f3004b1e4f228ed8c10c0a451" "7f3e5fc773241b39ba2871e5f8137afc531fe999" "ea43f6195343484635e7ae72cbad1d89c20b7598" "ce80faefc788dca9f2c9ce019c05160e2deac4d3" "94d6fa07c131edb4f5e5c5be94906d9a99d7fb7b" "0d59c984802fb963f2d8feae4510f74101efa028" "d4e6683b71367f68290b97e976bc1412912c7485")
 CROS_WORKON_PROJECT="apps/libapps"
 CROS_WORKON_LOCALNAME="third_party/libapps"
-CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client terminal"
+CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client terminal wasi-js-bindings wassh"
 
 inherit cros-workon
 
