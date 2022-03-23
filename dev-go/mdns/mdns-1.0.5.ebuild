@@ -1,17 +1,13 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 CROS_GO_SOURCE=(
-	"github.com/hashicorp/go.net 104dcad90073cd8d1e6828b2af19185b60cf3e29"
-	"github.com/hashicorp/mdns 4e527d9d808175f132f949523e640c699e4253bb"
+	"github.com/hashicorp/mdns v${PV}"
 )
 
 CROS_GO_PACKAGES=(
-	"github.com/hashicorp/go.net/internal/iana"
-	"github.com/hashicorp/go.net/ipv4"
-	"github.com/hashicorp/go.net/ipv6"
 	"github.com/hashicorp/mdns"
 )
 
@@ -31,9 +27,8 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/dns"
+DEPEND="
+	dev-go/dns
+	dev-go/net
+"
 RDEPEND="${DEPEND}"
-
-src_prepare() {
-	epatch "${FILESDIR}/gonet-arm64.patch"
-}
