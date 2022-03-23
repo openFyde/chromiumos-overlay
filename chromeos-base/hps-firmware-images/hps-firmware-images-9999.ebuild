@@ -36,9 +36,20 @@ src_install() {
 		print(int.from_bytes(f.read(4), 'big'))" \
 		>firmware-signed/mcu_stage1.version.txt || die
 
+	# Compress firmware images to save space. hpsd will decompress these on the fly.
+	# hpsd limits decompression memory to 20MiB. xz(1) explains:
+	# "The settings used when compressing a file determine the memory
+	# requirements of the decompressor.  Typically the decompressor needs
+	# 5 % to 20 % of the amount of memory that the compressor needed when
+	# creating the file." Thus we apply a limit of 80MiB when compressing.
+	xz -9 --memlimit-compress=80MiB \
+		firmware-signed/fpga_application.bin \
+		firmware-signed/fpga_bitstream.bin \
+		firmware-signed/mcu_stage1.bin
+
 	insinto "/usr/lib/firmware/hps"
-	doins "${S}/firmware-signed/fpga_application.bin"
-	doins "${S}/firmware-signed/fpga_bitstream.bin"
-	doins "${S}/firmware-signed/mcu_stage1.bin"
+	doins "${S}/firmware-signed/fpga_application.bin.xz"
+	doins "${S}/firmware-signed/fpga_bitstream.bin.xz"
+	doins "${S}/firmware-signed/mcu_stage1.bin.xz"
 	doins "${S}/firmware-signed/mcu_stage1.version.txt"
 }
