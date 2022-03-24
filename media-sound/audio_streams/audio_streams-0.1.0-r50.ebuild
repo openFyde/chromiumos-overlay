@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="db0a4367257fa5062164915df32afc1731517562"
-CROS_WORKON_TREE=("8abbb98a312cc0799a272e68db11c4784027d9a0" "657879d7112bd65f190dbbf687daca14399681d0")
+CROS_WORKON_COMMIT="1caef9031eadbfda3c4fa40126def4d6fd70f090"
+CROS_WORKON_TREE=("02c44c89cab1e9c87072cd55be9f66018924abad" "657879d7112bd65f190dbbf687daca14399681d0")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
@@ -25,7 +25,6 @@ IUSE="test"
 
 DEPEND="
 	>=dev-rust/async-trait-0.1.36:= <dev-rust/async-trait-0.2
-	dev-rust/cros_async:=
 	=dev-rust/remain-0.2*:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
@@ -34,5 +33,5 @@ DEPEND="
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}
-	!<=media-sound/audio_streams-0.1.0-r7
+	!<=media-sound/audio_streams-0.1.0-r49
 "

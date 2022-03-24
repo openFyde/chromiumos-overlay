@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="db0a4367257fa5062164915df32afc1731517562"
-CROS_WORKON_TREE=("76f83a7745c9a3d890a5a05cdddebbe655ce1a15" "657879d7112bd65f190dbbf687daca14399681d0")
+CROS_WORKON_COMMIT="1caef9031eadbfda3c4fa40126def4d6fd70f090"
+CROS_WORKON_TREE=("56935997bf62477c827bd23c9c394c76fc7ee427" "657879d7112bd65f190dbbf687daca14399681d0")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -36,8 +36,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/tempfile:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2:=
+	media-sound/audio_streams:=
 "
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	!<=dev-rust/cros_async-0.1.0-r38"
 
 src_test() {
 	# The io_uring implementation on kernels older than 5.10 was buggy so skip
