@@ -56,6 +56,9 @@ REQUIRED_USE="video_cards_amdgpu? ( llvm )
 COMMON_DEPEND="
 	dev-libs/expat:=
 	dev-libs/libgcrypt:=
+	wayland? (
+		dev-libs/wayland:=
+	)
 	llvm? ( sys-devel/llvm:= )
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
