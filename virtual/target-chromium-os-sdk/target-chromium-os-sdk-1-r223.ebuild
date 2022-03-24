@@ -158,6 +158,7 @@ RDEPEND="${RDEPEND}
 	dev-db/m17n-contrib
 	dev-db/m17n-db
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 	dev-lang/closure-compiler-bin
 	dev-lang/nasm
 	dev-lang/python:2.7

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("816b940e0a3c704c2112b3e2f42db53b9c832727" "e8431f8353ab44446c9a1f1dc810384e879091eb")
-CROS_WORKON_TREE=("00d68bf1f91e835a89e2ffdf88c4627c58d17fb5" "32b4e8dd008b53110288d6ab187104a92b405c89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT=("a8f0cd2c06fe26eb10b280c3c25db17b5d45519e" "0c3c216febf424621b3430f6ad58e9dc05211c4e")
+CROS_WORKON_TREE=("335c7ff25b6498fbcaef66d05a5603aae5f26a15" "32b4e8dd008b53110288d6ab187104a92b405c89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/metrics/github.com/google/perfetto/perfetto_proto"
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/trace/github.com/google/perfetto/perfetto_proto"
@@ -34,6 +34,7 @@ SLOT="0"
 # protobuf dep is for using protoc at build-time to generate perfetto's headers.
 BDEPEND="
 	dev-go/protobuf
+	dev-go/protobuf-legacy-api
 "
 
 RDEPEND="

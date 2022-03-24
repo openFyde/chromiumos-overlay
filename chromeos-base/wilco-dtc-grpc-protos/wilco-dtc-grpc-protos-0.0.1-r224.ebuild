@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="2a46a98f96ec6af1b6f71f0579284e78f254cb1f"
+CROS_WORKON_COMMIT="0c3c216febf424621b3430f6ad58e9dc05211c4e"
 CROS_WORKON_TREE=("32b4e8dd008b53110288d6ab187104a92b405c89" "59c17a65a89d8ba657de6454bc8dce70a1052ca1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/wilco_dtc/..."
@@ -28,6 +28,7 @@ KEYWORDS="*"
 
 RDEPEND="
 	dev-libs/protobuf:=
+	dev-go/protobuf-legacy-api:=
 	net-libs/grpc:=
 "
 DEPEND="

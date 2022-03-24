@@ -27,7 +27,9 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND=""
+DEPEND="
+	dev-go/protobuf-legacy-api
+"
 
 RDEPEND=""
 
