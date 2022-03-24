@@ -66,6 +66,8 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 pkg_setup() {
 	# workaround toc-issue wrt #386545
 	use ppc64 && append-flags -mminimal-toc
+	# workaround for b/226576333. Also, lld is faster then gold
+	append-flags -fuse-ld=lld
 
 	# Remove symlinks created by an earlier version so we don't have
 	# install conflicts.
