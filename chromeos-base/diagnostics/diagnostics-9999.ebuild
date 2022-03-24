@@ -141,6 +141,10 @@ src_install() {
 	doexe "${OUT}/smartctl-check"
 	doexe "${OUT}/urandom"
 
+	# Install tmpfiles.d config.
+	insinto /usr/lib/tmpfiles.d/on-demand
+	doins init/tmpfiles.d/cros_healthd.conf
+
 	# Install udev rules.
 	udev_dorules udev/99-chown_dmi_dir.rules
 
