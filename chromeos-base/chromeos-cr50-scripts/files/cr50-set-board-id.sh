@@ -19,6 +19,8 @@ ERR_ALREADY_SET=2
 ERR_ALREADY_SET_DIFFERENT=3
 ERR_DEVICE_STATE=4
 
+. "/usr/share/cros/gsc-constants.sh"
+
 die_as() {
   local exit_value="$1"
   shift
@@ -35,11 +37,12 @@ char_to_hex() {
 }
 
 hex_eq() {
-  [ $(printf '%d' "$1") = $(printf '%d' "$2") ]
+  [ "$(printf '%d' "$1")" = "$(printf '%d' "$2")" ]
 }
 
 cr50_check_board_id_and_flag() {
-  local new_board_id="$(char_to_hex $1)"
+  # shellcheck disable=SC2155
+  local new_board_id="$(char_to_hex "$1")"
   local new_flag="$2"
 
   # Note that it is supposed to output the same data layout as `gsctool -a -i`.
@@ -85,8 +88,7 @@ cr50_set_board_id_and_flag() {
   local flag="$2"
 
   local updater_arg="${board_id}:${flag}"
-  "${UPDATER}" -a -i "${updater_arg}" 2>&1
-  if [ $? != 0 ]; then
+  if "${UPDATER}" -a -i "${updater_arg}" 2>&1; then
     die "Failed to update with ${updater_arg}"
   fi
 }
@@ -224,6 +226,7 @@ check_device() {
 }
 
 main() {
+  local exit_status=0
   local phase=""
   local rlz=""
 
@@ -255,14 +258,18 @@ main() {
       # on these old images would blow the board id type in addition to the
       # flags, and prevent setting the RLZ later. Exit here if the image doesn't
       # support partial board id.
-      check_cr50_support "0.3.24" "0.4.24" "partial board id"
+      if [ "$(gsc_name)" = "cr50" ]; then
+        check_cr50_support "0.3.24" "0.4.24" "partial board id"
+      fi
 
       rlz="0xffffffff"
       flag="0x3f80"
       ;;
     "whitelabel_dev_flags")
       # See "whitelabel_pvt_flags" for more details.
-      check_cr50_support "0.3.24" "0.4.24" "partial board id"
+      if [ "$(gsc_name)" = "cr50" ]; then
+        check_cr50_support "0.3.24" "0.4.24" "partial board id"
+      fi
 
       rlz="0xffffffff"
       # Per discussion in b/179626571
@@ -294,8 +301,8 @@ main() {
   # To provision board ID, we use RLZ brand code which is a four letter code
   # (see full list on go/crosrlz) from cros_config.
   if [ -z "${rlz}" ] ; then
-    rlz="$(cros_config / brand-code)"
-    if [ $? != 0 ]; then
+    rlz="$(cros_config / brand-code)" || exit_status="$?"
+    if [ "${exit_status}" != "0" ]; then
       die "cros_config returned non-zero."
     fi
   fi

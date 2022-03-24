@@ -6,6 +6,10 @@
 # This file defines constants for Cr50 devices. The constants are then used in
 # the shared GSC scripts.
 
+gsc_name() {
+  printf "cr50"
+}
+
 gsc_image_base_name() {
   printf "/opt/google/cr50/firmware/cr50.bin"
 }

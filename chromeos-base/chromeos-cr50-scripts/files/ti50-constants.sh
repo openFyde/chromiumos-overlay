@@ -6,6 +6,10 @@
 # This file defines constants for Ti50 devices. The constants are then used in
 # the shared GSC scripts.
 
+gsc_name() {
+  printf "ti50"
+}
+
 gsc_image_base_name() {
   printf "/opt/google/ti50/firmware/ti50.bin"
 }
