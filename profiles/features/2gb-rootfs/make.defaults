@@ -1,0 +1,18 @@
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+# Initial value just for style purposes.
+USE=""
+
+# Disable on-device grammar check for boards with 2GB rootfs.
+USE="${USE} -ondevice_grammar"
+
+# Disable on-device text suggestions.
+USE="${USE} -ondevice_text_suggestions"
+
+# Disable on-device handwriting.
+USE="${USE} -ondevice_handwriting"
+
+# Disable Floss Bluetooth
+USE="${USE} -floss"
