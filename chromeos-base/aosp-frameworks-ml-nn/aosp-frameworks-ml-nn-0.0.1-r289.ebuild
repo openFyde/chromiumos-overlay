@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("2a46a98f96ec6af1b6f71f0579284e78f254cb1f" "dfc60765002d441b35d361f3e87547f024905763" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_COMMIT=("679ac65e6eaee12011d43906aea4b8056911e284" "dfc60765002d441b35d361f3e87547f024905763" "eee167fa829d108a5678624050425899b348a252")
 CROS_WORKON_TREE=("32b4e8dd008b53110288d6ab187104a92b405c89" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1a519760c0824042cf8dbf53f82dff26e2d34ea1" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
@@ -48,7 +48,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer ipc-driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -228,6 +228,11 @@ src_install() {
 	if use xnnpack; then
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
+	fi
+	if use ipc-driver; then
+		einfo "Installing IPC HAL driver & worker"
+		dolib.so "${OUT}/lib/libmojo-driver.so"
+		dobin "${OUT}/nnapi_worker"
 	fi
 
 	# Install fuzz targets.
