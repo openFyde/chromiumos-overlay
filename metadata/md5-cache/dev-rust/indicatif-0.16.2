@@ -1,0 +1,15 @@
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare prerm setup test unpack
+DEPEND=>=dev-rust/console-0.9.1 <dev-rust/console-1.0.0_alpha:= =dev-rust/lazy_static-1*:= =dev-rust/number_prefix-0.4*:= =dev-rust/rayon-1*:= >=dev-rust/regex-1.3.1 <dev-rust/regex-2.0.0_alpha:= >=dev-rust/unicode-segmentation-1.6.0 <dev-rust/unicode-segmentation-2.0.0_alpha:= >=dev-rust/unicode-width-0.1.7 <dev-rust/unicode-width-0.2.0_alpha:= >=virtual/rust-1.39.0:= virtual/rust-binaries:=
+DESCRIPTION=A progress bar and cli reporting library for Rust
+EAPI=7
+HOMEPAGE=https://crates.io/crates/indicatif
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+KEYWORDS=*
+LICENSE=MIT
+RDEPEND=>=dev-rust/console-0.9.1 <dev-rust/console-1.0.0_alpha:= =dev-rust/lazy_static-1*:= =dev-rust/number_prefix-0.4*:= =dev-rust/rayon-1*:= >=dev-rust/regex-1.3.1 <dev-rust/regex-2.0.0_alpha:= >=dev-rust/unicode-segmentation-1.6.0 <dev-rust/unicode-segmentation-2.0.0_alpha:= >=dev-rust/unicode-width-0.1.7 <dev-rust/unicode-width-0.2.0_alpha:=
+REQUIRED_USE=?? ( asan lsan msan tsan )
+RESTRICT=test
+SLOT=0.16.2/r0
+SRC_URI=https://crates.io/api/v1/crates/indicatif/0.16.2/download -> indicatif-0.16.2.crate
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=df72d9e9e6c7b306e8d4796e763e7b42
