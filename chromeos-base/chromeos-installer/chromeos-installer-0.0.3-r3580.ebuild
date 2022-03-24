@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="2a46a98f96ec6af1b6f71f0579284e78f254cb1f"
+CROS_WORKON_COMMIT="900583962eb2117e0ad5a1b9bad09440490b9673"
 CROS_WORKON_TREE=("32b4e8dd008b53110288d6ab187104a92b405c89" "f45bcf55cff9de842014b0ca5d968cfa2b2a6941" "6fc4c6b35e5c71304e6fed40a7a24e6401d38df3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -70,6 +70,9 @@ src_install() {
 
 	# Enable lvm stateful partition.
 	if use lvm_stateful_partition; then
+		# We are replacing expansions in a shell file, and shellcheck thinks we want
+		# to expand those in this context. Ignore it.
+		# shellcheck disable=SC2016
 		sed -i '/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
 			"${D}/usr/sbin/chromeos-install" ||
 			die "Failed to set 'lvm_stateful' in chromeos-install"
