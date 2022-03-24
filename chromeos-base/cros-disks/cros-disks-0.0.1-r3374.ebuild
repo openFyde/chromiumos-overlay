@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b5e97ddc93f09685100c45e7bc81204bfed31bd7"
+CROS_WORKON_COMMIT="679ac65e6eaee12011d43906aea4b8056911e284"
 CROS_WORKON_TREE=("32b4e8dd008b53110288d6ab187104a92b405c89" "0bec4f415bd31af483c374e0d207eff18aecb04d" "f41b144d7a385199fa8955db004645f1e860d688" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -95,10 +95,17 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	use seccomp && newins archivemount-seccomp-${ARCH}.policy archivemount-seccomp.policy
-	use seccomp && newins mount-zip-seccomp-${ARCH}.policy mount-zip-seccomp.policy
-	use seccomp && newins rar2fs-seccomp-${ARCH}.policy rar2fs-seccomp.policy
-	use seccomp && newins mkfs-seccomp-${ARCH}.policy mkfs-seccomp.policy
+	if [[ -d seccomp_policy ]]; then
+		use seccomp && newins "seccomp_policy/archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
+		use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
+		use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
+		use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
+	else
+		use seccomp && newins "archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
+		use seccomp && newins "mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
+		use seccomp && newins "mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
+		use seccomp && newins "rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
+	fi
 
 	# Install upstart config file.
 	insinto /etc/init
