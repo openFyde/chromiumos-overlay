@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestat
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="generic_tpm2 test tpm tpm_dynamic tpm2"
+IUSE="generic_tpm2 test ti50_onboard tpm tpm_dynamic tpm2"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
