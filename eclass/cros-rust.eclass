@@ -693,10 +693,15 @@ cros_rust_platform_test() {
 # Call `cargo test` with the specified command line options.
 ecargo_test() {
 	local test_dir="${CARGO_TARGET_DIR}/ecargo-test"
+	local profile_flag=""
+	if ! has "--profile" "$@"; then
+		profile_flag="--release"
+	fi
 	if has "--no-run" "$@"; then
 		debug-print-function ecargo test --target="${CHOST}" --target-dir \
-			"${test_dir}" --release "$@"
-		ecargo test --target="${CHOST}" --target-dir "${test_dir}" --release "$@"
+			"${test_dir}" "${profile_flag}" "$@"
+		ecargo test --target="${CHOST}" --target-dir \
+			"${test_dir}" "${profile_flag}" "$@"
 	else
 		cros-rust_get_test_executables "$@"
 

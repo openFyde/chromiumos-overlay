@@ -282,6 +282,12 @@ src_test() {
 	# If syslog isn't available, skip the tests.
 	[[ -S /dev/log ]] || skip_tests+=(--skip "unix::syslog")
 
+	if use crosvm-plugin; then
+		# crosvm_plugin is a cdylibs, so we need to use a profile
+		# that doesn't include panic=abort.
+		args+=(--profile release-test)
+	fi
+
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
 		"${skip_tests[@]}" \
@@ -290,7 +296,7 @@ src_test() {
 	# Plugin tests all require /dev/kvm, but we want to make sure they build
 	# at least.
 	if use crosvm-plugin; then
-		ecargo_test --no-run --features plugin \
+		ecargo_test --no-run --features plugin --profile release-test \
 			|| die "cargo build with plugin feature failed"
 	fi
 }
