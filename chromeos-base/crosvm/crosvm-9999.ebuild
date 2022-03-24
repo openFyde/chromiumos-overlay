@@ -61,6 +61,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/bitflags-1*:=
 	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
 	=dev-rust/cfg-if-1*:=
+	dev-rust/chrono:=
 	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	=dev-rust/crossbeam-utils-0.8*:=
@@ -89,6 +90,7 @@ DEPEND="${COMMON_DEPEND}
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
 	=dev-rust/rand-0.6*:=
+	dev-rust/regex:=
 	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
@@ -99,6 +101,8 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/remain:=
 	dev-rust/system_api:=
+	dev-rust/winapi:=
+	>=dev-rust/windows-0.10.0:= <dev-rust/windows-0.11
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
