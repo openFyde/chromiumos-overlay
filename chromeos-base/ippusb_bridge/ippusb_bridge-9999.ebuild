@@ -49,6 +49,10 @@ pkg_preinst() {
 src_install() {
 	dobin "$(cros-rust_get_build_dir)"/ippusb_bridge
 
+	# install tmpfiles.d
+	insinto /usr/lib/tmpfiles.d/on-demand/
+	newins "tmpfiles.d/on-demand/ippusb-bridge.conf" "ippusb-bridge.conf"
+
 	# Install policy files.
 	insinto /usr/share/policy
 	newins "seccomp/ippusb-bridge-seccomp-${ARCH}.policy" \
