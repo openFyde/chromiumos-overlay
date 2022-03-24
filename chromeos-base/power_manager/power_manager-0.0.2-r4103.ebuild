@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="973bd1ca82e97419d032a2cd92fe3d1266972b30"
+CROS_WORKON_COMMIT="e2a86f919de76e9d8d5ce94980121e8c203cfc62"
 CROS_WORKON_TREE=("32b4e8dd008b53110288d6ab187104a92b405c89" "cef544b2080c4b195471edfae2d297117328c6e0" "04d918571ad6d12563589ccf1b8c0e79b65521aa" "f124a688719de806ff8ff5c4e4d9a311e111e808" "f41b144d7a385199fa8955db004645f1e860d688" "f99b4d646372a76acc5ce9d0891fdd3813bef130" "f2aacb18877f744e0d4d63333a7dbee47afe6a86" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/ml-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=

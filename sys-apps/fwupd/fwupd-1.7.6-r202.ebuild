@@ -177,6 +177,10 @@ src_install() {
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
+	# Enable retimer NDA update flow
+	sed 's/RetimerOfflineMode=false/RetimerOfflineMode=true/' \
+		-i "${ED}"/etc/${PN}/thunderbolt.conf || die
+
 	# Install udev rules to fix user permissions.
 	udev_dorules "${FILESDIR}"/90-fwupd.rules
 
