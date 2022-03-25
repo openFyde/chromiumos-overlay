@@ -39,6 +39,7 @@ RDEPEND="
 	!media-libs/mesa-iris[-libglvnd(-)]
 	!media-libs/mesa-llvmpipe[-libglvnd(-)]
 	!media-libs/mesa-panfrost[-libglvnd(-)]
+	!media-libs/mesa-reven[-libglvnd(-)]
 	X? (
 		x11-libs/libX11[${MULTILIB_USEDEP}]
 		x11-libs/libXext[${MULTILIB_USEDEP}]
