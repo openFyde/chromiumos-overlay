@@ -127,6 +127,7 @@ src_configure() {
 		-Dplatforms=''
 		-Dprefer-iris=false
 		-Dshader-cache-default=false
+		$(meson_use libglvnd glvnd)
 		$(meson_feature egl)
 		$(meson_feature gbm)
 		$(meson_feature gles1)
