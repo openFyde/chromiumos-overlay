@@ -8,5 +8,5 @@ LICENSE=BSD-Google
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/google/starlark-go/archive/87f333178d5942de51b193111d6f636c79833ea5.tar.gz -> github.com-google-starlark-go-87f333178d5942de51b193111d6f636c79833ea5.tar.gz https://github.com/chzyer/logex/archive/v1.1.10.tar.gz -> github.com-chzyer-logex-v1.1.10.tar.gz https://github.com/chzyer/readline/archive/2972be24d48e78746da79ba8e24e8b488c9880de.tar.gz -> github.com-chzyer-readline-2972be24d48e78746da79ba8e24e8b488c9880de.tar.gz https://github.com/chzyer/test/archive/a1ea475d72b168a29f44221e0ad031a842642302.tar.gz -> github.com-chzyer-test-a1ea475d72b168a29f44221e0ad031a842642302.tar.gz
-_eclasses_=cros-go	f783aa800876cbcbdf7528391f45b8be	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-go	4b8a1215b463d46377ad73fc86e44f6e	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=07fc8141651ee60b5307e83575e62b3c
