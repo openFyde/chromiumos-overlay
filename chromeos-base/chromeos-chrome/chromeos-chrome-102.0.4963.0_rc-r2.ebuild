@@ -1000,6 +1000,7 @@ chrome_make() {
 	# Still use a script to check if the orderfile is used properly, i.e.
 	# Builtin_ functions are placed between the markers, etc.
 	if use strict_toolchain_checks && (use orderfile_use || use orderfile_verify); then
+		einfo "Verifying orderfile..."
 		"${FILESDIR}/check_orderfile.py" "${build_dir}/chrome" || die
 	fi
 }
