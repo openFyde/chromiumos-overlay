@@ -525,7 +525,13 @@ src_unpack() {
 	echo
 	ewarn "If you want to develop or hack on the browser itself, you should follow the"
 	ewarn "simple chrome workflow instead of using emerge:"
-	ewarn "https://chromium.googlesource.com/chromiumos/docs/+/master/simple_chrome_workflow.md"
+	ewarn "https://chromium.googlesource.com/chromiumos/docs/+/HEAD/simple_chrome_workflow.md"
+	ewarn ""
+	ewarn "Otherwise, if you have a Chrome checkout already present on your machine, you can"
+	ewarn "re-enter the cros_sdk with the --chrome-root arg and set CHROME_ORIGIN to"
+	ewarn "LOCAL_SOURCE. This will bypass the lengthy sync_chrome phase here."
+	ewarn "Note: when using --chrome-root, the ebuild won't update or modify the Chrome checkout."
+	ewarn "So make sure it's at a compatible Chrome version before proceeding."
 	echo
 
 	tc-export CC CXX
