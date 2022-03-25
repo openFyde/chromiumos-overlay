@@ -11,7 +11,7 @@ CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
 CROS_WORKON_LOCALNAME="llvm-project"
 CROS_WORKON_MANUAL_UPREV=1
 
-inherit cmake-multilib cros-constants cros-llvm flag-o-matic git-2 llvm python-any-r1 cros-workon
+inherit cmake-multilib cros-constants cros-llvm flag-o-matic git-2 python-any-r1 cros-workon
 
 DESCRIPTION="Low level support for a standard C++ library"
 HOMEPAGE="http://libcxxabi.llvm.org/"
@@ -50,7 +50,6 @@ python_check_deps() {
 
 pkg_setup() {
 	setup_cross_toolchain
-	llvm_pkg_setup
 	export CMAKE_USE_DIR="${S}/libcxxabi"
 }
 

@@ -13,7 +13,7 @@ CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
 CROS_WORKON_LOCALNAME="llvm-project"
 CROS_WORKON_MANUAL_UPREV=1
 
-inherit cmake-multilib cros-constants cros-llvm git-2 llvm python-any-r1 toolchain-funcs cros-workon
+inherit cmake-multilib cros-constants cros-llvm git-2 python-any-r1 toolchain-funcs cros-workon
 
 DESCRIPTION="New implementation of the C++ standard library, targeting C++11"
 HOMEPAGE="http://libcxx.llvm.org/"
@@ -78,7 +78,6 @@ src_prepare() {
 
 pkg_setup() {
 	setup_cross_toolchain
-	llvm_pkg_setup
 	export CMAKE_USE_DIR="${S}/libcxx"
 }
 
