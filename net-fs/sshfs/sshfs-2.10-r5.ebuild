@@ -22,6 +22,7 @@ DEPEND="${CDEPEND}
 src_prepare() {
 	eapply "${FILESDIR}"/sshfs-2.10-mount-mode.patch
 	eapply "${FILESDIR}"/sshfs-2.10-disable-symlinks.patch
+	eapply "${FILESDIR}"/sshfs-2.10-vsock.patch
 	eapply_user
 }
 
