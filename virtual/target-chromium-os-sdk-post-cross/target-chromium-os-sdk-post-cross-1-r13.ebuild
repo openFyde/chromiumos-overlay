@@ -26,6 +26,7 @@ IUSE=""
 RDEPEND="
 	dev-lang/rust
 	dev-rust/bindgen
+	dev-rust/cbindgen
 	dev-rust/dbus-codegen
 	dev-rust/protobuf-codegen
 	dev-util/cxxbridge-cmd
