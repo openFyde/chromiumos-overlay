@@ -3,12 +3,12 @@ DEPEND=>=dev-rust/clap-2.33:= <dev-rust/clap-3.0.0_alpha >=dev-rust/codespan-rep
 DESCRIPTION=C++ code generator for integrating 'cxx' crate into a non-Cargo build.
 EAPI=7
 HOMEPAGE=https://crates.io/crates/cxxbridge-cmd
-IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 )
 RDEPEND=>=dev-rust/clap-2.33:= <dev-rust/clap-3.0.0_alpha >=dev-rust/codespan-reporting-0.11:= <dev-rust/codespan-reporting-0.12.0_alpha >=dev-rust/proc-macro2-1.0.26:= <dev-rust/proc-macro2-2.0.0_alpha >=dev-rust/quote-1.0:= <dev-rust/quote-2.0.0_alpha >=dev-rust/syn-1.0.68:= <dev-rust/syn-2.0.0_alpha !dev-util/cxxbridge-cmd:1.0.42
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/1.0.42-r3
 SRC_URI=https://crates.io/api/v1/crates/cxxbridge-cmd/1.0.42/download -> cxxbridge-cmd-1.0.42.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	d177b96a53cea904fe6f4460edab3c9c	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=a822038fc7cb21c6c51176b1176f2b18

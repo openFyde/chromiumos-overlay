@@ -3,7 +3,7 @@ DEPEND=>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha:= =dev-rust/cfg-
 DESCRIPTION=Rustyline, a readline implementation based on Antirez's Linenoise
 EAPI=7
 HOMEPAGE=https://crates.io/crates/rustyline
-IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan sccache test tsan ubsan x86
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=MIT
 RDEPEND=>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha:= =dev-rust/cfg-if-1*:= =dev-rust/dirs-next-2*:= =dev-rust/fd-lock-3*:= =dev-rust/libc-0.2*:= =dev-rust/log-0.4*:= =dev-rust/memchr-2*:= =dev-rust/radix_trie-0.2*:= >=dev-rust/regex-1.5.4 <dev-rust/regex-2.0.0_alpha:= >=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha:= =dev-rust/unicode-segmentation-1*:= =dev-rust/unicode-width-0.1*:= =dev-rust/nix-0.23*:= =dev-rust/skim-0.9*:= =dev-rust/utf8parse-0.2*:=
@@ -11,5 +11,5 @@ REQUIRED_USE=?? ( asan lsan msan tsan )
 RESTRICT=test
 SLOT=9.1.1/r0
 SRC_URI=https://crates.io/api/v1/crates/rustyline/9.1.1/download -> rustyline-9.1.1.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	6eeb74d498700b38a0852e1f4514dea4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	d177b96a53cea904fe6f4460edab3c9c	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=f6e6160e83eed2a2dbbbaf01e21e195f
