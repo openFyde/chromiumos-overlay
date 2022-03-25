@@ -16,9 +16,9 @@
 if [[ -z ${_ECLASS_CROS_RUST} ]]; then
 _ECLASS_CROS_RUST="1"
 
-# Check for EAPI 6+.
+# Check for EAPI 7+.
 case "${EAPI:-0}" in
-[012345]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+[0123456]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
 # @ECLASS-VARIABLE: CROS_RUST_CRATE_NAME
