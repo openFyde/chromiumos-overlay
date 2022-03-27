@@ -93,17 +93,10 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	if [[ -d seccomp_policy ]]; then
-		use seccomp && newins "seccomp_policy/archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
-		use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
-		use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
-		use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
-	else
-		use seccomp && newins "archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
-		use seccomp && newins "mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
-		use seccomp && newins "mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
-		use seccomp && newins "rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
-	fi
+	use seccomp && newins "seccomp_policy/archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
+	use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
+	use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
+	use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
 
 	# Install upstart config file.
 	insinto /etc/init
