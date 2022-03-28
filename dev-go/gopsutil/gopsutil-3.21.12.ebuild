@@ -6,14 +6,7 @@ EAPI=5
 CROS_GO_SOURCE="github.com/shirou/gopsutil v${PV}"
 
 CROS_GO_PACKAGES=(
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
-	"github.com/shirou/gopsutil/host"
-	"github.com/shirou/gopsutil/internal/..."
-	"github.com/shirou/gopsutil/load"
-	"github.com/shirou/gopsutil/mem"
-	"github.com/shirou/gopsutil/net"
-	"github.com/shirou/gopsutil/process"
+	"github.com/shirou/gopsutil/..."
 )
 
 CROS_GO_TEST=(
@@ -38,10 +31,10 @@ IUSE="test"
 RESTRICT="binchecks strip"
 
 DEPEND="
-	test? ( dev-go/go-sys )
-	dev-go/go-sysconf
-"
-RDEPEND="
+	dev-go/cmp
+	dev-go/errcheck
 	dev-go/go-sys
 	dev-go/go-sysconf
+	dev-go/testify
 "
+RDEPEND="${DEPEND}"
