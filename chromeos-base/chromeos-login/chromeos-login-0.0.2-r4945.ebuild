@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b85805fc18ef6836b767875f3cd86ae0f9e1b83a"
+CROS_WORKON_COMMIT="dad746d9368bc68653712d2985533aa7b6f27ed5"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "426eec32f5fba668dfe3d3e0c911102f4837b440" "80c5819c407ab00f2fa2f9e485f269d54e46ae18" "56dc9b3a788bc68f829c1e7a1d3b6cf067c7aaf9" "b50ce58e3ab15d0b0410346ffdcbf4542cadbec1" "f41b144d7a385199fa8955db004645f1e860d688" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ PLATFORM_SUBDIR="login_manager"
 inherit tmpfiles cros-workon cros-unibuild platform systemd user
 
 DESCRIPTION="Login manager for Chromium OS."
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-login/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/login_manager/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
