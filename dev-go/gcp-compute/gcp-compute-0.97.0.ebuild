@@ -27,5 +27,7 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/net"
+DEPEND="
+	dev-go/net
+"
 RDEPEND="${DEPEND}"

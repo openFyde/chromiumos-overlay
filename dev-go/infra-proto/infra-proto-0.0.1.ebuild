@@ -28,5 +28,13 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/cros-config-api
+	dev-go/genproto
+	dev-go/go-sys
+	dev-go/grpc
+	dev-go/net
+	dev-go/protobuf
+	dev-go/protobuf-legacy-api
+	dev-go/text
 "
 RDEPEND="${DEPEND}"

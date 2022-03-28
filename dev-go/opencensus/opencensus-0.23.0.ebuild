@@ -40,9 +40,13 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/appengine
+	dev-go/cmp
 	dev-go/gapi-bundler
 	dev-go/genproto
 	dev-go/golang-groupcache
+	dev-go/grpc
+	dev-go/net
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
 	dev-go/testify

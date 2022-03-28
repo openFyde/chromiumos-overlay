@@ -22,6 +22,8 @@ KEYWORDS="~*"
 
 RDEPEND="
 	dev-go/genproto
+	dev-go/grpc
+	dev-go/protobuf-legacy-api
 "
 
 DEPEND="

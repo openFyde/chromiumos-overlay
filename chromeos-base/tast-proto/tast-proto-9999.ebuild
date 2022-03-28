@@ -27,6 +27,7 @@ IUSE=""
 
 DEPEND="
 	dev-go/protobuf-legacy-api
+	dev-go/text
 "
 
 RDEPEND=""

@@ -22,5 +22,9 @@ IUSE=""
 
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/go-sys"
+DEPEND="
+	dev-go/cmp
+	dev-go/go-sys
+	dev-go/net
+"
 RDEPEND=""

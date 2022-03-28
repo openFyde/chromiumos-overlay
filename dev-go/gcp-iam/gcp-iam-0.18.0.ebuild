@@ -32,5 +32,6 @@ DEPEND="
 	dev-go/genproto
 	dev-go/grpc
 	dev-go/net
+	dev-go/protobuf-legacy-api
 "
 RDEPEND="${DEPEND}"
