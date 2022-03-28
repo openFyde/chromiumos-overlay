@@ -48,6 +48,7 @@ COMMON_DEPEND="
 	)
 	selinux? (
 		sys-libs/libselinux:=
+		chromeos-base/selinux-policy:=
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
