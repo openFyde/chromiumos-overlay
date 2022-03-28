@@ -215,13 +215,13 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-lang/rust:*|\
 		dev-libs/libffi:3.1*|\
 		dev-libs/libusb-compat:0.1.5*|\
-		dev-libs/lzo:*|\
+		dev-libs/lzo:2.10*|\
 		dev-python/grpcio:*|\
 		dev-python/psutil:*|\
 		dev-util/patchutils:*|\
-		net-libs/libmnl:*|\
-		sys-apps/groff:*|\
-		sys-devel/m4:*|\
+		net-libs/libmnl:1.0.4*|\
+		sys-apps/groff:1.22*|\
+		sys-devel/m4:1.4.18*|\
 		sys-libs/binutils-libs:*|\
 		x11-libs/gdk-pixbuf:*) return 1;;
 		esac
@@ -229,7 +229,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	_sdk_build_filter_gcc() {
 		case ${CATEGORY}/${PN}:${PV} in
 		cross-*/glibc:*|\
-		*/linux-headers:*|\
+		*/linux-headers:4*|\
 		chromeos-base/ec-utils:*|\
 		dev-embedded/u-boot-tools:2018.05*|\
 		dev-python/numpy:*|\
@@ -291,7 +291,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-libs/mesa-amd:*|\
 		media-libs/mesa-llvmpipe:*|\
 		net-analyzer/wireshark:*|\
-		net-dns/dnsmasq:*|\
+		net-dns/dnsmasq:2.85*|\
 		net-misc/dhcpcd:*|\
 		net-misc/improxy:*|\
 		sys-apps/cavium-n3fips-driver:*|\
@@ -413,7 +413,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-libs/arc-mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-valhall:*|\
-		net-libs/nodejs:*|\
+		net-libs/nodejs:12*|\
 		sys-boot/coreboot:*|\
 		sys-devel/arc-llvm:*|\
 		sys-devel/llvm:*) return 1;;
@@ -424,7 +424,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-libs/arc-mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-valhall:*|\
-		net-libs/nodejs:*|\
+		net-libs/nodejs:12*|\
 		sys-devel/arc-llvm:*|\
 		sys-devel/llvm:*) return 1;;
 		esac
