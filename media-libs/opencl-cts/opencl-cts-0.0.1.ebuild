@@ -35,9 +35,6 @@ BDEPEND="
 S="${WORKDIR}/${OPENCL_CTS}"
 
 PATCHES=(
-	"${FILESDIR}/test_select.patch"
-	"${FILESDIR}/test_sub_buffers.patch"
-	"${FILESDIR}/test_int_basic_ops.patch"
 	"${FILESDIR}/test_conversions.patch"
 )
 
