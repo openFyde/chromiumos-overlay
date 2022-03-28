@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_GO_SOURCE=(
-	"github.com/maruel/subcommands de1d40e70d4b89b9c560a4d308e0bc9f5c9e18d7"
+	"github.com/maruel/subcommands v${PV}"
 )
 
 CROS_GO_PACKAGES=(
@@ -23,5 +23,11 @@ KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
 
-DEPEND="dev-go/levenshtein"
+DEPEND="
+	dev-go/cmp
+	dev-go/levenshtein
+	dev-go/kr-text
+	dev-go/pretty
+	dev-go/utiltest
+"
 RDEPEND="${DEPEND}"
