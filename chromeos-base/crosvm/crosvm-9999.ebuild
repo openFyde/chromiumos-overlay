@@ -11,7 +11,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-fuzzer cros-rust cros-workon user
 
-PREBUILT_VERSION="r0000"
+PREBUILT_VERSION="r0001"
 KERNEL_FILE="crosvm-testing-bzimage-x86_64-${PREBUILT_VERSION}"
 ROOTFS_FILE="crosvm-testing-rootfs-x86_64-${PREBUILT_VERSION}"
 
@@ -217,7 +217,7 @@ src_test() {
 
 	# Pass kernel/rootfs prebuilts to integration tests.
 	# See crosvm/integration_tests/README.md for details.
-	local CROSVM_CARGO_TEST_PREBUILT_VERSION="${PREBUILT_VERSION}"
+	export CROSVM_CARGO_TEST_PREBUILT_VERSION="${PREBUILT_VERSION}"
 	local kernel_binary="${DISTDIR}/${KERNEL_FILE}"
 	[[ -e "${kernel_binary}" ]] || die "expected to find kernel binary at ${kernel_binary}"
 	CROS_RUST_PLATFORM_TEST_ARGS+=(
