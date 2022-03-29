@@ -101,6 +101,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/remain:=
 	dev-rust/system_api:=
+	>=dev-rust/terminal_size-0.1.17:=
 	dev-rust/winapi:=
 	>=dev-rust/windows-0.10.0:= <dev-rust/windows-0.11
 	tpm2? (
