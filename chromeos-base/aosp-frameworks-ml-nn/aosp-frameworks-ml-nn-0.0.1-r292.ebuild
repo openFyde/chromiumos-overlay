@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("dad746d9368bc68653712d2985533aa7b6f27ed5" "b49239edac53634cbb1fb7dc0c1b42d0f0bf2ee5" "eee167fa829d108a5678624050425899b348a252")
+CROS_WORKON_COMMIT=("285ba24b648c3d8c9ecbae717d26402bcc45c94e" "b49239edac53634cbb1fb7dc0c1b42d0f0bf2ee5" "eee167fa829d108a5678624050425899b348a252")
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0e48a748b5d0052a7865856feada916ff509fb69" "dc25ed68a7d37cb190a28c01c84f8bb2e874bb47")
 inherit cros-constants
 
@@ -48,7 +48,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer ipc-driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer ipc-driver strace_ipc_driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -74,6 +74,9 @@ src_configure() {
 	fi
 	if use minimal-driver; then
 		append-cppflags "-DNNAPI_USE_MINIMAL_DRIVER"
+	fi
+	if use strace_ipc_driver; then
+		append-cppflags "-DSTRACE_NNAPI_HAL_IPC_DRIVER"
 	fi
 	platform_src_configure
 }
@@ -196,6 +199,9 @@ src_compile() {
 			platform "compile" "runtime_xnn_testrunner"
 		fi
 	fi
+	if use ipc-driver; then
+		platform "compile" "mojo-driver"
+	fi
 }
 
 src_install() {
@@ -230,6 +236,10 @@ src_install() {
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
 	if use ipc-driver; then
+		einfo "Installing seccomp policy files for ${ARCH}."
+		insinto /usr/share/policy
+		newins "seccomp/nnapi-hal-driver-seccomp-${ARCH}.policy" nnapi-hal-driver-seccomp.policy
+
 		einfo "Installing IPC HAL driver & worker"
 		dolib.so "${OUT}/lib/libmojo-driver.so"
 		dobin "${OUT}/nnapi_worker"
