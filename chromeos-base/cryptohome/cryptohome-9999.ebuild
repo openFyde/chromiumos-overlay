@@ -73,6 +73,10 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
+	test? (
+		app-shells/dash:=
+		chromeos-base/chromeos-base:=
+	)
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	chromeos-base/attestation-client:=
 	chromeos-base/cryptohome-client:=
