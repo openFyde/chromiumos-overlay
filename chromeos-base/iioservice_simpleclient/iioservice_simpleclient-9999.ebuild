@@ -30,6 +30,5 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/iioservice_simpleclient
-	dosbin "${OUT}"/iioservice_query
+	platform_install
 }
