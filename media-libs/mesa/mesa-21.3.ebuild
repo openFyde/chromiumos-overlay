@@ -76,6 +76,9 @@ RDEPEND="
 	llvm? ( virtual/libelf )
 	dev-libs/expat
 	dev-libs/libgcrypt
+	wayland? (
+		dev-libs/wayland:=
+	)
 	virtual/udev
 	zstd? ( app-arch/zstd )
 	${LIBDRM_DEPSTRING}
