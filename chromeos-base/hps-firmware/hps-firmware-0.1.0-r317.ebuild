@@ -211,6 +211,14 @@ src_test() {
 }
 
 src_install() {
+	# Extract stage1 version (currently this is just the first 4 bytes of the
+	# stage1 signature).
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
+	python3 -c "with open('${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed', 'rb') as f:
+		f.seek(20);
+		print(int.from_bytes(f.read(4), 'big'))" \
+		>mcu_stage1.version.txt || die
+
 	# install build metadata for use by:
 	# https://source.corp.google.com/chromeos_internal/src/platform/tast-tests-private/src/chromiumos/tast/local/bundles/crosint/hps/fpga_gateware_stats.go
 	insinto "/usr/lib/firmware/hps"
@@ -221,6 +229,7 @@ src_install() {
 	insinto "/firmware/hps"
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
+	doins mcu_stage1.version.txt
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 	newins build/hps_platform/fpga_rom.bin fpga_application.bin
 }
