@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk dlcservice metrics .gn"
 
 PLATFORM_SUBDIR="dlcservice"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="A D-Bus service for Downloadable Content (DLC)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservice/"
@@ -42,12 +42,15 @@ src_install() {
 
 	# Seccomp policy files.
 	insinto /usr/share/policy
-	newins seccomp/dlcservice-seccomp-${ARCH}.policy \
+	newins "seccomp/dlcservice-seccomp-${ARCH}.policy" \
 		dlcservice-seccomp.policy
 
 	# Upstart configuration
 	insinto /etc/init
 	doins dlcservice.conf
+
+	# Tmpfiles.d configuration
+	dotmpfiles tmpfiles.d/*.conf
 
 	# D-Bus configuration
 	insinto /etc/dbus-1/system.d
