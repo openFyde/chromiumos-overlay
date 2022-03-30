@@ -3194,5 +3194,49 @@
             "from": 446699,
             "until": 457288
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [ELF][X86] Don't create IBT .plt if there is no PLT entry"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/9d7001eba9c4cb311e03cd8cdc231f9e579f2d0f.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 454222
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [AArch64] Ensure fixed point fptoi_sat has correct saturation width"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/60f57b36587c99175cb380406e2502a592a0c400.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 457377
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"Add BITINT_MAXWIDTH support\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/fad7e491a0770ac4336934030ac67d77e7af5520.patch",
+        "version_range": {
+            "from": 450780,
+            "until": 450807
+        }
     }
 ]
