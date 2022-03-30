@@ -37,7 +37,9 @@ IUSE="test"
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/go-tools
 	dev-go/misspell
+	dev-go/mod
 	test? (
 		dev-go/cmp
 		dev-go/sync
