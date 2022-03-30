@@ -151,26 +151,6 @@ cros_pre_pkg_setup_sysroot_build_bin_dir() {
 	PATH+=":${CROS_BUILD_BOARD_BIN}"
 }
 
-# The python-utils-r1.eclass:python_wrapper_setup installs a stub program named
-# `python2` when PYTHON_COMPAT only lists python-3 programs.  It's designed to
-# catch bad packages that still use `python2` even though we said not to.  We
-# normally expect packages installed by Gentoo to use specific versions like
-# `python2.7`, so the stub doesn't break things there.  In Chromium OS though,
-# our chromite code (by design) uses `python2`.  We don't install a copy via
-# the ebuild, so we wouldn't rewrite the she-bang.  Delete the stub since it
-# doesn't add a lot of value for us and breaks chromite.
-#
-# We can delete this code iif we only ever support a single major version of
-# Python in the entire system.  We'd have to drop all of Python 2 completely,
-# and never have Python 4 :).
-cros_post_pkg_setup_python_eclass_hack() {
-	rm -f "${T}"/python2.*/bin/python3
-}
-# A few packages run this during src_* phases.
-cros_post_src_compile_python_eclass_hack() {
-	cros_post_pkg_setup_python_eclass_hack
-}
-
 # We don't want builds to run tools directly like `gcc` or `clang` or
 # `pkg-config`.  This indicates the packages are written incorrectly and
 # would use the wrong toolchain for the board.  They might seem to work for
