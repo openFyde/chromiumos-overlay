@@ -34,6 +34,7 @@ RDEPEND="${RDEPEND}
 	app-arch/p7zip
 	app-arch/tar
 	app-shells/bash
+	dev-lang/rust-host
 	net-misc/iputils
 	net-misc/rsync
 	sys-apps/baselayout

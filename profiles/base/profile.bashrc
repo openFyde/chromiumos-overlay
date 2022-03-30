@@ -176,7 +176,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-util/shellcheck:*) return 1;;
 		dev-haskell/*) return 1;;
 		dev-lang/ghc:*) return 1;;
-		dev-lang/rust:*) return 1;;
 		dev-python/pycairo:1.20*) return 1;;
 		media-video/ffmpeg:4.4*) return 1;;
 		net-analyzer/wireshark:3.4.*) return 1;;
@@ -192,7 +191,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		app-text/xmlto:*|\
 		cross-*/gdb:*|\
 		dev-embedded/u-boot-tools:2018.05*|\
-		dev-lang/rust:*|\
 		dev-libs/libffi:3.1*|\
 		dev-libs/libusb-compat:0.1.5*|\
 		dev-libs/lzo:2.10*|\
