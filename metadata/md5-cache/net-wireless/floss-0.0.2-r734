@@ -1,0 +1,15 @@
+BDEPEND=dev-libs/tinyxml2:= dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install postinst postrm preinst prepare prerm setup test unpack
+DEPEND=dev-libs/flatbuffers:= dev-libs/modp_b64:= dev-libs/tinyxml2:= dev-libs/openssl:= =dev-rust/cc-1*:= net-wireless/bluez >=virtual/rust-1.39.0:= virtual/rust-binaries:= >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=Bluetooth Tools and System Daemons for Linux
+EAPI=7
+HOMEPAGE=https://android.googlesource.com/platform/system/bt/
+IUSE=bt_dynlib floss_upstream cros_host cros_workon_tree_20fecf8e8aefa548043f2cb501f222213c15929d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_528204b93dce02a0e3c27f480c59d99f0d44a9f3_7c41e3fdf4fad54f1c72c97e4f9472700e9e29ba_6d6d30d2820fbf83ddf3948e3bde591731421074_5da74ac655d7167f664aa6f1ca5cb51ae90a0952 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86 cros-debug fuzzer cros_host cros_workon_tree_20fecf8e8aefa548043f2cb501f222213c15929d_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb_528204b93dce02a0e3c27f480c59d99f0d44a9f3_7c41e3fdf4fad54f1c72c97e4f9472700e9e29ba_6d6d30d2820fbf83ddf3948e3bde591731421074_5da74ac655d7167f664aa6f1ca5cb51ae90a0952 cros-debug compilation_database cros_host test
+KEYWORDS=*
+LICENSE=Apache-2.0 MIT BSD ISC
+PROPERTIES=live live
+RDEPEND=dev-libs/flatbuffers:= dev-libs/modp_b64:= dev-libs/tinyxml2:= dev-libs/openssl:= =dev-rust/cc-1*:= net-wireless/bluez >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:= virtual/tmpfiles
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0/0.0.2-r734
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-rust	91c11d1f01eadf94bd298af22ed7353c	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	36d32a1662085fe36bb5f0f4fe41537a	libchrome-version	f89118941e7f3c3825d2fe216c977c57	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	0b69ab49d3872be9b43ae2f5d4afb1d6	tmpfiles	6170dc7770585fb3f16efdee789a3218	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=e5578cfedbd3ce7d9453e72cea2837bb
