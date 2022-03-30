@@ -51,7 +51,6 @@ RDEPEND="${RDEPEND}
 	sys-apps/which
 	sys-devel/autoconf
 	sys-devel/autoconf-archive
-	sys-devel/automake:1.10
 	sys-devel/automake:1.11
 	sys-devel/automake:1.15
 	sys-devel/binutils
