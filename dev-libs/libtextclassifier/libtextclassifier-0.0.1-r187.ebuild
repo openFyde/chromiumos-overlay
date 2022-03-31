@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("026d60aba8cb64ab3f1fc68005d2aa637cc9d35e" "01652c17e116baa8ebd7083e8cbc3dede513ac9e")
+CROS_WORKON_COMMIT=("6a490115061926046a9671cc709f692c505c6bc6" "01652c17e116baa8ebd7083e8cbc3dede513ac9e")
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4fa2be0611424952390eb570106ed5944e294b46")
 CROS_WORKON_LOCALNAME=("../platform2" "libtextclassifier")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/libtextclassifier")
@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/libtextclassi
 
 MODEL_URI=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-language_identification-20190924.smfb"
-	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v711_vocab-v1.fb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-text_classifier_en-v714_vocab-with_beginner_words-20220318.fb"
 )
 
 SRC_URI="${MODEL_URI[*]}"
