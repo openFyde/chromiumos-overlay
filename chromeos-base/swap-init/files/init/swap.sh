@@ -261,11 +261,6 @@ start() {
   if [ -z "${requested_size_mb}" ]; then
     # Default multiplier for zram size. (Shell math is integer only.)
     local multiplier="3 / 2"
-    # On ARM32 / ARM64 CPUs graphics memory is not reclaimable, so use a smaller
-    # size.
-    if arch | grep -qiE "arm|aarch64"; then
-      multiplier="1"
-    fi
     # The multiplier may be an expression, so it MUST use the $ expansion.
     size_kb=$(( mem_total * ${multiplier} ))
   elif [ "${requested_size_mb}" = "0" ]; then
