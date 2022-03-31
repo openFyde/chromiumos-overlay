@@ -1,17 +1,17 @@
-From 74dbc9712d2c8ba12ed06f73fa8e5e69b8dbab5e Mon Sep 17 00:00:00 2001
+From a480b75b459db6bed88a7b8e5ffc2cf922d0eb0d Mon Sep 17 00:00:00 2001
 From: Ryan Neph <ryanneph@google.com>
-Date: Thu, 31 Mar 2022 13:30:39 -0700
+Date: Wed, 20 Apr 2022 17:54:19 -0700
 Subject: [PATCH] vkr: add support for globalFencing
 
 Squashed commit of the following:
 
-commit d410ef0746b5eb74acc595906229e6e70263af14
+commit cae72b1fe46884ddc7835db08acde2d17720e27d
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Dec 10 14:10:48 2021 -0800
 
     proxy: stub out export_fence
 
-commit 1bf8ae87ad131838508ef2e04b3077b5e9015be1
+commit afc0a70205a218bd0e45e647d38290c8a0f85260
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Wed Oct 13 11:27:34 2021 -0700
 
@@ -20,7 +20,7 @@ Date:   Wed Oct 13 11:27:34 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Ryan Neph <ryanneph@google.com>
 
-commit f663b0924bc9a450968cc397b2e81faba2d3a1f8
+commit 1e2cbfa52d6265a20f2f17f40c2221acf72be6b8
 Author: Ryan Neph <ryanneph@google.com>
 Date:   Mon Oct 4 16:24:35 2021 -0700
 
@@ -37,7 +37,7 @@ Date:   Mon Oct 4 16:24:35 2021 -0700
     Signed-off-by: Ryan Neph <ryanneph@google.com>
     Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 
-commit f7a4531b79523cb6dffe603a3c98e2b75fd65ce3
+commit 88093fab732224d3b59c7f161369e7b599095113
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Jun 8 12:39:00 2021 -0700
 
@@ -46,7 +46,7 @@ Date:   Tue Jun 8 12:39:00 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 30bb18d3a590aeb950a3c99f93e278c3fc024dc8
+commit f6c97d012d31cb5b3643d7c2181be87dd5482a5c
 Author: Ryan Neph <ryanneph@google.com>
 Date:   Thu Mar 31 13:22:05 2022 -0700
 
@@ -58,7 +58,7 @@ Date:   Thu Mar 31 13:22:05 2022 -0700
     Signed-off-by: Ryan Neph <ryanneph@google.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 441b1a80c4d6d74dae23e5ba775066746699e05c
+commit 86c3132e547c69a160e66c0b81d5fb60502adc8e
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:22:18 2021 -0700
 
@@ -82,7 +82,7 @@ Date:   Tue Mar 16 16:22:18 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit a1aeb8c511e96b43013a328d2aa64e3c783d017b
+commit ec3171d50913be6a7709024b6e8b8e01ef01aa4a
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:50:02 2021 -0700
 
@@ -95,7 +95,7 @@ Date:   Tue Mar 16 16:50:02 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 82b68d310abdf98ac3885749ee20db20fe32586b
+commit 48f6bbc60c07b6e2577a1504d3b0a4f92d7a7233
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:33:44 2021 -0700
 
@@ -107,7 +107,7 @@ Date:   Fri Jun 11 14:33:44 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 540be8c51b70e0c861881cdbd5e2aaf32649b0f9
+commit 2bdd45a661221ce458f42dff85c03c22508c7e6e
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 11 14:41:52 2021 -0700
 
@@ -121,7 +121,7 @@ Date:   Fri Jun 11 14:41:52 2021 -0700
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
 
-commit 5d9ada89ba2136d403c398aa2aa3948a1fbbeac8
+commit d4509391328a00eb7f56764eb1643d1feb2cb529
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Tue Mar 16 16:21:35 2021 -0700
 
@@ -135,7 +135,7 @@ Date:   Tue Mar 16 16:21:35 2021 -0700
 
     v2: do the same to proxy_context
 
-commit 92d5a1fa69098f8dfd2675507819e5d337eae755
+commit 3992ea3d34e45502769a73f94c83ee1aa2c96698
 Author: Chia-I Wu <olvaffe@gmail.com>
 Date:   Fri Jun 4 12:24:02 2021 -0700
 
@@ -146,8 +146,6 @@ Date:   Fri Jun 4 12:24:02 2021 -0700
 
     Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
     Reviewed-by: Yiwei Zhang <zzyiwei@chromium.org>
-
-Change-Id: I8956720cfa06d4be2955dd5284eb2d9298ca397f
 ---
  src/proxy/proxy_context.c       |  14 +-
  src/venus/vkr_context.c         | 112 ++++++++++++-
@@ -165,7 +163,7 @@ Change-Id: I8956720cfa06d4be2955dd5284eb2d9298ca397f
  13 files changed, 476 insertions(+), 28 deletions(-)
 
 diff --git a/src/proxy/proxy_context.c b/src/proxy/proxy_context.c
-index b5d15ca3..f8de1446 100644
+index 509c0b16c32..8495311e609 100644
 --- a/src/proxy/proxy_context.c
 +++ b/src/proxy/proxy_context.c
 @@ -128,7 +128,7 @@ proxy_context_retire_timeline_fences_locked(struct proxy_context *ctx,
@@ -192,17 +190,17 @@ index b5d15ca3..f8de1446 100644
  static int
  proxy_context_submit_fence(struct virgl_context *base,
                             uint32_t flags,
-@@ -214,7 +222,8 @@ proxy_context_submit_fence(struct virgl_context *base,
-    const uint32_t seqno = timeline->next_seqno++;
+@@ -227,7 +235,8 @@ proxy_context_submit_fence(struct virgl_context *base,
+ 
     const struct render_context_op_submit_fence_request req = {
        .header.op = RENDER_CONTEXT_OP_SUBMIT_FENCE,
 -      .flags = flags,
 +      /* filter out internal-only VIRGL_RENDERER_FENCE_FLAG_TIMELINE */
 +      .flags = flags & VIRGL_RENDERER_FENCE_FLAG_MERGEABLE,
        .ring_index = ring_idx,
-       .seqno = seqno,
+       .seqno = fence->seqno,
     };
-@@ -523,6 +532,7 @@ proxy_context_init_base(struct proxy_context *ctx)
+@@ -532,6 +541,7 @@ proxy_context_init_base(struct proxy_context *ctx)
     ctx->base.get_fencing_fd = proxy_context_get_fencing_fd;
     ctx->base.retire_fences = proxy_context_retire_fences;
     ctx->base.submit_fence = proxy_context_submit_fence;
@@ -211,7 +209,7 @@ index b5d15ca3..f8de1446 100644
  
  static bool
 diff --git a/src/venus/vkr_context.c b/src/venus/vkr_context.c
-index a9a5863b..8fc4c53e 100644
+index 56a20b57295..dda6bc8900a 100644
 --- a/src/venus/vkr_context.c
 +++ b/src/venus/vkr_context.c
 @@ -131,7 +131,30 @@ vkr_context_submit_fence_locked(struct virgl_context *base,
@@ -355,7 +353,7 @@ index a9a5863b..8fc4c53e 100644
           vkr_device_free_queue_sync(dev, sync);
        }
  
-@@ -555,6 +658,7 @@ vkr_context_init_base(struct vkr_context *ctx)
+@@ -561,6 +664,7 @@ vkr_context_init_base(struct vkr_context *ctx)
     ctx->base.get_fencing_fd = vkr_context_get_fencing_fd;
     ctx->base.retire_fences = vkr_context_retire_fences;
     ctx->base.submit_fence = vkr_context_submit_fence;
@@ -364,7 +362,7 @@ index a9a5863b..8fc4c53e 100644
  
  static uint32_t
 diff --git a/src/venus/vkr_context.h b/src/venus/vkr_context.h
-index ccbf5d9c..d43cd0b7 100644
+index ccbf5d9cd82..d43cd0b7176 100644
 --- a/src/venus/vkr_context.h
 +++ b/src/venus/vkr_context.h
 @@ -63,6 +63,8 @@ struct vkr_context {
@@ -377,7 +375,7 @@ index ccbf5d9c..d43cd0b7 100644
     char *instance_name;
  };
 diff --git a/src/venus/vkr_device.c b/src/venus/vkr_device.c
-index 4d7aea77..24f677f6 100644
+index 4d7aea77ba2..24f677f67ff 100644
 --- a/src/venus/vkr_device.c
 +++ b/src/venus/vkr_device.c
 @@ -84,6 +84,27 @@ vkr_dispatch_vkCreateDevice(struct vn_dispatch_context *dispatch,
@@ -429,7 +427,7 @@ index 4d7aea77..24f677f6 100644
  }
  
 diff --git a/src/venus/vkr_physical_device.c b/src/venus/vkr_physical_device.c
-index cb0b3be6..8d8f2370 100644
+index cb0b3be692b..8d8f2370aa1 100644
 --- a/src/venus/vkr_physical_device.c
 +++ b/src/venus/vkr_physical_device.c
 @@ -61,6 +61,9 @@ vkr_instance_enumerate_physical_devices(struct vkr_instance *instance)
@@ -511,7 +509,7 @@ index cb0b3be6..8d8f2370 100644
  
  static void
 diff --git a/src/venus/vkr_physical_device.h b/src/venus/vkr_physical_device.h
-index 8cafa8bf..c832d32a 100644
+index 8cafa8bf02b..c832d32a629 100644
 --- a/src/venus/vkr_physical_device.h
 +++ b/src/venus/vkr_physical_device.h
 @@ -35,6 +35,8 @@ struct vkr_physical_device {
@@ -524,7 +522,7 @@ index 8cafa8bf..c832d32a 100644
  VKR_DEFINE_OBJECT_CAST(physical_device, VK_OBJECT_TYPE_PHYSICAL_DEVICE, VkPhysicalDevice)
  
 diff --git a/src/venus/vkr_queue.c b/src/venus/vkr_queue.c
-index 9309d7bf..48f1fb92 100644
+index 9309d7bfd21..48f1fb92736 100644
 --- a/src/venus/vkr_queue.c
 +++ b/src/venus/vkr_queue.c
 @@ -131,7 +131,7 @@ vkr_queue_sync_retire(struct vkr_context *ctx,
@@ -593,7 +591,7 @@ index 9309d7bf..48f1fb92 100644
  
  static void
 diff --git a/src/venus/vkr_transport.c b/src/venus/vkr_transport.c
-index 745b1249..b3ed04a7 100644
+index 745b1249fb9..b3ed04a7760 100644
 --- a/src/venus/vkr_transport.c
 +++ b/src/venus/vkr_transport.c
 @@ -317,7 +317,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
@@ -606,7 +604,7 @@ index 745b1249..b3ed04a7 100644
     };
  
 diff --git a/src/virgl_context.h b/src/virgl_context.h
-index 3f8e58f7..12fa40fd 100644
+index 3f8e58f7165..12fa40fd798 100644
 --- a/src/virgl_context.h
 +++ b/src/virgl_context.h
 @@ -51,6 +51,7 @@ struct virgl_context_blob {
@@ -630,7 +628,7 @@ index 3f8e58f7..12fa40fd 100644
  
  struct virgl_context_foreach_args {
 diff --git a/src/virglrenderer.c b/src/virglrenderer.c
-index b926f2d3..05fdf4fa 100644
+index b926f2d3c82..05fdf4fa94e 100644
 --- a/src/virglrenderer.c
 +++ b/src/virglrenderer.c
 @@ -34,6 +34,7 @@
@@ -1000,7 +998,7 @@ index b926f2d3..05fdf4fa 100644
 +   return ret;
  }
 diff --git a/src/vrend_decode.c b/src/vrend_decode.c
-index 31b14f6d..40c80fef 100644
+index 31b14f6d56e..40c80feffeb 100644
 --- a/src/vrend_decode.c
 +++ b/src/vrend_decode.c
 @@ -1506,11 +1506,12 @@ static int vrend_decode_pipe_resource_set_type(struct vrend_context *ctx, const
@@ -1025,19 +1023,19 @@ index 31b14f6d..40c80fef 100644
 +   ctx->export_fence = NULL;
  }
 diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-index c0560899..7f5b9f4c 100644
+index 5c19562da7b..c7732412a06 100644
 --- a/src/vrend_renderer.c
 +++ b/src/vrend_renderer.c
-@@ -6377,7 +6377,7 @@ static void wait_sync(struct vrend_fence *fence)
-       } while (vrend_state.polling && ret);
+@@ -6385,7 +6385,7 @@ static void wait_sync(struct vrend_fence *fence)
+     * by setting fence->ctx to NULL
+     */
+    if (ctx) {
+-      ctx->fence_retire(fence->fence_cookie, ctx->fence_retire_data);
++      ctx->fence_retire(fence->flags, fence->fence_cookie, ctx->fence_retire_data);
     }
  
--   ctx->fence_retire(fence->fence_cookie, ctx->fence_retire_data);
-+   ctx->fence_retire(fence->flags, fence->fence_cookie, ctx->fence_retire_data);
     free_fence_locked(fence);
- 
-    if (signal_poll)
-@@ -9943,7 +9943,7 @@ void vrend_renderer_check_fences(void)
+@@ -9953,7 +9953,7 @@ void vrend_renderer_check_fences(void)
  
     LIST_FOR_EACH_ENTRY_SAFE(fence, stor, &retired_fences, fences) {
        struct vrend_context *ctx = fence->ctx;
@@ -1047,7 +1045,7 @@ index c0560899..7f5b9f4c 100644
        free_fence_locked(fence);
     }
 diff --git a/src/vrend_renderer.h b/src/vrend_renderer.h
-index 454428da..b3f3e548 100644
+index 454428da52a..b3f3e548899 100644
 --- a/src/vrend_renderer.h
 +++ b/src/vrend_renderer.h
 @@ -113,7 +113,8 @@ struct vrend_format_table {
@@ -1061,5 +1059,5 @@ index 454428da..b3f3e548 100644
  
  struct vrend_if_cbs {
 -- 
-2.35.1.1094.g7c7d902a7c-goog
+2.36.0.rc0.470.gd361397f0d-goog
 
