@@ -38,6 +38,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	into "/build/initramfs"
 	dobin "${OUT}/minios"
 	dobin "${OUT}/minios_client"
