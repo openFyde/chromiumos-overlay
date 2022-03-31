@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6a490115061926046a9671cc709f692c505c6bc6"
-CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "ee82c2bfb6ec279b62ccd047d92b71aa4d6864fd" "fdd0209826719268c01d190ed7bbfa76b177f2f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ee6ab0b9f6cabf85ff4570afe7ec085215e2e7fd"
+CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "ca6ad11e8c2d26907cdd26b80bd6fd20f95f882a" "fdd0209826719268c01d190ed7bbfa76b177f2f5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
@@ -112,6 +112,7 @@ src_install() {
 	newins "seccomp/ml_service-SodaModel-seccomp-${ARCH}.policy" ml_service-SodaModel-seccomp.policy
 	newins "seccomp/ml_service-TextClassifierModel-seccomp-${ARCH}.policy" ml_service-TextClassifierModel-seccomp.policy
 	newins "seccomp/ml_service-GrammarCheckerModel-seccomp-${ARCH}.policy" ml_service-GrammarCheckerModel-seccomp.policy
+	newins "seccomp/ml_service-WebPlatformFlatBufferModel-seccomp-${ARCH}.policy" ml_service-WebPlatformFlatBufferModel-seccomp.policy
 
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
