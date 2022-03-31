@@ -21,6 +21,7 @@ VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 MINI_GBM_PLATFORMS_USE=( mt8183 mt8192 mt8195 sc7280 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
+IUSE+=" android-container-pi"
 
 RDEPEND="
 	!<media-libs/minigbm-0.0.1-r438
@@ -96,20 +97,31 @@ multilib_src_compile() {
 	filter-flags "-DDRI_DRIVER_DIR=*"
 	append-cppflags -DDRI_DRIVER_DIR="/vendor/$(get_libdir)/dri"
 	export TARGET_DIR="${BUILD_DIR}/"
-	emake -C "${S}/cros_gralloc"
+
+	# ARCVM doesn't need gralloc.cros.so because it uses
+	# gralloc.minigbm_arcvm.so, which is built inside Android vendor image.
+	if use android-container-pi; then
+		emake -C "${S}/cros_gralloc"
+	fi
+
 	emake -C "${S}/cros_gralloc/gralloc0/tests/"
 }
 
 multilib_src_install() {
-	exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw/"
-	doexe "${BUILD_DIR}"/gralloc.cros.so
+	if use android-container-pi; then
+		exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw/"
+		doexe "${BUILD_DIR}"/gralloc.cros.so
+	fi
+
 	into "/usr/local/"
 	# shellcheck disable=SC2154
 	newbin "${BUILD_DIR}"/gralloctest "gralloctest_${ABI}"
 }
 
 multilib_src_install_all() {
-	# Install cros_gralloc header files for arc-mali-* packages
-	insinto "/usr/include/cros_gralloc"
-	doins "${S}/cros_gralloc/cros_gralloc_handle.h"
+	if use android-container-pi; then
+		# Install cros_gralloc header files for arc-mali-* packages
+		insinto "/usr/include/cros_gralloc"
+		doins "${S}/cros_gralloc/cros_gralloc_handle.h"
+	fi
 }
