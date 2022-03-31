@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install nofetch postinst test unpack
-DEPEND=dev-go/ep-gcp dev-go/genproto dev-go/go-sys dev-go/net dev-go/oauth2 dev-go/protobuf-legacy-api dev-go/yaml:0 dev-lang/go
+DEPEND=dev-go/cmp dev-go/cncf-xds dev-go/glog dev-go/ep-gcp dev-go/genproto dev-go/go-sys dev-go/net dev-go/oauth2 dev-go/protobuf-legacy-api dev-go/uuid dev-go/xxhash dev-go/yaml:0 dev-lang/go
 DESCRIPTION=Go implementation of gRPC
 EAPI=5
 HOMEPAGE=https://grpc.io/
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=dev-go/ep-gcp dev-go/genproto dev-go/go-sys dev-go/net dev-go/oauth2 dev-go/protobuf-legacy-api dev-go/yaml:0 !dev-go/grpc-credentials-oauth
+RDEPEND=dev-go/cmp dev-go/cncf-xds dev-go/glog dev-go/ep-gcp dev-go/genproto dev-go/go-sys dev-go/net dev-go/oauth2 dev-go/protobuf-legacy-api dev-go/uuid dev-go/xxhash dev-go/yaml:0 !dev-go/grpc-credentials-oauth
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/grpc/grpc-go/archive/v1.42.0.tar.gz -> github.com-grpc-grpc-go-v1.42.0.tar.gz
 _eclasses_=cros-go	4b8a1215b463d46377ad73fc86e44f6e	desktop	b1d22ac8bdd4679ab79c71aca235009d	epatch	ed88001f77c6dd0d5f09e45c1a5b480e	estack	686eaab303305a908fd57b2fd7617800	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	ltprune	2729691420b6deeda2a90b1f1183fb55	multilib	2477ebe553d3e4d2c606191fe6c33602	preserve-libs	ef207dc62baddfddfd39a164d9797648	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf
-_md5_=c30d0d7b41b2b7cd076f49b13d0e9d2a
+_md5_=719c9313caa11c899ae0e6f978159851
