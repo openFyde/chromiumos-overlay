@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk trunks vtpm .gn"
 
 PLATFORM_SUBDIR="vtpm"
 
-inherit cros-workon libchrome platform user
+inherit tmpfiles cros-workon libchrome platform user
 
 DESCRIPTION="Virtual TPM service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vtpm/"
@@ -37,6 +37,8 @@ pkg_preinst() {
 
 src_install() {
 	platform_install
+
+	dotmpfiles tmpflies.d/vtpm.conf
 }
 
 platform_pkg_test() {
