@@ -22,3 +22,9 @@ src_unpack() {
 	cros-workon_src_unpack
 	S+="/client/site_tests/platform_ToolchainTests/src"
 }
+
+src_test() {
+	einfo "Testing llvm-profdata..."
+	"${FILESDIR}/llvm-profdata-test.py" || die
+	default
+}
