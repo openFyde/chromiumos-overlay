@@ -1,16 +1,14 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_COMMIT="0cf53e77739df3c2720af622f2904f5800b839d9"
 CROS_WORKON_TREE="9ae3ba550f01d7985ae0a97b9ed1e177a3d43772"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 CROS_WORKON_EGIT_BRANCH="fwupd-1.7.6"
 
-PYTHON_COMPAT=( python2_7 python3_{6..9} )
-
-inherit cros-workon linux-info meson python-single-r1 udev user vala xdg
+inherit cros-workon linux-info meson udev user xdg
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
@@ -19,8 +17,16 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
+
+if [[ ${PV} == "9998" ]] ; then
+	EGIT_REPO_URI="https://github.com/fwupd/fwupd"
+	EGIT_BRANCH="main"
+	inherit git-r3
+	KEYWORDS="*"
+fi
+
 IUSE="agent amt archive bash-completion bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
-REQUIRED_USE="${PYTHON_REQUIRED_USE}
+REQUIRED_USE="
 	dell? ( uefi )
 	fastboot? ( gusb )
 	logitech? ( gusb )
@@ -38,10 +44,6 @@ BDEPEND="
 	man? (
 		app-text/docbook-sgml-utils
 		sys-apps/help2man
-	)
-	test? (
-		thunderbolt? ( dev-util/umockdev )
-		net-libs/gnutls[tools]
 	)
 "
 COMMON_DEPEND="
@@ -82,17 +84,10 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	x11-libs/pango
-	$(vala_depend)
-	${PYTHON_DEPS}
-	$(python_gen_cond_dep '
-		dev-python/pygobject:3[cairo,${PYTHON_USEDEP}]
-	' ${PYTHON_COMPAT} )
-	${RDEPEND}
+	x11-libs/pango[introspection?]
 "
 
 pkg_setup() {
-	python-single-r1_pkg_setup
 	if use nvme ; then
 		kernel_is -ge 4 4 || die "NVMe support requires kernel >= 4.4"
 	fi
@@ -109,7 +104,6 @@ src_prepare() {
 	if ! use nls ; then
 		echo > po/LINGUAS || die
 	fi
-	vala_src_prepare
 }
 
 src_configure() {
@@ -213,10 +207,6 @@ src_install() {
 				-i "${ED}"/etc/${PN}/daemon.conf || die
 		fi
 	fi
-}
-
-src_test() {
-	meson_src_test
 }
 
 pkg_preinst() {
