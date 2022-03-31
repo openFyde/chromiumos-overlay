@@ -4,12 +4,12 @@ DEPEND=>=app-arch/gcab-1.0 app-arch/xz-utils >=dev-libs/glib-2.58:2 dev-libs/jso
 DESCRIPTION=Aims to make updating firmware on Linux automatic, safe and reliable
 EAPI=7
 HOMEPAGE=https://fwupd.org
-IUSE=agent amt archive bash-completion bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi cros_host cros_workon_tree_ kernel_linux
-KEYWORDS=~*
+IUSE=agent amt archive bash-completion bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi cros_host cros_workon_tree_9ae3ba550f01d7985ae0a97b9ed1e177a3d43772 kernel_linux
+KEYWORDS=*
 LICENSE=LGPL-2.1+
 PROPERTIES=live
 RDEPEND=!<sci-chemistry/chemical-mime-data-0.1.94-r4 >=app-arch/gcab-1.0 app-arch/xz-utils >=dev-libs/glib-2.58:2 dev-libs/json-glib dev-libs/libgudev:= >=dev-libs/libjcat-0.1.0[gpg?,pkcs7?] >=dev-libs/libxmlb-0.1.13:=[introspection?] >=net-libs/libsoup-2.51.92:2.4[introspection?] net-misc/curl archive? ( app-arch/libarchive:= ) dell? ( >=sys-libs/libsmbios-2.4.0 ) elogind? ( >=sys-auth/elogind-211 ) flashrom? ( sys-apps/flashrom ) gnutls? ( net-libs/gnutls ) gusb? ( >=dev-libs/libgusb-0.3.5[introspection?] ) logitech? ( dev-libs/protobuf-c:= ) lzma? ( app-arch/xz-utils ) modemmanager? ( net-misc/modemmanager[qmi] ) policykit? ( >=sys-auth/polkit-0.103 ) sqlite? ( dev-db/sqlite ) systemd? ( >=sys-apps/systemd-211 ) uefi? ( sys-apps/fwupd-efi sys-boot/efibootmgr sys-fs/udisks sys-libs/efivar ) sys-apps/dbus sys-apps/baselayout
 REQUIRED_USE=dell? ( uefi ) fastboot? ( gusb ) logitech? ( gusb ) minimal? ( !introspection ) spi? ( lzma ) synaptics? ( gnutls ) uefi? ( gnutls )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	linux-info	327865b9921771330775d971263dc234	meson	1cac59cd2074f59abbe00de88e93af9f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621	xdg	c7ba313ea1eaf266f95cc6235f7d6a07	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=9a3d4b74fd5a02eaed60fdf9b384c4ea
+_md5_=dd6a52c87b4f242c50bff1fda0329901
