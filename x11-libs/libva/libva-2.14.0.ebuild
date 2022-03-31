@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -32,10 +32,10 @@ PDEPEND="
 			internal? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
 			!internal? (
 				intel_ihd_pavp? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
-				!intel_ihd_pavp? ( ~x11-libs/libva-intel-media-driver-22.1.1[${MULTILIB_USEDEP}] )
+				!intel_ihd_pavp? ( ~x11-libs/libva-intel-media-driver-22.3.1[${MULTILIB_USEDEP}] )
 			)
 		)
-		!intel_oemcrypto? ( ~x11-libs/libva-intel-media-driver-22.1.1[${MULTILIB_USEDEP}] )
+		!intel_oemcrypto? ( ~x11-libs/libva-intel-media-driver-22.3.1[${MULTILIB_USEDEP}] )
 	)
 	video_cards_amdgpu? ( virtual/opengles[${MULTILIB_USEDEP}] )
 	utils? ( media-video/libva-utils )
