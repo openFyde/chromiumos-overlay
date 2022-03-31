@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk vtpm .gn"
+CROS_WORKON_SUBTREE="common-mk trunks vtpm .gn"
 
 PLATFORM_SUBDIR="vtpm"
 
@@ -20,7 +20,9 @@ LICENSE="Apache-2.0"
 KEYWORDS="~*"
 IUSE="test"
 
-RDEPEND=""
+RDEPEND="
+	chromeos-base/trunks:=
+	"
 
 DEPEND="
 	${RDEPEND}
