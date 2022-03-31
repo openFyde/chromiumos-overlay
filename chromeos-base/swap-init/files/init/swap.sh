@@ -20,7 +20,7 @@ ZRAM_INTEGRITY_NAME="zram-integrity"
 ZRAM_WRITEBACK_DEV_ENC="/dev/mapper/${ZRAM_WRITEBACK_NAME}"
 ZRAM_WRITEBACK_INTEGRITY_MOUNT="/run/zram-integrity"
 ZRAM_INTEGRITY_DEV="/dev/mapper/${ZRAM_INTEGRITY_NAME}"
-STATEFUL_PARTITION="/mnt/stateful_partition/unencrypted"
+STATEFUL_PARTITION_DIR="/mnt/stateful_partition/unencrypted/userspace_swap.tmp"
 MB=$(( 1 << 20 ))
 
 # Never allow swapping to disk when the overall free diskspace is less
@@ -423,6 +423,22 @@ cleanup_writeback_and_die() {
   die "$*"
 }
 
+# Wait for up to 5 seconds for a dm device to become available,
+# if it doesn't then die. This is needed because dm devices may take a
+# few seconds to become visible at /dev/mapper after the table is switched.
+wait_for_dm_device_or_die() {
+  local device=$1
+  local timeout=5
+  local path="/dev/mapper/${device}"
+  for _ in $(seq 1 "${timeout}"); do
+    if [ -e "${path}" ]; then
+      return
+    fi
+    sleep 1
+  done
+  cleanup_writeback_and_die "Device ${path} was not available in ${timeout} sec"
+}
+
 # Enable zram writeback with a given |size| specified in MB.
 enable_zram_writeback() {
   local writeback_size_mb
@@ -446,7 +462,7 @@ enable_zram_writeback() {
 
   local total_blocks free_blocks block_size pct_free
   # shellcheck disable=2046
-  set -- $(stat -fc "%b %f %s" "${STATEFUL_PARTITION}")
+  set -- $(stat -fc "%b %f %s" "${STATEFUL_PARTITION_DIR}")
   total_blocks="$1"
   free_blocks="$2"
   block_size="$3"
@@ -483,7 +499,7 @@ enable_zram_writeback() {
 
   # Create the actual writeback space on the stateful partition.
   local data_filename table
-  data_filename=$(mktemp -p "${STATEFUL_PARTITION}" -t "zram_writeback.XXXXXX.swp")
+  data_filename=$(mktemp -p "${STATEFUL_PARTITION_DIR}" -t "zram_writeback.XXXXXX.swp")
   fallocate -l "${writeback_size_bytes}" "${data_filename}" ||
        cleanup_writeback_and_die "unable to fallocate writeback file"
 
@@ -527,6 +543,7 @@ enable_zram_writeback() {
       D 2 block_size:${block_size} meta_device:${INTEGRITY_LOOP_DEV}"
   /sbin/dmsetup create "${ZRAM_INTEGRITY_NAME}" --table "${integrity_table}" ||
       cleanup_writeback_and_die "/sbin/dmsetup unable to create zram integrity device"
+  wait_for_dm_device_or_die "${ZRAM_INTEGRITY_NAME}"
 
   # Both loop devices have been taken by the dm-integrity device, let's close them.
   losetup -d "${DATA_LOOP_DEV}" || cleanup_writeback_and_die "Unable to remove loop"
@@ -542,6 +559,7 @@ enable_zram_writeback() {
       sector_size:${block_size} integrity:${integrity_bytes_per_block}:aead"
   /sbin/dmsetup create "${ZRAM_WRITEBACK_NAME}" --table "${table}" ||
     cleanup_writeback_and_die "/sbin/dmsetup create ${ZRAM_WRITEBACK_NAME} failed"
+  wait_for_dm_device_or_die "${ZRAM_WRITEBACK_NAME}"
 
   echo "${ZRAM_WRITEBACK_DEV_ENC}" > "${ZRAM_BACKING_DEV}" ||
     cleanup_writeback_and_die "unable to enable zram writeback with ${ZRAM_WRITEBACK_DEV_ENC}"
