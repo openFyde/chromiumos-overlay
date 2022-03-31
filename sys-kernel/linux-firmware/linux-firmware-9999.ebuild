@@ -266,7 +266,6 @@ RDEPEND="
 	!net-wireless/iwl6005-ucode
 	!net-wireless/iwl6030-ucode
 	!net-wireless/iwl6050-ucode
-	!sys-kernel/iwlwifi-gfp2-private
 "
 
 RESTRICT="binchecks strip"
