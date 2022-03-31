@@ -26,6 +26,12 @@ DEPEND="
 	${RDEPEND}
 	"
 
+pkg_preinst() {
+	# Create user and group for vtpm.
+	enewuser "vtpm"
+	enewgroup "vtpm"
+}
+
 src_install() {
 	platform_install
 }
