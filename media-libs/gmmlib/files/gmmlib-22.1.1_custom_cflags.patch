@@ -4,7 +4,7 @@ Note: code should detect CPU features at runtime and use sse4.1 paths only if su
 
 --- a/Source/GmmLib/CMakeLists.txt
 +++ b/Source/GmmLib/CMakeLists.txt
-@@ -54,6 +54,10 @@ if(NOT DEFINED BS_USE_OSDM_BUILD_SYSTEM)
+@@ -74,6 +74,10 @@
      endif()
  endif()
  
@@ -17,7 +17,7 @@ Note: code should detect CPU features at runtime and use sse4.1 paths only if su
  #   and so must precede the inclusion below of bs_init.cmake .
 --- a/Source/GmmLib/Linux.cmake
 +++ b/Source/GmmLib/Linux.cmake
-@@ -38,7 +38,10 @@ SET (GMMLIB_COMPILER_FLAGS_COMMON
+@@ -76,7 +76,10 @@
      -Werror=format-security
      -Werror=non-virtual-dtor
      -Werror=return-type
@@ -28,7 +28,7 @@ Note: code should detect CPU features at runtime and use sse4.1 paths only if su
      # General optimization options
      -march=${GMMLIB_MARCH}
      -mpopcnt
-@@ -47,19 +50,31 @@ SET (GMMLIB_COMPILER_FLAGS_COMMON
+@@ -85,19 +88,31 @@
      -msse3
      -mssse3
      -msse4
@@ -61,7 +61,7 @@ Note: code should detect CPU features at runtime and use sse4.1 paths only if su
      # Other common flags
      -fstack-protector
      -fdata-sections
-@@ -67,10 +82,15 @@ SET (GMMLIB_COMPILER_FLAGS_COMMON
+@@ -105,11 +120,16 @@
      -fmessage-length=0
      -fvisibility=hidden
      -fPIC
@@ -73,11 +73,12 @@ Note: code should detect CPU features at runtime and use sse4.1 paths only if su
      # -m32 or -m64
      -m${GMMLIB_ARCH}
      )
+ endif()
 +endif()
  
  if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
  #Gcc only flags
-@@ -128,13 +148,17 @@ SET( GMMLIB_COMPILER_FLAGS_RELEASEINTERNAL  ${GMMLIB_COMPILER_FLAGS_RELEASE})
+@@ -167,10 +187,12 @@
  
  #set predefined compiler flags set
  add_compile_options("${GMMLIB_COMPILER_FLAGS_COMMON}")
@@ -90,9 +91,12 @@ Note: code should detect CPU features at runtime and use sse4.1 paths only if su
  foreach (flag ${GMMLIB_COMPILER_CXX_FLAGS_COMMON})
      SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${flag}")
  endforeach()
- 
-+if (OVERRIDE_COMPILER_FLAGS)
- SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m${GMMLIB_ARCH}")
- SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -m${GMMLIB_ARCH}")
-+endif()
-
+@@ -179,6 +201,8 @@
+     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
+     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
+ else()
++    if (OVERRIDE_COMPILER_FLAGS)
+     SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m${GMMLIB_ARCH}")
+     SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -m${GMMLIB_ARCH}")
++    endif()
+ endif()
