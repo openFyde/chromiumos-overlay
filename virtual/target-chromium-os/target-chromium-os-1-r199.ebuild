@@ -30,6 +30,7 @@ IUSE="
 	bluetooth
 	bootchart
 	cellular
+	chrome_internal
 	compupdates
 	containers
 	cr50_onboard
@@ -340,7 +341,9 @@ RDEPEND="
 	lacros_rootfs? ( chromeos-base/chromeos-lacros )
 	dns-proxy? ( chromeos-base/dns-proxy )
 	featured? ( chromeos-base/featured )
-	assistant-dlc? ( chromeos-base/assistant-dlc )
+	chrome_internal? (
+		assistant-dlc? ( chromeos-base/assistant-dlc )
+	)
 "
 
 ################################################################################
