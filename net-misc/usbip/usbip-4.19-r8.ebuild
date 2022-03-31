@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="94bc330400210bc08b4159b6ced0b11d2b7e73a0"
+CROS_WORKON_COMMIT="ab38841fb93264e022a8ad9bc361b39d00eb747d"
 CROS_WORKON_TREE="f3a0a0009d4cfe0cd2783cefc1c92f3c79fef691"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.19"
@@ -22,7 +22,7 @@ IUSE="static-libs tcpd"
 RESTRICT=""
 
 RDEPEND=">=dev-libs/glib-2.6
-	sys-apps/hwids
+	sys-apps/hwdata
 	>=sys-kernel/linux-headers-3.17
 	virtual/libudev
 	tcpd? ( sys-apps/tcp-wrappers )"
@@ -50,8 +50,8 @@ src_prepare() {
 src_configure() {
 	econf \
 		$(use_enable static-libs static) \
-		$(use tcpd || echo --without-tcp-wrappers) \
-		--with-usbids-dir=/usr/share/misc
+		"$(use_with tcpd tcp-wrappers)" \
+		--with-usbids-dir=/usr/share/hwdata
 }
 
 src_install() {
