@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="08458653ca9fd6941baedcca7a249526ac386636"
-CROS_WORKON_TREE="cc8044b0f6cbf342580cba23cc7c5102c83e7ec7"
+CROS_WORKON_COMMIT="4f6fa67ca8df33e4f0932346afdc41479c5c0e55"
+CROS_WORKON_TREE="f21dd696db9971dc2e70265e481e6db23273e4d1"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -281,6 +281,15 @@ src_test() {
 		--skip "test_integration::simple_kvm"
 	)
 
+	# If syslog isn't available, skip the tests.
+	[[ -S /dev/log ]] || skip_tests+=(--skip "unix::syslog")
+
+	if use crosvm-plugin; then
+		# crosvm_plugin is a cdylibs, so we need to use a profile
+		# that doesn't include panic=abort.
+		args+=(--profile release-test)
+	fi
+
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
 		"${skip_tests[@]}" \
@@ -289,7 +298,7 @@ src_test() {
 	# Plugin tests all require /dev/kvm, but we want to make sure they build
 	# at least.
 	if use crosvm-plugin; then
-		ecargo_test --no-run --features plugin \
+		ecargo_test --no-run --features plugin --profile release-test \
 			|| die "cargo build with plugin feature failed"
 	fi
 }
