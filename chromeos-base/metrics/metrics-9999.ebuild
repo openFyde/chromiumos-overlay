@@ -34,6 +34,8 @@ DEPEND="
 	"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/metrics_client
 	dobin "${OUT}"/chromeos-pgmem
 
