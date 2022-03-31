@@ -88,6 +88,7 @@ IUSE="
 	racc
 	+readahead
 	resourced
+	rgbkbd
 	rmad
 	scanner
 	selinux
@@ -248,6 +249,7 @@ RDEPEND="
 		chromeos-base/hardware_verifier
 		chromeos-base/runtime_probe
 	)
+	rgbkbd? ( chromeos-base/rgbkbd )
 	rmad? ( chromeos-base/rmad )
 	iioservice? ( chromeos-base/iioservice )
 	media_perception? ( chromeos-base/mri_package )

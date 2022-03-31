@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9c47814204a0b2f44ab4f180cb20c5488847a7a"
+CROS_WORKON_COMMIT="7a926896405cdb88401976804d693a03df6dd2cc"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "bed5ff760d3a036dd487c508d407d4b2caabe7f1" "13c6a4ec079a88834780ccbd1597c8e59d479f90" "fcc0cee9081f8a03f5c6d28e9d3407db649f8385" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -50,6 +50,7 @@ COMMON_DEPEND="
 	)
 	selinux? (
 		sys-libs/libselinux:=
+		chromeos-base/selinux-policy:=
 	)
 	chromeos-base/attestation:=
 	chromeos-base/biod_proxy:=
@@ -74,6 +75,10 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
+	test? (
+		app-shells/dash:=
+		chromeos-base/chromeos-base:=
+	)
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	chromeos-base/attestation-client:=
 	chromeos-base/cryptohome-client:=
