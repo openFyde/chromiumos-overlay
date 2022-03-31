@@ -36,6 +36,7 @@ IUSE="
 	tpm
 	tpm2
 	ubsan
+	ufs
 	usb
 	vaapi
 	video_cards_amdgpu
@@ -186,6 +187,7 @@ RDEPEND="${RDEPEND}
 	nvme? ( sys-apps/nvme-cli )
 	sys-apps/portage
 	sys-apps/smartmontools
+	ufs? ( sys-apps/ufs-utils )
 	usb? ( sys-apps/usbutils )
 	sys-apps/which
 	sys-block/fio
