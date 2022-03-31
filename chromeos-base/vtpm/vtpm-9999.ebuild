@@ -26,6 +26,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/trunks:=[test?]
 	"
 
 pkg_preinst() {
