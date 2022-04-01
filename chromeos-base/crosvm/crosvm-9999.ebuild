@@ -69,10 +69,10 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/enumn-0.1*:=
 	=dev-rust/futures-0.3*:=
-	dev-rust/intrusive-collections:=
 	=dev-rust/gdbstub-0.5*:=
 	>=dev-rust/gdbstub_arch-0.1.1:= <dev-rust/gdbstub_arch-0.2
 	~dev-rust/getopts-0.2.18:=
+	dev-rust/intrusive-collections:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
 	>=dev-rust/memoffset-0.6:= <dev-rust/memoffset-1
 	dev-rust/minijail:=
@@ -91,25 +91,25 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/quote-1*:=
 	=dev-rust/rand-0.6*:=
 	dev-rust/regex:=
+	dev-rust/remain:=
 	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
 	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
 	=dev-rust/syn-1*:=
+	dev-rust/system_api:=
 	=dev-rust/tempfile-3*:=
+	>=dev-rust/terminal_size-0.1.17:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
-	dev-rust/remain:=
-	dev-rust/system_api:=
-	>=dev-rust/terminal_size-0.1.17:=
 	dev-rust/winapi:=
 	>=dev-rust/windows-0.10.0:= <dev-rust/windows-0.11
+	media-sound/libcras:=
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
 		=dev-rust/dbus-0.6*:=
 	)
-	media-sound/libcras:=
 	crosvm-power-monitor-powerd? (
 		chromeos-base/system_api
 		=dev-rust/dbus-0.6*:=
