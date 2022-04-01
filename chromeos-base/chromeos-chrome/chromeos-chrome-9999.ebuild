@@ -972,17 +972,18 @@ chrome_make() {
 	# between multiple links done by this build (e.g. tests).
 	use thinlto && rm -rf "${build_dir}/thinlto-cache"
 
+	local parallelism="$(makeopts_jobs)"
 	# If goma or remoteexec is enabled, increase the number of parallel
 	# run to 10 * {number of processors}. Though, if it is too large the
 	# performance gets slow down, so limit by 200 heuristically.
 	if use_goma || use_remoteexec; then
 		local num_parallel=$(($(nproc) * 10))
 		local j_limit=200
-		set -- -j $((num_parallel < j_limit ? num_parallel : j_limit)) "$@"
+		parallelism=$((num_parallel < j_limit ? num_parallel : j_limit))
 	fi
 	local command=(
 		"${ENINJA}"
-		-j"$(makeopts_jobs)"
+		-j "${parallelism}"
 		-C "${build_dir}"
 		$(usex verbose -v "")
 		-d "keeprsp"
