@@ -8,4 +8,4 @@ LICENSE=GPL-2
 RDEPEND=>=sys-apps/portage-2.1 >=app-portage/portage-utils-0.55 app-shells/bash sys-apps/gentoo-functions
 SLOT=0
 SRC_URI=mirror://gentoo/crossdev-20211027.tar.xz https://dev.gentoo.org/~sam/distfiles/crossdev-20211027.tar.xz https://dev.gentoo.org/~vapier/dist/crossdev-20211027.tar.xz
-_md5_=5a34fe9a4c55f7cc51a8238535e12085
+_md5_=6fca5c76662897a7f5fbbf9e0e51fd4c
