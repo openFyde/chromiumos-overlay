@@ -381,7 +381,6 @@ multilib_src_install() {
 	local cros_hardened_targets=(
 		"aarch64-cros-linux-gnu"
 		"armv7a-cros-linux-gnueabihf"
-		"i686-pc-linux-gnu"
 		"i686-cros-linux-gnu"
 		"x86_64-cros-linux-gnu"
 	)
