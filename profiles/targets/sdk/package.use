@@ -89,7 +89,6 @@ cross-armv6j-cros-linux-gnueabi/gdb	xml
 cross-armv7a-cros-linux-gnueabi/gdb	xml
 cross-armv7a-cros-linux-gnueabihf/gdb	xml
 cross-i686-cros-linux-gnu/gdb	xml
-cross-i686-pc-linux-gnu/gdb	xml
 cross-mipsel-cros-linux-gnu/gdb	xml
 cross-x86_64-cros-linux-gnu/gdb	xml
 
