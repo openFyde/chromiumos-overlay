@@ -17,3 +17,6 @@ CONFIG_VGA_BIOS_ID="1002,1506"
 CONFIG_VGA_BIOS_FILE="3rdparty/amd_blobs/sabrina/SabrinaGenericVbios.bin"
 CONFIG_RUN_FSP_GOP=y
 CONFIG_CPU_MICROCODE_CBFS_NONE=y
+
+CONFIG_HAVE_SPL_FILE=y
+CONFIG_SPL_TABLE_FILE="3rdparty/amd_blobs/sabrina/TypeId0x55_SplTableBl_SBR.sbin"
