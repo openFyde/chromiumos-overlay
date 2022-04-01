@@ -23,6 +23,7 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_BluetoothScanPerf
 	+tests_network_WiFi_BluetoothStreamPerf
 	+tests_network_WiFi_ChaosConfigFailure
+	+tests_network_WiFi_ChaosConnectDisconnect
 	+tests_network_WiFi_ChaosLongConnect
 	!chromeless_tty (
 		!chromeless_tests (
