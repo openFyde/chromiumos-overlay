@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5f71326fa786508e9900fc9b0608455978ae3835"
+CROS_WORKON_COMMIT="e423cbe207c78d2f6cb44420ed00db9e2a6ff5db"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "f41b144d7a385199fa8955db004645f1e860d688" "71da26b88144c595aba3ae27e17092d89fe15e18" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -40,6 +40,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	into "/build/initramfs"
 	dobin "${OUT}/minios"
 	dobin "${OUT}/minios_client"
