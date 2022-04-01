@@ -19,6 +19,8 @@ KEYWORDS="~*"
 IUSE=""
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/codelab
 }
 
