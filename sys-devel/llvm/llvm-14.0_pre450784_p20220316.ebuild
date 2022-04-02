@@ -192,9 +192,6 @@ multilib_src_configure() {
 		"-DCLANG_DEFAULT_CXX_STDLIB=$(usex default-libcxx libc++ "")"
 		"-DCLANG_DEFAULT_RTLIB=$(usex default-compiler-rt compiler-rt "")"
 
-		# Turn on new pass manager for LLVM
-		"-DENABLE_EXPERIMENTAL_NEW_PASS_MANAGER=ON"
-
 		# crbug/855759
 		"-DCOMPILER_RT_BUILD_CRT=$(usex llvm-crt)"
 
@@ -220,14 +217,8 @@ multilib_src_configure() {
 		# b/202073091: Disable Lua.
 		"-DLLDB_ENABLE_LUA=OFF"
 
-		# b/204220308: Disable OCR since we are not using it.
+		# b/204220308: Disable ORC since we are not using it.
 		"-DCOMPILER_RT_BUILD_ORC=OFF"
-	)
-
-	# Update LLVM to 9.0 will cause LLVM to complain GCC
-	# version is < 5.1. Add this flag to suppress the error.
-	mycmakeargs+=(
-		"-DLLVM_TEMPORARILY_ALLOW_OLD_TOOLCHAIN=1"
 	)
 
 	if check_lld_works; then
