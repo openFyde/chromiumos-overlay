@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="44c46742d7eaabcb38ef5abd36c8e27742f7613f"
-CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "7ea22e3fe010c5e3111880d40bc0c2bd3abdbfae" "e0d7d0d55b2819de06a9125d69c6e95c79656057" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="f052d903b566d011b9ca72e9f4bac6df31c8bea8"
+CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "c84c69913f02deca11baeac620ed7ccb52d2744d" "e0d7d0d55b2819de06a9125d69c6e95c79656057" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,6 +32,5 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/iioservice_simpleclient
-	dosbin "${OUT}"/iioservice_query
+	platform_install
 }
