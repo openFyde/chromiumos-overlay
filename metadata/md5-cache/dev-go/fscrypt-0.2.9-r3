@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install nofetch postinst test unpack
-DEPEND=dev-go/misspell dev-go/crypto dev-go/go-sys dev-go/staticcheck sys-libs/pam:= dev-lang/go
+DEPEND=dev-go/cli dev-go/crypto dev-go/errors dev-go/go-tools dev-go/go-sys dev-go/golint dev-go/misspell dev-go/protobuf-legacy-api dev-go/staticcheck sys-libs/pam:= dev-lang/go
 DESCRIPTION=Go package for fscrypt utils
 EAPI=7
 HOMEPAGE=https://github.com/google/fscrypt
 KEYWORDS=*
 LICENSE=Apache-2.0
-RDEPEND=dev-go/misspell dev-go/crypto dev-go/go-sys dev-go/staticcheck sys-libs/pam:=
+RDEPEND=dev-go/cli dev-go/crypto dev-go/errors dev-go/go-tools dev-go/go-sys dev-go/golint dev-go/misspell dev-go/protobuf-legacy-api dev-go/staticcheck sys-libs/pam:=
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/google/fscrypt/archive/v0.2.9.tar.gz -> github.com-google-fscrypt-v0.2.9.tar.gz
 _eclasses_=cros-go	4b8a1215b463d46377ad73fc86e44f6e	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=70d8dde74c86b514714ef1780dfaae71
+_md5_=a2910ceb896f37305a1f326654f65b93
