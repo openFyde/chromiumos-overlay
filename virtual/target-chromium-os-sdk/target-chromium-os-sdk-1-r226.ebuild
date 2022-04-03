@@ -161,7 +161,6 @@ RDEPEND="${RDEPEND}
 	dev-go/protobuf-legacy-api
 	dev-lang/closure-compiler-bin
 	dev-lang/nasm
-	dev-lang/python:2.7
 	dev-lang/python:3.6
 	dev-lang/swig
 	dev-lang/tcl
