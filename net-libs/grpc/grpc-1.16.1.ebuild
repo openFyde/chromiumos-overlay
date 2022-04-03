@@ -41,6 +41,7 @@ PATCHES=(
 	"${FILESDIR}/grpc-1.16.1-Support-vsock.patch"
 	"${FILESDIR}/grpc-1.16.1-string-contatenation.patch"
 	"${FILESDIR}/grpc-1.16.1-backport-glibc-gettid-fix.patch"
+	"${FILESDIR}/grpc-1.16.1-new-protobuf-decoder-fix.patch"
 )
 
 S="${WORKDIR}/${PN}-${MY_PV}"
