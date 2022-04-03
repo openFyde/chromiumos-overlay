@@ -20,5 +20,8 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="test"
 RESTRICT="binchecks strip"
-DEPEND="dev-go/errcheck"
+DEPEND="
+	dev-go/errcheck
+	dev-go/grpc
+"
 RDEPEND="!<=dev-go/docker-20.10.8-r1"
