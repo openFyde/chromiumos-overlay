@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="026d60aba8cb64ab3f1fc68005d2aa637cc9d35e"
+CROS_WORKON_COMMIT="095a16dbcfe8d3cc611d47da82b2eb30ed29e2d4"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "4437bdb33c7e5b4e68ee7e64a71ac1f216c0511c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,6 +21,8 @@ KEYWORDS="*"
 IUSE=""
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/codelab
 }
 
