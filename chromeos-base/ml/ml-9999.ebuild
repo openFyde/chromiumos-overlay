@@ -66,6 +66,7 @@ IUSE="
 	ondevice_handwriting_dlc
 	ondevice_speech
 	ondevice_text_suggestions
+	ondevice_image_content_annotation
 	asan
 	ubsan
 "
@@ -85,6 +86,7 @@ RDEPEND="
 	>=dev-libs/libsuggest-0.0.9:=[ondevice_text_suggestions=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
+	internal? ( ondevice_image_content_annotation? ( dev-libs/libica:= ) )
 "
 
 DEPEND="
