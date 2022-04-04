@@ -26,6 +26,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-20.4.5_testing_in_src_test.patch
 
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
+	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 )
 
 src_configure() {
