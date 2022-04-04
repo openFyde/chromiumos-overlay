@@ -69,6 +69,7 @@ IUSE="
 	fit_compression_kernel_lzma
 	firmware_install
 	frozen_gcc
+	hibernate
 	-kernel_sources
 	kernel_warning_level_1
 	kernel_warning_level_2
@@ -210,6 +211,7 @@ CONFIG_FRAGMENTS=(
 	failslab
 	fbconsole
 	goldfish
+	hibernate
 	highmem
 	hypervisor_guest
 	i2cdev
@@ -461,6 +463,11 @@ CONFIG_GOLDFISH=y
 CONFIG_GOLDFISH_BUS=y
 CONFIG_GOLDFISH_PIPE=y
 CONFIG_KEYBOARD_GOLDFISH_EVENTS=y
+"
+
+hibernate_desc="Enable hibernation (aka suspend-to-disk)"
+hibernate_config="
+CONFIG_HIBERNATION=y
 "
 
 highmem_desc="highmem"
