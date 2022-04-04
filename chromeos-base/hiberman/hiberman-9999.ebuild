@@ -49,6 +49,9 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Hibernate.conf
+
+	insinto /etc/init
+	doins "${FILESDIR}/hiberman.conf"
 }
 
 pkg_setup() {
