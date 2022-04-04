@@ -25,7 +25,7 @@ DEPEND="
 	virtual/pkgconfig
 "
 RDEPEND="
-	${RDEPEND}
+	${DEPEND}
 	!<app-crypt/nss-${PV}[${MULTILIB_USEDEP}]
 "
 BDEPEND="dev-lang/perl"
