@@ -16,22 +16,26 @@ FONTS_HASHES=(
 	# Current one.
 	d6dc5eaf459abd058cd3aef1e25963fde893f9d87f5f55f340431697ce4b3506
 	# Next one.
-	d6dc5eaf459abd058cd3aef1e25963fde893f9d87f5f55f340431697ce4b3506
+)
+NODE_HASHES=(
+	# Current one.
+	14.15.4/b2e40ddbac04d05baafbb007f203c6663c9d4ca9
+	# Next one.
+	16.13.0/ab9544e24e752d3d17f335fb7b2055062e582d11
 )
 NPM_HASHES=(
 	# Current one.
-	16e0b36c0c3d448c7fd00d1db3ba27ff8477007fb4b0eae31ae25960aeae3fbc
-	# Next one.
 	50a933e09257e1f586db44434d81a3cc6b6e7d1c7506a92f3d33a644462e543d
+	# Next one.
 )
 PLUGIN_VERSIONS=(
 	# Current one.
-	0.41
-	# Next one.
 	0.42
+	# Next one.
+	0.46
 )
 SRC_URI="
-	https://storage.googleapis.com/chromium-nodejs/14.15.4/b2e40ddbac04d05baafbb007f203c6663c9d4ca9
+	$(printf 'https://storage.googleapis.com/chromium-nodejs/%s ' "${NODE_HASHES[@]}")
 	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/fonts-%s.tar.xz ' \
 		"${FONTS_HASHES[@]}")
 	$(printf 'https://storage.googleapis.com/chromeos-localmirror/secureshell/distfiles/node_modules-%s.tar.xz ' \
