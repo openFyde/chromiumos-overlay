@@ -148,6 +148,18 @@ The majority of times someone will be following this documentation the ultimate 
 to update the aosp-framework-ml-nn package from the upstream branch. If this is the case
 continue on with the following instructions.
 
+First, up-rev the neuralnetworks package on which aosp-frameworks-ml-nn depends:
+```bash
+cd src/aosp/hardware/interfaces/neuralnetworks
+git checkout -b merge cros/main
+git merge cros/upstream/master --no-ff
+```
+This may result in a few merge conflicts that can not be automatically resolved. Manually
+fix any conflicts. The correct way to merge any conflicts may only become apparent after
+trying to build and test the aosp-frameworks-ml-nn package. Be prepared to redo the merge
+if you inadvetently leave in/remove the wrong parts.
+
+Now, lets up-rev the aosp-frameworks-ml-nn package:
 ```bash
 cd src/aosp/frameworks/ml
 git checkout -b merge cros/main
