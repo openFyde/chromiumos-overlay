@@ -2782,6 +2782,20 @@
         "rel_patch_path": "5778284149254d019b3f127dc32475ab7b72a7d6.patch",
         "version_range": {
             "from": 433403,
+            "until": 453214
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[libcxx] v2: Crash when dereferencing nullopt for std::optional"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "e8361ac175bc6c911cd03e74ecd31be40a8cae37.patch",
+        "version_range": {
+            "from": 453214,
             "until": null
         }
     },
