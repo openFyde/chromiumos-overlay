@@ -238,6 +238,12 @@ multilib_src_configure() {
 		if use thinlto; then
 			mycmakeargs+=(
 				"-DLLVM_ENABLE_LTO=thin"
+				# b/228090090: LLVM defaults to 2 parallel link
+				# jobs with ThinLTO enabled. Bumping this to 4
+				# speeds `emerge llvm` up on dev machines by
+				# 1.25x, and saves >10mins per LLVM build on the
+				# SDK builder.
+				"-DLLVM_PARALLEL_LINK_JOBS=4"
 			)
 			# b/227370760: Instr limits above 30 don't seem to help
 			# our performance (and might hurt in some cases). They
