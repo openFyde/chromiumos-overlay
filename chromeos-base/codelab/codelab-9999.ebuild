@@ -7,6 +7,8 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_SUBTREE="common-mk codelab .gn"
 
+CROS_WORKON_OUTOFTREE_BUILD="1"
+
 PLATFORM_SUBDIR="codelab"
 
 inherit cros-workon platform
