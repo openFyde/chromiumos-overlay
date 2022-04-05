@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="df0d65a8cade088e1516d0be71b413b66f85de38"
+CROS_WORKON_COMMIT="2742408ce26ddcac3fecaf408f6eac4f52367f74"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "619e88b4e4c8207c69d97d51a755155da6453b5b" "e9340a6d0c4cd8221b2c3f090e1db2e638b7d5ce" "c38bbaabadc876fafe3a716c8c3ad0f25c3570e1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/hardware_verifier"
 
 	insinto /etc/init

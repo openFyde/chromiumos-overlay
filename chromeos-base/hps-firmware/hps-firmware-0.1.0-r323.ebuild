@@ -228,6 +228,7 @@ src_install() {
 	# signed release firmware is installed by hps-firmware-images ebuild
 	insinto "/firmware/hps"
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
+	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	doins mcu_stage1.version.txt
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin

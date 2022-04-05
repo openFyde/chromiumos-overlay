@@ -299,6 +299,7 @@ RDEPEND="${RDEPEND}
 	app-portage/eclass-manpages
 	app-portage/gentoolkit
 	app-portage/portage-utils
+	app-portage/repoman
 	app-shells/bash-completion
 	x86?   ( dev-go/delve )
 	amd64? ( dev-go/delve )

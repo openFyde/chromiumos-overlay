@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="df0d65a8cade088e1516d0be71b413b66f85de38"
+CROS_WORKON_COMMIT="2742408ce26ddcac3fecaf408f6eac4f52367f74"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "619e88b4e4c8207c69d97d51a755155da6453b5b" "c83e6c45016423237f73afb1194d973e25702fe9" "cbe6bebdacdb12c86cec63a4170e12ec312d380b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -48,6 +48,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/runtime_probe"
 
 	# Install upstart configs and scripts.
