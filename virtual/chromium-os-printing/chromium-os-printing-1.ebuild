@@ -15,6 +15,7 @@ IUSE="internal postscript"
 RDEPEND="
 	chromeos-base/ippusb_bridge
 	chromeos-base/lexmark-fax-pnh
+	chromeos-base/print_tools
 	net-print/cups
 	net-print/cups-filters
 	net-print/dymo-cups-drivers
