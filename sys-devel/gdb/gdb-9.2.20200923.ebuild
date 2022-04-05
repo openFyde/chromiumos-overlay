@@ -1,10 +1,10 @@
 # Copyright 1999-2020 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
-PYTHON_COMPAT=( python{2_7,3_4,3_5,3_6} )
+EAPI=7
+PYTHON_COMPAT=( python3_{6..9} )
 
-inherit flag-o-matic eutils python-single-r1 versionator
+inherit flag-o-matic eutils python-single-r1
 
 GIT_SHAI="234e271db36e2a8be022f7a4bbabfa1623a6ae9a"   # GDB 9.2
 SRC_URI="https://android.googlesource.com/toolchain/gdb/+archive/${GIT_SHAI}.tar.gz -> ${P}.tar.gz"
@@ -77,7 +77,7 @@ src_unpack() {
 	else
 		default
 	fi
-	S="${WORKDIR}/${PN}-$(get_version_component_range 1-2)"
+	S="${WORKDIR}/${PN}-$(ver_cut 1-2)"
 }
 
 src_prepare() {
