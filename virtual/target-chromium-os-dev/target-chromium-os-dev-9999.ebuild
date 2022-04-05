@@ -154,7 +154,7 @@ RDEPEND="${RDEPEND}
 	dev-python/dbus-python
 	dev-python/pydbus
 	dev-python/hid-tools
-	python_targets_python2_7? ( dev-util/hdctools )
+	dev-util/hdctools
 	lldbserver? ( dev-util/lldb-server )
 	dev-util/mem
 	dev-util/strace
