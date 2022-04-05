@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("44c46742d7eaabcb38ef5abd36c8e27742f7613f" "6ef833a0a0fabfcb3aab497219fb897387fb2fb9")
+CROS_WORKON_COMMIT=("a9c3f0e0213bb4ea3b9bb300fd207e1ef9a7de83" "6ef833a0a0fabfcb3aab497219fb897387fb2fb9")
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "0e9da2463b9c51f92144e216bfe7c3ae79a6947c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c7d52a15b975834387f00931b04c7dc4be9d4d19")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -56,7 +56,10 @@ DEPEND="
 DELTA_GENERATOR_RDEPEND="
 	app-arch/unzip:=
 	app-arch/xz-utils:=
-	sys-libs/e2fsprogs-libs:=
+	|| (
+		>=sys-fs/e2fsprogs-1.46.4-r5:=
+		sys-libs/e2fsprogs-libs:=
+	)
 	sys-fs/squashfs-tools
 "
 
