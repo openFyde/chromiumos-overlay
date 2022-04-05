@@ -25,7 +25,7 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="~*"
-IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools"
+IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools bluez_default_conn_int"
 REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
@@ -152,8 +152,15 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
 
 	# Install the config files.
+	cp "${FILESDIR}/main.conf" main.conf || die
+	# Some boards require the default LE connection intervals, so remove the
+	# Min/Max ConnectionInterval overrides.
+	if use bluez_default_conn_int; then
+		sed -i 's/MinConnectionInterval/#MinConnectionInterval/g' main.conf
+		sed -i 's/MaxConnectionInterval/#MaxConnectionInterval/g' main.conf
+	fi
 	insinto "/etc/bluetooth"
-	doins "${FILESDIR}/main.conf"
+	doins main.conf
 	doins "${FILESDIR}/input.conf"
 
 	# Install the fuzzer binaries.
