@@ -239,6 +239,13 @@ multilib_src_configure() {
 			mycmakeargs+=(
 				"-DLLVM_ENABLE_LTO=thin"
 			)
+			# b/227370760: Instr limits above 30 don't seem to help
+			# our performance (and might hurt in some cases). They
+			# also make builds take meaningfully longer, and add
+			# tens of MB to our SDK size. We tune this back in other
+			# large ThinLTO users (e.g., Chrome), so do it here,
+			# too.
+			append-ldflags "-Wl,-mllvm,-import-instr-limit=30"
 		fi
 
 		if apply_pgo_profile; then
