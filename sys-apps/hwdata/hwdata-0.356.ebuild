@@ -27,19 +27,19 @@ src_configure() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" NAME="misc" install
+	emake DESTDIR="${D}" install
 
 	if ! use net; then
-		rm "${D}"/usr/share/misc/iab.txt "${D}"/usr/share/misc/oui.txt || die
+		rm "${D}"/usr/share/hwdata/iab.txt "${D}"/usr/share/hwdata/oui.txt || die
 	fi
 	if ! use pci; then
-		rm "${D}"/usr/share/misc/pci.ids || die
+		rm "${D}"/usr/share/hwdata/pci.ids || die
 	fi
 	if ! use usb; then
-		rm "${D}"/usr/share/misc/usb.ids || die
+		rm "${D}"/usr/share/hwdata/usb.ids || die
 	fi
 
 	# Remove unused files.
 	rm -r "${D}"/lib || die
-	rm "${D}"/usr/share/misc/pnp.ids || die
+	rm "${D}"/usr/share/hwdata/pnp.ids || die
 }
