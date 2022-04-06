@@ -94,6 +94,7 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp_policy/archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
+	use seccomp && newins "seccomp_policy/fusebox-seccomp-${ARCH}.policy"      fusebox-seccomp.policy
 	use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
 	use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
 	use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
