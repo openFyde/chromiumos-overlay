@@ -268,6 +268,7 @@ CONFIG_FRAGMENTS=(
 	vfat
 	virtio_balloon
 	vivid
+	vkms
 	vlan
 	vtpm_proxy
 	vmware_guest
@@ -965,6 +966,15 @@ vivid_desc="Virtual Video Test Driver"
 vivid_config="
 CONFIG_VIDEO_VIVID=m
 CONFIG_VIDEO_VIVID_MAX_DEVS=64
+"
+
+vkms_desc="Virtual KMS (Kernel Mode Setting)"
+vkms_config="
+CONFIG_DRM_VKMS=m
+"
+
+vkms_config_disable="
+# CONFIG_DRM_VKMS is not set
 "
 
 vlan_desc="802.1Q VLAN"
