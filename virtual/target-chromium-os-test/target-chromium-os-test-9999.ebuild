@@ -243,6 +243,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	dev-python/pyudev
 	dev-python/pyxattr
 	dev-python/pyyaml
+	dev-python/requests
 	dev-python/selenium
 	dev-python/setproctitle
 	dev-python/setuptools
