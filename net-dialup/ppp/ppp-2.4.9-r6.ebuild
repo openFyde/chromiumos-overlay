@@ -161,13 +161,9 @@ src_install() {
 	local PLUGINS_DIR="/usr/$(get_libdir)/pppd/${PV}"
 	insinto "${PLUGINS_DIR}"
 	insopts -o shill -g ppp -m0755
-	doins pppd/plugins/minconn.so
-	doins pppd/plugins/passprompt.so
-	doins pppd/plugins/passwordfd.so
-	doins pppd/plugins/winbind.so
-	doins pppd/plugins/pppoe/pppoe.so
-	doins pppd/plugins/pppol2tp/openl2tp.so
-	doins pppd/plugins/pppol2tp/pppol2tp.so
+
+	# plugins are removed since they are not needed by CrOS.
+
 	if use atm ; then
 		doins pppd/plugins/pppoatm/pppoatm.so
 	fi
