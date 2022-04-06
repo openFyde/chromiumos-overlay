@@ -8,10 +8,11 @@ DESCRIPTION="Ebuild to support the Chrome OS TI50 device."
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="cros_host"
 
 # CR50 and TI50 share the same development tools, e.g. gsctool
 RDEPEND="chromeos-base/chromeos-cr50-dev
-	chromeos-base/chromeos-cr50-scripts"
+	!cros_host? ( chromeos-base/chromeos-cr50-scripts )"
 
 # There are two major types of images of Ti50, prod (used on most MP devices)
 # and pre-pvt, used on devices still not fully released.
