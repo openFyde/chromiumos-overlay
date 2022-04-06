@@ -38,7 +38,8 @@ DEPEND="
 	dev-go/dst
 	dev-go/exif
 	dev-go/fscrypt
-	dev-go/gapi-drive
+	dev-go/gapi
+	dev-go/gax
 	dev-go/genproto
 	dev-go/godebug
 	dev-go/golang-evdev
@@ -52,6 +53,7 @@ DEPEND="
 	dev-go/mock
 	dev-go/mp4
 	dev-go/oauth2
+	dev-go/opencensus
 	dev-go/perfetto-protos
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
