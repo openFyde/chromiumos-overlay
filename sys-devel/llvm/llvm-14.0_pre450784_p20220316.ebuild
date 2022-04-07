@@ -31,7 +31,7 @@ KEYWORDS="-* amd64"
 # llvm-next with a few extra checks enabled
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
 	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
-	multitarget ncurses ocaml test +thinlto xml video_cards_radeon"
+	multitarget ncurses ocaml test +thinlto xml video_cards_radeon continue-on-patch-failure"
 
 COMMON_DEPEND="
 	sys-libs/zlib:0=[${MULTILIB_USEDEP}]
@@ -115,10 +115,13 @@ src_prepare() {
 
 	python_setup
 
+	local failure_mode
+	failure_mode="$(usex continue-on-patch-failure continue fail)"
 	"${FILESDIR}"/patch_manager/patch_manager.py \
 		--svn_version "$(get_most_recent_revision)" \
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
+		--failure_mode "${failure_mode}" \
 		--src_path "${S}" || die
 
 	cmake_src_prepare

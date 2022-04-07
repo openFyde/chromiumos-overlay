@@ -33,7 +33,7 @@ KEYWORDS="*"
 if [[ "${PV}" == "9999" ]]; then
 KEYWORDS="~*"
 fi
-IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt +libunwind llvm-next llvm-tot msan +static-libs"
+IUSE="+compiler-rt cros_host elibc_glibc elibc_musl +libcxxabi libcxxrt +libunwind llvm-next llvm-tot msan +static-libs continue-on-patch-failure"
 REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 	?? ( libcxxabi libcxxrt )"
 
@@ -69,10 +69,13 @@ src_unpack() {
 }
 
 src_prepare() {
+	local failure_mode
+	failure_mode="$(usex continue-on-patch-failure continue fail)"
 	"${FILESDIR}"/patch_manager/patch_manager.py \
 		--svn_version "$(get_most_recent_revision)" \
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
+		--failure_mode "${failure_mode}" \
 		--src_path "${S}" || die
 
 	eapply_user

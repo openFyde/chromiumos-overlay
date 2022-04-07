@@ -27,7 +27,7 @@ KEYWORDS="*"
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS="~*"
 fi
-IUSE="+llvm-crt llvm-next llvm-tot"
+IUSE="+llvm-crt llvm-next llvm-tot continue-on-patch-failure"
 DEPEND="sys-devel/llvm"
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND+="
@@ -53,10 +53,13 @@ src_unpack() {
 }
 
 src_prepare() {
+	local failure_mode
+	failure_mode="$(usex continue-on-patch-failure continue fail)"
 	"${FILESDIR}"/patch_manager/patch_manager.py \
 		--svn_version "$(get_most_recent_revision)" \
 		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
 		--filesdir_path "${FILESDIR}" \
+		--failure_mode "${failure_mode}" \
 		--src_path "${S}" || die
 	eapply_user
 }
