@@ -9,10 +9,6 @@ CROS_GO_PACKAGES=(
 	"github.com/cespare/xxhash/v2"
 )
 
-CROS_GO_BINARIES=(
-	"github.com/cespare/xxhash/v2/xxhsum/xxhsum.go"
-)
-
 inherit cros-go
 
 DESCRIPTION="A Go implementation of the 64-bit xxHash algorithm (XXH64)"
