@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6589eccd5b550faac865c9f182f8c6b033ce0f84"
+CROS_WORKON_COMMIT="4cf00155ed8ae744c3f44282d1371b4b4948d83a"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "69a79cd4fc297dd30d9e2ee4ac72377a36a30b16" "880137511e9da416bf50a2bb77dde8fa35f48dee" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -96,6 +96,7 @@ src_install() {
 	# Install seccomp policy files.
 	insinto /usr/share/policy
 	use seccomp && newins "seccomp_policy/archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
+	use seccomp && newins "seccomp_policy/fusebox-seccomp-${ARCH}.policy"      fusebox-seccomp.policy
 	use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
 	use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
 	use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
