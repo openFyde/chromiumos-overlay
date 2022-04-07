@@ -50,6 +50,8 @@ patchpanel_header() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Main binary.
 	dobin "${OUT}"/patchpaneld
 
