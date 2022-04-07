@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk chromeos-config metrics modemfwd .gn"
 
 PLATFORM_SUBDIR="modemfwd"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Modem firmware updater daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/modemfwd"
@@ -40,6 +40,8 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	platform_install
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	local fuzzer_component_id="167157"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer \
