@@ -92,6 +92,7 @@ IUSE="
 	-docker
 	-lxc
 	sparse
+	disable_kernel_fragments
 "
 REQUIRED_USE="
 	^^ ( ${CHROMEOS_KERNEL_FAMILY_FLAGS[*]} )
@@ -2360,35 +2361,37 @@ cros-kernel2_src_configure() {
 		fi
 	fi
 
-	local fragment
-	for fragment in "${CONFIG_FRAGMENTS[@]}"; do
-		local config="${fragment}_config"
-		local status
+	if ! use disable_kernel_fragments; then
+		local fragment
+		for fragment in "${CONFIG_FRAGMENTS[@]}"; do
+			local config="${fragment}_config"
+			local status
 
-		if [[ ${!config+set} != "set" ]]; then
-			die "'${fragment}' listed in CONFIG_FRAGMENTS, but ${config} is not set up"
-		fi
-
-		if use "${fragment}"; then
-			status="enabling"
-		else
-			config="${fragment}_config_disable"
-			status="disabling"
-			if [[ -z "${!config}" ]]; then
-				continue
+			if [[ ${!config+set} != "set" ]]; then
+				die "'${fragment}' listed in CONFIG_FRAGMENTS, but ${config} is not set up"
 			fi
-		fi
 
-		local msg="${fragment}_desc"
-		elog "   - ${status} ${!msg} config"
-		local warning="${fragment}_warning"
-		local warning_msg="${!warning}"
-		if [[ -n "${warning_msg}" ]] ; then
-			ewarn "${warning_msg}"
-		fi
+			if use "${fragment}"; then
+				status="enabling"
+			else
+				config="${fragment}_config_disable"
+				status="disabling"
+				if [[ -z "${!config}" ]]; then
+					continue
+				fi
+			fi
 
-		echo "${!config//%ROOT%/${SYSROOT}}" >> "${build_cfg}" || die
-	done
+			local msg="${fragment}_desc"
+			elog "   - ${status} ${!msg} config"
+			local warning="${fragment}_warning"
+			local warning_msg="${!warning}"
+			if [[ -n "${warning_msg}" ]] ; then
+				ewarn "${warning_msg}"
+			fi
+
+			echo "${!config//%ROOT%/${SYSROOT}}" >> "${build_cfg}" || die
+		done
+	fi
 
 	local -a builtin_fw
 	for fragment in "${FIRMWARE_BINARIES[@]}"; do
