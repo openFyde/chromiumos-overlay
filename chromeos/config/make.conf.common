@@ -16,9 +16,19 @@ PORTDIR="/usr/local/portage/stable"
 # of the ChromiumOS set.  You can use "--select" to override this.
 EMERGE_DEFAULT_OPTS="--oneshot --autounmask-backtrack=y --autounmask=n"
 
-# Use parallel bzip2 for portage if available
-PORTAGE_BZIP2_COMMAND="pbzip2"
-PORTAGE_BUNZIP2_COMMAND="pbunzip2 --ignore-trailing-garbage=1"
+# Compression settings for creating binpkgs.
+# NB: BINPKG_COMPRESS selects an algorithm, not a command.
+BINPKG_COMPRESS="bzip2"
+BINPKG_COMPRESS_FLAGS="-9"
+
+# Command for compressing installed documentation.
+PORTAGE_COMPRESS="lbzip2"
+PORTAGE_COMPRESS_FLAGS="-9"
+
+# Use parallel bzip2 for portage whenever bzip2 is needed.
+# This is usually for decompressing source archives.
+PORTAGE_BZIP2_COMMAND="lbzip2 -z"
+PORTAGE_BUNZIP2_COMMAND="lbzip2 -d"
 
 FETCHCOMMAND_GS='/mnt/host/source/chromite/bin/gs_fetch_binpkg --boto "/home/${PORTAGE_USERNAME}/.boto" "\${URI}" "\${DISTDIR}/\${FILE}"'
 RESUMECOMMAND_GS="${FETCHCOMMAND_GS}"
