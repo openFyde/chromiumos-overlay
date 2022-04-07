@@ -122,6 +122,9 @@ USE="${USE} racc"
 # Enable disk usage daemon.
 USE="${USE} spaced"
 
+# Enable RGB Keyboard daemon.
+USE="${USE} rgbkbd"
+
 # Enable ML benchmarking in test images
 USE="${USE} ml_benchmark_drivers"
 

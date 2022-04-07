@@ -80,6 +80,9 @@ USE="${USE} -dlp"
 # Disable Runtime AVL Compliance Check (RACC) packages
 USE="${USE} -racc"
 
+# Disable RGB Keyboard daemon.
+USE="${USE} -rgbkbd"
+
 # Disable disk usage daemon.
 USE="${USE} -spaced"
 

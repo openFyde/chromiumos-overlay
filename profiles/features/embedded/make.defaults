@@ -88,6 +88,9 @@ USE="${USE} -racc"
 # Disable Bluetooth (both Bluez and Floss).
 USE="${USE} -bluetooth -floss"
 
+# Disable RGB Keyboard daemon.
+USE="${USE} -rgbkbd"
+
 # Disable disk usage daemon.
 USE="${USE} -spaced"
 
