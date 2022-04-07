@@ -119,6 +119,7 @@ src_configure() {
 	fi
 
 	emesonargs+=(
+		-Dexecmem=false
 		-Dglx=disabled
 		-Dllvm="${LLVM_ENABLE}"
 		# Set platforms empty to get only surfaceless. This works better
