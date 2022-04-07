@@ -458,14 +458,14 @@ cros_pre_src_prepare_build_toolchain_catch() {
 
 		cat <<EOF > "${dir}/${tool}"
 #!/bin/sh
-$(which eerror) "\$(
+$(type -P eerror) "\$(
 err() { echo "${tool}: ERROR: \$*"; }
 err "Do not call unprefixed tools directly."
 err "For board tools, use \\\`tc-export ${tcvar}\\\` (or \\\${CHOST}-${tool})."
 err "For build-time-only tools, \\\`tc-export BUILD_${tcvar}\\\` (or \\\${CBUILD}-${tool})."
 pstree -a -A -s -l \$\$
 )"
-$(which die) "Bad ${tool} [\$*] invocation"
+$(type -P die) "Bad ${tool} [\$*] invocation"
 exit 1
 EOF
 		chmod a+rx "${dir}/${tool}"
@@ -492,13 +492,13 @@ EOF
 		for prefixed_tool in "${CHOST}-${tool}" "${CBUILD}-${tool}"; do
 			cat <<EOF2 > "${dir}/gnu_tools/${prefixed_tool}"
 #!/bin/sh
-$(which eerror) "\$(
+$(type -P eerror) "\$(
 err() { echo "${prefixed_tool}: ERROR: \$*"; }
 err "Unexpected use of GCC/GNU Binutils."
 err "If this use is necessary, please call cros_allow_gnu_build_tools in the ebuild"
 pstree -a -A -s -l \$\$
 )"
-$(which die) "Unexpected ${prefixed_tool} [\$*] invocation"
+$(type -P die) "Unexpected ${prefixed_tool} [\$*] invocation"
 exit 1
 EOF2
 			chmod a+rx "${dir}/gnu_tools/${prefixed_tool}"
