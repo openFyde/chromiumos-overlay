@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bytes-0.4:=
-	>=dev-rust/fnv-1.0.5:=
-	>=dev-rust/itoa-0.4.1:=
+	=dev-rust/bytes-0.4*:=
+	>=dev-rust/fnv-1.0.5 <dev-rust/fnv-2.0.0_alpha:=
+	>=dev-rust/itoa-0.4.1 <dev-rust/itoa-0.5.0_alpha:=
 "
