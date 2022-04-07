@@ -21,9 +21,14 @@ EMERGE_DEFAULT_OPTS="--oneshot --autounmask-backtrack=y --autounmask=n"
 BINPKG_COMPRESS="bzip2"
 BINPKG_COMPRESS_FLAGS="-9"
 
-# Command for compressing installed documentation.
-PORTAGE_COMPRESS="lbzip2"
-PORTAGE_COMPRESS_FLAGS="-9"
+# Command for compressing installed documentation, including man pages.
+# That means compression algorithm selection is restricted by whatever man-db
+# supports, and currently that is gzip/bzip2/xz/lzip.
+# We don't need high compression levels here as the amount of documentation
+# in total is not huge (<500 MB uncompressed), so a smallish & fast approach
+# works well enough.
+PORTAGE_COMPRESS="pigz"
+PORTAGE_COMPRESS_FLAGS="-3"
 
 # Use parallel bzip2 for portage whenever bzip2 is needed.
 # This is usually for decompressing source archives.
