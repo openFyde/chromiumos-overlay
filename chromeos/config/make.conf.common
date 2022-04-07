@@ -18,8 +18,8 @@ EMERGE_DEFAULT_OPTS="--oneshot --autounmask-backtrack=y --autounmask=n"
 
 # Compression settings for creating binpkgs.
 # NB: BINPKG_COMPRESS selects an algorithm, not a command.
-BINPKG_COMPRESS="bzip2"
-BINPKG_COMPRESS_FLAGS="-9"
+BINPKG_COMPRESS="zstd"
+BINPKG_COMPRESS_FLAGS="-3"
 
 # Command for compressing installed documentation, including man pages.
 # That means compression algorithm selection is restricted by whatever man-db
