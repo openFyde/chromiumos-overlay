@@ -31,7 +31,6 @@ IUSE="
 	pam
 	+power_management
 	+profile
-	python_targets_python2_7
 	+shill
 	tpm
 	tpm2
@@ -133,7 +132,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/protofiles
 	!chromeless_tty? ( chromeos-base/screen-capture-utils www-apps/novnc )
 	shill? ( chromeos-base/shill-test-scripts )
-	python_targets_python2_7? ( chromeos-base/touch_firmware_test )
+	chromeos-base/touch_firmware_test
 	chromeos-base/usi-test
 	dev-vcs/git
 	net-analyzer/tcpdump
@@ -148,7 +147,6 @@ RDEPEND="${RDEPEND}
 	net-misc/rsync
 	net-wireless/iw
 	net-wireless/wireless-tools
-	python_targets_python2_7? ( dev-lang/python:2.7 )
 	dev-lang/python:3.6
 	dev-libs/libgpiod
 	dev-python/protobuf-python
