@@ -32,7 +32,7 @@ S="${WORKDIR}/${MY_P}"
 
 PATCHES=("${FILESDIR}"/${PN}-2.0.0.2-no-bootstrap.patch)
 
-CABAL_CORE_LIB_GHC_PV="PM:8.6.1 PM:8.6.2 PM:8.6.3 PM:8.6.4 PM:8.6.5 PM:8.6.5-r1"
+CABAL_CORE_LIB_GHC_PV="PM:8.6.1 PM:8.6.2 PM:8.6.3 PM:8.6.4 PM:8.6.5 PM:8.6.5-r1 PM:8.6.5-r4"
 
 src_configure() {
 	haskell-cabal_src_configure \
