@@ -81,6 +81,7 @@ src_install() {
 	doexe "${OUT}"/dev_features_usb_boot
 	doexe "${OUT}"/folder_size_dump
 	doexe "${OUT}"/icmp
+	doexe "${OUT}"/modetest_helper
 	doexe "${OUT}"/netif
 	doexe "${OUT}"/network_status
 	doexe "${OUT}"/typec_connector_class_helper
