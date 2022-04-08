@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_{6..9} )
 
 inherit cmake-multilib eutils flag-o-matic mono-env python-r1
 
 DESCRIPTION="Library for automatic proxy configuration management"
 HOMEPAGE="https://github.com/libproxy/libproxy"
-SRC_URI="https://github.com/libproxy/libproxy/archive/${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/libproxy/libproxy/releases/download/${PV}/${P}-${PV}.tar.xz -> ${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -42,18 +42,11 @@ PATCHES=(
 	# manually; virtualx.eclass doesn't help :(
 	"${FILESDIR}/${PN}-0.4.10-disable-pac-test.patch"
 
-	# prevent dependency loop with networkmanager, libsoup, glib-networking; bug #467696
-	# https://github.com/libproxy/libproxy/issues/28
-	"${FILESDIR}/${PN}-0.4.11-avoid-nm-build-dep.patch"
-
 	# Gentoo's spidermonkey doesn't set Version: in mozjs18[57].pc
 	"${FILESDIR}/${PN}-0.4.12-mozjs.pc.patch"
 
 	# https://github.com/libproxy/libproxy/issues/27
 	"${FILESDIR}/${PN}-0.4.12-macosx.patch"
-
-	# bug 600254
-	"${FILESDIR}/${P}-cmake-37.patch"
 )
 
 multilib_src_configure() {
@@ -70,7 +63,8 @@ multilib_src_configure() {
 		"-DWITH_DOTNET=$(multilib_is_native_abi	&& usex mono || echo 'OFF')"
 		"-DWITH_NM=$(usex networkmanager)"
 		"-DWITH_PERL=$(multilib_is_native_abi && usex perl || echo 'OFF')"
-		"-DWITH_PYTHON=$(multilib_is_native_abi	&& usex python || echo 'OFF')"
+		"-DWITH_PYTHON2=$(multilib_is_native_abi	&& usex python || echo 'OFF')"
+		"-DWITH_PYTHON3=$(multilib_is_native_abi	&& usex python || echo 'OFF')"
 		"-DWITH_MOZJS=$(multilib_is_native_abi && usex spidermonkey || echo 'OFF')"
 		"-DWITH_NATUS=OFF"
 		"-DWITH_WEBKIT=OFF"
