@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6589eccd5b550faac865c9f182f8c6b033ce0f84"
+CROS_WORKON_COMMIT="9e726d766e59c6dd9055b49ff5e71a3c37e097fd"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "880137511e9da416bf50a2bb77dde8fa35f48dee" "83a3221c59cc7b7ef1809a1fb489b6fa4cc50895" "ffe8febc329c2906796be4d80545a26fd1e70c7d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -52,6 +52,8 @@ patchpanel_header() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Main binary.
 	dobin "${OUT}"/patchpaneld
 
