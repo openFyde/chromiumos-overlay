@@ -18,13 +18,13 @@ fi
 inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
-[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
+[[ ${PV/_rc*/} == "${PV}" ]] || FOLDER+="/RC"
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
 #SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
-if [[ $PV = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
+if [[ ${PV} = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
 	SRC_URI="${SRC_PATCHES}"
 else
 	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
@@ -46,7 +46,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
+	debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
 	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X
 	libglvnd zstd"
 
@@ -68,7 +68,6 @@ RDEPEND="
 		x11-libs/libXrandr
 		x11-libs/libXxf86vm
 	)
-	zstd? ( app-arch/zstd )
 	wayland? (
 		dev-libs/wayland
 		>=dev-libs/wayland-protocols-1.8
@@ -78,6 +77,7 @@ RDEPEND="
 	dev-libs/expat
 	dev-libs/libgcrypt
 	virtual/udev
+	zstd? ( app-arch/zstd )
 	${LIBDRM_DEPSTRING}
 "
 
@@ -124,15 +124,9 @@ src_configure() {
 	# to include it for all platforms though.
 	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc --unwindlib=libgcc -lpthread"
 
-	if use !gallium && use !classic && use !vulkan; then
-		ewarn "You enabled neither classic, gallium, nor vulkan "
+	if use !gallium && use !vulkan; then
+		ewarn "You enabled neither gallium, nor vulkan "
 		ewarn "USE flags. No hardware drivers will be built."
-	fi
-
-	if use classic; then
-	# Configurable DRI drivers
-		# Intel code
-		dri_driver_enable video_cards_intel i965
 	fi
 
 	if use gallium; then
@@ -192,7 +186,7 @@ src_configure() {
 
 	emesonargs+=(
 		-Dexecmem=false
-		-Dglvnd=$(usex libglvnd true false)
+		-Dglvnd="$(usex libglvnd true false)"
 		-Dglx="${glx}"
 		-Dllvm="${LLVM_ENABLE}"
 		-Dplatforms="${egl_platforms}"
@@ -218,22 +212,14 @@ src_install() {
 	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 
-	dodir /usr/$(get_libdir)/dri
+	dodir "/usr/$(get_libdir)/dri"
 	insinto "/usr/$(get_libdir)/dri/"
 	insopts -m0755
 	# install the gallium drivers we use
 	local gallium_drivers_files=( nouveau_dri.so r300_dri.so r600_dri.so msm_dri.so swrast_dri.so )
-	for x in ${gallium_drivers_files[@]}; do
+	for x in "${gallium_drivers_files[@]}"; do
 		if [ -f "${S}/$(get_libdir)/gallium/${x}" ]; then
 			doins "${S}/$(get_libdir)/gallium/${x}"
-		fi
-	done
-
-	# install classic drivers we use
-	local classic_drivers_files=( i810_dri.so i965_dri.so nouveau_vieux_dri.so radeon_dri.so r200_dri.so )
-	for x in ${classic_drivers_files[@]}; do
-		if [ -f "${S}/$(get_libdir)/${x}" ]; then
-			doins "${S}/$(get_libdir)/${x}"
 		fi
 	done
 }
@@ -241,21 +227,21 @@ src_install() {
 # $1 - VIDEO_CARDS flag (check skipped for "--")
 # other args - names of DRI drivers to enable
 dri_driver_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		DRI_DRIVERS+=("$@")
 	fi
 }
 
 gallium_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		GALLIUM_DRIVERS+=("$@")
 	fi
 }
 
 vulkan_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		VULKAN_DRIVERS+=("$@")
 	fi
