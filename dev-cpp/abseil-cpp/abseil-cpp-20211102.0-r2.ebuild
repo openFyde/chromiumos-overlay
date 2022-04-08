@@ -26,7 +26,9 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND=""
-RDEPEND="${DEPEND}"
+RDEPEND="${DEPEND}
+	!=dev-cpp/absl-20210324.1
+"
 
 BDEPEND="
 	${PYTHON_DEPS}
