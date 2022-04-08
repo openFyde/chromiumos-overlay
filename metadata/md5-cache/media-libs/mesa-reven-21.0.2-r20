@@ -4,12 +4,12 @@ DEPEND=dev-libs/expat:= dev-libs/libgcrypt:= llvm? ( virtual/libelf:= ) virtual/
 DESCRIPTION=The Mesa 3D Graphics Library
 EAPI=7
 HOMEPAGE=http://mesa3d.org/
-IUSE=video_cards_amdgpu video_cards_intel video_cards_iris video_cards_llvmpipe video_cards_nouveau video_cards_radeon video_cards_virgl video_cards_vmware +classic debug dri egl +gallium -gbm gles1 gles2 kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland zstd libglvnd cros_host cros_workon_tree_774f755ad7cad94b468934205903c21ac82a69d5
+IUSE=video_cards_amdgpu video_cards_intel video_cards_iris video_cards_llvmpipe video_cards_nouveau video_cards_radeon video_cards_virgl video_cards_vmware +classic debug dri egl +gallium -gbm gles1 gles2 kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland zstd libglvnd cros_host cros_workon_tree_f7ae70c7f88a54544ea7c692d0300cf91183ff2b
 KEYWORDS=*
 LICENSE=MIT LGPL-3 SGI-B-2.0
 PROPERTIES=live
 RDEPEND=dev-libs/expat:= dev-libs/libgcrypt:= llvm? ( virtual/libelf:= ) virtual/udev:= x11-libs/libva:= zstd? ( app-arch/zstd ) >=x11-libs/libdrm-2.4.60:= libglvnd? ( media-libs/libglvnd:= )
 REQUIRED_USE=video_cards_amdgpu? ( llvm ) video_cards_llvmpipe? ( llvm )
-SLOT=0/21.0.2-r19
+SLOT=0/21.0.2-r20
 _eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	1cac59cd2074f59abbe00de88e93af9f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=6428a362f1027159f3c51d8f1a44f859
+_md5_=b8f7938599743df8d393227614212db7
