@@ -30,7 +30,7 @@ PLATFORM_SUBDIR="libchrome"
 # TODO(fqj): remove !chromeos-base/libchrome-${BASE_VER} on next uprev to r680000.
 RDEPEND="
 	>=chromeos-base/perfetto-21.0-r4:=
-	>=dev-cpp/absl-20200923-r4:=
+	>=dev-cpp/abseil-cpp-20200923-r4:=
 	dev-libs/double-conversion:=
 	dev-libs/glib:2=
 	dev-libs/libevent:=

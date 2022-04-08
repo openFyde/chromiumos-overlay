@@ -83,7 +83,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]
-	dev-cpp/absl:=
+	dev-cpp/abseil-cpp:=
 	dev-libs/libutf:=
 	dev-libs/marisa-aosp:=
 	fuzzer? ( dev-libs/libprotobuf-mutator )
