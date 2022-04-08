@@ -123,6 +123,7 @@ src_configure() {
 		"-Copt-level=z",
 		"-Coverflow-checks=off",
 		"-Cdebug-assertions=off",
+		"-Ccodegen-units=1",
 	]
 	EOF
 
