@@ -60,6 +60,7 @@ IUSE="
 	ml_benchmark_drivers
 	nnapi
 	ondevice_document_scanner
+	ondevice_document_scanner_dlc
 	ondevice_grammar
 	ondevice_handwriting
 	ondevice_handwriting_dlc
@@ -73,7 +74,10 @@ RDEPEND="
 	chromeos-base/minijail:=
 	internal? ( ondevice_speech? ( chromeos-soda/libsoda:=[dlc=] ) )
 	nnapi? ( chromeos-base/aosp-frameworks-ml-nn )
-	media-libs/cros-camera-libfs:=[ondevice_document_scanner=]
+	dlc? (
+		ondevice_document_scanner_dlc? ( media-libs/cros-camera-document-scanner-dlc )
+	)
+	media-libs/cros-camera-libfs:=[ondevice_document_scanner=,ondevice_document_scanner_dlc=]
 	>=dev-libs/libgrammar-0.0.4:=[ondevice_grammar=]
 	dev-libs/libhandwriting:=[ondevice_handwriting=,ondevice_handwriting_dlc=]
 	>=dev-libs/libsuggest-0.0.9:=[ondevice_text_suggestions=]

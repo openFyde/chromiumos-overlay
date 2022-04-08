@@ -31,10 +31,14 @@ IUSE="
 	march_tremont
 	march_znver1
 	ondevice_document_scanner
+	ondevice_document_scanner_dlc
 "
 
 # Auto face framing depends on the face detection feature.
-REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
+REQUIRED_USE="
+	camera_feature_auto_framing? ( camera_feature_face_detection )
+	?? ( ondevice_document_scanner ondevice_document_scanner_dlc )
+"
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
 PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.03.17.tbz2"
@@ -99,34 +103,7 @@ src_install() {
 	insinto /etc/init
 	doins init/cros-camera-libfs.conf
 
-	local march_path
-	if use march_alderlake; then
-		march_path="x86_64-alderlake"
-	elif use march_armv8; then
-		march_path="armv7-armv8-a+crc"
-	elif use march_bdver4; then
-		march_path="x86_64-bdver4"
-	elif use march_corei7; then
-		march_path="x86_64-corei7"
-	elif use march_goldmont; then
-		march_path="x86_64-goldmont"
-	elif use march_silvermont; then
-		march_path="x86_64-silvermont"
-	elif use march_skylake; then
-		march_path="x86_64-skylake"
-	elif use march_tigerlake; then
-		march_path="x86_64-tigerlake"
-	elif use march_tremont; then
-		march_path="x86_64-tremont"
-	elif use march_znver1; then
-		march_path="x86_64-znver1"
-	elif use amd64; then
-		march_path="x86_64"
-	elif use arm; then
-		march_path="armv7"
-	elif use arm64; then
-		march_path="arm"
-	fi
+	local arch_march=$(cros-camera_get_arch_march_path)
 
 	local so_files_path="${WORKDIR}/camera_libs"
 	mkdir -p "${so_files_path}"
@@ -138,11 +115,11 @@ src_install() {
 		install_lib "${WORKDIR}/libautoframing_cros.so" "${so_files_path}"
 	fi
 	if use ondevice_document_scanner; then
-		install_lib "${WORKDIR}/${march_path}/libdocumentscanner.so" "${so_files_path}"
+		install_lib "${WORKDIR}/${arch_march}/libdocumentscanner.so" "${so_files_path}"
 	fi
-	install_lib "${WORKDIR}/${march_path}/libfacessd_cros.so" "${so_files_path}"
+	install_lib "${WORKDIR}/${arch_march}/libfacessd_cros.so" "${so_files_path}"
 	if use camera_feature_hdrnet && (use march_skylake || use march_alderlake || use amd64); then
-		install_lib "${WORKDIR}/${march_path}/libgcam_cros.so" "${so_files_path}"
+		install_lib "${WORKDIR}/${arch_march}/libgcam_cros.so" "${so_files_path}"
 	fi
 	if use camera_feature_portrait_mode; then
 		install_lib "${WORKDIR}/libportrait_cros.so" "${so_files_path}"

@@ -75,6 +75,7 @@ IUSE="
 	ndk_translation64
 	neon
 	ondevice_document_scanner
+	ondevice_document_scanner_dlc
 	ondevice_handwriting
 	ondevice_handwriting_dlc
 	ondevice_speech
@@ -118,7 +119,7 @@ EOF
 	local flags=( ${IUSE} )
 	local flag
 	for flag in "${flags[@]/#[-+]}" ; do
-		usev ${flag}
+		usev "${flag}"
 	done | sort -u >>"${path}"
 
 	insinto /etc
