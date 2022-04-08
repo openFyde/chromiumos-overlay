@@ -59,6 +59,7 @@ RDEPEND="${RDEPEND}
 	sys-devel/bison
 	sys-devel/flex
 	sys-devel/gcc
+	sys-devel/gdb
 	sys-devel/gnuconfig
 	sys-devel/grit-i18n
 	sys-devel/libtool
