@@ -51,6 +51,9 @@ RDEPEND="${COMMON_DEPEND}
 	tpm2? ( sys-apps/dbus )
 "
 
+# TODO: Currently, we install two versions of gdbstub/gdbstub_arch.
+# Once crrev.com/c/3578025 comes to crosvm's 'chromeos' branch, we should
+# remove the old version of gdbstub/gdbstub_arch.
 DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
 	=dev-rust/android_log-sys-0.2*:=
@@ -69,8 +72,10 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/enumn-0.1*:=
 	=dev-rust/futures-0.3*:=
-	=dev-rust/gdbstub-0.5*:=
+	>=dev-rust/gdbstub-0.5.0:= <dev-rust/gdbstub-0.6
+	>=dev-rust/gdbstub-0.6.1:= <dev-rust/gdbstub-0.7
 	>=dev-rust/gdbstub_arch-0.1.1:= <dev-rust/gdbstub_arch-0.2
+	>=dev-rust/gdbstub_arch-0.2.2:= <dev-rust/gdbstub_arch-0.3
 	~dev-rust/getopts-0.2.18:=
 	dev-rust/intrusive-collections:=
 	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
