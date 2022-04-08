@@ -215,7 +215,10 @@ RDEPEND="
 		app-crypt/trousers
 		chromeos-base/chaps
 	)
-	tpm2? ( chromeos-base/trunks )
+	tpm2? (
+		chromeos-base/trunks
+		chromeos-base/vtpm
+	)
 	pam? ( virtual/chromeos-auth-config )
 	federated_service? ( chromeos-base/federated-service )
 	fonts? ( chromeos-base/chromeos-fonts )

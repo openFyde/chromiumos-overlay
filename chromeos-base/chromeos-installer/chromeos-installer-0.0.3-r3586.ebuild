@@ -3,14 +3,14 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="c59ad0a94e8744a9142613140751d35b87597e4e"
-CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "a8fb5ef28035bfd5e22cce65942dfb2b1b666a55" "6fc4c6b35e5c71304e6fed40a7a24e6401d38df3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d921267553f6cb4f3fc08b831c4093266d17eb90"
+CROS_WORKON_TREE=("9f27a9f91a09c4e705951b0737014d9b9f997607" "20fecf8e8aefa548043f2cb501f222213c15929d" "bf7d02a2a6915db11b8025d4e5b932f944af2bef" "6fc4c6b35e5c71304e6fed40a7a24e6401d38df3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk installer verity .gn"
+CROS_WORKON_SUBTREE="chromeos-config common-mk installer verity .gn"
 
 PLATFORM_SUBDIR="installer"
 
@@ -38,7 +38,7 @@ COMMON_DEPEND="
 	chromeos-base/libbrillo:=
 	chromeos-base/vboot_reference
 	chromeos-base/verity
-	manage_efi_boot_entries? ( sys-libs/efivar )
+	manage_efi_boot_entries? ( chromeos-base/chromeos-config sys-libs/efivar )
 "
 
 DEPEND="${COMMON_DEPEND}
