@@ -4,11 +4,11 @@ DEPEND=>=chromeos-base/metrics-0.0.1-r3152:= dev-libs/iniparser:= cras-apm? ( me
 DESCRIPTION=Google A/V Daemon
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/adhd/
-IUSE=asan +cras-apm fuzzer selinux systemd fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_aff9220338983b9377b2d420367e4c21387c1d28 has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
+IUSE=asan +cras-apm fuzzer selinux systemd fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_2011f5597340a787367a98374b27d2972b5a9894 has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=>=chromeos-base/metrics-0.0.1-r3152:= dev-libs/iniparser:= cras-apm? ( media-libs/webrtc-apm:= ) >=media-libs/alsa-lib-1.1.6-r3:= media-libs/ladspa-sdk:= media-libs/sbc:= media-libs/speex:= >=sys-apps/dbus-1.4.12:= selinux? ( sys-libs/libselinux:= ) virtual/udev:= media-sound/alsa-utils media-plugins/alsa-plugins chromeos-base/chromeos-config-tools chromeos-base/featured has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= ) sys-apps/baselayout
-SLOT=0/0.0.6-r2485
+SLOT=0/0.0.6-r2486
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-unibuild	0d7d10969ffc8ec9d48610ec978d6298	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome-version	f89118941e7f3c3825d2fe216c977c57	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	7c566af8c48023219fd63246e88d6621
-_md5_=5b6548323764151f038971a5da2d8aa9
+_md5_=4a97183d665fcbc5603fc5ca801e3fd6
