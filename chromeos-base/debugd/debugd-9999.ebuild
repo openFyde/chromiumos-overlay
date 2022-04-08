@@ -101,7 +101,7 @@ src_install() {
 	# Install seccomp policies.
 	insinto /usr/share/policy
 	local policy
-	for policy in "${debugd_seccomp_dir}"/*-${ARCH}.policy; do
+	for policy in "${debugd_seccomp_dir}"/*-"${ARCH}".policy; do
 		local policy_basename="${policy##*/}"
 		local policy_name="${policy_basename/-${ARCH}}"
 		newins "${policy}" "${policy_name}"
@@ -132,8 +132,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	pushd "${S}/src" >/dev/null
+	pushd "${S}/src" >/dev/null || die
 	platform_test "run" "${OUT}/debugd_testrunner"
 	./helpers/capture_utility_test.sh || die
-	popd >/dev/null
+	popd >/dev/null || die
 }
