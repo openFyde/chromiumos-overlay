@@ -4,11 +4,11 @@ DEPEND=dev-embedded/libftdi:= dev-libs/openssl:0= sys-libs/zlib:= virtual/libusb
 DESCRIPTION=Chrome OS EC Utility
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/
-IUSE=static -updater_utils cros_host +cros_ec_utils cros_host cros_workon_tree_c8e198aeced488811e9951d016654aada2e1e158
+IUSE=static -updater_utils cros_host +cros_ec_utils cros_host cros_workon_tree_7868edffdd40b2f5950262b671f60c300dc3b8bc
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-embedded/libftdi:= dev-libs/openssl:0= sys-libs/zlib:= virtual/libusb:1= sys-apps/baselayout
-SLOT=0/0.0.2-r12526
+SLOT=0/0.0.2-r12527
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	7c566af8c48023219fd63246e88d6621
-_md5_=8da41494df0849b4224fd432b8088ae1
+_md5_=f6757cd546460b71ef791eeed5e1131e
