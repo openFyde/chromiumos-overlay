@@ -37,6 +37,7 @@ IUSE="
 	+linux_mtd
 	+linux_spi
 	+lspcon_i2c_spi
+	+mediatek_i2c_spi
 	mstarddc_spi
 	+nic3com
 	+nicintel
@@ -121,6 +122,7 @@ src_configure() {
 		$(meson_use linux_mtd config_linux_mtd)
 		$(meson_use linux_spi config_linux_spi)
 		$(meson_use lspcon_i2c_spi config_lspcon_i2c_spi)
+		$(meson_use mediatek_i2c_spi config_mediatek_i2c_spi)
 		$(meson_use mstarddc_spi config_mstarddc_spi)
 		$(meson_use nic3com config_nic3com)
 		$(meson_use nicintel_eeprom config_nicintel_eeprom)
