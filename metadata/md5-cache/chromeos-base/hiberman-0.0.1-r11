@@ -4,12 +4,12 @@ DEPEND=dev-libs/openssl:= =dev-rust/anyhow-1*:= dev-rust/chromeos-dbus-bindings:
 DESCRIPTION=The hibernate service manager.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hiberman/
-IUSE=cros_host cros_workon_tree_1e3b2e6e1280ec6cd9a890ab04c69596e5f98082 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_965fe458913a1f6a9ab59c4bbbe372b555f7ead4 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-libs/openssl:= =dev-rust/anyhow-1*:= dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= =dev-rust/dbus-crossroads-0.5*:= =dev-rust/getopts-0.2* >=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:= =dev-rust/log-0.4*:= =dev-rust/once_cell-1*:= dev-rust/syslog:= =dev-rust/openssl-0.10*:= =dev-rust/protobuf-2*:= =dev-rust/serde-1*:= dev-rust/serde_derive:= =dev-rust/serde_json-1*:= dev-rust/sync:= dev-rust/sys_util:= dev-rust/system_api:= >=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:= >=dev-rust/zeroize-1.5.1 <dev-rust/zeroize-2.0.0_alpha:= sys-apps/dbus sys-apps/baselayout
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.0.1-r10
+SLOT=0/0.0.1-r11
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	4fd98ebbff6a1534ca9a89547e13dc92	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	5fa249fa7c9185e66a2504f7314ae3f4	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	3c71f7f071c8eef67417b728224b1702	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	7c566af8c48023219fd63246e88d6621
-_md5_=e8051f7f28598fac9611f05038ad56c0
+_md5_=95995d9177dcfb172c1a1b3aa9296a3b
