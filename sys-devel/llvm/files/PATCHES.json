@@ -3252,5 +3252,20 @@
             "from": 450780,
             "until": 450807
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [asan] Always skip first object from dl_iterate_phdr"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/795b07f5498c7e5783237418f34d7ea69e801f87.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 458378
+        }
     }
 ]
