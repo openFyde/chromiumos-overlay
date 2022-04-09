@@ -7,23 +7,23 @@ EAPI=7
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="upstream/main"
+CROS_WORKON_EGIT_BRANCH="upstream/21.3"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
 	EXPERIMENTAL="true"
 fi
 
-inherit base flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
+inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
-[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
+[[ ${PV/_rc*/} == "${PV}" ]] || FOLDER+="/RC"
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
 #SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
-if [[ $PV = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
+if [[ ${PV} = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
 	SRC_URI="${SRC_PATCHES}"
 else
 	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
@@ -34,6 +34,7 @@ fi
 # ralloc is LGPL-3
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
+SLOT="0"
 KEYWORDS="~*"
 
 INTEL_CARDS="intel"
@@ -45,7 +46,7 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	+classic debug dri drm egl +gallium -gbm gles1 gles2 kernel_FreeBSD
-	kvm_guest llvm +nptl pic selinux shared-glapi +vulkan wayland xlib-glx X
+	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland xlib-glx X
 	libglvnd zstd"
 
 LIBDRM_DEPSTRING=">=x11-libs/libdrm-2.4.60:="
@@ -207,7 +208,7 @@ src_install() {
 	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 
-	dodir /usr/$(get_libdir)/dri
+	dodir "/usr/$(get_libdir)/dri"
 	insinto "/usr/$(get_libdir)/dri/"
 	insopts -m0755
 	# install the gallium drivers we use
@@ -234,21 +235,21 @@ src_install() {
 # $1 - VIDEO_CARDS flag (check skipped for "--")
 # other args - names of DRI drivers to enable
 dri_driver_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		DRI_DRIVERS+=("$@")
 	fi
 }
 
 gallium_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		GALLIUM_DRIVERS+=("$@")
 	fi
 }
 
 vulkan_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		VULKAN_DRIVERS+=("$@")
 	fi

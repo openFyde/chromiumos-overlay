@@ -4,13 +4,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9da08702b0cfde97ea2ef990ff888cf90d3dff4f"
-CROS_WORKON_TREE="b6b18a39106e627750d987321d972bc073a81e13"
+CROS_WORKON_COMMIT="813ee839be2ce7c3c804dc90cba5678323bcad7c"
+CROS_WORKON_TREE="4bb8e29b5d85ff2dad87951c52d8e89df00d1d09"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="upstream/main"
+CROS_WORKON_EGIT_BRANCH="upstream/21.3"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
@@ -20,13 +20,13 @@ fi
 inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
-[[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
+[[ ${PV/_rc*/} == "${PV}" ]] || FOLDER+="/RC"
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
 #SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
-if [[ $PV = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
+if [[ ${PV} = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
 	SRC_URI="${SRC_PATCHES}"
 else
 	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
@@ -208,7 +208,7 @@ src_install() {
 	# Remove redundant GLES headers
 	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
 
-	dodir /usr/$(get_libdir)/dri
+	dodir "/usr/$(get_libdir)/dri"
 	insinto "/usr/$(get_libdir)/dri/"
 	insopts -m0755
 	# install the gallium drivers we use
@@ -235,21 +235,21 @@ src_install() {
 # $1 - VIDEO_CARDS flag (check skipped for "--")
 # other args - names of DRI drivers to enable
 dri_driver_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		DRI_DRIVERS+=("$@")
 	fi
 }
 
 gallium_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		GALLIUM_DRIVERS+=("$@")
 	fi
 }
 
 vulkan_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1"; then
 		shift
 		VULKAN_DRIVERS+=("$@")
 	fi
