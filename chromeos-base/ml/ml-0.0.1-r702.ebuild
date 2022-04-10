@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6589eccd5b550faac865c9f182f8c6b033ce0f84"
+CROS_WORKON_COMMIT="2052299c36f0fe9491661cfadaaea26a372f70e9"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "e7019e7ddf24c19a9ab39f7d762eb55dd5b3c276" "1bf458da665a515aa24277390556cd2e464021fc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -85,7 +85,7 @@ RDEPEND="
 DEPEND="
 	${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]
-	dev-cpp/absl:=
+	dev-cpp/abseil-cpp:=
 	dev-libs/libutf:=
 	dev-libs/marisa-aosp:=
 	fuzzer? ( dev-libs/libprotobuf-mutator )
