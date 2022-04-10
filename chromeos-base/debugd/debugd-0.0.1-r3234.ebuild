@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="1b01f8be79de40b3358a85ed46fe98711ded6ecc"
+CROS_WORKON_COMMIT="2052299c36f0fe9491661cfadaaea26a372f70e9"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "3bca1f117c3d6f7966b0262cb80e21f877504dac" "880137511e9da416bf50a2bb77dde8fa35f48dee" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -103,7 +103,7 @@ src_install() {
 	# Install seccomp policies.
 	insinto /usr/share/policy
 	local policy
-	for policy in "${debugd_seccomp_dir}"/*-${ARCH}.policy; do
+	for policy in "${debugd_seccomp_dir}"/*-"${ARCH}".policy; do
 		local policy_basename="${policy##*/}"
 		local policy_name="${policy_basename/-${ARCH}}"
 		newins "${policy}" "${policy_name}"
@@ -134,8 +134,8 @@ src_install() {
 }
 
 platform_pkg_test() {
-	pushd "${S}/src" >/dev/null
+	pushd "${S}/src" >/dev/null || die
 	platform_test "run" "${OUT}/debugd_testrunner"
 	./helpers/capture_utility_test.sh || die
-	popd >/dev/null
+	popd >/dev/null || die
 }
