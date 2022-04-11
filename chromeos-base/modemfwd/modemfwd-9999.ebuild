@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	app-arch/xz-utils:=
 	chromeos-base/chromeos-config:=
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/dlcservice-client:=
 	chromeos-base/metrics:=
 	dev-libs/protobuf:=
 	net-misc/modemmanager-next:=
