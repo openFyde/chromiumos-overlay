@@ -34,6 +34,7 @@ COMMON_DEPEND="
 	virtual/libusb:1=
 	virtual/opengles:=
 	app-arch/zstd:=
+	sys-apps/fwupd:=
 "
 
 DEPEND="
