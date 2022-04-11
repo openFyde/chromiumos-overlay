@@ -10,7 +10,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="resourced"
 
-inherit cros-workon cros-rust user
+inherit cros-workon cros-rust tmpfiles user
 
 DESCRIPTION="ChromeOS Resource Management Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/resourced/"
@@ -40,6 +40,8 @@ src_install() {
 	# init script.
 	insinto /etc/init
 	doins init/resourced.conf
+
+	dotmpfiles tmpfiles.d/resourced.conf
 
 	# seccomp policy file.
 	insinto /usr/share/policy
