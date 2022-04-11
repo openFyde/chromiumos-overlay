@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_COMMIT="21b5cfcc59bd9c1e16a96de6c56d0f20ff1c9ba6"
 CROS_WORKON_TREE="6d3a60b8375dbb44145246241a4f0bd2b1cd6c52"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.7.6"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.7.7"
 
 inherit cros-workon linux-info meson udev user xdg
 
