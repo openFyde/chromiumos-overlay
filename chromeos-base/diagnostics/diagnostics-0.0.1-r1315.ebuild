@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6e2cc84e0c72794cc45b855fa1cfbe556e03177f"
-CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "c06008a8319dcc61789eddce94ca87ca70462dd6" "55f9b2512c04c3824a2b7cf1e6d30907cd94350b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5f369d10328cdd1bc6c112d521edd3d3434e2f29"
+CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "c06008a8319dcc61789eddce94ca87ca70462dd6" "07e2b07fc70408dd5fe2ed08c1492d1ecbf5a366" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -142,6 +142,10 @@ src_install() {
 	doexe "${OUT}/prime-search"
 	doexe "${OUT}/smartctl-check"
 	doexe "${OUT}/urandom"
+
+	# Install tmpfiles.d config.
+	insinto /usr/lib/tmpfiles.d/on-demand
+	doins init/tmpfiles.d/cros_healthd.conf
 
 	# Install udev rules.
 	udev_dorules udev/99-chown_dmi_dir.rules
