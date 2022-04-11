@@ -7,6 +7,7 @@ EAPI=7
 # list gets changed, ensure that each of these values has a corresponding
 # compiler/rustc_target/src/spec file created below and a line referring to it
 # in 0001-add-cros-targets.patch.
+# shellcheck disable=SC2034 # Used by cros-rustc.eclass
 RUSTC_TARGET_TRIPLES=(
 	x86_64-cros-linux-gnu
 	armv7a-cros-linux-gnueabihf
@@ -15,20 +16,22 @@ RUSTC_TARGET_TRIPLES=(
 
 # In this context BARE means the OS part of the triple is none and gcc is used
 # for C/C++ and linking.
+# shellcheck disable=SC2034 # Used by cros-rustc.eclass
 RUSTC_BARE_TARGET_TRIPLES=(
 	thumbv6m-none-eabi # Cortex-M0, M0+, M1
 	thumbv7m-none-eabi # Cortex-M3
 	thumbv7em-none-eabihf # Cortex-M4F, M7F, FPU, hardfloat
 )
 
-inherit cros-rustc
+# shellcheck disable=SC2034
+PYTHON_COMPAT=( python3_{6..9} )
 
-DESCRIPTION="Libraries needed to cross-compile Rust for cros/baremetal targets"
+inherit cros-rustc
 
 # Use PVR to require simultaneous uprevs of both rust-host and rust, since
 # they're logically talking about the same sources.
-BDEPEND="~dev-lang/rust-host-${PV}"
-RDEPEND="~dev-lang/rust-host-${PV}"
+BDEPEND="=dev-lang/rust-host-${PVR}"
+RDEPEND="=dev-lang/rust-host-${PVR}"
 KEYWORDS="*"
 
 # NOTE: since CROS_RUSTC_BUILD_DIR is a local cache, the cases below can't
@@ -65,8 +68,8 @@ src_compile() {
 }
 
 src_install() {
+	# shellcheck disable=SC2154 # Defined in cros-rustc.eclass
 	local obj="${CROS_RUSTC_BUILD_DIR}/x86_64-unknown-linux-gnu/stage2"
-	local triple
 	for triple in "${RUSTC_TARGET_TRIPLES[@]}" "${RUSTC_BARE_TARGET_TRIPLES[@]}"; do
 		insinto "/usr/$(get_libdir)/rustlib/${triple}"
 		doins -r "${obj}/lib64/rustlib/${triple}/"*

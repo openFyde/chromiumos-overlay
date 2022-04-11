@@ -3,22 +3,25 @@
 
 EAPI=7
 
+# shellcheck disable=SC2034 # Used by cros-rustc.eclass
 RUSTC_TARGET_TRIPLES=(
 	x86_64-pc-linux-gnu
 )
+# shellcheck disable=SC2034 # Used by cros-rustc.eclass
 RUSTC_BARE_TARGET_TRIPLES=()
 
+# shellcheck disable=SC2034
+PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-rustc
-
-DESCRIPTION="The parts of our Rust toolchain necessary to build host binaries"
 
 KEYWORDS="*"
 
-# dev-lang/rust-1.58.1-r1 introduced the split between dev-lang/rust and
+# dev-lang/rust-1.59.0 introduced the split between dev-lang/rust and
 # dev-lang/rust-host; note that here to work around file collisions.
-RDEPEND="!<dev-lang/rust-1.58.1-r1"
+RDEPEND="!<dev-lang/rust-1.59.0"
 
 src_install() {
+	# shellcheck disable=SC2154 # defined in cros-rustc.eclass
 	local obj="${CROS_RUSTC_BUILD_DIR}/x86_64-unknown-linux-gnu/stage2"
 	local tools="${obj}-tools/x86_64-unknown-linux-gnu/release/"
 	dobin "${obj}/bin/rustc" "${obj}/bin/rustdoc"
@@ -29,6 +32,9 @@ src_install() {
 	insinto "/usr/$(get_libdir)"
 	doins -r "${obj}/lib/"*
 	doins -r "${obj}/lib64/"*
+
+	insinto "/usr/lib/rustlib/src/rust/"
+	doins -r "${S}/library"
 
 	# Install miscellaneous LLVM tools.
 	#

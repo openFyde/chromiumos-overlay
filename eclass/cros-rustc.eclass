@@ -69,7 +69,7 @@ SRC="${MY_P}-src.tar.gz"
 # The version of rust-bootstrap that we're using to build our current Rust
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
-BOOTSTRAP_VERSION="1.57.0"
+BOOTSTRAP_VERSION="1.59.0"
 
 HOMEPAGE="https://www.rust-lang.org/"
 
@@ -99,6 +99,8 @@ PATCHES=(
 	"${FILESDIR}/rust-${PV}-disable-mutable-noalias.patch"
 	"${FILESDIR}/rust-${PV}-add-armv7a-sanitizers.patch"
 	"${FILESDIR}/rust-${PV}-fix-libunwind-backtrace-visibility.patch"
+	"${FILESDIR}/rust-${PV}-passes-only-in-pre-link.patch"
+	"${FILESDIR}/rust-${PV}-Revert-DebugInfo-Re-enable-instruction-referencing-f.patch"
 )
 
 # Locations where we cache our build/src dirs.

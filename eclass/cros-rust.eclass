@@ -120,8 +120,15 @@ REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm pkg_postrm
 
+# virtual/rust-binaries is listed in both DEPEND and RDEPEND. Changing the
+# version of virtual/rust-binaries forces a rebuild of everything that
+# depends on it (that is, all Rust code in ChromeOS).
 DEPEND="
-	>=virtual/rust-1.39.0:=
+	>=virtual/rust-1.60.0:=
+	virtual/rust-binaries:=
+"
+
+RDEPEND="
 	virtual/rust-binaries:=
 "
 
@@ -475,7 +482,7 @@ cros-rust_configure_cargo() {
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
  	# TODO(b/230127632) disable Rust coverage until it works-as-intended.
-	# use coverage && rustflags+=( -Zinstrument-coverage )
+	# use coverage && rustflags+=( -Cinstrument-coverage )
 
 	# Rust compiler is not exporting the __asan_* symbols needed in
 	# asan builds. Force export-dynamic linker flag to export __asan_* symbols
@@ -489,7 +496,7 @@ cros-rust_configure_cargo() {
 	if use fuzzer; then
 		rustflags+=(
 			--cfg fuzzing
-			-Cpasses=sancov
+			-Cpasses=sancov-module
 			-Cllvm-args=-sanitizer-coverage-level=4
 			-Cllvm-args=-sanitizer-coverage-inline-8bit-counters
 			-Cllvm-args=-sanitizer-coverage-trace-compares
