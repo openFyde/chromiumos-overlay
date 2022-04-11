@@ -153,7 +153,6 @@ RDEPEND="${RDEPEND}
 	chromeos-base/ec-devutils
 	chromeos-base/minijail
 	chromeos-base/mojo-tools
-	dev-db/m17n-contrib
 	dev-db/m17n-db
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
