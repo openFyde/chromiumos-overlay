@@ -24,8 +24,8 @@ CROS_WORKON_DESTDIR=(
 )
 
 CROS_WORKON_EGIT_BRANCH=(
-	"upstream/master"
-	"upstream/master"
+	"upstream/main"
+	"upstream/main"
 )
 
 inherit cmake-utils cros-workon

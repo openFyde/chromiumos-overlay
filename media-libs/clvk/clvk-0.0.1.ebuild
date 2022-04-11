@@ -4,13 +4,13 @@
 EAPI=7
 
 CROS_WORKON_COMMIT=(
-	"4a7c9563931a33803eab12a38868947a63c86e15"
-	"d53cec1e26631ec58cf5dcf5286973711604d880"
+	"cf96214811598681ad9080f92b777d0feec2b5ff"
+	"cca68de0cdce3c6adbf8cf48a3def0ac183f0869"
 )
 
 CROS_WORKON_TREE=(
-	"4a7c9563931a33803eab12a38868947a63c86e15"
-	"d53cec1e26631ec58cf5dcf5286973711604d880"
+	"cf96214811598681ad9080f92b777d0feec2b5ff"
+	"cca68de0cdce3c6adbf8cf48a3def0ac183f0869"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -34,8 +34,8 @@ CROS_WORKON_DESTDIR=(
 )
 
 CROS_WORKON_EGIT_BRANCH=(
-	"upstream/master"
-	"upstream/master"
+	"upstream/main"
+	"upstream/main"
 )
 
 inherit cmake-utils cros-workon

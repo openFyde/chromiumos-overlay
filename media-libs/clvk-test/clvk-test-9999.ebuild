@@ -13,7 +13,7 @@ CLVK_DIR="${S}/clvk"
 
 CROS_WORKON_DESTDIR="${CLVK_DIR}"
 
-CROS_WORKON_EGIT_BRANCH="upstream/master"
+CROS_WORKON_EGIT_BRANCH="upstream/main"
 
 inherit cmake-utils cros-workon
 
