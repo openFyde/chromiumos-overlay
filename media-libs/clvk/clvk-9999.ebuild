@@ -73,6 +73,8 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
+	# TODO(b/3582218) : To be removed once Intel issue on OpMulExtended is fixed.
+	PATCHES+=("${FILESDIR}/hack-mul-extended.patch")
 fi
 
 src_unpack() {

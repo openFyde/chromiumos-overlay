@@ -1,0 +1,12 @@
+diff --git a/clvk/src/program.cpp b/clvksrc/program.cpp
+index a3d7084..66f158e 100644
+--- a/clvk/src/program.cpp
++++ b/clvksrc/program.cpp
+@@ -765,6 +765,7 @@ std::string cvk_program::prepare_build_options(const cvk_device* device) const {
+     options += " -long-vector ";
+     options += " -module-constants-in-storage-buffer ";
+     options += " -cl-arm-non-uniform-work-group-size ";
++    options += " -hack-mul-extended ";
+ #if COMPILER_AVAILABLE
+     options += " " + gCLSPVOptions + " ";
+ #endif
