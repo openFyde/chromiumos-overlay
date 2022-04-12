@@ -7,6 +7,7 @@ CROS_GO_SOURCE="github.com/golang/mock v${PV}"
 
 CROS_GO_PACKAGES=(
 	"github.com/golang/mock/gomock"
+	"github.com/golang/mock/gomock/internal/mock_gomock"
 	"github.com/golang/mock/mockgen/model"
 )
 

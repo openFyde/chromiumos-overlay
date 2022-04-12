@@ -13,7 +13,10 @@ CROS_GO_PACKAGES=(
 	"cloud.google.com/go/internal/fields"
 	"cloud.google.com/go/internal/optional"
 	"cloud.google.com/go/internal/trace"
+	"cloud.google.com/go/internal/testutil"
+	"cloud.google.com/go/internal/uid"
 	"cloud.google.com/go/internal/version"
+	"cloud.google.com/go/httpreplay/..."
 )
 
 CROS_GO_TEST=(

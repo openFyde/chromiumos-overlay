@@ -16,6 +16,7 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/flag"
 	"go.chromium.org/luci/common/iotools"
 	"go.chromium.org/luci/common/logging"
+	"go.chromium.org/luci/common/logging/memlogger"
 	"go.chromium.org/luci/common/proto"
 	"go.chromium.org/luci/common/retry"
 	"go.chromium.org/luci/common/retry/transient"

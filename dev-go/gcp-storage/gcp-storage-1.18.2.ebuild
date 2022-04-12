@@ -10,6 +10,7 @@ CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/
 CROS_GO_PACKAGES=(
 	"cloud.google.com/go/storage"
 	"cloud.google.com/go/storage/internal/apiv2"
+	"cloud.google.com/go/storage/internal/test/conformance"
 )
 
 CROS_GO_TEST=(

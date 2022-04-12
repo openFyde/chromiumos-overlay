@@ -15,8 +15,12 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/appengine/internal/log"
 	"google.golang.org/appengine/internal/modules"
 	"google.golang.org/appengine/internal/remote_api"
+	"google.golang.org/appengine/internal/socket"
+	"google.golang.org/appengine/internal/urlfetch"
 	"google.golang.org/appengine/datastore/internal/cloudkey"
 	"google.golang.org/appengine/datastore/internal/cloudpb"
+	"google.golang.org/appengine/socket"
+	"google.golang.org/appengine/urlfetch"
 )
 
 inherit cros-go
