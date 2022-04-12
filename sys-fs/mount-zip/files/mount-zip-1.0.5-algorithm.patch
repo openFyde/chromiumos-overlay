@@ -1,0 +1,31 @@
+From 4e8c8ef01810a760f653e28f7ca25d15ddb1cccb Mon Sep 17 00:00:00 2001
+From: Jordan R Abrahams-Whitehead <ajordanr@google.com>
+Date: Mon, 11 Apr 2022 23:40:59 +0000
+Subject: [PATCH] Include algorithm in lib/path.cc for newer LLVM
+
+In future LLVM releases (around r457743), std::any_of
+will only be included through the <algorithm> standard header.
+Previously, this file compiled due to a transitive include
+via other standard library headers (perhaps in this case, string_view)
+
+See https://buganizer.corp.google.com/issues/228085014#comment9 for
+this error in ChromeOS.
+---
+ lib/path.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lib/path.cc b/lib/path.cc
+index 324cae6..a4f470a 100644
+--- a/lib/path.cc
++++ b/lib/path.cc
+@@ -15,6 +15,7 @@
+ 
+ #include "path.h"
+ 
++#include <algorithm>
+ #include <cassert>
+ #include <iomanip>
+ 
+-- 
+2.35.1.1178.g4f1659d476-goog
+
