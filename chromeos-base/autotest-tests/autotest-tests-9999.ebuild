@@ -107,6 +107,7 @@ CLIENT_IUSE_TESTS="
 	+tests_hardware_StorageFioOther
 	+tests_hardware_StorageTrim
 	+tests_hardware_StorageWearoutDetect
+	+tests_hardware_TrimIntegrity
 	+tests_infra_FirmwareAutoupdate
 	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_fs_Punybench
