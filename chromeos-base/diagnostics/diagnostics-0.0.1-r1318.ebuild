@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e53f915ddab36bd5e6877168efa7d5a39d6d7b30"
+CROS_WORKON_COMMIT="5eec00b65f0b252e171e1fe17b915ffca4792936"
 CROS_WORKON_TREE=("20fecf8e8aefa548043f2cb501f222213c15929d" "2580f07fd9eefc1974b8bdbd02c22dcef8359708" "fb24f297806ae1a40c74bdaf209841d94763063d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,6 +36,7 @@ COMMON_DEPEND="
 	virtual/libusb:1=
 	virtual/opengles:=
 	app-arch/zstd:=
+	sys-apps/fwupd:=
 "
 
 DEPEND="
