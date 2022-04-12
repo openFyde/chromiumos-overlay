@@ -92,10 +92,10 @@ REQUIRED_USE="
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
 OZONE_PLATFORMS=(gbm cast headless egltest caca)
-IUSE_OZONE_PLATFORMS="${OZONE_PLATFORMS[@]/#/${OZONE_PLATFORM_PREFIX}}"
+IUSE_OZONE_PLATFORMS="${OZONE_PLATFORMS[*]/#/${OZONE_PLATFORM_PREFIX}}"
 IUSE+=" ${IUSE_OZONE_PLATFORMS}"
 OZONE_PLATFORM_DEFAULT_PREFIX=ozone_platform_default_
-IUSE_OZONE_PLATFORM_DEFAULTS="${OZONE_PLATFORMS[@]/#/${OZONE_PLATFORM_DEFAULT_PREFIX}}"
+IUSE_OZONE_PLATFORM_DEFAULTS="${OZONE_PLATFORMS[*]/#/${OZONE_PLATFORM_DEFAULT_PREFIX}}"
 IUSE+=" ${IUSE_OZONE_PLATFORM_DEFAULTS}"
 REQUIRED_USE+=" ^^ ( ${IUSE_OZONE_PLATFORM_DEFAULTS} )"
 
@@ -224,8 +224,9 @@ echox() {
 	# Like the `usex` helper.
 	[[ ${1:-$?} -eq 0 ]] && echo "${2:-yes}" || echo "${3:-no}"
 }
-echotf() { echox ${1:-$?} true false ; }
-usetf()  { usex $1 true false ; }
+# shellcheck disable=SC2120 # for suppressing a warning of never passed argument.
+echotf() { echox "${1:-$?}" true false ; }
+usetf()  { usex "$1" true false ; }
 
 use_remoteexec() {
 	[[ "${USE_REMOTEEXEC:-$(usetf remoteexec)}" == "true" ]]
@@ -244,6 +245,9 @@ set_build_args() {
 	# use goma_thinlto says that if we are using Goma and ThinLTO, use
 	# Goma for distributed code generation. So only set the corresponding
 	# gn arg to true if all three conditions are met.
+
+	# shellcheck disable=SC2119
+	# suppressing the false warning not to specify the optional argument of 'echotf".
 	use_goma_thin_lto=$(use goma_thinlto && use_goma && use thinlto; echotf)
 	BUILD_ARGS=(
 		"is_chromeos_device=true"
@@ -266,6 +270,8 @@ set_build_args() {
 		"use_vaapi=$(usetf vaapi)"
 		"use_xkbcommon=$(usetf xkbcommon)"
 		"enable_remoting=$(usetf chrome_remoting)"
+		# shellcheck disable=SC2119
+		# suppressing the false warning not to specify the optional argument of 'echotf".
 		"enable_nacl=$(use_nacl; echotf)"
 		"enable_hibernate=$(usetf hibernate)"
 		# use_system_minigbm is set below.
@@ -314,7 +320,7 @@ set_build_args() {
 
 	# Ozone platforms.
 	local platform
-	for platform in ${OZONE_PLATFORMS[@]}; do
+	for platform in "${OZONE_PLATFORMS[@]}"; do
 		local flag="${OZONE_PLATFORM_DEFAULT_PREFIX}${platform}"
 		if use "${flag}"; then
 			BUILD_STRING_ARGS+=( "ozone_platform=${platform}" )
@@ -371,6 +377,7 @@ set_build_args() {
 	mips)
 		local mips_arch target_arch
 
+		# shellcheck disable=SC2086 # suppressing the false warning of expanding vars.
 		mips_arch="$($(tc-getCPP) ${CFLAGS} ${CPPFLAGS} -E -P - <<<_MIPS_ARCH)"
 		# Strip away any enclosing quotes.
 		mips_arch="${mips_arch//\"}"
@@ -595,7 +602,7 @@ src_unpack() {
 		CHROME_ROOT=${CHROME_DISTDIR}
 		;;
 	(LOCAL_SOURCE)
-		: ${CHROME_ROOT:=/home/${WHOAMI}/chrome_root}
+		: "${CHROME_ROOT:=/home/${WHOAMI}/chrome_root}"
 		if [[ ! -d "${CHROME_ROOT}/src" ]]; then
 			die "${CHROME_ROOT} does not contain a valid chromium checkout!"
 		fi
@@ -692,7 +699,7 @@ src_prepare() {
 
 	# We do symlink creation here if appropriate.
 	mkdir -p "${CHROME_CACHE_DIR}/src/${BUILD_OUT}"
-	if [[ ! -z "${BUILD_OUT_SYM}" ]]; then
+	if [[ -n "${BUILD_OUT_SYM}" ]]; then
 		rm -rf "${BUILD_OUT_SYM}" || die "Could not remove symlink"
 		ln -sfT "${CHROME_CACHE_DIR}/src/${BUILD_OUT}" "${BUILD_OUT_SYM}" ||
 			die "Could not create symlink for output directory"
@@ -1063,6 +1070,7 @@ src_compile() {
 		autotest-deponly_src_prepare
 
 		# Remove .git dirs
+		# shellcheck disable=SC2154 # this is a bug in the linter.
 		find "${AUTOTEST_WORKDIR}" -type d -name .git -prune -exec rm -rf {} +
 
 		autotest_src_compile
@@ -1106,7 +1114,7 @@ test_strip_install() {
 	local f
 	for f in "$@"; do
 		$(tc-getSTRIP) --strip-debug \
-			"${from}"/${f} -o "${dest}/$(basename ${f})"
+			"${from}/${f}" -o "${dest}/$(basename "${f}")"
 	done
 }
 
@@ -1127,7 +1135,7 @@ install_chrome_test_resources() {
 		"${TEST_FILES[@]}"
 		"libppapi_tests.so" )
 
-	einfo "Installing test targets: ${TEST_INSTALL_TARGETS[@]}"
+	einfo "Installing test targets: ${TEST_INSTALL_TARGETS[*]}"
 	test_strip_install "${from}" "${dest}" "${TEST_INSTALL_TARGETS[@]}"
 
 	# Copy Chrome test data.
@@ -1187,8 +1195,8 @@ install_telemetry_dep_resources() {
 		CROS_DEPS=${CHROME_ROOT}/src/tools/cros/bootstrap_deps
 		# sed removes the leading path including src/ converting it to relative.
 		# To avoid silent failures assert the success.
-		DEPS_LIST=$(${FIND_DEPS} ${PERF_DEPS} ${CROS_DEPS} | \
-			sed -e 's|^'${CHROME_ROOT}/src/'||'; assert)
+		DEPS_LIST=$(${FIND_DEPS} "${PERF_DEPS}" "${CROS_DEPS}" | \
+			sed -e "s|^${CHROME_ROOT}/src/||"; assert)
 		install_test_resources "${test_dir}" "${DEPS_LIST}"
 		# For crosperf, which uses some tests only available on internal builds.
 		if use chrome_internal; then
@@ -1200,7 +1208,7 @@ install_telemetry_dep_resources() {
 
 	local from="${CHROME_CACHE_DIR}/src/${BUILD_OUT}/${BUILDTYPE}"
 	local dest="${test_dir}/src/out/${BUILDTYPE}"
-	einfo "Installing telemetry binaries: ${TOOLS_TELEMETRY_BIN[@]}"
+	einfo "Installing telemetry binaries: ${TOOLS_TELEMETRY_BIN[*]}"
 	test_strip_install "${from}" "${dest}" "${TOOLS_TELEMETRY_BIN[@]}"
 
 	# When copying only a portion of the Chrome source that telemetry needs,
@@ -1224,7 +1232,7 @@ src_install() {
 	# Override default strip flags and lose the '-R .comment'
 	# in order to play nice with the crash server.
 	if [[ -z "${KEEP_CHROME_DEBUG_SYMBOLS}" ]]; then
-		if [[ "${STRIP}" == "llvm-strip" ]]; then
+		if [[ "$(tc-getSTRIP)" == "llvm-strip" ]]; then
 			export PORTAGE_STRIP_FLAGS="--strip-all-gnu"
 		else
 			export PORTAGE_STRIP_FLAGS=""
@@ -1233,7 +1241,7 @@ src_install() {
 		export PORTAGE_STRIP_FLAGS="--strip-debug"
 	fi
 	einfo "PORTAGE_STRIP_FLAGS=${PORTAGE_STRIP_FLAGS}"
-	LS=$(ls -alhS ${FROM})
+	LS=$(ls -alhS "${FROM}")
 	einfo "CHROME_DIR after build\n${LS}"
 
 	# Copy a D-Bus config file that includes other configs that are installed to
@@ -1365,17 +1373,17 @@ src_install() {
 	)
 	einfo "${cmd[*]}"
 	"${cmd[@]}" || die
-	LS=$(ls -alhS ${D}/${CHROME_DIR})
+	LS=$(ls -alhS "${D}/${CHROME_DIR}")
 	einfo "CHROME_DIR after deploy_chrome\n${LS}"
 
 	# Keep the .dwp files with debug fission.
 	if use chrome_debug && use debug_fission; then
 		mkdir -p "${D}/usr/lib/debug/${CHROME_DIR}"
 		DWP="${CHOST}"-dwp
-		cd "${D}/${CHROME_DIR}"
+		cd "${D}/${CHROME_DIR}" || die
 		# Iterate over all ELF files in current directory
-		while read i; do
-			cd "${FROM}"
+		while read -r i; do
+			cd "${FROM}" || die
 			# These files do not build with -gsplit-dwarf,
 			# so we do not need to get a .dwp file from them.
 			if [[ "${i}" == "./libassistant.so"		|| \
@@ -1420,9 +1428,9 @@ src_install() {
 pkg_preinst() {
 	enewuser "wayland"
 	enewgroup "wayland"
-	LS=$(ls -alhS ${ED}/${CHROME_DIR})
+	LS=$(ls -alhS "${ED}/${CHROME_DIR}")
 	einfo "CHROME_DIR after installation\n${LS}"
-	CHROME_SIZE=$(stat --printf="%s" ${ED}/${CHROME_DIR}/chrome)
+	CHROME_SIZE=$(stat --printf="%s" "${ED}/${CHROME_DIR}/chrome")
 	einfo "CHROME_SIZE = ${CHROME_SIZE}"
 
 	# Non-internal builds come with >10MB of unwinding info built-in. Size
