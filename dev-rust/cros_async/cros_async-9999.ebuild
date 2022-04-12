@@ -10,6 +10,9 @@ CROS_RUST_SUBDIR="common/cros_async"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
 CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
 
+# The version of this crate is pinned. See b/229016539 for details.
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon cros-rust
 
 DESCRIPTION="Rust async tools for Chrome OS"

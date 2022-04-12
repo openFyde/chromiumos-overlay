@@ -10,6 +10,9 @@ CROS_RUST_SUBDIR="common/io_uring"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
 CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
 
+# The version of this crate is pinned. See b/229016539 for details.
+CROS_WORKON_MANUAL_UPREV="1"
+
 # TODO: Enable tests on ARM once the emulator supports io_uring.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 
