@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ee21bd58c3dd7ee96235b2be7ba1b95be3e6a5b7"
+CROS_WORKON_COMMIT="15c1b1019df5ea52d378a441a98c56afdc2e0384"
 CROS_WORKON_TREE="40c4d9c32d1a0aa7029715b040c91554744abbdc"
 CROS_RUST_SUBDIR="cras/client/libcras"
 
@@ -31,6 +31,7 @@ DEPEND="
 	dev-rust/sys_util:=
 	media-sound/audio_streams:=
 	media-sound/cras-sys:=
+	=dev-rust/anyhow-1*:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
