@@ -41,4 +41,6 @@ DEPEND="
 	dev-go/protobuf
 	test? ( dev-go/sync )
 "
-RDEPEND=""
+RDEPEND="
+	dev-go/protobuf
+"
