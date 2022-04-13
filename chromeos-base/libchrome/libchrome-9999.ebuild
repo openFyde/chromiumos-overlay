@@ -160,7 +160,7 @@ src_install() {
 	insinto /usr/include/libchrome/base/test
 	doins \
 		base/test/bind.h \
-		base/test/task_environment.h \
+		base/test/mock_callback.h \
 		base/test/scoped_chromeos_version_info.h \
 		base/test/scoped_running_on_chromeos.h \
 		base/test/scoped_run_loop_timeout.h \
