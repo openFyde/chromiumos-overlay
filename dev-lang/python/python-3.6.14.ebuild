@@ -23,7 +23,7 @@ S="${WORKDIR}/${MY_P}"
 LICENSE="PSF-2"
 SLOT="${PYVER}/${PYVER}m"
 KEYWORDS="*"
-IUSE="bluetooth build examples gdbm hardened ipv6 libressl +ncurses +readline sqlite +ssl test +threads tk wininst +xml"
+IUSE="bluetooth build examples gdbm hardened ipv6 +ncurses +readline +sqlite +ssl test +threads tk wininst +xml"
 RESTRICT="!test? ( test )"
 
 # Do not add a dependency on dev-lang/python to this ebuild.
@@ -41,10 +41,7 @@ RDEPEND="app-arch/bzip2:=
 	ncurses? ( >=sys-libs/ncurses-5.2:= )
 	readline? ( >=sys-libs/readline-4.1:= )
 	sqlite? ( >=dev-db/sqlite-3.3.8:3= )
-	ssl? (
-		!libressl? ( dev-libs/openssl:= )
-		libressl? ( dev-libs/libressl:= )
-	)
+	ssl? ( dev-libs/openssl:= )
 	tk? (
 		>=dev-lang/tcl-8.0:=
 		>=dev-lang/tk-8.0:=
@@ -60,10 +57,12 @@ BDEPEND="
 	virtual/pkgconfig
 	verify-sig? ( app-crypt/openpgp-keys-python )
 	!sys-devel/gcc[libffi(-)]"
+# TODO(build): Figure out where this belongs.  Gentoo has dropped the dep in
+# this package, but we need it to make sure /usr/local/bin/python3 exists.
 PDEPEND="app-eselect/eselect-python"
 RDEPEND+=" !build? ( app-misc/mime-types )"
 
-VERIFY_SIG_OPENPGP_KEY_PATH=/usr/share/openpgp-keys/python.org.asc
+VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/python.org.asc
 
 src_unpack() {
 	if use verify-sig; then
@@ -239,7 +238,7 @@ src_compile() {
 	emake CPPFLAGS= CFLAGS= LDFLAGS=
 
 	# Work around bug 329499. See also bug 413751 and 457194.
-	if has_version dev-libs/libffi[pax_kernel]; then
+	if has_version dev-libs/libffi[pax-kernel]; then
 		pax-mark E python
 	else
 		pax-mark m python
@@ -318,7 +317,7 @@ src_install() {
 
 	# python seems to get rebuilt in src_install (bug 569908)
 	# Work around it for now.
-	if has_version dev-libs/libffi[pax_kernel]; then
+	if has_version dev-libs/libffi[pax-kernel]; then
 		pax-mark E "${ED}/usr/bin/${abiver}"
 	else
 		pax-mark m "${ED}/usr/bin/${abiver}"
