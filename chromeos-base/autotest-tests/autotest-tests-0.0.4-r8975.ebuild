@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
-CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
+CROS_WORKON_COMMIT="8372a62218ba971137af3c78afef51d93af9efd5"
+CROS_WORKON_TREE="5220555784d26bb6e625dd35ab9892084e67b073"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -109,6 +109,7 @@ CLIENT_IUSE_TESTS="
 	+tests_hardware_StorageFioOther
 	+tests_hardware_StorageTrim
 	+tests_hardware_StorageWearoutDetect
+	+tests_hardware_TrimIntegrity
 	+tests_infra_FirmwareAutoupdate
 	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_fs_Punybench
