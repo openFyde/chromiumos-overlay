@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="asan +cras-apm fuzzer selinux systemd"
+IUSE="asan +cras-apm featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -35,7 +35,7 @@ RDEPEND="
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
-	chromeos-base/featured
+	featured? ( chromeos-base/featured )
 "
 
 DEPEND="
@@ -64,6 +64,7 @@ src_configure() {
 		append-ldflags "-Wl,--no-gc-sections"
 		econf $(use_enable cras-apm webrtc-apm) \
 			--with-system-cras-rust \
+			$(use_enable featured) \
 			$(use_enable amd64 fuzzer)
 	else
 		econf $(use_enable selinux) \
@@ -71,6 +72,7 @@ src_configure() {
 			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \
+			$(use_enable featured) \
 			$(use_enable amd64 fuzzer) \
 			BASE_VER="$(libchrome_ver)"
 	fi
