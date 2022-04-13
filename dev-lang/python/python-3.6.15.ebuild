@@ -23,7 +23,7 @@ S="${WORKDIR}/${MY_P}"
 LICENSE="PSF-2"
 SLOT="${PYVER}/${PYVER}m"
 KEYWORDS="*"
-IUSE="bluetooth build examples gdbm hardened ipv6 +ncurses +readline +sqlite +ssl test +threads tk wininst +xml"
+IUSE="bluetooth build examples gdbm hardened +ncurses +readline +sqlite +ssl test tk wininst +xml"
 RESTRICT="!test? ( test )"
 
 # Do not add a dependency on dev-lang/python to this ebuild.
@@ -54,8 +54,9 @@ DEPEND="${RDEPEND}
 	bluetooth? ( net-wireless/bluez )
 	test? ( app-arch/xz-utils[extra-filters(+)] )"
 BDEPEND="
+	virtual/awk
 	virtual/pkgconfig
-	verify-sig? ( app-crypt/openpgp-keys-python )
+	verify-sig? ( sec-keys/openpgp-keys-python )
 	!sys-devel/gcc[libffi(-)]"
 # TODO(build): Figure out where this belongs.  Gentoo has dropped the dep in
 # this package, but we need it to make sure /usr/local/bin/python3 exists.
@@ -201,8 +202,8 @@ src_configure() {
 
 		--with-fpectl
 		--enable-shared
-		$(use_enable ipv6)
-		$(use_with threads)
+		--enable-ipv6
+		--with-threads
 		--infodir='${prefix}/share/info'
 		--mandir='${prefix}/share/man'
 		--with-computed-gotos
@@ -223,7 +224,7 @@ src_configure() {
 
 	OPT="" econf "${myeconfargs[@]}"
 
-	if use threads && grep -q "#define POSIX_SEMAPHORES_NOT_ENABLED 1" pyconfig.h; then
+	if grep -q "#define POSIX_SEMAPHORES_NOT_ENABLED 1" pyconfig.h; then
 		eerror "configure has detected that the sem_open function is broken."
 		eerror "Please ensure that /dev/shm is mounted as a tmpfs with mode 1777."
 		die "Broken sem_open function (bug 496328)"
@@ -326,7 +327,6 @@ src_install() {
 	use sqlite || rm -r "${libdir}/"{sqlite3,test/test_sqlite*} || die
 	use tk || rm -r "${ED}/usr/bin/idle${PYVER}" "${libdir}/"{idlelib,tkinter,test/test_tk*} || die
 
-	use threads || rm -r "${libdir}/multiprocessing" || die
 	use wininst || rm "${libdir}/distutils/command/"wininst-*.exe || die
 
 	dodoc Misc/{ACKS,HISTORY,NEWS}
