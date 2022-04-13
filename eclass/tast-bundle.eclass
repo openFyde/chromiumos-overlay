@@ -54,10 +54,9 @@ tast-bundle_pkg_setup() {
 	# Decide if this is a private bundle.
 	TAST_BUNDLE_PREFIX=/usr
 	if [[ "${TAST_BUNDLE_PRIVATE}" = 1 ]]; then
-		if [[ "${TAST_BUNDLE_TYPE}" != local ]]; then
-			die "Remote test bundles can not be marked private"
+		if [[ "${TAST_BUNDLE_TYPE}" == local ]]; then
+			TAST_BUNDLE_PREFIX=/build
 		fi
-		TAST_BUNDLE_PREFIX=/build
 	fi
 
 	# The path to the test bundle code relative to the src/ directory.
