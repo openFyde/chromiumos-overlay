@@ -3,18 +3,18 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/shirou/gopsutil v${PV}"
+CROS_GO_SOURCE="github.com/shirou/gopsutil:github.com/shirou/gopsutil/v3 v${PV}"
 
 CROS_GO_PACKAGES=(
-	"github.com/shirou/gopsutil/..."
+	"github.com/shirou/gopsutil/v3/..."
 )
 
 CROS_GO_TEST=(
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/disk"
+	"github.com/shirou/gopsutil/v3/cpu"
+	"github.com/shirou/gopsutil//v3disk"
 	# host fails due to missing /var/run/utmp in chroot.
-	"github.com/shirou/gopsutil/internal/..."
-	"github.com/shirou/gopsutil/load"
+	"github.com/shirou/gopsutil/v3/internal/..."
+	"github.com/shirou/gopsutil/v3/load"
 	# mem, net, and process require github.com/stretchr/testify/assert.
 )
 
