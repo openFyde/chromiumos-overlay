@@ -169,6 +169,9 @@ src_install() {
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
+	# Allow cros_healthd to obtain instanceIds and serials
+	sed 's/TrustedUids=/TrustedUids=20134/' -i "${ED}"/etc/${PN}/daemon.conf || die
+
 	# Install udev rules to fix user permissions.
 	udev_dorules "${FILESDIR}"/90-fwupd.rules
 
