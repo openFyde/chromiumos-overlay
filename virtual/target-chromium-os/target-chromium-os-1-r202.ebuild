@@ -239,8 +239,16 @@ RDEPEND="
 	scanner? ( chromeos-base/lorgnette )
 	ml_service? ( chromeos-base/ml )
 	ondevice_handwriting? (
+		chromeos-languagepacks/handwriting-da
+		chromeos-languagepacks/handwriting-de
 		chromeos-languagepacks/handwriting-es
+		chromeos-languagepacks/handwriting-fi
+		chromeos-languagepacks/handwriting-fr
+		chromeos-languagepacks/handwriting-it
 		chromeos-languagepacks/handwriting-ja
+		chromeos-languagepacks/handwriting-nl
+		chromeos-languagepacks/handwriting-pt
+		chromeos-languagepacks/handwriting-sv
 	)
 	hps? (
 		chromeos-base/hpsd
