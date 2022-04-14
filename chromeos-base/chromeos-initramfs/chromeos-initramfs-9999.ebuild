@@ -18,6 +18,7 @@ IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} physical_presence_power physical_presence_recovery"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
+IUSE="${IUSE} manatee_performance_tools"
 
 # Build Targets
 TARGETS_IUSE="
@@ -109,6 +110,14 @@ HYPERVISOR_DEPENDS="
 	sys-apps/coreboot-utils
 	virtual/linux-sources
 	virtual/manatee-apps
+	manatee_performance_tools? (
+		dev-util/strace
+		dev-util/turbostat
+		dev-util/perf
+		dev-util/trace-cmd
+		sys-process/htop
+		chromeos-base/perfetto
+	)
 	"
 
 DEPEND="
@@ -179,6 +188,7 @@ src_compile() {
 			OOBE_CONFIG="$(usex oobe_config 1 0)" \
 			PHYSICAL_PRESENCE="${physical_presence}" \
 			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
+			MANATEE_PERFORMANCE_TOOLS="$(usex manatee_performance_tools 1 0)" \
 			LOCALE_LIST="${RECOVERY_LOCALES:-}" "${targets[@]}"
 	fi
 }
