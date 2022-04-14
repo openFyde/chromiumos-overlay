@@ -71,6 +71,7 @@ PATCHES=(
 	"${FILESDIR}/0048-ASoC-SOF-Add-userspace-ABI-support.patch"
 	"${FILESDIR}/0049-CHROMIUM-v4l2-add-finalized-upstream-V4L2-VP9-statel.patch"
 	"${FILESDIR}/0050-BACKPORT-media-videodev2.h-Add-v4l2-definition-for-HEVC.patch"
+	"${FILESDIR}/0051-CHROMIUM-v4l2-add-upstream-work-in-progress-V4L2-AV1.patch"
 )
 
 src_unpack() {
