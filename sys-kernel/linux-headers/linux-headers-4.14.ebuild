@@ -70,6 +70,7 @@ PATCHES=(
 	"${FILESDIR}/0047-BACKPORT-drm-add-panfrost_drm.h.patch"
 	"${FILESDIR}/0048-ASoC-SOF-Add-userspace-ABI-support.patch"
 	"${FILESDIR}/0049-CHROMIUM-v4l2-add-finalized-upstream-V4L2-VP9-statel.patch"
+	"${FILESDIR}/0050-BACKPORT-media-videodev2.h-Add-v4l2-definition-for-HEVC.patch"
 )
 
 src_unpack() {
