@@ -15,9 +15,6 @@ pid="$$"
 
 . "${script_dir}/cr50-get-name.sh"
 
-# The mount point of the new image is passed in as the first parameter.
-root="$1"
-
 logit() {
   # TODO(vbendeb): use proper logger invocation once logger is fixed.
   logger -t "${script_name}" --id="${pid}" -- "$@"

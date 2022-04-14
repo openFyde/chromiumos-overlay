@@ -48,19 +48,19 @@ get_chip_bid_values() {
   local flags
   local xor
 
-  IFS=' ' flags=( $("${GSCTOOL}" -i |
+  IFS=' ' read -r -a flags <<< "$("${GSCTOOL}" -i |
     awk -F':' '
       /Board ID space: / {
         sub(" ", "", $2);
         print "0x"$2" 0x"$3" 0x"$4
-      }') )
+      }')"
 
   if [[ "${#flags[@]}" != 3 ]]; then
     die "Wrong format of chip flags: ${flags[*]}"
   fi
 
   # verify that board ID is intact
-  xor=$(( ( ${flags[0]} ^ ~${flags[1]} ) & 0xffffffff ))
+  xor=$(( ( flags[0] ^ ~flags[1] ) & 0xffffffff ))
   if [[ ${xor} != 0 ]]; then
     die "Invalid chip board ID value bid ${flags[0]}, ~bid ${flags[1]}"
   fi
@@ -97,12 +97,12 @@ get_image_bid_values() {
   local image="${1}"
   local flags
 
-  IFS=':' flags=( $("${GSCTOOL}" -b "${image}" |
+  IFS=':' read -r -a flags <<< "$("${GSCTOOL}" -b "${image}" |
      awk '{
        if (match($0, /\[[^\]]+\]/)) {
          print substr($0, RSTART + 1, RLENGTH - 2)
        }
-     }') )
+     }')"
 
   if [[ "${#flags[@]}" != 3 ]]; then
     die "Wrong format of image flags: ${flags[*]}"
@@ -110,7 +110,7 @@ get_image_bid_values() {
 
   if [[ "${#flags[0]}" == 4 ]]; then
     # Convert ASCII board name into hex.
-    flags[0]="$(printf "${flags[0]}" | hexdump -v -e '/1 "%02X"')"
+    flags[0]="$(printf "%s" "${flags[0]}" | hexdump -v -e '/1 "%02X"')"
   fi
   echo "${flags[@]/#/0x}"
 }
@@ -128,15 +128,15 @@ update_dut() {
 
   image_file="$1"
 
-  # Retreive board ID header fields of the image file.
-  IFS=' ' image_values=( $(get_image_bid_values "${image_file}" ) )
+  # Retrieve board ID header fields of the image file.
+  IFS=' ' read -r -a image_values <<< "$(get_image_bid_values "${image_file}" )"
 
   image_bid="${image_values[0]}"
   image_mask="${image_values[1]}"
   image_flags="${image_values[2]}"
 
   # Retrieve board ID fields of the H1 on the DUT.
-  chip_values=( $(get_chip_bid_values) )
+  read -r -a chip_values <<< "$(get_chip_bid_values)"
 
   chip_bid="${chip_values[0]}"
   chip_flags="${chip_values[1]}"
@@ -166,7 +166,7 @@ update_dut() {
 # Where each field is a number. This function verifies the format and prints a
 # single number which is calculated as
 #
-# (epoch * 16 + major) * 16 + minor
+# (epoch * 256 + major) * 256 + minor
 version_to_ord() {
   local version="$1"
   local split_version
@@ -176,7 +176,7 @@ version_to_ord() {
     die "Wrong version string format: ${version}"
   fi
 
-  IFS='.' split_version=( ${version} )
+  IFS='.' read -r -a split_version <<< "${version}"
   echo "$(( (split_version[0] * scale + split_version[1]) * scale
       + split_version[2] ))"
 }
@@ -249,7 +249,7 @@ main() {
   fi
 
   # Retrieve board RLZ
-  rlz=( $(get_chip_rlz_value) )
+  rlz="$(get_chip_rlz_value)"
 
   # Run RO verification and report results.
   if ${GSCTOOL} -O "${ro_descriptions}/verify_ro_${rlz}.db"; then

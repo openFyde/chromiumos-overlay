@@ -41,8 +41,8 @@ hex_eq() {
 }
 
 cr50_check_board_id_and_flag() {
-  # shellcheck disable=SC2155
-  local new_board_id="$(char_to_hex "$1")"
+  local new_board_id;
+  new_board_id="$(char_to_hex "$1")"
   local new_flag="$2"
 
   # Note that it is supposed to output the same data layout as `gsctool -a -i`.

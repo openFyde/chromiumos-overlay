@@ -19,15 +19,18 @@ gbb_force_dev_mode() {
   # Disable SW WP and set GBB_FLAG_FORCE_DEV_SWITCH_ON (0x8) to force boot in
   # developer mode after RMA reset.
   flashrom -p host --wp-disable --wp-range 0,0 > /dev/null 2>&1
-  local flags="$(/usr/share/vboot/bin/get_gbb_flags.sh 2>/dev/null \
+  local flags;
+  flags="$(/usr/share/vboot/bin/get_gbb_flags.sh 2>/dev/null \
     | awk '/Chrome OS GBB set flags:/ {print $NF}')"
-  local new_flags="$(printf '0x%x' "$(( ${flags} | 0x8 ))")"
+  local new_flags;
+  new_flags="$(printf '0x%x' "$(( flags | 0x8 ))")"
   /usr/share/vboot/bin/set_gbb_flags.sh "${new_flags}" > /dev/null 2>&1
 }
 
 cr50_reset() {
   # Make sure frecon is running.
-  local frecon_pid="$(cat /run/frecon/pid)"
+  local frecon_pid;
+  frecon_pid="$(cat /run/frecon/pid)"
 
   # This is the path to the pre-chroot filesystem. Since frecon is started
   # before the chroot, all files that frecon accesses must be copied to
@@ -52,10 +55,12 @@ cr50_reset() {
   fi
 
   # Get HWID and replace whitespace with underscore.
-  local hwid="$(crossystem hwid 2>/dev/null | sed -e 's/ /_/g')"
+  local hwid;
+  hwid="$(crossystem hwid 2>/dev/null | sed -e 's/ /_/g')"
 
   # Get challenge string and remove "Challenge:".
-  local ch="$(gsctool -t -r | sed -e 's/.*://g')"
+  local ch;
+  ch="$(gsctool -t -r | sed -e 's/.*://g')"
 
   # Test if we have a challenge.
   if [ -z "${ch}" ]; then
@@ -84,17 +89,16 @@ cr50_reset() {
 
   local n=0
   local ac
-  local status
-  while [ ${n} -lt ${MAX_RETRIES} ]; do
+  while [ "${n}" -lt "${MAX_RETRIES}" ]; do
     # Read authorization code. Show input in uppercase letters.
     echo
     printf "Enter authorization code: "
     stty olcuc
-    read -e ac
+    read -r -e ac
     stty -olcuc
 
     # The input string is still lowercase. Convert to uppercase.
-    ac_uppercase="$(echo "${ac}" | tr 'a-z' 'A-Z')"
+    ac_uppercase="$(echo "${ac}" | tr '[:lower:]' '[:upper:]')"
 
     # Test authorization code.
     if gsctool -t -r "${ac_uppercase}"; then
@@ -113,10 +117,10 @@ cr50_reset() {
     echo
 
     : $(( n += 1 ))
-    if [ ${n} -eq ${MAX_RETRIES} ]; then
+    if [ "${n}" -eq "${MAX_RETRIES}" ]; then
       echo "Number of retries exceeded. Another qrcode will generate in 10s."
       local m=0
-      while [ ${m} -lt ${RETRY_DELAY} ]; do
+      while [ "${m}" -lt "${RETRY_DELAY}" ]; do
         printf "."
         sleep 1
         : $(( m += 1 ))
@@ -127,8 +131,7 @@ cr50_reset() {
 }
 
 main() {
-  cr50_reset
-  if [ $? -ne 0 ]; then
+  if ! cr50_reset; then
     echo "Cr50 Reset Error."
   fi
 }
