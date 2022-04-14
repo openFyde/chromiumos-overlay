@@ -6,15 +6,16 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs cros-workon cros-bazel
+inherit toolchain-funcs cros-workon cros-bazel cros-sanitizers
 
 DESCRIPTION="Performance benchmarks for ChromeOS audio server"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="+cras-apm"
+IUSE="+cras-apm asan"
 
 DEPEND="
+	chromeos-base/chromeos-config-tools
 	media-libs/alsa-lib
 	cras-apm? ( media-libs/webrtc-apm:= )
 "
@@ -36,7 +37,7 @@ src_unpack() {
 src_prepare() {
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 	cd cras || die
-	bazel_setup_crosstool
+	sanitizers-setup-env
 	default
 }
 
@@ -47,8 +48,11 @@ src_configure() {
 src_compile() {
 	cd cras || die
 	args=(
-		"$(use cras-apm && echo "--//src/benchmark:apm=true")"
+		"$(use cras-apm && echo "--//src/benchmark:hw_dependency=true")"
 	)
+	# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
+	filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
+	bazel_setup_crosstool
 	ebazel build //src/benchmark:cras_bench "${args[*]}"
 }
 
