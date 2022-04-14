@@ -1,9 +1,13 @@
 # Copyright 2021 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 CROS_GO_SOURCE=(
 	"github.com/moby/moby:github.com/docker/docker 5f0703c549935d2cfec42b468b858d822b58a27e"
+)
+
+PATCHES=(
+	"${FILESDIR}"/docker-20.10.8-add-distribution-major-ver.patch
 )
 
 CROS_GO_PACKAGES=(

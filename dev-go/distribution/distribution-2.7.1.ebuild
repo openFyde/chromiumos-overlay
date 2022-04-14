@@ -3,12 +3,16 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/docker/distribution v${PV}"
+CROS_GO_SOURCE="github.com/docker/distribution:github.com/docker/distribution/v2 v${PV}"
+
+PATCHES=(
+	"${FILESDIR}"/distribution-2.7.1-add-distribution-major-ver.patch
+)
 
 CROS_GO_PACKAGES=(
-	"github.com/docker/distribution/digestset"
-	"github.com/docker/distribution/reference"
-	"github.com/docker/distribution/registry/api/errcode"
+	"github.com/docker/distribution/v2/digestset"
+	"github.com/docker/distribution/v2/reference"
+	"github.com/docker/distribution/v2/registry/api/errcode"
 )
 
 inherit cros-go
