@@ -24,10 +24,7 @@ logit() {
 logit "Starting"
 
 # Let's determine the best way to communicate with the Cr50.
-if gsctool_cmd -f > /dev/null 2>&1; then
-  logit "Will use USB interface"
-  UPDATER="gsctool_cmd"
-elif gsctool_cmd -f -s > /dev/null 2>&1; then
+if gsctool_cmd -f -s > /dev/null 2>&1; then
   logit "Will use /dev/tpm0"
   UPDATER="gsctool_cmd -s"
 elif gsctool_cmd -f -t > /dev/null 2>&1; then
