@@ -8,7 +8,6 @@
 
 PLATFORM_INDEX=false
 
-UPDATER="/usr/sbin/gsctool"
 BOARD_ID_NVRAM_READER="/usr/share/cros/cr50-read-board-id.sh"
 TPM_WRITESPACE="/usr/share/cros/tpm2-write-space.sh"
 TPM_LOCKSPACE="/usr/share/cros/tpm2-lock-space.sh"
@@ -88,7 +87,7 @@ cr50_set_board_id_and_flag() {
   local flag="$2"
 
   local updater_arg="${board_id}:${flag}"
-  if "${UPDATER}" -a -i "${updater_arg}" 2>&1; then
+  if gsctool_cmd -a -i "${updater_arg}" 2>&1; then
     die "Failed to update with ${updater_arg}"
   fi
 }
@@ -182,7 +181,7 @@ check_cr50_support() {
   local rw_version
   local target
 
-  output="$("${UPDATER}" -a -f -M 2>&1)" || exit_status="$?"
+  output="$(gsctool_cmd -a -f -M 2>&1)" || exit_status="$?"
   if [ "${exit_status}" != "0" ]; then
     die "Failed to get the version."
   fi

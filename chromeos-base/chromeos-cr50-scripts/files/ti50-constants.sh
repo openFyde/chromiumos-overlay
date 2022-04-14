@@ -3,8 +3,8 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-# This file defines constants for Ti50 devices. The constants are then used in
-# the shared GSC scripts.
+# This file defines the functions designated for Ti50 devices. The functions are
+# then used in the shared GSC scripts.
 
 gsc_name() {
   printf "ti50"
@@ -16,4 +16,8 @@ gsc_image_base_name() {
 
 gsc_metrics_prefix() {
   printf "Platform.Ti50"
+}
+
+gsctool_cmd() {
+  /usr/sbin/gsctool -D "$@"
 }

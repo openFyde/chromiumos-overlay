@@ -10,7 +10,6 @@ PLATFORM_INDEX=false
 
 READ_RMA_SN_BITS="/usr/share/cros/cr50-read-rma-sn-bits.sh"
 READ_BOARD_ID_BITS="/usr/share/cros/cr50-read-board-id.sh"
-GSCTOOL="/usr/sbin/gsctool"
 TPM_WRITESPACE="/usr/share/cros/tpm2-write-space.sh"
 TPM_LOCKSPACE="/usr/share/cros/tpm2-lock-space.sh"
 
@@ -19,6 +18,8 @@ ERR_GENERAL=1
 ERR_ALREADY_SET=2
 ERR_ALREADY_SET_DIFFERENT=3
 ERR_MISSING_VPD_KEY=4
+
+. "/usr/share/cros/gsc-constants.sh"
 
 die_as() {
   local exit_value="$1"
@@ -79,8 +80,8 @@ is_board_id_set() {
   fi
 
   local output
-  if ! output="$("${GSCTOOL}" -a -i)"; then
-    die "Failed to execute ${GSCTOOL} -a -i"
+  if ! output="$(gsctool_cmd -a -i)"; then
+    die "Failed to execute gsctool_cmd -a -i"
   fi
 
   # Parse the output. E.g., 5a5a4146:a5a5beb9:0000ff00
@@ -155,7 +156,7 @@ cr50_set_sn_bits() {
   if [ "${PLATFORM_INDEX}" = true ]; then
     generic_tpm2_set_sn_bits "${sn_bits}"
   else
-    "${GSCTOOL}" -a -S "${sn_bits}" 2>&1
+    gsctool_cmd -a -S "${sn_bits}" 2>&1
   fi
   local status=$?
   if [ "${status}" -ne 0 ]; then

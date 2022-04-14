@@ -45,7 +45,7 @@ main() {
 
   # Set Cr50 flash logger time base.
   epoch_secs="$(date '+%s')"
-  gsctool -a -T "${epoch_secs}" ||
+  gsctool_cmd -a -T "${epoch_secs}" ||
     die "Failed to set Cr50 flash log time base to ${epoch_secs}"
   logit "Set Cr50 flash log base time to ${epoch_secs}"
 
@@ -57,7 +57,7 @@ main() {
   # the log event ID.
   #
   # After awk processing below just the header is printed for each line.
-  gsctool -a -M -L "${prev_stamp}" | sed 's/:/ /g' | while read -r entry; do
+  gsctool_cmd -a -M -L "${prev_stamp}" | sed 's/:/ /g' | while read -r entry; do
     local event_id
     local new_stamp
 

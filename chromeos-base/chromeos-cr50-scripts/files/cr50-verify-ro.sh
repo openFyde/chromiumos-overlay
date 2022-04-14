@@ -14,7 +14,7 @@
 # necessary. After that this script invokes gsctool to perform actual RO
 # verification.
 
-GSCTOOL="/usr/sbin/gsctool"
+. "/usr/share/cros/gsc-constants.sh"
 
 # Remember pid of the top level script to be able to terminate it from
 # subprocesses.
@@ -48,7 +48,7 @@ get_chip_bid_values() {
   local flags
   local xor
 
-  IFS=' ' read -r -a flags <<< "$("${GSCTOOL}" -i |
+  IFS=' ' read -r -a flags <<< "$(gsctool_cmd -i |
     awk -F':' '
       /Board ID space: / {
         sub(" ", "", $2);
@@ -77,7 +77,7 @@ get_chip_bid_values() {
 #
 
 get_chip_rlz_value() {
-  ${GSCTOOL} -i -M | grep BID_RLZ | sed -e 's/BID_RLZ=//g;'
+  gsctool_cmd -i -M | grep BID_RLZ | sed -e 's/BID_RLZ=//g;'
 }
 
 # Retrieve Cr50 binary's board ID and flags values.
@@ -97,7 +97,7 @@ get_image_bid_values() {
   local image="${1}"
   local flags
 
-  IFS=':' read -r -a flags <<< "$("${GSCTOOL}" -b "${image}" |
+  IFS=':' read -r -a flags <<< "$(gsctool_cmd -b "${image}" |
      awk '{
        if (match($0, /\[[^\]]+\]/)) {
          print substr($0, RSTART + 1, RLENGTH - 2)
@@ -154,7 +154,7 @@ update_dut() {
     die "Image flags ${image_flags} incompatible with chip flags ${chip_flags}"
   fi
 
-  ${GSCTOOL} "${image_file}"
+  gsctool_cmd "${image_file}"
 }
 
 # Convert string version representation into ordinal number.
@@ -215,7 +215,7 @@ main() {
 
   # Retrieve Cr50 version running on the DUT. Reported in 'gsctool -f' output
   # as RW <epoch>.<major>.<minor>
-  dut_rw_version="$(${GSCTOOL} -f | awk '/^RW / {print $2}')"
+  dut_rw_version="$(gsctool_cmd -f | awk '/^RW / {print $2}')"
   if [[ -z "${dut_rw_version}" ]]; then
     die "Failed to retrieve DUT Cr50 version. Is DUT connected?"\
         "You may need to flip suzy-q cable if DUT is already attached."
@@ -228,7 +228,7 @@ main() {
   #
   # RW_A and RW_B versions are expected to match for the purposes of this
   # script.
-  image_rw_version="$(${GSCTOOL} -b "${new_image}" | awk '
+  image_rw_version="$(gsctool_cmd -b "${new_image}" | awk '
     /^RO_A/ {
       match($2, /:.*\[/);
       print substr($2, RSTART + 1, RLENGTH - 2)
@@ -242,7 +242,7 @@ main() {
     echo "Waiting for the DUT to restart"
     sleep 5 # Let it reboot.
     echo "Verifying that update succeeded"
-    dut_rw_version="$(${GSCTOOL} -f | awk '/^RW / {print $2}')"
+    dut_rw_version="$(gsctool_cmd -f | awk '/^RW / {print $2}')"
     if update_needed "${dut_rw_version}" "${image_rw_version}"; then
       die "Failed to update DUT to version ${image_rw_version}"
     fi
@@ -252,7 +252,7 @@ main() {
   rlz="$(get_chip_rlz_value)"
 
   # Run RO verification and report results.
-  if ${GSCTOOL} -O "${ro_descriptions}/verify_ro_${rlz}.db"; then
+  if gsctool_cmd -O "${ro_descriptions}/verify_ro_${rlz}.db"; then
     echo "${V_BOLD_GREEN}Hash verification succeeded${V_VIDOFF}"
     exit 0
   else

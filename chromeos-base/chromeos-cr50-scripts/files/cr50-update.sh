@@ -13,6 +13,7 @@ script_name="$(basename "$0")"
 script_dir="$(dirname "$0")"
 pid="$$"
 
+. "/usr/share/cros/gsc-constants.sh"
 . "${script_dir}/cr50-get-name.sh"
 
 logit() {
@@ -22,17 +23,16 @@ logit() {
 
 logit "Starting"
 
-GSCTOOL="/usr/sbin/gsctool"
 # Let's determine the best way to communicate with the Cr50.
-if "${GSCTOOL}" -f > /dev/null 2>&1; then
+if gsctool_cmd -f > /dev/null 2>&1; then
   logit "Will use USB interface"
-  UPDATER="${GSCTOOL}"
-elif "${GSCTOOL}" -f -s > /dev/null 2>&1; then
+  UPDATER="gsctool_cmd"
+elif gsctool_cmd -f -s > /dev/null 2>&1; then
   logit "Will use /dev/tpm0"
-  UPDATER="${GSCTOOL} -s"
-elif "${GSCTOOL}" -f -t > /dev/null 2>&1; then
+  UPDATER="gsctool_cmd -s"
+elif gsctool_cmd -f -t > /dev/null 2>&1; then
   logit "Will use trunks_send"
-  UPDATER="${GSCTOOL} -t"
+  UPDATER="gsctool_cmd -t"
 else
   logit "Could not communicate with Cr50"
   exit 1

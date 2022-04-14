@@ -15,6 +15,8 @@ MAX_RETRIES=3
 # - Time in seconds to delay before generating another qrcode.
 RETRY_DELAY=10
 
+. "/usr/share/cros/gsc-constants.sh"
+
 gbb_force_dev_mode() {
   # Disable SW WP and set GBB_FLAG_FORCE_DEV_SWITCH_ON (0x8) to force boot in
   # developer mode after RMA reset.
@@ -60,7 +62,7 @@ cr50_reset() {
 
   # Get challenge string and remove "Challenge:".
   local ch;
-  ch="$(gsctool -t -r | sed -e 's/.*://g')"
+  ch="$(gsctool_cmd -t -r | sed -e 's/.*://g')"
 
   # Test if we have a challenge.
   if [ -z "${ch}" ]; then
@@ -101,7 +103,7 @@ cr50_reset() {
     ac_uppercase="$(echo "${ac}" | tr '[:lower:]' '[:upper:]')"
 
     # Test authorization code.
-    if gsctool -t -r "${ac_uppercase}"; then
+    if gsctool_cmd -t -r "${ac_uppercase}"; then
       # Force the next boot to be in developer mode so that we can boot to
       # RMA shim again.
       echo "The system will reboot shortly."
