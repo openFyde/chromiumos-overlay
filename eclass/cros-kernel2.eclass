@@ -1614,9 +1614,6 @@ builtin_fw_x86_intel_ucode_files=(
 
 builtin_fw_x86_adl_ucode_desc="Intel ucode for ADL"
 builtin_fw_x86_adl_ucode_files=(
-	intel-ucode/06-97-01
-	intel-ucode/06-9a-00
-	intel-ucode/06-9a-01
 	intel-ucode/06-9a-02
 	intel-ucode/06-9a-03
 	intel-ucode/06-9a-04
