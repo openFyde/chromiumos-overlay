@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="b544baf2d95818e9811f1c60d2e273f1ac322333"
-CROS_WORKON_TREE="715a927b9838aad2bb08fb9ae1d34980313a6836"
+CROS_WORKON_COMMIT="9aa3e25180511be17392ef25a0ca1216996eaa23"
+CROS_WORKON_TREE="61c0490bbb08b1b6017c7b372f91d7315c64333d"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan +cras-apm fuzzer selinux systemd"
+IUSE="asan +cras-apm featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -37,7 +37,7 @@ RDEPEND="
 	media-sound/alsa-utils
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
-	chromeos-base/featured
+	featured? ( chromeos-base/featured )
 "
 
 DEPEND="
@@ -66,6 +66,7 @@ src_configure() {
 		append-ldflags "-Wl,--no-gc-sections"
 		econf $(use_enable cras-apm webrtc-apm) \
 			--with-system-cras-rust \
+			$(use_enable featured) \
 			$(use_enable amd64 fuzzer)
 	else
 		econf $(use_enable selinux) \
@@ -73,6 +74,7 @@ src_configure() {
 			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \
+			$(use_enable featured) \
 			$(use_enable amd64 fuzzer) \
 			BASE_VER="$(libchrome_ver)"
 	fi
