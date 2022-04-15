@@ -64,6 +64,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-task-4*:=
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/bitflags-1*:=
+	dev-rust/cbindgen:=
 	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
 	=dev-rust/cfg-if-1*:=
 	dev-rust/chrono:=
@@ -186,6 +187,7 @@ src_compile() {
 	local packages=(
 		qcow_utils
 		crosvm
+		crosvm_control
 	)
 
 	for pkg in "${packages[@]}"; do
