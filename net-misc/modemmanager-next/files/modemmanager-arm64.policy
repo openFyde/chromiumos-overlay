@@ -50,8 +50,7 @@ getuid: 1
 gettimeofday: 1
 madvise: 1
 mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
-# TODO(b/183235393): Restrict mprotect to ~PROT_EXEC || ~PROT_WRITE
-mprotect: 1
+mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 prctl: arg0 == PR_SET_NO_NEW_PRIVS || arg0 == PR_SET_SECCOMP || \
        arg0 == PR_CAPBSET_DROP || arg0 == PR_SET_NAME
 socket: arg0 == AF_NETLINK || arg0 == AF_UNIX || arg0 == AF_QIPCRTR || \
