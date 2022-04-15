@@ -58,6 +58,7 @@ DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/cros-camera-libcamera_connector_headers:=
 	media-libs/libyuv:=
+	x11-base/xorg-proto:=
 	x11-drivers/opengles-headers:=
 "
 
