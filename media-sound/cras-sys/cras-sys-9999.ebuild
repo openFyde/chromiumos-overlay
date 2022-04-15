@@ -25,6 +25,7 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/data_model:=
+	=dev-rust/serde-1*
 	media-sound/audio_streams:=
 	virtual/bindgen:=
 "

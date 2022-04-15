@@ -25,6 +25,7 @@ DEPEND="
 	=dev-rust/dbus-0.9*:=
 	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
+	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
