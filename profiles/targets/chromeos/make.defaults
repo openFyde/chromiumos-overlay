@@ -89,9 +89,6 @@ USE="${USE} missive"
 # Enable CPU zero-copy for Chrome camera stack.
 USE="${USE} video_capture_use_gpu_memory_buffer"
 
-# Allow threads in the GPU driver.
-USE="${USE} gpu_sandbox_start_early"
-
 # Run Camera v3 stack by default.
 USE="${USE} arc-camera3"
 
