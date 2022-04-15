@@ -6,7 +6,7 @@
 # ChromiumOS Build Team
 # @BUGREPORTS:
 # Please report bugs via http://crbug.com/new (with label Build)
-# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
+# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
 # @BLURB: helper eclass for managing dependencies on libchrome
 # @DESCRIPTION:
 # Our base library libchrome is slotted and is used by a lot of packages. All

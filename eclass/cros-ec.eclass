@@ -6,7 +6,7 @@
 # Chromium OS Firmware Team
 # @BUGREPORTS:
 # Please report bugs via http://crbug.com/new (with label Build)
-# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
+# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
 # @BLURB: helper eclass for building Chromium OS EC firmware
 # @DESCRIPTION:
 # Builds the EC firmware and installs into /build/<board>/<EC_board> so that
@@ -29,7 +29,7 @@ esac
 
 inherit toolchain-funcs cros-ec-board cros-workon cros-unibuild coreboot-sdk
 
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/HEAD/README.md"
 
 LICENSE="CrOS-EC"
 IUSE="quiet verbose +coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test"

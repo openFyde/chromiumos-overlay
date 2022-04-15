@@ -6,7 +6,7 @@
 # The Chromium OS Authors <chromium-os-dev@chromium.org>
 # @BUGREPORTS:
 # Please report bugs via https://crbug.com/new (with component "Tools>ChromeOS-Toolchain")
-# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
+# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
 # @BLURB: Eclass for fetching, building, and installing Go packages.
 # @DESCRIPTION:
 # See http://www.chromium.org/chromium-os/developer-guide/go-in-chromium-os for details.

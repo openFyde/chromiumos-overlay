@@ -6,7 +6,7 @@
 # ChromiumOS Build Team
 # @BUGREPORTS:
 # Please report bugs via http://crbug.com/new (with label Build)
-# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
+# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
 # @BLURB: Set credentials properly to access private git repo.
 # @DESCRIPTION:
 # Copy in credentials to fake home directory so that build process can

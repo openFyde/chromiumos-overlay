@@ -6,7 +6,7 @@
 # Chromium OS Build Team
 # @BUGREPORTS:
 # Please report bugs via https://crbug.com/new (with label Build)
-# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/master/eclass/@ECLASS@
+# @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
 # @BLURB: helper eclass for building packages that use common.mk
 # @DESCRIPTION:
 # Some Chromium OS packages still build using common.mk rather than the newer
