@@ -17,7 +17,6 @@ inherit distutils-r1 systemd
 CROS_WORKON_PROJECT="chromiumos/third_party/portage_tool"
 CROS_WORKON_LOCALNAME="portage_tool"
 CROS_WORKON_EGIT_BRANCH="chromeos-2.3.75"
-CROS_WORKON_MANUAL_UPREV=1
 inherit cros-workon
 
 DESCRIPTION="Portage is the package management and distribution system for Gentoo"
