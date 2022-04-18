@@ -112,6 +112,7 @@ ALL_BOARDS=(
 	brask
 	#bruteus
 	brya
+	brya-hibernate
 	brya-lvm-stateful
 	brya-manatee
 	bubs
