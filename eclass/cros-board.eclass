@@ -152,6 +152,7 @@ ALL_BOARDS=(
 	coral
 	#coral-kernelnext
 	corsola
+	corsola64
 	#cosmos
 	#cranky
 	cyan
