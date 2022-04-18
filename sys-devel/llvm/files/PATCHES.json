@@ -3282,5 +3282,19 @@
             "from": 450784,
             "until": 458830
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[ubsan] Fix print_stacktrace=1:fast_unwind_on_fatal=0 to correctly fallback to fast unwinder"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/fdd424e37abf3fa411c07f1e08fee72cfe7bb25b.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 458762
+        }
     }
 ]
