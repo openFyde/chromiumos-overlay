@@ -33,6 +33,7 @@ src_install() {
 	doexe "${BINARY_DIR}/dawn_unittests"
 	doexe "${BINARY_DIR}/jpeg_decode_accelerator_unittest"
 	doexe "${BINARY_DIR}/ozone_gl_unittests"
+	doexe "${BINARY_DIR}/ozone_integration_tests"
 	doexe "${BINARY_DIR}/sandbox_linux_unittests"
 	doexe "${BINARY_DIR}/wayland_client_integration_tests"
 	doexe "${BINARY_DIR}/wayland_client_perftests"
