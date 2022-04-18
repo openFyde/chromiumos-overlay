@@ -1,0 +1,1 @@
+morisawa-ud-fonts-20220311.ebuild
