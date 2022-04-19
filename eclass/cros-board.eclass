@@ -376,6 +376,7 @@ ALL_BOARDS=(
 	#parrot64
 	#parrot_ivb
 	#parry
+	passionfruit
 	#pbody
 	#peach
 	#peach_kirby
