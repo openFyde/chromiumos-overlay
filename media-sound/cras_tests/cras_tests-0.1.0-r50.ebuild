@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ea1db740e1d000ca2dc7967551025513503bf1d8"
-CROS_WORKON_TREE=("858222691690528bf66f74c661249ab5338def0e" "6a314a414ab66eb8eb2ad8541cbfff9266bb283e")
+CROS_WORKON_COMMIT="b4076ba99cabcdd9f36d893e73c87afab1107e8a"
+CROS_WORKON_TREE=("fe270857570dae5e66434156600e567dac426476" "6a314a414ab66eb8eb2ad8541cbfff9266bb283e")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
 CROS_WORKON_LOCALNAME="adhd"
@@ -27,6 +27,7 @@ DEPEND="
 	=dev-rust/dbus-0.9*:=
 	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
+	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=

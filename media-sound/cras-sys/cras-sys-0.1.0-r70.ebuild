@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="0cb71bcf29f3408c91407426fad3fd1c86b975f5"
-CROS_WORKON_TREE=("af5a7bf57cab1e4ec5ba5eaca05061c053b74f93" "17d5154c5bb5a0a429feaa2365c3b42d849ed0c2")
+CROS_WORKON_COMMIT="b4076ba99cabcdd9f36d893e73c87afab1107e8a"
+CROS_WORKON_TREE=("e34694d2c4e3cb0a1fd99603cacc7e4d0cebb7c1" "17d5154c5bb5a0a429feaa2365c3b42d849ed0c2")
 CROS_RUST_SUBDIR="cras/client/cras-sys"
 # TODO(b/175640259) Fix tests for ARM.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
@@ -27,6 +27,7 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/data_model:=
+	=dev-rust/serde-1*
 	media-sound/audio_streams:=
 	virtual/bindgen:=
 "
