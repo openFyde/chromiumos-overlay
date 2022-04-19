@@ -1,8 +1,7 @@
 # Copyright 1999-2010 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
-EAPI="6"
+EAPI=7
 
 inherit arc-build-constants
 
@@ -18,11 +17,12 @@ IUSE="arcvm"
 RDEPEND="
 	sys-apps/util-linux
 	>=sys-fs/e2fsprogs-1.41
-	sys-libs/libnih"
-
-DEPEND="${RDEPEND}
-	dev-util/pkgconfig
-	sys-devel/gettext"
+	sys-libs/libnih
+"
+DEPEND="${RDEPEND}"
+BDEPEND="
+	sys-devel/gettext
+"
 
 PATCHES=(
 	"${FILESDIR}"/${P}-11.patch   # Downloaded from upstream
