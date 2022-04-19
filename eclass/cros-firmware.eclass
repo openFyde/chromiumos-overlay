@@ -51,7 +51,7 @@ esac
 
 # $board-overlay/make.conf may contain these flags to always create "firmware
 # from source".
-IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr_ec"
+IUSE="bootimage cros_ec cros_ish local_firmware tot_firmware unibuild zephyr_ec"
 
 # "futility update" is needed when building and running updater package.
 COMMON_DEPEND="
@@ -82,10 +82,14 @@ RDEPEND+="
 # factory_installer ebuild.
 
 # Dependency to build firmware from source (build phase only).
-DEPEND+="
+COMMON_FIRMWARE_DEPEND="
 	bootimage? ( sys-boot/chromeos-bootimage )
 	cros_ec? ( chromeos-base/chromeos-ec )
 	zephyr_ec? ( chromeos-base/chromeos-zephyr )
+	"
+DEPEND+="
+	local_firmware? ( ${COMMON_FIRMWARE_DEPEND} )
+	tot_firmware? ( ${COMMON_FIRMWARE_DEPEND} )
 	"
 
 RESTRICT="mirror"
@@ -260,18 +264,22 @@ cros-firmware_src_compile() {
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
 	fi
 
-	if use tot_firmware; then
+	if use local_firmware; then
+		einfo "local_firmware is enabled, skipping BCS image updater"
+	elif use tot_firmware; then
 		einfo "tot_firmware is enabled, skipping BCS image updater"
 	elif [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
 		# (no need to update)
 		einfo "Building empty firmware update script"
 		echo -n >"${output}"
+		return
 	else
 		einfo "Build ${BOARD_USE} firmware updater to ${output}:" \
 			"${image_cmd[*]} ${ext_cmd[*]}"
 		./pack_firmware.py "${image_cmd[@]}" "${ext_cmd[@]}" \
 			-o "${output}" || die "Cannot pack firmware updater."
+		return
 	fi
 
 	if ! use bootimage; then
@@ -315,19 +323,17 @@ cros-firmware_src_compile() {
 	einfo "Build ${BOARD_USE} local firmware updater to ${output}:" \
 		"${image_cmd[*]} ${ext_cmd[*]}"
 	./pack_firmware.py -o "${output}" "${image_cmd[@]}" "${ext_cmd[@]}" ||
-		die "Cannot pack firmware updater."
+		die "Cannot pack local firmware updater."
 
-	if [[ ! -s "${UPDATE_SCRIPT}" ]]; then
-		# When no pre-built binaries are available,
-		# dupe local updater to system updater.
-		cp -f "${output}" "${UPDATE_SCRIPT}"
+	if use tot_firmware; then
+		# Rename local updater to system updater.
+		mv -f "${output}" "${UPDATE_SCRIPT}"
 	fi
-
 }
 
 cros-firmware_src_install() {
 	# install updaters for firmware-from-source archive.
-	if use bootimage; then
+	if use local_firmware && use bootimage; then
 		exeinto /firmware
 		doexe updater.sh
 	fi
