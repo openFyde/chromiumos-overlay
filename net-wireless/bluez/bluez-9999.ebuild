@@ -46,7 +46,6 @@ RDEPEND="${CDEPEND}
 	!net-wireless/bluez-utils
 "
 BDEPEND="${CDEPEND}
-	dev-util/pkgconfig:=
 	sys-devel/flex:=
 "
 
