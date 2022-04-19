@@ -2085,13 +2085,15 @@ kmake() {
 			;;
 		arm:arm64)
 			cross="aarch64-cros-linux-gnu"
-			if use vdso32; then
-				cross_compat="armv7a-cros-linux-gnueabihf-"
-				CC_COMPAT="armv7a-cros-linux-gnueabihf-clang"
-				LD_COMPAT="ld.lld"
-			fi
 			;;
 	esac
+
+	# Support generating 32-bit VDSO on arm64 kernels
+	if use vdso32 && [[ "${kernel_arch}" == "arm64" ]]; then
+		cross_compat="armv7a-cros-linux-gnueabihf-"
+		CC_COMPAT="armv7a-cros-linux-gnueabihf-clang"
+		LD_COMPAT="ld.lld"
+	fi
 
 	# Assemble with LLVM's integrated assembler on x86_64 and aarch64
 	if use llvm_ias; then
