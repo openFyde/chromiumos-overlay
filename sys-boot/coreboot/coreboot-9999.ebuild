@@ -149,14 +149,6 @@ create_config() {
 		if [[ -n "${SYSTEM_OEM_ACPI_ID}" ]]; then
 			echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
 		fi
-
-		# In case config comes from a symlink we are likely building
-		# for an overlay not matching this config name. Enable adding
-		# a CBFS based board ID for coreboot.
-		if [[ -L "${FILESDIR}/configs/config.${board}" ]]; then
-			echo "CONFIG_BOARD_ID_MANUAL=y" >> "${CONFIG}"
-			echo "CONFIG_BOARD_ID_STRING=\"${BOARD_USE}\"" >> "${CONFIG}"
-		fi
 	else
 		ewarn "Could not find existing config for ${board}."
 	fi
