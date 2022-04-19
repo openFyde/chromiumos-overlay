@@ -23,8 +23,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 
-DEPEND="${COMMON_DEPEND}
-	dev-util/pkgconfig"
+DEPEND="${COMMON_DEPEND}"
 
 ## TODO: Check if this patch is useful for us.
 ## PATCHES=(	"${FILESDIR}/${PN}-0.2.3-nouseradd.patch" )
