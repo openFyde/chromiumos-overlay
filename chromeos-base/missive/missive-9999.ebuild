@@ -43,6 +43,7 @@ src_install() {
 	dolib.a "${OUT}/libmissiveprotostatus.a"
 	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
 	dolib.a "${OUT}/libmissiveprotorecord.a"
+	dolib.a "${OUT}/libmissiveprotosecurityevents.a"
 	dolib.a "${OUT}/libmissiveprotointerface.a"
 
 	# Installs the header files to /usr/include/missive/.
@@ -58,6 +59,7 @@ src_install() {
 	local pd_header_files=(
 		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
 		"${OUT}/gen/include/missive/proto/record.pb.h"
+		"${OUT}/gen/include/missive/proto/security_events.pb.h"
 		"${OUT}/gen/include/missive/proto/status.pb.h"
 	)
 	local f
