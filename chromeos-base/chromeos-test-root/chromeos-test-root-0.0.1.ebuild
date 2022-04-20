@@ -17,12 +17,16 @@ LICENSE="BSD-Google"
 SLOT="0"
 # Include bootchart in the test image unless explicitly disabled. Bootchart is
 # disabled by default and enabled by the "cros_bootchart" kernel arg.
-IUSE="+bootchart"
+IUSE="
+	+bootchart
+	dlc
+"
 
 RDEPEND="
 	bootchart? ( app-benchmarks/bootchart )
 	chromeos-base/chromeos-test-init
 	chromeos-base/update-utils
+	dlc? ( chromeos-base/test-dlc )
 	virtual/chromeos-test-testauthkeys
 	virtual/chromeos-bsp-test-root
 "

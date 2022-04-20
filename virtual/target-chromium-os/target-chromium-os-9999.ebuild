@@ -197,10 +197,9 @@ RDEPEND="
 	biod? ( chromeos-base/biod )
 	fpstudy? ( chromeos-base/fingerprint_study )
 	compupdates? ( chromeos-base/imageloader )
-	dlc? ( chromeos-base/dlcservice )
-	dlc_test? (
+	dlc? (
+		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
-		chromeos-base/test-dlc
 	)
 	bluetooth? ( net-wireless/bluez )
 	floss? (
