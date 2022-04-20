@@ -15,18 +15,15 @@ Upstream-Bug: https://github.com/KhronosGroup/Vulkan-Loader/issues/249
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/loader/CMakeLists.txt b/loader/CMakeLists.txt
-index 7cc5fd71e..70288cd3d 100644
+index d1606f549..a2baca20b 100644
 --- a/loader/CMakeLists.txt
 +++ b/loader/CMakeLists.txt
-@@ -191,7 +191,7 @@ else(UNIX AND NOT APPLE) # i.e.: Linux
-         set(OPT_LOADER_SRCS ${OPT_LOADER_SRCS} unknown_ext_chain_gas.S)
+@@ -202,7 +202,7 @@ else() # i.e.: Linux
+     if(ASSEMBLER_WORKS)
          add_executable(asm_offset asm_offset.c)
-         target_link_libraries(asm_offset Vulkan::Headers)
+         target_link_libraries(asm_offset loader_specific_options)
 -        add_custom_command(OUTPUT gen_defines.asm DEPENDS asm_offset COMMAND asm_offset GAS)
 +        add_custom_command(OUTPUT gen_defines.asm DEPENDS asm_offset COMMAND ./asm_offset GAS)
          add_custom_target(loader_asm_gen_files DEPENDS gen_defines.asm)
-         target_compile_definitions(asm_offset PRIVATE _XOPEN_SOURCE=500) # hush compiler warnings for readlink
      else()
--- 
-2.30.0.280.ga3ce27912f-goog
-
+         if(USE_GAS)

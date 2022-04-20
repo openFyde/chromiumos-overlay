@@ -15,16 +15,11 @@ if [[ ${PV} == *9999* ]]; then
 else
 	SRC_URI="https://github.com/KhronosGroup/${MY_PN}/archive/sdk-${PV}.0.tar.gz -> ${P}.tar.gz"
 	KEYWORDS="*"
-	S="${WORKDIR}"/${MY_PN}-${PV}
+	S="${WORKDIR}"/${MY_PN}-sdk-${PV}.0
 fi
 
 DESCRIPTION="Vulkan Validation Layers"
 HOMEPAGE="https://github.com/KhronosGroup/Vulkan-ValidationLayers"
-
-PATCHES=(
-	"${FILESDIR}"/${P}-Fix-dependency-detection.patch
-	"${FILESDIR}"/${P}-Dont-use-static-spirv-tools.patch
-)
 
 LICENSE="Apache-2.0"
 SLOT="0"

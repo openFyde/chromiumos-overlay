@@ -37,6 +37,7 @@ PDEPEND="layers? ( media-libs/vulkan-layers:=[${MULTILIB_USEDEP}] )"
 
 PATCHES=(
 	"${FILESDIR}"/CHROMIUM-Fix-cross-compilation.patch
+	"${FILESDIR}"/CHROMIUM-Revert-db5e3d0f454f063db7b4505e4d08b759f1874bbb.patch
 )
 
 multilib_src_configure() {
