@@ -1,19 +1,18 @@
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d3fcbd437aece8b2e25c64cd01d693d0092c0e42"
-CROS_WORKON_TREE="a5c577a90d065eb26dd8426666b9df40f0b076d5"
+CROS_WORKON_COMMIT="2c2bece2c58a36ce22e3b217444996a5f3031cbe"
+CROS_WORKON_TREE="be5aea55dedd3c4fcd60e8088fe1c6edd23ea8ba"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
-CROS_WORKON_LOCALNAME="kernel/v5.15"
-CROS_WORKON_EGIT_BRANCH="chromeos-5.15"
+CROS_WORKON_LOCALNAME="kernel/upstream"
 
 # This must be inherited *after* EGIT/CROS_WORKON variables defined
 inherit cros-workon cros-kernel2
 
 HOMEPAGE="https://www.chromium.org/chromium-os/chromiumos-design-docs/chromium-os-kernel"
-DESCRIPTION="Chrome OS Linux Kernel 5.15"
+DESCRIPTION="Chrome OS Linux Kernel latest upstream rc"
 KEYWORDS="*"
 
 # Change the following (commented out) number to the next prime number
@@ -25,4 +24,4 @@ KEYWORDS="*"
 # Don't forget to update the comment in _all_ chromeos-kernel-x_x-9999.ebuild
 # files (!!!)
 #
-# The coolest prime number is: 227
+# The coolest prime number is: 229
