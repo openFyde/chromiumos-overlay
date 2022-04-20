@@ -5,12 +5,12 @@ EAPI=7
 
 CROS_WORKON_COMMIT=(
 	"cf96214811598681ad9080f92b777d0feec2b5ff"
-	"0724cc2e25be67e9385f6ab590b551e5d98b1fa7"
+	"1e20bf220c2f59f9b0aa8642b854b7bb3fd3e88d"
 )
 
 CROS_WORKON_TREE=(
 	"cf96214811598681ad9080f92b777d0feec2b5ff"
-	"0724cc2e25be67e9385f6ab590b551e5d98b1fa7"
+	"1e20bf220c2f59f9b0aa8642b854b7bb3fd3e88d"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -45,10 +45,10 @@ CMAKE_USE_DIR="${CLVK_DIR}"
 DESCRIPTION="Prototype implementation of OpenCL 1.2 on to of Vulkan using clspv as the Compiler"
 HOMEPAGE="https://github.com/kpet/${PN}"
 
-LLVM_FOLDER="llvm-project-88b9d1a49aba54171804da355f00c8fe0483f428"
+LLVM_FOLDER="llvm-project-c95275420610ac94c0eeebf0bc171b8d342a1c77"
 LLVM_ARCHIVE="${LLVM_FOLDER}.zip"
 
-SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-a836197d52aced43f49b7f9a2386424ce734acba"
+SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-a6cbadeef4fcb49329d3794e5faa043df830a1dc"
 SPIRV_LLVM_TRANSLATOR_ARCHIVE="${SPIRV_LLVM_TRANSLATOR_FOLDER}.zip"
 
 SRC_URI="
@@ -63,16 +63,16 @@ IUSE="debug"
 
 # target build dependencies
 DEPEND="
-	>=dev-util/vulkan-headers-1.3.204
+	>=dev-util/vulkan-headers-1.3.211
 	>=dev-util/opencl-headers-2021.04.29
-	>=dev-util/spirv-tools-1.3.204
-	>=dev-util/spirv-headers-1.3.204
+	>=dev-util/spirv-tools-1.3.211
+	>=dev-util/spirv-headers-1.3.211
 "
 
 # target runtime dependencies
 RDEPEND="
-	>=dev-util/spirv-tools-1.3.204
-	>=media-libs/vulkan-loader-1.3.204
+	>=dev-util/spirv-tools-1.3.211
+	>=media-libs/vulkan-loader-1.3.211
 "
 
 # host build dependencies
@@ -83,7 +83,7 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
-	# TODO(b/3582218) : To be removed once Intel issue on OpMulExtended is fixed.
+	# TODO(b/228820464) : To be removed once Intel issue on OpMulExtended is fixed.
 	PATCHES+=("${FILESDIR}/hack-mul-extended.patch")
 fi
 
