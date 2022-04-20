@@ -12,7 +12,9 @@ SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 LICENSE="MIT"
 SLOT="0/${PVR}"
 KEYWORDS="*"
+IUSE="cros_host"
 
+BDEPEND="!cros_host? ( =${CATEGORY}/${PF} )"
 DEPEND="
 	~dev-rust/protobuf-${PV}:=
 "
@@ -20,10 +22,10 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 src_compile() {
-	ecargo_build
+	use cros_host && ecargo_build
 }
 
 src_install() {
 	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-	dobin "$(cros-rust_get_build_dir)/protoc-gen-rust"
+	use cros_host && dobin "$(cros-rust_get_build_dir)/protoc-gen-rust"
 }
