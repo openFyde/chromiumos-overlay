@@ -84,7 +84,6 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.19.6-fix-pixel-color-overflow.patch"
 	"${FILESDIR}/${PN}-3.21.8-disable-python.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-unpack-bits.patch"
-	"${FILESDIR}/${PN}-3.21.8-fix-halftoner-input-buffer.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-cupsbytesperline.patch"
 )
 
