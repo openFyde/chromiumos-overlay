@@ -14,7 +14,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="dev-libs/protobuf"
+DEPEND="dev-libs/protobuf:="
 RDEPEND="${DEPEND}"
 
 src_prepare() {
