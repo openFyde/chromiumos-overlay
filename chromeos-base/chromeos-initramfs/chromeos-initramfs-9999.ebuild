@@ -180,17 +180,18 @@ src_compile() {
 	if [[ ${#targets[@]} -gt 0 ]]; then
 		emake SYSROOT="${SYSROOT}" \
 			BOARD="$(get_current_board_with_variant)" \
-			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
-			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 			DETACHABLE="$(usex detachable 1 0)" \
+			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
+			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
-			UNIBUILD="$(usex unibuild 1 0)" \
-			OOBE_CONFIG="$(usex oobe_config 1 0)" \
-			PHYSICAL_PRESENCE="${physical_presence}" \
-			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-			MANATEE_PERFORMANCE_TOOLS="$(usex manatee_performance_tools 1 0)" \
+			LIBDIR="$(get_libdir)" \
 			LOCALE_LIST="${RECOVERY_LOCALES:-}" \
-			LIBDIR="$(get_libdir)" "${targets[@]}"
+			MANATEE_PERFORMANCE_TOOLS="$(usex manatee_performance_tools 1 0)" \
+			OOBE_CONFIG="$(usex oobe_config 1 0)" \
+			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
+			PHYSICAL_PRESENCE="${physical_presence}" \
+			UNIBUILD="$(usex unibuild 1 0)" \
+			"${targets[@]}"
 	fi
 }
 
