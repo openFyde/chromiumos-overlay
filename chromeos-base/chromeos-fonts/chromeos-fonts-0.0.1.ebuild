@@ -11,7 +11,7 @@ HOMEPAGE="http://src.chromium.org"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cros_host internal"
+IUSE="cros_host extra_japanese_fonts internal"
 
 # List of font packages used in Chromium OS.  This list is separate
 # so that it can be shared between the host in
@@ -44,6 +44,7 @@ DEPEND="
 	media-libs/fontconfig:=
 	!cros_host? ( sys-libs/gcc-libs:= )
 	cros_host? ( sys-libs/glibc:= )
+	extra_japanese_fonts? ( media-fonts/morisawa-ud-fonts )
 	"
 RDEPEND="${DEPEND}"
 
