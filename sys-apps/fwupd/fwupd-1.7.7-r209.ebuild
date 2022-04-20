@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="21b5cfcc59bd9c1e16a96de6c56d0f20ff1c9ba6"
-CROS_WORKON_TREE="6d3a60b8375dbb44145246241a4f0bd2b1cd6c52"
+CROS_WORKON_COMMIT="a6cd8dfa803a77f93e0b6f7accdd06eee9ad4921"
+CROS_WORKON_TREE="4cb2734d33b9993816def346c2c6621e0f51bf66"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 CROS_WORKON_EGIT_BRANCH="fwupd-1.7.7"
 
@@ -170,6 +170,9 @@ src_install() {
 
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
+
+	# Allow cros_healthd to obtain instanceIds and serials
+	sed 's/TrustedUids=/TrustedUids=20134/' -i "${ED}"/etc/${PN}/daemon.conf || die
 
 	# Install udev rules to fix user permissions.
 	udev_dorules "${FILESDIR}"/90-fwupd.rules
