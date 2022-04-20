@@ -92,3 +92,17 @@ sys-apps/net-tools -hostname
 
 # Use the dedicated python-magic package.
 sys-apps/file -python
+
+# libxcrypt replaces glibc libcrypt system-wide.
+# TODO(toolchain): drop the libxcrypt system use flag and fix all breaking packages
+# to properly include/link libxcrypt from its xcrypt subdir
+sys-libs/libxcrypt				system
+cross-aarch64-cros-linux-gnu/libxcrypt		system
+cross-x86_64-cros-linux-gnu/libxcrypt		system
+cross-i686-cros-linux-gnu/libxcrypt		system
+cross-armv7a-cros-linux-gnueabihf/libxcrypt	system
+sys-libs/glibc					-crypt
+cross-aarch64-cros-linux-gnu/glibc		-crypt
+cross-x86_64-cros-linux-gnu/glibc 		-crypt
+cross-i686-cros-linux-gnu/glibc			-crypt
+cross-armv7a-cros-linux-gnueabihf/glibc		-crypt

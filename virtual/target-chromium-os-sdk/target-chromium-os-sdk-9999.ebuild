@@ -242,6 +242,12 @@ RDEPEND="${RDEPEND}
 	>=x11-misc/util-macros-1.2
 	"
 
+# TODO(toolchain): Remove this libxcrypt dep after all packages directly depend
+# on it and it is not installed as a system library anymore
+RDEPEND="${RDEPEND}
+	sys-libs/libxcrypt
+	"
+
 # Multiple versions of Bazel are provided for long-term compatibility.
 # Slot 0 corresponds to the version packaged by upstream Gentoo, while
 # other slots correspond to LTS releases packaged by us.

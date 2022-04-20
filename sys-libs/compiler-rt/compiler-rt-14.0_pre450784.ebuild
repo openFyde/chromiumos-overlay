@@ -35,6 +35,9 @@ if [[ ${CATEGORY} == cross-* ]] ; then
 		${CATEGORY}/gcc
 		"
 fi
+if [[ ${CATEGORY} == cross-*linux-gnu* ]] ; then
+	DEPEND+="${CATEGORY}/libxcrypt"
+fi
 
 pkg_setup() {
 	export CMAKE_USE_DIR="${S}/compiler-rt"
