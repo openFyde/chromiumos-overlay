@@ -179,7 +179,7 @@ src_compile() {
 			OOBE_CONFIG="$(usex oobe_config 1 0)" \
 			PHYSICAL_PRESENCE="${physical_presence}" \
 			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-			LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
+			LOCALE_LIST="${RECOVERY_LOCALES:-}" "${targets[@]}"
 	fi
 }
 
