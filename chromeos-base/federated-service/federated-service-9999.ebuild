@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/federate
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="local-federated-server"
 
 RDEPEND="
 	dev-db/sqlite:=
