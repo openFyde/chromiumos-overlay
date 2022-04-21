@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="2235ec89e75d3acff96dc29f88aa33285991ba64"
+CROS_WORKON_COMMIT="ef530fef157c9d43e536d66b2131e7a94cc39520"
 CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "53b9dc1740a1b56643ecb4393721289087651261" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,6 +45,7 @@ src_install() {
 	dolib.a "${OUT}/libmissiveprotostatus.a"
 	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
 	dolib.a "${OUT}/libmissiveprotorecord.a"
+	dolib.a "${OUT}/libmissiveprotosecurityevents.a"
 	dolib.a "${OUT}/libmissiveprotointerface.a"
 
 	# Installs the header files to /usr/include/missive/.
@@ -60,6 +61,7 @@ src_install() {
 	local pd_header_files=(
 		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
 		"${OUT}/gen/include/missive/proto/record.pb.h"
+		"${OUT}/gen/include/missive/proto/security_events.pb.h"
 		"${OUT}/gen/include/missive/proto/status.pb.h"
 	)
 	local f
