@@ -79,6 +79,7 @@ src_install() {
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
 	dolib.so "${OUT}"/lib/libarc_setup.so
+	dolib.so "${OUT}"/lib/libandroidxml.so
 	insinto /etc/init
 	doins init/arc-prepare-host-generated-dir.conf
 	doins init/arc-remove-data.conf
@@ -88,6 +89,10 @@ src_install() {
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
+		# ARCVM uses this binary via virtio-fs on /usr/bin.
+		# dobin instead of dosbin to install to /usr/bin.
+		dobin "${OUT}"/arc-packages-xml-reader
+
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		dosbin "${OUT}"/arc-handle-upgrade
