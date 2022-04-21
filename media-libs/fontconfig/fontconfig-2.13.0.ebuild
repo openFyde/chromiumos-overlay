@@ -54,7 +54,7 @@ check_fontconfig_default() {
 	fi
 }
 
-MULTILIB_CHOST_TOOLS=( /usr/bin/fc-cache$(get_exeext) )
+MULTILIB_CHOST_TOOLS=("/usr/bin/fc-cache$(get_exeext)")
 
 pkg_setup() {
 	DOC_CONTENTS="Please make fontconfig configuration changes using
@@ -210,7 +210,7 @@ pkg_postinst() {
 	if [[ ${ROOT} = / ]]; then
 		multilib_pkg_postinst() {
 			ebegin "Creating global font cache for ${ABI}"
-			"${EPREFIX}"/usr/bin/${CHOST}-fc-cache -srf
+			"${EPREFIX}/usr/bin/${CHOST}-fc-cache" -srf
 			eend $?
 		}
 
