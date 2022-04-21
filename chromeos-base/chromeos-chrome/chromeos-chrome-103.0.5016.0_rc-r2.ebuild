@@ -193,7 +193,6 @@ DEPEND="${DEPEND}
 	${RDEPEND}
 	chromeos-base/protofiles
 	>=dev-util/gperf-3.0.3
-	>=dev-util/pkgconfig-0.23
 	arm? ( x11-libs/libdrm )
 "
 
