@@ -28,6 +28,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_prepare() {
+	epatch "${FILESDIR}"/${P}-clang-fixes.patch
 	eautoreconf
 }
 
