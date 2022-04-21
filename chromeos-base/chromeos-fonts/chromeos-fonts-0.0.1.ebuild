@@ -122,10 +122,11 @@ generate_font_cache() {
 #                   installed as a binpkg. Remove this section once fontconfig
 #                   no longer uses these .uuid files.
 pkg_setup() {
-	local fontdir fontdirs=( $(cd "${SYSROOT}"/usr/share/fonts; echo */) )
-	for fontdir in "${fontdirs[@]}"; do
-		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontdir}" > \
-			"${SYSROOT}"/usr/share/fonts/"${fontdir}"/.uuid
+	local fontdir fontname
+	for fontdir in "${SYSROOT}"/usr/share/fonts/*/; do
+		fontname=$(basename "${fontdir}")
+		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" > \
+			"${fontdir}"/.uuid || die
 	done
 }
 
@@ -137,9 +138,11 @@ src_install() {
 	insinto /usr/share/cache/fontconfig
 	doins "${WORKDIR}"/out/*
 
-	local fontdir fontdirs=( $(cd "${SYSROOT}"/usr/share/fonts; echo */) )
-	for fontdir in "${fontdirs[@]}"; do
-		insinto "/usr/share/fonts/${fontdir}"
-		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontdir}" | newins - .uuid
+	local fontdir fontname
+	for fontdir in "${SYSROOT}"/usr/share/fonts/*/; do
+		fontname=$(basename "${fontdir}")
+		insinto "/usr/share/fonts/${fontname}"
+		(uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" || die) | \
+			newins - .uuid
 	done
 }
