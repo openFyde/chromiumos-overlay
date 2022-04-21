@@ -66,7 +66,7 @@ fi
 # While not all packages utilize USE=test, it's common to write gn conditionals
 # based on the flag.  Add it to the eclass so ebuilds don't have to duplicate it
 # everywhere even if they otherwise aren't using the flag.
-IUSE="compilation_database cros_host test"
+IUSE="compdb_only compilation_database cros_host test"
 
 # Similarly to above, we use gtest (includes gmock) for unittests in platform2
 # packages. Add the dep all the time even if a few packages wouldn't use it as
@@ -259,9 +259,9 @@ platform_fuzzer_test() {
 }
 
 platform_src_compile() {
-	platform "compile" "all"
+	use compdb_only || platform "compile" "all"
 
-	use compilation_database && platform_gen_compilation_database
+	(use compilation_database || use compdb_only) && platform_gen_compilation_database
 }
 
 platform_configure() {
