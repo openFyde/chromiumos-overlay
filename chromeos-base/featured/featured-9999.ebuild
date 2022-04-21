@@ -54,4 +54,5 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/feature_library_test"
+	platform_test "run" "${OUT}/service_test"
 }
