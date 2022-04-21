@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="68091c530d5007a92aeca08e6378d49b19b22533"
+CROS_WORKON_COMMIT="2235ec89e75d3acff96dc29f88aa33285991ba64"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8ff1eab586712c03641dda82a1877dfc4cd6eb72" "64afe36986923627fe24faf85eb12279b641bb7e" "bdce8a305b6af438503ba12680e7d8526bcc2dfc" "2d6446844ef081b6958e8938c05cff3b62f53cd6" "ab6bff96fc0aa698221787a6286f2e0d177ffc28" "29d52c6d2464057e3fde8214a173f96d96f3b267" "e8c8ddc463c0f9f733053b2a4a0f6fda2d26c85c" "0a6d4dbdf397fb89f6c03afb0230c188ae632ead" "7081d12fe6c3c27cdcfa9ff9bb6b946a2254e446" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "7f75062369f81d0a20d6235046dafa9416de6f02")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -60,6 +60,7 @@ DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/cros-camera-libcamera_connector_headers:=
 	media-libs/libyuv:=
+	x11-base/xorg-proto:=
 	x11-drivers/opengles-headers:=
 "
 
