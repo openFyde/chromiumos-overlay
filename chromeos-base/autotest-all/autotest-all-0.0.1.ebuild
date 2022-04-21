@@ -21,7 +21,10 @@ RDEPEND="
 	chromeos-base/autotest-tests
 	chromeos-base/autotest-tests-security
 	chromeos-base/autotest-tests-toolchain
-	bluetooth? ( chromeos-base/autotest-server-tests-bluetooth )
+	bluetooth? (
+		chromeos-base/autotest-server-tests-bluetooth
+		chromeos-base/autotest-tests-bluetooth
+	)
 	cellular? ( chromeos-base/autotest-tests-cellular )
 	cheets? ( chromeos-base/autotest-tests-arc-public )
 	!chromeless_tty? (
@@ -59,7 +62,7 @@ src_unpack() {
 
 src_install() {
 	# So that this package properly owns the file
-	insinto ${AUTOTEST_BASE}/test_suites
+	insinto "${AUTOTEST_BASE}"/test_suites
 	doins "${SUITE_DEPENDENCIES_FILE}"
 	doins "${SUITE_TO_CONTROL_MAP}"
 }
