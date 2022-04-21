@@ -132,6 +132,7 @@ src_install() {
 		base/posix
 		base/power_monitor
 		base/process
+		base/profiler
 		base/ranges
 		base/strings
 		base/synchronization
