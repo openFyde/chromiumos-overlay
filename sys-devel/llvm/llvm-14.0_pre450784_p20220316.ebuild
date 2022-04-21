@@ -341,7 +341,7 @@ multilib_src_install() {
 	fi
 	local wrapper_script=clang_host_wrapper
 
-	"${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
+	GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
 		--use_llvm_next="${use_llvm_next}" \
 		--output_file="${D}/usr/bin/${wrapper_script}" || die
 
@@ -370,13 +370,13 @@ multilib_src_install() {
 		local ccache_suffix="${ccache_suffixes[${ccache_index}]}"
 		local ccache_option="${ccache_option_values[${ccache_index}]}"
 		# Build hardened wrapper written in golang.
-		"${FILESDIR}/compiler_wrapper/build.py" --config="cros.hardened" \
+		GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config="cros.hardened" \
 			--use_ccache="${ccache_option}" \
 			--use_llvm_next="${use_llvm_next}" \
 			--output_file="${D}/usr/bin/sysroot_wrapper.hardened.${ccache_suffix}" || die
 
 		# Build non-hardened wrapper written in golang.
-		"${FILESDIR}/compiler_wrapper/build.py" --config="cros.nonhardened" \
+		GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config="cros.nonhardened" \
 			--use_ccache="${ccache_option}" \
 			--use_llvm_next="${use_llvm_next}" \
 			--output_file="${D}/usr/bin/sysroot_wrapper.${ccache_suffix}" || die
