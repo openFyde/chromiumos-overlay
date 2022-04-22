@@ -33,7 +33,6 @@ RDEPEND=">=dev-libs/glib-2.36
 
 DEPEND="${RDEPEND}
 	virtual/libgudev
-	dev-util/pkgconfig
 	dev-util/intltool
 	>=dev-util/gtk-doc-1.13
 	!net-misc/modemmanager-next-interfaces
