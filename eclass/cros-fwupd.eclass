@@ -48,7 +48,7 @@ s#</release>#\t<location>https://fwupd.org/downloads/${file}</location>\n\
 \t<checksum type="sha1" filename="${file}"target="container">${sha1sum}</checksum>\n\
 \t<checksum type="sha256" filename="${file}"target="container">${sha256sum}</checksum>\n\
 \t<size type="download">${size}</size>\n\
-\t</release>#g;/<?xml.*/d;s/^/  /g
+\t</release>#g;/<?xml.*/d;/<artifacts>/,/<\/artifacts>/d;s/^/  /g
 EOF
 			cabextract -p -F "*.metainfo.xml" "${DISTDIR}"/"${file}" | \
 				sed -f script.sed >> ${PN}.metainfo.xml || die
