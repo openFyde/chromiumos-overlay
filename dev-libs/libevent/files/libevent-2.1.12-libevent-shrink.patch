@@ -4,7 +4,7 @@ hack the build to generate a small libevent.so until we can sort out upstream
 
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -236,14 +236,14 @@ am__objects_11 = buffer.lo bufferevent.lo bufferevent_filter.lo \
+@@ -269,14 +269,14 @@ am__objects_11 = buffer.lo bufferevent.lo bufferevent_filter.lo \
  	evutil_time.lo listener.lo log.lo $(am__objects_10)
  am__objects_12 = evdns.lo event_tagging.lo evrpc.lo http.lo
  am_libevent_la_OBJECTS = $(am__objects_11) $(am__objects_12)
@@ -20,11 +20,11 @@ hack the build to generate a small libevent.so until we can sort out upstream
 +	$(libevent_la_LDFLAGS) $(LDFLAGS) -Wl,--no-as-needed -o $@
  @INSTALL_LIBEVENT_FALSE@am_libevent_la_rpath =
  @INSTALL_LIBEVENT_TRUE@am_libevent_la_rpath = -rpath $(libdir)
- libevent_core_la_DEPENDENCIES = @LTLIBOBJS@ $(am__DEPENDENCIES_1)
-@@ -1020,7 +1020,7 @@ EXTRA_DIST = ChangeLog-1.4 ChangeLog-2.0 Doxyfile LICENSE \
- 	whatsnew-2.1.txt $(PLATFORM_DEPENDENT_SRC) \
- 	test/check-dumpevents.py test/regress.gen.c test/regress.gen.h \
- 	test/regress.rpc test/rpcgen_wrapper.sh test/test.sh
+ libevent_core_la_DEPENDENCIES = @LTLIBOBJS@ $(am__DEPENDENCIES_1) \
+@@ -1156,7 +1156,7 @@ EXTRA_DIST = ChangeLog-1.4 ChangeLog-2.0 Doxyfile LICENSE \
+ 	test/regress.gen.c test/regress.gen.h test/regress.rpc \
+ 	test/rpcgen_wrapper.sh test/print-winsock-errors.c \
+ 	test/test.sh
 -LIBEVENT_LIBS_LA = libevent.la libevent_core.la libevent_extra.la \
 +LIBEVENT_LIBS_LA = libevent_core.la libevent_extra.la libevent.la \
  	$(am__append_1) $(am__append_3)
