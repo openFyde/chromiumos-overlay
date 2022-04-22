@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d15d035c7340892725648f6fd9b97a82b21b3fc8"
-CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "596301a612265898eb3a71d8393d424d2beec2f8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="ae74fb778d6a7dbac52ac432d9504e88a37cac93"
+CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "27cf95787e95daad4c9671377e3d09188e70b112" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -56,4 +56,5 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/feature_library_test"
+	platform_test "run" "${OUT}/service_test"
 }
