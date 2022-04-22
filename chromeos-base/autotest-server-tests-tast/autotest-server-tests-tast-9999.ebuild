@@ -20,7 +20,6 @@ RDEPEND=""
 DEPEND=""
 
 IUSE_TESTS="
-	+tests_graphics_TraceReplayExtended
 	+tests_tast
 "
 
