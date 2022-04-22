@@ -16,3 +16,6 @@ USE="${USE} -ondevice_handwriting"
 
 # Disable Floss Bluetooth
 USE="${USE} -floss"
+
+# Disable extra Japanese fonts.
+USE="${USE} -extra_japanese_fonts"

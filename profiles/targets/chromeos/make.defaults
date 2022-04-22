@@ -128,6 +128,9 @@ USE="${USE} rgbkbd"
 # Enable ML benchmarking in test images
 USE="${USE} ml_benchmark_drivers"
 
+# Enable extra Japanse fonts by default.
+USE="${USE} extra_japanese_fonts"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
