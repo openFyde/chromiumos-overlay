@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="0c21d2c058b2e426c98f3a6a73f33d3262d3ec10"
-CROS_WORKON_TREE="d11d66793f0092a406e7de159056dd0d44a648aa"
+CROS_WORKON_COMMIT="9bb88a703350931141b8c12631a9b1f860655413"
+CROS_WORKON_TREE="d6cd9a10a0663456cfe0f4bd2f9c406b225a2bf5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -82,6 +82,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_Cellular
 	+tests_autoupdate_ConsecutiveUpdatesBeforeReboot
 	+tests_autoupdate_DataPreserved
+	+tests_autoupdate_EndToEndTest
 	+tests_autoupdate_ForcedOOBEUpdate
 	+tests_autoupdate_FromUI
 	+tests_autoupdate_Interruptions
