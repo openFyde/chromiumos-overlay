@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="ba2f700f959309a32e1033be0dd613817f71fec9"
-CROS_WORKON_TREE="4f35269a1062888042b97b5253de4c5ec3551fe7"
+CROS_WORKON_COMMIT="94c5cdafbacb6adf4176fa7d9ccb778c52ac41a7"
+CROS_WORKON_TREE="92ea2a3cc4454c44003881e6b5e4c3171e03758b"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -20,6 +20,7 @@ IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} physical_presence_power physical_presence_recovery"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
+IUSE="${IUSE} manatee_performance_tools"
 
 # Build Targets
 TARGETS_IUSE="
@@ -111,6 +112,14 @@ HYPERVISOR_DEPENDS="
 	sys-apps/coreboot-utils
 	virtual/linux-sources
 	virtual/manatee-apps
+	manatee_performance_tools? (
+		dev-util/strace
+		dev-util/turbostat
+		dev-util/perf
+		dev-util/trace-cmd
+		sys-process/htop
+		chromeos-base/perfetto
+	)
 	"
 
 DEPEND="
@@ -181,7 +190,8 @@ src_compile() {
 			OOBE_CONFIG="$(usex oobe_config 1 0)" \
 			PHYSICAL_PRESENCE="${physical_presence}" \
 			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-			LOCALE_LIST="${RECOVERY_LOCALES}" "${targets[@]}"
+			MANATEE_PERFORMANCE_TOOLS="$(usex manatee_performance_tools 1 0)" \
+			LOCALE_LIST="${RECOVERY_LOCALES:-}" "${targets[@]}"
 	fi
 }
 
