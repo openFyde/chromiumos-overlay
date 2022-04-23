@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6b8f653ed9034cacdd37fe98ebca98a3ca5063fa"
+CROS_WORKON_COMMIT="b9335526712e2f00cdec8ddb6fc7bc4ceee27c51"
 CROS_WORKON_TREE="7e91a65935f8de8508bef2c872b2fc9ae48147f5"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -57,6 +57,12 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.ManaTEE.conf
+
+	insinto /etc/rsyslog.d
+	doins rsyslog/rsyslog.manatee.conf
+
+	insinto /usr/lib/tmpfiles.d
+	doins tmpfiles.d/*.conf
 
 	# Needed for initramfs, but not for the root-fs.
 	if use cros_host ; then
