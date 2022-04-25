@@ -20,8 +20,6 @@ IUSE="
 	+cellular
 	drm_atomic
 	+shill
-	+tpm
-	tpm2
 	vaapi
 "
 
@@ -142,13 +140,6 @@ IUSE_TESTS_SHILL="
 	)
 "
 
-# This is here instead of in autotest-tests-tpm because it would be far more
-# work and duplication to add telemetry dependencies there.
-IUSE_TESTS_TPM="
-	tpm? ( +tests_platform_Pkcs11InitOnLogin )
-	tpm2? ( +tests_platform_Pkcs11InitOnLogin )
-"
-
 IUSE_TESTS_ARC="
 	+tests_graphics_Idle
 "
@@ -165,7 +156,6 @@ IUSE_TESTS="
 	${IUSE_TESTS[*]}
 	${IUSE_TESTS_CELLULAR}
 	${IUSE_TESTS_SHILL}
-	${IUSE_TESTS_TPM}
 	${IUSE_TESTS_ARC}
 	${IUSE_TESTS_ATOMIC}
 	${IUSE_TESTS_CHROMIUM}

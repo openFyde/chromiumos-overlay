@@ -32,9 +32,6 @@ IUSE_TESTS="
 	+tests_firmware_Cr50U2fPowerwash
 	+tests_hardware_TPMCheck
 	+tests_kernel_TPMStress
-	+tests_platform_Pkcs11InitUnderErrors
-	+tests_platform_Pkcs11Events
-	+tests_platform_Pkcs11LoadPerf
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
