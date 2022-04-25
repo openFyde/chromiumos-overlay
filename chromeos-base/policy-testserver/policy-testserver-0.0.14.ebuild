@@ -33,11 +33,11 @@ CROS_WORKON_DESTDIR=(
 CROS_WORKON_MANUAL_UPREV="1"
 
 CROS_WORKON_COMMIT=(
-	"05d9f22315757117685ad2f5265148f900f18034"
-	"8599944a086c503a4e31a95e226e967f5db560f7"
-	"ebf45d3c9e5dbbffeeefc52af0934e996366503d"
-	"dd7f8ad1e3ee47c4baffdab73521862a18f55508"
-	"ee74da4528c53f8482b70716afd83861bfdb29c3"
+	"05d9f22315757117685ad2f5265148f900f18034" # tlslite
+	"8599944a086c503a4e31a95e226e967f5db560f7" # testserver
+	"89ef96b01b38dfd4f0d21a667d5c6e04e0994f12" # policy
+	"453f9e23d3f3269cba421bb618d14bd8c7e97182" # private_membership
+	"04a46b48f70713db831b32da1581437d587f4081" # shell-encryption
 )
 # Must define CROS_WORKON_* variables before inheriting cros-workon.
 inherit cros-constants cros-workon python-any-r1
