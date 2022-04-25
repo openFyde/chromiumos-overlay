@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("0c7e3b8671a0b1dd42b9f3aa269168feeb10ac2b" "ed0551198436e3ad14c59efc1e003d764d739ea8")
-CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "46c78c0cb967a143f8b6213a654f54a317f70933")
+CROS_WORKON_COMMIT=("f120789871f18bac19af1eca26d04a59dcaeccab" "a19cfff3ff184b44a116486ac1a6051126c3ea0a")
+CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c94ad10fa646a6be6cd32aff1abbf6c7ad806b21")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -152,6 +152,7 @@ src_install() {
 		components/policy/core/common
 		testing/gmock/include/gmock
 		testing/gtest/include/gtest
+		third_party/abseil-cpp/absl/synchronization
 		third_party/abseil-cpp/absl/types
 		third_party/perfetto/include/perfetto/tracing/
 		third_party/perfetto/include/perfetto/protozero/
