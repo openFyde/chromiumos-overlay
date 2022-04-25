@@ -18,7 +18,7 @@ KEYWORDS="*"
 DEPEND="
 	=dev-rust/atty-0.2*:=
 	>=dev-rust/bitflags-1.2.0:= <dev-rust/bitflags-2.0.0
-	=dev-rust/clap_derive-3*:=
+	=dev-rust/clap_derive-3.0.0_beta2:=
 	=dev-rust/indexmap-1*:=
 	=dev-rust/lazy_static-1*:=
 	>=dev-rust/os_str_bytes-2.3.0:= <dev-rust/os_str_bytes-3.0.0
