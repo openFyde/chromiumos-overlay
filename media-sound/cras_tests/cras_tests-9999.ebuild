@@ -22,8 +22,8 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
+	>=dev-rust/clap-3.1.12:= <dev-rust/clap-4.0
 	=dev-rust/dbus-0.9*:=
-	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
 	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
