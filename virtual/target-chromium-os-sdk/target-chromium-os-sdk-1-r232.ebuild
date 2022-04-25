@@ -237,7 +237,6 @@ RDEPEND="${RDEPEND}
 	sys-power/iasl
 	virtual/modutils
 	x11-apps/mkfontscale
-	x11-apps/xcursorgen
 	x11-apps/xkbcomp
 	>=x11-misc/util-macros-1.2
 	"
