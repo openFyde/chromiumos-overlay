@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4fc64c2b3fd2b52e05688d8675785f0018dd4552"
-CROS_WORKON_TREE="2ec76850fd879ffd144468ecd8619e82829403e0"
+CROS_WORKON_COMMIT="f9f47b712a5a45d6e0c4bdef93a123f1a5dca701"
+CROS_WORKON_TREE="c39e9dc6a43c04567fbf71ef3f949fe002eadfe8"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -290,7 +290,7 @@ src_test() {
 	)
 
 	# If syslog isn't available, skip the tests.
-	[[ -S /dev/log ]] || skip_tests+=(--skip "unix::syslog")
+	[[ -S /dev/log ]] || skip_tests+=(--skip "syslog")
 
 	if use crosvm-plugin; then
 		# crosvm_plugin is a cdylibs, so we need to use a profile
