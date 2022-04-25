@@ -288,7 +288,7 @@ src_test() {
 	)
 
 	# If syslog isn't available, skip the tests.
-	[[ -S /dev/log ]] || skip_tests+=(--skip "unix::syslog")
+	[[ -S /dev/log ]] || skip_tests+=(--skip "syslog")
 
 	if use crosvm-plugin; then
 		# crosvm_plugin is a cdylibs, so we need to use a profile
