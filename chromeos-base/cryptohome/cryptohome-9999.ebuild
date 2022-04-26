@@ -72,6 +72,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}"
+
+# TODO(b/230430190): Remove shill-client dependency after experiment ended.
 DEPEND="${COMMON_DEPEND}
 	test? (
 		app-shells/dash:=
@@ -82,6 +84,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/protofiles:=
+	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/vboot_reference:=
@@ -100,7 +103,7 @@ src_install() {
 		dolib.so lib/libcert_provision.so
 		dosbin cert_provision_client
 	fi
-	popd >/dev/null
+	popd >/dev/null || die
 
 	insinto /etc/dbus-1/system.d
 	doins etc/org.chromium.UserDataAuth.conf
