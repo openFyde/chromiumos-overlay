@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="666071d4283ca508e0f67afa0dac2e99ca3f442c"
-CROS_WORKON_TREE="4d05b64d1f00aa84ab216085e0be810457be1feb"
+CROS_WORKON_COMMIT="63bddee96f015c023fc1d5db5c49e0ce46ebc14d"
+CROS_WORKON_TREE="f9a34a19068bf98df9e092475ac34f7f406ff07a"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -22,8 +22,6 @@ IUSE="
 	+cellular
 	drm_atomic
 	+shill
-	+tpm
-	tpm2
 	vaapi
 "
 
@@ -144,13 +142,6 @@ IUSE_TESTS_SHILL="
 	)
 "
 
-# This is here instead of in autotest-tests-tpm because it would be far more
-# work and duplication to add telemetry dependencies there.
-IUSE_TESTS_TPM="
-	tpm? ( +tests_platform_Pkcs11InitOnLogin )
-	tpm2? ( +tests_platform_Pkcs11InitOnLogin )
-"
-
 IUSE_TESTS_ARC="
 	+tests_graphics_Idle
 "
@@ -167,7 +158,6 @@ IUSE_TESTS="
 	${IUSE_TESTS[*]}
 	${IUSE_TESTS_CELLULAR}
 	${IUSE_TESTS_SHILL}
-	${IUSE_TESTS_TPM}
 	${IUSE_TESTS_ARC}
 	${IUSE_TESTS_ATOMIC}
 	${IUSE_TESTS_CHROMIUM}

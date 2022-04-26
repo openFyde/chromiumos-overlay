@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="689cbbb81057b090f742033f829bc7a9c9624780"
-CROS_WORKON_TREE="91dff9335c9dfa6398841cfb49100f2035742e8c"
+CROS_WORKON_COMMIT="63bddee96f015c023fc1d5db5c49e0ce46ebc14d"
+CROS_WORKON_TREE="f9a34a19068bf98df9e092475ac34f7f406ff07a"
 PYTHON_COMPAT=( python2_7 python{3_6,3_7,3_8} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -34,9 +34,6 @@ IUSE_TESTS="
 	+tests_firmware_Cr50U2fPowerwash
 	+tests_hardware_TPMCheck
 	+tests_kernel_TPMStress
-	+tests_platform_Pkcs11InitUnderErrors
-	+tests_platform_Pkcs11Events
-	+tests_platform_Pkcs11LoadPerf
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
