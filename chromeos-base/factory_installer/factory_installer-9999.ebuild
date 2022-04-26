@@ -4,8 +4,10 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
+CROS_RUST_CRATE_NAME="factory_installer_rust"
+CROS_RUST_SUBDIR="rust"
 
-inherit cros-sanitizers cros-workon toolchain-funcs cros-factory
+inherit cros-workon cros-rust cros-factory
 
 DESCRIPTION="Chrome OS Factory Installer"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory_installer/"
@@ -25,7 +27,7 @@ ALL_PORTS=(
 	ttyUSB{0..5}
 	tty{0..5}
 )
-IUSE_PORTS="${ALL_PORTS[@]/#/${USE_PREFIX}}"
+IUSE_PORTS="${ALL_PORTS[*]/#/${USE_PREFIX}}"
 IUSE="${IUSE_PORTS} -asan test"
 
 # Factory install images operate by downloading content from a
@@ -98,13 +100,23 @@ RDEPEND="${COMMON_DEPEND}
 	sys-fs/e2fsprogs"
 
 
+src_unpack() {
+	cros-workon_src_unpack
+	cros-rust_src_unpack
+}
+
 src_configure() {
 	sanitizers-setup-env
-	default
+	cd "${CROS_RUST_SUBDIR}" || die
+	cros-rust_src_configure
+	cd "${S}" || die
 }
 
 src_compile() {
 	tc-export AR CC CXX RANLIB
+	cd "${CROS_RUST_SUBDIR}" || die
+	cros-rust_src_compile
+	cd "${S}" || die
 	emake
 }
 
@@ -116,12 +128,12 @@ src_install() {
 	local service_file="factory_tty.sh"
 	local tmp_service_file="${T}/${service_file}"
 	local scripts=(*.sh)
-	scripts=(${scripts[@]#${service_file}})
+	scripts=( "${scripts[@]# ${service_file}}" )
 
 	if [[ -n "${TTY_CONSOLE}" ]]; then
 		local item ports=()
 		for item in ${IUSE_PORTS}; do
-			if use ${item}; then
+			if use "${item}"; then
 				ports+=("${item#${USE_PREFIX}}")
 			fi
 		done
@@ -133,6 +145,13 @@ src_install() {
 	fi
 	dosbin "${scripts[@]}" "${service_file}"
 
+	# install factory_fai
+	cd "${CROS_RUST_SUBDIR}" || die
+	cros-rust_publish "${CROS_RUST_CRATE_NAME}" \
+		"$(cros-rust_get_crate_version "${S}/${CROS_RUST_SUBDIR}")"
+	dosbin "$(cros-rust_get_build_dir)/factory_fai"
+	cd "${S}" || die
+
 	insinto /usr/share/factory_installer/tpm
 	doins tpm/*.sh
 
@@ -140,7 +159,7 @@ src_install() {
 	doins init/*.conf
 
 	insinto /root
-	newins $FILESDIR/dot.factory_installer .factory_installer
+	newins "${FILESDIR}/dot.factory_installer" .factory_installer
 	# install PMBR code
 	case "$(tc-arch)" in
 		"x86")
@@ -149,10 +168,10 @@ src_install() {
 		;;
 		*)
 		einfo "using default PMBR code"
-		PMBR_SOURCE=$FILESDIR/dot.pmbr_code
+		PMBR_SOURCE="${FILESDIR}/dot.pmbr_code"
 		;;
 	esac
-	newins $PMBR_SOURCE .pmbr_code
+	newins "${PMBR_SOURCE}" .pmbr_code
 
 	einfo "Install resources from chromeos-base/factory."
 	factory_unpack_resource installer "${ED}/usr"
