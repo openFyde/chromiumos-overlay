@@ -133,6 +133,7 @@ IUSE_LINUX_FIRMWARE=(
 	rtl_bt-8822ce-uart
 	rtl_bt-8822ce-usb
 	rtl_bt-8852ae-usb
+	rtl_bt-8852ce-usb
 	rtw8822c
 	rtw8852a
 	venus-52
@@ -224,6 +225,7 @@ LICENSE="
 	linux_firmware_rtl_bt-8822ce-uart? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtl_bt-8822ce-usb? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtl_bt-8852ae-usb? ( LICENCE.rtlwifi_firmware )
+	linux_firmware_rtl_bt-8852ce-usb? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtw8822c? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_rtw8852a? ( LICENCE.rtlwifi_firmware )
 	linux_firmware_venus-52? ( LICENSE.qcom )
@@ -415,6 +417,7 @@ src_install() {
 	use_fw rtl_bt-8822ce-uart && doins_subdir rtl_bt/rtl8822cs*.bin
 	use_fw rtl_bt-8822ce-usb && doins_subdir rtl_bt/rtl8822cu*.bin
 	use_fw rtl_bt-8852ae-usb && doins_subdir rtl_bt/rtl8852au*.bin
+	use_fw rtl_bt-8852ce-usb && doins_subdir rtl_bt/rtl8852cu*.bin
 	use_fw rtw8822c && doins_subdir rtw88/rtw8822c*.bin
 	use_fw rtw8852a && doins_subdir rtw89/rtw8852a*.bin
 	use_fw venus-52 && doins_subdir qcom/venus-5.2/*
