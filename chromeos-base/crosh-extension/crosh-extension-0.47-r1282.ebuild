@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6cd9b44c81cf925e8908ddfc4395ddd2fdd92a46"
-CROS_WORKON_TREE=("c1b2266dd93be5bc7a5d9abacb9334d37e226b0f" "6de1bfaa63060cf186b564a9fabed94d52856622" "1203d3ed56ca24abe8d69a7c24004f46171a455b" "c36c8d9a7a71dbd7f0b0292064e7182d8de8605a" "e40eadcd599dc4e176472b27cd57efe88ff15b59" "7d76d4cdd05beeb542b51c8734efaf32b26e43eb" "bf7826c1110e37efac3f19286805ef25bbe90fc1")
+CROS_WORKON_COMMIT="0de900a5d64dbfe2ff2a1bace9b45d336aefb79c"
+CROS_WORKON_TREE=("c1b2266dd93be5bc7a5d9abacb9334d37e226b0f" "6de1bfaa63060cf186b564a9fabed94d52856622" "9d0cc7ec4de7473db2dce20ef1774cecc50af5f7" "c36c8d9a7a71dbd7f0b0292064e7182d8de8605a" "e40eadcd599dc4e176472b27cd57efe88ff15b59" "7d76d4cdd05beeb542b51c8734efaf32b26e43eb" "bf7826c1110e37efac3f19286805ef25bbe90fc1")
 CROS_WORKON_PROJECT="apps/libapps"
 CROS_WORKON_LOCALNAME="third_party/libapps"
 CROS_WORKON_SUBTREE="libdot hterm nassh ssh_client terminal wasi-js-bindings wassh"
