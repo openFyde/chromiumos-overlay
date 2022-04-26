@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="405c843ac64d84235a49eb38a4992cc353a962e1"
-CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "58ba17873c1d0f3dccbde4ef6a96f94ec0fe2c1d" "7081d12fe6c3c27cdcfa9ff9bb6b946a2254e446" "ce40598e062bbd7477912e06729c09eea669a627" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="5c2750eed0986b1fbce8ed1c8f2b7910f6b51ff8"
+CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "e682701fd1654166bfd56d63f84f70127713e0b6" "7081d12fe6c3c27cdcfa9ff9bb6b946a2254e446" "ce40598e062bbd7477912e06729c09eea669a627" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -81,6 +81,7 @@ src_install() {
 	dosbin "${OUT}"/arc-remove-data
 	dosbin "${OUT}"/arc-remove-stale-data
 	dolib.so "${OUT}"/lib/libarc_setup.so
+	dolib.so "${OUT}"/lib/libandroidxml.so
 	insinto /etc/init
 	doins init/arc-prepare-host-generated-dir.conf
 	doins init/arc-remove-data.conf
@@ -90,6 +91,10 @@ src_install() {
 
 	# Some binaries are only for ARCVM
 	if use arcvm; then
+		# ARCVM uses this binary via virtio-fs on /usr/bin.
+		# dobin instead of dosbin to install to /usr/bin.
+		dobin "${OUT}"/arc-packages-xml-reader
+
 		dosbin "${OUT}"/arc-apply-per-board-config
 		dosbin "${OUT}"/arc-create-data
 		dosbin "${OUT}"/arc-handle-upgrade
