@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.7.7"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.0"
 
 inherit cros-workon linux-info meson udev user xdg
 
@@ -106,51 +106,47 @@ src_prepare() {
 
 src_configure() {
 	local plugins=(
-		$(meson_use amt plugin_amt)
-		$(meson_use dell plugin_dell)
-		$(meson_use fastboot plugin_fastboot)
+		-Dplugin_powerd="enabled"
+		$(meson_feature amt plugin_amt)
+		$(meson_feature dell plugin_dell)
+		$(meson_feature fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
-		$(meson_use flashrom plugin_flashrom)
-		$(meson_use gpio plugin_gpio)
-		$(meson_use gusb plugin_uf2)
-		$(meson_use logitech plugin_logitech_bulkcontroller)
-		$(meson_use modemmanager plugin_modem_manager)
-		$(meson_use nvme plugin_nvme)
+		$(meson_feature flashrom plugin_flashrom)
+		$(meson_feature gpio plugin_gpio)
+		$(meson_feature logitech plugin_logitech_bulkcontroller)
+		$(meson_feature modemmanager plugin_modem_manager)
+		$(meson_feature nvme plugin_nvme)
 		$(meson_use spi plugin_intel_spi)
-		$(meson_use synaptics plugin_synaptics_mst)
-		$(meson_use synaptics plugin_synaptics_rmi)
-		$(meson_use thunderbolt plugin_thunderbolt)
-		$(meson_use uefi plugin_uefi_capsule)
+		$(meson_feature synaptics plugin_synaptics_mst)
+		$(meson_feature synaptics plugin_synaptics_rmi)
+		$(meson_feature thunderbolt plugin_thunderbolt)
+		$(meson_feature uefi plugin_uefi_capsule)
 		$(meson_use uefi plugin_uefi_capsule_splash)
-		$(meson_use uefi plugin_uefi_pk)
-
-		# Dependencies are not available (yet?)
-		-Dplugin_tpm="false"
+		$(meson_feature uefi plugin_uefi_pk)
 	)
-	(use x86 || use amd64 ) || plugins+=( -Dplugin_msr="false" )
 
 	local emesonargs=(
 		--localstatedir "${EPREFIX}"/var
 		-Dbuild="$(usex minimal standalone all)"
 		-Dcompat_cli="$(usex agent true false)"
-		-Dconsolekit="false"
-		-Dcurl="true"
+		-Dcurl="enabled"
 		-Ddocs="$(usex gtk-doc gtkdoc none)"
 		-Defi_binary="false"
-		-Dsupported_build="true"
-		$(meson_use archive libarchive)
+		-Dgudev="enabled"
+		-Dsupported_build="enabled"
+		$(meson_feature archive libarchive)
 		$(meson_use bash-completion bash_completion)
-		$(meson_use bluetooth bluez)
-		$(meson_use elogind)
-		$(meson_use gnutls)
-		$(meson_use gusb)
-		$(meson_use lzma)
+		$(meson_feature bluetooth bluez)
+		$(meson_feature elogind)
+		$(meson_feature gnutls)
+		$(meson_feature gusb)
+		$(meson_feature lzma)
 		$(meson_use man)
-		$(meson_use introspection)
-		$(meson_use policykit polkit)
-		$(meson_use sqlite)
-		$(meson_use systemd)
-		$(meson_use systemd offline)
+		$(meson_feature introspection)
+		$(meson_feature policykit polkit)
+		$(meson_feature sqlite)
+		$(meson_feature systemd)
+		$(meson_feature systemd offline)
 		$(meson_use test tests)
 
 		${plugins[@]}
