@@ -10,7 +10,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_SUBTREE="resourced"
 
-inherit cros-workon cros-rust user
+inherit cros-workon cros-rust udev user
 
 DESCRIPTION="ChromeOS Resource Management Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/resourced/"
@@ -40,6 +40,9 @@ src_install() {
 	# init script.
 	insinto /etc/init
 	doins init/resourced.conf
+
+	# Install udev rules.
+	udev_dorules udev/99-resourced-permissions.rules
 
 	# seccomp policy file.
 	insinto /usr/share/policy
