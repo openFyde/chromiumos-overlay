@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="asan +cras-apm featured fuzzer selinux systemd"
+IUSE="asan +cras-apm featured fuzzer privacy_hub selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -45,7 +45,7 @@ DEPEND="
 "
 
 src_prepare() {
-	cd cras
+	cd cras || die
 	eautoreconf
 	default
 }
@@ -57,7 +57,7 @@ src_configure() {
 		export FUZZER_LDFLAGS="-fsanitize=fuzzer"
 	fi
 
-	cd cras
+	cd cras || die
 	# Disable external libraries for fuzzers.
 	if use fuzzer ; then
 		# Disable "gc-sections" for fuzzer builds, https://crbug.com/1026125 .
@@ -65,6 +65,7 @@ src_configure() {
 		econf $(use_enable cras-apm webrtc-apm) \
 			--with-system-cras-rust \
 			$(use_enable featured) \
+			$(use_enable privacy_hub) \
 			$(use_enable amd64 fuzzer)
 	else
 		econf $(use_enable selinux) \
@@ -73,6 +74,7 @@ src_configure() {
 			--enable-metrics \
 			--with-system-cras-rust \
 			$(use_enable featured) \
+			$(use_enable privacy_hub) \
 			$(use_enable amd64 fuzzer) \
 			BASE_VER="$(libchrome_ver)"
 	fi
@@ -86,7 +88,7 @@ src_test() {
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
 	else
-		cd cras
+		cd cras || die
 		# This is an ugly hack that happens to work, but should not be copied.
 		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
 		emake check
