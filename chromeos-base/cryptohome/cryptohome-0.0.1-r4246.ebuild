@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="835f8a7c55848e6df97ff7bcee34b56ad4e8a8d4"
-CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "240106df2351ce6376c8a4d51af4eedc9f15f6c0" "6cd399f3b033304f1c10ec3532b8278883120210" "30cd55a3a55c284f9f2318e3195f4619717a3b0c" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="55e8ba701fe7559b9bb9eb5774fd6d2b7bb04e43"
+CROS_WORKON_TREE=("8ff1eab586712c03641dda82a1877dfc4cd6eb72" "8c20c4e1995311df6036ff2852d7c64d5c2f1523" "6cd399f3b033304f1c10ec3532b8278883120210" "30cd55a3a55c284f9f2318e3195f4619717a3b0c" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -74,6 +74,8 @@ COMMON_DEPEND="
 "
 
 RDEPEND="${COMMON_DEPEND}"
+
+# TODO(b/230430190): Remove shill-client dependency after experiment ended.
 DEPEND="${COMMON_DEPEND}
 	test? (
 		app-shells/dash:=
@@ -84,6 +86,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/protofiles:=
+	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/vboot_reference:=
@@ -102,7 +105,7 @@ src_install() {
 		dolib.so lib/libcert_provision.so
 		dosbin cert_provision_client
 	fi
-	popd >/dev/null
+	popd >/dev/null || die
 
 	insinto /etc/dbus-1/system.d
 	doins etc/org.chromium.UserDataAuth.conf
