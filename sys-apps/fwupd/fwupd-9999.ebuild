@@ -23,7 +23,7 @@ if [[ ${PV} == "9998" ]] ; then
 	KEYWORDS="*"
 fi
 
-IUSE="agent amt archive bash-completion bluetooth dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
+IUSE="agent amt archive bash-completion bluetooth cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="
 	dell? ( uefi )
 	fastboot? ( gusb )
@@ -203,6 +203,10 @@ src_install() {
 			sed '/^IdleTimeout=/s@=[[:digit:]]\+@=0@' \
 				-i "${ED}"/etc/${PN}/daemon.conf || die
 		fi
+	fi
+
+	if use cfm ; then
+		sed '/^OnlyTrusted=/s/true/false/' -i "${ED}"/etc/${PN}/daemon.conf || die
 	fi
 }
 
