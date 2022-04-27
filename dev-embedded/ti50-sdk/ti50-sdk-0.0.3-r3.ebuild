@@ -1,1 +1,0 @@
-ti50-sdk-0.0.3.ebuild

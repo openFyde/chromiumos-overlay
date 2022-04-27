@@ -1,5 +1,4 @@
-Index: lld/ELF/Arch/RISCV.cpp
-===================================================================
+diff --git lld/ELF/Arch/RISCV.cpp lld/ELF/Arch/RISCV.cpp
 --- lld/ELF/Arch/RISCV.cpp
 +++ lld/ELF/Arch/RISCV.cpp
 @@ -7,6 +7,7 @@
@@ -10,7 +9,7 @@ Index: lld/ELF/Arch/RISCV.cpp
  #include "Symbols.h"
  #include "SyntheticSections.h"
  #include "Target.h"
-@@ -34,6 +35,7 @@
+@@ -36,6 +37,7 @@
                       const uint8_t *loc) const override;
    void relocate(uint8_t *loc, const Relocation &rel,
                  uint64_t val) const override;
@@ -18,7 +17,7 @@ Index: lld/ELF/Arch/RISCV.cpp
  };
  
  } // end anonymous namespace
-@@ -52,6 +54,7 @@
+@@ -54,6 +56,7 @@
  
  enum Reg {
    X_RA = 1,
@@ -26,14 +25,11 @@ Index: lld/ELF/Arch/RISCV.cpp
    X_T0 = 5,
    X_T1 = 6,
    X_T2 = 7,
-@@ -236,16 +239,14 @@
+@@ -267,16 +270,11 @@
    case R_RISCV_TPREL_LO12_I:
    case R_RISCV_TPREL_LO12_S:
      return R_TPREL;
 -  case R_RISCV_RELAX:
-+  case R_RISCV_GPREL_I:
-+  case R_RISCV_GPREL_S:
-+    return R_RISCV_GPREL;
    case R_RISCV_TPREL_ADD:
      return R_NONE;
 +  case R_RISCV_RELAX:
@@ -48,23 +44,7 @@ Index: lld/ELF/Arch/RISCV.cpp
    default:
      error(getErrorLocation(loc) + "unknown relocation (" + Twine(type) +
            ") against symbol " + toString(s));
-@@ -371,6 +372,7 @@
- 
-   case R_RISCV_PCREL_LO12_I:
-   case R_RISCV_TPREL_LO12_I:
-+  case R_RISCV_GPREL_I:
-   case R_RISCV_LO12_I: {
-     uint64_t hi = (val + 0x800) >> 12;
-     uint64_t lo = val - (hi << 12);
-@@ -380,6 +382,7 @@
- 
-   case R_RISCV_PCREL_LO12_S:
-   case R_RISCV_TPREL_LO12_S:
-+  case R_RISCV_GPREL_S:
-   case R_RISCV_LO12_S: {
-     uint64_t hi = (val + 0x800) >> 12;
-     uint64_t lo = val - (hi << 12);
-@@ -438,6 +441,7 @@
+@@ -469,6 +467,7 @@
      break;
  
    case R_RISCV_RELAX:
@@ -72,7 +52,7 @@ Index: lld/ELF/Arch/RISCV.cpp
      return; // Ignored (for now)
  
    default:
-@@ -445,6 +449,307 @@
+@@ -476,6 +475,306 @@
    }
  }
  
@@ -190,7 +170,6 @@ Index: lld/ELF/Arch/RISCV.cpp
 +      rel.expr = R_NONE;
 +    } else { // R_RISCV_LO12_[IS]
 +      setRs1(is->mutableData().data() + rel.offset, X_GP);
-+      rel.type = rel.type == R_RISCV_LO12_I ? R_RISCV_GPREL_I : R_RISCV_GPREL_S;
 +      rel.expr = R_RISCV_GPREL;
 +    }
 +    return true;
@@ -231,7 +210,7 @@ Index: lld/ELF/Arch/RISCV.cpp
 +      rel.sym = hi20->sym;
 +      rel.addend = hi20->addend + rel.addend;
 +      rel.type =
-+          rel.type == R_RISCV_PCREL_LO12_I ? R_RISCV_GPREL_I : R_RISCV_GPREL_S;
++          rel.type == R_RISCV_PCREL_LO12_I ? R_RISCV_LO12_I : R_RISCV_LO12_S;
 +      rel.expr = R_RISCV_GPREL;
 +    }
 +    return true;
@@ -264,7 +243,7 @@ Index: lld/ELF/Arch/RISCV.cpp
 +  bool changed = false;
 +
 +  for (OutputSection *os : outputSections) {
-+    for (InputSection *is : getInputSections(os)) {
++    for (InputSection *is : getInputSections(*os)) {
 +      if (!(is->flags & SHF_EXECINSTR))
 +        continue;
 +
@@ -313,7 +292,7 @@ Index: lld/ELF/Arch/RISCV.cpp
 +  bool rvc = config->eflags & EF_RISCV_RVC;
 +
 +  for (OutputSection *os : outputSections) {
-+    for (InputSection *is : getInputSections(os)) {
++    for (InputSection *is : getInputSections(*os)) {
 +      if (!(is->flags & SHF_EXECINSTR))
 +        continue;
 +
@@ -380,50 +359,27 @@ Index: lld/ELF/Arch/RISCV.cpp
  TargetInfo *elf::getRISCVTargetInfo() {
    static RISCV target;
    return &target;
-Index: lld/ELF/Config.h
-===================================================================
---- lld/ELF/Config.h
-+++ lld/ELF/Config.h
-@@ -195,6 +195,7 @@
-   bool pie;
-   bool printGcSections;
-   bool printIcfSections;
-+  bool relax;
-   bool relocatable;
-   bool relrPackDynRelocs;
-   bool saveTemps;
-Index: lld/ELF/Driver.cpp
-===================================================================
---- lld/ELF/Driver.cpp
-+++ lld/ELF/Driver.cpp
-@@ -1065,6 +1065,7 @@
-   config->printArchiveStats = args.getLastArgValue(OPT_print_archive_stats);
-   config->printSymbolOrder =
-       args.getLastArgValue(OPT_print_symbol_order);
-+  config->relax = args.hasFlag(OPT_relax, OPT_no_relax, true);
-   config->rpath = getRpath(args);
-   config->relocatable = args.hasArg(OPT_relocatable);
-   config->saveTemps = args.hasArg(OPT_save_temps);
-Index: lld/ELF/InputSection.h
-===================================================================
+diff --git lld/ELF/InputSection.h lld/ELF/InputSection.h
 --- lld/ELF/InputSection.h
 +++ lld/ELF/InputSection.h
-@@ -13,6 +13,7 @@
+@@ -12,7 +12,9 @@
+ #include "Config.h"
  #include "Relocations.h"
  #include "Thunks.h"
++#include "lld/Common/CommonLinkerContext.h"
  #include "lld/Common/LLVM.h"
 +#include "lld/Common/Memory.h"
  #include "llvm/ADT/CachedHashString.h"
  #include "llvm/ADT/DenseSet.h"
  #include "llvm/ADT/TinyPtrVector.h"
-@@ -158,6 +159,29 @@
+@@ -162,6 +164,29 @@
      return rawData;
    }
  
 +  MutableArrayRef<uint8_t> mutableData() const {
 +    if (!copiedData) {
 +      size_t size = data().size();
-+      uint8_t *mutData = bAlloc.Allocate<uint8_t>(size);
++      uint8_t *mutData = context().bAlloc.Allocate<uint8_t>(size);
 +      memcpy(mutData, data().data(), size);
 +      rawData = llvm::makeArrayRef(mutData, size);
 +      copiedData = true;
@@ -443,10 +399,10 @@ Index: lld/ELF/InputSection.h
 +  // The deleteRanges must be sorted by offset and must not overlap.
 +  void deleteRanges(ArrayRef<DeleteRange> deleteRanges);
 +
-   uint64_t getOffsetInFile() const;
- 
-   // Input sections are part of an output section. Special sections
-@@ -242,6 +266,7 @@
+   // The next member in the section group if this section is in a group. This is
+   // used by --gc-sections.
+   InputSectionBase *nextInSectionGroup = nullptr;
+@@ -229,6 +254,7 @@
    void uncompress() const;
  
    mutable ArrayRef<uint8_t> rawData;
@@ -454,19 +410,16 @@ Index: lld/ELF/InputSection.h
  
    // This field stores the uncompressed size of the compressed data in rawData,
    // or -1 if rawData is not compressed (either because the section wasn't
-@@ -391,9 +416,9 @@
+@@ -383,7 +409,7 @@
+   template <class ELFT> void copyShtGroup(uint8_t *buf);
  };
  
- #ifdef _WIN32
--static_assert(sizeof(InputSection) <= 192, "InputSection is too big");
-+static_assert(sizeof(InputSection) <= 200, "InputSection is too big");
- #else
--static_assert(sizeof(InputSection) <= 184, "InputSection is too big");
-+static_assert(sizeof(InputSection) <= 192, "InputSection is too big");
- #endif
+-static_assert(sizeof(InputSection) <= 160, "InputSection is too big");
++static_assert(sizeof(InputSection) <= 168, "InputSection is too big");
  
  inline bool isDebugSection(const InputSectionBase &sec) {
-@@ -409,6 +434,7 @@
+   return (sec.flags & llvm::ELF::SHF_ALLOC) == 0 &&
+@@ -398,6 +424,7 @@
  // STT_SECTION symbol associated to the .toc input section.
  extern llvm::DenseSet<std::pair<const Symbol *, uint64_t>> ppc64noTocRelax;
  
@@ -474,11 +427,10 @@ Index: lld/ELF/InputSection.h
  } // namespace elf
  
  std::string toString(const elf::InputSectionBase *);
-Index: lld/ELF/InputSection.cpp
-===================================================================
+diff --git lld/ELF/InputSection.cpp lld/ELF/InputSection.cpp
 --- lld/ELF/InputSection.cpp
 +++ lld/ELF/InputSection.cpp
-@@ -63,7 +63,7 @@
+@@ -56,7 +56,7 @@
                                     StringRef name, Kind sectionKind)
      : SectionBase(sectionKind, name, flags, entsize, alignment, type, info,
                    link),
@@ -487,8 +439,8 @@ Index: lld/ELF/InputSection.cpp
    // In order to reduce memory allocation, we assume that mergeable
    // sections are smaller than 4 GiB, which is not an unreasonable
    // assumption as of 2017.
-@@ -165,6 +165,86 @@
-   return secStart - fileStart;
+@@ -150,6 +150,86 @@
+   return ret;
  }
  
 +void InputSectionBase::deleteRanges(ArrayRef<DeleteRange> ranges) {
@@ -574,7 +526,7 @@ Index: lld/ELF/InputSection.cpp
  uint64_t SectionBase::getOffset(uint64_t offset) const {
    switch (kind()) {
    case Output: {
-@@ -589,7 +669,7 @@
+@@ -554,7 +634,7 @@
  //
  // This function returns the R_RISCV_PCREL_HI20 relocation from
  // R_RISCV_PCREL_LO12's symbol and addend.
@@ -583,7 +535,7 @@ Index: lld/ELF/InputSection.cpp
    const Defined *d = cast<Defined>(sym);
    if (!d->section) {
      error("R_RISCV_PCREL_LO12 relocation points to an absolute symbol: " +
-@@ -752,6 +832,13 @@
+@@ -717,6 +797,13 @@
      uint64_t val = sym.isUndefWeak() ? p + a : sym.getVA(a);
      return getAArch64Page(val) - getAArch64Page(p);
    }
@@ -597,51 +549,27 @@ Index: lld/ELF/InputSection.cpp
    case R_RISCV_PC_INDIRECT: {
      if (const Relocation *hiRel = getRISCVPCRelHi20(&sym, a))
        return getRelocTargetVA(file, hiRel->type, hiRel->addend, sym.getVA(),
-@@ -1023,6 +1110,10 @@
-     if (auto *sec = dyn_cast<InputSection>(this))
-       addrLoc += sec->outSecOff;
-     RelExpr expr = rel.expr;
-+
-+    if (expr == R_NONE || expr == R_RELAX_HINT)
-+      continue;
-+
-     uint64_t targetVA = SignExtend64(
-         getRelocTargetVA(file, type, rel.addend, addrLoc, *rel.sym, expr),
-         bits);
-Index: lld/ELF/Options.td
-===================================================================
---- lld/ELF/Options.td
-+++ lld/ELF/Options.td
-@@ -351,6 +351,8 @@
-   Eq<"reproduce",
-      "Write tar file containing inputs and command to reproduce link">;
- 
-+defm relax: B<"relax", "Enable linker relaxation (default)", "Disable linker relaxation">;
-+
- defm rosegment: BB<"rosegment",
-   "Put read-only non-executable sections in their own segment (default)",
-   "Do not put read-only non-executable sections in their own segment">;
-@@ -692,7 +694,6 @@
- def: F<"no-ctors-in-init-array">;
- def: F<"no-keep-memory">;
- def: F<"no-pipeline-knowledge">;
--def: F<"no-relax">;
- def: F<"no-warn-mismatch">;
- def: Flag<["-"], "p">;
- def: Separate<["--", "-"], "rpath-link">;
-Index: lld/ELF/Relocations.h
-===================================================================
+@@ -997,7 +1084,7 @@
+   AArch64Relaxer aarch64relaxer(relocations);
+   for (size_t i = 0, size = relocations.size(); i != size; ++i) {
+     const Relocation &rel = relocations[i];
+-    if (rel.expr == R_NONE)
++    if (rel.expr == R_NONE || rel.expr == R_RELAX_HINT)
+       continue;
+     uint64_t offset = rel.offset;
+     uint8_t *bufLoc = buf + offset;
+diff --git lld/ELF/Relocations.h lld/ELF/Relocations.h
 --- lld/ELF/Relocations.h
 +++ lld/ELF/Relocations.h
-@@ -45,6 +45,7 @@
-   R_PC,
+@@ -46,6 +46,7 @@
    R_PLT,
    R_PLT_PC,
+   R_PLT_GOTPLT,
 +  R_RELAX_HINT,
    R_RELAX_GOT_PC,
    R_RELAX_GOT_PC_NOPIC,
    R_RELAX_TLS_GD_TO_IE,
-@@ -99,6 +100,7 @@
+@@ -101,6 +102,7 @@
    R_PPC64_TOCBASE,
    R_PPC64_RELAX_GOT_PC,
    R_RISCV_ADD,
@@ -649,79 +577,23 @@ Index: lld/ELF/Relocations.h
    R_RISCV_PC_INDIRECT,
  };
  
-Index: lld/ELF/Relocations.cpp
-===================================================================
+diff --git lld/ELF/Relocations.cpp lld/ELF/Relocations.cpp
 --- lld/ELF/Relocations.cpp
 +++ lld/ELF/Relocations.cpp
-@@ -125,35 +125,29 @@
- }
- 
- namespace {
--// Build a bitmask with one bit set for each RelExpr.
--//
--// Constexpr function arguments can't be used in static asserts, so we
--// use template arguments to build the mask.
--// But function template partial specializations don't exist (needed
--// for base case of the recursion), so we need a dummy struct.
--template <RelExpr... Exprs> struct RelExprMaskBuilder {
--  static inline uint64_t build() { return 0; }
--};
-+// Build a bitmask with one bit set for each 64 subset of RelExpr.
-+constexpr uint64_t buildMask() { return 0; }
- 
--// Specialization for recursive case.
--template <RelExpr Head, RelExpr... Tail>
--struct RelExprMaskBuilder<Head, Tail...> {
--  static inline uint64_t build() {
--    static_assert(0 <= Head && Head < 64,
--                  "RelExpr is too large for 64-bit mask!");
--    return (uint64_t(1) << Head) | RelExprMaskBuilder<Tail...>::build();
--  }
--};
-+template <typename... Tails>
-+constexpr uint64_t buildMask(int head, Tails... tails) {
-+  return (0 <= head && head < 64 ? (uint64_t(1) << head) : 0) |
-+         buildMask(tails...);
-+}
- } // namespace
- 
- // Return true if `Expr` is one of `Exprs`.
--// There are fewer than 64 RelExpr's, so we can represent any set of
--// RelExpr's as a constant bit mask and test for membership with a
--// couple cheap bitwise operations.
-+// There are more than 64 but less than 128 RelExprs, so we divide the set of
-+// exprs into [0, 63] and [64, 127] and represent each range as a constant
-+// 64-bit mask. Then we decide which mask to test depending on the value of
-+// expr and use a simple shift and bitwise-and to test for membership.
- template <RelExpr... Exprs> bool oneof(RelExpr expr) {
--  assert(0 <= expr && (int)expr < 64 &&
--         "RelExpr is too large for 64-bit mask!");
--  return (uint64_t(1) << expr) & RelExprMaskBuilder<Exprs...>::build();
-+  assert(0 <= expr && (int)expr < 128 &&
-+         "RelExpr is too large for 128-bit mask!");
-+
-+  if (expr >= 64)
-+    return (uint64_t(1) << (expr - 64)) & buildMask((Exprs - 64)...);
-+
-+  return (uint64_t(1) << expr) & buildMask(Exprs...);
- }
- 
- // This function is similar to the `handleTlsRelocation`. MIPS does not
-@@ -412,8 +406,7 @@
-             R_PLT_PC, R_TLSGD_GOT, R_TLSGD_GOTPLT, R_TLSGD_PC, R_PPC32_PLTREL,
-             R_PPC64_CALL_PLT, R_PPC64_RELAX_TOC, R_RISCV_ADD, R_TLSDESC_CALL,
-             R_TLSDESC_PC, R_AARCH64_TLSDESC_PAGE, R_TLSLD_HINT, R_TLSIE_HINT,
--            R_AARCH64_GOT_PAGE>(
--          e))
-+            R_AARCH64_GOT_PAGE, R_RELAX_HINT>(e))
+@@ -960,7 +960,8 @@
+             R_MIPS_GOT_OFF, R_MIPS_GOT_OFF32, R_MIPS_GOT_GP_PC,
+             R_AARCH64_GOT_PAGE_PC, R_GOT_PC, R_GOTONLY_PC, R_GOTPLTONLY_PC,
+             R_PLT_PC, R_PLT_GOTPLT, R_PPC32_PLTREL, R_PPC64_CALL_PLT,
+-            R_PPC64_RELAX_TOC, R_RISCV_ADD, R_AARCH64_GOT_PAGE>(e))
++            R_PPC64_RELAX_TOC, R_RISCV_ADD, R_RELAX_HINT, R_AARCH64_GOT_PAGE>(
++          e))
      return true;
  
    // These never do, except if the entire file is position dependent or if
-Index: lld/ELF/Target.h
-===================================================================
+diff --git lld/ELF/Target.h lld/ELF/Target.h
 --- lld/ELF/Target.h
 +++ lld/ELF/Target.h
-@@ -91,6 +91,8 @@
+@@ -92,6 +92,8 @@
    virtual void applyJumpInstrMod(uint8_t *loc, JumpModType type,
                                   JumpModType val) const {}
  
@@ -730,11 +602,10 @@ Index: lld/ELF/Target.h
    virtual ~TargetInfo();
  
    // This deletes a jump insn at the end of the section if it is a fall thru to
-Index: lld/ELF/Writer.cpp
-===================================================================
+diff --git lld/ELF/Writer.cpp lld/ELF/Writer.cpp
 --- lld/ELF/Writer.cpp
 +++ lld/ELF/Writer.cpp
-@@ -1731,6 +1731,8 @@
+@@ -1628,6 +1628,8 @@
    if (config->emachine == EM_HEXAGON)
      hexagonTLSSymbolUpdate(outputSections);
  
@@ -743,8 +614,7 @@ Index: lld/ELF/Writer.cpp
    int assignPasses = 0;
    for (;;) {
      bool changed = target->needsThunks && tc.createThunks(outputSections);
-Index: lld/test/ELF/riscv-gp.s
-===================================================================
+diff --git lld/test/ELF/riscv-gp.s lld/test/ELF/riscv-gp.s
 --- lld/test/ELF/riscv-gp.s
 +++ lld/test/ELF/riscv-gp.s
 @@ -1,14 +1,16 @@
@@ -779,14 +649,14 @@ Index: lld/test/ELF/riscv-gp.s
 +# DIS64:      auipc gp, 3
 +# DIS64-NEXT: addi gp, gp, -1896
  
- # ERR: error: relocation R_RISCV_PCREL_HI20 cannot be used against symbol __global_pointer$; recompile with -fPIC
+ # ERR: error: relocation R_RISCV_PCREL_HI20 cannot be used against symbol '__global_pointer$'; recompile with -fPIC
  
 +.option norelax
  lla gp, __global_pointer$
  
  .section .sdata,"aw"
-Index: lld/test/ELF/riscv-relax-align-rvc.s
-===================================================================
+diff --git lld/test/ELF/riscv-relax-align-rvc.s lld/test/ELF/riscv-relax-align-rvc.s
+new file mode 100644
 --- /dev/null
 +++ lld/test/ELF/riscv-relax-align-rvc.s
 @@ -0,0 +1,31 @@
@@ -821,8 +691,8 @@ Index: lld/test/ELF/riscv-relax-align-rvc.s
 +  c.add s4, s5
 +.balign 8
 +  c.add t0, t1
-Index: lld/test/ELF/riscv-relax-align.s
-===================================================================
+diff --git lld/test/ELF/riscv-relax-align.s lld/test/ELF/riscv-relax-align.s
+new file mode 100644
 --- /dev/null
 +++ lld/test/ELF/riscv-relax-align.s
 @@ -0,0 +1,33 @@
@@ -859,8 +729,8 @@ Index: lld/test/ELF/riscv-relax-align.s
 +.balign 4
 +.balign 4
 +  add t0, t1, t2
-Index: lld/test/ELF/riscv-relax-call.s
-===================================================================
+diff --git lld/test/ELF/riscv-relax-call.s lld/test/ELF/riscv-relax-call.s
+new file mode 100644
 --- /dev/null
 +++ lld/test/ELF/riscv-relax-call.s
 @@ -0,0 +1,72 @@
@@ -936,8 +806,8 @@ Index: lld/test/ELF/riscv-relax-call.s
 +_start:
 +  call foo
 +  tail foo
-Index: lld/test/ELF/riscv-relax-hi20-lo12.s
-===================================================================
+diff --git lld/test/ELF/riscv-relax-hi20-lo12.s lld/test/ELF/riscv-relax-hi20-lo12.s
+new file mode 100644
 --- /dev/null
 +++ lld/test/ELF/riscv-relax-hi20-lo12.s
 @@ -0,0 +1,51 @@
@@ -992,8 +862,8 @@ Index: lld/test/ELF/riscv-relax-hi20-lo12.s
 +  addi a0, a0, %lo(foo)
 +  lw a0, %lo(foo)(a0)
 +  sw a0, %lo(foo)(a0)
-Index: lld/test/ELF/riscv-relax-pcrel.s
-===================================================================
+diff --git lld/test/ELF/riscv-relax-pcrel.s lld/test/ELF/riscv-relax-pcrel.s
+new file mode 100644
 --- /dev/null
 +++ lld/test/ELF/riscv-relax-pcrel.s
 @@ -0,0 +1,28 @@
@@ -1025,8 +895,8 @@ Index: lld/test/ELF/riscv-relax-pcrel.s
 +  auipc a0, %pcrel_hi(foo)
 +  addi a0, a0, %pcrel_lo(_start)
 +  sw a0, %pcrel_lo(_start)(a0)
-Index: lld/test/ELF/riscv-relax-syms.s
-===================================================================
+diff --git lld/test/ELF/riscv-relax-syms.s lld/test/ELF/riscv-relax-syms.s
+new file mode 100644
 --- /dev/null
 +++ lld/test/ELF/riscv-relax-syms.s
 @@ -0,0 +1,32 @@
@@ -1062,8 +932,8 @@ Index: lld/test/ELF/riscv-relax-syms.s
 +  add a0, a1, a2
 +.size d, . - d
 +.size _start, . - _start
-Index: lld/test/ELF/riscv-reloc-align.s
-===================================================================
+diff --git lld/test/ELF/riscv-reloc-align.s lld/test/ELF/riscv-reloc-align.s
+deleted file mode 100644
 --- lld/test/ELF/riscv-reloc-align.s
 +++ /dev/null
 @@ -1,12 +0,0 @@
@@ -1079,3 +949,4 @@ Index: lld/test/ELF/riscv-reloc-align.s
 -    nop
 -    .balign 8
 -    nop
+

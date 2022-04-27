@@ -25,16 +25,17 @@ SRC_URI="https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles
 # https://github.com/rust-lang/rust at ${RUST_SHA}, using
 # ${FILESDIR}/pack_git_tarball.py with |--post-copy-command 'cargo vendor'|.
 BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
-RUST_SHA="acbe4443cc4c"
+RUST_SHA="7737e0b5c410"
 # See https://github.com/rust-lang/rust/tree/${RUST_SHA}/src/stage0.json
-RUST_STAGE0_DATE="2021-11-30"
+RUST_STAGE0_DATE="2022-02-24"
+RUST_STAGE0_VERSION="1.59.0"
 
 RUST_PREFIX="rust-${RUST_SHA}"
 RUST_SRC_TARBALL_NAME="rustc-${RUST_SHA}-src"
-RUST_CARGO_TARBALL_NAME="cargo-beta-${BOOTSTRAP_HOST_TRIPLE}"
-RUST_STAGE0_TARBALL_NAME="rustc-beta-${BOOTSTRAP_HOST_TRIPLE}"
-RUST_STD_TARBALL_NAME="rust-std-beta-${BOOTSTRAP_HOST_TRIPLE}"
-RUST_RUSTFMT_TARBALL_NAME="rustfmt-beta-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_CARGO_TARBALL_NAME="cargo-${RUST_STAGE0_VERSION}-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_STAGE0_TARBALL_NAME="rustc-${RUST_STAGE0_VERSION}-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_STD_TARBALL_NAME="rust-std-${RUST_STAGE0_VERSION}-${BOOTSTRAP_HOST_TRIPLE}"
+RUST_RUSTFMT_TARBALL_NAME="rustfmt-${RUST_STAGE0_VERSION}-${BOOTSTRAP_HOST_TRIPLE}"
 SRC_URI+="
 	https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${RUST_PREFIX}-${RUST_SRC_TARBALL_NAME}.tar.xz
 	https://static.rust-lang.org/dist/${RUST_STAGE0_DATE}/${RUST_CARGO_TARBALL_NAME}.tar.xz -> ${RUST_PREFIX}-${RUST_CARGO_TARBALL_NAME}.tar.xz
