@@ -16,6 +16,8 @@ IUSE="debug"
 
 RDEPEND=""
 
+PATCHES=( "${FILESDIR}/${PN}-1.2.1-snapshot-algorithm.patch" )
+
 src_compile() {
 	cros_enable_cxx_exceptions
 	use debug && DEBUG_OPT=1
