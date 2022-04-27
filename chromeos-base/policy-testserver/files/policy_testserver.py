@@ -1332,6 +1332,10 @@ class PolicyRequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     if user_affiliation_ids:
       policy_data.user_affiliation_ids.extend(user_affiliation_ids)
 
+    directory_api_id = policy.get('directory_api_id')
+    if directory_api_id:
+      policy_data.directory_api_id = directory_api_id
+
     if msg.policy_type == 'google/chromeos/device':
       # Fill |obfuscated_customer_id| for PolicyData in device policy fetches.
       # Verified Access attestation using the Enterprise Machine Key (EMK)
