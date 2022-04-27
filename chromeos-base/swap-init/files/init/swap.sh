@@ -13,7 +13,6 @@ PER_DEVICE_OVERRIDE_DIR=/var/lib/swap
 
 SWAP_SIZE_BOARD_OVERRIDE_FILE="${PER_BOARD_OVERRIDE_DIR}/swap_size_mb"
 SWAP_ENABLE_FILE="${PER_DEVICE_OVERRIDE_DIR}/swap_enabled"
-DISK_BASED_SWAP_FILE="/proc/sys/vm/disk_based_swap"
 ZRAM_BACKING_DEV="/sys/block/zram0/backing_dev"
 ZRAM_WRITEBACK_NAME="zram-writeback"
 ZRAM_INTEGRITY_NAME="zram-integrity"
@@ -184,37 +183,6 @@ create_write_file() {
   echo "${content}" > "${file}"
 }
 
-disk_based_swap_supported() {
-  # Can be set in the ebuild.
-  local disk_based_swap_enabled=false
-
-  # Return true if kernel supports disk based swap.
-  if [ "${disk_based_swap_enabled}" = "true" ] &&
-     [ -e "${DISK_BASED_SWAP_FILE}" ]; then
-    echo 1 > "${DISK_BASED_SWAP_FILE}"
-  else
-    disk_based_swap_enabled=false
-  fi
-  ${disk_based_swap_enabled}
-}
-
-swap_to_micron() {
-  local micron_swap=false
-
-  # Return true if micron dual namespace is configured.
-  if [ -b "/dev/nvme0n1" ] && [ -b "/dev/nvme0n2" ]; then
-    local dev_dir model
-    dev_dir="/sys/block/nvme0n1"
-    model="$(sed -E 's/[ \t]+$//' "${dev_dir}"/device/model)"
-    if [ "${model}" = "MTFDHBK256TDP" ] || [ "${model}" = "MTFDHBK128TDP" ]; then
-      micron_swap=true
-    fi
-  else
-    micron_swap=false
-  fi
-  ${micron_swap}
-}
-
 # Log an error and exit.
 die() {
   log_error "$*"
@@ -270,47 +238,25 @@ start() {
     size_kb=$(( requested_size_mb * 1024 ))
   fi
 
-  local swap_device=
+  # Load zram module.  Ignore failure (it could be compiled in the kernel).
+  modprobe zram || logger -t "${JOB}" "modprobe zram failed (compiled?)"
 
-  if disk_based_swap_supported && swap_to_micron; then
-    swap_device=/dev/nvme0n1
-  fi
+  logger -t "${JOB}" "setting zram size to ${size_kb} Kb"
+  # Approximate the kilobyte to byte conversion to avoid issues
+  # with 32-bit signed integer overflow.
+  echo "${size_kb}000" >/sys/block/zram0/disksize ||
+  logger -t "${JOB}" "failed to set zram size"
 
-  if [ -z "${swap_device}" ]; then
-    # Load zram module.  Ignore failure (it could be compiled in the kernel).
-    modprobe zram || logger -t "${JOB}" "modprobe zram failed (compiled?)"
-
-    logger -t "${JOB}" "setting zram size to ${size_kb} Kb"
-    # Approximate the kilobyte to byte conversion to avoid issues
-    # with 32-bit signed integer overflow.
-    echo "${size_kb}000" >/sys/block/zram0/disksize ||
-        logger -t "${JOB}" "failed to set zram size"
-
-    mkswap /dev/zram0 || logger -t "${JOB}" "mkswap /dev/zram0 failed"
-    # Swapon may fail because of races with other programs that inspect all
-    # block devices, so try several times.
-    local tries=0
-    while [ ${tries} -le 10 ]; do
-      swapon /dev/zram0 && break
-      : $(( tries += 1 ))
-      logger -t "${JOB}" "swapon /dev/zram0 failed, try ${tries}"
-      sleep 0.1
-    done
-  else
-    local table
-    table="0 $(blockdev --getsz "${swap_device}") crypt aes-xts-plain64 \
-      $(tr -dc 'A-F0-9' < /dev/urandom | fold -w 64 | head -n 1) \
-      0 ${swap_device} 0 2 allow_discards submit_from_crypt_cpus"
-    /sbin/dmsetup create enc-swap --table "${table}" ||
-      die "/sbin/dmsetup create enc-swap failed"
-    mkswap "/dev/mapper/enc-swap" ||
-      die "mkswap /dev/mapper/enc-swap failed"
-    swapon -d "/dev/mapper/enc-swap" ||
-      die "swapon /dev/mapper/enc-swap failed"
-    echo 1 > /sys/module/zswap/parameters/enabled
-    echo z3fold > /sys/module/zswap/parameters/zpool
-    echo 1 > /sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight
-  fi
+  mkswap /dev/zram0 || logger -t "${JOB}" "mkswap /dev/zram0 failed"
+  # Swapon may fail because of races with other programs that inspect all
+  # block devices, so try several times.
+  local tries=0
+  while [ "${tries}" -le 10 ]; do
+    swapon /dev/zram0 && break
+    : $(( tries += 1 ))
+    logger -t "${JOB}" "swapon /dev/zram0 failed, try ${tries}"
+    sleep 0.1
+  done
 
   local swaptotalkb
   swaptotalkb=$(awk '/SwapTotal/ { print $2 }' /proc/meminfo)
@@ -352,11 +298,6 @@ status() {
   if [ -b "/dev/zram0" ]; then
     # Then spam various zram settings.
     local dir="/sys/block/zram0"
-    printf '\ntop-level entries in %s:\n' "${dir}"
-    cd "${dir}"
-    grep -s '^' * || :
-  elif [ -e "/sys/kernel/debug/zswap" ]; then
-    local dir="/sys/kernel/debug/zswap"
     printf '\ntop-level entries in %s:\n' "${dir}"
     cd "${dir}"
     grep -s '^' * || :
