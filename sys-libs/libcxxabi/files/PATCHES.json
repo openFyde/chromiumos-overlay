@@ -54,5 +54,19 @@
             "from": 443104,
             "until": null
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[libunwind][AArch64] Fix _Unwind_ForcedUnwind via sigreturn."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "f326df34bc179e41ea17d31e1ffba4a479e45589.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 460305
+        }
     }
 ]
