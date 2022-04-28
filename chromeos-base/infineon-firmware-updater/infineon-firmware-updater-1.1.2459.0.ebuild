@@ -34,6 +34,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/ignore-error-on-complete-option.patch
 	epatch "${FILESDIR}"/update-type-ownerauth.patch
 	epatch "${FILESDIR}"/openssl-1.1.patch
+	epatch "${FILESDIR}"/wno-error.patch
 }
 
 src_configure() {
