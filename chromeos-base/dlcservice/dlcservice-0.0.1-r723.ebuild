@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f807647708b1863d52d155f297f4b62664eb3bc4"
-CROS_WORKON_TREE=("13ac052b68cb3d3a7c63d4dc220532a8c06c1e84" "50236378225883b3c06e8edae3ff562f166203d4" "92a85aa66c359d0d06f145505cea271915fc838a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b218837a66599412c03947e427aac176695bfc36"
+CROS_WORKON_TREE=("13ac052b68cb3d3a7c63d4dc220532a8c06c1e84" "69c28e640c10eccdacb4fd16272e0b5bf6714cad" "92a85aa66c359d0d06f145505cea271915fc838a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk dlcservice metrics .gn"
 
 PLATFORM_SUBDIR="dlcservice"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="A D-Bus service for Downloadable Content (DLC)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservice/"
@@ -44,12 +44,15 @@ src_install() {
 
 	# Seccomp policy files.
 	insinto /usr/share/policy
-	newins seccomp/dlcservice-seccomp-${ARCH}.policy \
+	newins "seccomp/dlcservice-seccomp-${ARCH}.policy" \
 		dlcservice-seccomp.policy
 
 	# Upstart configuration
 	insinto /etc/init
 	doins dlcservice.conf
+
+	# Tmpfiles.d configuration
+	dotmpfiles tmpfiles.d/*.conf
 
 	# D-Bus configuration
 	insinto /etc/dbus-1/system.d
