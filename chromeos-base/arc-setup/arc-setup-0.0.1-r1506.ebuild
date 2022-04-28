@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f807647708b1863d52d155f297f4b62664eb3bc4"
-CROS_WORKON_TREE=("13ac052b68cb3d3a7c63d4dc220532a8c06c1e84" "52a156049529f71abbfad84bf538e651747170c8" "7081d12fe6c3c27cdcfa9ff9bb6b946a2254e446" "92a85aa66c359d0d06f145505cea271915fc838a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="73b3ae08e0a460ca0b72bd1ee529e38348738d7c"
+CROS_WORKON_TREE=("13ac052b68cb3d3a7c63d4dc220532a8c06c1e84" "0311b5be041e6f9bed2582f859e4e15fd7cb3501" "7081d12fe6c3c27cdcfa9ff9bb6b946a2254e446" "92a85aa66c359d0d06f145505cea271915fc838a" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -139,15 +139,17 @@ src_install() {
 		keepdir /opt/google/containers/arc-art/mountpoints/container-root
 		keepdir /opt/google/containers/arc-art/mountpoints/dev-rootfs
 		keepdir /opt/google/containers/arc-art/mountpoints/vendor
-
-		local fuzzer_component_id="488493"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_fingerprint_and_sdk_version_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_property_util_expand_property_contents_fuzzer \
-			--comp "${fuzzer_component_id}"
 	fi
+
+	local fuzzer_component_id="488493"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/android_binary_xml_tokenizer_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/android_xml_util_find_fingerprint_and_sdk_version_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_setup_util_find_all_properties_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/arc_property_util_expand_property_contents_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
