@@ -17,7 +17,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/platform/cr50"
 )
 CROS_WORKON_EGIT_BRANCH=(
-	"master"
+	"main"
 	"cr50_stab"
 )
 
