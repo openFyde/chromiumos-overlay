@@ -125,7 +125,8 @@ src_compile() {
 }
 
 src_test() {
-	# TODO invoke ecargo_test once we have complete workspace deps satisfied
+	# The hps-firmware ebuild runs all unit tests (including for host tools),
+	# nothing more to do here.
 	:
 }
 

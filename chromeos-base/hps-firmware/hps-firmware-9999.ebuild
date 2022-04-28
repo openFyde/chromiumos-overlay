@@ -96,6 +96,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use Python helper modules from CFU-Playground. These are developed
+	# upstream but are intimately tied to the HPS accelerator code.
+	export PYTHONPATH="third_party/python/CFU-Playground"
+
 	# Use Rust from hps-sdk, since the main Chrome OS Rust compiler
 	# does not yet support RISC-V.
 	export PATH="/opt/hps-sdk/bin:${PATH}"
@@ -157,8 +161,7 @@ src_compile() {
 
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
-	PYTHONPATH="third_party/python/CFU-Playground" \
-		python -m soc.hps_soc --build --no-compile-software || die
+	python -m soc.hps_soc --build --no-compile-software || die
 
 	# Build FPGA application
 	einfo "Building FPGA application"
@@ -205,8 +208,12 @@ src_compile() {
 }
 
 src_test() {
-	# TODO invoke ecargo_test once we have complete workspace deps satisfied
-	:
+	einfo "Running gateware unit tests"
+	python -m unittest -v soc/*.py || die
+
+	einfo "Running Rust tests"
+	cd rust || die
+	RUST_BACKTRACE=1 ecargo_test
 }
 
 src_install() {
