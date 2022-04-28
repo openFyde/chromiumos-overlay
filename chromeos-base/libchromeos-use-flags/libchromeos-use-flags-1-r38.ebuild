@@ -65,7 +65,6 @@ IUSE="
 	houdini_dlc
 	kvm_guest
 	kvm_host
-	kvm_transition
 	lacros
 	legacy_keyboard
 	legacy_power_button
