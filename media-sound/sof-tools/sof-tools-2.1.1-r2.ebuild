@@ -14,12 +14,22 @@ LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
 
+DEPEND="
+	media-libs/alsa-lib
+"
+RDEPEND="${DEPEND}"
+
 S="${WORKDIR}/sof-${PV}/tools"
 
+PATCHES=(
+	"${FILESDIR}"/0001-sof-ctl-Fix-Wformat-Wsometimes-uninitialized.patch
+)
+
 src_compile() {
-	cmake_build sof-logger
+	cmake_build sof-logger sof-ctl
 }
 
 src_install() {
 	dobin "${BUILD_DIR}/logger/sof-logger"
+	dobin "${BUILD_DIR}/ctl/sof-ctl"
 }
