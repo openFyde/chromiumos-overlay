@@ -37,6 +37,8 @@ src_prepare() {
 }
 
 src_configure() {
+	# Disable -Wstrict-prototypes, b/230345382.
+	append-flags -Wno-strict-prototypes
 	tc-export AR CC
 }
 
