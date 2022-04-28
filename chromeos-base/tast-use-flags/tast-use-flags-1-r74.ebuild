@@ -146,6 +146,7 @@ IUSE="
 	video_cards_mediatek
 	video_cards_msm
 	virtio_gpu
+	vkms
 	vulkan
 	watchdog
 	wifi_hostap_test
@@ -165,10 +166,11 @@ src_install() {
 EOF
 
 	# If you need to inspect a new flag, add it to $IUSE at the top of the file.
+	# shellcheck disable=SC2206
 	local flags=( ${IUSE} )
 	local flag
 	for flag in "${flags[@]/#[-+]}" ; do
-		usev ${flag}
+		usev "${flag}"
 	done | sort -u >>"${path}"
 
 	insinto /etc
