@@ -106,7 +106,11 @@ src_prepare() {
 
 src_configure() {
 	local plugins=(
+		-Dplugin_emmc="enabled"
+		-Dplugin_parade_lspcon="enabled"
+		-Dplugin_pixart_rf="enabled"
 		-Dplugin_powerd="enabled"
+		-Dplugin_realtek_mst="enabled"
 		$(meson_feature amt plugin_amt)
 		$(meson_feature dell plugin_dell)
 		$(meson_feature fastboot plugin_fastboot)
@@ -127,6 +131,7 @@ src_configure() {
 
 	local emesonargs=(
 		--localstatedir "${EPREFIX}"/var
+		-Dauto_features="disabled"
 		-Dbuild="$(usex minimal standalone all)"
 		-Dcompat_cli="$(usex agent true false)"
 		-Dcurl="enabled"
