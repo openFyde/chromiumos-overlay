@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="19f88936f3dab27401813ce2ea97818cad8229f6"
-CROS_WORKON_TREE="c88f4e63fd9108ae767921ad9a4301b3b43b776c"
+CROS_WORKON_COMMIT="095939ac49acbe70daa7c2642641187d41baaff5"
+CROS_WORKON_TREE="3da9d690a59e393c2020c27bc3459b0d707ab553"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -127,7 +127,8 @@ src_compile() {
 }
 
 src_test() {
-	# TODO invoke ecargo_test once we have complete workspace deps satisfied
+	# The hps-firmware ebuild runs all unit tests (including for host tools),
+	# nothing more to do here.
 	:
 }
 
