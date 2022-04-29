@@ -10,11 +10,11 @@ HOMEPAGE="http://www.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="diskswap systemd"
+IUSE="systemd"
 
 RDEPEND="
 	sys-apps/util-linux
-	diskswap? ( sys-fs/cryptsetup )
+	sys-fs/cryptsetup
 	"
 
 S=${WORKDIR}
@@ -29,8 +29,4 @@ src_install() {
 	fi
 	exeinto /usr/share/cros/init
 	doexe "${FILESDIR}"/init/swap.sh
-	if use diskswap; then
-		sed -i '/local disk_based_swap_enabled=/s/false/true/' \
-			"${D}/usr/share/cros/init/swap.sh" || die
-	fi
 }
