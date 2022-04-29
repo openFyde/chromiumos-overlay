@@ -215,6 +215,7 @@ perf_make() {
 	MAKEOPTS="${MAKEOPTS} -j1" # crbug.com/1173859
 
 	# FIXME: NO_LIBBABELTRACE
+	# ChromeOS: Disable bpf support (https://crbug.com/1320051).
 	emake V=1 VF=1 \
 		CC="$(tc-getCC)" CXX="$(tc-getCXX)" AR="$(tc-getAR)" LD="$(tc-getLD)" \
 		HOSTCC="$(tc-getBUILD_CC)" \
@@ -233,7 +234,7 @@ perf_make() {
 		NO_LIBAUDIT=$(puse audit) \
 		NO_LIBBABELTRACE=1 \
 		NO_LIBBIONIC=1 \
-		NO_LIBBPF="" \
+		NO_LIBBPF=1 \
 		NO_LIBCRYPTO=$(puse crypt) \
 		NO_LIBDW_DWARF_UNWIND="" \
 		NO_LIBELF="" \
