@@ -44,7 +44,7 @@ src_unpack() {
 
 src_install() {
 	cp "${SYSROOT}${CHROME_DIR}/libassistant.so" "${T}/"
-	into "$(dlc_add_path ${CHROME_DIR})"
-	dolib.so "${T}/libassistant.so"
+	exeinto "$(dlc_add_path ${CHROME_DIR})"
+	doexe "${T}/libassistant.so"
 	dlc_src_install
 }
