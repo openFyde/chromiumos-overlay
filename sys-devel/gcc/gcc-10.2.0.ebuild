@@ -36,7 +36,7 @@ BDEPEND="${CATEGORY}/binutils"
 
 RESTRICT="strip"
 
-IUSE="cet gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm-next llvm-tot mounted_gcc multilib
+IUSE="cet gcc_repo gcj git_gcc go graphite gtk hardened hardfp mounted_gcc multilib
 	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache"
 
 is_crosscompile() { [[ ${CHOST} != "${CTARGET}" ]] ; }
@@ -359,11 +359,8 @@ EOF
 
 	cd "${D}${BINPATH}" || die
 
+	# For wrapper build argument only, not actually used in gcc wrappers.
 	local use_llvm_next=false
-	if use llvm-next || use llvm-tot
-	then
-		use_llvm_next=true
-	fi
 
 	if is_crosscompile ; then
 		local sysroot_wrapper_file_prefix
@@ -391,7 +388,7 @@ EOF
 			local ccache_suffix="${ccache_suffixes[${ccache_index}]}"
 			local ccache_option="${ccache_option_values[${ccache_index}]}"
 			# Build new golang wrapper
-			"${FILESDIR}/compiler_wrapper/build.py" --config="${sysroot_wrapper_config}" \
+			GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config="${sysroot_wrapper_config}" \
 				--use_ccache="${ccache_option}" \
 				--use_llvm_next="${use_llvm_next}" \
 				--output_file="${D}${BINPATH}/${sysroot_wrapper_file_prefix}.${ccache_suffix}" || die
@@ -418,7 +415,7 @@ EOF
 
 		exeinto "${BINPATH}"
 
-		"${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
+		GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
 			--use_llvm_next="${use_llvm_next}" \
 			--output_file="${D}${BINPATH}/${sysroot_wrapper_file}" || die
 
