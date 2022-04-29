@@ -20,7 +20,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm_mana
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cr50_onboard pinweaver_csme test tpm tpm_dynamic tpm2 fuzzer"
+IUSE="cr50_onboard pinweaver_csme test tpm tpm_dynamic tpm_insecure_fallback
+	tpm2 fuzzer os_install_service
+"
 
 REQUIRED_USE="
 	?? ( cr50_onboard pinweaver_csme )
