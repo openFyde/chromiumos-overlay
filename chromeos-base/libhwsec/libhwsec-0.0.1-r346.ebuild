@@ -1,0 +1,48 @@
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+EAPI=7
+
+CROS_WORKON_COMMIT="4f9060441f02dfbecb35273171d65347375c6e68"
+CROS_WORKON_TREE=("3dc4a52c74da4480e5dd22c14e92f8418b347340" "6cd399f3b033304f1c10ec3532b8278883120210" "30cd55a3a55c284f9f2318e3195f4619717a3b0c" "39f1ae3a61f3f8a38b1643536dfb0be5e6c83e2a" "54a82795ad8487a5855a632e5cd94d3d38236927" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation tpm_manager trunks .gn"
+
+PLATFORM_SUBDIR="libhwsec"
+
+inherit cros-workon platform
+
+DESCRIPTION="Crypto and utility functions used in TPM related daemons."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libhwsec/"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="test fuzzer tpm tpm2 tpm_dynamic"
+
+COMMON_DEPEND="
+	chromeos-base/libhwsec-foundation
+	chromeos-base/tpm_manager-client
+	dev-libs/openssl:0=
+	tpm2? ( chromeos-base/trunks:=[test?] )
+	tpm? ( app-crypt/trousers:= )
+	fuzzer? (
+		app-crypt/trousers:=
+		chromeos-base/trunks:=
+	)
+"
+
+RDEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}"
+
+src_install() {
+	platform_install
+}
+
+
+platform_pkg_test() {
+	platform test_all
+}
