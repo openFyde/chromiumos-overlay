@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="19f88936f3dab27401813ce2ea97818cad8229f6"
-CROS_WORKON_TREE="c88f4e63fd9108ae767921ad9a4301b3b43b776c"
+CROS_WORKON_COMMIT="095939ac49acbe70daa7c2642641187d41baaff5"
+CROS_WORKON_TREE="3da9d690a59e393c2020c27bc3459b0d707ab553"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -98,6 +98,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use Python helper modules from CFU-Playground. These are developed
+	# upstream but are intimately tied to the HPS accelerator code.
+	export PYTHONPATH="third_party/python/CFU-Playground"
+
 	# Use Rust from hps-sdk, since the main Chrome OS Rust compiler
 	# does not yet support RISC-V.
 	export PATH="/opt/hps-sdk/bin:${PATH}"
@@ -159,8 +163,7 @@ src_compile() {
 
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
-	PYTHONPATH="third_party/python/CFU-Playground" \
-		python -m soc.hps_soc --build --no-compile-software || die
+	python -m soc.hps_soc --build --no-compile-software || die
 
 	# Build FPGA application
 	einfo "Building FPGA application"
@@ -207,8 +210,12 @@ src_compile() {
 }
 
 src_test() {
-	# TODO invoke ecargo_test once we have complete workspace deps satisfied
-	:
+	einfo "Running gateware unit tests"
+	python -m unittest -v soc/*.py || die
+
+	einfo "Running Rust tests"
+	cd rust || die
+	RUST_BACKTRACE=1 ecargo_test
 }
 
 src_install() {
