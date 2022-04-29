@@ -68,6 +68,7 @@ IUSE="
 	legacy_power_button
 	ml_service
 	moblab
+	mojo_service_manager
 	native_gpu_memory_buffers
 	natural_scroll_default
 	ndk_translation
