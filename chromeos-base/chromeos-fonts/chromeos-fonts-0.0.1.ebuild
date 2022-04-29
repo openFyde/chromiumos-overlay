@@ -44,7 +44,10 @@ DEPEND="
 	media-libs/fontconfig:=
 	!cros_host? ( sys-libs/gcc-libs:= )
 	cros_host? ( sys-libs/glibc:= )
-	extra_japanese_fonts? ( media-fonts/morisawa-ud-fonts )
+	extra_japanese_fonts? (
+		media-fonts/ipaex
+		media-fonts/morisawa-ud-fonts
+	)
 	"
 RDEPEND="${DEPEND}"
 
