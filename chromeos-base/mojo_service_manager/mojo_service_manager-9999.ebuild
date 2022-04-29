@@ -6,8 +6,7 @@ EAPI="7"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-PACKAGE_SUBDIR="mojo_service_manager/BUILD.gn mojo_service_manager/daemon mojo_service_manager/lib"
-CROS_WORKON_SUBTREE="common-mk ${PACKAGE_SUBDIR} .gn"
+CROS_WORKON_SUBTREE="common-mk mojo_service_manager .gn"
 PLATFORM_SUBDIR="mojo_service_manager"
 
 inherit cros-workon platform user
