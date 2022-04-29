@@ -11,7 +11,7 @@ ZRAM_WRITEBACK_DEV_ENC="/dev/mapper/${ZRAM_WRITEBACK_NAME}"
 ZRAM_WRITEBACK_INTEGRITY_MOUNT="/run/zram-integrity"
 ZRAM_INTEGRITY_DEV="/dev/mapper/${ZRAM_INTEGRITY_NAME}"
 STATEFUL_PARTITION_DIR="/mnt/stateful_partition/unencrypted/userspace_swap.tmp"
-MB=$(( 1 << 20 ))
+MB=1048576
 
 # Never allow swapping to disk when the overall free diskspace is less
 # than 15% of the overall capacity.
@@ -30,33 +30,10 @@ MAX_ZRAM_WRITEBACK_SIZE_MB=6144
 MIN_ZRAM_WRITEBACK_SIZE_MB=128
 
 MARGIN_SPECIAL_FILE="/sys/kernel/mm/chromeos-low_mem/margin"
-margin_default_generator() {
-  default_low_memory_margin "$(get_mem_total)"  # MiB
-}
-
 MIN_FILELIST_SPECIAL_FILE="/proc/sys/vm/min_filelist_kbytes"
-min_filelist_default_generator() {
-  # Check if ARC++ is running.  But don't check if it's not installed.
-  if grep -q CHROMEOS_ARC_VERSION /etc/lsb-release && \
-      [ "$(initctl status arcpp-post-login-services)" = \
-           "arcpp-post-login-services start/running" ]; then
-    echo 400000  # KiB
-  else
-    echo 100000  # KiB
-  fi
-}
-
+MIN_FILELSIT_DEFAULT_VALUE_KB=100000
 EXTRA_FREE_SPECIAL_FILE="/proc/sys/vm/extra_free_kbytes"
-extra_free_default_generator() {
-  echo 0
-}
-
 RAM_VS_SWAP_WEIGHT_SPECIAL_FILE="/sys/kernel/mm/chromeos-low_mem/ram_vs_swap_weight"
-ram_vs_swap_weight_default_generator() {
-  # Historically we've found that zram compresses approximately at this ratio
-  # which is why this is the current default.
-  echo 4
-}
 
 HIST_MIN=100
 HIST_MAX=10000
@@ -65,11 +42,6 @@ HIST_ARGS="${HIST_MIN} ${HIST_MAX} ${HIST_BUCKETS}"
 # Upstart sets JOB, but we're not always called by upstart,
 # so set it here too.
 JOB="swap"
-
-# Takes a string S and returns the value of ${S}.
-expand_var() {
-  eval echo "\"\$$1\""
-}
 
 get_mem_total() {
   # Extract second field of MemTotal entry in /proc/meminfo.
@@ -95,35 +67,6 @@ default_low_memory_margin() {
   moderate_margin=$(( $1 / 1024 * MODERATE_MARGIN_BIPS / 10000 ))  # MiB
   echo "${critical_margin} ${moderate_margin}"
 }
-
-
-# Gets the target value of a kernel memory manager parameter, whose name is
-# passed in $1.
-get_target_value() {
-  local PARAM="$(echo "$1" | tr '[a-z]' '[A-Z]')"
-  local value
-  local default_generator="$1"_default_generator
-
-  value=$(${default_generator})
-  echo "${value}"
-}
-
-
-# Sets the kernel value of a memory manager parameter, whose name is passed in
-# $1, via a procfs or sysfs entry.
-initialize_parameter() {
-  local value="$(get_target_value "$1")"
-  local PARAM="$(echo "$1" | tr '[:lower:]' '[:upper:]')"
-  local special_file="$(expand_var "${PARAM}_SPECIAL_FILE")"
-
-  # Older kernels don't support all parameters.
-  if [ ! -e "${special_file}" ]; then
-    return 0
-  fi
-
-  echo "${value}" > "${special_file}"
-}
-
 
 create_write_file() {
   file="$1"
@@ -157,12 +100,13 @@ log_error() {
 }
 
 start() {
-  local mem_total param
+  local mem_total low_mem_margin
   mem_total=$(get_mem_total)
 
-  for param in margin min_filelist extra_free; do
-    initialize_parameter "${param}"
-  done
+  # Initialize the MM tunables
+  low_mem_margin=$(default_low_memory_margin "${mem_total}")  # MiB
+  echo "${low_mem_margin}" > "${MARGIN_SPECIAL_FILE}"
+  echo "${MIN_FILELSIT_DEFAULT_VALUE_KB}" > "${MIN_FILELIST_SPECIAL_FILE}"
 
   # Allocate zram (compressed ram disk) for swap.
   # SWAP_ENABLE_FILE contains the zram size in MB.
@@ -475,7 +419,6 @@ Usage: $0  command <params>
            status
            enable <size>
            disable
-           get_target_value <margin|min_filelist|extra_free|ram_vs_swap_weight>
            enable_zram_writeback <size_mb>
 
 Start or stop the use of the compressed swap file and get memory manager
@@ -509,7 +452,7 @@ main() {
       usage 1
     fi
     ;;
-  enable|get_target_value|enable_zram_writeback)
+  enable|enable_zram_writeback)
     if [ $# -ne 1 ]; then
       usage 1
     fi
