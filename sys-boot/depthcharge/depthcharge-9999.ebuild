@@ -108,10 +108,12 @@ dc_make() {
 #   $1: board to build for.
 #   $2: build directory
 #   $3: libpayload dir
+#   $4: recovery input method
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
 	local libpayload="$3"
+	local recovery_input="$4"
 	local base_defconfig="board/${board}/defconfig"
 	local defconfig="${T}/${board}-defconfig"
 	local config="${builddir}/depthcharge.config"
@@ -136,8 +138,17 @@ make_depthcharge() {
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
 
-	if use physical_presence_power || use physical_presence_recovery ; then
-		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
+	if [[ -n "${recovery_input}" ]] ; then
+		einfo "Using cros_config_host to configure recovery"
+		if [[ "${recovery_input}" != "KEYBOARD" ]] ; then
+			echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
+		fi
+	else
+		# TODO(b/229906790) Remove this once USE flag support not longer needed
+		einfo "Recovery input method not found in config. Reverting to deprecated use flags"
+		if use physical_presence_power || use physical_presence_recovery ; then
+			echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
+		fi
 	fi
 
 	dc_make defconfig "${builddir}" "${libpayload}" \
@@ -184,7 +195,10 @@ src_compile() {
 		mkdir -p "${builddir}"
 
 		_copy_fwconfig "${libpayload}" "${builddir}"
-		make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}"
+
+		recovery_input="$(cros_config_host get-firmware-recovery-input depthcharge "${depthcharge}")"
+
+		make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}" "${recovery_input}"
 	done < <(cros_config_host get-firmware-build-combinations depthcharge)
 
 	popd >/dev/null || die

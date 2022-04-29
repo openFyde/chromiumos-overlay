@@ -72,12 +72,26 @@ compile_bmpblk() {
 		export DETACHABLE=1
 	fi
 
-	if use physical_presence_power ; then
-		export PHYSICAL_PRESENCE="power"
-	elif use physical_presence_recovery ; then
-		export PHYSICAL_PRESENCE="recovery"
+	recovery_input="$(cros_config_host get-firmware-recovery-input bmpblk "${build_target}")"
+	if [[ -n "${recovery_input}" ]] ; then
+		einfo "Using cros_config_host to configure recovery"
+		if [[ "${recovery_input}" == "POWER_BUTTON" ]] ; then
+			export PHYSICAL_PRESENCE="power"
+		elif [[ "${recovery_input}" == "RECOVERY_BUTTON" ]] ; then
+			export PHYSICAL_PRESENCE="recovery"
+		else
+			export PHYSICAL_PRESENCE="keyboard"
+		fi
 	else
-		export PHYSICAL_PRESENCE="keyboard"
+		# TODO(b/229906790) Remove this once USE flag support not longer needed
+		einfo "Recovery input method not found in config. Reverting to deprecated use flags"
+		if use physical_presence_power ; then
+			export PHYSICAL_PRESENCE="power"
+		elif use physical_presence_recovery ; then
+			export PHYSICAL_PRESENCE="recovery"
+		else
+			export PHYSICAL_PRESENCE="keyboard"
+		fi
 	fi
 
 	emake OUTPUT="${WORKDIR}" BOARD="${build_target}" || \
