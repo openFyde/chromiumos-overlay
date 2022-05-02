@@ -439,16 +439,14 @@ cros-rust_configure_cargo() {
 		"-Zallow-features=sanitizer,backtrace"
 	)
 
-	if use lto
-	then
-		rustflags+=( -Clto=thin -Cllvm-args=--import-instr-limit=30 )
-		# rustc versions >= 1.45 support -Cembed-bitcode, which Cargo sets to
-		# no because it does not know that we want to use LTO.
-		# Because -Clto requires -Cembed-bitcode=yes, set it explicitly.
-		if [[ $(rustc --version | awk '{ gsub(/\./, ""); print $2 }') -ge 1450 ]]
-		then
-			rustflags+=( -Cembed-bitcode=yes )
-		fi
+	if use lto; then
+		rustflags+=(
+			"-Clto=thin"
+			"-Cllvm-args=--import-instr-limit=30"
+			# Cargo sets -Cembed-bitcode to no because it does not know that we want to
+			# use LTO. Because -Clto requires -Cembed-bitcode=yes, set it explicitly.
+			"-Cembed-bitcode=yes"
+		)
 	fi
 
 	# Set the panic=abort flag if it is turned on for the package.
