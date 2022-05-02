@@ -1,1 +1,0 @@
-syzkaller-0.0.12.ebuild

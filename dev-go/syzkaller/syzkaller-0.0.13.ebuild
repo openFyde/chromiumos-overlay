@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/google/syzkaller 8ee2dea687224e1e5759783abf5046d298bbe167"
+CROS_GO_SOURCE="github.com/google/syzkaller 2df221f6ab480a3f2d315d283f26cfae890da3a1"
 
 CROS_GO_PACKAGES=(
 	"github.com/google/syzkaller"
@@ -33,6 +33,7 @@ src_prepare() {
 
 src_compile() {
 	cd "${SYZKALLER_PATH}" || die "unable to cd to extracted syzkaller directory"
+	# shellcheck disable=SC2154
 	CFLAGS="" GO111MODULE=off GOPATH="${GOPATH}:${S}" emake TARGETOS=linux TARGETARCH="${ARCH}" || die "syzkaller build failed"
 }
 
