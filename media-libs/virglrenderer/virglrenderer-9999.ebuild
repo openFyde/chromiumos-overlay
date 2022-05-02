@@ -17,7 +17,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug fuzzer profiling test vulkan"
+IUSE="debug fuzzer profiling test virtgpu_native_context vulkan"
 
 RDEPEND="
 	chromeos-base/percetto
@@ -60,6 +60,7 @@ src_configure() {
 	emesonargs+=(
 		-Dtracing=percetto
 		-Dminigbm_allocation="true"
+		-Ddrm-msm-experimental=$(usex virtgpu_native_context true false)
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
 		--buildtype $(usex debug debug release)
