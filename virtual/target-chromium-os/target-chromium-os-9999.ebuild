@@ -201,6 +201,7 @@ RDEPEND="
 	dlc? (
 		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
+		chromeos-languagepacks/tts-es-us
 	)
 	bluetooth? ( net-wireless/bluez )
 	floss? (
