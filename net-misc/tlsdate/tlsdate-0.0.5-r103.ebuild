@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="87f033588885e445abedd3c4ab23afd0e7259aed"
-CROS_WORKON_TREE="d784ce701ffa503ff271be76df00f7dacbba3a1b"
+CROS_WORKON_COMMIT="03a9e397c0fefa300926e79a4a3d5ea66045cf44"
+CROS_WORKON_TREE="71e46d971b291dbed7612bd3fc12bdfbb1611559"
 CROS_WORKON_PROJECT="chromiumos/third_party/tlsdate"
 CROS_WORKON_EGIT_BRANCH=master
 
