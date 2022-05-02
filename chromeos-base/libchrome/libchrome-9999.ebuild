@@ -163,6 +163,7 @@ src_install() {
 		base/test/bind.h \
 		base/test/mock_callback.h \
 		base/test/scoped_chromeos_version_info.h \
+		base/test/scoped_feature_list.h \
 		base/test/scoped_running_on_chromeos.h \
 		base/test/scoped_run_loop_timeout.h \
 		base/test/simple_test_clock.h \
