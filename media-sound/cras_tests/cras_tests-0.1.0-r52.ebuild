@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="8a2e315e1916ce8d98a248d3bb68b0305031614e"
-CROS_WORKON_TREE=("2769ea5e3b804ea6a0e7f6d55ac659c3c624abc5" "6a314a414ab66eb8eb2ad8541cbfff9266bb283e")
+CROS_WORKON_COMMIT="b260914ae075371b3dab47e68df7e0f62f30aa7b"
+CROS_WORKON_TREE=("49dc773d3a596f59ed754981378fa25c0a977f1b" "6a314a414ab66eb8eb2ad8541cbfff9266bb283e")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
 CROS_WORKON_LOCALNAME="adhd"
@@ -24,8 +24,8 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
+	>=dev-rust/clap-3.1.12:= <dev-rust/clap-4.0
 	=dev-rust/dbus-0.9*:=
-	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	dev-rust/hound:=
 	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
