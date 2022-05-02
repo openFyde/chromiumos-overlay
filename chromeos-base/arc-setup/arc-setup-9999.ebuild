@@ -24,7 +24,6 @@ IUSE="
 	arc_hw_oemcrypto
 	arcpp
 	arcvm
-	esdfs
 	fuzzer
 	houdini
 	houdini64
@@ -35,9 +34,7 @@ IUSE="
 REQUIRED_USE="|| ( arcpp arcvm )"
 
 COMMON_DEPEND="
-	arcpp? (
-		esdfs? ( chromeos-base/arc-sdcard )
-	)
+	arcpp? ( chromeos-base/arc-sdcard )
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
@@ -56,7 +53,7 @@ RDEPEND="${COMMON_DEPEND}
 	arcvm? ( chromeos-base/crosvm )
 	arcpp? (
 		chromeos-base/swap-init
-		esdfs? ( sys-apps/restorecon )
+		sys-apps/restorecon
 	)
 "
 
@@ -64,13 +61,6 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 	test? ( chromeos-base/arc-base )
 "
-
-
-enable_esdfs() {
-	[[ -f "$1" ]] || die
-	local data=$(jq ".USE_ESDFS=true" "$1")
-	echo "${data}" > "$1" || die
-}
 
 
 src_install() {
@@ -112,20 +102,14 @@ src_install() {
 		doins init/arc-lifetime.conf
 		doins init/arc-update-restorecon-last.conf
 		doins init/arcpp-post-login-services.conf
-		if use esdfs; then
-			doins init/arc-sdcard.conf
-			doins init/arc-sdcard-mount.conf
-		fi
+		doins init/arc-sdcard.conf
+		doins init/arc-sdcard-mount.conf
 		doins init/arc-system-mount.conf
 		insinto /etc/dbus-1/system.d
 		doins init/dbus-1/ArcSetupUpstart.conf
 
 		insinto /usr/share/arc-setup
 		doins init/arc-setup/config.json
-
-		if use esdfs; then
-			enable_esdfs "${D}/usr/share/arc-setup/config.json"
-		fi
 
 		insinto /opt/google/containers/arc-art
 		doins "${OUT}/dev-rootfs.squashfs"

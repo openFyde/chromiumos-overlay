@@ -18,14 +18,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/cont
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="esdfs"
 
 # CONTAINER_DIR must be kept consistent with installation configuration in
 # ${PLATFORM_SUBDIR}/BUILD.gn.
 CONTAINER_DIR="/opt/google/containers/arc-sdcard"
 
-RDEPEND="!esdfs? ( chromeos-base/arc-setup )"
-DEPEND="${DEPEND}"
+RDEPEND=""
 
 src_install() {
 	platform_install
