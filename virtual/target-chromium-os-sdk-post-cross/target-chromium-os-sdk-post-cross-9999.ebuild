@@ -23,23 +23,11 @@ IUSE=""
 # here that need the cross-compiler toolchains installed first.
 RDEPEND="
 	dev-lang/rust
-	dev-rust/bindgen
-	dev-rust/cbindgen
-	dev-rust/dbus-codegen
-	dev-rust/protobuf-codegen
-	dev-util/cxxbridge-cmd
-	sys-apps/ripgrep
 	dev-embedded/coreboot-sdk
 	dev-embedded/ti50-sdk
-	chromeos-base/sirenia-tools
 "
 
 # Needed for hps-firmware.
-#
-# sci-electronics/nextpnr depends on sci-electronics/prjoxide which pulls in
-# dev-rust packages.
 RDEPEND="${RDEPEND}
 	dev-embedded/hps-sdk
-	dev-rust/svd2rust
-	sci-electronics/nextpnr
 "
