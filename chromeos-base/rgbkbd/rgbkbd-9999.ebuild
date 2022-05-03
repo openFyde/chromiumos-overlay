@@ -11,7 +11,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 
 PLATFORM_SUBDIR="rgbkbd"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="A daemon for controlling an RGB backlit keyboard."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/rgbkbd/"
@@ -36,6 +36,9 @@ pkg_preinst() {
 
 src_install() {
 	platform_install
+
+	# Create tmpfiles for testing.
+	dotmpfiles tmpfiles.d/rgbkbd.conf
 }
 
 platform_pkg_test() {
