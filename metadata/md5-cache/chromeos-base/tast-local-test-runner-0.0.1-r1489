@@ -1,13 +1,14 @@
 BDEPEND=dev-vcs/git
-DEFINED_PHASES=compile info install postinst setup test unpack
-DEPEND=dev-go/protobuf-legacy-api dev-go/text dev-lang/go
-DESCRIPTION=Provides go bindings to proto APIs for tast
+DEFINED_PHASES=compile info install postinst prepare setup test unpack
+DEPEND=chromeos-base/tast-build-deps:= dev-lang/go
+DESCRIPTION=Runner for local integration tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast/
-IUSE=cros_host cros_workon_tree_923c191d3d0955f482ecc4b9efe9c93867d0271b
+IUSE=cros_host cros_workon_tree_fd9746674ce6ec73cb2d170b70eb09b8a8c2b8e3
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
+RDEPEND=app-arch/tar !chromeos-base/tast-common
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-go	a78906457a303b16ac2583caab6eff8a	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=6883505761af33d432d42a6992ef85a7
+_md5_=4b9e716c4942bebdde3c9017dd8bac1c
