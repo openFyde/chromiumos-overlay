@@ -59,6 +59,7 @@ KEYWORDS="~*"
 #  - Bluetooth user + group are added in bluez's postinst
 #
 DEPEND="
+	chromeos-base/system_api
 	dev-libs/flatbuffers:=
 	dev-libs/modp_b64:=
 	dev-libs/tinyxml2:=
@@ -159,6 +160,9 @@ floss_build_rust() {
 
 	# Export the source path for bindgen
 	export CXX_ROOT_PATH="${S}"
+
+	# System API location for proto files
+	export CROS_SYSTEM_API_ROOT="${SYSROOT}/usr/include/chromeos"
 
 	cros-rust_src_compile
 }
