@@ -32,6 +32,7 @@ IUSE_TESTS="
 	+tests_power_Backlight
 	+tests_power_BacklightSuspend
 	+tests_power_BatteryCharge
+	shill? ( +tests_power_CellularIdle )
 	+tests_power_CheckAC
 	+tests_power_CheckAfterSuspend
 	+tests_power_CPUFreq
