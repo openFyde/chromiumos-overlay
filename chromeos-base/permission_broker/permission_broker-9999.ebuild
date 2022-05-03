@@ -35,6 +35,8 @@ DEPEND="${COMMMON_DEPEND}
 "
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/permission_broker
 
 	# Install upstart configuration
