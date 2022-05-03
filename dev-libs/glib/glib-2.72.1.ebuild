@@ -72,7 +72,6 @@ MULTILIB_CHOST_TOOLS=(
 PATCHES=(
 	"${FILESDIR}"/${PN}-2.64.1-mark-gdbus-server-auth-test-flaky.patch
 	"${FILESDIR}/glib-2.66.7-CHROMIUM-gdbus-system-bus-address.patch"
-	"${FILESDIR}"/${PN}-2.68.3-glibc-2.34-close_range.patch
 )
 
 pkg_setup() {
@@ -166,7 +165,6 @@ multilib_src_configure() {
 		$(meson_feature selinux)
 		$(meson_use xattr)
 		-Dlibmount=enabled # only used if host_system == 'linux'
-		-Dinternal_pcre=false
 		-Dman=$(multilib_native_usex doc true false)
 		$(meson_use systemtap dtrace)
 		$(meson_use systemtap)
