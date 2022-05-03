@@ -16,6 +16,9 @@ IUSE=""
 S=${WORKDIR}
 
 src_compile() {
+	# We normally want FLAGS variables quoted, but when running the compiler
+	# directly here, we want to let them expand.
+	# shellcheck disable=SC2086
 	$(tc-getCC) \
 		-Wall -Wextra -Werror \
 		${CFLAGS} \
