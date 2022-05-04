@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="449229a4ea442ad787210adb9e33a551bf0b721c"
-CROS_WORKON_TREE="236482b6860489c83e10afb39ba9aa78efe3f47b"
+CROS_WORKON_COMMIT="05bd7a2f3fe13c60e3f5d3e4e2ec5fdced1c735b"
+CROS_WORKON_TREE="ea8e60fff561fcf50ba5f6200e17b445642cf793"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -50,6 +50,10 @@ pkg_preinst() {
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)"/ippusb_bridge
+
+	# install tmpfiles.d
+	insinto /usr/lib/tmpfiles.d/on-demand/
+	newins "tmpfiles.d/on-demand/ippusb-bridge.conf" "ippusb-bridge.conf"
 
 	# Install policy files.
 	insinto /usr/share/policy
