@@ -20,10 +20,6 @@ DEPEND=">=media-libs/gmmlib-22.0.1
 "
 RDEPEND="${DEPEND}"
 
-PATCHES=(
-        "${FILESDIR}"/0001-Disable-IPC-usage.patch
-)
-
 src_configure() {
 	local mycmakeargs=(
 		-DMEDIA_RUN_TEST_SUITE=OFF
