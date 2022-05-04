@@ -28,7 +28,6 @@ DEPEND="
 	>=dev-rust/roxmltree-0.13.0:= <dev-rust/roxmltree-0.14
 	>=dev-rust/stderrlog-0.4:= <dev-rust/stderrlog-0.6
 	=dev-rust/structopt-0.3*:=
-	>=dev-rust/thread-id-3.3.0:= <dev-rust/thread-id-4.0
 	>=dev-rust/timeout-readwrite-0.3.1:= <dev-rust/timeout-readwrite-0.4
 	=dev-rust/serde-tuple-vec-map-1.0*:=
 	=dev-rust/toml-0.5*:=
