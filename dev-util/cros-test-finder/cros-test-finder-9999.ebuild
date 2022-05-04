@@ -32,6 +32,7 @@ CROS_GO_VET=(
 DEPEND="
 	chromeos-base/tast-cmd:=
 	chromeos-base/tast-proto
+	dev-util/cros-test
 	dev-util/lro-server
 "
 RDEPEND="${DEPEND}"

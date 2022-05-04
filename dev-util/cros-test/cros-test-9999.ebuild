@@ -21,6 +21,11 @@ CROS_GO_BINARIES=(
 	"chromiumos/test/execution/cmd/cros-test"
 )
 
+CROS_GO_PACKAGES=(
+	"chromiumos/test/execution/errors/..."
+	"chromiumos/test/util/..."
+)
+
 CROS_GO_TEST=(
 	"chromiumos/test/execution/cmd/cros-test/..."
 )
@@ -32,6 +37,9 @@ CROS_GO_VET=(
 DEPEND="
 	chromeos-base/tast-cmd:=
 	chromeos-base/tast-proto
+	dev-go/cmp
+	dev-go/grpc
+	dev-go/protobuf-legacy-api
 	dev-util/lro-server
 "
 RDEPEND="${DEPEND}"
