@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4cd305ea8894d6622bf6449ef9204c501c40f331"
+CROS_WORKON_COMMIT="bc003efad043cf242f6b378a4dc7153ce6592db2"
 CROS_WORKON_TREE=("8862066a1f139e245f2b384a6818b5365f0790f3" "e55781cd73929ed486f16fa1f72061557d6c1b36" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,8 @@ DEPEND="${COMMMON_DEPEND}
 "
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/permission_broker
 
 	# Install upstart configuration
