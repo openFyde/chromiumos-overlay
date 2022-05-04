@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("7d2398fb47c0b95bfba28165c554f1466aba7adb" "8cf363d9d8716b7eaf700d11bb526c97cdd9bda6")
+CROS_WORKON_COMMIT=("bc95f14837eb21f56d30dc6fae9d58c13139c7a2" "8cf363d9d8716b7eaf700d11bb526c97cdd9bda6")
 CROS_WORKON_TREE=("8862066a1f139e245f2b384a6818b5365f0790f3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "77fb85ff66e41015561e459836ed438dbb52f79d")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -165,6 +165,7 @@ src_install() {
 		base/test/bind.h \
 		base/test/mock_callback.h \
 		base/test/scoped_chromeos_version_info.h \
+		base/test/scoped_feature_list.h \
 		base/test/scoped_running_on_chromeos.h \
 		base/test/scoped_run_loop_timeout.h \
 		base/test/simple_test_clock.h \
