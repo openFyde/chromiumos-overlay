@@ -110,6 +110,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/winapi:=
 	>=dev-rust/windows-0.10.0:= <dev-rust/windows-0.11
+	dev-rust/wmi:=
 	media-sound/libcras:=
 	tpm2? (
 		chromeos-base/tpm2:=
@@ -125,9 +126,9 @@ DEPEND="${COMMON_DEPEND}
 get_seccomp_path() {
 	local seccomp_arch="unknown"
 	case ${ARCH} in
-		amd64) seccomp_arch=x86_64;;
-		arm) seccomp_arch=arm;;
-		arm64) seccomp_arch=aarch64;;
+	amd64) seccomp_arch=x86_64 ;;
+	arm) seccomp_arch=arm ;;
+	arm64) seccomp_arch=aarch64 ;;
 	esac
 
 	echo "seccomp/${seccomp_arch}"
@@ -191,15 +192,15 @@ src_compile() {
 	for pkg in "${packages[@]}"; do
 		ecargo_build -v \
 			--features="${features[*]}" \
-			-p "${pkg}" \
-			|| die "cargo build failed"
+			-p "${pkg}" ||
+			die "cargo build failed"
 	done
 
-	if use crosvm-direct ; then
+	if use crosvm-direct; then
 		ecargo_build -v \
 			--no-default-features --features="direct" \
-			-p "crosvm" --bin crosvm-direct \
-			|| die "cargo build failed"
+			-p "crosvm" --bin crosvm-direct ||
+			die "cargo build failed"
 	fi
 
 	if use fuzzer; then
@@ -217,11 +218,11 @@ src_test() {
 		# TODO(b/211023371): Re-enable libvda tests.
 		--exclude libvda
 	)
-	use tpm2 || test_opts+=( --exclude tpm2 --exclude tpm2-sys )
+	use tpm2 || test_opts+=(--exclude tpm2 --exclude tpm2-sys)
 
 	# io_jail tests fork the process, which cause memory leak errors when
 	# run under sanitizers.
-	cros-rust_use_sanitizers && test_opts+=( --exclude io_jail )
+	cros-rust_use_sanitizers && test_opts+=(--exclude io_jail)
 
 	# Pass kernel/rootfs prebuilts to integration tests.
 	# See crosvm/integration_tests/README.md for details.
@@ -242,20 +243,20 @@ src_test() {
 	# integration test on these platforms.  See b/189879899
 	local cut_version=$(ver_cut 1-2 "$(uname -r)")
 	if ver_test 5.10 -gt "${cut_version}"; then
-		test_opts+=( --exclude "io_uring" )
+		test_opts+=(--exclude "io_uring")
 	fi
 
 	if ! use x86 && ! use amd64; then
-		test_opts+=( --exclude "x86_64" )
-		test_opts+=( --no-run )
+		test_opts+=(--exclude "x86_64")
+		test_opts+=(--no-run)
 	fi
 
 	if ! use arm64; then
-		test_opts+=( --exclude "aarch64" )
+		test_opts+=(--exclude "aarch64")
 	fi
 
 	if ! use crosvm-plugin; then
-		test_opts+=( --exclude "crosvm_plugin" )
+		test_opts+=(--exclude "crosvm_plugin")
 	fi
 
 	# Excluding tests that run on a different arch, use /dev/kvm, /dev/dri,
@@ -298,14 +299,14 @@ src_test() {
 
 	ecargo_test "${args[@]}" \
 		-- --test-threads=1 \
-		"${skip_tests[@]}" \
-		|| die "cargo test failed"
+		"${skip_tests[@]}" ||
+		die "cargo test failed"
 
 	# Plugin tests all require /dev/kvm, but we want to make sure they build
 	# at least.
 	if use crosvm-plugin; then
-		ecargo_test --no-run --features plugin --profile release-test \
-			|| die "cargo build with plugin feature failed"
+		ecargo_test --no-run --features plugin --profile release-test ||
+			die "cargo build with plugin feature failed"
 	fi
 }
 
@@ -318,18 +319,18 @@ src_install() {
 
 	# Install seccomp policy files.
 	local seccomp_path="${S}/$(get_seccomp_path)"
-	if [[ -d "${seccomp_path}" ]] ; then
+	if [[ -d "${seccomp_path}" ]]; then
 		local policy
 		for policy in "${seccomp_path}"/*.policy; do
-			sed -i "s:/usr/share/policy/crosvm:${seccomp_path}:g" "${policy}" \
-				|| die "failed to modify seccomp policy ${policy}"
+			sed -i "s:/usr/share/policy/crosvm:${seccomp_path}:g" "${policy}" ||
+				die "failed to modify seccomp policy ${policy}"
 		done
 		for policy in "${seccomp_path}"/*.policy; do
 			local policy_output="${policy%.policy}.bpf"
 			compile_seccomp_policy \
 				--arch-json "${SYSROOT}/build/share/constants.json" \
-				--default-action trap "${policy}" "${policy_output}" \
-				|| die "failed to compile seccomp policy ${policy}"
+				--default-action trap "${policy}" "${policy_output}" ||
+				die "failed to compile seccomp policy ${policy}"
 		done
 		rm "${seccomp_path}"/common_device.bpf
 		insinto /usr/share/policy/crosvm
@@ -350,14 +351,14 @@ src_install() {
 	doins "${S}"/qcow_utils/src/qcow_utils.h
 
 	# Install plugin library, when requested.
-	if use crosvm-plugin ; then
+	if use crosvm-plugin; then
 		insinto "${include_dir}"
 		doins "${S}/crosvm_plugin/crosvm.h"
 		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
 	fi
 
 	# Install crosvm-direct, when requested.
-	if use crosvm-direct ; then
+	if use crosvm-direct; then
 		into /build/manatee
 		dobin "${build_dir}/crosvm-direct"
 	fi
