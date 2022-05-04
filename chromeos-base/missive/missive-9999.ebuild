@@ -23,6 +23,7 @@ IUSE=""
 
 RDEPEND="
 	app-arch/snappy
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 "
