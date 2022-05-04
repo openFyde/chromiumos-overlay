@@ -244,15 +244,15 @@ _add_bool_param() {
 }
 
 cros-firmware_src_compile() {
-	# image_cmd will be reset when creating local updaters.
-	# ext_cmd will be reused when creating local updaters.
-	local image_cmd=() ext_cmd=()
 	local root="${SYSROOT%/}"
-	local output="${UPDATE_SCRIPT}"
+	local local_root="${root}/firmware"
 
 	# We need lddtree from chromite.
 	export PATH="${CHROMITE_BIN_DIR}:${PATH}"
 
+	# For the official BCS firmware updater.
+	local image_cmd=()
+	local ext_cmd=()
 	if use unibuild; then
 		_add_param ext_cmd -i "${DISTDIR}"
 		_add_param ext_cmd -c "${root}${UNIBOARD_YAML_CONFIG}"
@@ -264,70 +264,74 @@ cros-firmware_src_compile() {
 		_add_param image_cmd -w "${FW_RW_IMAGE_LOCATION}"
 	fi
 
+	# For the local firmware updater.
+	local local_image_cmd=()
+	local local_ext_cmd=("${ext_cmd[@]}")
+	if use unibuild; then
+		local_ext_cmd+=(--local)
+		# Tell pack_firmware.py where to find the files.
+		# 'BUILD_TARGET' will be replaced with the build-targets config
+		# from the unified build config file. Since these path do not
+		# exist, we can't use _add_file_param.
+		_add_param local_image_cmd \
+			-b "${local_root}/image-BUILD_TARGET.bin"
+		local_root+="/BUILD_TARGET"
+		if use zephyr_ec; then
+			_add_param local_image_cmd -e "${local_root}/zephyr.bin"
+		elif use cros_ec; then
+			_add_param local_image_cmd -e "${local_root}/ec.bin"
+			_add_param local_image_cmd -p "${local_root}/pd.bin"
+		fi
+	else
+		_add_param local_image_cmd -b "${local_root}/image.bin"
+		_add_file_param local_image_cmd -e "${local_root}/ec.bin"
+		_add_file_param local_image_cmd -p "${local_root}/pd.bin"
+	fi
+
+	if use tot_firmware; then
+		if ! use bootimage; then
+			if use cros_ec; then
+				# TODO(hungte) Deal with a platform that has
+				# only EC and no BIOS, which is usually
+				# incorrect configuration.  We only warn here to
+				# allow for BCS based firmware to still generate
+				# a proper chromeos-firmwareupdate update
+				# script.
+				ewarn "WARNING: platform has no local BIOS."
+				ewarn "EC-only is not supported."
+				ewarn "Not generating a local updater script."
+			fi
+			return
+		fi
+	fi
+
+	local output="${UPDATE_SCRIPT}"
 	if use local_firmware; then
-		einfo "local_firmware is enabled, skipping BCS image updater"
+		output="updater.sh"
+		einfo "local_firmware is enabled, skipping BCS firmware updater"
+		einfo "Build ${BOARD_USE} local updater to ${output}:" \
+			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
+		./pack_firmware.py -o "${output}" \
+			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
+			die "Cannot pack local firmware updater."
 	elif use tot_firmware; then
-		einfo "tot_firmware is enabled, skipping BCS image updater"
+		einfo "tot_firmware is enabled, skipping BCS firmware updater"
+		einfo "Build ${BOARD_USE} local updater to ${output}:" \
+			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
+		./pack_firmware.py -o "${output}" \
+			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
+			die "Cannot pack local firmware updater."
 	elif [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
 		# (no need to update)
 		einfo "Building empty firmware update script"
 		echo -n >"${output}"
-		return
 	else
-		einfo "Build ${BOARD_USE} firmware updater to ${output}:" \
+		einfo "Build ${BOARD_USE} BCS firmware updater to ${output}:" \
 			"${image_cmd[*]} ${ext_cmd[*]}"
-		./pack_firmware.py "${image_cmd[@]}" "${ext_cmd[@]}" \
-			-o "${output}" || die "Cannot pack firmware updater."
-		return
-	fi
-
-	if ! use bootimage; then
-		if use cros_ec; then
-			# TODO(hungte) Deal with a platform that has only EC and
-			# no BIOS, which is usually incorrect configuration.  We
-			# only warn here to allow for BCS based firmware to
-			# still generate a proper chromeos-firmwareupdate update
-			# script.
-			ewarn "WARNING: platform has no local BIOS."
-			ewarn "EC-only is not supported."
-			ewarn "Not generating a local updater script."
-		fi
-		return
-	fi
-
-	# Create local updaters. image_cmd is cleared and ext_cmd is kept.
-	image_cmd=()
-	output="updater.sh"
-	local local_root="${root}/firmware"
-	if use unibuild; then
-		ext_cmd+=(--local)
-		# Tell pack_firmware.py where to find the files.
-		# 'BUILD_TARGET' will be replaced with the build-targets config
-		# from the unified build config file. Since these path do not
-		# exist, we can't use _add_file_param.
-		_add_param image_cmd -b "${local_root}/image-BUILD_TARGET.bin"
-		local_root+="/BUILD_TARGET"
-		if use zephyr_ec; then
-			_add_param image_cmd -e "${local_root}/zephyr.bin"
-		elif use cros_ec; then
-			_add_param image_cmd -e "${local_root}/ec.bin"
-			_add_param image_cmd -p "${local_root}/pd.bin"
-		fi
-	else
-		_add_param image_cmd -b "${local_root}/image.bin"
-		_add_file_param image_cmd -e "${local_root}/ec.bin"
-		_add_file_param image_cmd -p "${local_root}/pd.bin"
-	fi
-
-	einfo "Build ${BOARD_USE} local firmware updater to ${output}:" \
-		"${image_cmd[*]} ${ext_cmd[*]}"
-	./pack_firmware.py -o "${output}" "${image_cmd[@]}" "${ext_cmd[@]}" ||
-		die "Cannot pack local firmware updater."
-
-	if use tot_firmware; then
-		# Rename local updater to system updater.
-		mv -f "${output}" "${UPDATE_SCRIPT}"
+		./pack_firmware.py -o "${output}" \
+			"${image_cmd[@]}" "${ext_cmd[@]}" ||
+			die "Cannot pack firmware updater."
 	fi
 }
 
