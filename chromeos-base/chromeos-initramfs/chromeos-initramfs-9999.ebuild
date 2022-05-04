@@ -189,7 +189,8 @@ src_compile() {
 			PHYSICAL_PRESENCE="${physical_presence}" \
 			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
 			MANATEE_PERFORMANCE_TOOLS="$(usex manatee_performance_tools 1 0)" \
-			LOCALE_LIST="${RECOVERY_LOCALES:-}" "${targets[@]}"
+			LOCALE_LIST="${RECOVERY_LOCALES:-}" \
+			LIBDIR="$(get_libdir)" "${targets[@]}"
 	fi
 }
 
