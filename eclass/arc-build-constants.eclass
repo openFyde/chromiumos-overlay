@@ -13,6 +13,7 @@ ANDROID_CONTAINER_VERS=(
 ANDROID_VM_VERS=(
 	android-vm-rvc
 	android-vm-sc
+	android-vm-tm
 	android-vm-master
 )
 
