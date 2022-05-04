@@ -82,14 +82,10 @@ RDEPEND+="
 # factory_installer ebuild.
 
 # Dependency to build firmware from source (build phase only).
-COMMON_FIRMWARE_DEPEND="
+DEPEND+="
 	bootimage? ( sys-boot/chromeos-bootimage )
 	cros_ec? ( chromeos-base/chromeos-ec )
 	zephyr_ec? ( chromeos-base/chromeos-zephyr )
-	"
-DEPEND+="
-	local_firmware? ( ${COMMON_FIRMWARE_DEPEND} )
-	tot_firmware? ( ${COMMON_FIRMWARE_DEPEND} )
 	"
 
 RESTRICT="mirror"
@@ -275,12 +271,12 @@ cros-firmware_src_compile() {
 		# exist, we can't use _add_file_param.
 		_add_param local_image_cmd \
 			-b "${local_root}/image-BUILD_TARGET.bin"
-		local_root+="/BUILD_TARGET"
+		local local_dir="${local_root}/BUILD_TARGET"
 		if use zephyr_ec; then
-			_add_param local_image_cmd -e "${local_root}/zephyr.bin"
+			_add_param local_image_cmd -e "${local_dir}/zephyr.bin"
 		elif use cros_ec; then
-			_add_param local_image_cmd -e "${local_root}/ec.bin"
-			_add_param local_image_cmd -p "${local_root}/pd.bin"
+			_add_param local_image_cmd -e "${local_dir}/ec.bin"
+			_add_param local_image_cmd -p "${local_dir}/pd.bin"
 		fi
 	else
 		_add_param local_image_cmd -b "${local_root}/image.bin"
@@ -333,6 +329,12 @@ cros-firmware_src_compile() {
 			"${image_cmd[@]}" "${ext_cmd[@]}" ||
 			die "Cannot pack firmware updater."
 	fi
+
+	# Create local signer config
+	if use unibuild && use bootimage; then
+		./local_signer.py -c "${root}${UNIBOARD_YAML_CONFIG}" \
+			-r "${root}" || die "Cannot create local signer config."
+	fi
 }
 
 cros-firmware_src_install() {
@@ -340,6 +342,12 @@ cros-firmware_src_install() {
 	if use local_firmware && use bootimage; then
 		exeinto /firmware
 		doexe updater.sh
+	fi
+
+	# install local signer config
+	if use unibuild && use bootimage; then
+		insinto /firmware
+		doins signer_config.csv
 	fi
 
 	# skip anything else if no main updater program.
