@@ -122,36 +122,7 @@ create_config() {
 	local board="$1"
 	local base_board="$2"
 
-	if [[ -s "${FILESDIR}/configs/config.${board}" ]]; then
-		touch "${CONFIG}"
-
-		if [[ -s "${FILESDIR}/configs/config.baseboard.${base_board}" ]]; then
-			cat "${FILESDIR}/configs/config.baseboard.${base_board}" >> "${CONFIG}"
-			# handle the case when "${CONFIG}" does not have a newline in the end.
-			echo >> "${CONFIG}"
-		fi
-
-		cat "${FILESDIR}/configs/config.${board}" >> "${CONFIG}"
-
-		# handle the case when "${CONFIG}" does not have a newline in the end.
-		echo >> "${CONFIG}"
-
-		# Override mainboard vendor if needed.
-		if [[ -n "${SYSTEM_OEM}" ]]; then
-			echo "CONFIG_MAINBOARD_VENDOR=\"${SYSTEM_OEM}\"" >> "${CONFIG}"
-		fi
-		if [[ -n "${SYSTEM_OEM_VENDOR_ID}" ]]; then
-			echo "CONFIG_SUBSYSTEM_VENDOR_ID=${SYSTEM_OEM_VENDOR_ID}" >> "${CONFIG}"
-		fi
-		if [[ -n "${SYSTEM_OEM_DEVICE_ID}" ]]; then
-			echo "CONFIG_SUBSYSTEM_DEVICE_ID=${SYSTEM_OEM_DEVICE_ID}" >> "${CONFIG}"
-		fi
-		if [[ -n "${SYSTEM_OEM_ACPI_ID}" ]]; then
-			echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
-		fi
-	else
-		ewarn "Could not find existing config for ${board}."
-	fi
+	touch "${CONFIG}"
 
 	if use rmt; then
 		echo "CONFIG_MRC_RMT=y" >> "${CONFIG}"
@@ -194,6 +165,37 @@ EOF
 	# Use FSP's GOP in favor of coreboot's Ada based Intel graphics init
 	# which we don't include at this time. A no-op on non-FSP/GOP devices.
 	echo "CONFIG_RUN_FSP_GOP=y" >> "${CONFIG}"
+
+	# Override the automatic options created above with board config.
+	local board_config="${FILESDIR}/configs/config.${board}"
+	local baseboard_config="${FILESDIR}/configs/config.baseboard.${base_board}"
+	if [[ -s "${board_config}" ]]; then
+		if [[ -s "${baseboard_config}" ]]; then
+			cat "${baseboard_config}" >> "${CONFIG}"
+			# Handle the case when "${CONFIG}" does not have a newline in the end.
+			echo >> "${CONFIG}"
+		fi
+
+		cat "${board_config}" >> "${CONFIG}"
+		# Handle the case when "${CONFIG}" does not have a newline in the end.
+		echo >> "${CONFIG}"
+
+		# Override mainboard vendor if needed.
+		if [[ -n "${SYSTEM_OEM}" ]]; then
+			echo "CONFIG_MAINBOARD_VENDOR=\"${SYSTEM_OEM}\"" >> "${CONFIG}"
+		fi
+		if [[ -n "${SYSTEM_OEM_VENDOR_ID}" ]]; then
+			echo "CONFIG_SUBSYSTEM_VENDOR_ID=${SYSTEM_OEM_VENDOR_ID}" >> "${CONFIG}"
+		fi
+		if [[ -n "${SYSTEM_OEM_DEVICE_ID}" ]]; then
+			echo "CONFIG_SUBSYSTEM_DEVICE_ID=${SYSTEM_OEM_DEVICE_ID}" >> "${CONFIG}"
+		fi
+		if [[ -n "${SYSTEM_OEM_ACPI_ID}" ]]; then
+			echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
+		fi
+	else
+		ewarn "Could not find existing config for ${board}."
+	fi
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
 	file="${FILESDIR}/configs/fwserial.${board}"
