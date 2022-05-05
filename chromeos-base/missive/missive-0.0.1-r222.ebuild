@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="5925a0706d15fb9ba4c00689f90985e98d348d3a"
+CROS_WORKON_COMMIT="6d8c79d3761414ad4307594d0711f905cac21902"
 CROS_WORKON_TREE=("5b99c2668fa81754cfd0f1c4bab7554dbd49f8b6" "b9cc0c60c49c86e5b71b169b0fee51a7f76cae6d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ IUSE=""
 
 RDEPEND="
 	app-arch/snappy
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	dev-libs/protobuf:=
 "
