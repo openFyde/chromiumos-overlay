@@ -303,11 +303,6 @@ cros-firmware_src_compile() {
 
 	if use tot_firmware; then
 		einfo "tot_firmware is enabled, skipping BCS firmware updater"
-		einfo "Build ${BOARD_USE} local updater to ${UPDATE_SCRIPT}:" \
-			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
-		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
-			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
-			die "Cannot pack local firmware updater."
 	elif [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
 		# (no need to update)
@@ -319,6 +314,18 @@ cros-firmware_src_compile() {
 		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
 			"${image_cmd[@]}" "${ext_cmd[@]}" ||
 			die "Cannot pack firmware updater."
+	fi
+
+	# If the updater does not exist, fall back to local updater.
+	if [[ ! -f "${UPDATE_SCRIPT}" ]]; then
+		einfo "Build ${BOARD_USE} local updater to ${UPDATE_SCRIPT}:" \
+			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
+		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
+			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
+			die "Cannot pack local firmware updater."
+		if ! use tot_firmware; then
+			ewarn "No BCS updater created; using local updater"
+		fi
 	fi
 
 	# Create local signer config
