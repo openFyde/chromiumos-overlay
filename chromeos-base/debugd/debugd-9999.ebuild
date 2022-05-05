@@ -16,7 +16,7 @@ DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/debugd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arcvm cellular iwlwifi_dump nvme sata tpm"
+IUSE="arcvm cellular iwlwifi_dump nvme sata tpm ufs"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login:=
@@ -36,6 +36,10 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
 	nvme? ( sys-apps/nvme-cli )
+	ufs? (
+		sys-apps/sg3_utils
+		sys-apps/ufs-utils
+	)
 	chromeos-base/chromeos-ssh-testkeys
 	chromeos-base/chromeos-sshd-init
 	!chromeos-base/workarounds
