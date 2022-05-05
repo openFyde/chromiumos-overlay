@@ -29,8 +29,8 @@ PORT_LOGDIR=${ROOT}tmp/portage/logs/
 PORTAGE_WORKDIR_MODE="0755"
 
 PORTDIR_OVERLAY="
-  /usr/local/portage/chromiumos
-  /usr/local/portage/eclass-overlay
+  /mnt/host/source/src/third_party/chromiumos-overlay
+  /mnt/host/source/src/third_party/eclass-overlay
   ${BOARD_OVERLAY}
 "
 
