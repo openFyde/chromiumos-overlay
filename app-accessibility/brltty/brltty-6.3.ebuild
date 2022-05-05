@@ -155,12 +155,3 @@ pkg_preinst() {
 	enewgroup brltty
 	enewuser brltty
 }
-
-pkg_postinst() {
-	elog
-	elog please be sure "${ROOT}"etc/brltty.conf is correct for your system.
-	elog
-	elog To make brltty start on boot, type this command as root:
-	elog
-	elog rc-update add brltty boot
-}
