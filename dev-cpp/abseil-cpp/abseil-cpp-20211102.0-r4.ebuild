@@ -21,7 +21,7 @@ LICENSE="
 	Apache-2.0
 	test? ( BSD )
 "
-SLOT="0/${PV%%.*}"
+SLOT="0/${PVR}"
 KEYWORDS="*"
 IUSE="test"
 
@@ -39,6 +39,7 @@ RESTRICT="!test? ( test )"
 
 PATCHES=(
 	"${FILESDIR}/${PN}-20211102.0-fix-cuda-nvcc-build.patch"
+	"${FILESDIR}/${PN}-20211102.0-fix-pkgconfig.patch"
 	"${FILESDIR}/use-std-optional.patch"
 )
 
