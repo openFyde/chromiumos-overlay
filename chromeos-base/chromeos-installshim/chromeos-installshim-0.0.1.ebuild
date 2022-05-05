@@ -1,12 +1,12 @@
 # Copyright (c) 2012 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 DESCRIPTION="Chrome OS Install Shim (meta package)"
-HOMEPAGE="http://src.chromium.org"
+HOMEPAGE="https://dev.chromium.org/chromium-os"
 
-LICENSE="GPL-2"
+LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 
@@ -58,6 +58,7 @@ RDEPEND="
 	sys-apps/dbus
 	sys-apps/flashrom
 	sys-apps/grep
+	sys-apps/kmod[tools]
 	sys-apps/iproute2
 	sys-apps/mawk
 	sys-apps/mosys
@@ -77,7 +78,6 @@ RDEPEND="
 	sys-process/procps
 	virtual/chromeos-auth-config
 	virtual/chromeos-bsp
-	virtual/modutils
 	virtual/udev
 "
 
