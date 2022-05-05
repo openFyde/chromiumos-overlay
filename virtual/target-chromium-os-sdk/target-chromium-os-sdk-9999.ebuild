@@ -233,7 +233,7 @@ RDEPEND="${RDEPEND}
 	virtual/udev
 	sys-libs/libnih
 	sys-power/iasl
-	virtual/modutils
+	sys-apps/kmod[tools]
 	x11-apps/mkfontscale
 	x11-apps/xkbcomp
 	>=x11-misc/util-macros-1.2

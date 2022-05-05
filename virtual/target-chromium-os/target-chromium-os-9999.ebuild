@@ -313,7 +313,7 @@ RDEPEND="
 	virtual/chromeos-regions
 	virtual/implicit-system
 	virtual/linux-sources
-	virtual/modutils
+	sys-apps/kmod[tools]
 	virtual/service-manager
 	cr50_onboard? (
 		chromeos-base/chromeos-cr50
