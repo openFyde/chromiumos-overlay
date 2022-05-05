@@ -76,7 +76,10 @@ COMMON_DEPEND="
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/factory:=
 	test? ( chromeos-base/secure-wipe:= )
-	x86? ( sys-boot/syslinux:= )"
+	x86? ( sys-boot/syslinux:= )
+	>=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0:=
+	>=dev-rust/serde-1.0.0 <dev-rust/serde-2.0.0:=
+	>=dev-rust/serde_json-1.0.0 <dev-rust/serde_json-2.0.0:="
 
 RDEPEND="${COMMON_DEPEND}
 	${PROVIDED_DEPEND}
