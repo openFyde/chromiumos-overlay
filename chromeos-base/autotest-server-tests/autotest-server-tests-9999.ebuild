@@ -280,7 +280,10 @@ SERVER_IUSE_TESTS="
 	+tests_infra_MultiDutsWithAndroid
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
-	minios? ( +tests_nbr_EndToEndTest )
+	minios? (
+		+tests_nbr_EndToEndTest
+		+tests_nbr_NetworkInterruptions
+	)
 	+tests_p2p_EndToEndTest
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
