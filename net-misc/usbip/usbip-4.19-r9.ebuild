@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="ab38841fb93264e022a8ad9bc361b39d00eb747d"
+CROS_WORKON_COMMIT="aa739dafa6bfa42b35c013ff020e9d49ebc1a9ff"
 CROS_WORKON_TREE="f3a0a0009d4cfe0cd2783cefc1c92f3c79fef691"
 CROS_WORKON_PROJECT="chromiumos/third_party/kernel"
 CROS_WORKON_LOCALNAME="kernel/v4.19"
@@ -57,9 +57,4 @@ src_configure() {
 src_install() {
 	default
 	prune_libtool_files
-}
-
-pkg_postinst() {
-	elog "For using USB/IP you need to enable USBIP_VHCI_HCD in the client"
-	elog "machine's kernel config and USBIP_HOST on the server."
 }
