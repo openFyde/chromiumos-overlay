@@ -3400,5 +3400,47 @@
             "from": 450784,
             "until": 460305
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert [ELF] Support (TYPE=<value>): 1"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-lld-noload-1.patch",
+        "version_range": {
+            "from": 453557,
+            "until": null
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert [ELF] Support (TYPE=<value>): 2"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-lld-noload-2.patch",
+        "version_range": {
+            "from": 453550,
+            "until": null
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert [ELF] Support (TYPE=<value>): 3"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "revert-lld-noload-3.patch",
+        "version_range": {
+            "from": 453414,
+            "until": null
+        }
     }
 ]

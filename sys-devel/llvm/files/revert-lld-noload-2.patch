@@ -1,0 +1,56 @@
+commit 8e7fbf45ad35fc4ac3bc2086f73ca45ce5824275
+Author: Manoj Gupta <manojgupta@google.com>
+Date:   Thu May 5 13:28:57 2022 -0700
+
+    Revert "[ELF] Change (NOLOAD) section type mismatch error to warning"
+    
+    This reverts commit cb0a4bb5be10636aaec3ecb56ed586dee3eb0b9e.
+
+diff --git a/lld/ELF/OutputSections.cpp b/lld/ELF/OutputSections.cpp
+index ee9162ac6b41..e864e1bd367f 100644
+--- a/lld/ELF/OutputSections.cpp
++++ b/lld/ELF/OutputSections.cpp
+@@ -112,16 +112,11 @@ void OutputSection::commitSection(InputSection *isec) {
+     if (hasInputSections || typeIsSet) {
+       if (typeIsSet || !canMergeToProgbits(type) ||
+           !canMergeToProgbits(isec->type)) {
+-        // Changing the type of a (NOLOAD) section is fishy, but some projects
+-        // (e.g. https://github.com/ClangBuiltLinux/linux/issues/1597)
+-        // traditionally rely on the behavior. Issue a warning to not break
+-        // them. Other types get an error.
+-        auto diagnose = type == SHT_NOBITS ? warn : errorOrWarn;
+-        diagnose("section type mismatch for " + isec->name + "\n>>> " +
+-                 toString(isec) + ": " +
+-                 getELFSectionTypeName(config->emachine, isec->type) +
+-                 "\n>>> output section " + name + ": " +
+-                 getELFSectionTypeName(config->emachine, type));
++        errorOrWarn("section type mismatch for " + isec->name + "\n>>> " +
++                    toString(isec) + ": " +
++                    getELFSectionTypeName(config->emachine, isec->type) +
++                    "\n>>> output section " + name + ": " +
++                    getELFSectionTypeName(config->emachine, type));
+       }
+       type = SHT_PROGBITS;
+     } else {
+diff --git a/lld/test/ELF/linkerscript/noload.s b/lld/test/ELF/linkerscript/noload.s
+index 1cc09670e8b1..92afadc9b263 100644
+--- a/lld/test/ELF/linkerscript/noload.s
++++ b/lld/test/ELF/linkerscript/noload.s
+@@ -17,14 +17,9 @@
+ # CHECK:      00 .data_noload_a .data_noload_b .no_input_sec_noload {{$}}
+ # CHECK:      01 .text {{$}}
+ 
+-## The output SHT_PROBITS is contrary to the user expectation of SHT_NOBITS.
+-## Issue a warning. See https://github.com/ClangBuiltLinux/linux/issues/1597
+-# RUN: ld.lld --script %t/lds %t.o %t/mismatch.o -o %t/out 2>&1 |& FileCheck %s --check-prefix=WARN
+-# RUN: llvm-readelf -S -l %t/out | FileCheck %s --check-prefix=CHECK2
+-
+-# WARN:   warning: section type mismatch for .data_noload_a
+-# CHECK2:      Name                 Type     Address          Off               Size
+-# CHECK2:      .data_noload_a       PROGBITS 0000000000000000 [[OFF:[0-9a-f]+]] 001001
++# RUN: not ld.lld --script %t/lds %t.o %t/mismatch.o -o /dev/null 2>&1 | FileCheck %s --check-prefix=ERR
++
++# ERR: error: section type mismatch for .data_noload_a
+ 
+ #--- asm
+ .section .text,"ax",@progbits

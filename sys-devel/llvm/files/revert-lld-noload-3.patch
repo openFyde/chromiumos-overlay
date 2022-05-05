@@ -1,0 +1,313 @@
+commit 6495b4ea9406d58a52a67b82562037a5e4128e7c
+Author: Manoj Gupta <manojgupta@google.com>
+Date:   Thu May 5 13:29:13 2022 -0700
+
+    Revert "[ELF] Support (TYPE=<value>) to customize the output section type"
+    
+    This reverts commit 66f8ac8d3604d67599734c3fd272032e9448aca2.
+
+diff --git a/lld/ELF/OutputSections.cpp b/lld/ELF/OutputSections.cpp
+index e864e1bd367f..f5fb91a57a26 100644
+--- a/lld/ELF/OutputSections.cpp
++++ b/lld/ELF/OutputSections.cpp
+@@ -108,34 +108,32 @@ void OutputSection::recordSection(InputSectionBase *isec) {
+ // isec. Also check whether the InputSection flags and type are consistent with
+ // other InputSections.
+ void OutputSection::commitSection(InputSection *isec) {
+-  if (LLVM_UNLIKELY(type != isec->type)) {
+-    if (hasInputSections || typeIsSet) {
+-      if (typeIsSet || !canMergeToProgbits(type) ||
+-          !canMergeToProgbits(isec->type)) {
+-        errorOrWarn("section type mismatch for " + isec->name + "\n>>> " +
+-                    toString(isec) + ": " +
+-                    getELFSectionTypeName(config->emachine, isec->type) +
+-                    "\n>>> output section " + name + ": " +
+-                    getELFSectionTypeName(config->emachine, type));
+-      }
+-      type = SHT_PROGBITS;
+-    } else {
+-      type = isec->type;
+-    }
+-  }
+   if (!hasInputSections) {
+     // If IS is the first section to be added to this section,
+     // initialize type, entsize and flags from isec.
+     hasInputSections = true;
++    type = isec->type;
+     entsize = isec->entsize;
+     flags = isec->flags;
+   } else {
+     // Otherwise, check if new type or flags are compatible with existing ones.
+     if ((flags ^ isec->flags) & SHF_TLS)
+-      error("incompatible section flags for " + name + "\n>>> " +
+-            toString(isec) + ": 0x" + utohexstr(isec->flags) +
+-            "\n>>> output section " + name + ": 0x" + utohexstr(flags));
++      error("incompatible section flags for " + name + "\n>>> " + toString(isec) +
++            ": 0x" + utohexstr(isec->flags) + "\n>>> output section " + name +
++            ": 0x" + utohexstr(flags));
++
++    if (type != isec->type) {
++      if (!canMergeToProgbits(type) || !canMergeToProgbits(isec->type))
++        error("section type mismatch for " + isec->name + "\n>>> " +
++              toString(isec) + ": " +
++              getELFSectionTypeName(config->emachine, isec->type) +
++              "\n>>> output section " + name + ": " +
++              getELFSectionTypeName(config->emachine, type));
++      type = SHT_PROGBITS;
++    }
+   }
++  if (noload)
++    type = SHT_NOBITS;
+ 
+   isec->parent = this;
+   uint64_t andMask =
+@@ -449,14 +447,14 @@ template <class ELFT> void OutputSection::writeTo(uint8_t *buf) {
+       writeInt(buf + data->offset, data->expression().getValue(), data->size);
+ }
+ 
+-static void finalizeShtGroup(OutputSection *os, InputSection *section) {
++static void finalizeShtGroup(OutputSection *os,
++                             InputSection *section) {
++  assert(config->relocatable);
++
+   // sh_link field for SHT_GROUP sections should contain the section index of
+   // the symbol table.
+   os->link = in.symTab->getParent()->sectionIndex;
+ 
+-  if (!section)
+-    return;
+-
+   // sh_info then contain index of an entry in symbol table section which
+   // provides signature of the section group.
+   ArrayRef<Symbol *> symbols = section->file->getSymbols();
+diff --git a/lld/ELF/OutputSections.h b/lld/ELF/OutputSections.h
+index 9179d14aef07..594474e6563e 100644
+--- a/lld/ELF/OutputSections.h
++++ b/lld/ELF/OutputSections.h
+@@ -90,7 +90,7 @@ public:
+   std::string memoryRegionName;
+   std::string lmaRegionName;
+   bool nonAlloc = false;
+-  bool typeIsSet = false;
++  bool noload = false;
+   bool expressionsUseSymbols = false;
+   bool usedInExpression = false;
+   bool inOverlay = false;
+diff --git a/lld/ELF/ScriptParser.cpp b/lld/ELF/ScriptParser.cpp
+index c58309b12e57..e015f3ce2a8d 100644
+--- a/lld/ELF/ScriptParser.cpp
++++ b/lld/ELF/ScriptParser.cpp
+@@ -787,45 +787,19 @@ Expr ScriptParser::readAssert() {
+   };
+ }
+ 
+-#define ECase(X)                                                               \
+-  { #X, X }
+-constexpr std::pair<const char *, unsigned> typeMap[] = {
+-    ECase(SHT_PROGBITS),   ECase(SHT_NOTE),       ECase(SHT_NOBITS),
+-    ECase(SHT_INIT_ARRAY), ECase(SHT_FINI_ARRAY), ECase(SHT_PREINIT_ARRAY),
+-};
+-#undef ECase
+-
+ // Tries to read the special directive for an output section definition which
+-// can be one of following: "(NOLOAD)", "(COPY)", "(INFO)", "(OVERLAY)", and
+-// "(TYPE=<value>)".
+-// Tok1 and Tok2 are next 2 tokens peeked. See comment for
+-// readSectionAddressType below.
++// can be one of following: "(NOLOAD)", "(COPY)", "(INFO)" or "(OVERLAY)".
++// Tok1 and Tok2 are next 2 tokens peeked. See comment for readSectionAddressType below.
+ bool ScriptParser::readSectionDirective(OutputSection *cmd, StringRef tok1, StringRef tok2) {
+   if (tok1 != "(")
+     return false;
+-  if (tok2 != "NOLOAD" && tok2 != "COPY" && tok2 != "INFO" &&
+-      tok2 != "OVERLAY" && tok2 != "TYPE")
++  if (tok2 != "NOLOAD" && tok2 != "COPY" && tok2 != "INFO" && tok2 != "OVERLAY")
+     return false;
+ 
+   expect("(");
+   if (consume("NOLOAD")) {
++    cmd->noload = true;
+     cmd->type = SHT_NOBITS;
+-    cmd->typeIsSet = true;
+-  } else if (consume("TYPE")) {
+-    expect("=");
+-    StringRef value = peek();
+-    auto it = llvm::find_if(typeMap, [=](auto e) { return e.first == value; });
+-    if (it != std::end(typeMap)) {
+-      // The value is a recognized literal SHT_*.
+-      cmd->type = it->second;
+-      skip();
+-    } else if (value.startswith("SHT_")) {
+-      setError("unknown section type " + value);
+-    } else {
+-      // Otherwise, read an expression.
+-      cmd->type = readExpr()().getValue();
+-    }
+-    cmd->typeIsSet = true;
+   } else {
+     skip(); // This is "COPY", "INFO" or "OVERLAY".
+     cmd->nonAlloc = true;
+@@ -846,11 +820,7 @@ bool ScriptParser::readSectionDirective(OutputSection *cmd, StringRef tok1, Stri
+ // https://sourceware.org/binutils/docs/ld/Output-Section-Address.html
+ // https://sourceware.org/binutils/docs/ld/Output-Section-Type.html
+ void ScriptParser::readSectionAddressType(OutputSection *cmd) {
+-  // Temporarily set inExpr to support TYPE=<value> without spaces.
+-  bool saved = std::exchange(inExpr, true);
+-  bool isDirective = readSectionDirective(cmd, peek(), peek2());
+-  inExpr = saved;
+-  if (isDirective)
++  if (readSectionDirective(cmd, peek(), peek2()))
+     return;
+ 
+   cmd->addrExpr = readExpr();
+diff --git a/lld/docs/ELF/linker_script.rst b/lld/docs/ELF/linker_script.rst
+index 085b3aa77186..b94017b17158 100644
+--- a/lld/docs/ELF/linker_script.rst
++++ b/lld/docs/ELF/linker_script.rst
+@@ -102,12 +102,6 @@ When an *OutputSection* *S* has ``(type)``, LLD will set ``sh_type`` or
+ 
+ - ``NOLOAD``: set ``sh_type`` to ``SHT_NOBITS``.
+ - ``COPY``, ``INFO``, ``OVERLAY``: clear the ``SHF_ALLOC`` bit in ``sh_flags``.
+-- ``TYPE=<value>``: set ``sh_type`` to the specified value. ``<value>`` must be
+-  an integer or one of ``SHT_PROGBITS, SHT_NOTE, SHT_NOBITS, SHT_INIT_ARRAY,
+-  SHT_FINI_ARRAY, SHT_PREINIT_ARRAY``.
+-
+-When ``sh_type`` is specified, it is an error if an input section in *S* has a
+-different type.
+ 
+ Output section alignment
+ ------------------------
+diff --git a/lld/test/ELF/linkerscript/custom-section-type.s b/lld/test/ELF/linkerscript/custom-section-type.s
+deleted file mode 100644
+index 21ef9922e25e..000000000000
+--- a/lld/test/ELF/linkerscript/custom-section-type.s
++++ /dev/null
+@@ -1,89 +0,0 @@
+-# REQUIRES: x86
+-## TYPE=<value> customizes the output section type.
+-
+-# RUN: rm -rf %t && split-file %s %t
+-# RUN: llvm-mc -filetype=obj -triple=x86_64-unknown-linux %t/a.s -o %t/a.o
+-# RUN: llvm-mc -filetype=obj -triple=x86_64-unknown-linux %t/mismatch.s -o %t/mismatch.o
+-# RUN: ld.lld -T %t/a.lds %t/a.o -o %t/a
+-# RUN: llvm-readelf -S %t/a | FileCheck %s
+-
+-# RUN: ld.lld -r -T %t/a.lds %t/a.o -o %t/a.ro
+-# RUN: llvm-readelf -S %t/a.ro | FileCheck %s
+-
+-# CHECK:       [Nr] Name              Type            Address          Off      Size   ES Flg Lk Inf Al
+-# CHECK-NEXT:  [ 0]                   NULL            [[#%x,]]         [[#%x,]] 000000 00      0   0  0
+-# CHECK-NEXT:  [ 1] progbits          PROGBITS        [[#%x,]]         [[#%x,]] 000001 00   A  0   0  1
+-# CHECK-NEXT:  [ 2] note              NOTE            [[#%x,]]         [[#%x,]] 000002 00   A  0   0  1
+-# CHECK-NEXT:  [ 3] nobits            NOBITS          [[#%x,]]         [[#%x,]] 000001 00   A  0   0  1
+-# CHECK-NEXT:  [ 4] init_array        INIT_ARRAY      [[#%x,]]         [[#%x,]] 000008 00   A  0   0  1
+-# CHECK-NEXT:  [ 5] fini_array        FINI_ARRAY      [[#%x,]]         [[#%x,]] 000008 00   A  0   0  1
+-# CHECK-NEXT:  [ 6] preinit_array     PREINIT_ARRAY   [[#%x,]]         [[#%x,]] 000008 00   A  0   0  1
+-# CHECK-NEXT:  [ 7] group             GROUP           [[#%x,]]         [[#%x,]] 000004 00   A [[#SYMTAB:]] 0  1
+-# CHECK-NEXT:  [ 8] expr              0x42: <unknown> [[#%x,]]         [[#%x,]] 000001 00   A  0   0  1
+-# CHECK:       [[[#SYMTAB]]] .symtab  SYMTAB
+-
+-# RUN: not ld.lld -T %t/a.lds %t/a.o %t/mismatch.o -o /dev/null 2>&1 | FileCheck %s --check-prefix=ERR1
+-
+-# ERR1:      error: section type mismatch for progbits
+-# ERR1-NEXT: >>> {{.*}}.o:(progbits): SHT_NOTE
+-# ERR1-NEXT: >>> output section progbits: SHT_PROGBITS
+-# ERR1:      error: section type mismatch for expr
+-# ERR1-NEXT: >>> {{.*}}.o:(expr): Unknown
+-# ERR1-NEXT: >>> output section expr: Unknown
+-
+-# RUN: ld.lld -T %t/a.lds %t/a.o %t/mismatch.o -o %t/mismatch --noinhibit-exec
+-# RUN: llvm-readelf -S %t/mismatch | FileCheck %s --check-prefix=MISMATCH
+-
+-## Mismatched progbits and expr are changed to SHT_PROGBITS.
+-# MISMATCH: progbits PROGBITS
+-# MISMATCH: note     NOTE
+-# MISMATCH: expr     PROGBITS
+-
+-# RUN: not ld.lld -T %t/unknown1.lds %t/a.o -o /dev/null 2>&1 | FileCheck %s --check-prefix=UNKNOWN1
+-# UNKNOWN1: error: {{.*}}.lds:1: symbol not found: foo
+-
+-## For a symbol named SHT_*, give a better diagnostic.
+-# RUN: not ld.lld -T %t/unknown2.lds %t/a.o -o /dev/null 2>&1 | FileCheck %s --check-prefix=UNKNOWN2
+-# UNKNOWN2: error: {{.*}}.lds:1: unknown section type SHT_DYNAMIC
+-
+-# RUN: not ld.lld -T %t/parseerr1.lds %t/a.o -o /dev/null 2>&1 | FileCheck %s --check-prefix=PARSEERR1
+-# PARSEERR1: error: {{.*}}.lds:1: = expected, but got )
+-
+-#--- a.s
+-.globl _start, myinit
+-_start:
+-  ret
+-myinit:
+-  ret
+-
+-## Compatible with TYPE = SHT_NOTE below.
+-.section note,"a",@note
+-.byte 0
+-
+-#--- a.lds
+-SECTIONS {
+-  progbits (TYPE=SHT_PROGBITS) : { BYTE(1) }
+-  note (TYPE = SHT_NOTE) : { BYTE(7) *(note) }
+-  nobits ( TYPE=SHT_NOBITS) : { BYTE(8) }
+-  init_array (TYPE=SHT_INIT_ARRAY ) : { QUAD(myinit) }
+-  fini_array (TYPE=SHT_FINI_ARRAY) : { QUAD(15) }
+-  preinit_array (TYPE=SHT_PREINIT_ARRAY) : { QUAD(16) }
+-  group (TYPE=17) : { LONG(17) }
+-  expr (TYPE=0x41+1) : { BYTE(0x42) *(expr) }
+-}
+-
+-#--- mismatch.s
+-.section progbits,"a",@note
+-.byte 0
+-
+-.section expr,"a",@12345
+-.byte 0
+-
+-#--- unknown1.lds
+-SECTIONS { err (TYPE=foo) : {} }
+-
+-#--- unknown2.lds
+-SECTIONS { err (TYPE=SHT_DYNAMIC) : {} }
+-
+-#--- parseerr1.lds
+-SECTIONS { err (TYPE) : {} }
+diff --git a/lld/test/ELF/linkerscript/noload.s b/lld/test/ELF/linkerscript/noload.s
+index 92afadc9b263..76007e911b7d 100644
+--- a/lld/test/ELF/linkerscript/noload.s
++++ b/lld/test/ELF/linkerscript/noload.s
+@@ -1,7 +1,6 @@
+ # REQUIRES: x86
+ # RUN: split-file %s %t
+ # RUN: llvm-mc -filetype=obj -triple=x86_64 %t/asm -o %t.o
+-# RUN: llvm-mc -filetype=obj -triple=x86_64 %t/mismatch.s -o %t/mismatch.o
+ # RUN: ld.lld --script %t/lds %t.o -o %t/out
+ # RUN: llvm-readelf -S -l %t/out | FileCheck %s
+ 
+@@ -17,24 +16,16 @@
+ # CHECK:      00 .data_noload_a .data_noload_b .no_input_sec_noload {{$}}
+ # CHECK:      01 .text {{$}}
+ 
+-# RUN: not ld.lld --script %t/lds %t.o %t/mismatch.o -o /dev/null 2>&1 | FileCheck %s --check-prefix=ERR
+-
+-# ERR: error: section type mismatch for .data_noload_a
+-
+ #--- asm
+ .section .text,"ax",@progbits
+   nop
+ 
+-.section .data_noload_a,"aw",@nobits
++.section .data_noload_a,"aw",@progbits
+ .zero 4096
+ 
+-.section .data_noload_b,"aw",@nobits
++.section .data_noload_b,"aw",@progbits
+ .zero 4096
+ 
+-#--- mismatch.s
+-.section .data_noload_a,"aw",@progbits
+-.byte 1
+-
+ #--- lds
+ SECTIONS {
+   .data_noload_a (NOLOAD) : { *(.data_noload_a) }
