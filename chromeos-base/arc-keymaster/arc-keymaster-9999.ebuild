@@ -21,7 +21,7 @@ PLATFORM_SUBDIR="arc/keymaster"
 # This BoringSSL integration follows go/boringssl-cros.
 # DO NOT COPY TO OTHER PACKAGES WITHOUT CONSULTING SECURITY TEAM.
 BORINGSSL_PN="boringssl"
-BORINGSSL_PV="430a7423039682e4bbc7b522e3b57b2c8dca5e3b"
+BORINGSSL_PV="3a667d10e94186fd503966f5638e134fe9fb4080"
 BORINGSSL_P="${BORINGSSL_PN}-${BORINGSSL_PV}"
 BORINGSSL_OUTDIR="${WORKDIR}/boringssl_outputs/"
 
@@ -104,6 +104,9 @@ src_configure() {
 }
 
 src_compile() {
+	# The build is banned from accessing internet, thus turn off Go Modules
+	# to prevent Go from trying to fetch package.
+	export GO111MODULE=off
 	# Compile BoringSSL and expose libcrypto.a.
 	cmake-utils_src_compile
 	mkdir -p "${BORINGSSL_OUTDIR}" || die
