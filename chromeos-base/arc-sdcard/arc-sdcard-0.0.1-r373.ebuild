@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b143d1a0cb1f7b118c2eb640a9a8c91a66e7afcc"
-CROS_WORKON_TREE=("5b99c2668fa81754cfd0f1c4bab7554dbd49f8b6" "94ae762a180b92279a7a9f0009240f9eaa7f435e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d222b733ca00e8b3625444c059761f71eaf7cc94"
+CROS_WORKON_TREE=("5b99c2668fa81754cfd0f1c4bab7554dbd49f8b6" "a050dd7c355cb42fde90fdb9c3c4334389d0acb5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,14 +20,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/cont
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="esdfs"
 
 # CONTAINER_DIR must be kept consistent with installation configuration in
 # ${PLATFORM_SUBDIR}/BUILD.gn.
 CONTAINER_DIR="/opt/google/containers/arc-sdcard"
 
-RDEPEND="!esdfs? ( chromeos-base/arc-setup )"
-DEPEND="${DEPEND}"
+RDEPEND=""
 
 src_install() {
 	platform_install

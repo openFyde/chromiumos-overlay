@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b143d1a0cb1f7b118c2eb640a9a8c91a66e7afcc"
-CROS_WORKON_TREE=("5b99c2668fa81754cfd0f1c4bab7554dbd49f8b6" "0311b5be041e6f9bed2582f859e4e15fd7cb3501" "d45a4a710d6730b7167433f809bd94490fc69021" "3c265f0d6ffd087d369974c1a6917ffe31f7f5c7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d222b733ca00e8b3625444c059761f71eaf7cc94"
+CROS_WORKON_TREE=("5b99c2668fa81754cfd0f1c4bab7554dbd49f8b6" "7128d4589c703c75c34e28238c9d177f7b6017c8" "d45a4a710d6730b7167433f809bd94490fc69021" "3c265f0d6ffd087d369974c1a6917ffe31f7f5c7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -26,7 +26,6 @@ IUSE="
 	arc_hw_oemcrypto
 	arcpp
 	arcvm
-	esdfs
 	fuzzer
 	houdini
 	houdini64
@@ -37,9 +36,7 @@ IUSE="
 REQUIRED_USE="|| ( arcpp arcvm )"
 
 COMMON_DEPEND="
-	arcpp? (
-		esdfs? ( chromeos-base/arc-sdcard )
-	)
+	arcpp? ( chromeos-base/arc-sdcard )
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cryptohome-client:=
@@ -58,7 +55,7 @@ RDEPEND="${COMMON_DEPEND}
 	arcvm? ( chromeos-base/crosvm )
 	arcpp? (
 		chromeos-base/swap-init
-		esdfs? ( sys-apps/restorecon )
+		sys-apps/restorecon
 	)
 "
 
@@ -66,13 +63,6 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 	test? ( chromeos-base/arc-base )
 "
-
-
-enable_esdfs() {
-	[[ -f "$1" ]] || die
-	local data=$(jq ".USE_ESDFS=true" "$1")
-	echo "${data}" > "$1" || die
-}
 
 
 src_install() {
@@ -114,20 +104,14 @@ src_install() {
 		doins init/arc-lifetime.conf
 		doins init/arc-update-restorecon-last.conf
 		doins init/arcpp-post-login-services.conf
-		if use esdfs; then
-			doins init/arc-sdcard.conf
-			doins init/arc-sdcard-mount.conf
-		fi
+		doins init/arc-sdcard.conf
+		doins init/arc-sdcard-mount.conf
 		doins init/arc-system-mount.conf
 		insinto /etc/dbus-1/system.d
 		doins init/dbus-1/ArcSetupUpstart.conf
 
 		insinto /usr/share/arc-setup
 		doins init/arc-setup/config.json
-
-		if use esdfs; then
-			enable_esdfs "${D}/usr/share/arc-setup/config.json"
-		fi
 
 		insinto /opt/google/containers/arc-art
 		doins "${OUT}/dev-rootfs.squashfs"
