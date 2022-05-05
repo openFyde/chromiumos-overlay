@@ -51,7 +51,7 @@ esac
 
 # $board-overlay/make.conf may contain these flags to always create "firmware
 # from source".
-IUSE="bootimage cros_ec cros_ish local_firmware tot_firmware unibuild zephyr_ec"
+IUSE="bootimage cros_ec cros_ish tot_firmware unibuild zephyr_ec"
 
 # "futility update" is needed when building and running updater package.
 COMMON_DEPEND="
@@ -301,31 +301,22 @@ cros-firmware_src_compile() {
 		fi
 	fi
 
-	local output="${UPDATE_SCRIPT}"
-	if use local_firmware; then
-		output="updater.sh"
-		einfo "local_firmware is enabled, skipping BCS firmware updater"
-		einfo "Build ${BOARD_USE} local updater to ${output}:" \
-			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
-		./pack_firmware.py -o "${output}" \
-			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
-			die "Cannot pack local firmware updater."
-	elif use tot_firmware; then
+	if use tot_firmware; then
 		einfo "tot_firmware is enabled, skipping BCS firmware updater"
-		einfo "Build ${BOARD_USE} local updater to ${output}:" \
+		einfo "Build ${BOARD_USE} local updater to ${UPDATE_SCRIPT}:" \
 			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
-		./pack_firmware.py -o "${output}" \
+		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
 			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
 			die "Cannot pack local firmware updater."
 	elif [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
 		# (no need to update)
 		einfo "Building empty firmware update script"
-		echo -n >"${output}"
+		echo -n >"${UPDATE_SCRIPT}"
 	else
-		einfo "Build ${BOARD_USE} BCS firmware updater to ${output}:" \
+		einfo "Build ${BOARD_USE} BCS firmware updater to ${UPDATE_SCRIPT}:" \
 			"${image_cmd[*]} ${ext_cmd[*]}"
-		./pack_firmware.py -o "${output}" \
+		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
 			"${image_cmd[@]}" "${ext_cmd[@]}" ||
 			die "Cannot pack firmware updater."
 	fi
@@ -339,9 +330,9 @@ cros-firmware_src_compile() {
 
 cros-firmware_src_install() {
 	# install updaters for firmware-from-source archive.
-	if use local_firmware && use bootimage; then
+	if use tot_firmware && use bootimage; then
 		exeinto /firmware
-		doexe updater.sh
+		newexe "${UPDATE_SCRIPT}" updater.sh
 	fi
 
 	# install local signer config
