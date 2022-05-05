@@ -102,36 +102,6 @@ cros_post_pkg_nofetch_distdir() {
 	einfo "and ~/chromiumos/.cache/distfiles/ outside the chroot."
 }
 
-cros_emit_build_metric() {
-	# We only enable build metrics on servers currently, but we need to make
-	# sure the binpkgs they produce are usable when deployed for developers
-	# & DUTs.
-	local emit_metric="/mnt/host/source/chromite/bin/emit_metric"
-	if [[ -n "${BUILD_API_METRICS_LOG}" ]] && [[ -e "${emit_metric}" ]] ; then
-		local operation=$1
-		local phase=$2
-		local metric="emerge.${phase}.${CATEGORY}/${PF}"
-		local key="${metric}"
-		"${emit_metric}" "${operation}" "${metric}" "${key}"
-	fi
-}
-
-if [[ -n "${BUILD_API_METRICS_LOG}" ]] ; then
-	# Set up recording of Build API metrics events.
-	cros_setup_metric_events() {
-		# Avoid executing multiple times in a single build.
-		[[ ${cros_setup_metric_events_run+set} == "set" ]] && return
-
-		local phase
-		for phase in {src_{unpack,prepare,configure,compile,test,install},pkg_{{pre,post}{inst,rm},setup}} ; do
-			eval "cros_pre_${phase}_start_timer() { cros_emit_build_metric start-timer "${phase}" ; }"
-			eval "cros_post_${phase}_stop_timer() { cros_emit_build_metric stop-timer "${phase}" ; }"
-		done
-		export cros_setup_metric_events_run="yes"
-	}
-	cros_setup_metric_events
-fi
-
 # If we ran clang-tidy during the compile phase, we need to capture the build
 # logs, which contain the actual clang-tidy warnings.
 cros_pre_src_install_tidy_setup() {
