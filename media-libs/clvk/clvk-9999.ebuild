@@ -35,10 +35,10 @@ CMAKE_USE_DIR="${CLVK_DIR}"
 DESCRIPTION="Prototype implementation of OpenCL 1.2 on to of Vulkan using clspv as the Compiler"
 HOMEPAGE="https://github.com/kpet/${PN}"
 
-LLVM_FOLDER="llvm-project-c95275420610ac94c0eeebf0bc171b8d342a1c77"
+LLVM_FOLDER="llvm-project-88b9d1a49aba54171804da355f00c8fe0483f428"
 LLVM_ARCHIVE="${LLVM_FOLDER}.zip"
 
-SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-a6cbadeef4fcb49329d3794e5faa043df830a1dc"
+SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-a836197d52aced43f49b7f9a2386424ce734acba"
 SPIRV_LLVM_TRANSLATOR_ARCHIVE="${SPIRV_LLVM_TRANSLATOR_FOLDER}.zip"
 
 SRC_URI="
@@ -84,6 +84,11 @@ src_unpack() {
 }
 
 src_prepare() {
+	# TODO(b/227133185) : To be removed once Intel fixed the issue in mesa breaking TFlite (and preventing llvm to be updated).
+	pushd "${WORKDIR}/${LLVM_FOLDER}" || die
+	eapply "${FILESDIR}/UPSTREAM-llvm-d8d793f29b4-Fix-compat-with-retroactive-c++23.patch"
+	popd || die
+
 	cmake-utils_src_prepare
 	eapply_user
 }
