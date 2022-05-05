@@ -2,24 +2,24 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI="4"
+EAPI="7"
 
 DESCRIPTION="Install Chromium OS ssh test keys to a shared location."
-HOMEPAGE="http://www.chromium.org/"
+HOMEPAGE="https://dev.chromium.org/chromium-os/"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
+IUSE="-generated_ssh_key"
 
 S="${WORKDIR}"
 
-IUSE="-generated_ssh_key"
 KEYSDIR="${FILESDIR}"
 
 generate_key_pair() {
 	einfo "Generating ssh key pair in ${S} ..."
 	ssh-keygen -t rsa -b 4096 -C "ChromeOS test key" -N "" \
-		-f "${S}"/testing_rsa
+		-f "${S}"/testing_rsa || die
 	KEYSDIR="${S}"
 }
 
