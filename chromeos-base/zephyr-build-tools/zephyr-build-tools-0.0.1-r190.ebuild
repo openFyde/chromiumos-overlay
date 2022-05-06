@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ade735848a985bb90073a320938d42064e788cee"
+CROS_WORKON_COMMIT="12c473337e3bdcce6d180d266c9e9f8127448f33"
 CROS_WORKON_TREE="da8d739ddbdae9392f8dc5c8aafc90bfb41e09f0"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
@@ -41,6 +41,9 @@ RDEPEND="
 "
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
+
+# TODO(b/231316289): Re-enable once flakes are fixed.
+RESTRICT="test"
 
 src_unpack() {
 	cros-workon_src_unpack
