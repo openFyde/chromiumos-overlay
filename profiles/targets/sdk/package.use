@@ -25,6 +25,9 @@ dev-lang/python-exec python_targets_pypy3
 dev-python/setuptools python_targets_pypy3
 dev-python/certifi python_targets_pypy3
 
+# Start rolling out Python 3.8.
+virtual/target-chromium-os-sdk python_targets_python3_8
+
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux pcre2
 
