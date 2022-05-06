@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
-CROS_RUST_CRATE_NAME="factory_installer_rust"
+CROS_RUST_CRATE_NAME="factory_installer"
 CROS_RUST_SUBDIR="rust"
 
 inherit cros-workon cros-rust cros-factory
@@ -122,6 +122,9 @@ src_compile() {
 
 src_test() {
 	tests/secure-wipe.sh || die "integration test failed"
+	cd "${CROS_RUST_SUBDIR}" || die
+	cros-rust_src_test
+	cd "${S}" || die
 }
 
 src_install() {
