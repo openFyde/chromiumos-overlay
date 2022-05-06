@@ -40,6 +40,7 @@ IUSE="
 	opengles
 	p2p
 	+perfetto
+	python_targets_python3_6 python_targets_python3_8
 	scanner
 	+shill
 	+tpm
@@ -137,7 +138,8 @@ CROS_COMMON_RDEPEND="
 	x86?   ( dev-go/delve )
 	amd64? ( dev-go/delve )
 	arm64? ( dev-go/delve )
-	dev-lang/python:3.6
+	python_targets_python3_6? ( dev-lang/python:3.6 )
+	python_targets_python3_8? ( dev-lang/python:3.8 )
 	dev-libs/opensc
 	p2p? ( dev-python/dpkt )
 	perfetto? (

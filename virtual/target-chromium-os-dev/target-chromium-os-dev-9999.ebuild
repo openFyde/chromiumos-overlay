@@ -29,6 +29,7 @@ IUSE="
 	pam
 	+power_management
 	+profile
+	python_targets_python3_6 python_targets_python3_8
 	+shill
 	tpm
 	tpm2
@@ -145,7 +146,8 @@ RDEPEND="${RDEPEND}
 	net-misc/rsync
 	net-wireless/iw
 	net-wireless/wireless-tools
-	dev-lang/python:3.6
+	python_targets_python3_6? ( dev-lang/python:3.6 )
+	python_targets_python3_8? ( dev-lang/python:3.8 )
 	dev-libs/libgpiod
 	dev-python/protobuf-python
 	dev-python/cherrypy
