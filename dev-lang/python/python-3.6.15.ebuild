@@ -58,9 +58,6 @@ BDEPEND="
 	virtual/pkgconfig
 	verify-sig? ( sec-keys/openpgp-keys-python )
 	!sys-devel/gcc[libffi(-)]"
-# TODO(build): Figure out where this belongs.  Gentoo has dropped the dep in
-# this package, but we need it to make sure /usr/local/bin/python3 exists.
-PDEPEND="app-eselect/eselect-python"
 RDEPEND+=" !build? ( app-misc/mime-types )"
 
 VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/python.org.asc
