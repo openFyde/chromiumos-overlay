@@ -151,6 +151,7 @@ IUSE_TESTS_ATOMIC="
 
 IUSE_TESTS_CHROMIUM="
 	+tests_chromium
+	+tests_chromium_Telemetry
 "
 
 IUSE_TESTS="
