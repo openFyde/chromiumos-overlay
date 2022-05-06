@@ -17,7 +17,7 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-sdk.
-IUSE=""
+IUSE="python_targets_python3_6 python_targets_python3_8"
 
 # Block the old package to force people to clean up.
 RDEPEND="
@@ -160,7 +160,8 @@ RDEPEND="${RDEPEND}
 	dev-go/protobuf-legacy-api
 	dev-lang/closure-compiler-bin
 	dev-lang/nasm
-	dev-lang/python:3.6
+	python_targets_python3_6? ( dev-lang/python:3.6 )
+	python_targets_python3_8? ( dev-lang/python:3.8 )
 	dev-lang/swig
 	dev-lang/tcl
 	dev-lang/yasm
