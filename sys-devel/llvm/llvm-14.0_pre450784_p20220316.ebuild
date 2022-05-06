@@ -36,7 +36,7 @@ IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
 COMMON_DEPEND="
 	sys-libs/zlib:0=[${MULTILIB_USEDEP}]
 	libedit? ( dev-libs/libedit:0=[${MULTILIB_USEDEP}] )
-	libffi? ( >=virtual/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
+	libffi? ( >=dev-libs/libffi-3.0.13-r1:0=[${MULTILIB_USEDEP}] )
 	ncurses? ( >=sys-libs/ncurses-5.9-r3:0=[${MULTILIB_USEDEP}] )
 	ocaml? (
 		>=dev-lang/ocaml-4.00.0:0=
