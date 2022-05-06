@@ -9,7 +9,9 @@ HOMEPAGE=""
 LICENSE="metapackage"
 SLOT="0/${PV}"
 KEYWORDS="*"
+IUSE="cros_host"
 
-DEPEND="
-	~dev-lang/rust-${PV}:=
+BDEPEND="
+	~dev-lang/rust-host-${PV}:=
+	!cros_host? ( ~dev-lang/rust-${PV}:= )
 "
