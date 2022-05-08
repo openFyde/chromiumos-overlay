@@ -47,6 +47,7 @@ RDEPEND="${RDEPEND}
 	sys-apps/findutils
 	sys-apps/gawk
 	sys-apps/grep
+	sys-apps/ripgrep
 	sys-apps/sed
 	sys-apps/shadow
 	sys-apps/texinfo
@@ -406,6 +407,12 @@ RDEPEND="${RDEPEND}
 # Host dependencies for building Platform2
 RDEPEND="${RDEPEND}
 	chromeos-base/chromeos-dbus-bindings
+	chromeos-base/sirenia-tools
+	dev-rust/bindgen
+	dev-rust/cbindgen
+	dev-rust/dbus-codegen
+	dev-rust/protobuf-codegen
+	dev-util/cxxbridge-cmd
 	dev-util/meson
 	dev-util/ninja
 	"
@@ -559,10 +566,12 @@ RDEPEND="${RDEPEND}
 
 # Needed for hps-firmware.
 RDEPEND="${RDEPEND}
+	dev-rust/svd2rust
 	sci-electronics/litescope
 	sci-electronics/liteeth
 	sci-electronics/litespi
 	sci-electronics/litedram
+	sci-electronics/nextpnr
 	sci-electronics/nmigen
 	sci-electronics/pythondata-misc-tapcfg
 	sci-electronics/verilator"
