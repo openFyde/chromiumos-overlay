@@ -56,6 +56,7 @@ IUSE="
 	dlc
 	fuzzer
 	internal
+	march_alderlake
 	ml_benchmark_drivers
 	nnapi
 	ondevice_document_scanner
@@ -156,6 +157,12 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
+	# TODO(b/183455993): Re-enable when unit tests requiring instructions not
+	# supported by the build machine can be run.
+	if use march_alderlake; then
+		return
+	fi
+
 	# Recreate model dir in the temp directory and copy both
 	# MODELS_TO_INSTALL and DOWNLOADABLE_MODELS into it for use in unit
 	# tests.
