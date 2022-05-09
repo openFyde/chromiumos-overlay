@@ -28,6 +28,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/0002-cros-syzkaller-turn-off-vhci-injection.patch
 	eapply "${FILESDIR}"/0003-cros-syzkaller-use-arm-toolchain-available-within-ch.patch
 	eapply "${FILESDIR}"/0004-cros-syzkaller-only-do-exact-function-name-matching.patch
+	eapply "${FILESDIR}"/0005-cros-syzkaller-description-updates-for-devlink-t7xx.patch
 	eapply_user
 }
 
