@@ -3,6 +3,15 @@
 #
 # shellcheck disable=SC2034
 
+##############################################################################
+#                                                                            #
+#                    *** DO NOT UPREV PAST lxd-4.0.7 ***                     #
+#                                                                            #
+# lxd-4.0.8 breaks "lxd import" which breaks users upgrading from lxd 3.     #
+# https://bugs.chromium.org/p/chromium/issues/detail?id=1321396              #
+#                                                                            #
+##############################################################################
+
 EAPI=7
 
 DESCRIPTION="Fast, dense and secure container management"
@@ -14,14 +23,23 @@ HOMEPAGE="https://linuxcontainers.org/lxd/introduction/ https://github.com/lxc/l
 CROS_GO_PACKAGES=(
 )
 
-CROS_GO_WORKSPACE="${S}/go"
+CROS_GO_WORKSPACE="${S}/_dist"
 EGO_PN="github.com/lxc/lxd"
+BIN_PATH="/opt/google/lxd-next/usr/bin"
+CROS_GO_BINARIES=(
+	"${EGO_PN}/lxd:${BIN_PATH}/lxd"
+	"${EGO_PN}/fuidshift:${BIN_PATH}/fuidshift"
+	"${EGO_PN}/lxd-agent:${BIN_PATH}/lxd-agent"
+	"${EGO_PN}/lxd-benchmark:${BIN_PATH}/lxd-benchmark"
+	"${EGO_PN}/lxd-p2c:${BIN_PATH}/lxd-p2c"
+	"${EGO_PN}/lxc:${BIN_PATH}/lxc"
+	"${EGO_PN}/lxc-to-lxd:${BIN_PATH}/lxc-to-lxd"
+)
 
 # Needs to include licenses for all bundled programs and libraries.
 LICENSE="Apache-2.0 BSD BSD-2 LGPL-3 MIT MPL-2.0"
 SLOT="4"
-# TODO(crbug.com/1321396): This ebuild is not used, use lxd-4.0.7 instead.
-KEYWORDS="~*"
+KEYWORDS="*"
 
 IUSE="apparmor ipv6 nls verify-sig"
 
@@ -70,8 +88,23 @@ ERROR_UTS_NS="CONFIG_UTS_NS is required."
 
 VERIFY_SIG_OPENPGP_KEY_PATH=${BROOT}/usr/share/openpgp-keys/linuxcontainers.asc
 
+src_unpack() {
+	unpack "${A}"
+	cd "${S}" || die
+
+	# Instead of using the lxd symlink in the dist directory, move the lxd
+	# source into that directory. Otherwise, the cros-go_src_install stage
+	# will fail since it won't traverse symlinks.
+	rm "${S}/_dist/src/${EGO_PN}"
+	mkdir "${S}/_dist/src/${EGO_PN}"
+	find "${S}"/* -maxdepth 0 \
+				-type d \
+				! -name "_dist" \
+				-exec mv {} "${S}/_dist/src/${EGO_PN}" \;
+}
+
 src_configure() {
-	DEPS="${S}/vendor"
+	DEPS="${S}/_dist/deps"
 
 	cd "${DEPS}/raft" || die "Can't cd to raft dir"
 	eautoreconf
@@ -85,7 +118,7 @@ src_configure() {
 }
 
 src_compile() {
-	DEPS="${S}/vendor"
+	DEPS="${S}/_dist/deps"
 
 	cd "${DEPS}/raft" || die "Can't cd to raft dir"
 	emake
@@ -110,14 +143,11 @@ src_compile() {
 	export PKG_CONFIG="/usr/bin/pkg-config"
 	export CGO_CFLAGS="${CGO_CFLAGS} -I${install_root}/include"
 	export CGO_LDFLAGS="${CGO_LDFLAGS} -L${install_root}/$(get_libdir)"
-	export GO111MODULE=on
 
-	for bin in lxd lxc fuidshift lxd-agent lxd-benchmark lxd-p2c lxc-to-lxd; do
-		cros_go install -v "${EGO_PN}/${bin}" || die "Failed to build ${bin}"
-	done
+	cros-go_src_compile
 
 	if use nls; then
-		cd "${S}" || die
+		cd "${S}/_dist/src/${EGO_PN}" || die
 		emake -f "${S}/Makefile" build-mo
 	fi
 }
@@ -138,7 +168,7 @@ src_test() {
 src_install() {
 	cros-go_src_install
 
-	DEPS="${S}/vendor"
+	DEPS="${S}/_dist/deps"
 
 	cd "${DEPS}/raft" || die
 	emake DESTDIR="${D}/opt/google/lxd-next" install
@@ -146,14 +176,11 @@ src_install() {
 	cd "${DEPS}/dqlite" || die
 	emake DESTDIR="${D}/opt/google/lxd-next" install
 
-	exeinto "/opt/google/lxd-next/usr/bin"
-	doexe "${CROS_GO_WORKSPACE}"/bin/*
-
 	cd "${S}" || die
-	newbashcomp "${S}/scripts/bash/lxd-client" lxc
+	newbashcomp "${S}/_dist/src/${EGO_PN}/scripts/bash/lxd-client" lxc
 
-	dodoc AUTHORS doc/*
-	use nls && domo "${S}/po/"*.mo
+	dodoc AUTHORS _dist/src/${EGO_PN}/doc/*
+	use nls && domo "${S}/_dist/src/${EGO_PN}/po/"*.mo
 
 	# TODO(crbug/1097610) Remove this once we no longer need to do weird
 	# things with PATH
