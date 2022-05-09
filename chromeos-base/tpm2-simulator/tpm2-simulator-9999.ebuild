@@ -32,7 +32,10 @@ COMMON_DEPEND="
 	sys-libs/libselinux:=
 	"
 
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/selinux-policy
+"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
