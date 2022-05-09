@@ -113,6 +113,7 @@ src_compile() {
 	export GO111MODULE=on
 
 	for bin in lxd lxc fuidshift lxd-agent lxd-benchmark lxd-p2c lxc-to-lxd; do
+		elog "Building ${EGO_PN}/${bin}"
 		cros_go install -v "${EGO_PN}/${bin}" || die "Failed to build ${bin}"
 	done
 
@@ -147,7 +148,11 @@ src_install() {
 	emake DESTDIR="${D}/opt/google/lxd-next" install
 
 	exeinto "/opt/google/lxd-next/usr/bin"
-	doexe "${CROS_GO_WORKSPACE}"/bin/*
+	if [[ ${ARCH} != "amd64" ]]; then
+		doexe "${CROS_GO_WORKSPACE}/bin/linux_${ARCH}"/*
+	else
+		doexe "${CROS_GO_WORKSPACE}/bin"/*
+	fi
 
 	cd "${S}" || die
 	newbashcomp "${S}/scripts/bash/lxd-client" lxc
