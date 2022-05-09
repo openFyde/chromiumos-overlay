@@ -113,9 +113,6 @@ multilib_src_configure() {
 
 	export DSOFLAGS="${LDFLAGS}"
 
-	einfo LANGS=\"${LANGS}\"
-	einfo LINGUAS=\"${LINGUAS}\"
-
 	local myconf=()
 
 	if tc-is-static-only; then
@@ -142,7 +139,7 @@ multilib_src_configure() {
 		LIBS="-lstdc++" \
 		KRB5CONFIG="${EPREFIX}/usr/bin/${CHOST}-krb5-config" \
 		PKGCONFIG="$(tc-getPKG_CONFIG)" \
-		--libdir="${EPREFIX}"/usr/$(get_libdir) \
+		--libdir="${EPREFIX}/usr/$(get_libdir)" \
 		--localstatedir="${EPREFIX}"/var \
 		--with-rundir="${EPREFIX}"/run/cups \
 		--with-printerroot="${EPREFIX}"/var/cache/cups/printers \
@@ -152,22 +149,22 @@ multilib_src_configure() {
 		--with-languages="${LINGUAS}" \
 		--with-system-groups=lpadmin \
 		--with-xinetd=/etc/xinetd.d \
-		$(multilib_native_use_enable acl) \
+		"$(multilib_native_use_enable acl)" \
 		$(use_enable dbus) \
 		$(use_enable debug) \
 		$(use_enable debug debug-guards) \
 		$(use_enable debug debug-printfs) \
 		$(use_enable kerberos gssapi) \
-		$(multilib_native_use_enable pam) \
+		"$(multilib_native_use_enable pam)" \
 		$(use_enable static-libs static) \
 		$(use_enable threads) \
 		$(use_with ssl tls gnutls) \
 		$(use_with systemd ondemand systemd) \
 		$(use_with upstart ondemand upstart) \
-		$(multilib_native_use_enable usb libusb) \
+		"$(multilib_native_use_enable usb libusb)" \
 		--without-dnssd \
 		--disable-localization \
-		$(multilib_is_native_abi && echo --enable-libpaper || echo --disable-libpaper) \
+		"$(multilib_is_native_abi && echo --enable-libpaper || echo --disable-libpaper)" \
 		"${myconf[@]}"
 
 	# install in /usr/libexec always, instead of using /usr/lib/cups, as that
@@ -242,7 +239,7 @@ multilib_src_install_all() {
 	[[ -n ${neededservices} ]] && neededservices="need${neededservices}"
 	cp "${FILESDIR}"/cupsd.init.d-r1 "${T}"/cupsd || die
 	sed -i \
-		-e "s/@neededservices@/$neededservices/" \
+		-e "s/@neededservices@/${neededservices}/" \
 		"${T}"/cupsd || die
 	doinitd "${T}"/cupsd
 
