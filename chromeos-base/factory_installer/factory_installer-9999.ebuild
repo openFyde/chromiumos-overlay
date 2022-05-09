@@ -97,7 +97,8 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/upstart
 	sys-apps/util-linux
 	sys-block/parted
-	sys-fs/e2fsprogs"
+	sys-fs/e2fsprogs
+	chromeos-base/factory_ufs"
 
 
 src_unpack() {
@@ -115,7 +116,7 @@ src_configure() {
 src_compile() {
 	tc-export AR CC CXX RANLIB
 	cd "${CROS_RUST_SUBDIR}" || die
-	cros-rust_src_compile
+	cros-rust_src_compile --all-features
 	cd "${S}" || die
 	emake
 }
@@ -123,7 +124,7 @@ src_compile() {
 src_test() {
 	tests/secure-wipe.sh || die "integration test failed"
 	cd "${CROS_RUST_SUBDIR}" || die
-	cros-rust_src_test
+	cros-rust_src_test --all-features
 	cd "${S}" || die
 }
 
