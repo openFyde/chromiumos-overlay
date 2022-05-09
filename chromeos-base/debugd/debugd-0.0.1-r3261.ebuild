@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b6d100a6a6bc7eb87ce802240ab443e0bd65ba75"
+CROS_WORKON_COMMIT="4aaada95af7bf76c8b99219f1f65e9313725ecf0"
 CROS_WORKON_TREE=("5b99c2668fa81754cfd0f1c4bab7554dbd49f8b6" "c8833362422a2184df1142b242ef0ec61e699f8a" "3c265f0d6ffd087d369974c1a6917ffe31f7f5c7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,7 +18,7 @@ DESCRIPTION="Chrome OS debugging service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/debugd/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="arcvm cellular iwlwifi_dump nvme sata tpm"
+IUSE="arcvm cellular iwlwifi_dump nvme sata tpm ufs"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-login:=
@@ -38,6 +38,10 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	iwlwifi_dump? ( chromeos-base/intel-wifi-fw-dump )
 	nvme? ( sys-apps/nvme-cli )
+	ufs? (
+		sys-apps/sg3_utils
+		sys-apps/ufs-utils
+	)
 	chromeos-base/chromeos-ssh-testkeys
 	chromeos-base/chromeos-sshd-init
 	!chromeos-base/workarounds
