@@ -194,6 +194,11 @@ src_compile() {
 		crosvm_control
 	)
 
+	# Remove other versions of crosvm_control so the header installation
+	# only picks up the most recently built version.
+	# TODO(b/188858559) Remove this once the header is installed directly by cargo
+	rm -rf "$(cros-rust_get_build_dir)/build/crosvm_control-*" || die "failed to remove old crosvm_control packages"
+
 	for pkg in "${packages[@]}"; do
 		ecargo_build -v \
 			--features="${features[*]}" \
@@ -355,6 +360,14 @@ src_install() {
 
 	insinto "${include_dir}"
 	doins "${S}"/qcow_utils/src/qcow_utils.h
+
+	# Install crosvm_control header and library.
+	# Note: Old versions of the crosvm_control package are deleted at the
+	# beginning of the compile step, so this doins will only pick up the
+	# most recently built crosvm_control.h.
+	# TODO(b/188858559) Install the header directly from cargo using --out-dir once the feature is stable
+	doins "${build_dir}"/build/crosvm_control-*/out/crosvm_control.h
+	dolib.so "${build_dir}/deps/libcrosvm_control.so"
 
 	# Install plugin library, when requested.
 	if use crosvm-plugin; then
