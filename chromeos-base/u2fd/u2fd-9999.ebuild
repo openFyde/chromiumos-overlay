@@ -15,7 +15,7 @@ PLATFORM_SUBDIR="u2fd"
 inherit cros-workon platform user
 
 DESCRIPTION="U2FHID Emulation Daemon"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fhid"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -27,9 +27,11 @@ COMMON_DEPEND="
 	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
+		chromeos-base/u2fd-client:=
 	)
 	ti50_onboard? (
 		chromeos-base/trunks:=
+		chromeos-base/u2fd-client:=
 	)
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
