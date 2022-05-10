@@ -49,6 +49,8 @@ src_compile() {
 	else
 		meson_src_compile
 	fi
+	# Generates a copy of airscan.conf with the lines after the debug tag uncommented.
+	sed -e '/^#*\[debug\]/,$s/^#*//' < "${FILESDIR}/airscan.conf" > "${BUILD_DIR}/airscan-debug.conf"
 }
 
 src_install() {
@@ -60,6 +62,9 @@ src_install() {
 
 		insinto "/etc/sane.d"
 		newins "${FILESDIR}/airscan.conf" "airscan.conf"
+
+		insinto "/usr/share/sane"
+		newins "${BUILD_DIR}/airscan-debug.conf" "airscan-debug.conf"
 
 		insinto "/etc/sane.d/dll.d"
 		newins "${S}/dll.conf" "airscan.conf"
