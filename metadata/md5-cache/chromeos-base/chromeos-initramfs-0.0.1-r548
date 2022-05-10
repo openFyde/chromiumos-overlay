@@ -11,4 +11,4 @@ PROPERTIES=live
 REQUIRED_USE=|| ( test factory_netboot_ramfs factory_shim_ramfs hypervisor_ramfs recovery_ramfs minios_ramfs )
 SLOT=0
 _eclasses_=cros-board	e28a53bc9c529c1ade9e90bac9a2e843	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=eae80d81311f22fdc5fe50c24f75c4d9
+_md5_=34aa01b2f0d433fe5a897cd14fb06e99
