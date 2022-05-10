@@ -1,4 +1,4 @@
-Copyright 2019 The Chromium OS Authors. All rights reserved.
+Copyright 2019 The ChromiumOS Authors. All rights reserved.
 Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 
@@ -15,4 +15,4 @@ To update:
 - modify third_party/toolchain_utils/compiler_wrapper
 - run third_party/toolchain_utils/compiler_wrapper/bundle.py --output_dir=...
 
-Source: https://chromium-review.googlesource.com/q/I1a12e50277b37af7bb0b6a58fea2de10006983c8
+Source: https://chromium-review.googlesource.com/q/If88877cb63cdd5c392fcf05c2940751547466213
