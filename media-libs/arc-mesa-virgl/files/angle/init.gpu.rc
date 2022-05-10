@@ -7,5 +7,4 @@ on early-init
     setprop ro.opengles.version 196609
     setprop ro.hardware.egl angle
     setprop debug.hwui.renderer skiavk
-    # TODO update once https://crbug.com/angleproject/6909 is fixed
-    setprop debug.angle.feature_overrides_disabled preferSubmitAtFBOBoundary:supportsShaderFramebufferFetch
+    setprop debug.angle.feature_overrides_disabled preferSubmitAtFBOBoundary
