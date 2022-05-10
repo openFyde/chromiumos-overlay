@@ -3,13 +3,12 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="05261965963bf1c20f29b769a5094d51551dd727"
-CROS_WORKON_TREE=("6c641b53b4b5716a2d4b30be39008ac06f727856" "211af3899694db591452b8e94dcb99972a902776" "d5f89e7a09fa709508a33fd82618c731e9c1583a" "d1d8f3d30afd054a0cd41267d2ffb736c619ae6d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="aacbe1f01c93f4e2a07c1fd13d7599b9af99d616"
+CROS_WORKON_TREE=("6c641b53b4b5716a2d4b30be39008ac06f727856" "167acf67b9524416740912048328587bf8cd6c9c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-PACKAGE_SUBDIR="mojo_service_manager/BUILD.gn mojo_service_manager/daemon mojo_service_manager/lib"
-CROS_WORKON_SUBTREE="common-mk ${PACKAGE_SUBDIR} .gn"
+CROS_WORKON_SUBTREE="common-mk mojo_service_manager .gn"
 PLATFORM_SUBDIR="mojo_service_manager"
 
 inherit cros-workon platform user

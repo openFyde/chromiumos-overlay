@@ -75,6 +75,7 @@ IUSE="
 	secanomalyd
 	modemfwd
 	ml_service
+	mojo_service_manager
 	hps
 	mtd
 	+network_time
@@ -356,6 +357,7 @@ RDEPEND="
 	chrome_internal? (
 		assistant-dlc? ( chromeos-base/assistant-dlc )
 	)
+	mojo_service_manager? ( chromeos-base/mojo_service_manager )
 "
 
 ################################################################################
