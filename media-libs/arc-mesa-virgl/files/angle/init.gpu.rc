@@ -8,3 +8,5 @@ on early-init
     setprop ro.hardware.egl angle
     setprop debug.hwui.renderer skiavk
     setprop debug.angle.feature_overrides_disabled preferSubmitAtFBOBoundary
+    # TODO remove forceContinuousRefreshOnSharedPresent after b/229267970 gets fixed
+    setprop debug.angle.feature_overrides_enabled forceContinuousRefreshOnSharedPresent
