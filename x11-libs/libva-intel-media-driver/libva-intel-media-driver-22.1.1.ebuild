@@ -27,6 +27,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-fix-bitwise-or-warning.patch
 	"${FILESDIR}"/0005-BACKPORT-Upstream-upstream-ADLN.patch
 	"${FILESDIR}"/0006-BACKPORT-Add-support-for-ADL-N-Enable-the-cmake-opti.patch
+	"${FILESDIR}"/0007-enable-VP8-encode-for-BXT-and-APL.patch
 )
 
 src_configure() {
