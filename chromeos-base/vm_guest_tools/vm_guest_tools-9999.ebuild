@@ -113,6 +113,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
+		maitred_init_test
 		maitred_service_test
 		maitred_syslog_test
 	)
