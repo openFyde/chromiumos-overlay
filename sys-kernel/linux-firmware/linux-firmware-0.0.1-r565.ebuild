@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="e67f5f3c4eda479304f437b3583dee01f4279bd9"
-CROS_WORKON_TREE="ed151b4d268f7fa70e1e6c4dc5b4b7cb9ff45c24"
+CROS_WORKON_COMMIT="8261477e99e72b7b8bd34bec92fac2b7eff73524"
+CROS_WORKON_TREE="39775723679425eef05092ef57e8da874198ec1d"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -74,6 +74,7 @@ IUSE_LINUX_FIRMWARE=(
 	ath10k_qca6174a-5
 	ath10k_qca6174a-3
 	ath10k_wcn3990
+	ath11k_wcn6750
 	ath11k_wcn6855
 	amd_ucode
 	amdgpu_carrizo
@@ -176,6 +177,7 @@ LICENSE="
 	linux_firmware_ath10k_qca6174a-5? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_ath10k_qca6174a-3? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_ath10k_wcn3990? ( LICENCE.atheros_firmware )
+	linux_firmware_ath11k_wcn6750? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_ath11k_wcn6855? ( LICENSE.QualcommAtheros_ath10k )
 	linux_firmware_bcm4354-bt? ( LICENCE.broadcom_bcm43xx )
 	linux_firmware_cros-pd? ( BSD-Google )
@@ -369,6 +371,7 @@ src_install() {
 	use_fw ath10k_qca6174a-5 && doins_subdir ath10k/QCA6174/hw3.0/{firmware-6,board-2}.bin
 	use_fw ath10k_qca6174a-3 && doins_subdir ath10k/QCA6174/hw3.0/{firmware-sdio-6,board-2}.bin
 	use_fw ath10k_wcn3990 && doins_subdir ath10k/WCN3990/hw1.0/*
+	use_fw ath11k_wcn6750 && doins_subdir ath11k/WCN6750/hw1.0/*
 	use_fw ath11k_wcn6855 && doins_subdir ath11k/WCN6855/hw2.0/*
 	use_fw bcm4354-bt && doins_subdir brcm/BCM4354_*.hcd
 	use_fw cros-pd && doins_subdir cros-pd/*
