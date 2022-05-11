@@ -96,6 +96,8 @@ src_configure() {
 	fi
 
 	tc-export PKG_CONFIG
+	# https://github.com/pkgconf/pkgconf/issues/205
+	local -x PKG_CONFIG_FDO_SYSROOT_RULES=1
 	meson_src_configure
 }
 
