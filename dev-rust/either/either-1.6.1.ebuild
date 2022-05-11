@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Either has methods that are similar to Option and Result, and it also implements traits like Iterator."
@@ -14,5 +16,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/serde-1.0.0:=
+	=dev-rust/serde-1*:=
 "

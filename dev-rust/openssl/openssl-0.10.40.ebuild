@@ -21,7 +21,8 @@ DEPEND="
 	>=dev-rust/foreign-types-0.3.1 <dev-rust/foreign-types-0.4.0:=
 	=dev-rust/libc-0.2*:=
 	>=dev-rust/once_cell-1.5.2 <dev-rust/once_cell-2.0.0:=
-	>=dev-rust/openssl-sys-0.9.66:= <dev-rust/openssl-sys-0.10.0
+	>=dev-rust/openssl-macros-0.1.0:= <dev-rust/openssl-macros-0.2.0
+	>=dev-rust/openssl-sys-0.9.73:= <dev-rust/openssl-sys-0.10.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are
 # pulled in when installing binpkgs since the full source tree is required to
@@ -29,5 +30,3 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!=dev-rust/openssl-0.10*
 "
-
-PATCHES=( "${FILESDIR}/${P}-include-hdkf.patch" )
