@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan +cras-apm featured fuzzer privacy_hub selinux systemd"
+IUSE="asan +cras-apm featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -67,7 +67,6 @@ src_configure() {
 		econf $(use_enable cras-apm webrtc-apm) \
 			--with-system-cras-rust \
 			$(use_enable featured) \
-			$(use_enable privacy_hub) \
 			$(use_enable amd64 fuzzer)
 	else
 		econf $(use_enable selinux) \
@@ -76,7 +75,6 @@ src_configure() {
 			--enable-metrics \
 			--with-system-cras-rust \
 			$(use_enable featured) \
-			$(use_enable privacy_hub) \
 			$(use_enable amd64 fuzzer) \
 			BASE_VER="$(libchrome_ver)"
 	fi
