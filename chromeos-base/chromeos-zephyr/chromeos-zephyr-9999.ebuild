@@ -49,10 +49,15 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
+echoit() {
+	echo "$@"
+	"$@"
+}
+
 # Run zmake from the EC source directory, with default arguments for
 # modules and Zephyr base location for this ebuild.
 run_zmake() {
-	PYTHONPATH="${S}/modules/ec/zephyr/zmake" python3 -m zmake -D \
+	echoit env PYTHONPATH="${S}/modules/ec/zephyr/zmake" python3 -m zmake -D \
 		--modules-dir="${S}/modules" \
 		--zephyr-base="${S}/zephyr-base" \
 		"$@"
