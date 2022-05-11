@@ -9,7 +9,7 @@ inherit cros-constants python-any-r1
 
 DESCRIPTION="Compilers for building HPS firmware"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
-LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA"
+LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA GPL-3 LGPL-3 libgcc FDL-1.2"
 KEYWORDS="*"
 SLOT="0"
 
@@ -17,11 +17,19 @@ RUST_VERSION="1.58.1"
 RUST_BOOTSTRAP_VERSION="1.57.0"
 RUST_BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
 
+# These revisions match the submodules in
+# https://github.com/riscv-collab/riscv-gnu-toolchain/tree/2021.04.23
+BINUTILS_REV="f35674005e609660f5f45005a9e095541ca4c5fe"
+GCC_REV="03cb20e5433cd8e65af6a1a6baaf3fe4c72785f6"
+
 SRC_URI="
 	https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.gz
 	https://static.rust-lang.org/dist/rustc-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}.tar.xz
 	https://static.rust-lang.org/dist/rust-std-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}.tar.xz
 	https://static.rust-lang.org/dist/cargo-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}.tar.xz
+	https://github.com/riscv-collab/riscv-binutils-gdb/archive/${BINUTILS_REV}.tar.gz -> riscv-binutils-gdb-${BINUTILS_REV}.tar.gz
+	https://github.com/riscv-collab/riscv-gcc/archive/${GCC_REV}.tar.gz -> riscv-gcc-${GCC_REV}.tar.gz
+	ftp://sourceware.org/pub/newlib/newlib-4.1.0.tar.gz
 "
 
 S="${WORKDIR}"
@@ -32,6 +40,8 @@ pkg_setup() {
 
 src_unpack() {
 	default
+
+	### RUST ###
 
 	# Copy bootstrap std to where bootstrap rustc will find it
 	local rust_std_dir="${WORKDIR}/rust-std-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}/rust-std-${RUST_BOOTSTRAP_HOST_TRIPLE}"
@@ -44,6 +54,8 @@ src_unpack() {
 
 src_prepare() {
 	default
+
+	### RUST ###
 
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 
@@ -79,9 +91,16 @@ src_prepare() {
 	if "${CXX}" -### -x c++ - < /dev/null 2>&1 | grep -q -e '-lc++'; then
 		sed -i 's:"stdc++":"c++":g' compiler/rustc_llvm/build.rs || die
 	fi
+
+	### GCC ###
+
+	cd "${WORKDIR}/riscv-gcc-${GCC_REV}" || die
+	eapply "${FILESDIR}/gcc-10.2.0-avoid-unprefixed-ld-in-configure-checks.patch"
 }
 
 src_configure() {
+	### RUST ###
+
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 	cat >config.toml <<EOF
 [build]
@@ -154,14 +173,145 @@ cc = "clang"
 cxx = "clang++"
 linker = "ld.lld"
 EOF
+
+	### GCC ###
+
+	# Work around a defective check in libiberty ./configure which invokes unprefixed 'cc'
+	export ac_cv_prog_cc_x86_64_pc_linux_gnu_clang_c_o=yes
+	export ac_cv_prog_cc_cc_c_o=yes
 }
 
 src_compile() {
+	### RUST ###
+
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 	${EPYTHON} x.py build --stage 2 || die
+
+	### GCC ###
+
+	# Build binutils
+	mkdir "${WORKDIR}/build-binutils" || die
+	(
+		cd "${WORKDIR}/build-binutils" || die
+		"${WORKDIR}/riscv-binutils-gdb-${BINUTILS_REV}/configure" \
+			--host="${CHOST}" \
+			--target=riscv64-unknown-elf \
+			--prefix=/opt/hps-sdk \
+			--disable-werror \
+			--disable-gdb \
+			--disable-sim \
+			--disable-libdecnumber \
+			--disable-readline \
+			|| die
+		emake
+		# Install under $WORKDIR so that GCC stage 1 can find it.
+		# We install for real under $D in src_install.
+		emake install DESTDIR="${WORKDIR}/installed-stage1"
+	)
+
+	# Build GCC stage 1
+	mkdir "${WORKDIR}/build-gcc-stage1" || die
+	(
+		# shellcheck disable=SC2030,SC2031  # subshell is intentional
+		export PATH="${WORKDIR}/installed-stage1/opt/hps-sdk/bin:${PATH}"
+		cd "${WORKDIR}/build-gcc-stage1" || die
+		"${WORKDIR}/riscv-gcc-${GCC_REV}/configure" \
+			--host="${CHOST}" \
+			--target=riscv64-unknown-elf \
+			--prefix="${WORKDIR}/installed-stage1/opt/hps-sdk" \
+			--with-sysroot="${WORKDIR}/installed-stage1/opt/hps-sdk/riscv64-unknown-elf" \
+			--disable-shared \
+			--disable-threads \
+			--disable-tls \
+			--enable-languages=c,c++ \
+			--with-system-zlib \
+			--with-newlib \
+			--disable-libmudflap \
+			--disable-libssp \
+			--disable-libquadmath \
+			--disable-libgomp \
+			--disable-nls \
+			--disable-tm-clone-registry \
+			--src="${WORKDIR}/riscv-gcc-${GCC_REV}" \
+			--enable-multilib \
+			--with-multilib-generator="rv32im-ilp32--" \
+			CFLAGS_FOR_TARGET="-Os" \
+			CXXFLAGS_FOR_TARGET="-Os" \
+			|| die
+		emake all-gcc
+		emake install-gcc
+	)
+
+	# Build newlib
+	mkdir "${WORKDIR}/build-newlib" || die
+	(
+		# shellcheck disable=SC2030,SC2031  # subshell is intentional
+		export PATH="${WORKDIR}/installed-stage1/opt/hps-sdk/bin:${PATH}"
+		cd "${WORKDIR}/build-newlib" || die
+		# TODO(dcallagh): should use the "nano" configuration with -Os probably
+		"${WORKDIR}/newlib-4.1.0/configure" \
+			--host="${CHOST}" \
+			--target=riscv64-unknown-elf \
+			--prefix=/opt/hps-sdk \
+			--enable-newlib-io-long-double \
+			--enable-newlib-io-long-long \
+			--enable-newlib-io-c99-formats \
+			--enable-newlib-register-fini \
+			CFLAGS_FOR_TARGET="-O2 -D_POSIX_MODE" \
+			CXXFLAGS_FOR_TARGET="-O2 -D_POSIX_MODE" \
+			|| die
+		emake
+		emake install DESTDIR="${WORKDIR}/installed-stage1"
+	)
+
+	# Build GCC stage 2
+	mkdir "${WORKDIR}/build-gcc-stage2" || die
+	(
+		# shellcheck disable=SC2030,SC2031  # subshell is intentional
+		export PATH="${WORKDIR}/installed-stage1/opt/hps-sdk/bin:${PATH}"
+		cd "${WORKDIR}/build-gcc-stage2" || die
+		# TODO(dcallagh): the riscv-gnu-toolchain Makefile passes --enable-tls
+		# here, but I don't think it's wanted and I don't see how it could work
+		"${WORKDIR}/riscv-gcc-${GCC_REV}/configure" \
+			--host="${CHOST}" \
+			--target=riscv64-unknown-elf \
+			--prefix=/opt/hps-sdk \
+			--with-sysroot=/opt/hps-sdk/riscv64-unknown-elf \
+			--with-build-sysroot="${WORKDIR}/installed-stage1/opt/hps-sdk/riscv64-unknown-elf" \
+			--with-native-system-header-dir=/include \
+			--disable-shared \
+			--disable-threads \
+			--disable-tls \
+			--enable-languages=c,c++ \
+			--with-system-zlib \
+			--with-newlib \
+			--disable-libmudflap \
+			--disable-libssp \
+			--disable-libquadmath \
+			--disable-libgomp \
+			--disable-nls \
+			--disable-tm-clone-registry \
+			--src="${WORKDIR}/riscv-gcc-${GCC_REV}" \
+			--enable-multilib \
+			--with-multilib-generator="rv32im-ilp32--" \
+			CFLAGS_FOR_TARGET="-Os" \
+			CXXFLAGS_FOR_TARGET="-Os" \
+			|| die
+		emake
+	)
 }
 
 src_install() {
+	### RUST ###
+
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 	${EPYTHON} x.py install || die
+
+	### GCC ###
+
+	# shellcheck disable=SC2030,SC2031  # subshell is intentional
+	export PATH="${WORKDIR}/installed-stage1/opt/hps-sdk/bin:${PATH}"
+	emake -C "${WORKDIR}/build-binutils" install DESTDIR="${D}"
+	emake -C "${WORKDIR}/build-newlib" install DESTDIR="${D}"
+	emake -C "${WORKDIR}/build-gcc-stage2" install DESTDIR="${D}"
 }
