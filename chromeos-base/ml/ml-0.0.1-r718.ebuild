@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bb38d5fdde741047f886fcbeb10bf98598b7a062"
+CROS_WORKON_COMMIT="b2e86ebbe5c1cb89c7eb20c1fe3437615ee99f28"
 CROS_WORKON_TREE=("6c641b53b4b5716a2d4b30be39008ac06f727856" "67e4b537cb46bbb9fa823ca1547002406f20b2a7" "1bf458da665a515aa24277390556cd2e464021fc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -58,6 +58,7 @@ IUSE="
 	dlc
 	fuzzer
 	internal
+	march_alderlake
 	ml_benchmark_drivers
 	nnapi
 	ondevice_document_scanner
@@ -158,6 +159,12 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
+	# TODO(b/183455993): Re-enable when unit tests requiring instructions not
+	# supported by the build machine can be run.
+	if use march_alderlake; then
+		return
+	fi
+
 	# Recreate model dir in the temp directory and copy both
 	# MODELS_TO_INSTALL and DOWNLOADABLE_MODELS into it for use in unit
 	# tests.
