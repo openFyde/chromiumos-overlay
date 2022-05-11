@@ -44,6 +44,11 @@ src_install() {
 	# Install udev rules.
 	udev_dorules udev/99-resourced-permissions.rules
 
+	if [[ -d tmpfiles.d ]]; then
+		insinto /usr/lib/tmpfiles.d
+		doins -r tmpfiles.d/*
+	fi
+
 	# seccomp policy file.
 	insinto /usr/share/policy
 	if use seccomp; then
