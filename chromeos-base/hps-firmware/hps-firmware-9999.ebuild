@@ -4,6 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
+CROS_WORKON_USE_VCSID=1
 
 inherit cros-workon cros-rust toolchain-funcs
 
@@ -200,6 +201,10 @@ src_install() {
 	insinto "/usr/lib/firmware/hps"
 	doins build/hps_platform/gateware/hps_platform_build.metadata
 
+	# Generate and install the build manifest.
+	echo "${VCSID}" > manifest.txt
+	cat models/manifest.txt >> manifest.txt
+
 	# install into /firmware as part of signing process
 	# signed release firmware is installed by hps-firmware-images ebuild
 	insinto "/firmware/hps"
@@ -207,6 +212,7 @@ src_install() {
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage0.bin" "mcu_stage0.bin"
 	newins "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" "mcu_stage1.bin"
 	doins mcu_stage1.version.txt
+	doins manifest.txt
 	newins build/hps_platform/gateware/hps_platform.bit fpga_bitstream.bin
 	newins build/hps_platform/fpga_rom.bin fpga_application.bin
 }

@@ -52,4 +52,5 @@ src_install() {
 	doins "${S}/firmware-signed/fpga_bitstream.bin.xz"
 	doins "${S}/firmware-signed/mcu_stage1.bin.xz"
 	doins "${S}/firmware-signed/mcu_stage1.version.txt"
+	doins "${S}/firmware-signed/manifest.txt"
 }
