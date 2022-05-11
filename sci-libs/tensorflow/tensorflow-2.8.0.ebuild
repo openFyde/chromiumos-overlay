@@ -11,7 +11,7 @@ MY_P=${PN}-${MY_PV}
 
 # s/bazel/cros-bazel/ instead of bazel to fix downloading dependencies.
 # s/prefix// because ChromeOS doesn't need it.
-inherit cros-bazel check-reqs cuda distutils-r1 flag-o-matic toolchain-funcs
+inherit cros-bazel distutils-r1 flag-o-matic toolchain-funcs
 
 DESCRIPTION="Computation framework using data flow graphs for scalable machine learning"
 HOMEPAGE="https://www.tensorflow.org/"
@@ -19,8 +19,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-# ChromeOS uses 'minimal' to compile only TensorFlow Lite, compilation without 'minimal' is not supported.
-IUSE="cuda mpi +python xla minimal label_image benchmark_model xnnpack inference_accuracy_eval"
+IUSE="mpi +python xla label_image benchmark_model xnnpack inference_accuracy_eval"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -69,44 +68,15 @@ SRC_URI="
 RDEPEND="
 	x11-drivers/opengles-headers:=
 	virtual/opengles:=
-	!minimal? (
-		app-arch/snappy
-		dev-db/lmdb
-		dev-db/sqlite
-		dev-libs/double-conversion
-		dev-libs/icu
-		>=dev-libs/jsoncpp-1.9.2
-	)
 	>=dev-libs/flatbuffers-1.12.0:=
 	dev-libs/libpcre
-	!minimal? (
-		dev-libs/nsync
-	)
 	dev-libs/openssl:0=
 	>=dev-libs/protobuf-3.8.0:=
 	>=dev-libs/re2-0.2019.06.01
-	!minimal? (
-		media-libs/giflib
-	)
 	media-libs/libjpeg-turbo
 	media-libs/libpng:0
-	!minimal? (
-		>=net-libs/grpc-1.28
-	)
 	net-misc/curl
 	sys-libs/zlib
-	!minimal? (
-		>=sys-apps/hwloc-2
-	)
-	cuda? (
-		|| (
-			( =dev-util/nvidia-cuda-toolkit-10.2*[profiler] =dev-libs/cudnn-7* )
-			( =dev-util/nvidia-cuda-toolkit-10.1*[profiler] =dev-libs/cudnn-7* )
-			( =dev-util/nvidia-cuda-toolkit-10.0*[profiler] =dev-libs/cudnn-7.4* )
-			( =dev-util/nvidia-cuda-toolkit-9.2*[profiler] =dev-libs/cudnn-7.1* )
-			( =dev-util/nvidia-cuda-toolkit-9.1*[profiler] =dev-libs/cudnn-7.0* )
-		)
-	)
 	mpi? ( virtual/mpi )
 	python? (
 		${PYTHON_DEPS}
@@ -145,9 +115,6 @@ BDEPEND="
 	dev-java/java-config
 	dev-lang/swig
 	=dev-util/bazel-4*
-	cuda? (
-		>=dev-util/nvidia-cuda-toolkit-9.1[profiler]
-	)
 	!python? ( dev-lang/python )
 	python? (
 		dev-python/cython
@@ -171,8 +138,6 @@ PATCHES=(
 S="${WORKDIR}/${MY_P}"
 
 DOCS=( AUTHORS CONTRIBUTING.md ISSUE_TEMPLATE.md README.md RELEASE.md )
-CHECKREQS_MEMORY="5G"
-CHECKREQS_DISK_BUILD="10G"
 
 # Echos the CPU string that TensorFlow uses to refer to the given architecture.
 get-cpu-str() {
@@ -191,13 +156,9 @@ pkg_setup() {
 	local num_pythons_enabled
 	num_pythons_enabled=0
 	count_impls(){
-		num_pythons_enabled=$((${num_pythons_enabled} + 1))
+		num_pythons_enabled=$((num_pythons_enabled + 1))
 	}
 	use python && python_foreach_impl count_impls
-
-	# 10G to build C/C++ libs, 5G per python impl
-	CHECKREQS_DISK_BUILD="$((10 + 6 * ${num_pythons_enabled}))G"
-	check-reqs_pkg_setup
 }
 
 src_unpack() {
@@ -217,8 +178,6 @@ src_prepare() {
 
 	default
 	use python && python_copy_sources
-
-	use cuda && cuda_add_sandbox
 }
 
 src_configure() {
@@ -242,38 +201,10 @@ src_configure() {
 			export PYTHON_LIB_PATH="$(python -c 'from distutils.sysconfig import *; print(get_python_lib())')"
 		fi
 
-		export TF_NEED_CUDA=$(usex cuda 1 0)
+		export TF_NEED_CUDA=0
 		export TF_DOWNLOAD_CLANG=0
 		export TF_CUDA_CLANG=0
 		export TF_NEED_TENSORRT=0
-		if use cuda; then
-			export TF_CUDA_PATHS="${EPREFIX}/opt/cuda"
-			export GCC_HOST_COMPILER_PATH="$(cuda_gccdir)/$(tc-getCC)"
-			export TF_CUDA_VERSION="$(cuda_toolkit_version)"
-			export TF_CUDNN_VERSION="$(cuda_cudnn_version)"
-			einfo "Setting CUDA version: $TF_CUDA_VERSION"
-			einfo "Setting CUDNN version: $TF_CUDNN_VERSION"
-
-			if [[ *$(gcc-version)* != $(cuda-config -s) ]]; then
-				ewarn "TensorFlow is being built with Nvidia CUDA support. Your default compiler"
-				ewarn "version is not supported by the currently installed CUDA. TensorFlow will"
-				ewarn "instead be compiled using: ${GCC_HOST_COMPILER_PATH}."
-				ewarn "If the build fails with linker errors try rebuilding the relevant"
-				ewarn "dependencies using the same compiler version."
-			fi
-
-			if [[ -z "$TF_CUDA_COMPUTE_CAPABILITIES" ]]; then
-				ewarn "WARNING: Tensorflow is being built with its default CUDA compute capabilities: 3.5 and 7.0."
-				ewarn "These may not be optimal for your GPU."
-				ewarn ""
-				ewarn "To configure Tensorflow with the CUDA compute capability that is optimal for your GPU,"
-				ewarn "set TF_CUDA_COMPUTE_CAPABILITIES in your make.conf, and re-emerge tensorflow."
-				ewarn "For example, to use CUDA capability 7.5 & 3.5, add: TF_CUDA_COMPUTE_CAPABILITIES=7.5,3.5"
-				ewarn ""
-				ewarn "You can look up your GPU's CUDA compute capability at https://developer.nvidia.com/cuda-gpus"
-				ewarn "or by running /opt/cuda/extras/demo_suite/deviceQuery | grep 'CUDA Capability'"
-			fi
-		fi
 
 		local SYSLIBS=(
 			absl_py
@@ -313,7 +244,7 @@ src_configure() {
 			zlib
 		)
 
-		export TF_SYSTEM_LIBS="${SYSLIBS[@]}"
+		export TF_SYSTEM_LIBS="${SYSLIBS[*]}"
 		export TF_IGNORE_MAX_BAZEL_VERSION=1
 
 		# This is not autoconf
@@ -341,190 +272,123 @@ src_compile() {
 	if use python; then
 		python_setup
 		BUILD_DIR="${S}-${EPYTHON/./_}"
-		cd "${BUILD_DIR}"
+		cd "${BUILD_DIR}" || die
 	fi
 
 	# fail early if any deps are missing
-	if ! use minimal; then
-		ebazel build -k --nobuild \
-			//tensorflow:libtensorflow_framework.so \
-			//tensorflow:libtensorflow.so \
-			//tensorflow:libtensorflow_cc.so \
-			$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')
-	else
-		# Duplication of the benchmark_model artifacts behind different flags is done to allow
-		# other packages to extract out xnnpack artifacts without installing benchmark_model
-		ebazel build -k --nobuild \
-			tensorflow/lite:libtensorflowlite.so \
-			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-			"$(usex label_image '
-				//tensorflow/lite/examples/label_image:label_image' '')" \
-			"$(usex benchmark_model '
-				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-			"$(usex xnnpack '
-				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-			"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')" \
-			"$(usex inference_accuracy_eval '
-				//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
-				//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
+	# Duplication of the benchmark_model artifacts behind different flags is done to allow
+	# other packages to extract out xnnpack artifacts without installing benchmark_model
+	ebazel build -k --nobuild \
+		tensorflow/lite:libtensorflowlite.so \
+		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
+		"$(usex label_image '
+			//tensorflow/lite/examples/label_image:label_image' '')" \
+		"$(usex benchmark_model '
+			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+		"$(usex xnnpack '
+			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+		"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')" \
+		"$(usex inference_accuracy_eval '
+			//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
+			//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
 
-	fi
-
-	if ! use minimal; then
-		ebazel build \
-			//tensorflow:libtensorflow_framework.so \
-			//tensorflow:libtensorflow.so
-		ebazel build //tensorflow:libtensorflow_cc.so
-	else
-		# Duplication of the benchmark_model artifacts behind different flags is done to allow
-		# other packages to extract out xnnpack artifacts without installing benchmark_model
-		ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
-			--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 \
-			//tensorflow/lite:libtensorflowlite.so \
-			//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-			"$(usex label_image '
-				//tensorflow/lite/examples/label_image:label_image' '')" \
-			"$(usex benchmark_model '
-				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-			"$(usex xnnpack '
-				//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-			"$(usex inference_accuracy_eval '
-				//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
-				//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
-	fi
+	# Duplication of the benchmark_model artifacts behind different flags is done to allow
+	# other packages to extract out xnnpack artifacts without installing benchmark_model
+	ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
+		--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 \
+		//tensorflow/lite:libtensorflowlite.so \
+		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
+		"$(usex label_image '
+			//tensorflow/lite/examples/label_image:label_image' '')" \
+		"$(usex benchmark_model '
+			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+		"$(usex xnnpack '
+			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+		"$(usex inference_accuracy_eval '
+			//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
+			//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
 
 	do_compile() {
 		ebazel build //tensorflow/tools/pip_package:build_pip_package
 	}
 	BUILD_DIR="${S}"
-	cd "${BUILD_DIR}"
+	cd "${BUILD_DIR}" || die
 	use python && python_foreach_impl run_in_build_dir do_compile
 	ebazel shutdown
 }
 
 src_install() {
-	local i j
+	local i
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 
-	if ! use minimal; then
-		do_install() {
-			einfo "Installing ${EPYTHON} files"
-			local srcdir="${T}/src-${MULTIBUILD_VARIANT}"
-			mkdir -p "${srcdir}" || die
-			bazel-bin/tensorflow/tools/pip_package/build_pip_package --src "${srcdir}" || die
-			cd "${srcdir}" || die
-			esetup.py install
+	einfo "Installing TF lite headers"
+	# From tensorflow/lite/lib_package/create_ios_frameworks.sh
+	find ${PN}/lite -name "*.h" \
+		-not -path "${PN}/lite/tools/*" \
+		-not -path "${PN}/lite/examples/*" \
+		-not -path "${PN}/lite/gen/*" \
+		-not -path "${PN}/lite/toco/*" \
+		-not -path "${PN}/lite/java/*" |
+	while read -r i; do
+		insinto "/usr/include/${PN}/${i%/*}"
+		doins "${i}"
+	done
+	einfo "Installing selected TF core headers"
+	local selected=( lib/bfloat16/bfloat16.h platform/byte_order.h platform/macros.h platform/bfloat16.h )
+	for i in "${selected[@]}"; do
+		insinto "/usr/include/${PN}/${PN}/core/${i%/*}"
+		doins "${PN}/core/${i}"
+	done
 
-			# libtensorflow_framework.so is in /usr/lib already
-			rm -f "${D}/$(python_get_sitedir)"/${PN}/lib${PN}_framework.so* || die
-			rm -f "${D}/$(python_get_sitedir)"/${PN}_core/lib${PN}_framework.so* || die
-			python_optimize
-		}
+	einfo "Installing NNAPI headers"
+	insinto /usr/include/${PN}/nnapi/
+	doins -r bazel-bin/tensorflow/lite/kernels/internal/include
 
-		if use python; then
-			python_foreach_impl run_in_build_dir do_install
+	einfo "Installing ruy headers"
+	insinto /usr/include/${PN}/ruy/
+	doins -r "../tensorflow-${PV}-bazel-base/external/ruy/ruy"/*
 
-			# Symlink to python-exec scripts
-			for i in "${ED}"/usr/lib/python-exec/*/*; do
-				n="${i##*/}"
-				[[ -e "${ED}/usr/bin/${n}" ]] || dosym ../lib/python-exec/python-exec2 "/usr/bin/${n}"
-			done
+	einfo "Installing fp16 headers"
+	insinto /usr/include/${PN}/
+	doins -r "../tensorflow-${PV}-bazel-base/external/FP16/include"/*
 
-			python_setup
-			local BUILD_DIR="${S}-${EPYTHON/./_}"
-			cd "${BUILD_DIR}" || die
-		fi
+	einfo "Installing TF lite libraries"
+	dolib.so bazel-bin/tensorflow/lite/lib${PN}lite.so
 
-		einfo "Installing headers"
-		ebazel build //tensorflow:install_headers
-		ebazel shutdown
-		insinto /usr/include/${PN}/
-		doins -r bazel-bin/tensorflow/include/*
+	if use label_image; then
+		einfo "Install label_image example"
+		dobin bazel-bin/tensorflow/lite/examples/label_image/label_image
+	fi
 
-		einfo "Installing libs"
-		# Generate pkg-config file
-		${PN}/c/generate-pc.sh --prefix="${EPREFIX}"/usr --libdir=$(get_libdir) --version=${MY_PV} || die
-		insinto /usr/$(get_libdir)/pkgconfig
-		doins ${PN}.pc ${PN}_cc.pc
+	if use benchmark_model; then
+		einfo "Install benchmark_model tool"
+		dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
+	fi
 
-		for l in libtensorflow{,_framework,_cc}.so; do
-			dolib.so bazel-bin/tensorflow/${l}
-			dolib.so bazel-bin/tensorflow/${l}.$(ver_cut 1)
-			dolib.so bazel-bin/tensorflow/${l}.$(ver_cut 1-3)
-		done
-	else
-		einfo "Installing TF lite headers"
-		# From tensorflow/lite/lib_package/create_ios_frameworks.sh
-		find ${PN}/lite -name "*.h" \
-			-not -path "${PN}/lite/tools/*" \
-			-not -path "${PN}/lite/examples/*" \
-			-not -path "${PN}/lite/gen/*" \
-			-not -path "${PN}/lite/toco/*" \
-			-not -path "${PN}/lite/java/*" |
+	if use inference_accuracy_eval; then
+		into /usr/local/
+		einfo "Install inference diff evaluation tool"
+		newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/inference_diff/run_eval inference_diff_eval
+		einfo "Install object detection evaluation tool"
+		newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/coco_object_detection/run_eval object_detection_eval
+	fi
+
+	if use xnnpack; then
+		einfo "Installing XNNPACK headers and libs"
+		local bindir="../tensorflow-${PV}-bazel-base/execroot/org_tensorflow/bazel-out/$(get-cpu-str "${CHOST}")-opt/bin/external/"
+		insinto /usr/include/${PN}/xnnpack/
+		doins "../tensorflow-${PV}-bazel-base/external/XNNPACK/include/xnnpack.h"
+		doins "../tensorflow-${PV}-bazel-base/external/pthreadpool/include/pthreadpool.h"
+		dolib.a "${bindir}/clog/libclog.a"
+		dolib.a "${bindir}/cpuinfo/libcpuinfo_impl.pic.a"
+		dolib.a "${bindir}/pthreadpool/libpthreadpool.a"
+		# The lib names vary wildly between amd64 and arm, so
+		# easier just to scan for them rather than explicitly
+		# listing them and switching on ${ARCH}.
+		find "${bindir}/XNNPACK/" -name "*.a" |
 		while read -r i; do
-			insinto "/usr/include/${PN}/${i%/*}"
-			doins "${i}"
+			dolib.a "${i}"
 		done
-		if use minimal; then
-			einfo "Installing selected TF core headers"
-			local selected=( lib/bfloat16/bfloat16.h platform/byte_order.h platform/macros.h platform/bfloat16.h )
-			for i in "${selected[@]}"; do
-				insinto "/usr/include/${PN}/${PN}/core/${i%/*}"
-				doins "${PN}/core/${i}"
-			done
-		fi
-
-		einfo "Installing NNAPI headers"
-		insinto /usr/include/${PN}/nnapi/
-		doins -r bazel-bin/tensorflow/lite/kernels/internal/include
-
-		einfo "Installing ruy headers"
-		insinto /usr/include/${PN}/ruy/
-		doins -r "../tensorflow-${PV}-bazel-base/external/ruy/ruy"/*
-
-		einfo "Installing fp16 headers"
-		insinto /usr/include/${PN}/
-		doins -r "../tensorflow-${PV}-bazel-base/external/FP16/include"/*
-
-		einfo "Installing TF lite libraries"
-		dolib.so bazel-bin/tensorflow/lite/lib${PN}lite.so
-
-		if use label_image; then
-			einfo "Install label_image example"
-			dobin bazel-bin/tensorflow/lite/examples/label_image/label_image
-		fi
-
-		if use benchmark_model; then
-			einfo "Install benchmark_model tool"
-			dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
-		fi
-
-		if use inference_accuracy_eval; then
-			into /usr/local/
-			einfo "Install inference diff evaluation tool"
-			newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/inference_diff/run_eval inference_diff_eval
-			einfo "Install object detection evaluation tool"
-			newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/coco_object_detection/run_eval object_detection_eval
-		fi
-
-		if use xnnpack; then
-			einfo "Installing XNNPACK headers and libs"
-			local bindir="../tensorflow-${PV}-bazel-base/execroot/org_tensorflow/bazel-out/$(get-cpu-str "${CHOST}")-opt/bin/external/"
-			insinto /usr/include/${PN}/xnnpack/
-			doins "../tensorflow-${PV}-bazel-base/external/XNNPACK/include/xnnpack.h"
-			doins "../tensorflow-${PV}-bazel-base/external/pthreadpool/include/pthreadpool.h"
-			dolib.a "${bindir}/clog/libclog.a"
-			dolib.a "${bindir}/cpuinfo/libcpuinfo_impl.pic.a"
-			dolib.a "${bindir}/pthreadpool/libpthreadpool.a"
-			# The lib names vary wildly between amd64 and arm, so
-			# easier just to scan for them rather than explicitly
-			# listing them and switching on ${ARCH}.
-			find "${bindir}/XNNPACK/" -name "*.a" |
-			while read -r i; do
-				dolib.a "${i}"
-			done
-		fi
-
 	fi
 
 	einstalldocs
