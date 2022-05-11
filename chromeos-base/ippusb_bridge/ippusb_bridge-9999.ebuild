@@ -63,6 +63,9 @@ src_install() {
 	insinto /etc/init
 	newins "init/ippusb-bridge.conf" "ippusb-bridge.conf"
 
+	insinto /usr/share/ippusb_bridge
+	newins "init/ippusb-bridge-debug.conf" "ippusb-bridge-debug.conf"
+
 	exeinto /usr/libexec/ippusb
 	doexe "init/bridge_start"
 	doexe "init/bridge_stop"
