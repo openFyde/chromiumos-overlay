@@ -90,17 +90,17 @@ src_prepare() {
 
 	local lingua
 	if use nls; then
-		for lingua in ${NMAP_LINGUAS[@]}; do
-			if ! has ${lingua} ${LINGUAS-${lingua}}; then
-				rm -r zenmap/share/zenmap/locale/${lingua} || die
-				rm zenmap/share/zenmap/locale/${lingua}.po || die
+		for lingua in "${NMAP_LINGUAS[@]}"; do
+			if ! has "${lingua}" "${LINGUAS-${lingua}}"; then
+				rm -r zenmap/share/zenmap/locale/"${lingua}" || die
+				rm zenmap/share/zenmap/locale/"${lingua}".po || die
 			fi
 		done
 	else
 		# configure/make ignores --disable-nls
-		for lingua in ${NMAP_LINGUAS[@]}; do
-			rm -r zenmap/share/zenmap/locale/${lingua} || die
-			rm zenmap/share/zenmap/locale/${lingua}.po || die
+		for lingua in "${NMAP_LINGUAS[@]}"; do
+			rm -r zenmap/share/zenmap/locale/"${lingua}" || die
+			rm zenmap/share/zenmap/locale/"${lingua}".po || die
 		done
 	fi
 
@@ -108,10 +108,7 @@ src_prepare() {
 		-e '/^ALL_LINGUAS =/{s|$| id|g;s|jp|ja|g}' \
 		Makefile.in || die
 
-	sed -i \
-		-e '/rm -f $@/d' \
-		$(find . -name Makefile.in) \
-		|| die
+	find . -name Makefile.in -exec sed -i -e '/rm -f $@/d' {} + || die
 
 	# Fix desktop files wrt bug #432714
 	sed -i \
@@ -135,6 +132,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# Let Portage do the stripping.
+	export ac_cv_prog_STRIP="$(type -P true) faking strip"
+
 	# The bundled libdnet is incompatible with the version available in the
 	# tree, so we cannot use the system library here.
 	econf \
@@ -148,7 +148,7 @@ src_configure() {
 		$(use_with ssl openssl) \
 		$(use_with zenmap) \
 		$(usex libssh2 --with-zlib) \
-		$(usex nse --with-liblua=$(usex system-lua /usr included '' '') --without-liblua) \
+		"$(usex nse --with-liblua=$(usex system-lua /usr included '' '') --without-liblua)" \
 		--cache-file="${S}"/config.cache \
 		--with-libdnet=included \
 		--with-pcre=/usr
@@ -167,8 +167,8 @@ src_compile() {
 	done
 
 	emake \
-		AR=$(tc-getAR) \
-		RANLIB=$(tc-getRANLIB)
+		AR="$(tc-getAR)" \
+		RANLIB="$(tc-getRANLIB)"
 }
 
 src_install() {
