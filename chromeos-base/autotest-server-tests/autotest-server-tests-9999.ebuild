@@ -287,6 +287,7 @@ SERVER_IUSE_TESTS="
 	+tests_platform_CompromisedStatefulPartition
 	+tests_platform_CorruptRootfs
 	+tests_platform_CrashStateful
+	+tests_platform_ExternalUsbPeripherals
 	+tests_platform_FlashErasers
 	+tests_platform_Flashrom
 	+tests_platform_HWwatchdog
@@ -303,6 +304,7 @@ SERVER_IUSE_TESTS="
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_policy_DeviceServer
 	+tests_power_BrightnessResetAfterReboot
+	+tests_power_LW
 	+tests_power_ServoChargeStress
 	+tests_power_ServodWrapper
 	+tests_provision_CheetsUpdate

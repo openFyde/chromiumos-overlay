@@ -104,6 +104,7 @@ IUSE_TESTS=(
 	+tests_power_VideoEncode
 	+tests_power_VideoPlayback
 	+tests_power_VideoSuspend
+	+tests_power_WebGL
 	+tests_power_WifiIdle
 	+tests_security_BundledExtensions
 	+tests_stub_IdleSuspend
