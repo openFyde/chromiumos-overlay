@@ -19,7 +19,7 @@ HOMEPAGE="https://virgil3d.github.io/"
 LICENSE="MIT"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug fuzzer profiling test vulkan"
+IUSE="debug fuzzer profiling test virtgpu_native_context vulkan"
 
 RDEPEND="
 	chromeos-base/percetto
@@ -66,6 +66,10 @@ src_configure() {
 		$(meson_use fuzzer)
 		--buildtype $(usex debug debug release)
 	)
+
+	if use virtgpu_native_context; then
+		emesonargs+=( -Ddrm-msm-experimental="true" )
+	fi
 
 	if use vulkan; then
 		emesonargs+=(

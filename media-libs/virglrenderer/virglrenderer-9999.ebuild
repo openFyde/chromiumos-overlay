@@ -60,11 +60,14 @@ src_configure() {
 	emesonargs+=(
 		-Dtracing=percetto
 		-Dminigbm_allocation="true"
-		-Ddrm-msm-experimental=$(usex virtgpu_native_context true false)
 		-Dplatforms="egl"
 		$(meson_use fuzzer)
 		--buildtype $(usex debug debug release)
 	)
+
+	if use virtgpu_native_context; then
+		emesonargs+=( -Ddrm-msm-experimental="true" )
+	fi
 
 	if use vulkan; then
 		emesonargs+=(
