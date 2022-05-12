@@ -286,7 +286,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	net-misc/radvd
 	net-proxy/tinyproxy
 	wifi_hostap_test? ( net-wireless/hostap-test )
-	sci-geosciences/gpsd
 	sys-apps/coreutils
 	sys-apps/dtc
 	sys-apps/ethtool
