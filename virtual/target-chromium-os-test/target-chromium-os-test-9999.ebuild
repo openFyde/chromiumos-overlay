@@ -204,6 +204,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	!chromeless_tty? ( !chromeless_tests? ( chromeos-base/drm-tests ) )
 	!no_factory_flow? ( chromeos-base/factory-mini )
 	chromeos-base/glbench
+	chromeos-base/graphics-expectations
 	chromeos-base/graphics-utils-python
 	chromeos-base/libvda-gpu-tests
 	chromeos-base/modem-diagnostics
