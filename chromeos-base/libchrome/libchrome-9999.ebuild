@@ -173,6 +173,7 @@ src_install() {
 		base/test/simple_test_tick_clock.h \
 		base/test/task_environment.h \
 		base/test/test_file_util.h \
+		base/test/test_future.h \
 		base/test/test_mock_time_task_runner.h \
 		base/test/test_pending_task.h \
 		base/test/test_switches.h \
