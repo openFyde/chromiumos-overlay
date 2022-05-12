@@ -89,7 +89,7 @@ get_vmlog_forwarder_start_services() {
 get_vmlog_forwarder_stop_services() {
 	local stop_services="stopped vm_concierge"
 	if use wilco; then
-		stop_services+=" and stopped wilco_dtc_dispatcher"
+		stop_services="stopping system-services"
 	fi
 	echo "${stop_services}"
 }
