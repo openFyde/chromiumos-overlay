@@ -285,23 +285,6 @@ cros-firmware_src_compile() {
 	fi
 
 	if use tot_firmware; then
-		if ! use bootimage; then
-			if use cros_ec; then
-				# TODO(hungte) Deal with a platform that has
-				# only EC and no BIOS, which is usually
-				# incorrect configuration.  We only warn here to
-				# allow for BCS based firmware to still generate
-				# a proper chromeos-firmwareupdate update
-				# script.
-				ewarn "WARNING: platform has no local BIOS."
-				ewarn "EC-only is not supported."
-				ewarn "Not generating a local updater script."
-			fi
-			return
-		fi
-	fi
-
-	if use tot_firmware; then
 		einfo "tot_firmware is enabled, skipping BCS firmware updater"
 	elif [ ${#image_cmd[@]} -eq 0 ] && ! use unibuild; then
 		# Create an empty update script for the generic case
@@ -314,6 +297,22 @@ cros-firmware_src_compile() {
 		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
 			"${image_cmd[@]}" "${ext_cmd[@]}" ||
 			die "Cannot pack firmware updater."
+	fi
+
+	# To create local updater, bootimage must be enabled.
+	if ! use bootimage; then
+		if use cros_ec; then
+			# TODO(hungte) Deal with a platform that has
+			# only EC and no BIOS, which is usually
+			# incorrect configuration.  We only warn here to
+			# allow for BCS based firmware to still generate
+			# a proper chromeos-firmwareupdate update
+			# script.
+			ewarn "WARNING: platform has no local BIOS."
+			ewarn "EC-only is not supported."
+			ewarn "Not generating a local updater script."
+		fi
+		return
 	fi
 
 	# If the updater does not exist, fall back to local updater.
