@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 CROS_WORKON_SUBTREE="zephyr/zmake"
 
-PYTHON_COMPAT=( python{3_6,3_7,3_8,3_9} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon distutils-r1
 

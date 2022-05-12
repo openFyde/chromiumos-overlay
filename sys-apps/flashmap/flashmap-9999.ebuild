@@ -5,7 +5,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/flashmap"
 
-PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon toolchain-funcs python-r1
 

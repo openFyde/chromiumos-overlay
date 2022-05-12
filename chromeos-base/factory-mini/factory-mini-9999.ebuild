@@ -17,7 +17,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="platform/factory"
-PYTHON_COMPAT=( python3_{4,5,6,7} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon python-r1
 

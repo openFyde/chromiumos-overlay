@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="platform/factory"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 # TODO(crbug.com/999876): Upgrade to Python 3 at some point.
-PYTHON_COMPAT=( python3_{4,5,6,7} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon python-r1 cros-constants cros-factory
 

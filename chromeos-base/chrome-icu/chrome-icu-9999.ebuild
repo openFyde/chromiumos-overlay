@@ -23,7 +23,7 @@
 
 EAPI=5
 
-PYTHON_COMPAT=( python3_{6..8} )
+PYTHON_COMPAT=( python3_{6..9} )
 inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-matic multilib toolchain-funcs python-any-r1 multiprocessing
 
 DESCRIPTION="The ICU library copied from chrome/third_party"

@@ -42,7 +42,7 @@ CROS_WORKON_EGIT_BRANCH=(
 
 CROS_WORKON_MANUAL_UPREV=1
 
-PYTHON_COMPAT=( python{3_6,3_7} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-constants cros-workon eutils python-any-r1
 

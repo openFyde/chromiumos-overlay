@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
 CROS_WORKON_SUBTREE="src/results_database"
 
-PYTHON_COMPAT=( python3_{6,7,8} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon distutils-r1
 

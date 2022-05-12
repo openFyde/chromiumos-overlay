@@ -6,7 +6,7 @@ EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
 CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-cros/current"
 
-PYTHON_COMPAT=( python3_{6,7} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-sanitizers cros-workon distutils-r1 flag-o-matic toolchain-funcs
 

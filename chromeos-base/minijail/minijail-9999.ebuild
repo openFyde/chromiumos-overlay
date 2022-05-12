@@ -11,7 +11,7 @@ CROS_WORKON_PROJECT="platform/external/minijail"
 CROS_WORKON_EGIT_BRANCH="master"
 CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
 
-PYTHON_COMPAT=( python3_{6,7} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 # TODO(crbug.com/689060): Re-enable on ARM.
 CROS_COMMON_MK_NATIVE_TEST="yes"

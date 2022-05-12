@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk hammerd .gn"
 
 PLATFORM_SUBDIR="hammerd"
 
-PYTHON_COMPAT=( python3_{6..8} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-workon platform distutils-r1
 

@@ -7,7 +7,7 @@ CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_USE_VCSID="1"
 
-PYTHON_COMPAT=( python3_{6..8} )
+PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-workon python-any-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
