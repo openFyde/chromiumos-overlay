@@ -172,32 +172,33 @@ EOF
 	# Override the automatic options created above with board config.
 	local board_config="${FILESDIR}/configs/config.${board}"
 	local baseboard_config="${FILESDIR}/configs/config.baseboard.${base_board}"
-	if [[ -s "${board_config}" ]]; then
-		if [[ -s "${baseboard_config}" ]]; then
-			cat "${baseboard_config}" >> "${CONFIG}"
-			# Handle the case when "${CONFIG}" does not have a newline in the end.
-			echo >> "${CONFIG}"
-		fi
 
+	if [[ -s "${baseboard_config}" ]]; then
+		cat "${baseboard_config}" >> "${CONFIG}"
+		# Handle the case when "${CONFIG}" does not have a newline in the end.
+		echo >> "${CONFIG}"
+	fi
+
+	if [[ -s "${board_config}" ]]; then
 		cat "${board_config}" >> "${CONFIG}"
 		# Handle the case when "${CONFIG}" does not have a newline in the end.
 		echo >> "${CONFIG}"
-
-		# Override mainboard vendor if needed.
-		if [[ -n "${SYSTEM_OEM}" ]]; then
-			echo "CONFIG_MAINBOARD_VENDOR=\"${SYSTEM_OEM}\"" >> "${CONFIG}"
-		fi
-		if [[ -n "${SYSTEM_OEM_VENDOR_ID}" ]]; then
-			echo "CONFIG_SUBSYSTEM_VENDOR_ID=${SYSTEM_OEM_VENDOR_ID}" >> "${CONFIG}"
-		fi
-		if [[ -n "${SYSTEM_OEM_DEVICE_ID}" ]]; then
-			echo "CONFIG_SUBSYSTEM_DEVICE_ID=${SYSTEM_OEM_DEVICE_ID}" >> "${CONFIG}"
-		fi
-		if [[ -n "${SYSTEM_OEM_ACPI_ID}" ]]; then
-			echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
-		fi
 	else
 		ewarn "Could not find existing config for ${board}."
+	fi
+
+	# Override mainboard vendor if needed.
+	if [[ -n "${SYSTEM_OEM}" ]]; then
+		echo "CONFIG_MAINBOARD_VENDOR=\"${SYSTEM_OEM}\"" >> "${CONFIG}"
+	fi
+	if [[ -n "${SYSTEM_OEM_VENDOR_ID}" ]]; then
+		echo "CONFIG_SUBSYSTEM_VENDOR_ID=${SYSTEM_OEM_VENDOR_ID}" >> "${CONFIG}"
+	fi
+	if [[ -n "${SYSTEM_OEM_DEVICE_ID}" ]]; then
+		echo "CONFIG_SUBSYSTEM_DEVICE_ID=${SYSTEM_OEM_DEVICE_ID}" >> "${CONFIG}"
+	fi
+	if [[ -n "${SYSTEM_OEM_ACPI_ID}" ]]; then
+		echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
 	fi
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
