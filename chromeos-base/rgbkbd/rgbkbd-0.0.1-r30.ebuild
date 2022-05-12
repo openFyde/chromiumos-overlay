@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3ea234f16604ee5cb51aadf1b44a07e0cc053657"
+CROS_WORKON_COMMIT="0e9f1e96eef31e028208c8adfeaeb99c5d380c53"
 CROS_WORKON_TREE=("94ecccaff36fb5fe0d5b36d7df231cdb114ca7d8" "40237f6d5a83e54a5479ecd120ede9ce6876f409" "2202278edfe5fdaae847c92c47a924387c19938e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 
 PLATFORM_SUBDIR="rgbkbd"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="A daemon for controlling an RGB backlit keyboard."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/rgbkbd/"
@@ -38,6 +38,9 @@ pkg_preinst() {
 
 src_install() {
 	platform_install
+
+	# Create tmpfiles for testing.
+	dotmpfiles tmpfiles.d/rgbkbd.conf
 }
 
 platform_pkg_test() {
