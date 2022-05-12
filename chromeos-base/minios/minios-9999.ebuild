@@ -18,7 +18,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/minios/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="minios"
+IUSE="
+	lvm_stateful_partition
+	minios
+"
 REQUIRED_USE="minios"
 
 COMMON_DEPEND="
@@ -45,6 +48,15 @@ src_install() {
 	dobin "${OUT}/minios_client"
 	dobin scripts/root_partition_for_recovery
 	dobin scripts/stateful_partition_for_recovery
+
+	if use lvm_stateful_partition; then
+		# shellcheck disable=SC2016
+		# Replace lvm_stateful flag in stateful_partition_for_recovery to true.
+		sed -i \
+			'/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
+			"${D}/build/initramfs/bin/stateful_partition_for_recovery" ||
+			die "Failed to set lvm_stateful in stateful_partition_for_recovery"
+	fi
 
 	# D-Bus configuration
 	insinto "/build/initramfs/etc/dbus-1/system.d"
