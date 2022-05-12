@@ -15,3 +15,4 @@ BDEPEND="
 	~dev-lang/rust-host-${PV}:=
 	!cros_host? ( ~dev-lang/rust-${PV}:= )
 "
+RDEPEND="cros_host? ( ~dev-lang/rust-host-${PV}:= )"

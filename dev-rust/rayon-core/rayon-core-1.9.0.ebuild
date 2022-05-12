@@ -22,6 +22,7 @@ DEPEND="
 	=dev-rust/lazy_static-1*:=
 	>=dev-rust/num_cpus-1.2:= <dev-rust/num_cpus-2.0
 "
+RDEPEND="${DEPEND}"
 
 # could not compile
 RESTRICT="test"
