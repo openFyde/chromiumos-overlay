@@ -56,6 +56,7 @@ src_install() {
 		mapped_access_perf_test \
 		mapped_texture_test \
 		mmap_test \
+		mtk_dram_tool \
 		null_platform_test \
 		plane_test \
 		synctest swrast_test \
