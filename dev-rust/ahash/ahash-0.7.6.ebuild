@@ -15,6 +15,12 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
+# We need the local patch until upstream has fix for the following issue:
+# https://github.com/tkaitchuck/aHash/issues/117
+PATCHES=(
+	"${FILESDIR}/${PN}-${PV}-rm-features.patch"
+)
+
 DEPEND="
 	=dev-rust/version_check-0.9*:=
 	>=dev-rust/const-random-0.1.12 <dev-rust/const-random-0.2.0_alpha:=
