@@ -1,47 +1,55 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
-EAPI=5
-inherit autotools-multilib flag-o-matic multilib toolchain-funcs
+EAPI=7
 
-INFINALITY_PATCH="03-infinality-2.6.2-2015.11.28.patch"
+inherit autotools flag-o-matic libtool multilib-build multilib-minimal toolchain-funcs
 
-DESCRIPTION="A high-quality and portable font engine"
-HOMEPAGE="http://www.freetype.org/"
-SRC_URI="mirror://sourceforge/freetype/${P/_/}.tar.bz2
-	mirror://nongnu/freetype/${P/_/}.tar.bz2
-	utils?	( mirror://sourceforge/freetype/ft2demos-${PV}.tar.bz2
-		mirror://nongnu/freetype/ft2demos-${PV}.tar.bz2 )
-	doc?	( mirror://sourceforge/freetype/${PN}-doc-${PV}.tar.bz2
-		mirror://nongnu/freetype/${PN}-doc-${PV}.tar.bz2 )
-	infinality? ( https://dev.gentoo.org/~polynomial-c/${INFINALITY_PATCH}.xz )"
+DESCRIPTION="High-quality and portable font engine"
+HOMEPAGE="https://www.freetype.org/"
+IUSE="X +adobe-cff bindist brotli bzip2 +cleartype-hinting debug fontforge harfbuzz infinality +png static-libs svg utils"
+
+SRC_URI="mirror://sourceforge/freetype/${P/_/}.tar.xz
+	mirror://nongnu/freetype/${P/_/}.tar.xz"
+
+KEYWORDS="*"
 
 LICENSE="|| ( FTL GPL-2+ )"
 SLOT="2"
-KEYWORDS="*"
-IUSE="X +adobe-cff bindist bzip2 +cleartype_hinting debug doc fontforge harfbuzz
-	infinality png static-libs utils"
+
 RESTRICT="!bindist? ( bindist )" # bug 541408
 
-CDEPEND=">=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
+RDEPEND="
+	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
+	brotli? ( app-arch/brotli[${MULTILIB_USEDEP}] )
 	bzip2? ( >=app-arch/bzip2-1.0.6-r4[${MULTILIB_USEDEP}] )
-	harfbuzz? ( >=media-libs/harfbuzz-0.9.19[truetype,${MULTILIB_USEDEP}] )
-	png? ( >=media-libs/libpng-1.2.51:=[${MULTILIB_USEDEP}] )
+	harfbuzz? ( >=media-libs/harfbuzz-1.3.0[truetype,${MULTILIB_USEDEP}] )
+	png? ( >=media-libs/libpng-1.2.51:0=[${MULTILIB_USEDEP}] )
 	utils? (
-		X? (
-			>=x11-libs/libX11-1.6.2[${MULTILIB_USEDEP}]
-			>=x11-libs/libXau-1.0.7-r1[${MULTILIB_USEDEP}]
-			>=x11-libs/libXdmcp-1.1.1-r1[${MULTILIB_USEDEP}]
-		)
-	)"
-DEPEND="${CDEPEND}
-	virtual/pkgconfig"
-RDEPEND="${CDEPEND}
-	abi_x86_32? ( utils? ( !app-emulation/emul-linux-x86-xlibs[-abi_x86_32(-)] ) )"
-PDEPEND="infinality? ( media-libs/fontconfig-infinality )"
+		svg? ( >=gnome-base/librsvg-2.46.0[${MULTILIB_USEDEP}] )
+		X? ( >=x11-libs/libX11-1.6.2[${MULTILIB_USEDEP}] )
+	)
+"
+DEPEND="${RDEPEND}"
+BDEPEND="
+	virtual/pkgconfig
+"
+
+PATCHES=(
+)
+
+pkg_pretend() {
+	if use svg && ! use utils ; then
+		einfo "The \"svg\" USE flag only has effect when the \"utils\" USE flag is also enabled."
+	fi
+}
 
 src_prepare() {
+	default
+
+	# This is the same as the 01 patch from infinality
+	sed '/AUX_MODULES += \(gx\|ot\)valid/s@^# @@' -i modules.cfg || die
+
 	enable_option() {
 		sed -i -e "/#define $1/ { s:/\* ::; s: \*/:: }" \
 			include/${PN}/config/ftoption.h \
@@ -59,23 +67,20 @@ src_prepare() {
 			modules.cfg || die "unable to disable module $1"
 	}
 
-	epatch "${FILESDIR}"/${PN}-2.9-bd9400b.patch
-	epatch "${FILESDIR}"/${PN}-2.9-libtool.patch
-	epatch "${FILESDIR}"/${PN}-2.4.11-sizeof-types.patch # 459966
-
 	# Enable stem-darkening for CFF font
 	# TODO(jshin): Evaluate the impact of disabling stem-darkening.
-	epatch "${FILESDIR}"/${PN}-2.6.2-enable-cff-stem-darkening.patch
+	eapply "${FILESDIR}/${PN}-2.6.2-enable-cff-stem-darkening.patch"
 
-	epatch "${FILESDIR}"/${PN}-2.9-pngshim-bitmap-overflow.patch
+	eapply "${FILESDIR}/${PN}-2.12.1-include-header-ft-static-byte-cast.patch"
 
 	# Will be the new default for >=freetype-2.7.0
+	disable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  2"
 
-	if use infinality && use cleartype_hinting; then
+	if use infinality && use cleartype-hinting ; then
 		enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  ( 1 | 2 )"
-	elif use infinality; then
+	elif use infinality ; then
 		enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  1"
-	elif use cleartype_hinting; then
+	elif use cleartype-hinting ; then
 		enable_option "TT_CONFIG_OPTION_SUBPIXEL_HINTING  2"
 	fi
 
@@ -93,11 +98,18 @@ src_prepare() {
 	disable_option "FT_CONFIG_OPTION_MAC_FONTS"
 	disable_option "TT_CONFIG_OPTION_BDF"
 
-	if ! use adobe-cff; then
+	# Can be disabled with FREETYPE_PROPERTIES="pcf:no-long-family-names=1"
+	# via environment (new since v2.8)
+	enable_option PCF_CONFIG_OPTION_LONG_FAMILY_NAMES
+
+	# See https://freetype.org/patents.html (expired!)
+	enable_option FT_CONFIG_OPTION_SUBPIXEL_RENDERING
+
+	if ! use adobe-cff ; then
 		enable_option CFF_CONFIG_OPTION_OLD_ENGINE
 	fi
 
-	if use debug; then
+	if use debug ; then
 		enable_option FT_DEBUG_LEVEL_TRACE
 		enable_option FT_DEBUG_MEMORY
 	fi
@@ -114,11 +126,10 @@ src_prepare() {
 		disable_module bzip2
 	fi
 
-
-	if use utils; then
+	if use utils ; then
 		cd "${WORKDIR}/ft2demos-${PV}" || die
 		# Disable tests needing X11 when USE="-X". (bug #177597)
-		if ! use X; then
+		if ! use X ; then
 			sed -i -e "/EXES\ +=\ ftdiff/ s:^:#:" Makefile || die
 		fi
 		cd "${S}" || die
@@ -126,37 +137,50 @@ src_prepare() {
 
 	# we need non-/bin/sh to run configure
 	if [[ -n ${CONFIG_SHELL} ]] ; then
-		sed -i -e "1s:^#![[:space:]]*/bin/sh:#!$CONFIG_SHELL:" \
+		sed -i -e "1s:^#![[:space:]]*/bin/sh:#!${CONFIG_SHELL}:" \
 			"${S}"/builds/unix/configure || die
 	fi
 
-	autotools-utils_src_prepare
+	elibtoolize --patch-only
 }
 
 multilib_src_configure() {
 	append-flags -fno-strict-aliasing
 	type -P gmake &> /dev/null && export GNUMAKE=gmake
 
+	# shellcheck disable=SC2207
 	local myeconfargs=(
-		--enable-biarch-config
+		--disable-freetype-config
+		--enable-shared
+		--with-zlib
+		$(use_with brotli)
 		$(use_with bzip2)
 		$(use_with harfbuzz)
 		$(use_with png)
+		$(use_enable static-libs static)
+		$(usex utils $(use_with svg librsvg) --without-librsvg)
 
 		# avoid using libpng-config
 		LIBPNG_CFLAGS="$($(tc-getPKG_CONFIG) --cflags libpng)"
 		LIBPNG_LDFLAGS="$($(tc-getPKG_CONFIG) --libs libpng)"
 	)
 
-	export ac_cv_prog_CC_BUILD="$(tc-getBUILD_CC)"
+	case ${CHOST} in
+		mingw*|*-mingw*) ;;
+		# Workaround windows mis-detection: bug #654712
+		# Have to do it for both ${CHOST}-windres and windres
+		*) myeconfargs+=( ac_cv_prog_RC= ac_cv_prog_ac_ct_RC= ) ;;
+	esac
 
-	autotools-utils_src_configure
+	export CC_BUILD="$(tc-getBUILD_CC)"
+
+	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
 }
 
 multilib_src_compile() {
 	default
 
-	if multilib_is_native_abi && use utils; then
+	if multilib_is_native_abi && use utils ; then
 		einfo "Building utils"
 		# fix for Prefix, bug #339334
 		emake \
@@ -168,31 +192,24 @@ multilib_src_compile() {
 multilib_src_install() {
 	default
 
-	if multilib_is_native_abi && use utils; then
+	if multilib_is_native_abi && use utils ; then
 		einfo "Installing utils"
-		rm "${WORKDIR}"/ft2demos-${PV}/bin/README || die
-		local ft2demo
-		for ft2demo in ../ft2demos-${PV}/bin/*; do
-			./libtool --mode=install $(type -P install) -m 755 "$ft2demo" \
-				"${ED}"/usr/bin || die
-		done
+		emake DESTDIR="${D}" FT2DEMOS=1 \
+			TOP_DIR_2="${WORKDIR}/ft2demos-${PV}" install
 	fi
 }
 
 multilib_src_install_all() {
-	if use fontforge; then
-		# Probably fontforge needs less but this way makes things simplier...
+	if use fontforge ; then
+		# Probably fontforge needs less but this way makes things simpler...
 		einfo "Installing internal headers required for fontforge"
 		local header
 		find src/truetype include/freetype/internal -name '*.h' | \
-		while read header; do
-			mkdir -p "${ED}/usr/include/freetype2/internal4fontforge/$(dirname ${header})" || die
-			cp ${header} "${ED}/usr/include/freetype2/internal4fontforge/$(dirname ${header})" || die
+		while read -r header ; do
+			mkdir -p "${ED}/usr/include/freetype2/internal4fontforge/$(dirname "${header}")" || die
+			cp "${header}" "${ED}/usr/include/freetype2/internal4fontforge/$(dirname "${header}")" || die
 		done
 	fi
 
-	dodoc docs/{CHANGES,CUSTOMIZE,DEBUG,INSTALL.UNIX,*.txt,PROBLEMS,TODO}
-	use doc && dohtml -r docs/*
-
-	prune_libtool_files --all
+	find "${ED}" -type f -name '*.la' -delete || die
 }
