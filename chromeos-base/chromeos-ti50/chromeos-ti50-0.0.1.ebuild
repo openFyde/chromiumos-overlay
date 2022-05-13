@@ -17,9 +17,10 @@ RDEPEND="chromeos-base/chromeos-cr50-dev
 # There are two major types of images of Ti50, prod (used on most MP devices)
 # and pre-pvt, used on devices still not fully released.
 #
-# For now only the PrePVT image is installed until ti50 development gets
-# further along
-PRE_PVT_IMAGE="ti50.ro.0.0.23.rw.0.0.16"
+# Until we have a pre-pvt ti50 branch, install MP image for both prod and
+# pre pvt iamges.
+PROD_IMAGE="ti50.ro.0.0.26.rw.0.21.0"
+PRE_PVT_IMAGE="ti50.ro.0.0.26.rw.0.21.0"
 
 # Ensure all images and included in the manifest.
 TI50_BASE_NAMES=( "${PRE_PVT_IMAGE}" )
@@ -35,7 +36,8 @@ src_install() {
 
 	insinto /opt/google/ti50/firmware
 
-	einfo "Will install ${PRE_PVT_IMAGE}"
+	einfo "Will install ${PROD_IMAGE} and ${PRE_PVT_IMAGE}"
 
+	newins "${PROD_IMAGE}"/*.bin.prod ti50.bin.prod
 	newins "${PRE_PVT_IMAGE}"/*.bin.prod ti50.bin.prepvt
 }
