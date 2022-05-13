@@ -3,7 +3,7 @@
 
 EAPI=5
 
-CROS_GO_SOURCE="github.com/godbus/dbus 06fc4b473149e499166adbb9e31c7365a8ea146f"
+CROS_GO_SOURCE="github.com/godbus/dbus:github.com/godbus/dbus/v5 06fc4b473149e499166adbb9e31c7365a8ea146f"
 
 CROS_GO_PACKAGES=(
 	"github.com/godbus/dbus/..."
