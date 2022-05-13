@@ -24,7 +24,7 @@ DEPEND="=dev-rust/rand-0.6*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/built-0.3*:=
-	=dev-rust/sys-info-0.5.7:=
+	=dev-rust/sys-info-0.9.1:=
 	=dev-rust/serde_json-1*:=
 "
 
@@ -34,6 +34,8 @@ src_compile() {
 	# Override HOST_CFLAGS so that build dependencies use the correct
 	# flags on cross-compiled targets using cc-rs.
 	tc-export_build_env
+	# ignore missing BUILD_CFLAGS definition lint
+	# shellcheck disable=2154
 	export HOST_CFLAGS="${BUILD_CFLAGS}"
 	ecargo_build
 	if use test; then
