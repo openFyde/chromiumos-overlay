@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="86d235119ac524df12c81a208362aa2ccb168afd"
+CROS_WORKON_COMMIT="c98e0e361918cfe819cc830875865e8ce1a41c9d"
 CROS_WORKON_TREE="82cfef0932d50a94edb5ce7c4766b1451d63ae9d"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,6 +45,11 @@ src_install() {
 
 	# Install udev rules.
 	udev_dorules udev/99-resourced-permissions.rules
+
+	if [[ -d tmpfiles.d ]]; then
+		insinto /usr/lib/tmpfiles.d
+		doins -r tmpfiles.d/*
+	fi
 
 	# seccomp policy file.
 	insinto /usr/share/policy
