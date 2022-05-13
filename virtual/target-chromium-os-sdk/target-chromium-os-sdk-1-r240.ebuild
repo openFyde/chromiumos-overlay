@@ -382,11 +382,6 @@ RDEPEND="${RDEPEND}
 	dev-python/six
 	"
 
-# Host dependencies for running pylint within the chroot
-RDEPEND="${RDEPEND}
-	dev-python/pylint
-	"
-
 # Host dependencies to scp binaries from the binary component server
 RDEPEND="${RDEPEND}
 	net-misc/openssh
