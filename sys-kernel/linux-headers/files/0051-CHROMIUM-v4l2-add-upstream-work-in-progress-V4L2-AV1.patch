@@ -275,14 +275,14 @@ index 000000000000..e2e5252ccb16
 + *
 + * @flags: See V4L2_AV1_LOOP_RESTORATION_FLAG_{}.
 + * @frame_restoration_type: specifies the type of restoration used for each
-+ * plane. See enum_v4l2_av1_frame_restoration_type.
++ * plane. See v4l2_av1_frame_restoration_type.
 + * @lr_unit_shift: specifies if the luma restoration size should be halved.
 + * @lr_uv_shift: specifies if the chroma size should be half the luma size.
 + * @loop_restoration_size: specifies the size of loop restoration units in units
 + * of samples in the current plane.
 + */
 +struct v4l2_av1_loop_restoration {
-+	u8 flags;
++	__u8 flags;
 +	enum v4l2_av1_frame_restoration_type frame_restoration_type[V4L2_AV1_NUM_PLANES_MAX];
 +	__u8 lr_unit_shift;
 +	__u8 lr_uv_shift;
