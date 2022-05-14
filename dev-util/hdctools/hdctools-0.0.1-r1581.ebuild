@@ -32,7 +32,6 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	app-text/htmltidy
 "
 
 BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
