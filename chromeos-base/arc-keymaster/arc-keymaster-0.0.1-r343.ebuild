@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("537f425c1897592202be1a89da3b00e9e8776e9b" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
-CROS_WORKON_TREE=("94ecccaff36fb5fe0d5b36d7df231cdb114ca7d8" "c9ca2b5a826e47e6fd593456c10f57bf3556a4d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
+CROS_WORKON_COMMIT=("420647f7896b6de48881b8369a4959a14265c9a4" "49dfc58d6c4c66f5d0b0d06f0161da4e602a1293")
+CROS_WORKON_TREE=("94ecccaff36fb5fe0d5b36d7df231cdb114ca7d8" "3d8f1d988446193b5312d81016184a6d7bdb6d56" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "6dbc19849752c206e135ab59349ebb1cc62bb435")
 inherit cros-constants
 
 CROS_WORKON_INCREMENTAL_BUILD="1"
@@ -23,7 +23,7 @@ PLATFORM_SUBDIR="arc/keymaster"
 # This BoringSSL integration follows go/boringssl-cros.
 # DO NOT COPY TO OTHER PACKAGES WITHOUT CONSULTING SECURITY TEAM.
 BORINGSSL_PN="boringssl"
-BORINGSSL_PV="430a7423039682e4bbc7b522e3b57b2c8dca5e3b"
+BORINGSSL_PV="3a667d10e94186fd503966f5638e134fe9fb4080"
 BORINGSSL_P="${BORINGSSL_PN}-${BORINGSSL_PV}"
 BORINGSSL_OUTDIR="${WORKDIR}/boringssl_outputs/"
 
@@ -106,6 +106,9 @@ src_configure() {
 }
 
 src_compile() {
+	# The build is banned from accessing internet, thus turn off Go Modules
+	# to prevent Go from trying to fetch package.
+	export GO111MODULE=off
 	# Compile BoringSSL and expose libcrypto.a.
 	cmake-utils_src_compile
 	mkdir -p "${BORINGSSL_OUTDIR}" || die
