@@ -79,6 +79,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# https://github.com/pkgconf/pkgconf/issues/205
+	local -x PKG_CONFIG_FDO_SYSROOT_RULES=1
+
 	sanitizers-setup-env
 	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
 	append-flags -DWITH_NEWEST_QMI_COMMANDS
