@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e4cc0a7a914c69cda87d8e12ab658a25bf18fed0"
-CROS_WORKON_TREE=("f7122dee369efc8a9c0fff9f33ad43b0ae9a9aef" "fd4fab9440339c3ff8bc8184f4ea2844e76d83dc" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="40d805aea9c89144f1627b8008bb9788e83c5926"
+CROS_WORKON_TREE=("f7122dee369efc8a9c0fff9f33ad43b0ae9a9aef" "e1c5b7f8d1e771fe80ffc8c442b9c4079bff9fff" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
