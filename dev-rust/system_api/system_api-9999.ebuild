@@ -29,3 +29,11 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!chromeos-base/system_api-rust
 "
+
+src_install() {
+	# We don't want the build.rs to get packaged with the crate. Otherwise
+	# we will try and regenerate the bindings.
+	rm build.rs || die "Cannot remove build.rs"
+
+	cros-rust_src_install
+}
