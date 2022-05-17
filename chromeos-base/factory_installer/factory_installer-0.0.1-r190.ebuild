@@ -89,6 +89,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-storage-info
 	chromeos-base/dlcservice
 	chromeos-base/ec-utils
+	chromeos-base/factory_ufs
 	chromeos-base/secure-wipe
 	chromeos-base/vpd
 	dev-util/stressapptest
@@ -99,8 +100,7 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/upstart
 	sys-apps/util-linux
 	sys-block/parted
-	sys-fs/e2fsprogs
-	chromeos-base/factory_ufs"
+	sys-fs/e2fsprogs"
 
 
 src_unpack() {
