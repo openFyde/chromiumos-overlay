@@ -4,12 +4,12 @@ DEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= >=dev-rust/protob
 DESCRIPTION=Chrome OS system API D-Bus bindings for Rust.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system_api/
-IUSE=cros_host cros_workon_tree_fd6bb15a2d67595ed3686af0273f8e2f6e6a7a17_a0d8550678a1ed2a4ab62782049032a024bf40df_f2eb2baa58d53161a48e2339b7ac82c52a32fe1d_af405cba36b3d4453fdf636dbd155958063465fb_e54be0f555fddae41c01fbbcabed7ed7973d78f3_41983f98e3979f6b0bf7d011af1798d85a63f9ff_ddd22f0572ba73430977571c1084513fb9c7fcc3 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_5778f29df6082ec09d0cf853d3dd4746a6a66aaa_a0d8550678a1ed2a4ab62782049032a024bf40df_f2eb2baa58d53161a48e2339b7ac82c52a32fe1d_af405cba36b3d4453fdf636dbd155958063465fb_e54be0f555fddae41c01fbbcabed7ed7973d78f3_41983f98e3979f6b0bf7d011af1798d85a63f9ff_ddd22f0572ba73430977571c1084513fb9c7fcc3 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= >=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3 >=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3 !chromeos-base/system_api-rust
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.24.53-r478
+SLOT=0/0.24.53-r479
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	8cd337d80e0a52dfabd342ebfdbb37ae	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=2a58519fe05b62a3c5876185ef1e9d63
+_md5_=2378012f5c593084bc7d647030eac3f6
