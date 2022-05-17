@@ -1,0 +1,2 @@
+# libchrome wraps libevent functionality.
+include aosp/platform/external/libchrome:master:/OWNERS
