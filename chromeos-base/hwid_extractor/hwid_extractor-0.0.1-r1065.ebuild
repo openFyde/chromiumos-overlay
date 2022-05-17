@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("03472e1146be089b7013d8a50f4218c67b344aaf" "f70ffb6666f42cfe737bb7efdb7a94b8e8ace879")
-CROS_WORKON_TREE=("9ee55cbeef754ff955777652af8ea98c44f8fab8" "329dacf74c2c275c6a0676669bd01e80bde40f58" "5328e03abfd1af165a3a26805d1ff6b213a3ca48" "f863a3e87d9231f2e44003cae28fd1599f57cfc0" "047aec16e03eb36312cc201dc75d33e25ece833d")
+CROS_WORKON_COMMIT=("03472e1146be089b7013d8a50f4218c67b344aaf" "8a9b98e52b00917bc620d2ff724cf2be4ffff294")
+CROS_WORKON_TREE=("9ee55cbeef754ff955777652af8ea98c44f8fab8" "bcf7c9573f5b5f856ce05f669a0cb876bffcab2e" "5328e03abfd1af165a3a26805d1ff6b213a3ca48" "f863a3e87d9231f2e44003cae28fd1599f57cfc0" "047aec16e03eb36312cc201dc75d33e25ece833d")
 CROS_WORKON_PROJECT=("chromiumos/platform/factory" "chromiumos/chromite")
 CROS_WORKON_LOCALNAME=("platform/factory" "../chromite")
 CROS_WORKON_SUBTREE=("py" "lib bin scripts PRESUBMIT.cfg")
