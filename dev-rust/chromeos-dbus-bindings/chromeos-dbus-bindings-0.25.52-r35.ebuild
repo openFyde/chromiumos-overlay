@@ -1,0 +1,27 @@
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="d9beddc36d4a8f850dc2aeb7f233ef94319ef9aa"
+CROS_WORKON_TREE="c7594f5a9a1d6ede671303664dcd7d6122537dd5"
+CROS_RUST_SUBDIR="chromeos-dbus-bindings"
+
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+
+inherit cros-workon cros-rust
+
+DESCRIPTION="Chrome OS D-Bus bindings generator for Rust."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-dbus-bindings/"
+
+LICENSE="BSD-Google"
+SLOT="0/${PVR}"
+KEYWORDS="*"
+
+DEPEND="=dev-rust/which-4*:="
+RDEPEND="!chromeos-base/chromeos-dbus-bindings-rust
+	${DEPEND}"
+
+BDEPEND=">=dev-rust/dbus-codegen-0.10.0"
