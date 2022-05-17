@@ -67,6 +67,8 @@ IUSE="${IUSE} mocktpm ti50_onboard"
 IUSE="${IUSE} chipset_cezanne chipset_stoneyridge"
 # Debug
 IUSE="${IUSE} fw_debug intel_debug intel-compliance-test-mode"
+# Qualcomm ramdump
+IUSE="${IUSE} qualcomm_ramdump"
 # Logging
 IUSE="${IUSE} quiet quiet-cb verbose"
 # Flashrom Emulator
@@ -175,6 +177,9 @@ EOF
 	fi
 	if use intel-compliance-test-mode; then
 		echo "CONFIG_SOC_INTEL_COMPLIANCE_TEST_MODE=y" >> "${CONFIG}"
+	fi
+	if use qualcomm_ramdump; then
+		echo "CONFIG_QC_SDI_ENABLE=y" >> "${CONFIG}"
 	fi
 	local version=$("${CHROOT_SOURCE_ROOT}"/src/third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh |grep "^[[:space:]]*CHROMEOS_VERSION_STRING=" |cut -d= -f2 | tr - _)
 	{
