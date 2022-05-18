@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9beddc36d4a8f850dc2aeb7f233ef94319ef9aa"
+CROS_WORKON_COMMIT="740c27f6661c6815f6967010b754b9496e5428c9"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1811069d8336280067e37e916bf8b24942da00cf" "835ea099c8643676eca960bb95a9349559008807" "de59adbdd65f19155026e185bb22dfe33dc9e80d")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -84,6 +84,10 @@ RDEPEND="
 src_unpack() {
 	default_src_unpack
 	platform_src_unpack
+	# Override unpacked data by files/* for local development.
+	if [[ "${PV}" == "9999" ]]; then
+		cp -r "${FILESDIR}"/* "${WORKDIR}"
+	fi
 }
 
 install_lib() {
