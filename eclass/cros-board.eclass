@@ -151,6 +151,7 @@ ALL_BOARDS=(
 	#cnlrvp
 	cobblepot
 	coral
+	coral-arc-r
 	#coral-kernelnext
 	corsola
 	corsola64
