@@ -82,6 +82,10 @@ RDEPEND="
 src_unpack() {
 	default_src_unpack
 	platform_src_unpack
+	# Override unpacked data by files/* for local development.
+	if [[ "${PV}" == "9999" ]]; then
+		cp -r "${FILESDIR}"/* "${WORKDIR}"
+	fi
 }
 
 install_lib() {
