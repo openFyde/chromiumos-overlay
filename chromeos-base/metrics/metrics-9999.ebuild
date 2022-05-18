@@ -71,6 +71,7 @@ src_install() {
 	dolib.so "${OUT}/lib/libmetrics.so"
 	doins "${OUT}/lib/libmetrics.pc"
 	dolib.so "${OUT}/lib/libstructuredmetrics.so"
+	doins "${OUT}"/obj/metrics/structured/libstructuredmetrics.pc
 
 	dotmpfiles tmpfiles.d/structured_metrics.conf
 
@@ -82,6 +83,10 @@ src_install() {
 		structured/c_structured_metrics.h \
 		timer{,_mock}.h \
 		"${OUT}"/gen/include/metrics/structured/structured_events.h
+
+	insinto /usr/include/metrics/structured/proto
+	doins "${OUT}"/gen/include/metrics/structured/proto/storage.pb.h \
+		"${OUT}"/gen/include/metrics/structured/proto/structured_data.pb.h
 
 	# Install the protobuf so that autotests can have access to it.
 	insinto /usr/include/metrics/proto
