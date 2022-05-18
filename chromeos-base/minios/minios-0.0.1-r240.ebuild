@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9beddc36d4a8f850dc2aeb7f233ef94319ef9aa"
-CROS_WORKON_TREE=("de59adbdd65f19155026e185bb22dfe33dc9e80d" "25a2143ce185325784eced5bcdf1037abb90f162" "1255dc009547f77477e98f2e4b275d2e6ee9a296" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="69bb0a97401fde1016d37c728c492f6f14e87fb4"
+CROS_WORKON_TREE=("de59adbdd65f19155026e185bb22dfe33dc9e80d" "25a2143ce185325784eced5bcdf1037abb90f162" "48b0a3797d3577940abeee90257a7ad1e4923ecf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,7 +20,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/minios/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="minios"
+IUSE="
+	lvm_stateful_partition
+	minios
+"
 REQUIRED_USE="minios"
 
 COMMON_DEPEND="
@@ -47,6 +50,15 @@ src_install() {
 	dobin "${OUT}/minios_client"
 	dobin scripts/root_partition_for_recovery
 	dobin scripts/stateful_partition_for_recovery
+
+	if use lvm_stateful_partition; then
+		# shellcheck disable=SC2016
+		# Replace lvm_stateful flag in stateful_partition_for_recovery to true.
+		sed -i \
+			'/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
+			"${D}/build/initramfs/bin/stateful_partition_for_recovery" ||
+			die "Failed to set lvm_stateful in stateful_partition_for_recovery"
+	fi
 
 	# D-Bus configuration
 	insinto "/build/initramfs/etc/dbus-1/system.d"
