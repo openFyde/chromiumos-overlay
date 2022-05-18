@@ -29,7 +29,6 @@ RDEPEND="
 	chromeos-base/biod[fuzzer]
 	chromeos-base/bootid-logger[fuzzer]
 	chromeos-base/chaps[fuzzer]
-	chromeos-base/chromeos-dbus-bindings[fuzzer]
 	chromeos-base/chromeos-ec[fuzzer]
 	chromeos-base/chromeos-login[fuzzer]
 	chromeos-base/crash-reporter[fuzzer]
