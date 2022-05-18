@@ -680,6 +680,7 @@ cros_optimize_package_for_speed() {
 	# flags and substitute their own anyway.
 	export CFLAGS+=" -O2"
 	export CXXFLAGS+=" -O2"
+	CROS_RUST_PACKAGE_IS_HOT=1
 }
 
 register_die_hook cros_log_failed_packages

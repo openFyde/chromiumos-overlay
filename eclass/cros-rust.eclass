@@ -105,6 +105,14 @@ fi
 # If set to yes, run the test only for amd64 and x86 (i.e. no emulation).
 : "${CROS_RUST_TEST_DIRECT_EXEC_ONLY:="no"}"
 
+# @ECLASS-VARIABLE: CROS_RUST_PACKAGE_IS_HOT
+# @DESCRIPTION:
+# If set to a nonempty value, we will consider the binaries we compile to be
+# hot, and optimize them more aggressively for speed. Please use the
+# `cros_optimize_package_for_speed` function to set this, as that also applies
+# the same settings for C and C++ code.
+: "${CROS_RUST_PACKAGE_IS_HOT:=}"
+
 inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizers
 
 IUSE="amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86"
@@ -435,9 +443,14 @@ cros-rust_configure_cargo() {
 	local rustflags=(
 		${CROS_BASE_RUSTFLAGS}
 		"-Cdebuginfo=2"
-		"-Copt-level=s"
 		"-Zallow-features=sanitizer,backtrace"
 	)
+
+	if [[ -n "${CROS_RUST_PACKAGE_IS_HOT}" ]]; then
+		rustflags+=( "-Copt-level=3" )
+	else
+		rustflags+=( "-Copt-level=s" )
+	fi
 
 	if use lto; then
 		rustflags+=(
