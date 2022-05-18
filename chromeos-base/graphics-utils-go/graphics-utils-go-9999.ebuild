@@ -50,7 +50,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/fogleman-gg
 	dev-go/go-image
-	dev-go/gofpdf
+	dev-go/go-pdf
 	dev-go/golang-freetype
 	dev-go/gonum-plot
 	dev-go/protobuf
