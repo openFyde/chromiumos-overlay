@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="db95fa971a115361f91db8fd78fb11d8d5c1ec45"
-CROS_WORKON_TREE="b7a016609c8bd29feec5118f938f5e588c65af3c"
+CROS_WORKON_COMMIT="01c06e63aa3195c91a8ac847f3f886f3200f8a72"
+CROS_WORKON_TREE="6b4bc784a06c4035e844cc0cb4d7a414beba083c"
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
 CROS_WORKON_USE_VCSID="1"
@@ -26,7 +26,7 @@ DEPEND="=dev-rust/rand-0.6*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/built-0.3*:=
-	=dev-rust/sys-info-0.5.7:=
+	=dev-rust/sys-info-0.9.1:=
 	=dev-rust/serde_json-1*:=
 "
 
@@ -36,6 +36,8 @@ src_compile() {
 	# Override HOST_CFLAGS so that build dependencies use the correct
 	# flags on cross-compiled targets using cc-rs.
 	tc-export_build_env
+	# ignore missing BUILD_CFLAGS definition lint
+	# shellcheck disable=2154
 	export HOST_CFLAGS="${BUILD_CFLAGS}"
 	ecargo_build
 	if use test; then
