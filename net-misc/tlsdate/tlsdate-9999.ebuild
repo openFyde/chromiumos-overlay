@@ -16,7 +16,7 @@ KEYWORDS="~*"
 IUSE="-asan +dbus +seccomp systemd"
 
 DEPEND="dev-libs/openssl:0=
-	dev-libs/libevent
+	dev-libs/libevent:=
 	dbus? ( sys-apps/dbus )"
 RDEPEND="${DEPEND}
 	chromeos-base/chromeos-ca-certificates
