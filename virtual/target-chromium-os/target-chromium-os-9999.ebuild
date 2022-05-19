@@ -28,6 +28,7 @@ IUSE="
 	bluetooth
 	bootchart
 	cellular
+	chargesplash
 	chrome_internal
 	compupdates
 	containers
@@ -196,6 +197,7 @@ RDEPEND="
 		chromeos-base/bootid-logger
 	)
 	biod? ( chromeos-base/biod )
+	chargesplash? ( chromeos-base/chargesplash )
 	fpstudy? ( chromeos-base/fingerprint_study )
 	compupdates? ( chromeos-base/imageloader )
 	dlc? (
