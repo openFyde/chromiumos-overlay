@@ -199,6 +199,7 @@ RDEPEND="
 	fpstudy? ( chromeos-base/fingerprint_study )
 	compupdates? ( chromeos-base/imageloader )
 	dlc? (
+		app-accessibility/pumpkin
 		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
 		chromeos-languagepacks/tts-es-us
