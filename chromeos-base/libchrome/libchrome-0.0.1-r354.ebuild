@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("9d580a9932ab02f7a9b73c2ea5b9865cf84dbd26" "ed1fffd8527256e22c0358e375ee66dbfd5c2d8f")
+CROS_WORKON_COMMIT=("9763552b61efa2835a397b028b55ad3adefc8ca5" "ed1fffd8527256e22c0358e375ee66dbfd5c2d8f")
 CROS_WORKON_TREE=("de59adbdd65f19155026e185bb22dfe33dc9e80d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c0da8d473379aaa8f7121c727401cac8498641b0")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
@@ -175,6 +175,7 @@ src_install() {
 		base/test/simple_test_tick_clock.h \
 		base/test/task_environment.h \
 		base/test/test_file_util.h \
+		base/test/test_future.h \
 		base/test/test_mock_time_task_runner.h \
 		base/test/test_pending_task.h \
 		base/test/test_switches.h \
