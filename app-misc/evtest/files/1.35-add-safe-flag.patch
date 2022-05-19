@@ -1,4 +1,4 @@
-From 218cc1e499c93d4bcd1deda3821a303db72da304 Mon Sep 17 00:00:00 2001
+From db498366b1908630534711ab57f375646dd297e5 Mon Sep 17 00:00:00 2001
 From: Harry Cutts <hcutts@chromium.org>
 Date: Tue, 11 Aug 2020 14:56:58 -0700
 Subject: [PATCH] Enable safe mode for evtest
@@ -6,22 +6,22 @@ Subject: [PATCH] Enable safe mode for evtest
 This patch enables --safe for evtest. When evtest is called with --safe,
 all the sensitive event info will be hidden.
 ---
- evtest.c | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 56 insertions(+), 3 deletions(-)
+ evtest.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 56 insertions(+), 2 deletions(-)
 
 diff --git a/evtest.c b/evtest.c
-index 37d4f85..dc79baf 100644
+index ba7a161..ac12bab 100644
 --- a/evtest.c
 +++ b/evtest.c
-@@ -105,6 +105,7 @@ static const struct query_mode {
+@@ -108,6 +108,7 @@ static const struct query_mode {
  };
  
  static int grab_flag = 0;
 +static int safe_flag = 0;
+ static char* progname;
  static volatile sig_atomic_t stop = 0;
  
- static void interrupt_handler(int sig)
-@@ -814,6 +815,8 @@ static const char * const * const names[EV_MAX + 1] = {
+@@ -821,6 +822,8 @@ static const char * const * const names[EV_MAX + 1] = {
  	[EV_FF] = force,			[EV_FF_STATUS] = forcestatus,
  };
  
@@ -30,19 +30,18 @@ index 37d4f85..dc79baf 100644
  /**
   * Convert a string to a specific key/snd/led/sw code. The string can either
   * be the name of the key in question (e.g. "SW_DOCK") or the numerical
-@@ -941,7 +944,10 @@ static int usage(void)
+@@ -947,6 +950,10 @@ static int usage(void)
+ 	printf("\n");
  	printf(" Query mode: (check exit code)\n");
- 	printf("   %s --query /dev/input/eventX <type> <value>\n",
- 		program_invocation_short_name);
--
+ 	printf("   %s --query /dev/input/eventX <type> <value>\n", progname);
 +	printf("\n");
 +	printf(" Safe mode:\n");
 +	printf("   %s --safe\n", program_invocation_short_name);
 +	printf("     --safe  hide sensitive event information\n");
+ 
  	printf("\n");
  	printf("<type> is one of: EV_KEY, EV_SW, EV_LED, EV_SND\n");
- 	printf("<value> can either be a numerical value, or the textual name of the\n");
-@@ -959,7 +965,7 @@ static int usage(void)
+@@ -965,7 +972,7 @@ static int usage(void)
   */
  static void print_absdata(int fd, int axis)
  {
@@ -51,7 +50,7 @@ index 37d4f85..dc79baf 100644
  	int k;
  
  	ioctl(fd, EVIOCGABS(axis), abs);
-@@ -1106,6 +1112,47 @@ static int print_device_info(int fd)
+@@ -1112,6 +1119,47 @@ static int print_device_info(int fd)
  	return 0;
  }
  
@@ -99,19 +98,19 @@ index 37d4f85..dc79baf 100644
  /**
   * Print device events as they come in.
   *
-@@ -1139,7 +1186,10 @@ static int print_events(int fd)
+@@ -1145,7 +1193,10 @@ static int print_events(int fd)
  			type = ev[i].type;
  			code = ev[i].code;
  
--			printf("Event: time %ld.%06ld, ", ev[i].time.tv_sec, ev[i].time.tv_usec);
+-			printf("Event: time %ld.%06ld, ", ev[i].input_event_sec, ev[i].input_event_usec);
 +			if (safe_flag)
-+				printf("Event: time %ld, ", ev[i].time.tv_sec);
++				printf("Event: time %ld, ", ev[i].input_event_sec);
 +			else
-+				printf("Event: time %ld.%06ld, ", ev[i].time.tv_sec, ev[i].time.tv_usec);
++				printf("Event: time %ld.%06ld, ", ev[i].input_event_sec, ev[i].input_event_usec);
  
  			if (type == EV_SYN) {
  				if (code == SYN_MT_REPORT)
-@@ -1148,6 +1198,8 @@ static int print_events(int fd)
+@@ -1154,6 +1205,8 @@ static int print_events(int fd)
  					printf(">>>>>>>>>>>>>> %s <<<<<<<<<<<<\n", codename(type, code));
  				else
  					printf("-------------- %s ------------\n", codename(type, code));
@@ -120,7 +119,7 @@ index 37d4f85..dc79baf 100644
  			} else {
  				printf("type %d (%s), code %d (%s), ",
  					type, typename(type),
-@@ -1329,6 +1381,7 @@ static int do_query(const char *device, const char *event_type, const char *keyn
+@@ -1337,6 +1390,7 @@ static int do_query(const char *device, const char *event_type, const char *keyn
  static const struct option long_options[] = {
  	{ "grab", no_argument, &grab_flag, 1 },
  	{ "query", no_argument, NULL, MODE_QUERY },
@@ -129,5 +128,5 @@ index 37d4f85..dc79baf 100644
  	{ 0, },
  };
 -- 
-2.28.0.236.gb10cc79966-goog
+2.36.1.124.g0e6072fb45-goog
 

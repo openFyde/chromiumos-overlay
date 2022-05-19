@@ -19,7 +19,7 @@ BDEPEND="virtual/pkgconfig"
 S=${WORKDIR}/${PN}-${P}
 
 PATCHES=(
-	"${FILESDIR}/1.34-add-safe-flag.patch"
+	"${FILESDIR}/1.35-add-safe-flag.patch"
 )
 
 src_prepare() {
