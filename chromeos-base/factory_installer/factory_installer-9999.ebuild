@@ -77,9 +77,13 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/factory:=
 	test? ( chromeos-base/secure-wipe:= )
 	x86? ( sys-boot/syslinux:= )
+	=dev-rust/anyhow-1*:=
+	>=dev-rust/bincode-1.0.1 <dev-rust/bincode-2.0.0_alpha:=
 	>=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0:=
+	=dev-rust/glob-0.3*:=
 	>=dev-rust/serde-1.0.0 <dev-rust/serde-2.0.0:=
-	>=dev-rust/serde_json-1.0.0 <dev-rust/serde_json-2.0.0:="
+	>=dev-rust/serde_json-1.0.0 <dev-rust/serde_json-2.0.0:=
+	>=dev-rust/tempfile-3.2.0 <dev-rust/tempfile-4.0.0_alpha:="
 
 RDEPEND="${COMMON_DEPEND}
 	${PROVIDED_DEPEND}
@@ -90,7 +94,6 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-storage-info
 	chromeos-base/dlcservice
 	chromeos-base/ec-utils
-	chromeos-base/factory_ufs
 	chromeos-base/secure-wipe
 	chromeos-base/vpd
 	dev-util/stressapptest

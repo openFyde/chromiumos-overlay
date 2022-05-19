@@ -16,19 +16,14 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
-DEPEND="
-	=dev-rust/anyhow-1*:=
-	>=dev-rust/bincode-1.0.1 <dev-rust/bincode-2.0.0_alpha:=
-	=dev-rust/glob-0.3*:=
-	=dev-rust/serde-1*:=
-	>=dev-rust/tempfile-3.2.0 <dev-rust/tempfile-4.0.0_alpha:=
-"
+DEPEND="chromeos-base/factory_installer"
 RDEPEND="
 	sys-apps/ufs-utils
 "
 
 src_test() {
-	cros-rust_src_test --no-default-features --features="factory-ufs"
+	cros-rust_src_test --no-default-features --features="factory-ufs" \
+		--bin="factory_ufs"
 }
 
 src_compile() {
