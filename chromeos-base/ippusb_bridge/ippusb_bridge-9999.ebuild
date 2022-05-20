@@ -33,7 +33,7 @@ DEPEND="
 	>=dev-rust/getopts-0.2.18:= <dev-rust/getopts-0.3
 	>=dev-rust/httparse-1.3.4:= <dev-rust/httparse-1.4
 	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3
-	>=dev-rust/rusb-0.6.2:= <dev-rust/rusb-0.7
+	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	>=dev-rust/tiny_http-0.8:= <dev-rust/tiny_http-0.9
