@@ -5,7 +5,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/hdctools"
 PYTHON_COMPAT=( python3_{6..9} )
 
-inherit cros-workon distutils-r1 toolchain-funcs udev
+inherit cros-workon distutils-r1 toolchain-funcs udev cros-sanitizers
 
 DESCRIPTION="Software to communicate with servo/miniservo debug boards"
 HOMEPAGE="https://www.chromium.org/chromium-os/servo"
@@ -47,6 +47,11 @@ python_test() {
 
 src_test() {
 	distutils-r1_src_test
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_install() {

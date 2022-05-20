@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/huddly-updater"
 
-inherit cros-debug cros-workon libchrome udev user
+inherit cros-debug cros-workon libchrome udev user cros-sanitizers
 
 DESCRIPTION="A utility to update Huddly camera firmware"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/huddly-updater"
@@ -31,6 +31,7 @@ RDEPEND="${COMMON_DEPEND}
 src_configure() {
 	# See crbug/1078297
 	cros-debug-add-NDEBUG
+	sanitizers-setup-env
 	default
 }
 
