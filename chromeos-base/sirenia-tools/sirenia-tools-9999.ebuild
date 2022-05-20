@@ -17,6 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="cros_host"
 
 DEPEND="
 	chromeos-base/libsirenia:=
@@ -38,8 +39,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
+# libsirenia is in RDEPEND for host so that it is installed by default in SDK.
 RDEPEND="
 	sys-apps/dbus
+	cros_host? ( chromeos-base/libsirenia:= )
 "
 
 src_compile() {
