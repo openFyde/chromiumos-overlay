@@ -149,3 +149,6 @@ app-editors/vim -crypt
 # This behavior is not compatible with the -Cpanic=abort flag normally
 # added by cros-rust eclass. Disable this flag for cbindgen.
 dev-rust/cbindgen -panic-abort
+
+# Enable selinux feature in tar to allow stateful payload store context.
+app-arch/tar selinux
