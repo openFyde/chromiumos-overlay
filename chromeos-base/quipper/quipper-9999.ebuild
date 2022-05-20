@@ -54,6 +54,7 @@ src_unpack() {
 	eapply "${FILESDIR}"/quipper-disable-flaky-tests.patch
 	eapply "${FILESDIR}"/quipper-check-header.patch
 	eapply "${FILESDIR}"/quipper-base-TimeDelta-From-migration.patch
+	eapply "${FILESDIR}"/quipper-support-profiles-from-perf-5.15.patch
 	popd >/dev/null || die
 }
 
