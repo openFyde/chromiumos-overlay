@@ -21,6 +21,8 @@ DEPEND="dev-libs/openssl:0=
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
+PATCHES=( "${FILESDIR}/${PN}-llvm-stringset.patch" )
+
 src_prepare() {
 	cmake_src_prepare
 }
