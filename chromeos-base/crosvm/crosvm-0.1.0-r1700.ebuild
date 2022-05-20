@@ -154,6 +154,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	cros_optimize_package_for_speed
 	cros-rust_src_prepare
 
 	if use arcvm_gce_l1; then
