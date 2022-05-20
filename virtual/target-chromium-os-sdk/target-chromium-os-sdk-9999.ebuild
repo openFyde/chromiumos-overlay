@@ -368,6 +368,7 @@ RDEPEND="${RDEPEND}
 
 # Host dependencies that are needed for cros_generate_update_payload.
 RDEPEND="${RDEPEND}
+	chromeos-base/update_engine-client
 	chromeos-base/update_engine
 	sys-fs/e2tools
 	"
