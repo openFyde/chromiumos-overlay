@@ -6,4 +6,4 @@ IUSE=+compiler-rt cros_host +libunwind msan llvm-next llvm-tot +static-libs
 KEYWORDS=*
 LICENSE=|| ( UoI-NCSA MIT )
 SLOT=0
-_md5_=c21fefe532b405e8e44d3ddec41f97bd
+_md5_=94002d5bf45909a86f3819a2fc77b34a
