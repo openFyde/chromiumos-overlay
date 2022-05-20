@@ -29,6 +29,7 @@ DEPEND="
 	=dev-rust/syn-1*:=
 	=dev-rust/thiserror-1*:=
 "
+RDEPEND="${DEPEND}"
 
 src_compile() {
 	ecargo_build
