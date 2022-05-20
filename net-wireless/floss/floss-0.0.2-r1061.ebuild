@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("fed83809d1a8b95a6ec5147ff81fecb41c52a321" "d4a77ea26fb8f70e049370c167c7a40e79deaa6e" "af4e7aea4c9f534d996b5f9e038e3a58ae490ca2" "78c16f9b727fdf8ea3391ec84c52d6fefd7ac45c" "1ae62bcf29e37ad6667d0db5aeae1f1fc68b7e02")
-CROS_WORKON_TREE=("de59adbdd65f19155026e185bb22dfe33dc9e80d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1a6bcd8389e97407393eabb61df954b9fdf7f54c" "9234a8056a6ff75c48f13bfee84fdcd25faa6d06" "0c17f1281494b556dda1e9b59adbde54744bed0b" "37169d4d88ca26cc41c05bcb689ba0e8ef40fb22")
+CROS_WORKON_COMMIT=("8f13dbfb4e9265b085af8a5676440e96aa7547ef" "7ea76116f90fcf2f01ff8c71c7b03057504efe3f" "af4e7aea4c9f534d996b5f9e038e3a58ae490ca2" "78c16f9b727fdf8ea3391ec84c52d6fefd7ac45c" "1ae62bcf29e37ad6667d0db5aeae1f1fc68b7e02")
+CROS_WORKON_TREE=("de59adbdd65f19155026e185bb22dfe33dc9e80d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f20ad17791de8b5f25c4632e85f6931f2e48b79a" "9234a8056a6ff75c48f13bfee84fdcd25faa6d06" "0c17f1281494b556dda1e9b59adbde54744bed0b" "37169d4d88ca26cc41c05bcb689ba0e8ef40fb22")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/packages/modules/Bluetooth"
