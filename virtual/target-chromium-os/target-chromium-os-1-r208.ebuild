@@ -417,4 +417,10 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	virtual/udev
 "
 
+# TODO(toolchain): Remove this libxcrypt dep after all packages directly depend
+# on it and it is not installed as a system library anymore
+CROS_RDEPEND="${CROS_RDEPEND}
+	sys-libs/libxcrypt
+"
+
 RDEPEND+="!cros_embedded? ( ${CROS_RDEPEND} )"
