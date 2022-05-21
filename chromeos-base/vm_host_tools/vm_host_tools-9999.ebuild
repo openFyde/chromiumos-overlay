@@ -165,6 +165,9 @@ src_install() {
 
 		exeinto /sbin
 		doexe modprobe/dgpu.sh
+
+		# Udev rules to bind dGPU to different modules.
+		udev_dorules udev/45-vfio-dgpu.rules
 	fi
 
 	insinto /usr/local/vms/etc
