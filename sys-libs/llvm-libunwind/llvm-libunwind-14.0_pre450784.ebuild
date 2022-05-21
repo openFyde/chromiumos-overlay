@@ -167,9 +167,10 @@ multilib_src_install() {
 		-lc                                                                         \
 	|| die "Failed to create ${out_file}".
 
-	# Point libunwind.so.1 and libunwind.so to libunwind.so.1.0.
+	# Point libunwind.so.1, libunwind_shared.so and libunwind.so to libunwind.so.1.0.
 	ln -s libunwind.so.1.0 "${my_installdir}"/libunwind.so.1 || die
 	ln -s libunwind.so.1   "${my_installdir}"/libunwind.so || die
+	ln -s libunwind.so     "${my_installdir}"/libunwind_shared.so || die
 
 	# Generate libgcc{,_eh,_s} if requested.
 	if use synth_libgcc; then
