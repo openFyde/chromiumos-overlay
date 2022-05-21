@@ -113,6 +113,7 @@ HYPERVISOR_DEPENDS="
 	virtual/linux-sources
 	virtual/manatee-apps
 	manatee_performance_tools? (
+		app-admin/sysstat
 		dev-util/strace
 		dev-util/turbostat
 		dev-util/perf
