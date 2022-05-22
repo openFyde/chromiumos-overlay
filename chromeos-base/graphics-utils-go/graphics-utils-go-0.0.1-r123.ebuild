@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6ae8fc5c6e9b8cfc268b2b18447114b770229c3b"
-CROS_WORKON_TREE="26f44a41057462670bc49998a343a7732bbff763"
+CROS_WORKON_COMMIT="a39d889e49c745633b50301d3733e80e8a141618"
+CROS_WORKON_TREE="47cb48eebd816339a602ae274e0540f2a09b650f"
 CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
 
@@ -52,7 +52,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/fogleman-gg
 	dev-go/go-image
-	dev-go/gofpdf
+	dev-go/go-pdf
 	dev-go/golang-freetype
 	dev-go/gonum-plot
 	dev-go/protobuf
