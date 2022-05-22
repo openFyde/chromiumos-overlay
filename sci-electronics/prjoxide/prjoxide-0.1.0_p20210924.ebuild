@@ -44,7 +44,10 @@ DEPEND="
 	=dev-rust/serde_json-1*:=
 	=dev-rust/capnpc-0.14*:=
 "
-RDEPEND="sci-electronics/yosys"
+RDEPEND="
+	${DEPEND}
+	sci-electronics/yosys
+"
 
 PRJOXIDE_ROOT_DIR="${WORKDIR}/${PN}-${GIT_REV}"
 S="${PRJOXIDE_ROOT_DIR}/libprjoxide/prjoxide"

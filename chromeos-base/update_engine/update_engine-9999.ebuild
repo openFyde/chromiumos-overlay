@@ -64,7 +64,10 @@ DELTA_GENERATOR_RDEPEND="
 RDEPEND="
 	!cros_host? ( chromeos-base/chromeos-installer )
 	${COMMON_DEPEND}
-	cros_host? ( ${DELTA_GENERATOR_RDEPEND} )
+	cros_host? (
+		${DEPEND}
+		${DELTA_GENERATOR_RDEPEND}
+	)
 	power_management? ( chromeos-base/power_manager:= )
 	virtual/update-policy:=
 "
