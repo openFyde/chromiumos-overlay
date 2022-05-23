@@ -94,7 +94,7 @@ src_install() {
 	fperms 0750 "${daemon_store}"
 	fowners chaps:chronos-access "${daemon_store}"
 
-	local fuzzer_component_id="886041"
+	local fuzzer_component_id="1188704"
 	local fuzzers=(
 		chaps_attributes_fuzzer
 		chaps_object_store_fuzzer

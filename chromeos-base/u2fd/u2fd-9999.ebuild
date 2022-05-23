@@ -76,7 +76,7 @@ src_install() {
 	fowners u2f:u2f "${daemon_store}"
 
 	if use cr50_onboard || use ti50_onboard; then
-		local fuzzer_component_id="886041"
+		local fuzzer_component_id="1188704"
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
 			--comp "${fuzzer_component_id}"
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
