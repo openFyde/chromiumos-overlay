@@ -4,7 +4,7 @@
 # Don't use Makefile.external here as it fetches from the network.
 EAPI=7
 
-CROS_WORKON_COMMIT="24106abc9b7a481f9816de37409ee23d9c6d0f4a"
+CROS_WORKON_COMMIT="9a4319fe20994b67bfc26fa28afc7bf8e9c77075"
 CROS_WORKON_TREE=("f65480a28376b309e5661d94fbb53f8904006444" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 
@@ -56,6 +56,7 @@ src_unpack() {
 	eapply "${FILESDIR}"/quipper-disable-flaky-tests.patch
 	eapply "${FILESDIR}"/quipper-check-header.patch
 	eapply "${FILESDIR}"/quipper-base-TimeDelta-From-migration.patch
+	eapply "${FILESDIR}"/quipper-support-profiles-from-perf-5.15.patch
 	popd >/dev/null || die
 }
 
