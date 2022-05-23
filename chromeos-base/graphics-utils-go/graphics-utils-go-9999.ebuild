@@ -9,27 +9,27 @@ INSTALL_DIR="/usr/local/graphics"
 
 CROS_GO_BINARIES=(
 	# Add more apps here.
-	"hardware_probe/cmd/hardware_probe:${INSTALL_DIR}/hardware_probe"
-	"platform_decoding/cmd/ffmpeg_md5sum:${INSTALL_DIR}/ffmpeg_md5sum"
-	"platform_decoding/cmd/validate:${INSTALL_DIR}/validate"
-	"sanity/cmd/pass:${INSTALL_DIR}/pass"
-	"trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
-	"trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/get_device_info"
-	"trace_profiling/cmd/harvest:${INSTALL_DIR}/harvest"
-	"trace_profiling/cmd/merge:${INSTALL_DIR}/merge"
-	"trace_profiling/cmd/profile:${INSTALL_DIR}/profile"
-	"trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
+	"go.chromium.org/chromiumos/graphics-utils-go/hardware_probe/cmd/hardware_probe:${INSTALL_DIR}/hardware_probe"
+	"go.chromium.org/chromiumos/graphics-utils-go/platform_decoding/cmd/ffmpeg_md5sum:${INSTALL_DIR}/ffmpeg_md5sum"
+	"go.chromium.org/chromiumos/graphics-utils-go/platform_decoding/cmd/validate:${INSTALL_DIR}/validate"
+	"go.chromium.org/chromiumos/graphics-utils-go/sanity/cmd/pass:${INSTALL_DIR}/pass"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/analyze:${INSTALL_DIR}/analyze"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/gen_db_result:${INSTALL_DIR}/get_device_info"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/harvest:${INSTALL_DIR}/harvest"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/merge:${INSTALL_DIR}/merge"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/profile:${INSTALL_DIR}/profile"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_replay/cmd/trace_replay:${INSTALL_DIR}/trace_replay"
 )
 
 CROS_GO_TEST=(
-	"hardware_probe/cmd/hardware_probe"
-	"platform_decoding/cmd/validate"
-	"sanity/cmd/pass"
-	"trace_profiling/cmd/analyze"
-	"trace_profiling/cmd/gen_db_result"
-	"trace_profiling/cmd/merge"
-	"trace_profiling/cmd/profile"
-	"trace_replay/cmd/trace_replay"
+	"go.chromium.org/chromiumos/graphics-utils-go/hardware_probe/cmd/hardware_probe"
+	"go.chromium.org/chromiumos/graphics-utils-go/platform_decoding/cmd/validate"
+	"go.chromium.org/chromiumos/graphics-utils-go/sanity/cmd/pass"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/analyze"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/gen_db_result"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/merge"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_profiling/cmd/profile"
+	"go.chromium.org/chromiumos/graphics-utils-go/trace_replay/cmd/trace_replay"
 )
 
 CROS_GO_VET=(
