@@ -55,7 +55,7 @@ src_install() {
 	platform_install
 
 	# Create daemon store folder prototype, see
-	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
+	# https://chromium.googlesource.com/chromiumos/docs/+/HEAD/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
 	local daemon_store="/etc/daemon-store/authpolicyd"
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"

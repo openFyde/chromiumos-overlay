@@ -67,7 +67,7 @@ src_install() {
 	doins setuid_restrictions/kerberosd_uid_allowlist.txt
 
 	# Create daemon store folder prototype, see
-	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
+	# https://chromium.googlesource.com/chromiumos/docs/+/HEAD/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
 	local daemon_store="/etc/daemon-store/kerberosd"
 	dodir "${daemon_store}"
 	fperms 0770 "${daemon_store}"
