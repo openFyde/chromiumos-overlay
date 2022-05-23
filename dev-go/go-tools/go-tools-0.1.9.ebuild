@@ -56,7 +56,7 @@ CROS_GO_TEST=(
 CROS_GO_BINARIES=(
 	"golang.org/x/tools/cmd/godoc"
 	"golang.org/x/tools/cmd/goimports"
-	"golang.org/x/tools/cmd/guru:goguru"
+	"golang.org/x/tools/cmd/guru:/usr/bin/goguru"
 	"golang.org/x/tools/cmd/stringer"
 )
 
