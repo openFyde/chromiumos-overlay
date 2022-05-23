@@ -76,6 +76,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	into /
 	dosbin "${OUT}"/crash_reporter
 	if ! use vm-containers; then
