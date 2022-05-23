@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-re
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers"
+IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers force_breakpad"
 
 COMMON_DEPEND="
 	chromeos-base/libcrossystem:=
