@@ -131,6 +131,9 @@ USE="${USE} ml_benchmark_drivers"
 # Enable extra Japanse fonts by default.
 USE="${USE} extra_japanese_fonts"
 
+# Enable generic mosys platform by default.
+USE="${USE} mosys_platform_generic"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
