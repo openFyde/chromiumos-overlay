@@ -10,7 +10,7 @@ CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="chromeos-config"
 
-inherit cros-workon meson
+inherit cros-workon meson cros-sanitizers
 
 LICENSE="BSD-Google"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-config"
@@ -23,6 +23,7 @@ src_unpack() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	emesonargs+=( -Ddefault_library=both )
 	meson_src_configure
 }

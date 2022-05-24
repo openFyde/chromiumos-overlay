@@ -34,6 +34,11 @@ DEPEND="${COMMON_DEPEND}
 
 BDEPEND="test? ( dev-python/pytest[${PYTHON_USEDEP}] )"
 
+src_configure() {
+	sanitizers-setup-env
+	default
+}
+
 src_compile() {
 	tc-export CC PKG_CONFIG
 	local makeargs=( $(usex cros_host '' EXTRA_DIRS=chromeos) )
