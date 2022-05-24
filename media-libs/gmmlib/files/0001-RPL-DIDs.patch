@@ -1,0 +1,27 @@
+From 62365b57014b1bf2275156e6d800dccade2ee413 Mon Sep 17 00:00:00 2001
+From: John Machado <john.machado@intel.com>
+Date: Fri, 25 Mar 2022 14:07:54 +0530
+Subject: [PATCH] Add RPL-P DIDs
+
+Backport from:
+https://github.com/intel/gmmlib/commit/c70167bee652c7f4cc656d651a1705ffb6bcc0c9
+---
+ Source/inc/common/igfxfmid.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Source/inc/common/igfxfmid.h b/Source/inc/common/igfxfmid.h
+index 26cf727..24b7c57 100644
+--- a/Source/inc/common/igfxfmid.h
++++ b/Source/inc/common/igfxfmid.h
+@@ -1796,6 +1796,11 @@ typedef enum __NATIVEGTTYPE
+ #define DEV_ID_56B0                             0x56B0
+ #define DEV_ID_56B1                             0x56B1
+ 
++// RPL-P
++#define DEV_ID_A7A1                             0xA7A1
++#define DEV_ID_A7A9                             0xA7A9
++#define DEV_ID_A721                             0xA721
++
+ // ADL-N
+ #define DEV_ID_46D0                            0x46D0
+ #define DEV_ID_46D1                            0x46D1
