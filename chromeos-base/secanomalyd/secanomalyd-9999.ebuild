@@ -25,7 +25,9 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/minijail:=
 "
-DEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/session_manager-client:=
+"
 
 pkg_setup() {
 	enewuser "secanomaly"
