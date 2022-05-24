@@ -101,6 +101,8 @@ src_prepare() {
 src_configure() {
 	### RUST ###
 
+	tc-export PKG_CONFIG
+
 	cd "${WORKDIR}/rustc-${RUST_VERSION}-src" || die
 	cat >config.toml <<EOF
 [build]
@@ -118,8 +120,8 @@ docs = false
 submodules = false
 python = "${EPYTHON}"
 vendor = true
-extended = false
-tools = ["cargo"]
+extended = true
+tools = ["cargo", "cargo-miri", "miri", "src"]
 sanitizers = false
 profiler = false
 
@@ -130,6 +132,7 @@ experimental-targets = ""
 
 [install]
 prefix = "${D}/opt/hps-sdk"
+sysconfdir = "etc"
 mandir = "share/man"
 
 [rust]
