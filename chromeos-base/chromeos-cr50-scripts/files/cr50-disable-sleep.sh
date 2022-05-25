@@ -40,8 +40,8 @@ monitor_suspend_dbus_signal() {
       logit "SuspendImminent signal received"
       send_disable_deep_sleep_command_to_cr50
     fi
-  done < <(dbus-monitor --system --profile \
-    "type='signal',interface='${interface}',member='${signal}'")
+  done < <(minijail0 -u nobody -g nobody /usr/bin/dbus-monitor --system \
+    --profile "type='signal',interface='${interface}',member='${signal}'")
 }
 
 main() {
