@@ -20,10 +20,10 @@ KEYWORDS="~*"
 IUSE=""
 
 CROS_GO_BINARIES=(
-	"chromiumos/dbusbindings/cmd/generator:/usr/bin/go-generate-chromeos-dbus-bindings"
+	"go.chromium.org/chromiumos/dbusbindings/cmd/generator:/usr/bin/go-generate-chromeos-dbus-bindings"
 )
 CROS_GO_TEST=(
-	"chromiumos/dbusbindings/..."
+	"go.chromium.org/chromiumos/dbusbindings/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
