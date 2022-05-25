@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk missive .gn"
 
 PLATFORM_SUBDIR="missive"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Daemon to encrypt, store, and forward reporting events for managed devices."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/missive/"
@@ -84,6 +84,9 @@ src_install() {
 	# Install upstart configurations
 	insinto /etc/init
 	doins init/missived.conf
+
+	# Install tmpfiles
+	dotmpfiles tmpfiles.d/missived.conf
 
 	# TODO(zatrudo): Generate at end of devleopment before release.
 	# Install seccomp policy file.
