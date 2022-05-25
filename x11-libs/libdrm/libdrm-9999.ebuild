@@ -52,6 +52,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	eapply "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 	eapply "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
+	eapply "${FILESDIR}"/UPSTREAM-intel-Add-support-for-RPLP.patch
 
 	eapply_user
 }
