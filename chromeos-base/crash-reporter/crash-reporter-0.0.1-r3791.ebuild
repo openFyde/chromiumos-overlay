@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="24106abc9b7a481f9816de37409ee23d9c6d0f4a"
+CROS_WORKON_COMMIT="215aa2bc62b9678288ff046d6c4867db1cae79cb"
 CROS_WORKON_TREE=("f65480a28376b309e5661d94fbb53f8904006444" "8eb156bc0eaeff47b2c469e566439aa2863a794a" "3b33fc07daf512e548300eefbd028b622bc51b44" "d8a7d65eb2c838d88c12e4a3c3d301bfcaeec80e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -78,6 +78,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	into /
 	dosbin "${OUT}"/crash_reporter
 	if ! use vm-containers; then
