@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
 
-inherit cros-workon
+inherit cros-workon cros-sanitizers
 
 DESCRIPTION="Firmware images from the upstream linux-fimware package"
 HOMEPAGE="https://git.kernel.org/cgit/linux/kernel/git/firmware/linux-firmware.git/"
@@ -354,6 +354,11 @@ install_iwlwifi() {
 		# 'iwlwifi-*' USE flags (e.g. volteer) won't break the build.
 		doins "iwl-dbg-cfg.ini"
 	done
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_install() {

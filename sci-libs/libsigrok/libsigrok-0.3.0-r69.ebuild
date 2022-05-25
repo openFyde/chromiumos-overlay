@@ -9,7 +9,7 @@ CROS_WORKON_TREE="b2fa8b7e13a75748082ca036acf49cfd97fdd471"
 CROS_WORKON_PROJECT="chromiumos/third_party/libsigrok"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
-inherit cros-workon eutils autotools
+inherit cros-workon eutils autotools cros-sanitizers
 
 SRC_URI=""
 KEYWORDS="*"
@@ -38,6 +38,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	econf \
 		$(use_enable ftdi libftdi) \
 		$(use_enable serial libserialport) \

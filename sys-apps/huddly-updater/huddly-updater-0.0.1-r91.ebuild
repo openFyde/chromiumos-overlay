@@ -6,7 +6,7 @@ CROS_WORKON_COMMIT="0da35b451529936b6ca8344177dbcfe5b9c5539f"
 CROS_WORKON_TREE="faf17261fcf328a898e89b8ce79d648333087e07"
 CROS_WORKON_PROJECT="chromiumos/third_party/huddly-updater"
 
-inherit cros-debug cros-workon libchrome udev user
+inherit cros-debug cros-workon libchrome udev user cros-sanitizers
 
 DESCRIPTION="A utility to update Huddly camera firmware"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/huddly-updater"
@@ -33,6 +33,7 @@ RDEPEND="${COMMON_DEPEND}
 src_configure() {
 	# See crbug/1078297
 	cros-debug-add-NDEBUG
+	sanitizers-setup-env
 	default
 }
 
