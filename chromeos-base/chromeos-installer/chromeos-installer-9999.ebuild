@@ -59,6 +59,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/cros_installer
 	if use mtd ; then
 		dobin "${OUT}"/nand_partition
