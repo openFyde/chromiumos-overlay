@@ -74,6 +74,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/dbus-0.8*:=
 	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
 	=dev-rust/enumn-0.1*:=
+	=dev-rust/env_logger-0.9*:=
 	=dev-rust/futures-0.3*:=
 	>=dev-rust/gdbstub-0.5.0:= <dev-rust/gdbstub-0.6
 	>=dev-rust/gdbstub-0.6.1:= <dev-rust/gdbstub-0.7
