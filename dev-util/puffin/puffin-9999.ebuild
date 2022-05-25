@@ -34,6 +34,11 @@ COMMON_DEPEND="chromeos-base/libbrillo:=[asan?,fuzzer?]
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
+src_prepare() {
+	eapply "${FILESDIR}"/puffin-include-unistd.h-explicitly.patch
+	eapply_user
+}
+
 src_install() {
 	if use cros_host; then
 		dobin "${OUT}"/puffin
