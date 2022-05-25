@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="53a8708e2f939427315ca3eb31bd4df39fe1b7b2"
+CROS_WORKON_COMMIT="52e74d42b11bcf81a935f199e7bb8c6d1a34d1a8"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "6fef42db0019e144f6b50c5ac3e1a348322371dc" "fb8e41991af9e4c6c88768b137a9b48e4e5e47da" "0e585057777527bd6a365bbcde7f1fe0241a117d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -69,7 +69,7 @@ src_install() {
 	doins setuid_restrictions/kerberosd_uid_allowlist.txt
 
 	# Create daemon store folder prototype, see
-	# https://chromium.googlesource.com/chromiumos/docs/+/master/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
+	# https://chromium.googlesource.com/chromiumos/docs/+/HEAD/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders
 	local daemon_store="/etc/daemon-store/kerberosd"
 	dodir "${daemon_store}"
 	fperms 0770 "${daemon_store}"
