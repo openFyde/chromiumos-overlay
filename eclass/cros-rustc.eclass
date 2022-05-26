@@ -45,6 +45,59 @@ EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile
 PYTHON_COMPAT=( python3_{6..9} )
 inherit python-any-r1 toolchain-funcs
 
+# It's intended that only a person upgrading the Rust version used in ChromeOS
+# needs to worry about these flags.
+#
+# These flags control whether to build a compiler that will generate PGO
+# profiles, or build a compiler using PGO profiles obtained locally, or build a
+# compiler using PGO profiles obtained from gs (the default).
+#
+# rust_profile_frontend_generate causes the Rust compiler to be built
+# with instrumentation in the frontend code for generating PGO profiles,
+# which will be stored in "${CROS_RUSTC_PGO_LOCAL_BASE}/frontend-profraw"
+#
+# rust_profile_llvm_generate causes the Rust compiler to be built
+# with instrumentation in the LLVM code for generating PGO profiles,
+# which will be stored in "${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw"
+#
+# The two *_generate flags cannot be used together; the implementation here
+# asserts against this possibility. Currently if we try to instrument both
+# components at once, we get an error about different profiler versions. Maybe
+# this can be changed when Rust uses the same LLVM as sys-devel/llvm.
+#
+# rust_profile_frontend_use will cause a frontend profdata file to be
+# downloaded from
+# "gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend.profdata.xz" and
+# used for PGO optimization.
+#
+# rust_profile_frontend_use_local will instead use a frontend profdata file at
+# ${FILESDIR}/frontend.profdata
+#
+# rust_profile_llvm_use will cause an llvm profdata file to be downloaded from
+# "gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm.profdata.xz" and
+# used for PGO optimization.
+#
+# rust_profile_llvm_use_local will instead use a llvm profdata file at
+# ${FILESDIR}/llvm.profdata
+IUSE='rust_profile_frontend_generate rust_profile_llvm_generate rust_profile_frontend_use_local rust_profile_llvm_use_local +rust_profile_frontend_use +rust_profile_llvm_use'
+
+REQUIRED_USE="
+	rust_profile_frontend_generate? (
+		!rust_profile_frontend_use
+		!rust_profile_frontend_use_local
+		!rust_profile_llvm_use
+		!rust_profile_llvm_use_local
+	)
+	rust_profile_llvm_generate? (
+		!rust_profile_frontend_use
+		!rust_profile_frontend_use_local
+		!rust_profile_llvm_use
+		!rust_profile_llvm_use_local
+	)
+	rust_profile_llvm_use? ( !rust_profile_llvm_use_local )
+	rust_profile_frontend_use? ( !rust_profile_frontend_use_local )
+"
+
 # @ECLASS-VARIABLE: RUSTC_TARGET_TRIPLES
 # @DEFAULT_UNSET
 # @REQUIRED
@@ -104,8 +157,15 @@ _CROS_RUSTC_RAW_SOURCES_ROOT="${FILESDIR}/rust"
 HOMEPAGE="https://www.rust-lang.org/"
 
 if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
-	SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz"
+	SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz
+		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend.profdata.xz )
+		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm.profdata.xz )
+	"
 else
+	SRC_URI="
+		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend.profdata.xz )
+		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm.profdata.xz )
+	"
 	# If a bisection is happening, we use the bootstrap compiler that upstream prefers.
 	# Clear this so we don't accidentally use it below.
 	BOOTSTRAP_VERSION=
@@ -152,6 +212,8 @@ S="${CROS_RUSTC_SRC_DIR}/${MY_P}-src"
 
 _CROS_RUSTC_PREPARED_STAMP="${CROS_RUSTC_SRC_DIR}/cros-rust-prepared"
 _CROS_RUSTC_STAGE1_EXISTS_STAMP="${CROS_RUSTC_BUILD_DIR}/cros-rust-has-stage1-build"
+
+CROS_RUSTC_PGO_LOCAL_BASE='/tmp/rust-pgo'
 
 # @FUNCTION: cros-rustc_has_existing_checkout
 # @DESCRIPTION:
@@ -302,56 +364,132 @@ cros-rustc_src_configure() {
 	done
 
 	local bootstrap_compiler_info
+	local llvm_options
+	local rust_options
+	local tools
+	local description
+
 	if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
-		bootstrap_compiler_info="
-cargo = \"/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/cargo\"
-rustc = \"/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/rustc\""
+		read -r -d '' bootstrap_compiler_info <<- EOF
+			cargo = "/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/cargo"
+			rustc = "/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/rustc"
+		EOF
+	fi
+
+	read -r -d '' tools <<- EOF
+		tools = ["cargo", "rustfmt", "clippy", "cargofmt"]
+	EOF
+
+	if use rust_profile_llvm_generate || use rust_profile_frontend_generate; then
+		ewarn 'This build is instrumented; please only use it to generate profiles.'
+		read -r -d '' tools <<- EOF
+			# This is an instrumented build, only meant to generate profiles, so we don't need the other tools.
+			tools = ["cargo"]
+		EOF
+
+		read -r -d '' description <<- EOF
+			description = "${PF} (instrumented build; don't use except to generate profiles)"
+		EOF
+	fi
+
+	local llvm_use_pgo_file="${CROS_RUSTC_SRC_DIR}/rust-pgo-${PV}-llvm.profdata"
+	local frontend_use_pgo_file="${CROS_RUSTC_SRC_DIR}/rust-pgo-${PV}-frontend.profdata"
+	if use rust_profile_llvm_use_local; then
+		llvm_use_pgo_file="${FILESDIR}/llvm.profdata"
+	fi
+
+	if use rust_profile_frontend_use_local; then
+		frontend_use_pgo_file="${FILESDIR}/frontend.profdata"
+	fi
+
+	# Either of the instrumented builds will apparently build an instrumented
+	# stage 1 compiler, and then use it to build an instrumented stage 2 compiler.
+	if use rust_profile_llvm_generate; then
+		read -r -d '' llvm_options <<- EOF
+			# Without the -vp-counters-per-site option, we get
+			# LLVM Profile Warning: Unable to track new values: Running out of static counters.
+			# Alternatively we could use -vp-static-alloc=false.
+			# The advantage of using one over the other is unclear.
+			cflags = "-fprofile-generate=${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw -mllvm -vp-counters-per-site=2"
+			cxxflags = "-fprofile-generate=${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw -mllvm -vp-counters-per-site=2"
+			link-shared = true
+		EOF
+	fi
+
+	if use rust_profile_frontend_generate; then
+		read -r -d '' llvm_options <<- EOF
+			# Without the -vp-counters-per-site option, we get
+			# LLVM Profile Warning: Unable to track new values: Running out of static counters.
+			# Alternatively we could use -vp-static-alloc=false.
+			cflags = "-mllvm -vp-counters-per-site=2"
+			cxxflags = "-mllvm -vp-counters-per-site=2"
+		EOF
+		read -r -d '' rust_options <<- EOF
+			profile-generate = "${CROS_RUSTC_PGO_LOCAL_BASE}/frontend-profraw"
+		EOF
+	fi
+
+	if use rust_profile_llvm_use || use rust_profile_llvm_use_local; then
+		[[ -f "${llvm_use_pgo_file}" ]] || die "No LLVM profdata file"
+		read -r -d '' llvm_options <<- EOF
+			cflags = "-fprofile-use=${llvm_use_pgo_file}"
+			cxxflags = "-fprofile-use=${llvm_use_pgo_file}"
+		EOF
+	fi
+
+	if use rust_profile_frontend_use || use rust_profile_frontend_use_local; then
+		[[ -f "${frontend_use_pgo_file}" ]] || die "No frontend profdata file"
+		read -r -d '' rust_options <<- EOF
+			profile-use = "${frontend_use_pgo_file}"
+		EOF
 	fi
 
 	local config=cros-config.toml
-	cat > "${config}" <<EOF
-[build]
-target = [${targets}]
-docs = false
-submodules = false
-python = "${EPYTHON}"
-vendor = true
-extended = true
-tools = ["cargo", "rustfmt", "clippy", "cargofmt"]
-sanitizers = true
-profiler = true
-build-dir = "${CROS_RUSTC_BUILD_DIR}"
-${bootstrap_compiler_info}
+	cat > "${config}" <<- EOF
+		[build]
+		target = [${targets}]
+		docs = false
+		submodules = false
+		python = "${EPYTHON}"
+		vendor = true
+		extended = true
+		${tools}
+		sanitizers = true
+		profiler = true
+		build-dir = "${CROS_RUSTC_BUILD_DIR}"
+		${bootstrap_compiler_info}
 
-[llvm]
-ccache = ${use_ccache}
-ninja = true
-targets = "AArch64;ARM;X86"
+		[llvm]
+		ccache = ${use_ccache}
+		ninja = true
+		targets = "AArch64;ARM;X86"
+		${llvm_options}
 
-[install]
-prefix = "${ED}usr"
-libdir = "$(get_libdir)"
-mandir = "share/man"
+		[install]
+		prefix = "${ED}usr"
+		libdir = "$(get_libdir)"
+		mandir = "share/man"
 
-[rust]
-default-linker = "${CBUILD}-clang"
-description = "${PF}"
-channel = "nightly"
-codegen-units = 0
-llvm-libunwind = 'in-tree'
-codegen-tests = false
-new-symbol-mangling = true
+		[rust]
+		default-linker = "${CBUILD}-clang"
+		${description}
+		channel = "nightly"
+		codegen-units = 0
+		llvm-libunwind = 'in-tree'
+		codegen-tests = false
+		new-symbol-mangling = true
+		${rust_options}
 
-EOF
+	EOF
 
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" ; do
-		cat >> "${config}" <<EOF
-[target."${tt}"]
-cc = "${tt}-clang"
-cxx = "${tt}-clang++"
-linker = "${tt}-clang++"
+		cat >> "${config}" <<- EOF
+			[target."${tt}"]
+			cc = "${tt}-clang"
+			cxx = "${tt}-clang++"
+			linker = "${tt}-clang++"
 
-EOF
+		EOF
 	done
 }
 
