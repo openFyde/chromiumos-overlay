@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="53a8708e2f939427315ca3eb31bd4df39fe1b7b2"
+CROS_WORKON_COMMIT="623870372c6091ae71806175352911f7e454c4b7"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "0e585057777527bd6a365bbcde7f1fe0241a117d" "7bf7fc431b815b0d0ef7b10da5acec47320d7f41" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,7 +27,9 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/minijail:=
 "
-DEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/session_manager-client:=
+"
 
 pkg_setup() {
 	enewuser "secanomaly"
