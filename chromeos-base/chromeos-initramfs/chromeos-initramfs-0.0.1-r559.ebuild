@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="24782ca7c8a4a1cd5c9f21cf966e2889364e23ea"
-CROS_WORKON_TREE="e65836638b79710895a9fee745f40dce540bc3e8"
+CROS_WORKON_COMMIT="7c84a6f8f80145af466963302ceabe5a49207c59"
+CROS_WORKON_TREE="2b76a18759fc6fcebdb441f71512d49b7116400b"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -18,7 +18,6 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
-IUSE="${IUSE} physical_presence_power physical_presence_recovery"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
 IUSE="${IUSE} manatee_performance_tools"
 
@@ -171,15 +170,6 @@ src_compile() {
 	done
 	einfo "Building targets: ${targets[*]:-(only running tests)}"
 
-	local physical_presence
-	if use physical_presence_power ; then
-		physical_presence="power"
-	elif use physical_presence_recovery ; then
-		physical_presence="recovery"
-	else
-		physical_presence="keyboard"
-	fi
-
 	if [[ ${#targets[@]} -gt 0 ]]; then
 		emake SYSROOT="${SYSROOT}" \
 			BOARD="$(get_current_board_with_variant)" \
@@ -192,7 +182,6 @@ src_compile() {
 			MANATEE_PERFORMANCE_TOOLS="$(usex manatee_performance_tools 1 0)" \
 			OOBE_CONFIG="$(usex oobe_config 1 0)" \
 			OUTPUT_DIR="${WORKDIR}" EXTRA_BIN_DEPS="${deps[*]}" \
-			PHYSICAL_PRESENCE="${physical_presence}" \
 			UNIBUILD="$(usex unibuild 1 0)" \
 			"${targets[@]}"
 	fi
