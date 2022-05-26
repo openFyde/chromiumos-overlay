@@ -26,8 +26,11 @@ src_install() {
 	local tools="${obj}-tools/x86_64-unknown-linux-gnu/release/"
 	dobin "${obj}/bin/rustc" "${obj}/bin/rustdoc"
 	dobin "${tools}/cargo"
-	dobin "${tools}/rustfmt" "${tools}/cargo-fmt"
-	dobin "${tools}/clippy-driver" "${tools}/cargo-clippy"
+	if ! use rust_profile_frontend_generate && ! use rust_profile_llvm_generate; then
+		# These won't be built for an instrumented build.
+		dobin "${tools}/rustfmt" "${tools}/cargo-fmt"
+		dobin "${tools}/clippy-driver" "${tools}/cargo-clippy"
+	fi
 	dobin src/etc/rust-gdb src/etc/rust-lldb
 	insinto "/usr/$(get_libdir)"
 	doins -r "${obj}/lib/"*
