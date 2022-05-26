@@ -9,6 +9,7 @@ INSTALL_DIR="/usr/local/graphics"
 
 CROS_GO_BINARIES=(
 	# Add more apps here.
+	"hardware_probe/cmd/hardware_probe:${INSTALL_DIR}/hardware_probe"
 	"platform_decoding/cmd/ffmpeg_md5sum:${INSTALL_DIR}/ffmpeg_md5sum"
 	"platform_decoding/cmd/validate:${INSTALL_DIR}/validate"
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
@@ -21,6 +22,7 @@ CROS_GO_BINARIES=(
 )
 
 CROS_GO_TEST=(
+	"hardware_probe/cmd/hardware_probe"
 	"platform_decoding/cmd/validate"
 	"sanity/cmd/pass"
 	"trace_profiling/cmd/analyze"
