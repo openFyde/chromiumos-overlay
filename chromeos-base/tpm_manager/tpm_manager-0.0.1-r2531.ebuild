@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="53a8708e2f939427315ca3eb31bd4df39fe1b7b2"
+CROS_WORKON_COMMIT="5b0b5c260d463d60e31aee9a1971bfcef891797b"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "12bbd542247aac252e1e4d9715c0cef094bb7b4c" "74305780a8891c8859d1535613a7a29e0b63fa34" "b90d0e8f789e8cfe86794cb3f36ae69967b7dc36" "0e585057777527bd6a365bbcde7f1fe0241a117d" "53205ab6cf3eef95bac4203fbd0ff7f7bf9c0d51" "8d334e13ee768ae278f11b187eb68d647931dea3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,7 @@ LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
 IUSE="cr50_onboard pinweaver_csme test tpm tpm_dynamic tpm_insecure_fallback
-	tpm2 fuzzer os_install_service
+	tpm2 tpm2_simulator fuzzer os_install_service
 "
 
 REQUIRED_USE="
@@ -37,6 +37,7 @@ RDEPEND="
 	tpm2? (
 		chromeos-base/trunks
 	)
+	tpm2_simulator? ( chromeos-base/tpm2-simulator:= )
 	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/minijail
 	chromeos-base/libhwsec
