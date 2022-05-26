@@ -50,7 +50,6 @@ src_install() {
 		cr50-disable-sleep.sh
 		cr50-flash-log.sh
 		cr50-get-name.sh
-		cr50-read-board-id.sh
 		cr50-read-rma-sn-bits.sh
 		cr50-reset.sh
 		cr50-set-board-id.sh
@@ -59,6 +58,7 @@ src_install() {
 		cr50-verify-ro.sh
 		tpm2-lock-space.sh
 		tpm2-nv-utils.sh
+		tpm2-read-board-id.sh
 		tpm2-read-space.sh
 		tpm2-write-space.sh
 	)

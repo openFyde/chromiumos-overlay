@@ -8,7 +8,7 @@
 
 PLATFORM_INDEX=false
 
-BOARD_ID_NVRAM_READER="/usr/share/cros/cr50-read-board-id.sh"
+GENERIC_BOARD_ID_NVRAM_READER="/usr/share/cros/tpm2-read-board-id.sh"
 TPM_WRITESPACE="/usr/share/cros/tpm2-write-space.sh"
 TPM_LOCKSPACE="/usr/share/cros/tpm2-lock-space.sh"
 
@@ -43,13 +43,25 @@ cr50_check_board_id_and_flag() {
   local new_board_id;
   new_board_id="$(char_to_hex "$1")"
   local new_flag="$2"
+  local bid_cmd
 
-  # Note that it is supposed to output the same data layout as `gsctool -a -i`.
+  # Choose to use gsctool or generic tpm2 commands based on PLATFORM_INDEX.
+  # It's false for gsc devices and true for generic tpm2 devices.
+  # The same check is used below to choose between
+  # cr50_set_board_id_and_flag and generic_tpm2_set_board_id
+  if [ "${PLATFORM_INDEX}" = false ]; then
+    bid_cmd="gsctool_cmd -a -i"
+  else
+    # Note that it is supposed to output the same data layout as
+    # 'gsctool -a -i'.
+    bid_cmd="${GENERIC_BOARD_ID_NVRAM_READER}"
+  fi
+
+  local exit_status=0
   local output
-  output="$("${BOARD_ID_NVRAM_READER}")"
-  local status="$?"
-  if [ "${status}" != 0 ]; then
-    die "Failed to read board id."
+  output="$(${bid_cmd})" || exit_status="$?"
+  if [ "${exit_status}" != "0" ]; then
+    die "Failed to execute \"${bid_cmd}\", return code ${exit_status}"
   fi
 
   # Parse the output. E.g., 5a5a4146:a5a5beb9:0000ff00
