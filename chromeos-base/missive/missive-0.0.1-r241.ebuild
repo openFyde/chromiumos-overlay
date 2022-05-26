@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="072788744b87122754a7ed225d019686970a340d"
-CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "b234bdcf8eabf42eeea0950eb11fc5d23b16d8be" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="eaddd498a94dc7802697041adf3f6e68daa40c11"
+CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "df81e10e36555e37773d9c96139d7da9eb6e6f0f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -43,11 +43,12 @@ pkg_preinst() {
 src_install() {
 	# Installs the client libraries
 	dolib.a "${OUT}/libmissiveclientlib.a"
-	dolib.a "${OUT}/libmissiveprotostatus.a"
-	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
-	dolib.a "${OUT}/libmissiveprotorecord.a"
-	dolib.a "${OUT}/libmissiveprotosecurityevents.a"
+	dolib.a "${OUT}/libmissiveprotohealth.a"
 	dolib.a "${OUT}/libmissiveprotointerface.a"
+	dolib.a "${OUT}/libmissiveprotorecord.a"
+	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
+	dolib.a "${OUT}/libmissiveprotosecurityevents.a"
+	dolib.a "${OUT}/libmissiveprotostatus.a"
 
 	# Installs the header files to /usr/include/missive/.
 	local header_files=(
@@ -60,8 +61,9 @@ src_install() {
 		"util/statusor.h"
 	)
 	local pd_header_files=(
-		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
+		"${OUT}/gen/include/missive/proto/health.pb.h"
 		"${OUT}/gen/include/missive/proto/record.pb.h"
+		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
 		"${OUT}/gen/include/missive/proto/security_events.pb.h"
 		"${OUT}/gen/include/missive/proto/status.pb.h"
 	)
