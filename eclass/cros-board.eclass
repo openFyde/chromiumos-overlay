@@ -336,7 +336,7 @@ ALL_BOARDS=(
 	#mipsel-n64-generic
 	#mipsel-o32-generic
 	mistral
-	moblab-generic-vm
+	#moblab-generic-vm
 	#monroe
 	#moose
 	mushu
