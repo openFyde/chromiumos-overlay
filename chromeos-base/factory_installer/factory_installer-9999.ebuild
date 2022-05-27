@@ -122,7 +122,10 @@ src_configure() {
 src_compile() {
 	tc-export AR CC CXX RANLIB
 	cd "${CROS_RUST_SUBDIR}" || die
-	cros-rust_src_compile --all-features
+	cros-rust_src_compile --no-default-features --features="factory-fai" \
+		--bin="factory_fai"
+	cros-rust_src_compile --no-default-features --features="factory-ufs" \
+		--bin="factory_ufs"
 	cd "${S}" || die
 	emake
 }
@@ -160,6 +163,7 @@ src_install() {
 	cros-rust_publish "${CROS_RUST_CRATE_NAME}" \
 		"$(cros-rust_get_crate_version "${S}/${CROS_RUST_SUBDIR}")"
 	dosbin "$(cros-rust_get_build_dir)/factory_fai"
+	dosbin "$(cros-rust_get_build_dir)/factory_ufs"
 	cd "${S}" || die
 
 	insinto /usr/share/factory_installer/tpm
