@@ -313,6 +313,13 @@ src_configure() {
 		Kconfig_style_config WEP
 	fi
 
+	# Access Point Mode. Also, Wi-Fi Direct functionality requires the AP mode to be enabled.
+	if use ap || use p2p; then
+		Kconfig_style_config AP
+	else
+		Kconfig_style_config AP n
+	fi
+
 	# Wi-Fi Direct (WiDi)
 	if use p2p ; then
 		Kconfig_style_config P2P
@@ -322,14 +329,11 @@ src_configure() {
 		Kconfig_style_config WIFI_DISPLAY n
 	fi
 
-	# Access Point Mode
+	# Only AP currently support mesh networks.
 	if use ap ; then
-		Kconfig_style_config AP
-		# only AP currently support mesh networks.
 		Kconfig_style_config MESH
 	else
 		# (ChromeOS) Explicitly disable to override enabling from defconfig.
-		Kconfig_style_config AP        n
 		Kconfig_style_config MESH      n
 	fi
 
