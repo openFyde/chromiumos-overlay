@@ -97,6 +97,7 @@ PATCHES=(
 	"${FILESDIR}/00008-libutils-memory-leak.patch"
 	"${FILESDIR}/00009-libutils-timer-cast.patch"
 	"${FILESDIR}/00010-libutils-clock-test.patch"
+	"${FILESDIR}/00011-libutils-lightrefbase.patch"
 )
 
 src_prepare() {
@@ -113,6 +114,7 @@ src_prepare() {
 	eapply -p2 "${FILESDIR}/00008-libutils-memory-leak.patch"
 	eapply -p2 "${FILESDIR}/00009-libutils-timer-cast.patch"
 	eapply -p2 "${FILESDIR}/00010-libutils-clock-test.patch"
+	eapply -p2 "${FILESDIR}/00011-libutils-lightrefbase.patch"
 	popd || exit
 
 	eapply_user
@@ -145,7 +147,7 @@ src_install() {
 
 platform_pkg_test() {
 	local tests=(
-		base cutils fmq hidl hwbuf log utils
+		base cutils fmq hidl hwbuf log utils native
 	)
 
 	# When running in qemu, these tests freeze the emulator when hitting
