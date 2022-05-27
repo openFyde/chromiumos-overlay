@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c9ff771678bf963dfa364e79812d57ec173df14e"
+CROS_WORKON_COMMIT="054d5940dd4504d0043e2297c3fadf1fe0923543"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "12bbd542247aac252e1e4d9715c0cef094bb7b4c" "74305780a8891c8859d1535613a7a29e0b63fa34" "3a25454545a799066f18d66bbc98962e99d97732" "8d334e13ee768ae278f11b187eb68d647931dea3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -135,7 +135,7 @@ src_install() {
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/trunks/libtrunks.pc
-	local fuzzer_component_id="886041"
+	local fuzzer_component_id="1188704"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_creation_blob_fuzzer \
 		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS \

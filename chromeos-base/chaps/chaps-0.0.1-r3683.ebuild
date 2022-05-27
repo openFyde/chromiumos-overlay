@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c9ff771678bf963dfa364e79812d57ec173df14e"
+CROS_WORKON_COMMIT="054d5940dd4504d0043e2297c3fadf1fe0923543"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "92ff25b19664b2a52ce9e85e1f1fa9271308b3d1" "12bbd542247aac252e1e4d9715c0cef094bb7b4c" "74305780a8891c8859d1535613a7a29e0b63fa34" "3a25454545a799066f18d66bbc98962e99d97732" "8d334e13ee768ae278f11b187eb68d647931dea3" "53205ab6cf3eef95bac4203fbd0ff7f7bf9c0d51" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -96,7 +96,7 @@ src_install() {
 	fperms 0750 "${daemon_store}"
 	fowners chaps:chronos-access "${daemon_store}"
 
-	local fuzzer_component_id="886041"
+	local fuzzer_component_id="1188704"
 	local fuzzers=(
 		chaps_attributes_fuzzer
 		chaps_object_store_fuzzer

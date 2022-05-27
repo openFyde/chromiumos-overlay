@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d50b4d92f171dbca5eceeadee8b5a620614646ed"
+CROS_WORKON_COMMIT="054d5940dd4504d0043e2297c3fadf1fe0923543"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "2ed3cba7033344e1b0fe2213b5bb54469ab399dd" "12bbd542247aac252e1e4d9715c0cef094bb7b4c" "74305780a8891c8859d1535613a7a29e0b63fa34" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -187,7 +187,7 @@ src_install() {
 
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
-	local fuzzer_component_id="886041"
+	local fuzzer_component_id="1188704"
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
 		--comp "${fuzzer_component_id}" \
