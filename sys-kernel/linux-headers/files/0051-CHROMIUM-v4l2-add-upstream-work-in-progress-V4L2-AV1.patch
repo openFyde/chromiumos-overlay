@@ -24,8 +24,8 @@ definitions.
 Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 Change-Id: Ie8a66f15b6957383776ffcfdeaaa61ff800afd3e
 ---
- include/uapi/linux/media/av1-ctrls.h | 777 +++++++++++++++++++++++++++
- 1 file changed, 777 insertions(+)
+ include/uapi/linux/media/av1-ctrls.h | 779 +++++++++++++++++++++++++++
+ 1 file changed, 779 insertions(+)
  create mode 100644 include/uapi/linux/media/av1-ctrls.h
 
 diff --git a/include/uapi/linux/media/av1-ctrls.h b/include/uapi/linux/media/av1-ctrls.h
@@ -33,7 +33,7 @@ new file mode 100644
 index 000000000000..e2e5252ccb16
 --- /dev/null
 +++ b/include/uapi/linux/media/av1-ctrls.h
-@@ -0,0 +1,777 @@
+@@ -0,0 +1,779 @@
 +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
 +/*
 + * These are the AV1 state controls for use with stateless AV1 codec drivers.
@@ -52,6 +52,8 @@ index 000000000000..e2e5252ccb16
 +
 +#ifndef __LINUX_MEDIA_AV1_CTRLS_H
 +#define __LINUX_MEDIA_AV1_CTRLS_H
++
++#include <linux/videodev2.h>
 +
 +#define V4L2_PIX_FMT_AV1_FRAME	v4l2_fourcc('A', 'V', '1', 'F') /* AV1 parsed frame */
 +
