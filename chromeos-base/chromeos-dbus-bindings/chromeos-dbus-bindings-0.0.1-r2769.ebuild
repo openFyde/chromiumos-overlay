@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="fae5aa0f5db424798257930eca132046e3c4e191"
-CROS_WORKON_TREE="a2435d511c72a619615f01cf04acb0d57e4b28fe"
+CROS_WORKON_COMMIT="fd5c81b2f00b7a7f9983f4e5e0edfcfc9cddea10"
+CROS_WORKON_TREE="4ee690c2711c63be8a9950281a451805d37b0eef"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,10 +22,10 @@ KEYWORDS="*"
 IUSE=""
 
 CROS_GO_BINARIES=(
-	"chromiumos/dbusbindings/cmd/generator:/usr/bin/go-generate-chromeos-dbus-bindings"
+	"go.chromium.org/chromiumos/dbusbindings/cmd/generator:/usr/bin/go-generate-chromeos-dbus-bindings"
 )
 CROS_GO_TEST=(
-	"chromiumos/dbusbindings/..."
+	"go.chromium.org/chromiumos/dbusbindings/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"

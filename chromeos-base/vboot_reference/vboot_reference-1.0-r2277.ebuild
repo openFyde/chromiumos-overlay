@@ -23,6 +23,7 @@ REQUIRED_USE="
 
 COMMON_DEPEND="
 	chromeos-base/crosid:=
+	app-arch/libarchive:=
 	dev-libs/libzip:=
 	dev-libs/openssl:=
 	sys-apps/flashrom:=
