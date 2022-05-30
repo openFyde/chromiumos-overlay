@@ -265,6 +265,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	arc-camera3? ( media-libs/cros-camera-libjea_test )
 	arc-camera3? ( media-libs/cros-camera-test )
 	media-libs/cros-camera-usb-tests
+	media-libs/libaom
 	media-libs/libexif
 	media-libs/libvpx
 	media-libs/opencv
