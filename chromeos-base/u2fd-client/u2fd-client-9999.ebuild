@@ -19,14 +19,23 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/cli
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
-	chromeos-base/trunks:=
+	cr50_onboard? (
+		chromeos-base/trunks:=
+	)
+	ti50_onboard? (
+		chromeos-base/trunks:=
+	)
 "
 
 RDEPEND="${COMMON_DEPEND}"
 
-DEPEND="${COMMON_DEPEND}"
+DEPEND="${COMMON_DEPEND}
+	>=chromeos-base/protofiles-0.0.43:=
+	chromeos-base/system_api:=
+"
 
 src_install() {
 	platform_install

@@ -27,11 +27,9 @@ COMMON_DEPEND="
 	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
-		chromeos-base/u2fd-client:=
 	)
 	ti50_onboard? (
 		chromeos-base/trunks:=
-		chromeos-base/u2fd-client:=
 	)
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
@@ -42,6 +40,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/tpm_manager:=
+	chromeos-base/u2fd-client:=
 	dev-libs/hidapi:=
 "
 
