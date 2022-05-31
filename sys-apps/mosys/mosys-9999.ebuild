@@ -99,13 +99,6 @@ src_configure() {
 		fi
 	done
 
-	if use unibuild; then
-		if [[ "${platform_intf}" != "$(cros_config_host get-mosys-platform)" &&
-			"$(cros_config_host get-mosys-platform)" != "Majolica" ]]; then
-			die "USE flag data source does not match value configured in cros_config"
-		fi
-	fi
-
 	if [[ -n "${platform_intf}" ]]; then
 		emesonargs+=(
 			"-Dplatform_intf=${platform_intf}"
