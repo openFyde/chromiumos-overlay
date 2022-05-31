@@ -42,8 +42,7 @@ get_ec_boards()
 	EC_BOARDS+=($(cros_config_host get-firmware-build-targets ish))
 
 	if [[ ${#EC_BOARDS[@]} -eq 0 ]]; then
-		einfo "No boards found; assuming we're building for a fuzzer."
-		use fuzzer || die "No EC boards found."
+		einfo "No boards found."
 		return
 	fi
 	einfo "Building for boards: ${EC_BOARDS[*]}"
