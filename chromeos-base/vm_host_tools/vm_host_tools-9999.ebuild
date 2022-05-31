@@ -76,6 +76,7 @@ DEPEND="
 	chromeos-base/manatee-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 	chromeos-base/vm_protos:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
