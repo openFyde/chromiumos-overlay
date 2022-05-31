@@ -32,7 +32,9 @@ DEPEND="${RDEPEND}
 	chromeos-base/imageloader-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/session_manager-client:=
-	chromeos-base/update_engine-client:="
+	chromeos-base/update_engine-client:=
+	chromeos-base/vboot_reference:=
+"
 
 src_install() {
 	dosbin "${OUT}/dlcservice"
