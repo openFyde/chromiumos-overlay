@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ce31daf96ba1a8764dfc1e935321b9867fdd8cfa"
+CROS_WORKON_COMMIT="f2a4c614cc833251c9068f87265b813c9801ed67"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "7226e3910790963c0810793db376ae53c9a32be5" "8ce5483d2d5c599e790468a9ec6dd278c36b6197" "89af0e01d1ae406350aa512a6ab2b05d9e0c80c2" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -43,6 +43,7 @@ DEPEND="
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 "
 
 patchpanel_header() {
