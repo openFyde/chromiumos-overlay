@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/vboot_reference:=
 	sys-apps/flashmap:=
 "
 
