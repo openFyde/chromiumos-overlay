@@ -4,6 +4,8 @@
 
 EAPI="6"
 
+CROS_WORKON_COMMIT="33d6d5e44721210e939468567845d366fd70b5f6"
+CROS_WORKON_TREE="040a39591a38d3dc778725575c72dcdc1b07e032"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
 CROS_WORKON_EGIT_BRANCH="mesa-img"
@@ -21,7 +23,7 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -63,6 +65,47 @@ DEPEND="video_cards_powervr? (
 	)"
 
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# workaround for cros-workon not preserving git metadata
+	if [[ ${PV} == 9999* && "${CROS_WORKON_INPLACE}" != "1" ]]; then
+		echo "#define MESA_GIT_SHA1 \"git-deadbeef\"" > src/git_sha1.h
+	fi
+
+	# Restrict gles version based on USE flag. (See crbug.com/30202361, b/30202371, b/31041422, b:68023287)
+	if use android_gles32; then
+		einfo "Limiting android to gles32."
+		epatch "${FILESDIR}/gles32/0001-limit-gles-version.patch"
+	elif use android_gles31; then
+		einfo "Limiting android to gles31."
+		epatch "${FILESDIR}/gles31/0001-limit-gles-version.patch"
+	elif use android_gles30; then
+		einfo "Limiting android to gles30."
+		epatch "${FILESDIR}/gles30/0001-limit-gles-version.patch"
+	elif use android_gles2; then
+		einfo "Limiting android to gles2."
+		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
+	fi
+
+	# One backport needed because we add entry points
+	epatch "${FILESDIR}"/BACKPORT-glapi-should-not-add-alias-function-to-static_data.p.patch
+
+	# IMG patches
+	epatch "${FILESDIR}"/0001-Add-pvr-dri-driver.patch
+	epatch "${FILESDIR}"/0002-Force-Mesa-to-use-the-PVR-driver-for-platform-device.patch
+	epatch "${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
+	epatch "${FILESDIR}"/0004-GL_EXT_sparse_texture-entry-points.patch
+	epatch "${FILESDIR}"/0005-Add-support-for-various-GLES-extensions.patch
+	epatch "${FILESDIR}"/0009-GL_EXT_shader_pixel_local_storage2-entry-points.patch
+	epatch "${FILESDIR}"/0010-GL_IMG_framebuffer_downsample-entry-points.patch
+	epatch "${FILESDIR}"/0011-GL_OVR_multiview-entry-points.patch
+	epatch "${FILESDIR}"/0012-Add-OVR_multiview_multisampled_render_to_texture.patch
+	epatch "${FILESDIR}"/0017-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+	epatch "${FILESDIR}"/0066-mesa-partially-revert-pbuffer-attribute-removal.patch
+	epatch "${FILESDIR}"/0067-egl_dri2-set-pbuffer-config-attribs-to-0-for-non-pbu.patch
+
+	eapply_user
+}
 
 src_configure() {
 	cros_optimize_package_for_speed
