@@ -34,7 +34,9 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/system_api:="
+	chromeos-base/system_api:=
+	chromeos-base/vboot_reference:=
+"
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/minios_test"
