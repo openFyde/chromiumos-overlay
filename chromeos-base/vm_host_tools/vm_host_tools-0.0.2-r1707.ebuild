@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ce31daf96ba1a8764dfc1e935321b9867fdd8cfa"
+CROS_WORKON_COMMIT="f2a4c614cc833251c9068f87265b813c9801ed67"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "9acfda708e1a0052b2ccdc28a71c5fb62a58048a" "7226e3910790963c0810793db376ae53c9a32be5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a40a6dea4c6fba7d068ab5fd3ebbfaec06c00e6a" "3b33fc07daf512e548300eefbd028b622bc51b44" "7ef75a42aba67052842459f221271e681184cc89" "cfa3040113ce3adf84f4523bf23d4644551775db" "78a28564de27e03edbd93427ebc24aede3905082" "aefb7fb82bd6f6f84471a0a826978f4e641380a1" "983e8ae193d76a8d3e7cdb70cb9aca2aa70779a9" "33df267969e31720f653e84438235d549f958744" "ae3a40c82e71e2031fe910a8ef5faedf20d12eb4" "e2598f8160f0e1089268ae21cb458eb6bc46d71e" "7bd1769341b95bc428aab11c7747406e378acf14" "1ff86d1c03040927751e5f099ac70d0a3194f21b" "8ead32c3d109ae63ef89e4aa3b818aeb38b51d14" "a1c80f9a557bb4275de2fb9166a814b657fe107a" "bc7248c2839eb191c34aa68d63e57ed5eb70768d" "64eb467661fb048cf581eb28e5ee0423136b4a02" "81465f23987dd2c482006411430ef171e856c5fe")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -78,6 +78,7 @@ DEPEND="
 	chromeos-base/manatee-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 	chromeos-base/vm_protos:=
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "

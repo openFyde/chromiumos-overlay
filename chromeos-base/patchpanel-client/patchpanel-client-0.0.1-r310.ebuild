@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a3ca045712b32f5c7a8359b292e485e118c03aa7"
+CROS_WORKON_COMMIT="f2a4c614cc833251c9068f87265b813c9801ed67"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "8ce5483d2d5c599e790468a9ec6dd278c36b6197" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -37,6 +37,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 "
 
 patchpanel_client_header() {
