@@ -41,6 +41,7 @@ DEPEND="
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	chromeos-base/vboot_reference:=
 "
 
 patchpanel_header() {
