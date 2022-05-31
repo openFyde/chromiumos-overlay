@@ -192,6 +192,13 @@ cros-rustc_src_prepare() {
 cros-rustc_src_configure() {
 	tc-export PKG_CONFIG
 
+	# If FEATURES=ccache is set, we can cache LLVM builds. We could set this to
+	# true unconditionally, but invoking `ccache` to just have it `exec` the
+	# compiler costs ~10secs of wall time on rust-host builds. No point in
+	# wasting the cycles.
+	local use_ccache=false
+	[[ -z "${CCACHE_DISABLE:-}" ]] && use_ccache=true
+
 	local targets=""
 	local tt
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" "${RUSTC_BARE_TARGET_TRIPLES[@]}" ; do
@@ -215,6 +222,7 @@ profiler = true
 build-dir = "${CROS_RUSTC_BUILD_DIR}"
 
 [llvm]
+ccache = ${use_ccache}
 ninja = true
 targets = "AArch64;ARM;X86"
 
