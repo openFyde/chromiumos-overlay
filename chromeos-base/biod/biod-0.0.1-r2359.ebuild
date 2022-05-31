@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a6071f1d1f17b3e80bd1454326d6cecfb6d23397"
+CROS_WORKON_COMMIT="073e1bfe7a1eaa38be4a46c94762a481f91ee2dd"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "94ce5d26b0f7a12fd373baa64cb8d1478283b39c" "f96e7f7725f593c25f382779194115af6c785b6d" "bd8d6bbc8a49ad5919e1671967335e4f4aca08e4" "3a25454545a799066f18d66bbc98962e99d97732" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -33,6 +33,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/vboot_reference:=
 	sys-apps/flashmap:=
 "
 

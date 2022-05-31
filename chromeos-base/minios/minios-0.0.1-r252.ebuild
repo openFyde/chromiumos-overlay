@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="91c51b512b9995aad268e7ba7946e784001c2545"
+CROS_WORKON_COMMIT="073e1bfe7a1eaa38be4a46c94762a481f91ee2dd"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "3a25454545a799066f18d66bbc98962e99d97732" "ee356b7d3b8358b77fb00fe8b3d935bcbaac00d4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -36,7 +36,9 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/system_api:="
+	chromeos-base/system_api:=
+	chromeos-base/vboot_reference:=
+"
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/minios_test"
