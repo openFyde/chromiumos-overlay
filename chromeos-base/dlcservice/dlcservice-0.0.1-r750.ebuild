@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ce31daf96ba1a8764dfc1e935321b9867fdd8cfa"
+CROS_WORKON_COMMIT="f2a4c614cc833251c9068f87265b813c9801ed67"
 CROS_WORKON_TREE=("e8200272d6283e7db5bd02f4007275ee41126c5a" "0ff2710e7309fa57cde9e0ea3cafeba1c30c2886" "7226e3910790963c0810793db376ae53c9a32be5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -34,7 +34,9 @@ DEPEND="${RDEPEND}
 	chromeos-base/imageloader-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/session_manager-client:=
-	chromeos-base/update_engine-client:="
+	chromeos-base/update_engine-client:=
+	chromeos-base/vboot_reference:=
+"
 
 src_install() {
 	dosbin "${OUT}/dlcservice"
