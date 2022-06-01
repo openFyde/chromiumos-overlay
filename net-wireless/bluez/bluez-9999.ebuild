@@ -25,7 +25,9 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="~*"
-IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools bluez_default_conn_int"
+IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools"
+IUSE="${IUSE} bluez_default_conn_int"		# b/219537522
+IUSE="${IUSE} bluez_disallow_bqr"		# b/231741170
 REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
@@ -158,6 +160,13 @@ src_install() {
 		sed -i 's/MinConnectionInterval/#MinConnectionInterval/g' main.conf
 		sed -i 's/MaxConnectionInterval/#MaxConnectionInterval/g' main.conf
 	fi
+
+	# Temporary fix for b/231741170: don't enable BQR on specific platforms
+	# to prevent device can't suspend issue.
+	if use bluez_disallow_bqr; then
+		sed -i 's/#DisallowBQR/DisallowBQR/g' main.conf
+	fi
+
 	insinto "/etc/bluetooth"
 	doins main.conf
 	doins "${FILESDIR}/input.conf"
