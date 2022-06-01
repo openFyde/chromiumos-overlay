@@ -85,6 +85,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21.8-disable-python.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-unpack-bits.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-cupsbytesperline.patch"
+	"${FILESDIR}/${PN}-3.21.8-fix-buffer-overflow-in-halftoner.patch"
+	"${FILESDIR}/${PN}-3.21.8-fix-tempbuffer-size-in-halftoner.patch"
 )
 
 CONFIG_CHECK="~PARPORT ~PPDEV"
