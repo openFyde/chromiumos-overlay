@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ad158bb7ba0cd481fc236039c33c8a642177bc7e"
-CROS_WORKON_TREE=("e0579926a3749ec537b24d997bc3138c4ed02df2" "dc1d751c722d64307692bc48a1a79e30ef301108" "12bbd542247aac252e1e4d9715c0cef094bb7b4c" "74305780a8891c8859d1535613a7a29e0b63fa34" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="fad36ca72044203bd9d2fbc6ea03f63fe6d5b8c5"
+CROS_WORKON_TREE=("e0579926a3749ec537b24d997bc3138c4ed02df2" "b131bd30ade455763981c732c09726d2f0ff709d" "12bbd542247aac252e1e4d9715c0cef094bb7b4c" "74305780a8891c8859d1535613a7a29e0b63fa34" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -96,7 +96,7 @@ DEPEND="${COMMON_DEPEND}
 src_install() {
 	pushd "${OUT}" || die
 	dosbin cryptohomed cryptohome cryptohome-path homedirs_initializer \
-		lockbox-cache tpm-manager
+		lockbox-cache tpm-manager stateful-recovery
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
@@ -215,8 +215,9 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/fake_platform_unittest"
-	platform_test "run" "${OUT}/cryptohome_testrunner"
-	platform_test "run" "${OUT}/mount_encrypted_unittests"
 	platform_test "run" "${OUT}/boot_lockbox_unittests"
+	platform_test "run" "${OUT}/cryptohome_testrunner"
+	platform_test "run" "${OUT}/fake_platform_unittest"
+	platform_test "run" "${OUT}/mount_encrypted_unittests"
+	platform_test "run" "${OUT}/stateful_recovery_unittests"
 }
