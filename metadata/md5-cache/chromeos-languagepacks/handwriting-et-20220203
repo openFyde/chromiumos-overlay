@@ -1,0 +1,12 @@
+DEFINED_PHASES=install unpack
+DESCRIPTION=Handwriting et Language Pack for Chromium OS
+EAPI=7
+HOMEPAGE=https://www.chromium.org/chromium-os
+IUSE=dlc ondevice_handwriting
+KEYWORDS=*
+LICENSE=BSD-Google
+REQUIRED_USE=dlc ondevice_handwriting
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/languagepack-handwriting-et-20220203.tar.xz
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	980ce13d2129fa5614d43ffa9d1bb90f
+_md5_=e62de0b499b3e8bad6f4ce98defae702
