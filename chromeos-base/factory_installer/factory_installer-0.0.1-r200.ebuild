@@ -77,15 +77,9 @@ COMMON_DEPEND="
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/factory:=
+	chromeos-base/factory_rust
 	test? ( chromeos-base/secure-wipe:= )
-	x86? ( sys-boot/syslinux:= )
-	=dev-rust/anyhow-1*:=
-	>=dev-rust/bincode-1.0.1 <dev-rust/bincode-2.0.0_alpha:=
-	>=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0:=
-	=dev-rust/glob-0.3*:=
-	>=dev-rust/serde-1.0.0 <dev-rust/serde-2.0.0:=
-	>=dev-rust/serde_json-1.0.0 <dev-rust/serde_json-2.0.0:=
-	>=dev-rust/tempfile-3.2.0 <dev-rust/tempfile-4.0.0_alpha:="
+	x86? ( sys-boot/syslinux:= )"
 
 RDEPEND="${COMMON_DEPEND}
 	${PROVIDED_DEPEND}
@@ -126,8 +120,6 @@ src_compile() {
 	cd "${CROS_RUST_SUBDIR}" || die
 	cros-rust_src_compile --no-default-features --features="factory-fai" \
 		--bin="factory_fai"
-	cros-rust_src_compile --no-default-features --features="factory-ufs" \
-		--bin="factory_ufs"
 	cd "${S}" || die
 	emake
 }
@@ -165,7 +157,6 @@ src_install() {
 	cros-rust_publish "${CROS_RUST_CRATE_NAME}" \
 		"$(cros-rust_get_crate_version "${S}/${CROS_RUST_SUBDIR}")"
 	dosbin "$(cros-rust_get_build_dir)/factory_fai"
-	dosbin "$(cros-rust_get_build_dir)/factory_ufs"
 	cd "${S}" || die
 
 	insinto /usr/share/factory_installer/tpm

@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="chromeos-base/factory_installer"
+DEPEND="chromeos-base/factory_rust"
 RDEPEND="
 	sys-apps/ufs-utils
 "
