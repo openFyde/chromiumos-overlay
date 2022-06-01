@@ -97,12 +97,12 @@ src_configure() {
 		"-DCOMPILER_RT_SANITIZERS_TO_BUILD=asan;msan;hwasan;tsan;cfi;ubsan_minimal;gwp_asan"
 		# b/200831212: Disable per runtime install dirs.
 		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
-		# b/204220308: Disable OCR since we are not using it.
+		# b/204220308: Disable ORC since we are not using it.
 		"-DCOMPILER_RT_BUILD_ORC=OFF"
 		"-DCOMPILER_RT_INSTALL_PATH=${EPREFIX}$(${CC} --print-resource-dir)"
 	)
 
-	if [[ ${CTARGET} == *-eabi ]]; then
+	if is_baremetal_abi; then
 		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
 		mycmakeargs+=(
 			"-DCOMPILER_RT_OS_DIR=baremetal"

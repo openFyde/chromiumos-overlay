@@ -53,3 +53,11 @@ get_most_recent_revision() {
 	# Tries to get the revision ID of the most recent commit
 	"${FILESDIR}"/patch_manager/git_llvm_rev.py --llvm_dir "${subdir}" --sha "$(git -C "${subdir}" rev-parse HEAD)" | cut -d 'r' -f 2
 }
+
+is_baremetal_abi() {
+	# ABIs like armv7m-cros-eabi or arm-none-eabi.
+	if [[ "${CTARGET}" == *-eabi ]]; then
+		return 0
+	fi
+	return 1
+}

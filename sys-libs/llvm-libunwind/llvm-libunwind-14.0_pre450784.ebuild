@@ -105,6 +105,14 @@ multilib_src_configure() {
 		"-DLIBUNWIND_HAS_PTHREAD_LIB=OFF"
 	)
 
+	if is_baremetal_abi; then
+		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
+		mycmakeargs+=(
+			"-DLIBUNWIND_IS_BAREMETAL=ON"
+			"-DLIBUNWIND_REMEMBER_HEAP_ALLOC=ON"
+		)
+	fi
+
 	cmake-utils_src_configure
 }
 
@@ -122,6 +130,9 @@ multilib_src_install_all() {
 
 multilib_src_install() {
 	cmake-utils_src_install
+	if is_baremetal_abi; then
+		return
+	fi
 
 	# Generate libunwind.so or libgcc_s.so.
 	local myabi=$(get_abi_CTARGET)

@@ -146,6 +146,7 @@ multilib_src_configure() {
 		"-DCMAKE_POSITION_INDEPENDENT_CODE=ON"
 		"-DLIBCXX_ENABLE_SHARED=ON"
 		"-DLIBCXX_ENABLE_STATIC=$(usex static-libs)"
+		"-DLIBCXX_INCLUDE_BENCHMARKS=OFF"
 		# we're using our own mechanism for generating linker scripts
 		"-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF"
 		"-DLIBCXX_HAS_MUSL_LIBC=$(usex elibc_musl)"
@@ -169,6 +170,29 @@ multilib_src_configure() {
 	if use msan; then
 		mycmakeargs+=(
 			"-DLLVM_USE_SANITIZER=Memory"
+		)
+	fi
+
+	if is_baremetal_abi; then
+		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
+		# Disable stack allocation and features like posix_memalign.
+		append-cppflags "-D_LIBCPP_HAS_NO_LIBRARY_ALIGNED_ALLOCATION"
+		mycmakeargs+=(
+			"-DLIBCXXABI_ENABLE_SHARED=OFF"
+			"-DLIBCXXABI_BAREMETAL=ON"
+			"-DLIBCXXABI_SILENT_TERMINATE=ON"
+			"-DLIBCXXABI_NON_DEMANGLING_TERMINATE=ON"
+			"-DLIBCXXABI_ENABLE_THREADS=OFF"
+			"-DLIBCXX_ENABLE_SHARED=OFF"
+			"-DLIBCXX_ENABLE_RANDOM_DEVICE=OFF"
+			"-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF"
+			"-DLIBCXX_ENABLE_LOCALIZATION=OFF"
+			"-DLIBCXX_ENABLE_UNICODE=OFF"
+			"-DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY=OFF"
+			"-DLIBCXX_ENABLE_FILESYSTEM=OFF"
+			"-DLIBCXX_ENABLE_THREADS=OFF"
+			"-DLIBCXX_ENABLE_MONOTONIC_CLOCK=OFF"
+			"-DLIBCXX_ENABLE_INCOMPLETE_FEATURES=OFF"
 		)
 	fi
 
@@ -202,7 +226,7 @@ gen_static_ldscript() {
 	local deps="libc++_static.a ${cxxabi_lib} $(usex libunwind libunwind.a libgcc_eh.a)"
 	# On Linux/glibc it does not link without libpthread or libdl. It is
 	# fine on FreeBSD.
-	use elibc_glibc && deps+=" libpthread.a libdl.a"
+	use elibc_glibc && ! is_baremetal_abi && deps+=" libpthread.a libdl.a"
 
 	gen_ldscript "${deps}" > "${ED}/${PREFIX}/${libdir}/libc++.a" || die
 }
@@ -219,7 +243,7 @@ gen_shared_ldscript() {
 
 multilib_src_install() {
 	cmake-utils_src_install
-	gen_shared_ldscript
+	is_baremetal_abi || gen_shared_ldscript
 	use static-libs && gen_static_ldscript
 }
 
