@@ -29,6 +29,8 @@ DEPEND="
 "
 
 pkg_preinst() {
+	# Ensure that this group exists so that rgbkbd can access /dev/cros_ec.
+	enewgroup "cros_ec-access"
 	# Create user and group for RGBKBD.
 	enewuser "rgbkbd"
 	enewgroup "rgbkbd"
