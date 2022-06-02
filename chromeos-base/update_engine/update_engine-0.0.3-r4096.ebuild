@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("200d966b5647a49ca460c18763fad1bceb447366" "8ae7ac2c13dbd214701833dad4302274540a939e")
+CROS_WORKON_COMMIT=("c5269f8251014145cd4d9f70347d851b97a68100" "8ae7ac2c13dbd214701833dad4302274540a939e")
 CROS_WORKON_TREE=("d4469c62dab4018d72e6355d285651f2780df211" "6198393cdf47f5d75a0d2691fe644e7e05dc8112" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "8b57f9d28bf03843dd50eb3bac8b418414116ee9")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
@@ -66,7 +66,10 @@ DELTA_GENERATOR_RDEPEND="
 RDEPEND="
 	!cros_host? ( chromeos-base/chromeos-installer )
 	${COMMON_DEPEND}
-	cros_host? ( ${DELTA_GENERATOR_RDEPEND} )
+	cros_host? (
+		${DEPEND}
+		${DELTA_GENERATOR_RDEPEND}
+	)
 	power_management? ( chromeos-base/power_manager:= )
 	virtual/update-policy:=
 "
