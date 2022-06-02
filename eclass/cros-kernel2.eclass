@@ -29,6 +29,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
 	builtin_fw_x86_adl_ucode? ( sys-boot/coreboot-private-files-baseboard-brya )
+	builtin_fw_x86_adln_ucode? ( sys-firmware/adln-ucode-firmware-private )
 	builtin_fw_x86_amd_ucode? ( sys-kernel/linux-firmware[linux_firmware_amd_ucode] )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
 	builtin_fw_x86_apl_ucode? ( chromeos-base/apl-ucode-firmware-private )
@@ -1242,6 +1243,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_t210_xusb
 	builtin_fw_vega12
 	builtin_fw_x86_adl_ucode
+	builtin_fw_x86_adln_ucode
 	builtin_fw_x86_amd_ucode
 	builtin_fw_x86_aml_ucode
 	builtin_fw_x86_apl_ucode
@@ -1645,6 +1647,11 @@ builtin_fw_x86_adl_ucode_files=(
 	intel-ucode/06-9a-02
 	intel-ucode/06-9a-03
 	intel-ucode/06-9a-04
+)
+
+builtin_fw_x86_adln_ucode_desc="Intel ucode for ADL-N"
+builtin_fw_x86_adln_ucode_files=(
+	intel-ucode/06-be-00
 )
 
 builtin_fw_x86_aml_ucode_desc="Intel ucode for AML"
