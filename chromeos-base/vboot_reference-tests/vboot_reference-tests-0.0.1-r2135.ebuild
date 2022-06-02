@@ -8,7 +8,7 @@ CROS_WORKON_TREE="cdffce0a346021eba308728628831e51561a4ec3"
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 CROS_WORKON_LOCALNAME="platform/vboot_reference"
 
-inherit cros-workon
+inherit cros-workon cros-sanitizers
 
 DESCRIPTION="vboot tests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/vboot_reference/"
@@ -24,6 +24,11 @@ DEPEND="${COMMON_DEPEND}"
 
 get_build_dir() {
 	echo "${S}/build-main"
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_compile() {

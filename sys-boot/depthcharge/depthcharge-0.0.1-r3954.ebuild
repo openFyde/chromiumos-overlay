@@ -67,7 +67,7 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 # Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
 RESTRICT='strip'
 
-inherit cros-workon cros-unibuild
+inherit cros-workon cros-unibuild cros-sanitizers
 
 # Build depthcharge with common options.
 # Usage example: dc_make dev "${BUILD_DIR}" "${LIBPAYLOAD_DIR}"
@@ -179,6 +179,11 @@ _copy_fwconfig() {
 	else
 		ewarn "${src} does not exist"
 	fi
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_compile() {

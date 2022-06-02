@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a6071f1d1f17b3e80bd1454326d6cecfb6d23397"
+CROS_WORKON_COMMIT="ca702442d8544fbf6e176ba4d29f52f0dd99734b"
 CROS_WORKON_TREE="f96e7f7725f593c25f382779194115af6c785b6d"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -12,7 +12,7 @@ CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="chromeos-config"
 
-inherit cros-workon meson
+inherit cros-workon meson cros-sanitizers
 
 LICENSE="BSD-Google"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/chromeos-config"
@@ -25,6 +25,7 @@ src_unpack() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	emesonargs+=( -Ddefault_library=both )
 	meson_src_configure
 }

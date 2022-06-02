@@ -8,13 +8,18 @@ CROS_WORKON_TREE="4278e97079c67ddefd0963eb7f6f8382f2aff914"
 CROS_WORKON_PROJECT="chromiumos/platform/microbenchmarks"
 CROS_WORKON_LOCALNAME="../platform/microbenchmarks"
 
-inherit cros-workon cros-common.mk
+inherit cros-workon cros-common.mk cros-sanitizers
 
 DESCRIPTION="Home for microbenchmarks designed in-house."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/microbenchmarks"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
 
 src_install() {
 	dobin "${OUT}"/memory-eater/memory-eater
