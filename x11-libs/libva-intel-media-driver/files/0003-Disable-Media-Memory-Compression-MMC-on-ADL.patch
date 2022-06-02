@@ -1,4 +1,4 @@
-From 8a36efad48f1441d378a44dc7626c9aa18055bab Mon Sep 17 00:00:00 2001
+From 3ea2c2b386b14dd85145cd2615fc25394fb21234 Mon Sep 17 00:00:00 2001
 From: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
 Date: Tue, 9 Nov 2021 16:33:00 -0800
 Subject: [PATCH] Disable Media Memory Compression (MMC) on ADL
@@ -13,17 +13,17 @@ Signed-off-by: Sushma Venkatesh Reddy <sushma.venkatesh.reddy@intel.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp b/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
-index a4179c86343a..53336f5c0143 100644
+index 88e03705e79d..2f8af33687a0 100644
 --- a/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
 +++ b/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
-@@ -551,6 +551,7 @@ static bool InitAdlpMediaSku(struct GfxDeviceInfo *devInfo,
+@@ -554,6 +554,7 @@ static bool InitAdlpMediaSku(struct GfxDeviceInfo *devInfo,
          MEDIA_WR_SKU(skuTable, FtrGT0_5, 1);
      }
  
 +    MEDIA_WR_SKU(skuTable, FtrE2ECompression, 0);
      MEDIA_WR_SKU(skuTable, FtrAV1VLDLSTDecoding, 1);
+     MEDIA_WR_SKU(skuTable, FtrGucSubmission, 1);
  
-     return true;
 -- 
-2.27.0
+2.35.3
 
