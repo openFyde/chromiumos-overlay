@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b95c9158d7cd401372cd0e978fd940ce2258eed"
-CROS_WORKON_TREE="1743cb7387a1c29abfb1200e7fde4386123648a2"
+CROS_WORKON_COMMIT="bc7a7454a4cd587ef4a55e9c465197bc210df6cf"
+CROS_WORKON_TREE="5def50a9e2a88817c927ad80b5e129dd2da9a87a"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -34,7 +34,6 @@ IUSE_TESTS="
 	+tests_power_Backlight
 	+tests_power_BacklightSuspend
 	+tests_power_BatteryCharge
-	shill? ( +tests_power_CellularIdle )
 	+tests_power_CheckAC
 	+tests_power_CheckAfterSuspend
 	+tests_power_CPUFreq
