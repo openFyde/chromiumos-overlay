@@ -74,6 +74,7 @@ RDEPEND="${RDEPEND}
 	sys-libs/zlib
 	sys-process/procps
 	sys-process/psmisc
+	sys-process/time
 	virtual/editor
 	virtual/libc
 	virtual/man
@@ -231,6 +232,7 @@ RDEPEND="${RDEPEND}
 	!sys-apps/nih-dbus-tool
 	sys-devel/autofdo
 	sys-devel/bc
+	sys-devel/llvm
 	>=sys-libs/glibc-2.27
 	sys-libs/libcxxabi
 	sys-libs/libcxx
@@ -379,6 +381,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-cpp/gflags
 	dev-go/mock
+	dev-go/test
 	dev-python/mock
 	"
 # Host dependencies to run autotest's unit tests within the chroot.
@@ -478,6 +481,7 @@ RDEPEND="${RDEPEND}
 
 # Host dependencies for the chromeos-ec workflow
 RDEPEND="${RDEPEND}
+	chromeos-base/chromeos-ec-headers
 	dev-libs/libprotobuf-mutator
 	dev-libs/openssl
 	dev-util/unifdef
@@ -565,7 +569,8 @@ RDEPEND="${RDEPEND}
 
 # Needed to build crosvm without ebuild in chroot.
 RDEPEND="${RDEPEND}
-	dev-libs/wayland-protocols"
+	dev-libs/wayland-protocols
+	dev-util/wayland-scanner"
 
 # Needed for hps-firmware.
 RDEPEND="${RDEPEND}

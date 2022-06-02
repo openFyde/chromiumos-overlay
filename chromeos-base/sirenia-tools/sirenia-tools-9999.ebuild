@@ -39,10 +39,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
-# libsirenia is in RDEPEND for host so that it is installed by default in SDK.
+# Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="
 	sys-apps/dbus
-	cros_host? ( chromeos-base/libsirenia:= )
+	cros_host? ( ${DEPEND} )
 "
 
 src_compile() {
