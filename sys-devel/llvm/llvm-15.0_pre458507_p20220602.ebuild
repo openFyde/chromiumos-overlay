@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-constants cmake flag-o-matic git-r3 multilib-minimal  \
 	python-any-r1 pax-utils toolchain-funcs
 
-LLVM_HASH="282c83c32384cb2f37030c28650fef4150a8b67c" # r450784
+LLVM_HASH="a58d0af058038595c93de961b725f86997cf8d4a" # r458507
 LLVM_NEXT_HASH="a58d0af058038595c93de961b725f86997cf8d4a" # r458507
 
 DESCRIPTION="Low Level Virtual Machine"
@@ -30,7 +30,7 @@ KEYWORDS="-* amd64"
 # FIXME: llvm-tot is somewhat misleading: at the moment, it's essentially
 # llvm-next with a few extra checks enabled
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
-	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
+	llvm-next llvm_pgo_generate llvm_pgo_use llvm-next_pgo_use llvm-tot
 	multitarget ncurses ocaml test +thinlto xml video_cards_radeon continue-on-patch-failure"
 
 COMMON_DEPEND="
