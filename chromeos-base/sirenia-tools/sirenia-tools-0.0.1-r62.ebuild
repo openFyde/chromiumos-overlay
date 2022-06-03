@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="24106abc9b7a481f9816de37409ee23d9c6d0f4a"
+CROS_WORKON_COMMIT="bb38c81301ec8ffd37c96718b05d56a138e560d6"
 CROS_WORKON_TREE="a40a6dea4c6fba7d068ab5fd3ebbfaec06c00e6a"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,10 +41,10 @@ DEPEND="
 	dev-rust/sys_util:=
 	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
-# libsirenia is in RDEPEND for host so that it is installed by default in SDK.
+# Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="
 	sys-apps/dbus
-	cros_host? ( chromeos-base/libsirenia:= )
+	cros_host? ( ${DEPEND} )
 "
 
 src_compile() {
