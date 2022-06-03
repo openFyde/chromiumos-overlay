@@ -583,3 +583,8 @@ RDEPEND="${RDEPEND}
 	sci-electronics/nmigen
 	sci-electronics/pythondata-misc-tapcfg
 	sci-electronics/verilator"
+
+# Needed for cvise.
+RDEPEND="${RDEPEND}
+	dev-python/pebble
+	dev-util/cvise"
