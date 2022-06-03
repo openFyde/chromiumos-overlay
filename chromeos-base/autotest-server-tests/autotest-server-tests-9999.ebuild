@@ -80,6 +80,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_Cellular
 	+tests_autoupdate_ConsecutiveUpdatesBeforeReboot
 	+tests_autoupdate_DataPreserved
+	+tests_autoupdate_DeferredUpdate
 	+tests_autoupdate_EndToEndTest
 	+tests_autoupdate_ForcedOOBEUpdate
 	+tests_autoupdate_FromUI
