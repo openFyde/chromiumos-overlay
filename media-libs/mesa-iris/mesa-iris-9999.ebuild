@@ -9,7 +9,7 @@ CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
 KEYWORDS="~*"
 
-inherit base meson flag-o-matic cros-workon
+inherit base meson flag-o-matic cros-workon cros-sanitizers
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"
@@ -41,6 +41,8 @@ BDEPEND="
 "
 
 src_configure() {
+	sanitizers-setup-env
+
 	emesonargs+=(
 		-Dexecmem=false
 		-Dglvnd=$(usex libglvnd true false)

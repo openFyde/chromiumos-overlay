@@ -5,7 +5,7 @@ EAPI="7"
 CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
 CROS_WORKON_LOCALNAME="../platform/minigbm"
 
-inherit multilib-minimal arc-build cros-workon
+inherit multilib-minimal arc-build cros-workon cros-sanitizers
 
 DESCRIPTION="ChromeOS gralloc implementation"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/minigbm"
@@ -31,6 +31,8 @@ DEPEND="
 "
 
 src_configure() {
+	sanitizers-setup-env
+
 	# Use arc-build base class to select the right compiler
 	arc-build-select-clang
 

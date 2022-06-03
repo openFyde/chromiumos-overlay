@@ -5,7 +5,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/experimental"
 CROS_WORKON_LOCALNAME="../platform/experimental"
 
-inherit cros-workon
+inherit cros-workon cros-sanitizers
 
 DESCRIPTION="A memory consumer to allocate mlocked (non-swappable) memory"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/experimental/+/master/memory-eater-locked/"
@@ -18,6 +18,11 @@ IUSE=""
 
 RDEPEND=""
 DEPEND=""
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
 
 src_compile() {
 	tc-export CC

@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-arcvm"
 CROS_WORKON_EGIT_BRANCH="chromeos-arcvm"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build cros-sanitizers
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -121,6 +121,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	cros_optimize_package_for_speed
 
 	if use cheets; then

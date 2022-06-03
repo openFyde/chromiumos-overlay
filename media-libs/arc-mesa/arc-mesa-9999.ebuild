@@ -11,7 +11,7 @@ CROS_WORKON_MANUAL_UPREV="1"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build cros-sanitizers
 
 OPENGL_DIR="xorg-x11"
 
@@ -196,6 +196,7 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	cros_optimize_package_for_speed
 
 	if use cheets; then

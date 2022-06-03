@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="kernel/v4.19"
 CROS_WORKON_EGIT_BRANCH="chromeos-4.19"
 CROS_WORKON_SUBTREE="tools/usb/usbip"
 
-inherit autotools cros-workon eutils
+inherit autotools cros-workon eutils cros-sanitizers
 
 DESCRIPTION="Userspace utilities for a general USB device sharing system over IP networks"
 HOMEPAGE="https://www.kernel.org/"
@@ -46,6 +46,8 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+
 	econf \
 		$(use_enable static-libs static) \
 		"$(use_with tcpd tcp-wrappers)" \
