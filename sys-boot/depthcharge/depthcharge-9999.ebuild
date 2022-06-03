@@ -62,8 +62,14 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 	"use test"
 )
 
-# Don't strip to ease remote GDB use (cbfstool strips final binaries anyway)
-RESTRICT='strip'
+# Disable binary checks for PIE and relative relocatons.
+# Don't strip to ease remote GDB use (cbfstool strips final binaries anyway).
+# This is only okay because this ebuild only installs files into
+# ${SYSROOT}/firmware, which is not copied to the final system image.
+RESTRICT="binchecks strip"
+
+# Disable warnings for executable stack.
+QA_EXECSTACK="*"
 
 inherit cros-workon cros-unibuild cros-sanitizers
 
