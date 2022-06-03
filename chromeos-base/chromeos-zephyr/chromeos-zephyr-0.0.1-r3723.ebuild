@@ -79,6 +79,10 @@ src_compile() {
 
 		projects+=("${project}")
 	done < <(cros_config_host "get-firmware-build-combinations" zephyr-ec || die)
+	if [[ ${#projects[@]} -eq 0 ]]; then
+		einfo "No projects found."
+		return
+	fi
 	run_zmake build -B "${root_build_dir}" "${projects[@]}" \
 		|| die "Failed to build ${projects[*]} in ${root_build_dir}."
 }
