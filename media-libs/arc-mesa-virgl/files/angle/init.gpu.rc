@@ -6,7 +6,6 @@ on early-init
     # Advertise opengles version 3.1.
     setprop ro.opengles.version 196609
     setprop ro.hardware.egl angle
-    setprop debug.hwui.renderer skiavk
     # TODO remove emulateAdvancedBlendEquations after b/234173199 gets fixed
     # TODO remove supportsShaderFramebufferFetch after b/234186318 gets fixed
     setprop debug.angle.feature_overrides_disabled preferSubmitAtFBOBoundary:emulateAdvancedBlendEquations:supportsShaderFramebufferFetch
