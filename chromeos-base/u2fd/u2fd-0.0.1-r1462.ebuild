@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="07fdf9ea1601957b948af16fc5469fe4847e22d7"
-CROS_WORKON_TREE=("d4469c62dab4018d72e6355d285651f2780df211" "8d334e13ee768ae278f11b187eb68d647931dea3" "4d263f9322562d3c469f0baca28028aaac92390e" "7226e3910790963c0810793db376ae53c9a32be5" "5587ba130f4f8585cd1df3d775cf8eb4ef191bf6" "79ca3f650e7176da7bdb47c12e72f2c87efc2bf3" "2e09cf3f2ed400689e21e82aa8a6d9d4123e0661" "4d263f9322562d3c469f0baca28028aaac92390e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="24ea82e05a76fc43b73fc157da2ea6a72bf7d0b8"
+CROS_WORKON_TREE=("d4469c62dab4018d72e6355d285651f2780df211" "8d334e13ee768ae278f11b187eb68d647931dea3" "4d263f9322562d3c469f0baca28028aaac92390e" "7226e3910790963c0810793db376ae53c9a32be5" "5587ba130f4f8585cd1df3d775cf8eb4ef191bf6" "83ef514dc9e57377e156412c5e51b8e3e8ef1560" "2e09cf3f2ed400689e21e82aa8a6d9d4123e0661" "4d263f9322562d3c469f0baca28028aaac92390e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,11 +29,9 @@ COMMON_DEPEND="
 	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
-		chromeos-base/u2fd-client:=
 	)
 	ti50_onboard? (
 		chromeos-base/trunks:=
-		chromeos-base/u2fd-client:=
 	)
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
@@ -44,6 +42,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/tpm_manager:=
+	chromeos-base/u2fd-client:=
 	dev-libs/hidapi:=
 "
 
