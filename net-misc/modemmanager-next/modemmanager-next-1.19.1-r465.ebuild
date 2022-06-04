@@ -125,6 +125,7 @@ src_install() {
 		fibocom
 		generic
 		huawei
+		intel
 		longcheer
 		novatel-lte
 		samsung
