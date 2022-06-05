@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="0a8e8ba8289cd5935a6b028cd9f2aafcb0452dc8"
-CROS_WORKON_TREE="f03689147350a123a78435a2f70669c52eeed688"
+CROS_WORKON_COMMIT="413b539faae244c78d95552c75f38b9f3f6d93ef"
+CROS_WORKON_TREE="36b8f8463b363aeba312126c5d8de113330cb88a"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -282,7 +282,10 @@ SERVER_IUSE_TESTS="
 	+tests_infra_MultiDutsWithAndroid
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
-	minios? ( +tests_nbr_EndToEndTest )
+	minios? (
+		+tests_nbr_EndToEndTest
+		+tests_nbr_NetworkInterruptions
+	)
 	+tests_p2p_EndToEndTest
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
