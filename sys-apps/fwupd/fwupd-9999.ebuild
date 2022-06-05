@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
 CROS_WORKON_EGIT_BRANCH="fwupd-1.8.0"
 
-inherit cros-workon linux-info meson udev user xdg
+inherit cros-workon linux-info meson udev user xdg cros-sanitizers
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
@@ -105,6 +105,8 @@ src_prepare() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+	
 	local plugins=(
 		-Dplugin_emmc="enabled"
 		-Dplugin_parade_lspcon="enabled"

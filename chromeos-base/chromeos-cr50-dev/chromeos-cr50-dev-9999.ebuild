@@ -25,7 +25,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"main"
 )
 
-inherit coreboot-sdk cros-workon toolchain-funcs
+inherit coreboot-sdk cros-workon toolchain-funcs cros-sanitizers
 
 DESCRIPTION="Google Security Chip firmware code"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/cr50_stab"
@@ -154,6 +154,11 @@ install_cr50_signer_aid () {
 	doins "${S}/board/cr50/rma_key_blob".*.{prod,test}
 	doins "${S}/${CR50_JSON}"
 	doins "${S}/util/signer/fuses.xml"
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_install() {

@@ -30,7 +30,7 @@ CROS_WORKON_SUBTREE=(
 	"Makefile cgpt host firmware futility"
 )
 
-inherit cros-workon toolchain-funcs
+inherit cros-workon toolchain-funcs cros-sanitizers
 
 DESCRIPTION="Utilities for modifying coreboot firmware images"
 HOMEPAGE="http://coreboot.org"
@@ -57,6 +57,7 @@ _emake() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	use static && append-ldflags -static
 	tc-export CC PKG_CONFIG
 }

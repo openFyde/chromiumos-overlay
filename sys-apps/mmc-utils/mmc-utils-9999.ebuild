@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/mmc-utils"
 
-inherit cros-workon toolchain-funcs
+inherit cros-workon toolchain-funcs cros-sanitizers
 
 # original Announcement of project:
 #	http://permalink.gmane.org/gmane.linux.kernel.mmc/12766
@@ -28,6 +28,7 @@ KEYWORDS="~*"
 IUSE="static"
 
 src_configure() {
+	sanitizers-setup-env
 	use static && append-ldflags -static
 	tc-export CC
 	export prefix=/usr
