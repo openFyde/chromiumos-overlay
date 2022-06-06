@@ -10,6 +10,7 @@ ZRAM_INTEGRITY_NAME="zram-integrity"
 ZRAM_WRITEBACK_DEV_ENC="/dev/mapper/${ZRAM_WRITEBACK_NAME}"
 ZRAM_WRITEBACK_INTEGRITY_MOUNT="/run/zram-integrity"
 ZRAM_INTEGRITY_DEV="/dev/mapper/${ZRAM_INTEGRITY_NAME}"
+LOOP_BLOCK_OPEN_PREFIX="__block_open_on_autoclear__"
 STATEFUL_PARTITION_DIR="/mnt/stateful_partition/unencrypted/userspace_swap.tmp"
 MB=1048576
 
@@ -361,7 +362,7 @@ enable_zram_writeback() {
       -o size="${ramfs_size_bytes},noexec,nosuid,noatime,mode=0700" \
       "zram-writeback-integrity" "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" \
         || cleanup_writeback_and_die "unable to mount ramfs"
-  integrity_filename=$(mktemp -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -t "zram_writeback.integrity.XXXXXX.swp")
+  integrity_filename=$(mktemp -p "${ZRAM_WRITEBACK_INTEGRITY_MOUNT}" -t "${LOOP_BLOCK_OPEN_PREFIX}zram_writeback.integrity.XXXXXX.swp")
   dd if=/dev/zero of="${integrity_filename}" iflag=count_bytes count="${ramfs_size_bytes}" status=none \
     || cleanup_writeback_and_die "unable to zero integrity file"
 
