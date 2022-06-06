@@ -61,5 +61,9 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform test_all
+	local gtest_filter_user_tests="-*RunAsRoot*"
+	local gtest_filter_root_tests="*RunAsRoot*-"
+
+	platform_test "run" "${OUT}/rmad_test" "0" "${gtest_filter_user_tests}"
+	platform_test "run" "${OUT}/rmad_test" "1" "${gtest_filter_root_tests}"
 }
