@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.0"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.1"
 
 inherit cros-workon linux-info meson udev user xdg cros-sanitizers
 
@@ -23,7 +23,7 @@ if [[ ${PV} == "9998" ]] ; then
 	KEYWORDS="*"
 fi
 
-IUSE="agent amt +archive bash-completion bluetooth cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
+IUSE="agent amt +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
 REQUIRED_USE="
 	dell? ( uefi )
 	fastboot? ( gusb )
@@ -35,6 +35,7 @@ REQUIRED_USE="
 "
 
 BDEPEND="
+	>=dev-util/meson-0.60.0
 	virtual/pkgconfig
 	gtk-doc? ( dev-util/gtk-doc )
 	bash-completion? ( >=app-shells/bash-completion-2.0 )
@@ -55,7 +56,11 @@ COMMON_DEPEND="
 	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	net-misc/curl
 	archive? ( app-arch/libarchive:= )
-	dell? ( >=sys-libs/libsmbios-2.4.0 )
+	cbor? ( dev-libs/libcbor )
+	dell? (
+		>=app-crypt/tpm2-tss-2.0
+		>=sys-libs/libsmbios-2.4.0
+	)
 	elogind? ( >=sys-auth/elogind-211 )
 	flashrom? ( sys-apps/flashrom )
 	gnutls? ( net-libs/gnutls )
@@ -63,7 +68,7 @@ COMMON_DEPEND="
 	logitech? ( dev-libs/protobuf-c:= )
 	lzma? ( app-arch/xz-utils )
 	modemmanager? ( net-misc/modemmanager[qmi] )
-	policykit? ( >=sys-auth/polkit-0.103 )
+	policykit? ( >=sys-auth/polkit-0.114 )
 	sqlite? ( dev-db/sqlite )
 	systemd? ( >=sys-apps/systemd-211 )
 	uefi? (
@@ -73,9 +78,7 @@ COMMON_DEPEND="
 		sys-libs/efivar
 	)
 "
-# Block sci-chemistry/chemical-mime-data for bug #701900
 RDEPEND="
-	!<sci-chemistry/chemical-mime-data-0.1.94-r4
 	${COMMON_DEPEND}
 	sys-apps/dbus
 "
@@ -144,6 +147,7 @@ src_configure() {
 		$(meson_feature archive libarchive)
 		$(meson_use bash-completion bash_completion)
 		$(meson_feature bluetooth bluez)
+		$(meson_feature cbor)
 		$(meson_feature elogind)
 		$(meson_feature gnutls)
 		$(meson_feature gusb)
@@ -153,7 +157,6 @@ src_configure() {
 		$(meson_feature policykit polkit)
 		$(meson_feature sqlite)
 		$(meson_feature systemd)
-		$(meson_feature systemd offline)
 		$(meson_use test tests)
 
 		${plugins[@]}
