@@ -19,9 +19,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/cli
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cr50_onboard ti50_onboard"
+IUSE="fuzzer cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
+	fuzzer? (
+		chromeos-base/trunks:=
+	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
 	)

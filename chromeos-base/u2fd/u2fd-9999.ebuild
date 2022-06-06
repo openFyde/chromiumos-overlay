@@ -25,6 +25,9 @@ COMMON_DEPEND="
 	tpm? (
 		app-crypt/trousers:=
 	)
+	fuzzer? (
+		chromeos-base/trunks:=
+	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
 	)
@@ -74,17 +77,15 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
 
-	if use cr50_onboard || use ti50_onboard; then
-		local fuzzer_component_id="1188704"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
-			--comp "${fuzzer_component_id}"
-	fi
+	local fuzzer_component_id="1188704"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
