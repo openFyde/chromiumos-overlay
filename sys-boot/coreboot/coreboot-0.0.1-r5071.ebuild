@@ -54,7 +54,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"main"
 )
 
-inherit cros-workon toolchain-funcs cros-unibuild coreboot-sdk
+inherit cros-workon toolchain-funcs cros-unibuild coreboot-sdk cros-sanitizers
 
 DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
@@ -456,6 +456,11 @@ do_install() {
 	insinto "/firmware/${build_combination}/libpayload/libpayload/include"
 	doins "${BUILD_DIR}/static_fw_config.h"
 	einfo "Installed static_fw_config.h into libpayload include directory"
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_install() {

@@ -3,7 +3,7 @@
 # $Header:
 
 EAPI=7
-CROS_WORKON_COMMIT=("706dfc0829a090e3824f38ce93ade431e60202bb" "3000736e2da72115f1350b6d9c0c66d208ddd1be")
+CROS_WORKON_COMMIT=("f915fdfc6179b7306089ab9ade30baf3c6755d6e" "bc952540dfeb2f2441e24a33965f62cc12681f96")
 CROS_WORKON_TREE=("c2d79d16ca28f1cc14724c420c5821138a4eb82c" "bbfec19eee41e2573d6f5626fadd8ca8156fa924" "06b3f5b5095a35bf3243b46bbba5a377562efc90" "7970bef34ce4d0b3023def52ff72e1c4cd2eca85" "0c986b73d37f2445d8da22b36d806464e83ab756" "54d5301b1db4c94f979db6ff3c33d71708e01c9f" "45de8426c079972ea36c886fd298076a412a1500" "b80212cdf15b90d075aa0053ca065f85d9a13987" "e03866d9ecdf3529248f3d4bd0b63499a092f2c3" "3c5fd6baf4eefad6aafe786c1b7a6af7dc37c278" "4fdac046899ad0163ad701dbf5ce8f3e3c38269b" "5d1c6c54a788dfa3a813ae3197cb9863afd32ee6" "9d82d0a2d6f2a47d4957461969f0aa36e999a032" "27d651612d6d6c19f9c9e64852bd998fbd847677" "a81c7986124e929d610bb5622fb1e2b570415335" "a00a8ee055154ec5e7cadd74981ed2070c6b6445" "8dd1ba79af5202f1a4c03bc07acd85a9e4dae95c")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
@@ -32,7 +32,7 @@ CROS_WORKON_SUBTREE=(
 	"Makefile cgpt host firmware futility"
 )
 
-inherit cros-workon toolchain-funcs
+inherit cros-workon toolchain-funcs cros-sanitizers
 
 DESCRIPTION="Utilities for modifying coreboot firmware images"
 HOMEPAGE="http://coreboot.org"
@@ -59,6 +59,7 @@ _emake() {
 }
 
 src_configure() {
+	sanitizers-setup-env
 	use static && append-ldflags -static
 	tc-export CC PKG_CONFIG
 }
