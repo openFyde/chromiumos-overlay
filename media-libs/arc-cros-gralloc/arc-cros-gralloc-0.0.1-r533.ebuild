@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="26960909ad3e1d3a9adb987735e52d39216bc242"
-CROS_WORKON_TREE="9877308b4081be9a4855744f0db68e1fa1bd0205"
+CROS_WORKON_COMMIT="f08bb293f6d9e99fd3205ea993d8a770bc16a0d5"
+CROS_WORKON_TREE="7a4a889b8e3f3ecbe1c9f7cd8b42a9f4c197f3ae"
 CROS_WORKON_PROJECT="chromiumos/platform/minigbm"
 CROS_WORKON_LOCALNAME="../platform/minigbm"
 
