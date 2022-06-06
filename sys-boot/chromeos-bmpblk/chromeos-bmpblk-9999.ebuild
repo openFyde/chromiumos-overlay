@@ -5,7 +5,6 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/bmpblk"
 CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
-CROS_WORKON_USE_VCSID="1"
 
 PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-workon python-any-r1
@@ -36,8 +35,6 @@ src_prepare() {
 		BMPBLK_BUILD_NAMES+=("${name}")
 		BMPBLK_BUILD_TARGETS+=("${bmpblk_target}")
 	done < <(cros_config_host get-firmware-build-combinations bmpblk)
-
-	export VCSID
 
 	default
 
