@@ -187,7 +187,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	app-benchmarks/microbenchmarks
 	app-benchmarks/pjdfstest
 	app-benchmarks/xfstests
-	app-misc/ckermit
 	opengles? ( app-misc/eglinfo )
 	app-misc/tmux
 	app-misc/utouch-evemu
