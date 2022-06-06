@@ -1,6 +1,5 @@
 CONFIG_VENDOR_GOOGLE=y
 CONFIG_BOARD_GOOGLE_NEREID=y
-CONFIG_GBB_FLAG_DISABLE_EC_SOFTWARE_SYNC=y
 
 # SPI Descriptor
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/nissa/descriptor-nereid.bin"
