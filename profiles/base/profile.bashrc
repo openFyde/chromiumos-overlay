@@ -158,20 +158,20 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		*/binutils:*|\
 		*/gcc:*|\
 		*/gdb:*|\
-		app-text/xmlto:*|\
+		app-text/xmlto:0.0.28|\
 		cross-*/gdb:*|\
 		dev-embedded/u-boot-tools:2018.05*|\
 		dev-libs/libffi:3.1*|\
 		dev-libs/libusb-compat:0.1.5*|\
 		dev-libs/lzo:2.10*|\
-		dev-python/grpcio:*|\
-		dev-python/psutil:*|\
+		dev-python/grpcio:1.23.0|\
+		dev-python/psutil:5.5.0|\
 		dev-util/patchutils:*|\
 		net-libs/libmnl:1.0.4*|\
 		sys-apps/groff:1.22*|\
 		sys-devel/m4:1.4.18*|\
 		sys-libs/binutils-libs:*|\
-		x11-libs/gdk-pixbuf:*) return 1;;
+		x11-libs/gdk-pixbuf:2.42.8) return 1;;
 		esac
 	}
 	_sdk_build_filter_gcc() {
@@ -180,13 +180,13 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		*/linux-headers:4*|\
 		chromeos-base/ec-utils:*|\
 		dev-embedded/u-boot-tools:2018.05*|\
-		dev-python/numpy:*|\
-		dev-util/ragel:*|\
+		dev-python/numpy:1.19.4|\
+		dev-util/ragel:6.10|\
 		net-misc/socat:1.7.3.2*|\
 		sys-boot/grub:*|\
 		sys-boot/syslinux:*|\
 		sys-libs/binutils-libs:*|\
-		sys-libs/libselinux:*) return 1;;
+		sys-libs/libselinux:3.0) return 1;;
 		esac
 	}
 	_sdk_build_filter_g++() {
@@ -208,7 +208,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-embedded/coreboot-sdk:*|\
 		dev-lang/go:*|\
 		dev-libs/nss:3.44*|\
-		dev-util/perf:*) return 1;;
+		dev-util/perf:5.15) return 1;;
 		esac
 	}
 	_sdk_build_filter_as() {
@@ -243,7 +243,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		net-misc/dhcpcd:*|\
 		net-misc/improxy:*|\
 		sys-apps/cavium-n3fips-driver:*|\
-		sys-apps/fwupd:*|\
+		sys-apps/fwupd:1.8*|\
 		sys-apps/loadpin-trigger:*|\
 		sys-apps/snaggletooth-drivers:*|\
 		sys-boot/coreboot:*|\
@@ -263,10 +263,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-kernel/chromeos-kernel-5_4:*|\
 		sys-kernel/chromeos-kernel-5_4-manatee:*|\
 		sys-kernel/chromeos-kernel-5_4-shadowkeep:*|\
-		sys-kernel/chromeos-kernel-experimental:*|\
+		sys-kernel/chromeos-kernel-experimental:4.*|\
 		sys-kernel/chromeos-kernel-falconlite-5_4:*|\
 		sys-kernel/chromeos-kernel-next:*|\
-		sys-kernel/chromeos-kernel-upstream:*|\
+		sys-kernel/chromeos-kernel-upstream:5.18|\
 		sys-kernel/dump-capture-kernel:*|\
 		sys-kernel/gasket:*|\
 		sys-kernel/gw-kernel-*:*|\
@@ -276,10 +276,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-kernel/raspberrypi-kernel:*|\
 		sys-kernel/ti-nokia-kernel:*|\
 		sys-kernel/upstream-kernel-*:*|\
-		sys-libs/efivar:*|\
-		x11-base/xwayland:*|\
+		sys-libs/efivar:37|\
+		x11-base/xwayland:1.20.8|\
 		x11-libs/arc-libdrm:*|\
-		x11-libs/cairo:*) return 1;;
+		x11-libs/cairo:1.17.4) return 1;;
 		esac
 	}
 	_board_build_filter_cc() {
@@ -309,7 +309,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-devel/binutils:*|\
 		sys-devel/gdb:*|\
 		sys-devel/m4:*|\
-		sys-fs/rar2fs:*|\
+		sys-fs/rar2fs:1.29.5|\
 		sys-libs/gcc-libs:*|\
 		sys-libs/binutils-libs:*|\
 		x11-libs/gdk-pixbuf:*) return 1;;
@@ -324,10 +324,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		chromeos-base/chromeos-ish:*|\
 		chromeos-base/ec-utils:*|\
 		dev-go/syzkaller:*|\
-		dev-python/numpy:*|\
+		dev-python/numpy:1.19.4|\
 		media-libs/arc-img-ddk:*|\
 		media-libs/img-ddk:*|\
-		media-sound/gsm:*|\
+		media-sound/gsm:1.0.13|\
 		net-fs/autofs:*|\
 		net-misc/socat:1.7.3.2*|\
 		sys-apps/cavium-n3fips-tools:*|\
@@ -343,7 +343,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-firmware/chromeos-fpmcu-release-nocturne:*|\
 		sys-fs/mdadm:4.1*|\
 		sys-kernel/linux-headers:*|\
-		sys-libs/efivar:*) return 1;;
+		sys-libs/efivar:37) return 1;;
 		esac
 	}
 	_board_build_filter_g++() {
@@ -381,7 +381,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		case ${CATEGORY}/${PN}:${PV} in
 		app-crypt/nss:3.44*|\
 		dev-libs/nss:3.44*|\
-		dev-util/perf:*|\
+		dev-util/perf:5.15|\
 		media-libs/arc-mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-bifrost:*|\
 		sys-kernel/arcvm-kernel-*:*|\
