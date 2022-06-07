@@ -1,0 +1,27 @@
+From 7ae2f8ce0362168fcf8992954e113bb5a5658da7 Mon Sep 17 00:00:00 2001
+From: Juston Li <juston.li@intel.com>
+Date: Thu, 2 Jun 2022 13:49:37 -0700
+Subject: [PATCH] CHROMIUM: disable GucSubmission for adl
+
+Currently not supported in chromeos-5.10.
+
+Signed-off-by: Juston Li <juston.li@intel.com>
+---
+ media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp b/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
+index b0dd89a38b1a..a95068210feb 100644
+--- a/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
++++ b/media_driver/linux/gen12/ddi/media_sku_wa_g12.cpp
+@@ -556,7 +556,6 @@ static bool InitAdlpMediaSku(struct GfxDeviceInfo *devInfo,
+ 
+     MEDIA_WR_SKU(skuTable, FtrE2ECompression, 0);
+     MEDIA_WR_SKU(skuTable, FtrAV1VLDLSTDecoding, 1);
+-    MEDIA_WR_SKU(skuTable, FtrGucSubmission, 1);
+ 
+     return true;
+ }
+-- 
+2.35.3
+

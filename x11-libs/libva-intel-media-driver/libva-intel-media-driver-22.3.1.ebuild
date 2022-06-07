@@ -31,6 +31,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-enable-VP8-encode-for-BXT-and-APL.patch
 	"${FILESDIR}"/0005-Revert-Media-Common-fixed-regression-about-TGL-KBL-j.patch
 	"${FILESDIR}"/0006-Revert-Media-Common-Optimization-getimage.patch
+	"${FILESDIR}"/0007-CHROMIUM-disable-GucSubmission-for-adl.patch
 )
 
 src_configure() {
