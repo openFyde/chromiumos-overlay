@@ -29,6 +29,8 @@ PATCHES=(
 	"${FILESDIR}"/0002-change-slice-header-prefix-for-AVC-Vdenc.patch
 	"${FILESDIR}"/0003-Disable-Media-Memory-Compression-MMC-on-ADL.patch
 	"${FILESDIR}"/0004-enable-VP8-encode-for-BXT-and-APL.patch
+	"${FILESDIR}"/0005-Revert-Media-Common-fixed-regression-about-TGL-KBL-j.patch
+	"${FILESDIR}"/0006-Revert-Media-Common-Optimization-getimage.patch
 )
 
 src_configure() {
