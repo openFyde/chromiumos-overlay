@@ -9,7 +9,7 @@ CROS_WORKON_EGIT_BRANCH=("chromeos-v2020.01" "master")
 VBOOT_REFERENCE_DESTDIR="${S}/vboot_reference"
 CROS_WORKON_DESTDIR=("${S}" "${VBOOT_REFERENCE_DESTDIR}")
 
-inherit toolchain-funcs flag-o-matic cros-workon cros-unibuild
+inherit toolchain-funcs flag-o-matic cros-workon cros-unibuild cros-sanitizers
 
 DESCRIPTION="Das U-Boot boot loader"
 HOMEPAGE="http://www.denx.de/wiki/U-Boot"
@@ -74,6 +74,8 @@ umake() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+
 	local config
 
 	export LDFLAGS=$(raw-ldflags)

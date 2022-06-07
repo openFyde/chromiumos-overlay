@@ -35,8 +35,13 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 )
 
-inherit cros-workon cros-ec-release
+inherit cros-workon cros-ec-release cros-sanitizers
 
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
