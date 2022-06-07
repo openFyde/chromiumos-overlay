@@ -17,6 +17,11 @@ if [ "$bt_offload" = "true" ]; then
     experimental="${experimental},a6695ace-ee7f-4fb9-881a-5fac66c629af"
 fi
 
+ll_privacy_file="/var/lib/bluetooth/bluetooth-llprivacy.experimental"
+if grep -q "enable" "${ll_privacy_file}"; then
+    experimental="${experimental},15c0a148-c273-11ea-b3de-0242ac130004"
+fi
+
 # Make a copy of main.conf to /var to make it editable
 var_conf_file="/var/lib/bluetooth/main.conf"
 cp "${conf_file}" "${var_conf_file}"
