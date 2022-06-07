@@ -23,7 +23,7 @@ RDEPEND="${DEPEND}"
 PATCHES=(
 	"${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
 	"${FILESDIR}"/${PN}-20.4.1_custom_cflags.patch
-	"${FILESDIR}"/0001-RPL-DIDs.patch
+	"${FILESDIR}"/0001-BACKPORT-Add-RPL-P-DIDs-98.patch
 )
 
 multilib_src_configure() {
