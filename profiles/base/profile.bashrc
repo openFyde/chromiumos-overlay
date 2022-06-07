@@ -222,7 +222,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		app-benchmarks/lmbench:3.0*|\
 		app-emulation/docker:*|\
 		app-text/ghostscript-gpl:*|\
-		chromeos-base/autotest-tests-lakitu:*|\
 		media-libs/arc-cros-gralloc:*|\
 		media-libs/arc-img-ddk:*|\
 		media-libs/arc-mali-drivers:*|\
@@ -241,11 +240,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		net-analyzer/wireshark:*|\
 		net-dns/dnsmasq:2.85*|\
 		net-misc/dhcpcd:*|\
-		net-misc/improxy:*|\
-		sys-apps/cavium-n3fips-driver:*|\
 		sys-apps/fwupd:1.8*|\
-		sys-apps/loadpin-trigger:*|\
-		sys-apps/snaggletooth-drivers:*|\
 		sys-boot/coreboot:*|\
 		sys-boot/depthcharge:*|\
 		sys-boot/loonix-u-boot:*|\
@@ -255,7 +250,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-kernel/arcvm-kernel-*:*|\
 		sys-kernel/chromeos-kernel-4_14:*|\
 		sys-kernel/chromeos-kernel-4_19:*|\
-		sys-kernel/chromeos-kernel-4_19-ht:*|\
 		sys-kernel/chromeos-kernel-4_4:*|\
 		sys-kernel/chromeos-kernel-5_10:*|\
 		sys-kernel/chromeos-kernel-5_10-cros:*|\
@@ -264,14 +258,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-kernel/chromeos-kernel-5_4-manatee:*|\
 		sys-kernel/chromeos-kernel-5_4-shadowkeep:*|\
 		sys-kernel/chromeos-kernel-experimental:4.*|\
-		sys-kernel/chromeos-kernel-falconlite-5_4:*|\
 		sys-kernel/chromeos-kernel-next:*|\
 		sys-kernel/chromeos-kernel-upstream:5.18|\
-		sys-kernel/dump-capture-kernel:*|\
 		sys-kernel/gasket:*|\
-		sys-kernel/gw-kernel-*:*|\
 		sys-kernel/kernel-beaglebone-*:*|\
-		sys-kernel/lakitu-kernel-*:*|\
 		sys-kernel/loonix-kernel-*:*|\
 		sys-kernel/raspberrypi-kernel:*|\
 		sys-kernel/ti-nokia-kernel:*|\
@@ -297,9 +287,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		net-libs/libnetfilter_cttimeout:*|\
 		net-libs/libnetfilter_queue:*|\
 		net-libs/libnfnetlink:*|\
-		net-misc/nldaemon:*|\
-		net-wireless/openthread:*|\
-		net-wireless/ot-br-posix:*|\
 		sys-apps/groff:*|\
 		sys-apps/kbd:*|\
 		sys-apps/ureadahead:*|\
@@ -330,12 +317,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-sound/gsm:1.0.13|\
 		net-fs/autofs:*|\
 		net-misc/socat:1.7.3.2*|\
-		sys-apps/cavium-n3fips-tools:*|\
 		sys-block/blktrace:*|\
 		sys-boot/chromeos-mrc:*|\
 		sys-boot/coreboot:*|\
 		sys-boot/depthcharge:*|\
-		sys-boot/grub-lakitu:*|\
 		sys-boot/syslinux:*|\
 		sys-firmware/chromeos-fpmcu-release-bloonchipper:*|\
 		sys-firmware/chromeos-fpmcu-release-dartmonkey:*|\
@@ -386,8 +371,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-libs/mali-drivers-bifrost:*|\
 		sys-kernel/arcvm-kernel-*:*|\
 		sys-kernel/chromeos-kernel-*:*|\
-		sys-kernel/dump-capture-kernel:*|\
-		sys-kernel/lakitu-kernel-*:*|\
 		sys-kernel/raspberrypi-kernel:*|\
 		sys-kernel/upstream-kernel-*:*|\
 		sys-libs/gcc-libs:*) return 1;;
@@ -396,7 +379,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	_board_build_filter_as() {
 		case ${CATEGORY}/${PN}:${PV} in
 		dev-embedded/coreboot-sdk:*|\
-		net-misc/nldaemon:*|\
 		sys-boot/coreboot:*) return 1;;
 		esac
 	}
