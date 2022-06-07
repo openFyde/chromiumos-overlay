@@ -406,6 +406,7 @@ ALL_BOARDS=(
 	rammus-arc-r-userdebug
 	#raspberrypi
 	reef
+	reef-arc-r
 	relm
 	reks
 	#reptile
