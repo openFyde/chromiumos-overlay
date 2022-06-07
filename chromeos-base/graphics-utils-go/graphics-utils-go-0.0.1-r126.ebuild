@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2ec37588d5f2b8d10d86294caff4929e473f85f5"
-CROS_WORKON_TREE="e3bec0b632d00213339c3b0da8dd7b438461424f"
+CROS_WORKON_COMMIT="7a90e4dc8e5a9122ac5aff93cab4457f512de77f"
+CROS_WORKON_TREE="569d2e96c43643a143d081a3ae67824acaf9c002"
 CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
 
@@ -11,6 +11,7 @@ INSTALL_DIR="/usr/local/graphics"
 
 CROS_GO_BINARIES=(
 	# Add more apps here.
+	"hardware_probe/cmd/hardware_probe:${INSTALL_DIR}/hardware_probe"
 	"platform_decoding/cmd/ffmpeg_md5sum:${INSTALL_DIR}/ffmpeg_md5sum"
 	"platform_decoding/cmd/validate:${INSTALL_DIR}/validate"
 	"sanity/cmd/pass:${INSTALL_DIR}/pass"
@@ -23,6 +24,7 @@ CROS_GO_BINARIES=(
 )
 
 CROS_GO_TEST=(
+	"hardware_probe/cmd/hardware_probe"
 	"platform_decoding/cmd/validate"
 	"sanity/cmd/pass"
 	"trace_profiling/cmd/analyze"
