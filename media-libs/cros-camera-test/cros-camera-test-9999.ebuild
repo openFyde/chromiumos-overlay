@@ -37,4 +37,5 @@ DEPEND="${RDEPEND}
 src_install() {
 	platform_src_install
 	dobin "${OUT}/cros_camera_test"
+	dolib.so "${OUT}/lib/libfake_date_time.so"
 }
