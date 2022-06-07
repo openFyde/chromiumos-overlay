@@ -800,6 +800,11 @@ setup_compile_flags() {
 	# https://crbug.com/889079
 	use arm && filter-flags "-Wl,--fix-cortex-a53-843419"
 
+	# Chrome is expected to have its own sanitizer story independent of our
+	# $CFLAGS. Since we set `use_asan` and similar in `args.gn`, filter any
+	# sanitizers out here.
+	filter-flags '-fsanitize=*' '-fsanitize-trap=*'
+
 	# There are some flags we want to only use in the ebuild.
 	# The rest will be exported to the simple chrome workflow.
 	EBUILD_CFLAGS=()
