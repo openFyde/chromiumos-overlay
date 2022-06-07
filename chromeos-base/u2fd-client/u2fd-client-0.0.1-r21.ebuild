@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="31834abfce165468c8ba84d3359b131d47d83acf"
-CROS_WORKON_TREE=("dee5f80eb79f31c1942b7692d88b8faf1e05f2b3" "8d334e13ee768ae278f11b187eb68d647931dea3" "83ef514dc9e57377e156412c5e51b8e3e8ef1560" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="06d464f8e6bb1be042296479e43579598f7100f6"
+CROS_WORKON_TREE=("dee5f80eb79f31c1942b7692d88b8faf1e05f2b3" "8d334e13ee768ae278f11b187eb68d647931dea3" "75ee87d5d804d734bef853a66e3e32d5e58cdc86" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,9 +21,12 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/cli
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cr50_onboard ti50_onboard"
+IUSE="fuzzer cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
+	fuzzer? (
+		chromeos-base/trunks:=
+	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
 	)

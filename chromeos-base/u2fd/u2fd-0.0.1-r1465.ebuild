@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="31834abfce165468c8ba84d3359b131d47d83acf"
-CROS_WORKON_TREE=("dee5f80eb79f31c1942b7692d88b8faf1e05f2b3" "8d334e13ee768ae278f11b187eb68d647931dea3" "4d263f9322562d3c469f0baca28028aaac92390e" "7226e3910790963c0810793db376ae53c9a32be5" "5587ba130f4f8585cd1df3d775cf8eb4ef191bf6" "83ef514dc9e57377e156412c5e51b8e3e8ef1560" "2e09cf3f2ed400689e21e82aa8a6d9d4123e0661" "4d263f9322562d3c469f0baca28028aaac92390e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="06d464f8e6bb1be042296479e43579598f7100f6"
+CROS_WORKON_TREE=("dee5f80eb79f31c1942b7692d88b8faf1e05f2b3" "8d334e13ee768ae278f11b187eb68d647931dea3" "4d263f9322562d3c469f0baca28028aaac92390e" "7226e3910790963c0810793db376ae53c9a32be5" "5587ba130f4f8585cd1df3d775cf8eb4ef191bf6" "75ee87d5d804d734bef853a66e3e32d5e58cdc86" "2e09cf3f2ed400689e21e82aa8a6d9d4123e0661" "4d263f9322562d3c469f0baca28028aaac92390e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -26,6 +26,9 @@ IUSE="fuzzer tpm cr50_onboard ti50_onboard"
 COMMON_DEPEND="
 	tpm? (
 		app-crypt/trousers:=
+	)
+	fuzzer? (
+		chromeos-base/trunks:=
 	)
 	cr50_onboard? (
 		chromeos-base/trunks:=
@@ -76,17 +79,15 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
 
-	if use cr50_onboard || use ti50_onboard; then
-		local fuzzer_component_id="1188704"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
-			--comp "${fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
-			--comp "${fuzzer_component_id}"
-	fi
+	local fuzzer_component_id="1188704"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_msg_handler_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_webauthn_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
