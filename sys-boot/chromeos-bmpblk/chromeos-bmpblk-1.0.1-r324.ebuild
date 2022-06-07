@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="../platform/bmpblk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
 PYTHON_COMPAT=( python3_{6..9} )
-inherit cros-workon python-any-r1
+inherit cros-workon python-r1
 
 DESCRIPTION="Chrome OS Firmware Bitmap Block"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
@@ -19,7 +19,8 @@ KEYWORDS="*"
 IUSE="detachable physical_presence_power physical_presence_recovery unibuild"
 REQUIRED_USE="unibuild"
 
-BDEPEND="${PYTHON_DEPS}"
+BDEPEND="${PYTHON_DEPS}
+	dev-python/pillow[${PYTHON_USEDEP}]"
 DEPEND="chromeos-base/chromeos-config:="
 
 BMPBLK_BUILD_NAMES=()
