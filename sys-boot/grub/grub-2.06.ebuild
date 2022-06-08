@@ -1,7 +1,7 @@
 # Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 
 inherit bash-completion-r1 eutils toolchain-funcs multiprocessing
 
@@ -21,13 +21,17 @@ export STRIP_MASK="*.img *.mod *.module"
 PLATFORMS=( "efi" "pc" )
 TARGETS=( "i386" "x86_64" )
 
+PATCHES=(
+	"${FILESDIR}/0001-Forward-port-ChromeOS-specific-GRUB-environment-vari.patch"
+	"${FILESDIR}/0002-Forward-port-gptpriority-command-to-GRUB-2.00.patch"
+	"${FILESDIR}/0003-Add-configure-option-to-reduce-visual-clutter-at-boo.patch"
+	"${FILESDIR}/0004-configure-Remove-obsoleted-malign-jumps-loops-functions.patch"
+	"${FILESDIR}/0005-configure-Check-for-falign-jumps-1-beside-falign-loops-1.patch"
+	"${FILESDIR}/0006-configure-replace-wl-r-d-fno-common.patch"
+)
+
 src_prepare() {
-	epatch "${FILESDIR}/0001-Forward-port-ChromeOS-specific-GRUB-environment-vari.patch"
-	epatch "${FILESDIR}/0002-Forward-port-gptpriority-command-to-GRUB-2.00.patch"
-	epatch "${FILESDIR}/0003-Add-configure-option-to-reduce-visual-clutter-at-boo.patch"
-	epatch "${FILESDIR}/configure-Remove-obsoleted-malign-jumps-loops-functions.patch"
-	epatch "${FILESDIR}/configure-Check-for-falign-jumps-1-beside-falign-loops-1.patch"
-	epatch "${FILESDIR}/configure-replace-wl-r-d-fno-common.patch"
+	default
 
 	bash autogen.sh || die
 }
