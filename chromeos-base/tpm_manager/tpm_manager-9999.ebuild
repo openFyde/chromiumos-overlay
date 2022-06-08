@@ -38,7 +38,7 @@ RDEPEND="
 	tpm2_simulator? ( chromeos-base/tpm2-simulator:= )
 	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/minijail
-	chromeos-base/libhwsec
+	chromeos-base/libhwsec[test?]
 	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client
@@ -91,7 +91,7 @@ src_install() {
 
 	# Install seccomp policy files.
 	insinto /usr/share/policy
-	newins server/tpm_managerd-seccomp-${ARCH}.policy tpm_managerd-seccomp.policy
+	newins "server/tpm_managerd-seccomp-${ARCH}.policy" tpm_managerd-seccomp.policy
 
 	# Install fuzzer.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer

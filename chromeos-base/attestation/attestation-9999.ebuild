@@ -34,6 +34,7 @@ RDEPEND="
 		chromeos-base/trunks:=
 	)
 	chromeos-base/chaps:=
+	chromeos-base/libhwsec:=[test?]
 	chromeos-base/libhwsec-foundation:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -44,7 +45,6 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
-	test? ( chromeos-base/libhwsec:= )
 	chromeos-base/vboot_reference:=
 	tpm2? (
 		chromeos-base/trunks:=[test?]

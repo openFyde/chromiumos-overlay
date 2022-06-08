@@ -8,7 +8,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation tpm_manager tpm2-simulator trunks .gn"
 
 PLATFORM_SUBDIR="libhwsec"
 
@@ -30,6 +30,10 @@ COMMON_DEPEND="
 	fuzzer? (
 		app-crypt/trousers:=
 		chromeos-base/trunks:=
+	)
+	test? (
+		chromeos-base/trunks:=[test]
+		chromeos-base/tpm2-simulator:=[test]
 	)
 "
 
