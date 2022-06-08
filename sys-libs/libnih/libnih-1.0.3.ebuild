@@ -29,6 +29,9 @@ PATCHES=(
 	"${FILESDIR}"/${P}-fno-common.patch
 	"${FILESDIR}"/${P}-expat-2.2.5.patch
 	"${FILESDIR}"/${P}-glibc-2.24.patch
+	"${FILESDIR}"/${P}-fix-assert-not-reach-logic.patch
+	"${FILESDIR}"/${P}-fix-test-to-reflect-changes-in-outputs.patch
+	"${FILESDIR}"/${P}-test_main-Disable-textdomain-test.patch
 )
 
 src_prepare() {
@@ -52,4 +55,12 @@ src_install() {
 	# we need to be in / because upstart needs libnih
 	gen_usr_ldscript -a nih "$(use dbus && echo nih-dbus)"
 	use static-libs || rm "${ED}/usr/$(get_libdir)/*.la"
+}
+
+src_test() {
+	if ! use x86 && ! use amd64; then
+		ewarn "Skipping unittests for non-native arches"
+		return
+	fi
+	default
 }
