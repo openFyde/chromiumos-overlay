@@ -35,7 +35,7 @@ COMMON_DEPEND="
 	sys-apps/dtc:=
 	sys-libs/libcap:=
 	crosvm-video-ffmpeg? ( media-video/ffmpeg )
-	chromeos-base/libvda:=
+	crosvm-video-libvda? ( chromeos-base/libvda )
 	chromeos-base/minijail:=
 	dev-libs/wayland:=
 	crosvm-gpu? (
