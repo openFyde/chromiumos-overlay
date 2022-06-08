@@ -83,6 +83,9 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha:=
 	virtual/bindgen:=
 	x11-drivers/opengles-headers:=
+	=dev-rust/cfg-if-1.0.0:=
+	=dev-rust/jobserver-0.1.16:=
+	=dev-rust/tokio-1*:=
 "
 
 BDEPEND="
@@ -110,7 +113,9 @@ src_configure() {
 src_compile() {
 	export MESON_BUILD_DIR="${WORKDIR}/${P}-build"
 	meson_src_compile
-	ecargo_build -v -p croscomp
+	ecargo_build -v \
+		-p croscomp \
+		|| die "cargo build failed"
 }
 
 src_install() {
