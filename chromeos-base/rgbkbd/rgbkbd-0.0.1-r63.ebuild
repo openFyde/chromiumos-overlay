@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7e02589e6df2ce8cf1f5888ad33e0b97b1050091"
+CROS_WORKON_COMMIT="6f63c854e54e3e7b455d96a53b4462315a2d113d"
 CROS_WORKON_TREE=("cc342ff992f6cfa736838b5efe4a1e94126e5893" "62239ee6be209d3e3a8c98f94d97f5b10a704017" "acd32fbc2ce5909d3b5cad22928b34bcc10b86c7" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,6 +31,8 @@ DEPEND="
 "
 
 pkg_preinst() {
+	# Ensure that this group exists so that rgbkbd can access /dev/cros_ec.
+	enewgroup "cros_ec-access"
 	# Create user and group for RGBKBD.
 	enewuser "rgbkbd"
 	enewgroup "rgbkbd"
