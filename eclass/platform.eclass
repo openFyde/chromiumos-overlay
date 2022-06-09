@@ -14,7 +14,7 @@
 # @ECLASS-VARIABLE: WANT_LIBCHROME
 # @DESCRIPTION:
 # Set to yes if the package needs libchrome.
-: ${WANT_LIBCHROME:="yes"}
+: "${WANT_LIBCHROME:=yes}"
 
 # @ECLASS-VARIABLE: WANT_LIBBRILLO
 # @DESCRIPTION:
@@ -28,17 +28,17 @@
 # @ECLASS-VARIABLE: PLATFORM_NATIVE_TEST
 # @DESCRIPTION:
 # If set to yes, run the test only for amd64 and x86.
-: ${PLATFORM_NATIVE_TEST:="no"}
+: "${PLATFORM_NATIVE_TEST:=no}"
 
 # @ECLASS-VARIABLE: PLATFORM_BUILD
 # @DESCRIPTION:
 # Indicates whether this is a platform build by setting a non-empty value.
-: "${PLATFORM_BUILD:="1"}"
+: "${PLATFORM_BUILD:=1}"
 
 # @ECLASS-VARIABLE: PLATFORM_ARC_BUILD
 # @DESCRIPTION:
 # Set to yes if the package is built by ARC toolchain.
-: ${PLATFORM_ARC_BUILD:="no"}
+: "${PLATFORM_ARC_BUILD:=no}"
 
 # @ECLASS-VARIABLE: OUT
 # @DESCRIPTION:
@@ -87,6 +87,7 @@ platform_gen_compilation_database() {
 
 	ninja -C "${OUT}" -t compdb cc cxx > "${db_chroot}" || die
 
+	# shellcheck disable=SC2154
 	local ext_chroot_path="${EXTERNAL_TRUNK_PATH}/chroot"
 
 	# Make relative include paths absolute.
@@ -142,8 +143,10 @@ platform() {
 	local libdir="/usr/$(get_libdir)"
 	local cache_dir="$(cros-workon_get_build_dir)"
 	if [[ ${PLATFORM_ARC_BUILD} == "yes" ]]; then
+		# shellcheck disable=SC2154
 		export SYSROOT="${ARC_SYSROOT}"
 		libdir="/vendor/$(get_libdir)"
+		# shellcheck disable=SC2154
 		cache_dir="${BUILD_DIR}"
 	fi
 	if [[ "${WANT_LIBCHROME}" == "yes" || -n "${IS_LIBCHROME}" ]]; then
@@ -151,29 +154,22 @@ platform() {
 	fi
 	local cmd=(
 		"${platform2_py}"
-		$(platform_get_target_args)
 		--libdir="${libdir}"
 		--use_flags="${USE}"
-		--jobs=$(makeopts_jobs)
+		--jobs="$(makeopts_jobs)"
 		--action="${action}"
 		--cache_dir="${cache_dir}"
 		--platform_subdir="${PLATFORM_SUBDIR}"
 		"$@"
 	)
+	if use cros_host; then
+		cmd+=( --host )
+	fi
 	if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" != "1" ]]; then
 		cmd+=( --disable_incremental )
 	fi
 	"${cmd[@]}" || die
 	# The stdout from this function used in platform_install
-}
-
-platform_get_target_args() {
-	if use cros_host; then
-		echo "--host"
-	else
-		# Avoid --board as we have all the vars we need in the env.
-		:
-	fi
 }
 
 platform_is_native() {
@@ -207,11 +203,6 @@ platform_test() {
 	local native_gtest_filter="$4"
 	local qemu_gtest_filter="$5"
 
-	local run_as_root_flag=""
-	if [[ "${run_as_root}" == "1" ]]; then
-		run_as_root_flag="--run_as_root"
-	fi
-
 	local gtest_filter
 	platform_is_native \
 		&& gtest_filter=${native_gtest_filter} \
@@ -220,10 +211,14 @@ platform_test() {
 	local cmd=(
 		"${platform2_test_py}"
 		--action="${action}"
-		$(platform_get_target_args)
 		--sysroot="${SYSROOT}"
-		${run_as_root_flag}
 	)
+	if use cros_host; then
+		cmd+=( --host )
+	fi
+	if [[ "${run_as_root}" == "1" ]]; then
+		cmd+=( --run_as_root )
+	fi
 
 	# Only add these options if they're specified ... leads to cleaner output
 	# for developers to read.
@@ -313,10 +308,10 @@ platform_install_dbus_client_lib() {
 
 	# Install pkg-config for client libraries.
 	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
-		"${OUT}" lib${libname}-client "${client_includes}" ||
+		"${OUT}" "lib${libname}-client" "${client_includes}" ||
 		die "Error generating lib${libname}-client.pc file"
 	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
-		"${OUT}" lib${libname}-client-test "${client_test_includes}" ||
+		"${OUT}" "lib${libname}-client-test" "${client_test_includes}" ||
 		die "Error generating lib${libname}-client-test.pc file"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}/lib${libname}-client.pc"
