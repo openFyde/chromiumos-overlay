@@ -111,6 +111,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
 	dev-rust/winapi:=
 	>=dev-rust/windows-0.10.0:= <dev-rust/windows-0.11
+	dev-rust/wio:=
 	dev-rust/wmi:=
 	media-sound/libcras:=
 	tpm2? (
