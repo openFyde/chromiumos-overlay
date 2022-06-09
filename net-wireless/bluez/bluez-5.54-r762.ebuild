@@ -7,8 +7,8 @@ EAPI="7"
 # projects are declared. During emerge, both project sources are copied to
 # their respective destination directories, and one is chosen as the
 # "working directory" in src_unpack() below based on bluez-next USE flag.
-CROS_WORKON_COMMIT=("a84942c2e01fd49f5c365109f35ec01ca02aebd9" "a84942c2e01fd49f5c365109f35ec01ca02aebd9" "ab31e2f7e828df3d971cba6f12859edc69f149d5")
-CROS_WORKON_TREE=("958dbce4b69674465d377db8971fc95de1c76df6" "958dbce4b69674465d377db8971fc95de1c76df6" "65ce0c95a8ead5de3b8cce530efe949869f60bd2")
+CROS_WORKON_COMMIT=("3a867b406b090a89104470258f5d662f6f9ec750" "3a867b406b090a89104470258f5d662f6f9ec750" "ab31e2f7e828df3d971cba6f12859edc69f149d5")
+CROS_WORKON_TREE=("af625aa906d85e20aae40254fa8013f44727e89d" "af625aa906d85e20aae40254fa8013f44727e89d" "65ce0c95a8ead5de3b8cce530efe949869f60bd2")
 CROS_WORKON_LOCALNAME=("bluez/current" "bluez/next" "bluez/upstream")
 CROS_WORKON_PROJECT=("chromiumos/third_party/bluez" "chromiumos/third_party/bluez" "chromiumos/third_party/bluez")
 CROS_WORKON_OPTIONAL_CHECKOUT=(
@@ -27,7 +27,9 @@ HOMEPAGE="http://www.bluez.org/"
 
 LICENSE="GPL-2 LGPL-2.1"
 KEYWORDS="*"
-IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools bluez_default_conn_int"
+IUSE="asan bluez-next bluez-upstream cups debug fuzzer hid2hci systemd readline bt_deprecated_tools"
+IUSE="${IUSE} bluez_default_conn_int"		# b/219537522
+IUSE="${IUSE} bluez_disallow_bqr"		# b/231741170
 REQUIRED_USE="?? ( bluez-next bluez-upstream )"
 
 CDEPEND="
@@ -160,6 +162,13 @@ src_install() {
 		sed -i 's/MinConnectionInterval/#MinConnectionInterval/g' main.conf
 		sed -i 's/MaxConnectionInterval/#MaxConnectionInterval/g' main.conf
 	fi
+
+	# Temporary fix for b/231741170: don't enable BQR on specific platforms
+	# to prevent device can't suspend issue.
+	if use bluez_disallow_bqr; then
+		sed -i 's/#DisallowBQR/DisallowBQR/g' main.conf
+	fi
+
 	insinto "/etc/bluetooth"
 	doins main.conf
 	doins "${FILESDIR}/input.conf"
