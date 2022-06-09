@@ -68,7 +68,7 @@ RESTRICT="binchecks strip"
 # Disable warnings for executable stack.
 QA_EXECSTACK="*"
 
-inherit cros-workon toolchain-funcs coreboot-sdk
+inherit cros-workon toolchain-funcs coreboot-sdk cros-sanitizers
 
 LIBPAYLOAD_BUILD_NAMES=()
 LIBPAYLOAD_BUILD_TARGETS=()
@@ -79,6 +79,8 @@ src_unpack() {
 }
 
 src_configure() {
+	sanitizers-setup-env
+
 	local name
 	local target
 

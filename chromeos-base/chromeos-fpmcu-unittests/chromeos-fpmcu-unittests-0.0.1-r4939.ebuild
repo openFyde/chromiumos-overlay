@@ -24,7 +24,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/third_party/cryptoc"
 )
 
-inherit coreboot-sdk cros-ec cros-workon
+inherit coreboot-sdk cros-ec cros-workon cros-sanitizers
 
 DESCRIPTION="ChromeOS fingerprint MCU unittest binaries"
 KEYWORDS="*"
@@ -35,6 +35,11 @@ BDEPEND=">=chromeos-base/chromeos-config-host-0.0.2"
 get_target_boards() {
 	# TODO(yichengli): Add other FPMCUs once the test lab has them.
 	EC_BOARDS=("bloonchipper")
+}
+
+src_configure() {
+	sanitizers-setup-env
+	default
 }
 
 src_compile() {

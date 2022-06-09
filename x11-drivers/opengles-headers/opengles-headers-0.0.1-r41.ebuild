@@ -7,7 +7,7 @@ CROS_WORKON_TREE="b361c5863ff03785be5f24968c25fa6a69bf4465"
 CROS_WORKON_PROJECT="chromiumos/third_party/khronos"
 CROS_WORKON_LOCALNAME="khronos"
 
-inherit cros-workon
+inherit cros-workon cros-sanitizers
 
 DESCRIPTION="OpenGL|ES headers."
 HOMEPAGE="http://www.khronos.org/opengles/2_X/"
@@ -26,6 +26,11 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 "
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
 
 src_install() {
 	# headers
