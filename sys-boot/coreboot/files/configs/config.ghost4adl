@@ -10,8 +10,7 @@ CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/brya/csme-ghost4adl.bin"
 CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/brya/me_rw-ghost4adl.bin"
 
 # Video Blob
-# TODO(b/234798623): Should make a vbt_ghost4adl.bin
-CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt.bin"
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt-ghost4adl.bin"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-ghost4adl.bin"
