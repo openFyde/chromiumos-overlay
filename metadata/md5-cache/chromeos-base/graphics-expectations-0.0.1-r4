@@ -1,14 +1,12 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=info install setup unpack
-DEPEND=x11-libs/libX11 >=dev-util/opencl-headers-2021.04.29 dev-util/spirv-headers
-DESCRIPTION=OpenGL|ES headers.
+DESCRIPTION=Installs shared expectations for graphics tests.
 EAPI=7
-HOMEPAGE=http://www.khronos.org/opengles/2_X/
-IUSE=cros_host cros_workon_tree_b361c5863ff03785be5f24968c25fa6a69bf4465
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/graphics/
+IUSE=cros_host cros_workon_tree_0aba3652238a0b6cc3d7eadc97234b5d32137615
 KEYWORDS=*
-LICENSE=SGI-B-2.0
+LICENSE=BSD-Google
 PROPERTIES=live
-RDEPEND=x11-libs/libX11 >=dev-util/opencl-headers-2021.04.29 dev-util/spirv-headers
-SLOT=0/0.0.1-r40
+SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=bb4e3d800cab978332d4226e3d0fdcc6
+_md5_=b08fb54b4ec52583bf8d2e8ee3ca2df3
