@@ -76,10 +76,14 @@ REQUIRED_USE="unibuild"
 # Make sure we don't use SDK gcc anymore.
 REQUIRED_USE+=" coreboot-sdk"
 
-# coreboot's build system handles stripping the binaries and producing a
-# separate .debug file with the symbols. This flag prevents portage from
-# stripping the .debug symbols
-RESTRICT="strip"
+# Disable binary checks for PIE and relative relocatons.
+# Don't strip to ease remote GDB use (cbfstool strips final binaries anyway).
+# This is only okay because this ebuild only installs files into
+# ${SYSROOT}/firmware, which is not copied to the final system image.
+RESTRICT="binchecks strip"
+
+# Disable warnings for executable stack.
+QA_EXECSTACK="*"
 
 DEPEND="
 	coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= )
