@@ -107,7 +107,8 @@ src_test() {
 }
 
 src_install() {
-	export BASE_VER="$(cat BASE_VER)"
+	platform_install
+
 	dolib.so "${OUT}"/lib/libbase*.so
 	dolib.a "${OUT}"/libbase*.a
 
@@ -160,48 +161,6 @@ src_install() {
 		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
-
-	insinto /usr/include/libchrome/base/test
-	doins \
-		base/test/bind.h \
-		base/test/mock_callback.h \
-		base/test/scoped_chromeos_version_info.h \
-		base/test/scoped_feature_list.h \
-		base/test/scoped_running_on_chromeos.h \
-		base/test/scoped_run_loop_timeout.h \
-		base/test/simple_test_clock.h \
-		base/test/simple_test_tick_clock.h \
-		base/test/task_environment.h \
-		base/test/test_file_util.h \
-		base/test/test_future.h \
-		base/test/test_mock_time_task_runner.h \
-		base/test/test_pending_task.h \
-		base/test/test_switches.h \
-		base/test/test_timeouts.h \
-
-	if use crypto; then
-		insinto /usr/include/libchrome/crypto
-		doins \
-			crypto/crypto_export.h \
-			crypto/hmac.h \
-			crypto/libcrypto-compat.h \
-			crypto/nss_key_util.h \
-			crypto/nss_util.h \
-			crypto/nss_util_internal.h \
-			crypto/openssl_util.h \
-			crypto/p224.h \
-			crypto/p224_spake.h \
-			crypto/random.h \
-			crypto/rsa_private_key.h \
-			crypto/scoped_nss_types.h \
-			crypto/scoped_openssl_types.h \
-			crypto/scoped_test_nss_db.h \
-			crypto/secure_hash.h \
-			crypto/secure_util.h \
-			crypto/sha2.h \
-			crypto/signature_creator.h \
-			crypto/signature_verifier.h
-	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
@@ -279,7 +238,4 @@ src_install() {
 		# insinto /usr/share/libchrome/mojom_type_mappings_typemapping
 		# doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
 	# fi
-
-	insinto /usr/share/libchrome
-	doins BASE_VER
 }
