@@ -3484,5 +3484,19 @@
             "from": 459639,
             "until": 461546
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[AArch64] Set maximum VF with shouldMaximizeVectorBandwidth\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/42ebfa8269470e6b1fe2de996d3f1db6d142e16a.patch",
+        "version_range": {
+            "from": 458507,
+            "until": 458807
+        }
     }
 ]
