@@ -11,20 +11,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 
 inherit cros-fuzzer cros-rust cros-workon user
 
-PREBUILT_VERSION="r0001"
-KERNEL_FILE="crosvm-testing-bzimage-x86_64-${PREBUILT_VERSION}"
-ROOTFS_FILE="crosvm-testing-rootfs-x86_64-${PREBUILT_VERSION}"
-
-PREBUILT_URL="https://storage.googleapis.com/chromeos-localmirror"
-
 DESCRIPTION="Utility for running VMs on Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
-SRC_URI="
-	test? (
-		${PREBUILT_URL}/${KERNEL_FILE}
-		${PREBUILT_URL}/${ROOTFS_FILE}
-	)
-"
 
 # 'Apache-2.0' and 'BSD-vmm_vhost' are for third_party/vmm_vhost.
 LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
@@ -234,21 +222,6 @@ src_test() {
 	# io_jail tests fork the process, which cause memory leak errors when
 	# run under sanitizers.
 	cros-rust_use_sanitizers && test_opts+=(--exclude io_jail)
-
-	# Pass kernel/rootfs prebuilts to integration tests.
-	# See crosvm/integration_tests/README.md for details.
-	export CROSVM_CARGO_TEST_PREBUILT_VERSION="${PREBUILT_VERSION}"
-	local kernel_binary="${DISTDIR}/${KERNEL_FILE}"
-	[[ -e "${kernel_binary}" ]] || die "expected to find kernel binary at ${kernel_binary}"
-	CROS_RUST_PLATFORM_TEST_ARGS+=(
-		"--env" "CROSVM_CARGO_TEST_KERNEL_BINARY=${kernel_binary}"
-	)
-
-	local rootfs_image="${DISTDIR}/${ROOTFS_FILE}"
-	[[ -e "${rootfs_image}" ]] || die "expected to find rootfs image at ${rootfs_image}"
-	CROS_RUST_PLATFORM_TEST_ARGS+=(
-		"--env" "CROSVM_CARGO_TEST_ROOTFS_IMAGE=${rootfs_image}"
-	)
 
 	# kernel versions between 5.1 and 5.10 have io_uring bugs, skip the io_uring
 	# integration test on these platforms.  See b/189879899
