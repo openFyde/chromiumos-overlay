@@ -60,3 +60,9 @@ pkg_setup() {
 	enewgroup hiberman
 	cros-rust_pkg_setup
 }
+
+pkg_preinst() {
+	local mnt_dir="${ROOT}/mnt/hibernate"
+	[[ -d "{mnt_dir}" ]] || \
+		install -d --mode=0700 --owner=hiberman --group=hiberman "${mnt_dir}"
+}
