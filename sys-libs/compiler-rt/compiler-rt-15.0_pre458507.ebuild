@@ -76,11 +76,9 @@ src_configure() {
 		# Use vfpv3 to be able to target non-neon targets
 		append-flags -mfpu=vfpv3
 	elif [[ ${CTARGET} == armv7m* ]]; then
-		# Some of the arm32 assembly builtins in compiler-rt need vfpv2.
-		# Passing this flag should not be required but currently
-		# upstream compiler-rt's cmake config does not provide a way to
-		# exclude these asm files.
-		append-flags -Wa,-mfpu=vfpv2
+		# b/234507656: Specify FPU to indicate hardware floating point is
+		# available.
+		append-flags -mfpu=vfpv2
 	fi
 	BUILD_DIR=${WORKDIR}/${P}_build
 
