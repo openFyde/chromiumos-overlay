@@ -24,6 +24,7 @@ COMMON_DEPEND="
 	app-arch/libarchive:=
 	dev-libs/libzip:=
 	dev-libs/openssl:=
+	sys-apps/coreboot-utils:=
 	sys-apps/flashrom:=
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
