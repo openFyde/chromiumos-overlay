@@ -23,7 +23,7 @@ RDEPEND="
 
 src_test() {
 	cros-rust_src_test --no-default-features --features="factory-ufs" \
-		--bin="factory_ufs"
+		--lib
 }
 
 src_compile() {
