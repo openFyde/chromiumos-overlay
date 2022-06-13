@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f9d5ff947b8770732ac27064bede2d562764f8a1"
+CROS_WORKON_COMMIT="9a42bd455590baea49eb7ad6096d630da0e08a16"
 CROS_WORKON_TREE="37f2a0e0c5efb4f8525ee82351b74bdc76423844"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,6 +29,7 @@ DEPEND="
 	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/once_cell-1*:=
+	=dev-rust/stderrlog-0.5*:=
 	dev-rust/syslog:=
 	=dev-rust/openssl-0.10*:=
 	=dev-rust/protobuf-2*:=
@@ -60,4 +61,10 @@ pkg_setup() {
 	enewuser hiberman
 	enewgroup hiberman
 	cros-rust_pkg_setup
+}
+
+pkg_preinst() {
+	local mnt_dir="${ROOT}/mnt/hibernate"
+	[[ -d "{mnt_dir}" ]] || \
+		install -d --mode=0700 --owner=hiberman --group=hiberman "${mnt_dir}"
 }
