@@ -18,6 +18,8 @@ S="${WORKDIR}"
 # considering the future growth, we should reserve 8.5 * 130% ~= 12 MB.
 DLC_PREALLOC_BLOCKS="$((12 * 256))"
 
+DLC_PRELOAD=true
+
 src_install() {
 	# Since document_scanner.h is required for all builds, it is installed in
 	# cros-camera-libfs package.
