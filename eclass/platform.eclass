@@ -87,39 +87,14 @@ platform_gen_compilation_database() {
 
 	ninja -C "${OUT}" -t compdb cc cxx > "${db_chroot}" || die
 
-	# shellcheck disable=SC2154
-	local ext_chroot_path="${EXTERNAL_TRUNK_PATH}/chroot"
-
 	# Make relative include paths absolute.
 	sed -i -e "s:-I\./:-I${OUT}/:g" "${db_chroot}" || die
 
-	# Generate non-chroot version of the DB with the following
-	# changes:
-	#
-	# 1. translate file and directory paths
-	# 2. call clang directly instead of using CrOS wrappers
-	# 3. use standard clang target triples
-	# 4. remove a few compiler options that might not be available
-	#    in the potentially older clang version outside the chroot
-	# 5. Add "-stdlib=libc++" so that the clang outside the chroot can
-	#    find built-in headers like <string> and <memory>
-	#
-	sed -E -e "s:(\.\./|\.\.)*/mnt/host/source/:${EXTERNAL_TRUNK_PATH}/:g" \
-		-e "s:/build/:${ext_chroot_path}/build/:g" \
-		-e "s:-isystem /:-isystem ${ext_chroot_path}/:g" \
-		\
-		-e "s:[a-z0-9_]+-(cros|pc)-linux-gnu([a-z]*)?-clang:clang:g" \
-		\
-		-e "s:([a-z0-9_]+)-cros-linux-gnu:\1-linux-gnu:g" \
-		\
-		-e "s:-fdebug-info-for-profiling::g" \
-		-e "s:-mretpoline::g" \
-		-e "s:-mretpoline-external-thunk::g" \
-		-e "s:-mfentry::g" \
-		\
-		"${db_chroot}" \
-		| jq 'map(.command |= . + " -stdlib=libc++")' \
-		> "${OUT}/compile_commands_no_chroot.json" || die
+	local compdb_no_chroot="/mnt/host/source/chromite/ide_tooling/scripts/compdb_no_chroot.py"
+	# shellcheck disable=SC2154
+	< "${db_chroot}" \
+	"${compdb_no_chroot}" "${EXTERNAL_TRUNK_PATH}" \
+	> "${OUT}/compile_commands_no_chroot.json" || die
 
 	echo \
 "compile_commands_*.json are compilation databases for ${CATEGORY}/${PN}. The
