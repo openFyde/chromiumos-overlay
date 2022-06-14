@@ -21,7 +21,10 @@ DEPEND="dev-libs/openssl:0=
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
-PATCHES=( "${FILESDIR}/${PN}-llvm-stringset.patch" )
+PATCHES=(
+	"${FILESDIR}/${PN}-llvm-stringset.patch"
+	"${FILESDIR}/${PN}-signal_handler-fix-ambigous-max-ar.patch"
+)
 
 src_prepare() {
 	cmake_src_prepare
