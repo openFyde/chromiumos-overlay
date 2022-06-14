@@ -32,6 +32,12 @@ PATCHES=(
 	"${FILESDIR}"/${P}-fix-assert-not-reach-logic.patch
 	"${FILESDIR}"/${P}-fix-test-to-reflect-changes-in-outputs.patch
 	"${FILESDIR}"/${P}-test_main-Disable-textdomain-test.patch
+	"${FILESDIR}"/${P}-avoid-a-nih_assert-var-NULL-on-empty-null-ter.patch
+	"${FILESDIR}"/${P}-Update-tests-for-previous-change.patch
+	"${FILESDIR}"/${P}-Before-iterating-through-an-array-check-that-it-s-no.patch
+	"${FILESDIR}"/${P}-Update-tests.patch
+	"${FILESDIR}"/${P}-Update-test_method-too.patch
+	"${FILESDIR}"/${P}-test_option-Remove-check-for-EOF.patch
 )
 
 src_prepare() {
