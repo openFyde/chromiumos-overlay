@@ -281,6 +281,7 @@ SERVER_IUSE_TESTS="
 	+tests_infra_MultiDutsWithAndroid
 	+tests_infra_TLSExecDUTCommand
 	+tests_kernel_EmptyLines
+	+tests_kernel_VerityCorruptRootfsA
 	minios? (
 		+tests_nbr_EndToEndTest
 		+tests_nbr_NetworkInterruptions
