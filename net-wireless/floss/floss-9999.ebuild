@@ -41,7 +41,7 @@ IUSE="bt_dynlib floss_upstream"
 inherit cros-workon toolchain-funcs cros-rust platform tmpfiles
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
-HOMEPAGE="https://android.googlesource.com/platform/system/bt/"
+HOMEPAGE="https://android.googlesource.com/platform/packages/modules/Bluetooth"
 
 # Apache-2.0 for system/bt
 # All others from rust crates
