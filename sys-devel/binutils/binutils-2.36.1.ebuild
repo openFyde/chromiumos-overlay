@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-inherit eutils libtool flag-o-matic gnuconfig multilib cros-constants
+inherit eutils libtool flag-o-matic gnuconfig multilib
 
 DESCRIPTION="Tools necessary to build programs"
 HOMEPAGE="http://sources.redhat.com/binutils/"
