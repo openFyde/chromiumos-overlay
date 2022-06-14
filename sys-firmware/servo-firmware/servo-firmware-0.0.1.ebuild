@@ -18,6 +18,12 @@ SERVO_MICRO_NAME_PREV="servo_micro_v2.4.35-f1113c92b"  # servo-firmware-R81-1276
 SERVO_V4_NAME_PREV="servo_v4_v2.4.57-ce329f64f"        # servo-firmware-R81-12768.71.0
 SERVO_V4P1_NAME_PREV="servo_v4p1_v2.0.7721-8af602eee"  # Local builds are temporary b/153464312
 
+# Dev channel firmware
+SERVO_V4P1_NAME_DEV="servo_v4p1_v2.0.8588-3eac32bd44"  # USB3 Patch from CL/3586439
+
+# Alpha channel firmware
+SERVO_V4P1_NAME_ALPHA="servo_v4p1_v2.0.13477-1c6bb5adb" # R103-14703.0.0 build
+
 UPDATER_PATH="/usr/share/servo_updater/firmware"
 
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
@@ -30,13 +36,14 @@ SRC_URI="
 	${MIRROR_PATH}/${SERVO_V4_NAME_PREV}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4P1_NAME}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4P1_NAME_PREV}.tar.xz
+	${MIRROR_PATH}/${SERVO_V4P1_NAME_DEV}.tar.xz
+	${MIRROR_PATH}/${SERVO_V4P1_NAME_ALPHA}.tar.xz
 	${MIRROR_PATH}/${SWEETBERRY_NAME}.tar.gz
 	"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-ISUE=""
 
 DEPEND=""
 RDEPEND="!<chromeos-base/ec-devutils-0.0.2"
@@ -68,9 +75,11 @@ src_install() {
 
 	doins "${SERVO_V4P1_NAME}.bin"
 	doins "${SERVO_V4P1_NAME_PREV}.bin"
-	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.alpha.bin"
+	doins "${SERVO_V4P1_NAME_DEV}.bin"
+	doins "${SERVO_V4P1_NAME_ALPHA}.bin"
+	dosym "${SERVO_V4P1_NAME_ALPHA}.bin" "${UPDATER_PATH}/servo_v4p1.alpha.bin"
 	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.stable.bin"
-	dosym "${SERVO_V4P1_NAME}.bin" "${UPDATER_PATH}/servo_v4p1.dev.bin"
+	dosym "${SERVO_V4P1_NAME_DEV}.bin" "${UPDATER_PATH}/servo_v4p1.dev.bin"
 	dosym "${SERVO_V4P1_NAME_PREV}.bin" "${UPDATER_PATH}/servo_v4p1.prev.bin"
 
 	doins "${SWEETBERRY_NAME}.bin"
