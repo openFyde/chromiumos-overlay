@@ -106,3 +106,11 @@ cross-aarch64-cros-linux-gnu/glibc		-crypt
 cross-x86_64-cros-linux-gnu/glibc 		-crypt
 cross-i686-cros-linux-gnu/glibc			-crypt
 cross-armv7a-cros-linux-gnueabihf/glibc		-crypt
+
+# enable the glibc stack-realign flag to avoid crashes, for details:
+# https://gitweb.gentoo.org/repo/gentoo.git/commit/sys-libs/glibc?id=02aa6328a720c86d0157c4582f7e5bac72ae9296
+sys-libs/glibc					stack-realign
+cross-aarch64-cros-linux-gnu/glibc		stack-realign
+cross-x86_64-cros-linux-gnu/glibc 		stack-realign
+cross-i686-cros-linux-gnu/glibc			stack-realign
+cross-armv7a-cros-linux-gnueabihf/glibc		stack-realign

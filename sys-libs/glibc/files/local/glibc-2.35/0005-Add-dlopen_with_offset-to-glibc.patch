@@ -1,7 +1,7 @@
-From 4690ba6f784d16e33ce444e4c520ddf135561fc1 Mon Sep 17 00:00:00 2001
+From 31d47d50f0bec96e30cf45fd2a4cd1baf3842c0f Mon Sep 17 00:00:00 2001
 From: Paul Pluzhnikov <ppluzhnikov@google.com>
 Date: Fri, 31 Jan 2020 20:36:09 -0800
-Subject: [PATCH 06/10] Add dlopen_with_offset to glibc.
+Subject: [PATCH 5/8] Add dlopen_with_offset to glibc.
 
 This patchset is used in Google internal and is needed for
 Loonix, https://crbug.com/1015890.
@@ -19,30 +19,30 @@ if the offset is larger than 0 (to avoid irritating sandbox policy).
 
 This is requested by Loonix for use in Google internal.
 
-[Adrian: forward ported to glibc 2.32]
+[Adrian: forward ported to glibc 2.35]
 ---
- dlfcn/Versions             |  6 ++++
+ dlfcn/Versions             |  6 +++
  dlfcn/dlfcn.h              | 27 ++++++++++++++
- dlfcn/dlmopen.c            | 56 ++++++++++++++++++++++-------
- dlfcn/dlopen.c             | 66 +++++++++++++++++++++++++++-------
+ dlfcn/dlmopen.c            | 40 +++++++++++++++++---
+ dlfcn/dlopen.c             | 75 +++++++++++++++++++++++++++++++++++---
  dlfcn/dlopenold.c          |  2 +-
  elf/dl-deps.c              |  2 +-
- elf/dl-libc.c              |  4 ++-
- elf/dl-load.c              | 72 ++++++++++++++++++++++++++++----------
- elf/dl-open.c              |  7 ++--
- elf/rtld.c                 |  6 ++--
- include/dlfcn.h            | 11 ++++++
- include/link.h             |  6 ++++
- sysdeps/generic/ldsodefs.h | 12 ++++---
- 13 files changed, 223 insertions(+), 54 deletions(-)
+ elf/dl-libc.c              |  4 +-
+ elf/dl-load.c              | 74 +++++++++++++++++++++++++++----------
+ elf/dl-open.c              |  7 +++-
+ elf/rtld.c                 |  6 +--
+ include/dlfcn.h            |  9 +++++
+ include/link.h             |  6 +++
+ sysdeps/generic/ldsodefs.h | 12 ++++--
+ 13 files changed, 229 insertions(+), 41 deletions(-)
 
 diff --git a/dlfcn/Versions b/dlfcn/Versions
-index 1df6925a92..6032584242 100644
+index cc34eb824d..6e99d2660f 100644
 --- a/dlfcn/Versions
 +++ b/dlfcn/Versions
-@@ -11,6 +11,12 @@ libdl {
-   GLIBC_2.3.4 {
-     dlmopen;
+@@ -10,6 +10,12 @@ libc {
+     dlopen;
+     dlvsym;
    }
 +  GLIBC_2.15 {
 +    __google_dlopen_with_offset; __google_dlmopen_with_offset;
@@ -50,11 +50,11 @@ index 1df6925a92..6032584242 100644
 +  GLIBC_2.27 {
 +    __google_dlopen_with_offset64;
 +  }
-   GLIBC_PRIVATE {
-     _dlfcn_hook;
-     __libdl_freeres;
+   GLIBC_2.3.3 {
+     dladdr1;
+     dlinfo;
 diff --git a/dlfcn/dlfcn.h b/dlfcn/dlfcn.h
-index 4a3b870a48..d461580cb4 100644
+index a3af6051d4..6a8d6561c3 100644
 --- a/dlfcn/dlfcn.h
 +++ b/dlfcn/dlfcn.h
 @@ -22,6 +22,7 @@
@@ -65,7 +65,7 @@ index 4a3b870a48..d461580cb4 100644
  
  /* Collect various system dependent definitions and declarations.  */
  #include <bits/dlfcn.h>
-@@ -55,6 +56,26 @@ __BEGIN_DECLS
+@@ -57,6 +58,26 @@ __BEGIN_DECLS
     passed to `dlsym' to get symbol values from it.  */
  extern void *dlopen (const char *__file, int __mode) __THROWNL;
  
@@ -92,7 +92,7 @@ index 4a3b870a48..d461580cb4 100644
  /* Unmap and close a shared object opened by `dlopen'.
     The handle cannot be used again after calling `dlclose'.  */
  extern int dlclose (void *__handle) __THROWNL __nonnull ((1));
-@@ -68,6 +89,12 @@ extern void *dlsym (void *__restrict __handle,
+@@ -70,6 +91,12 @@ extern void *dlsym (void *__restrict __handle,
  /* Like `dlopen', but request object to be allocated in a new namespace.  */
  extern void *dlmopen (Lmid_t __nsid, const char *__file, int __mode) __THROWNL;
  
@@ -106,10 +106,10 @@ index 4a3b870a48..d461580cb4 100644
     of the symbol called NAME with VERSION.  */
  extern void *dlvsym (void *__restrict __handle,
 diff --git a/dlfcn/dlmopen.c b/dlfcn/dlmopen.c
-index 6c6e98cd0e..bd7b1f4b8f 100644
+index b41778f16c..08792f12cd 100644
 --- a/dlfcn/dlmopen.c
 +++ b/dlfcn/dlmopen.c
-@@ -38,6 +38,8 @@ struct dlmopen_args
+@@ -28,6 +28,8 @@ struct dlmopen_args
  {
    /* Namespace ID.  */
    Lmid_t nsid;
@@ -118,96 +118,90 @@ index 6c6e98cd0e..bd7b1f4b8f 100644
    /* The arguments for dlopen_doit.  */
    const char *file;
    int mode;
-@@ -68,13 +70,52 @@ dlmopen_doit (void *a)
+@@ -58,18 +60,19 @@ dlmopen_doit (void *a)
  	_dl_signal_error (EINVAL, NULL, NULL, N_("invalid mode"));
      }
  
 -  args->new = GLRO(dl_open) (args->file ?: "", args->mode | __RTLD_DLOPEN,
 +  args->new = GLRO(dl_open) (args->file ?: "", args->offset, args->mode | __RTLD_DLOPEN,
  			     args->caller,
- 			     args->nsid, __dlfcn_argc, __dlfcn_argv,
- 			     __environ);
+ 			     args->nsid, __libc_argc, __libc_argv, __environ);
  }
  
- 
-+static void *
-+__dlmopen_common (struct dlmopen_args *args)
-+{
-+
-+# ifdef SHARED
-+  return _dlerror_run (dlmopen_doit, args) ? NULL : args->new;
-+# else
-+  if (_dlerror_run (dlmopen_doit, args))
-+    return NULL;
-+
-+  __libc_register_dl_open_hook ((struct link_map *) args->new);
-+  __libc_register_dlfcn_hook ((struct link_map *) args->new);
-+
-+  return args->new;
-+# endif
-+}
-+
-+void *
-+__dlmopen_with_offset (Lmid_t nsid, const char *file, off_t offset,
-+		       int mode DL_CALLER_DECL)
-+{
-+# ifdef SHARED
-+  if (!rtld_active ())
-+    return _dlfcn_hook->dlmopen_with_offset (nsid, file, offset, mode, RETURN_ADDRESS (0));
-+# endif
-+
-+  struct dlmopen_args oargs;
-+  oargs.nsid = nsid;
-+  oargs.file = file;
-+  oargs.offset = offset;
-+  oargs.mode = mode;
-+  oargs.caller = DL_CALLER;
-+
-+  return __dlmopen_common (&oargs);
-+}
-+# ifdef SHARED
-+strong_alias (__dlmopen_with_offset, __google_dlmopen_with_offset)
-+# endif
-+
- void *
- __dlmopen (Lmid_t nsid, const char *file, int mode DL_CALLER_DECL)
+ static void *
+-dlmopen_implementation (Lmid_t nsid, const char *file, int mode,
+-			void *dl_caller)
++dlmopen_implementation (Lmid_t nsid, const char *file, off_t offset,
++			int mode, void *dl_caller)
  {
-@@ -86,20 +127,11 @@ __dlmopen (Lmid_t nsid, const char *file, int mode DL_CALLER_DECL)
    struct dlmopen_args args;
    args.nsid = nsid;
    args.file = file;
-+  args.offset = 0;
++  args.offset = offset;
    args.mode = mode;
-   args.caller = DL_CALLER;
+   args.caller = dl_caller;
  
--# ifdef SHARED
--  return _dlerror_run (dlmopen_doit, &args) ? NULL : args.new;
--# else
--  if (_dlerror_run (dlmopen_doit, &args))
--    return NULL;
--
--  __libc_register_dl_open_hook ((struct link_map *) args.new);
--  __libc_register_dlfcn_hook ((struct link_map *) args.new);
--
--  return args.new;
--# endif
-+  return __dlmopen_common (&args);
+@@ -83,7 +86,7 @@ ___dlmopen (Lmid_t nsid, const char *file, int mode)
+   if (GLRO (dl_dlfcn_hook) != NULL)
+     return GLRO (dl_dlfcn_hook)->dlmopen (nsid, file, mode, RETURN_ADDRESS (0));
+   else
+-    return dlmopen_implementation (nsid, file, mode, RETURN_ADDRESS (0));
++    return dlmopen_implementation (nsid, file, 0, mode, RETURN_ADDRESS (0));
  }
- # ifdef SHARED
- strong_alias (__dlmopen, dlmopen)
+ versioned_symbol (libc, ___dlmopen, dlmopen, GLIBC_2_34);
+ 
+@@ -95,7 +98,7 @@ compat_symbol (libdl, ___dlmopen, dlmopen, GLIBC_2_3_4);
+ void *
+ __dlmopen (Lmid_t nsid, const char *file, int mode, void *dl_caller)
+ {
+-  return dlmopen_implementation (nsid, file, mode, RETURN_ADDRESS (0));
++  return dlmopen_implementation (nsid, file, 0, mode, RETURN_ADDRESS (0));
+ }
+ 
+ void *
+@@ -106,3 +109,30 @@ ___dlmopen (Lmid_t nsid, const char *file, int mode)
+ weak_alias (___dlmopen, dlmopen)
+ static_link_warning (dlmopen)
+ #endif /* !SHARED */
++
++# ifdef SHARED
++void *
++___dlmopen_with_offset (Lmid_t nsid, const char *file, off_t offset, int mode)
++{
++  if (GLRO (dl_dlfcn_hook) != NULL)
++    return GLRO (dl_dlfcn_hook)->dlmopen_with_offset (nsid, file, offset, mode, RETURN_ADDRESS (0));
++  else
++    return dlmopen_implementation (nsid, file, offset, mode, RETURN_ADDRESS (0));
++}
++versioned_symbol (libc, ___dlmopen_with_offset, __google_dlmopen_with_offset, GLIBC_2_15);
++#else /* !SHARED */
++/* Also used with _dlfcn_hook.  */
++void *
++__dlmopen_with_offset (Lmid_t nsid, const char *file, off_t offset,
++		       int mode, void *dl_caller)
++{
++  return dlmopen_implementation (nsid, file, offset, mode, RETURN_ADDRESS (0));
++}
++void *
++___dlmopen_with_offset (Lmid_t nsid, const char *file, off_t offset, int mode)
++{
++  return __dlmopen_with_offset (nsid, file, offset, mode, RETURN_ADDRESS (0));
++}
++weak_alias (___dlmopen_with_offset, __google_dlmopen_with_offset)
++static_link_warning (__google_dlmopen_with_offset)
++# endif /* !SHARED */
 diff --git a/dlfcn/dlopen.c b/dlfcn/dlopen.c
-index d51e006453..930be2ba6d 100644
+index 2696dde4b1..851c7965cd 100644
 --- a/dlfcn/dlopen.c
 +++ b/dlfcn/dlopen.c
-@@ -21,6 +21,7 @@
+@@ -21,12 +21,15 @@
  #include <stddef.h>
  #include <unistd.h>
  #include <ldsodefs.h>
 +#include <errno.h>
+ #include <shlib-compat.h>
  
- #if !defined SHARED && IS_IN (libdl)
- 
-@@ -37,6 +38,8 @@ struct dlopen_args
+ struct dlopen_args
  {
    /* The arguments for dlopen_doit.  */
    const char *file;
@@ -216,7 +210,7 @@ index d51e006453..930be2ba6d 100644
    int mode;
    /* The return value of dlopen_doit.  */
    void *new;
-@@ -63,13 +66,61 @@ dlopen_doit (void *a)
+@@ -53,18 +56,18 @@ dlopen_doit (void *a)
  		     | __RTLD_SPROF))
      _dl_signal_error (0, NULL, NULL, _("invalid mode parameter"));
  
@@ -224,45 +218,57 @@ index d51e006453..930be2ba6d 100644
 +  args->new = GLRO(dl_open) (args->file ?: "", args->offset, args->mode | __RTLD_DLOPEN,
  			     args->caller,
  			     args->file == NULL ? LM_ID_BASE : NS,
- 			     __dlfcn_argc, __dlfcn_argv, __environ);
+ 			     __libc_argc, __libc_argv, __environ);
  }
  
+-
+ static void *
+-dlopen_implementation (const char *file, int mode, void *dl_caller)
++dlopen_implementation (const char *file, int mode, off_t offset,  void *dl_caller)
+ {
+   struct dlopen_args args;
+   args.file = file;
++  args.offset = offset;
+   args.mode = mode;
+   args.caller = dl_caller;
  
-+static void *
-+__dlopen_common (struct dlopen_args *args)
-+{
-+# ifdef SHARED
-+  return _dlerror_run (dlopen_doit, args) ? NULL : args->new;
-+# else
-+  if (_dlerror_run (dlopen_doit, args))
-+    return NULL;
+@@ -78,7 +81,7 @@ ___dlopen (const char *file, int mode)
+   if (GLRO (dl_dlfcn_hook) != NULL)
+     return GLRO (dl_dlfcn_hook)->dlopen (file, mode, RETURN_ADDRESS (0));
+   else
+-    return dlopen_implementation (file, mode, RETURN_ADDRESS (0));
++    return dlopen_implementation (file, mode, 0, RETURN_ADDRESS (0));
+ }
+ versioned_symbol (libc, ___dlopen, dlopen, GLIBC_2_34);
+ 
+@@ -90,7 +93,7 @@ compat_symbol (libdl, ___dlopen, dlopen, GLIBC_2_1);
+ void *
+ __dlopen (const char *file, int mode, void *dl_caller)
+ {
+-  return dlopen_implementation (file, mode, RETURN_ADDRESS (0));
++  return dlopen_implementation (file, mode, 0, RETURN_ADDRESS (0));
+ }
+ 
+ void *
+@@ -101,3 +104,65 @@ ___dlopen (const char *file, int mode)
+ weak_alias (___dlopen, dlopen)
+ static_link_warning (dlopen)
+ #endif /* !SHARED */
 +
-+  __libc_register_dl_open_hook ((struct link_map *) args->new);
-+  __libc_register_dlfcn_hook ((struct link_map *) args->new);
-+
-+  return args->new;
-+# endif
-+}
 +
 +# ifdef SHARED
 +void *
-+__dlopen_with_offset (const char *file, off_t offset, int mode DL_CALLER_DECL)
++___dlopen_with_offset (const char *file, off_t offset, int mode, void *dl_caller)
 +{
-+  if (!rtld_active ())
-+    return _dlfcn_hook->dlopen_with_offset (file, offset, mode, DL_CALLER);
++  if (GLRO (dl_dlfcn_hook) != NULL)
++    return GLRO (dl_dlfcn_hook)->dlopen_with_offset (file, offset, mode, dl_caller);
 +
-+  struct dlopen_args oargs;
-+  oargs.file = file;
-+  oargs.offset = offset;
-+  oargs.mode = mode;
-+  oargs.caller = DL_CALLER;
-+
-+  return __dlopen_common (&oargs);
++  return dlopen_implementation (file, mode, offset, RETURN_ADDRESS (0));
 +}
-+strong_alias (__dlopen_with_offset, __google_dlopen_with_offset)
++versioned_symbol (libc, ___dlopen_with_offset, __google_dlopen_with_offset, GLIBC_2_15);
 +
 +void *
-+__dlopen_with_offset64 (const char *file, off64_t offset, int mode DL_CALLER_DECL)
++___dlopen_with_offset64 (const char *file, off64_t offset, int mode, void *dl_caller)
 +{
 +#ifndef __OFF_T_MATCHES_OFF64_T
 +  if (offset > 0xFFFFFFFF) {
@@ -271,39 +277,47 @@ index d51e006453..930be2ba6d 100644
 +    return NULL;
 +  }
 +#endif
-+  return __dlopen_with_offset(file, offset, mode);
++  return ___dlopen_with_offset(file, offset, mode, RETURN_ADDRESS (0));
 +}
-+strong_alias (__dlopen_with_offset64, __google_dlopen_with_offset64)
-+# endif
++versioned_symbol (libc, ___dlopen_with_offset64, __google_dlopen_with_offset64, GLIBC_2_15);
 +
- void *
- __dlopen (const char *file, int mode DL_CALLER_DECL)
- {
-@@ -80,20 +131,11 @@ __dlopen (const char *file, int mode DL_CALLER_DECL)
- 
-   struct dlopen_args args;
-   args.file = file;
-+  args.offset = 0;
-   args.mode = mode;
-   args.caller = DL_CALLER;
- 
--# ifdef SHARED
--  return _dlerror_run (dlopen_doit, &args) ? NULL : args.new;
--# else
--  if (_dlerror_run (dlopen_doit, &args))
--    return NULL;
--
--  __libc_register_dl_open_hook ((struct link_map *) args.new);
--  __libc_register_dlfcn_hook ((struct link_map *) args.new);
--
--  return args.new;
--# endif
-+  return __dlopen_common (&args);
- }
- # ifdef SHARED
- #  include <shlib-compat.h>
++#else /* !SHARED */
++/* Also used with _dlfcn_hook.  */
++void *
++__dlopen_with_offset (const char *file, off_t offset, int mode, void *dl_caller)
++{
++  return dlopen_implementation (file, mode, offset, RETURN_ADDRESS (0));
++}
++void *
++___dlopen_with_offset (const char *file, off_t offset, int mode)
++{
++  return __dlopen_with_offset (file, offset, mode, RETURN_ADDRESS (0));
++}
++weak_alias (___dlopen_with_offset, __google_dlopen_with_offset)
++static_link_warning (__google_dlopen_with_offset)
++
++void *
++__dlopen_with_offset64 (const char *file, off64_t offset, int mode, void *dl_caller)
++{
++#ifndef __OFF_T_MATCHES_OFF64_T
++  if (offset > 0xFFFFFFFF) {
++    _dl_signal_error(EFBIG, "__dlopen_with_offset64", NULL,
++		     N_("File offset too large. Only 32 bit ELF supported."));
++    return NULL;
++  }
++#endif
++  return ___dlopen_with_offset(file, offset, mode);
++}
++void *
++___dlopen_with_offset64 (const char *file, off64_t offset, int mode)
++{
++  return __dlopen_with_offset64(file, offset, mode, RETURN_ADDRESS (0));
++}
++weak_alias (___dlopen_with_offset64, __google_dlopen_with_offset64)
++static_link_warning (__google_dlopen_with_offset64)
++# endif /* !SHARED */
 diff --git a/dlfcn/dlopenold.c b/dlfcn/dlopenold.c
-index 6174dcbb27..0ac81c3a91 100644
+index 5c21a00496..91f7efe5f6 100644
 --- a/dlfcn/dlopenold.c
 +++ b/dlfcn/dlopenold.c
 @@ -51,7 +51,7 @@ dlopen_doit (void *a)
@@ -314,9 +328,9 @@ index 6174dcbb27..0ac81c3a91 100644
 +  args->new = GLRO(dl_open) (args->file ?: "", 0, args->mode | __RTLD_DLOPEN,
  			     args->caller,
  			     args->file == NULL ? LM_ID_BASE : NS,
- 			     __dlfcn_argc, __dlfcn_argv, __environ);
+ 			     __libc_argc, __libc_argv, __environ);
 diff --git a/elf/dl-deps.c b/elf/dl-deps.c
-index 087a49b212..fc97e7812d 100644
+index cfe7f0743a..ffba54848c 100644
 --- a/elf/dl-deps.c
 +++ b/elf/dl-deps.c
 @@ -61,7 +61,7 @@ openaux (void *a)
@@ -329,10 +343,10 @@ index 087a49b212..fc97e7812d 100644
  			       ? lt_library : args->map->l_type),
  			      args->trace_mode, args->open_mode,
 diff --git a/elf/dl-libc.c b/elf/dl-libc.c
-index e2236d87d1..1b59249e1d 100644
+index 266e068da6..41313d1b41 100644
 --- a/elf/dl-libc.c
 +++ b/elf/dl-libc.c
-@@ -65,6 +65,7 @@ struct do_dlopen_args
+@@ -58,6 +58,7 @@ struct do_dlopen_args
  {
    /* Argument to do_dlopen.  */
    const char *name;
@@ -340,7 +354,7 @@ index e2236d87d1..1b59249e1d 100644
    /* Opening mode.  */
    int mode;
    /* This is the caller of the dlopen() function.  */
-@@ -99,7 +100,7 @@ do_dlopen (void *ptr)
+@@ -92,7 +93,7 @@ do_dlopen (void *ptr)
  {
    struct do_dlopen_args *args = (struct do_dlopen_args *) ptr;
    /* Open and relocate the shared object.  */
@@ -349,7 +363,7 @@ index e2236d87d1..1b59249e1d 100644
  			     __LM_ID_CALLER, __libc_argc, __libc_argv,
  			     __environ);
  }
-@@ -192,6 +193,7 @@ __libc_dlopen_mode (const char *name, int mode)
+@@ -152,6 +153,7 @@ __libc_dlopen_mode (const char *name, int mode)
  {
    struct do_dlopen_args args;
    args.name = name;
@@ -358,10 +372,10 @@ index e2236d87d1..1b59249e1d 100644
    args.caller_dlopen = RETURN_ADDRESS (0);
  
 diff --git a/elf/dl-load.c b/elf/dl-load.c
-index 2f760503c5..a82060269c 100644
+index 5b0ff41ee1..b7436eb7b0 100644
 --- a/elf/dl-load.c
 +++ b/elf/dl-load.c
-@@ -61,6 +61,7 @@ struct filebuf
+@@ -63,6 +63,7 @@ struct filebuf
  #include <abi-tag.h>
  #include <stackinfo.h>
  #include <sysdep.h>
@@ -369,7 +383,7 @@ index 2f760503c5..a82060269c 100644
  #include <stap-probe.h>
  #include <libc-pointer-arith.h>
  #include <array_length.h>
-@@ -919,7 +920,7 @@ _dl_process_pt_gnu_property (struct link_map *l, int fd, const ElfW(Phdr) *ph)
+@@ -937,7 +938,7 @@ _dl_process_pt_gnu_property (struct link_map *l, int fd, const ElfW(Phdr) *ph)
  static
  #endif
  struct link_map *
@@ -378,7 +392,7 @@ index 2f760503c5..a82060269c 100644
  			struct filebuf *fbp, char *realname,
  			struct link_map *loader, int l_type, int mode,
  			void **stack_endp, Lmid_t nsid)
-@@ -979,7 +980,8 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
+@@ -997,7 +998,8 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
  
        /* Look again to see if the real name matched another already loaded.  */
        for (l = GL(dl_ns)[nsid]._ns_loaded; l != NULL; l = l->l_next)
@@ -388,7 +402,7 @@ index 2f760503c5..a82060269c 100644
  	  {
  	    /* The object is already loaded.
  	       Just bump its reference count and return it.  */
-@@ -988,7 +990,10 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
+@@ -1006,7 +1008,10 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
  	    /* If the name is not in the list of names for this object add
  	       it.  */
  	    free (realname);
@@ -400,9 +414,9 @@ index 2f760503c5..a82060269c 100644
  
  	    return l;
  	  }
-@@ -1073,8 +1078,29 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
-   else
-     assert (r->r_state == RT_ADD);
+@@ -1059,8 +1064,29 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
+   /* This is the ELF header.  We read it in `open_verify'.  */
+   header = (void *) fbp->buf;
  
 +#ifdef SHARED
 +  // This code could be linked into 'sln', which does not have _itoa.
@@ -431,21 +445,24 @@ index 2f760503c5..a82060269c 100644
    if (__glibc_unlikely (l == NULL))
      {
  #ifdef SHARED
-@@ -1161,7 +1187,12 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
+@@ -1147,10 +1173,15 @@ _dl_map_object_from_fd (const char *name, const char *origname, int fd,
  	  c->mapend = ALIGN_UP (ph->p_vaddr + ph->p_filesz, GLRO(dl_pagesize));
  	  c->dataend = ph->p_vaddr + ph->p_filesz;
  	  c->allocend = ph->p_vaddr + ph->p_memsz;
--	  c->mapoff = ALIGN_DOWN (ph->p_offset, GLRO(dl_pagesize));
 +	  if (offset & (GLRO(dl_pagesize) - 1))
 +	    {
 +	      errstring = N_("invalid offset");
 +	      goto lose;
 +	    }
-+	  c->mapoff = ALIGN_DOWN(offset + ph->p_offset, GLRO(dl_pagesize));
+ 	  /* Remember the maximum p_align.  */
+ 	  if (powerof2 (ph->p_align) && ph->p_align > p_align_max)
+ 	    p_align_max = ph->p_align;
+-	  c->mapoff = ALIGN_DOWN (ph->p_offset, GLRO(dl_pagesize));
++	  c->mapoff = ALIGN_DOWN (offset + ph->p_offset, GLRO(dl_pagesize));
  
  	  /* Determine whether there is a gap between the last segment
  	     and this one.  */
-@@ -1453,6 +1484,8 @@ cannot enable executable stack as shared object requires");
+@@ -1449,6 +1480,8 @@ cannot enable executable stack as shared object requires");
    assert (origname == NULL);
  #endif
  
@@ -454,7 +471,7 @@ index 2f760503c5..a82060269c 100644
    /* When we profile the SONAME might be needed for something else but
       loading.  Add it right away.  */
    if (__glibc_unlikely (GLRO(dl_profile) != NULL)
-@@ -1561,7 +1594,7 @@ print_search_path (struct r_search_path_elem **list,
+@@ -1565,7 +1598,7 @@ print_search_path (struct r_search_path_elem **list,
     If FD is not -1, then the file is already open and FD refers to it.
     In that case, FD is consumed for both successful and error returns.  */
  static int
@@ -463,7 +480,7 @@ index 2f760503c5..a82060269c 100644
               struct filebuf *fbp, struct link_map *loader,
  	     int whatcode, int mode, bool *found_other_class, bool free_name)
  {
-@@ -1642,6 +1675,9 @@ open_verify (const char *name, int fd,
+@@ -1634,6 +1667,9 @@ open_verify (const char *name, int fd,
        unsigned int osversion;
        size_t maplength;
  
@@ -473,7 +490,7 @@ index 2f760503c5..a82060269c 100644
        /* We successfully opened the file.  Now verify it is a file
  	 we can use.  */
        __set_errno (0);
-@@ -1856,7 +1892,7 @@ open_verify (const char *name, int fd,
+@@ -1848,7 +1884,7 @@ open_verify (const char *name, int fd,
     if MAY_FREE_DIRS is true.  */
  
  static int
@@ -482,7 +499,7 @@ index 2f760503c5..a82060269c 100644
  	   struct r_search_path_struct *sps, char **realname,
  	   struct filebuf *fbp, struct link_map *loader, int whatcode,
  	   bool *found_other_class)
-@@ -1912,7 +1948,7 @@ open_path (const char *name, size_t namelen, int mode,
+@@ -1904,7 +1940,7 @@ open_path (const char *name, size_t namelen, int mode,
  	  if (__glibc_unlikely (GLRO(dl_debug_mask) & DL_DEBUG_LIBS))
  	    _dl_debug_printf ("  trying file=%s\n", buf);
  
@@ -491,7 +508,7 @@ index 2f760503c5..a82060269c 100644
  			    found_other_class, false);
  	  if (this_dir->status[cnt] == unknown)
  	    {
-@@ -2010,7 +2046,7 @@ open_path (const char *name, size_t namelen, int mode,
+@@ -2002,7 +2038,7 @@ open_path (const char *name, size_t namelen, int mode,
  /* Map in the shared object file NAME.  */
  
  struct link_map *
@@ -500,7 +517,7 @@ index 2f760503c5..a82060269c 100644
  		int type, int trace_mode, int mode, Lmid_t nsid)
  {
    int fd;
-@@ -2125,7 +2161,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2098,7 +2134,7 @@ _dl_map_object (struct link_map *loader, const char *name,
  	  for (l = loader; l; l = l->l_loader)
  	    if (cache_rpath (l, &l->l_rpath_dirs, DT_RPATH, "RPATH"))
  	      {
@@ -509,7 +526,7 @@ index 2f760503c5..a82060269c 100644
  				&l->l_rpath_dirs,
  				&realname, &fb, loader, LA_SER_RUNPATH,
  				&found_other_class);
-@@ -2141,7 +2177,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2114,7 +2150,7 @@ _dl_map_object (struct link_map *loader, const char *name,
  	      && main_map != NULL && main_map->l_type != lt_loaded
  	      && cache_rpath (main_map, &main_map->l_rpath_dirs, DT_RPATH,
  			      "RPATH"))
@@ -518,7 +535,16 @@ index 2f760503c5..a82060269c 100644
  			    &main_map->l_rpath_dirs,
  			    &realname, &fb, loader ?: main_map, LA_SER_RUNPATH,
  			    &found_other_class);
-@@ -2149,7 +2185,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2129,7 +2165,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+ 	      l_rpath_dirs.dirs = NULL;
+ 	      if (cache_rpath (main_map, &l_rpath_dirs,
+ 			       DT_RUNPATH, "RUNPATH"))
+-		fd = open_path (name, namelen, mode, &l_rpath_dirs,
++		fd = open_path (name, namelen, offset, mode, &l_rpath_dirs,
+ 				&realname, &fb, loader ?: main_map,
+ 				LA_SER_RUNPATH, &found_other_class);
+ 	    }
+@@ -2137,7 +2173,7 @@ _dl_map_object (struct link_map *loader, const char *name,
  
        /* Try the LD_LIBRARY_PATH environment variable.  */
        if (fd == -1 && __rtld_env_path_list.dirs != (void *) -1)
@@ -527,7 +553,7 @@ index 2f760503c5..a82060269c 100644
  			&realname, &fb,
  			loader ?: GL(dl_ns)[LM_ID_BASE]._ns_loaded,
  			LA_SER_LIBPATH, &found_other_class);
-@@ -2158,7 +2194,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2146,7 +2182,7 @@ _dl_map_object (struct link_map *loader, const char *name,
        if (fd == -1 && loader != NULL
  	  && cache_rpath (loader, &loader->l_runpath_dirs,
  			  DT_RUNPATH, "RUNPATH"))
@@ -536,7 +562,7 @@ index 2f760503c5..a82060269c 100644
  			&loader->l_runpath_dirs, &realname, &fb, loader,
  			LA_SER_RUNPATH, &found_other_class);
  
-@@ -2167,7 +2203,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2155,7 +2191,7 @@ _dl_map_object (struct link_map *loader, const char *name,
            realname = _dl_sysdep_open_object (name, namelen, &fd);
            if (realname != NULL)
              {
@@ -545,7 +571,7 @@ index 2f760503c5..a82060269c 100644
                                  &fb, loader ?: GL(dl_ns)[nsid]._ns_loaded,
                                  LA_SER_CONFIG, mode, &found_other_class,
                                  false);
-@@ -2221,7 +2257,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2209,7 +2245,7 @@ _dl_map_object (struct link_map *loader, const char *name,
  
  	      if (cached != NULL)
  		{
@@ -554,7 +580,7 @@ index 2f760503c5..a82060269c 100644
  				    &fb, loader ?: GL(dl_ns)[nsid]._ns_loaded,
  				    LA_SER_CONFIG, mode, &found_other_class,
  				    false);
-@@ -2239,7 +2275,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2227,7 +2263,7 @@ _dl_map_object (struct link_map *loader, const char *name,
  	  && ((l = loader ?: GL(dl_ns)[nsid]._ns_loaded) == NULL
  	      || __glibc_likely (!(l->l_flags_1 & DF_1_NODEFLIB)))
  	  && __rtld_search_dirs.dirs != (void *) -1)
@@ -563,7 +589,7 @@ index 2f760503c5..a82060269c 100644
  			&realname, &fb, l, LA_SER_DEFAULT, &found_other_class);
  
        /* Add another newline when we are tracing the library loading.  */
-@@ -2256,7 +2292,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2244,7 +2280,7 @@ _dl_map_object (struct link_map *loader, const char *name,
  	fd = -1;
        else
  	{
@@ -572,7 +598,7 @@ index 2f760503c5..a82060269c 100644
  			    loader ?: GL(dl_ns)[nsid]._ns_loaded, 0, mode,
  			    &found_other_class, true);
  	  if (__glibc_unlikely (fd == -1))
-@@ -2318,7 +2354,7 @@ _dl_map_object (struct link_map *loader, const char *name,
+@@ -2306,7 +2342,7 @@ _dl_map_object (struct link_map *loader, const char *name,
      }
  
    void *stack_end = __libc_stack_end;
@@ -582,10 +608,10 @@ index 2f760503c5..a82060269c 100644
  }
  
 diff --git a/elf/dl-open.c b/elf/dl-open.c
-index 6e61398745..04f90534bf 100644
+index a23e65926b..e11ed6a361 100644
 --- a/elf/dl-open.c
 +++ b/elf/dl-open.c
-@@ -46,6 +46,8 @@
+@@ -48,6 +48,8 @@
  struct dl_open_args
  {
    const char *file;
@@ -594,7 +620,7 @@ index 6e61398745..04f90534bf 100644
    int mode;
    /* This is the caller of the dlopen() function.  */
    const void *caller_dlopen;
-@@ -528,7 +530,7 @@ dl_open_worker (void *a)
+@@ -531,7 +533,7 @@ dl_open_worker_begin (void *a)
  
    /* Load the named object.  */
    struct link_map *new;
@@ -603,7 +629,7 @@ index 6e61398745..04f90534bf 100644
  				    mode | __RTLD_CALLMAP, args->nsid);
  
    /* If the pointer returned is NULL this means the RTLD_NOLOAD flag is
-@@ -799,7 +801,7 @@ dl_open_worker (void *a)
+@@ -819,7 +821,7 @@ dl_open_worker (void *a)
  }
  
  void *
@@ -612,7 +638,7 @@ index 6e61398745..04f90534bf 100644
  	  int argc, char *argv[], char *env[])
  {
    if ((mode & RTLD_BINDING_MASK) == 0)
-@@ -849,6 +851,7 @@ no more namespaces available for dlmopen()"));
+@@ -869,6 +871,7 @@ no more namespaces available for dlmopen()"));
  
    struct dl_open_args args;
    args.file = file;
@@ -621,10 +647,10 @@ index 6e61398745..04f90534bf 100644
    args.caller_dlopen = caller_dlopen;
    args.map = NULL;
 diff --git a/elf/rtld.c b/elf/rtld.c
-index 489e58c551..9ca5097b54 100644
+index 9cc9e5fd4c..1b75e27143 100644
 --- a/elf/rtld.c
 +++ b/elf/rtld.c
-@@ -649,7 +649,7 @@ map_doit (void *a)
+@@ -663,7 +663,7 @@ map_doit (void *a)
  {
    struct map_args *args = (struct map_args *) a;
    int type = (args->mode == __RTLD_OPENEXEC) ? lt_executable : lt_library;
@@ -633,7 +659,7 @@ index 489e58c551..9ca5097b54 100644
  			      args->mode, LM_ID_BASE);
  }
  
-@@ -657,7 +657,7 @@ static void
+@@ -671,7 +671,7 @@ static void
  dlmopen_doit (void *a)
  {
    struct dlmopen_args *args = (struct dlmopen_args *) a;
@@ -642,7 +668,7 @@ index 489e58c551..9ca5097b54 100644
  			(RTLD_LAZY | __RTLD_DLOPEN | __RTLD_AUDIT
  			 | __RTLD_SECURE),
  			dl_main, LM_ID_NEWLM, _dl_argc, _dl_argv,
-@@ -1389,7 +1389,7 @@ dl_main (const ElfW(Phdr) *phdr,
+@@ -1614,7 +1614,7 @@ dl_main (const ElfW(Phdr) *phdr,
  	{
  	  RTLD_TIMING_VAR (start);
  	  rtld_timer_start (&start);
@@ -652,7 +678,7 @@ index 489e58c551..9ca5097b54 100644
  	  rtld_timer_stop (&load_time, start);
  	}
 diff --git a/include/dlfcn.h b/include/dlfcn.h
-index a1816e4991..eea8de1e1a 100644
+index ae25f05303..9f831d0ec3 100644
 --- a/include/dlfcn.h
 +++ b/include/dlfcn.h
 @@ -1,5 +1,6 @@
@@ -662,44 +688,42 @@ index a1816e4991..eea8de1e1a 100644
  #ifndef _ISOMAC
  #include <link.h>		/* For ElfW.  */
  #include <stdbool.h>
-@@ -110,6 +111,8 @@ extern int _dlerror_run (void (*operate) (void *), void *args)
- struct dlfcn_hook
+@@ -100,6 +101,8 @@ struct dlfcn_hook
  {
+   /* Public interfaces.  */
    void *(*dlopen) (const char *file, int mode, void *dl_caller);
 +  void *(*dlopen_with_offset) (const char *file, off_t offset,
 +			       int mode, void *dl_caller);
    int (*dlclose) (void *handle);
    void *(*dlsym) (void *handle, const char *name, void *dl_caller);
    void *(*dlvsym) (void *handle, const char *name, const char *version,
-@@ -120,6 +123,8 @@ struct dlfcn_hook
+@@ -110,6 +113,8 @@ struct dlfcn_hook
  		  void **extra_info, int flags);
    int (*dlinfo) (void *handle, int request, void *arg);
    void *(*dlmopen) (Lmid_t nsid, const char *file, int mode, void *dl_caller);
 +  void *(*dlmopen_with_offset) (Lmid_t nsid, const char *file, off_t offset,
 +				int mode, void *dl_caller);
-   void *pad[4];
- };
  
-@@ -128,8 +133,14 @@ libdl_hidden_proto (_dlfcn_hook)
+   /* Internal interfaces.  */
+   void* (*libc_dlopen_mode)  (const char *__name, int __mode);
+@@ -123,8 +128,12 @@ struct dlfcn_hook
+    the __libc_dl* functions defined in elf/dl-libc.c instead.  */
  
- extern void *__dlopen (const char *file, int mode DL_CALLER_DECL)
-      attribute_hidden;
-+extern void *__dlopen_with_offset (const char *file, off_t offset,
-+				   int mode DL_CALLER_DECL)
-+     attribute_hidden;
- extern void *__dlmopen (Lmid_t nsid, const char *file, int mode DL_CALLER_DECL)
-      attribute_hidden;
+ extern void *__dlopen (const char *file, int mode, void *caller);
++extern void *__dlopen_with_offset (const char *file, off_t offset, int mode,
++				   void *caller);
+ extern void *__dlmopen (Lmid_t nsid, const char *file, int mode,
+ 			void *dl_caller);
 +extern void *__dlmopen_with_offset (Lmid_t nsid, const char *file, off_t offset,
-+				    int mode DL_CALLER_DECL)
-+     attribute_hidden;
- extern int __dlclose (void *handle)
-      attribute_hidden;
- extern void *__dlsym (void *handle, const char *name DL_CALLER_DECL)
++			int mode, void *dl_caller);
+ extern int __dlclose (void *handle);
+ extern void *__dlsym (void *handle, const char *name, void *dl_caller);
+ extern void *__dlvsym (void *handle, const char *name, const char *version,
 diff --git a/include/link.h b/include/link.h
-index 4af16cb596..7d48bd79a7 100644
+index bef2820b40..2040532f40 100644
 --- a/include/link.h
 +++ b/include/link.h
-@@ -265,6 +265,12 @@ struct link_map
+@@ -274,6 +274,12 @@ struct link_map
         object is the same as one already loaded.  */
      struct r_file_id l_file_id;
  
@@ -713,10 +737,10 @@ index 4af16cb596..7d48bd79a7 100644
      struct r_search_path_struct l_runpath_dirs;
  
 diff --git a/sysdeps/generic/ldsodefs.h b/sysdeps/generic/ldsodefs.h
-index d552a7886b..c80d150e1e 100644
+index 64d7e52a39..5718d64a6b 100644
 --- a/sysdeps/generic/ldsodefs.h
 +++ b/sysdeps/generic/ldsodefs.h
-@@ -652,8 +652,9 @@ struct rtld_global_ro
+@@ -700,8 +700,9 @@ struct rtld_global_ro
  				   const ElfW(Sym) **, struct r_scope_elem *[],
  				   const struct r_found_version *, int, int,
  				   struct link_map *);
@@ -726,9 +750,9 @@ index d552a7886b..c80d150e1e 100644
 +		     const void *caller_dlopen, Lmid_t nsid,
 +		     int argc, char *argv[], char *env[]);
    void (*_dl_close) (void *map);
-   void *(*_dl_tls_get_addr_soft) (struct link_map *);
- #ifdef HAVE_DL_DISCOVER_OSVERSION
-@@ -914,10 +915,12 @@ int _dl_catch_exception (struct dl_exception *exception,
+   /* libdl in a secondary namespace (after dlopen) must use
+      _dl_catch_error from the main namespace, so it has to be
+@@ -986,10 +987,12 @@ int _dl_catch_exception (struct dl_exception *exception,
  libc_hidden_proto (_dl_catch_exception)
  
  /* Open the shared object NAME and map in its segments.
@@ -741,7 +765,7 @@ index d552a7886b..c80d150e1e 100644
  					int type, int trace_mode, int mode,
  					Lmid_t nsid) attribute_hidden;
  
-@@ -1207,8 +1210,9 @@ extern char *_dl_dst_substitute (struct link_map *l, const char *name,
+@@ -1309,8 +1312,9 @@ extern char *_dl_dst_substitute (struct link_map *l, const char *name,
  /* Open the shared object NAME, relocate it, and run its initializer if it
     hasn't already been run.  MODE is as for `dlopen' (see <dlfcn.h>).  If
     the object is already opened, returns its existing map.  */
@@ -754,5 +778,5 @@ index d552a7886b..c80d150e1e 100644
  
  /* Free or queue for freeing scope OLD.  If other threads might be
 -- 
-2.33.0
+2.36.1
 

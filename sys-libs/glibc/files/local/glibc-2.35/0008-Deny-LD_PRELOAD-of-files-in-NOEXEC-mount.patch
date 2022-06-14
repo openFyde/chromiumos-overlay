@@ -1,7 +1,7 @@
-From efe556f297a491e85b7fbcb4d49c082402c32e47 Mon Sep 17 00:00:00 2001
+From 303973f922416531471d0c2692506a8acf4cfa96 Mon Sep 17 00:00:00 2001
 From: Jordan R Abrahams <ajordanr@google.com>
 Date: Wed, 19 May 2021 22:09:57 +0000
-Subject: [PATCH 10/10] Deny LD_PRELOAD of files in NOEXEC mount
+Subject: [PATCH 8/8] Deny LD_PRELOAD of files in NOEXEC mount
 
 This commit hardens against a security bug in dl-load.c
 
@@ -18,10 +18,10 @@ a NOEXEC mount via an fstatvfs call.
  1 file changed, 21 insertions(+)
 
 diff --git a/elf/dl-load.c b/elf/dl-load.c
-index a82060269c..ec9386232d 100644
+index b7436eb7b0..0ebcd81be8 100644
 --- a/elf/dl-load.c
 +++ b/elf/dl-load.c
-@@ -29,6 +29,7 @@
+@@ -30,6 +30,7 @@
  #include <sys/mman.h>
  #include <sys/param.h>
  #include <sys/stat.h>
@@ -29,7 +29,7 @@ index a82060269c..ec9386232d 100644
  #include <sys/types.h>
  #include <gnu/lib-names.h>
  
-@@ -1585,6 +1586,18 @@ print_search_path (struct r_search_path_elem **list,
+@@ -1589,6 +1590,18 @@ print_search_path (struct r_search_path_elem **list,
      _dl_debug_printf_c ("\t\t(%s)\n", what);
  }
  
@@ -48,7 +48,7 @@ index a82060269c..ec9386232d 100644
  /* Open a file and verify it is an ELF file for this architecture.  We
     ignore only ELF files for other architectures.  Non-ELF files and
     ELF files with different header information cause fatal errors since
-@@ -1683,6 +1696,14 @@ open_verify (const char *name, int fd, off_t offset,
+@@ -1675,6 +1688,14 @@ open_verify (const char *name, int fd, off_t offset,
        __set_errno (0);
        fbp->len = 0;
        assert (sizeof (fbp->buf) > sizeof (ElfW(Ehdr)));
@@ -64,5 +64,5 @@ index a82060269c..ec9386232d 100644
        do
  	{
 -- 
-2.33.0
+2.36.1
 

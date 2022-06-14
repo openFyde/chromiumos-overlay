@@ -1,7 +1,7 @@
-From d62d692e402129d4570bf19b9866fefc981f3d91 Mon Sep 17 00:00:00 2001
+From fe3784ac10e54af4b50a5a6718c60ade66ac2d9a Mon Sep 17 00:00:00 2001
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
 Date: Fri, 9 Jul 2021 11:49:23 +0300
-Subject: [PATCH 09/10] nptl: mitigate failed pthread_cond_signal wakeup
+Subject: [PATCH 7/8] nptl: mitigate failed pthread_cond_signal wakeup
 
 This mitigation is applied until the bug reported at [1]
 gets a proper fix in glibc upstream. Work is on-going and
@@ -22,10 +22,10 @@ Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
  1 file changed, 9 insertions(+)
 
 diff --git a/nptl/pthread_cond_wait.c b/nptl/pthread_cond_wait.c
-index a481bb55fc..ae48edb261 100644
+index 20c348a503..6da7712c60 100644
 --- a/nptl/pthread_cond_wait.c
 +++ b/nptl/pthread_cond_wait.c
-@@ -589,6 +589,15 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
+@@ -588,6 +588,15 @@ __pthread_cond_wait_common (pthread_cond_t *cond, pthread_mutex_t *mutex,
  		     the signal from, which cause it to block using the
  		     futex).  */
  		  futex_wake (cond->__data.__g_signals + g, 1, private);
@@ -42,5 +42,5 @@ index a481bb55fc..ae48edb261 100644
  		}
  	      /* TODO Back off.  */
 -- 
-2.33.0
+2.36.1
 

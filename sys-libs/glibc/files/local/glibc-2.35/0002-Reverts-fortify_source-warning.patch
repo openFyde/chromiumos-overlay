@@ -1,7 +1,7 @@
-From d43687bfdae091352c81ac8cfeecbb470e599aa3 Mon Sep 17 00:00:00 2001
+From 1e7782bedb64b046b945a3a6eff568d64b207147 Mon Sep 17 00:00:00 2001
 From: Yunlian Jiang <yunlian@google.com>
 Date: Tue, 27 Dec 2016 15:17:21 -0800
-Subject: [PATCH 03/10] Reverts fortify_source warning
+Subject: [PATCH 2/8] Reverts fortify_source warning
 
 Warn if user requests __FORTIFY_SOURCE but it is disabled
 author	Roland Mc Grath <roland@hack.frob.com>
@@ -16,16 +16,16 @@ The reason to revert it is that some packages that use
 autoconf to detect system headers, the warning will give the
 wrong result.
 
-[Adrian: forward-ported to glibc 2.32]
+[Adrian: forward-ported to glibc 2.35]
 ---
- include/features.h | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+ include/features.h | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
 diff --git a/include/features.h b/include/features.h
-index c6ff971346..d0b0f2316b 100644
+index 76b8b973d4..da58032045 100644
 --- a/include/features.h
 +++ b/include/features.h
-@@ -392,26 +392,14 @@
+@@ -407,22 +407,12 @@
  # define __USE_GNU	1
  #endif
  
@@ -34,28 +34,23 @@ index c6ff971346..d0b0f2316b 100644
 -#  warning _FORTIFY_SOURCE requires compiling with optimization (-O)
 -# elif !__GNUC_PREREQ (4, 1)
 -#  warning _FORTIFY_SOURCE requires GCC 4.1 or later
--# elif _FORTIFY_SOURCE > 2 && __glibc_clang_prereq (9, 0)
+-# elif _FORTIFY_SOURCE > 2 && (__glibc_clang_prereq (9, 0)		      \
++#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 \
++    && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0
++# if _FORTIFY_SOURCE > 2 && (__glibc_clang_prereq (9, 0)		      \
+ 			       || __GNUC_PREREQ (12, 0))
+-
 -#  if _FORTIFY_SOURCE > 3
 -#   warning _FORTIFY_SOURCE > 3 is treated like 3 on this platform
 -#  endif
--#  define __USE_FORTIFY_LEVEL 3
--# elif _FORTIFY_SOURCE > 1
+ #  define __USE_FORTIFY_LEVEL 3
+ # elif _FORTIFY_SOURCE > 1
 -#  if _FORTIFY_SOURCE > 2
 -#   warning _FORTIFY_SOURCE > 2 is treated like 2 on this platform
 -#  endif
-+#if defined _FORTIFY_SOURCE && _FORTIFY_SOURCE > 0 \
-+    && __GNUC_PREREQ (4, 1) && defined __OPTIMIZE__ && __OPTIMIZE__ > 0
-+# if _FORTIFY_SOURCE > 1
  #  define __USE_FORTIFY_LEVEL 2
  # else
  #  define __USE_FORTIFY_LEVEL 1
- # endif
--#endif
--#ifndef __USE_FORTIFY_LEVEL
-+#else
- # define __USE_FORTIFY_LEVEL 0
- #endif
- 
 -- 
-2.33.0
+2.36.1
 

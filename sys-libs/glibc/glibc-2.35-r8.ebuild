@@ -6,10 +6,7 @@ EAPI=7
 # Bumping notes: https://wiki.gentoo.org/wiki/Project:Toolchain/sys-libs/glibc
 # Please read & adapt the page as necessary if obsolete.
 
-# We avoid Python 3.10 here _for now_ (it does work!) to avoid circular dependencies
-# on upgrades as people migrate to libxcrypt.
-# https://wiki.gentoo.org/wiki/User:Sam/Portage_help/Circular_dependencies#Python_and_libcrypt
-PYTHON_COMPAT=( python3_{6,7,8,9} )
+PYTHON_COMPAT=( python3_{6..9} )
 TMPFILES_OPTIONAL=1
 
 inherit python-any-r1 prefix preserve-libs toolchain-funcs flag-o-matic gnuconfig \
@@ -40,16 +37,19 @@ GCC_BOOTSTRAP_VER=20201208
 
 LOCALE_GEN_VER=2.10
 
-GLIBC_SYSTEMD_VER=20210814
+GLIBC_SYSTEMD_VER=20210729
 
 SRC_URI+=" https://gitweb.gentoo.org/proj/locale-gen.git/snapshot/locale-gen-${LOCALE_GEN_VER}.tar.gz"
 SRC_URI+=" multilib-bootstrap? ( https://dev.gentoo.org/~dilfridge/distfiles/gcc-multilib-bootstrap-${GCC_BOOTSTRAP_VER}.tar.xz )"
 SRC_URI+=" systemd? ( https://gitweb.gentoo.org/proj/toolchain/glibc-systemd.git/snapshot/glibc-systemd-${GLIBC_SYSTEMD_VER}.tar.gz )"
 
-IUSE="audit caps cet compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only"
+IUSE="audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only"
 
 # Minimum kernel version that glibc requires
 MIN_KERN_VER="3.2.0"
+# Minimum pax-utils version needed (which contains any new syscall changes for
+# its seccomp filter!). Please double check this!
+MIN_PAX_UTILS_VER="1.3.3"
 
 # Here's how the cross-compile logic breaks down ...
 #  CTARGET - machine that will target the binaries
@@ -83,7 +83,7 @@ fi
 
 BDEPEND="
 	${PYTHON_DEPS}
-	>=app-misc/pax-utils-1.3.1
+	>=app-misc/pax-utils-${MIN_PAX_UTILS_VER}
 	sys-devel/bison
 	doc? ( sys-apps/texinfo )
 	!compile-locales? (
@@ -116,7 +116,7 @@ PDEPEND="${COMMON_DEPEND}
 	sys-apps/grep
 	virtual/awk
 	sys-apps/gentoo-functions
-	!<app-misc/pax-utils-1.3.1
+	!<app-misc/pax-utils-${MIN_PAX_UTILS_VER}
 	!<net-misc/openssh-8.1_p1-r2
 "
 
@@ -126,14 +126,14 @@ if [[ ${CATEGORY} == cross-* ]] ; then
 	BDEPEND+=" !headers-only? (
 		!crosscompile_opts_headers-only? (
 			>=${CATEGORY}/binutils-2.27
-			>=${CATEGORY}/gcc-6
+			>=${CATEGORY}/gcc-6.2
 			)
 	)"
 	[[ ${CATEGORY} == *-linux* ]] && DEPEND+=" ${CATEGORY}/linux-headers"
 else
 	BDEPEND+="
 		>=sys-devel/binutils-2.27
-		>=sys-devel/gcc-6
+		>=sys-devel/gcc-6.2
 	"
 	DEPEND+=" virtual/os-headers "
 	RDEPEND+="
@@ -149,18 +149,10 @@ GENTOO_GLIBC_XFAIL_TESTS="${GENTOO_GLIBC_XFAIL_TESTS:-yes}"
 # The following tests fail due to the Gentoo build system and are thus
 # executed but ignored:
 XFAIL_TEST_LIST=(
-	# 9) Failures of unknown origin
-	tst-latepthread
-
 	# buggy test, assumes /dev/ and /dev/null on a single filesystem
 	# 'mount --bind /dev/null /chroot/dev/null' breaks it.
 	# https://sourceware.org/PR25909
 	tst-support_descriptors
-
-	# Flaky test, known to fail occasionally:
-	# https://sourceware.org/PR19329
-	# https://bugs.gentoo.org/719674#c12
-	tst-stack4
 
 	# The following tests fail only inside portage
 	# https://bugs.gentoo.org/831267
@@ -307,22 +299,27 @@ setup_target_flags() {
 				export CFLAGS="-march=${t} ${CFLAGS}"
 				einfo "Auto adding -march=${t} to CFLAGS #185404"
 			fi
+			# For compatibility with older binaries at slight performance cost.
+			use stack-realign && export CFLAGS+=" -mstackrealign"
 		;;
 		amd64)
 			# -march needed for #185404 #199334
 			# TODO: See cross-compile issues listed above for x86.
-			[[ ${ABI} == x86 ]] &&
-			if ! do_compile_test "${CFLAGS_x86}" 'void f(int i, void *p) {if (__sync_fetch_and_add(&i, 1)) f(i, p);}\nint main(){return 0;}\n'; then
-				local t=${CTARGET_OPT:-${CTARGET}}
-				t=${t%%-*}
-				# Normally the target is x86_64-xxx, so turn that into the -march that
-				# gcc actually accepts. #528708
-				[[ ${t} == "x86_64" ]] && t="x86-64"
-				filter-flags '-march=*'
-				# ugly, ugly, ugly.  ugly.
-				CFLAGS_x86=$(CFLAGS=${CFLAGS_x86} filter-flags '-march=*'; echo "${CFLAGS}")
-				export CFLAGS_x86="${CFLAGS_x86} -march=${t}"
-				einfo "Auto adding -march=${t} to CFLAGS_x86 #185404 (ABI=${ABI})"
+			if [[ ${ABI} == x86 ]]; then
+				if ! do_compile_test "${CFLAGS_x86}" 'void f(int i, void *p) {if (__sync_fetch_and_add(&i, 1)) f(i, p);}\nint main(){return 0;}\n'; then
+					local t=${CTARGET_OPT:-${CTARGET}}
+					t=${t%%-*}
+					# Normally the target is x86_64-xxx, so turn that into the -march that
+					# gcc actually accepts. #528708
+					[[ ${t} == "x86_64" ]] && t="x86-64"
+					filter-flags '-march=*'
+					# ugly, ugly, ugly.  ugly.
+					CFLAGS_x86=$(CFLAGS=${CFLAGS_x86} filter-flags '-march=*'; echo "${CFLAGS}")
+					export CFLAGS_x86="${CFLAGS_x86} -march=${t}"
+					einfo "Auto adding -march=${t} to CFLAGS_x86 #185404 (ABI=${ABI})"
+				fi
+				# For compatibility with older binaries at slight performance cost.
+				use stack-realign && export CFLAGS_x86+=" -mstackrealign"
 			fi
 		;;
 		mips)
@@ -402,6 +399,7 @@ setup_flags() {
 		filter-flags '-O?'
 		append-flags -O2
 	fi
+
 	strip-unsupported-flags
 	filter-flags -m32 -m64 '-mabi=*'
 
@@ -502,11 +500,11 @@ setup_env() {
 		export MAKEINFO=/dev/null
 	fi
 
-	local VAR=CFLAGS_${ABI}
 	# We need to export CFLAGS with abi information in them because glibc's
 	# configure script checks CFLAGS for some targets (like mips).  Keep
 	# around the original clean value to avoid appending multiple ABIs on
 	# top of each other.
+	local VAR=CFLAGS_${ABI}
 
 	# For ChromiumOS, the default compiler is clang, we need to set it to gcc.
 	: ${__GLIBC_CC:=$(tc-getCC ${CTARGET})}
@@ -619,9 +617,9 @@ sanity_prechecks() {
 
 	# Prevent native builds from downgrading
 	if [[ ${MERGE_TYPE} != "buildonly" ]] && \
-		[[ -z ${ROOT} ]] && \
-		[[ ${CBUILD} == ${CHOST} ]] && \
-		[[ ${CHOST} == ${CTARGET} ]] ; then
+	   [[ -z ${ROOT} ]] && \
+	   [[ ${CBUILD} == ${CHOST} ]] && \
+	   [[ ${CHOST} == ${CTARGET} ]] ; then
 
 		# The high rev # is to allow people to downgrade between -r#
 		# versions. We want to block 2.20->2.19, but 2.20-r3->2.20-r2
@@ -667,7 +665,7 @@ sanity_prechecks() {
 			ebegin "Checking that IA32 emulation is enabled in the running kernel"
 			echo 'int main(){return 0;}' > "${T}/check-ia32-emulation.c"
 			local STAT
-			if "${CC-${CHOST}-gcc}" ${CFLAGS_x86} "${T}/check-ia32-emulation.c" -o "${T}/check-ia32-emulation.elf32"; then
+			if ${CC-${CHOST}-gcc} ${CFLAGS_x86} "${T}/check-ia32-emulation.c" -o "${T}/check-ia32-emulation.elf32"; then
 				"${T}/check-ia32-emulation.elf32"
 				STAT=$?
 			else
@@ -685,6 +683,14 @@ sanity_prechecks() {
 
 	# When we actually have to compile something...
 	if ! just_headers && [[ ${MERGE_TYPE} != "binary" ]] ; then
+		if [[ -d "${ESYSROOT}"/usr/lib/include ]] ; then
+			# bug #833620, bug #643302
+			eerror "Found ${ESYSROOT}/usr/lib/include directory!"
+			eerror "This is known to break glibc's build."
+			eerror "Please backup its contents then remove the directory."
+			die "Found directory (${ESYSROOT}/usr/lib/include) which will break build (bug #833620)!"
+		fi
+
 		if [[ ${CTARGET} == *-linux* ]] ; then
 			local run_kv build_kv want_kv
 
@@ -720,6 +726,7 @@ upgrade_warning() {
 				ewarn "After upgrading glibc, please restart all running processes."
 				ewarn "Be sure to include init (telinit u) or systemd (systemctl daemon-reexec)."
 				ewarn "Alternatively, reboot your system."
+				ewarn "(See bug #660556, bug #741116, bug #823756, etc)"
 				break
 			fi
 		done
@@ -732,11 +739,7 @@ upgrade_warning() {
 
 # pkg_pretend
 
-# CrOS doesn't care about these checks.
-disabled_pkg_pretend() {
-	# All the checks...
-	einfo "Checking general environment sanity."
-	sanity_prechecks
+pkg_pretend() {
 	upgrade_warning
 }
 
@@ -748,12 +751,12 @@ pkg_setup() {
 # src_unpack
 
 src_unpack() {
-	# Consistency is not guaranteed between pkg_ and src_ ...
+	setup_env
+
+	einfo "Checking general environment sanity."
 	sanity_prechecks
 
 	use multilib-bootstrap && unpack gcc-multilib-bootstrap-${GCC_BOOTSTRAP_VER}.tar.xz
-
-	setup_env
 
 	if [[ ${PV} == 9999* ]] ; then
 		EGIT_REPO_URI="https://anongit.gentoo.org/git/proj/toolchain/glibc-patches.git"
@@ -788,6 +791,15 @@ src_prepare() {
 		eapply "${WORKDIR}"/patches
 		einfo "Done."
 	fi
+
+	if use clone3 ; then
+		append-cppflags -DGENTOO_USE_CLONE3
+	else
+		# See e.g. bug #827386, bug #819045.
+		elog "Disabling the clone3 syscall for compatibility with older Electron apps."
+		elog "Please re-enable this flag before filing bugs!"
+	fi
+
 	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" eapply "${FILESDIR}"/local/${PN}-${PV}
 
 	default
@@ -858,21 +870,9 @@ glibc_do_configure() {
 
 	local myconf=()
 
-	case ${CTARGET} in
-		m68k*)
-			# setjmp() is not compatible with stack protection:
-			# https://sourceware.org/PR24202
-			myconf+=( --enable-stack-protector=no )
-			;;
-		*)
-			# Use '=strong' instead of '=all' to protect only functions
-			# worth protecting from stack smashes.
-			# '=all' is also known to have a problem in IFUNC resolution
-			# tests: https://sourceware.org/PR25680, bug #712356.
-			myconf+=( --enable-stack-protector=strong )
-			;;
-	esac
-	myconf+=( --enable-stackguard-randomization )
+	# Use '=strong' instead of '=all' to protect only functions
+	# worth protecting from stack smashes.
+	myconf+=( --enable-stack-protector=strong )
 
 	# Keep an allowlist of targets supporing IFUNC. glibc's ./configure
 	# is not robust enough to detect proper support:
@@ -952,7 +952,6 @@ glibc_do_configure() {
 		# -march= option tricks build system to infer too
 		# high ISA level: https://sourceware.org/PR27318
 		libc_cv_include_x86_isa_level=no
-
 		# Explicit override of https://sourceware.org/PR27991
 		# exposes a bug in glibc's configure:
 		# https://sourceware.org/PR27991
@@ -1165,7 +1164,10 @@ glibc_src_test() {
 	# sandbox does not understand unshare() and prevents
 	# writes to /proc/, which makes many tests fail
 
-	SANDBOX_ON=0 LD_PRELOAD= emake ${myxfailparams} check
+	# we give the tests a bit more time to avoid spurious
+	# bug reports on slow arches
+
+	SANDBOX_ON=0 LD_PRELOAD= TIMEOUTFACTOR=16 emake ${myxfailparams} check
 }
 
 do_src_test() {
@@ -1198,13 +1200,13 @@ run_locale_gen() {
 		root="$2"
 	fi
 
-	local locale_list="${root}/etc/locale.gen"
+	local locale_list="${root%/}/etc/locale.gen"
 
 	pushd "${ED}"/$(get_libdir) >/dev/null
 
 	if [[ -z $(locale-gen --list --config "${locale_list}") ]] ; then
 		[[ -z ${inplace} ]] && ewarn "Generating all locales; edit /etc/locale.gen to save time/space"
-		locale_list="${root}/usr/share/i18n/SUPPORTED"
+		locale_list="${root%/}/usr/share/i18n/SUPPORTED"
 	fi
 
 	set -- locale-gen ${inplace} --jobs $(makeopts_jobs) --config "${locale_list}" \
@@ -1328,6 +1330,27 @@ glibc_do_src_install() {
 		fi
 	done
 
+	# In the LSB 5.0 definition, someone had the excellent idea to "standardize"
+	# the runtime loader name, see also https://xkcd.com/927/
+	# Normally, in Gentoo one should never come across executables that require this.
+	# However, binary commercial packages are known to adhere to weird practices.
+	# https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Core-AMD64/LSB-Core-AMD64.html#BASELIB
+	local lsb_ldso_name native_ldso_name lsb_ldso_abi
+	local lsb_ldso_abi_list=(
+		# x86
+		amd64	ld-linux-x86-64.so.2	ld-lsb-x86-64.so.3
+	)
+	for (( i = 0; i < ${#lsb_ldso_abi_list[@]}; i += 3 )) ; do
+		lsb_ldso_abi=${lsb_ldso_abi_list[i]}
+		native_ldso_name=${lsb_ldso_abi_list[i+1]}
+		lsb_ldso_name=${lsb_ldso_abi_list[i+2]}
+		has ${lsb_ldso_abi} $(get_install_abis) || continue
+
+		if [[ ! -L ${ED}/$(get_abi_LIBDIR ${lsb_ldso_abi})/${lsb_ldso_name} && ! -e ${ED}/$(get_abi_LIBDIR ${lsb_ldso_abi})/${lsb_ldso_name} ]] ; then
+			dosym ${native_ldso_name} "$(alt_prefix)/$(get_abi_LIBDIR ${lsb_ldso_abi})/${lsb_ldso_name}"
+		fi
+	done
+
 	# With devpts under Linux mounted properly, we do not need the pt_chown
 	# binary to be setuid.  This is because the default owners/perms will be
 	# exactly what we want.
@@ -1345,10 +1368,8 @@ glibc_do_src_install() {
 		# gcc likes to use relative paths to get to its multilibs like
 		# /usr/lib/../lib64/.  So while we don't install any files into
 		# /usr/lib/, we do need it to exist.
-		cd "${ED}"$(alt_libdir)/..
-		[[ -e lib ]] || mkdir lib
-		cd "${ED}"$(alt_usrlibdir)/..
-		[[ -e lib ]] || mkdir lib
+		keepdir $(alt_prefix)/lib
+		keepdir $(alt_prefix)/usr/lib
 
 		cd "${ED}"${alt_libdir} || die
 		rm -rf ./{,usr/}{etc,share} ./{,usr/}*/misc
@@ -1477,7 +1498,7 @@ glibc_sanity_check() {
 
 	# first let's find the actual dynamic linker here
 	# symlinks may point to the wrong abi
-	local newldso=$(find . -maxdepth 1 -name 'ld-*so' -type f -print -quit)
+	local newldso=$(find . -maxdepth 1 -name 'ld*so.?' -type f -print -quit)
 
 	einfo Last-minute run tests with ${newldso} in /$(get_libdir) ...
 
@@ -1553,7 +1574,7 @@ pkg_postinst() {
 	if [[ -e ${EROOT}/etc/nsswitch.conf ]] && ! has_version sys-auth/libnss-nis ; then
 		local entry
 		for entry in passwd group shadow; do
-			if egrep -q "^[ \t]*${entry}:.*nis" "${EROOT}"/etc/nsswitch.conf; then
+			if grep -E -q "^[ \t]*${entry}:.*nis" "${EROOT}"/etc/nsswitch.conf; then
 				ewarn ""
 				ewarn "Your ${EROOT}/etc/nsswitch.conf uses NIS. Support for that has been"
 				ewarn "removed from glibc and is now provided by the package"
