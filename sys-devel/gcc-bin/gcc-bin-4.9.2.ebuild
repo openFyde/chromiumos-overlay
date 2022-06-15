@@ -53,7 +53,7 @@ src_prepare() {
 	for abi in "${CROS_ABIS[@]}"; do
 		cd "${WORKDIR}/${abi}" || die
 		rm -f bin/*gcov* bin/*gdb* bin/*clang* bin/*lld* bin/*llvm* || die
-		rm -f lib/*clang* lib/*rust* lib/*libstd-* lib/*libc++* || die
+		rm -f lib/*clang* lib/*rust* lib/*libstd-* lib/libtest-* lib/*libc++* || die
 		rm -rf usr/"${abi}"*/usr/lib*/gconv || die
 		rm -rf usr/bin || die
 		rm -rf usr/include/c++ usr/include/llvm* usr/include/clang* usr/share/clang* || die
