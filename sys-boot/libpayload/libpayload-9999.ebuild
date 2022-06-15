@@ -19,7 +19,7 @@ DESCRIPTION="coreboot's libpayload library"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="~*"
-IUSE="coreboot-sdk unibuild verbose"
+IUSE="coreboot-sdk unibuild verbose ti50_onboard"
 
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
@@ -144,20 +144,25 @@ src_compile() {
 		< <(printf "%s\n" "${LIBPAYLOAD_BUILD_TARGETS[@]}" | sort -u)
 
 	local target
+	local board_config
 	local dotconfig
 	local dotconfig_gdb
 	for target in "${unique_targets[@]}"; do
-		dotconfig="${FILESDIR}/configs/config.${target}"
-		cp "${dotconfig}" "${T}/config.${target}"
-		libpayload_compile "${T}/config.${target}" "${T}/${target}"
+		board_config="${FILESDIR}/configs/config.${target}"
 
-		dotconfig_gdb="${T}/config_gdb.${target}"
+		dotconfig="${T}/config.${target}"
+		if use ti50_onboard; then
+			echo "CONFIG_LP_CBFS_VERIFICATION=y" >> "${dotconfig}"
+		fi
+		cat "${board_config}" >> "${dotconfig}"
+		# In case "${board_config}" does not have a newline at the end
+		echo >> "${dotconfig}"
+		libpayload_compile "${dotconfig}" "${T}/${target}"
+
 		# Build a second set of libraries with GDB support for developers
+		dotconfig_gdb="${T}/config_gdb.${target}"
 		cp "${dotconfig}" "${dotconfig_gdb}"
-		(
-			echo
-			echo "CONFIG_LP_REMOTEGDB=y"
-		) >>"${dotconfig_gdb}"
+		echo "CONFIG_LP_REMOTEGDB=y" >> "${dotconfig_gdb}"
 		libpayload_compile "${dotconfig_gdb}" "${T}/${target}.gdb"
 	done
 }
