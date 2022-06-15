@@ -99,7 +99,7 @@ cr50_set_board_id_and_flag() {
   local flag="$2"
 
   local updater_arg="${board_id}:${flag}"
-  if gsctool_cmd -a -i "${updater_arg}" 2>&1; then
+  if ! gsctool_cmd -a -i "${updater_arg}" 2>&1; then
     die "Failed to update with ${updater_arg}"
   fi
 }
