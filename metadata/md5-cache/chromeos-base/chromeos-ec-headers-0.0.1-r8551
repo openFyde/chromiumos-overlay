@@ -1,0 +1,12 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install setup unpack
+DESCRIPTION=Exported headers from the embedded controller codebase.
+EAPI=7
+HOMEPAGE=https://www.chromium.org/chromium-os/ec-development
+IUSE=cros_host cros_workon_tree_fcc36c5e19297a7c270c48fac2a44dc663a07c54_68c770dfe8f8c27e5df19d626a19d6b30a2d86fd
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+SLOT=0/0.0.1-r8551
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=33101becf74afdc6096f93a2aaf5c25a
