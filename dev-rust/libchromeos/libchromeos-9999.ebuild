@@ -20,23 +20,20 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
-	dev-rust/data_model:=
+	chromeos-base/crosvm-base:=
 	=dev-rust/dbus-0.9*:=
-	=dev-rust/futures-0.3*:=
-	=dev-rust/getopts-0.2*:=
-	=dev-rust/intrusive-collections-0.9*:=
-	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0_alpha:=
+	=dev-rust/lazy_static-1*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	>=dev-rust/pkg-config-0.3.11 <dev-rust/pkg-config-0.4.0_alpha:=
-	>=dev-rust/protobuf-2.1 <dev-rust/protobuf-3.0_alpha:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
+	=dev-rust/multi_log-0.1*:=
+	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
-	dev-rust/sys_util:=
+	=dev-rust/stderrlog-0.5*:=
+	=dev-rust/syslog-4*:=
 	dev-rust/system_api:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
+	=dev-rust/thiserror-1*:=
 	dev-rust/vboot_reference-sys:=
-	>=dev-rust/zeroize-1.2.0 <dev-rust/zeroize-2.0.0_alpha:=
+	=dev-rust/zeroize-1*:=
 "
 
 RDEPEND="${DEPEND}
