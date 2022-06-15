@@ -20,11 +20,8 @@ SLOT="0/${PVR}"
 KEYWORDS="~*"
 IUSE="sirenia"
 
-RDEPEND="
-	sys-apps/dbus
-	sirenia? ( chromeos-base/manatee-runtime )
-"
-DEPEND="${RDEPEND}
+DEPEND="
+	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*:=
 	dev-rust/chromeos-dbus-bindings:=
@@ -33,10 +30,13 @@ DEPEND="${RDEPEND}
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/stderrlog-0.5*:=
-	dev-rust/sys_util:=
-	>=dev-rust/termion-1.5.0 <dev-rust/termion-2.0.0:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	=dev-rust/termion-1*:=
+	=dev-rust/thiserror-1*:=
 	=dev-rust/which-4*:=
+"
+RDEPEND="${DEPEND}
+	sys-apps/dbus
+	sirenia? ( chromeos-base/manatee-runtime )
 "
 
 BDEPEND="sirenia? ( chromeos-base/sirenia-tools )"

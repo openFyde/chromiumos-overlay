@@ -20,22 +20,23 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/crosvm-base:=
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/anyhow-1*:=
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
+	=dev-rust/assert_matches-1*:=
 	=dev-rust/base64-0.13*:=
 	=dev-rust/chrono-0.4*:=
 	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
-	>=dev-rust/libc-0.2.44 <dev-rust/libc-0.3_alpha:=
+	=dev-rust/libc-0.2*:=
 	dev-rust/libchromeos:=
+	=dev-rust/log-0.4*:=
 	>=dev-rust/minijail-0.2.3:=
-	>=dev-rust/openssl-0.10.25 <dev-rust/openssl-0.11.0_alpha:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
+	=dev-rust/openssl-0.10*:=
+	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
-	>=dev-rust/serde_json-1.0.64 <dev-rust/serde_json-2.0.0_alpha:=
-	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0_alpha:=
+	=dev-rust/serde_json-1*:=
+	=dev-rust/thiserror-1*:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
