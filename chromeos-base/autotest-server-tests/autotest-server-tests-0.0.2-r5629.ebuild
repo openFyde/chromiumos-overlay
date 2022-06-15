@@ -221,6 +221,8 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_FWupdateWP
 	+tests_firmware_FWupdateThenSleep
 	+tests_firmware_FWupdateWP
+	+tests_firmware_GSCAPROV1Trigger
+	+tests_firmware_GSCSetAPROV1
 	+tests_firmware_InvalidUSB
 	+tests_firmware_LegacyRecovery
 	+tests_firmware_MenuDevBootUSB
