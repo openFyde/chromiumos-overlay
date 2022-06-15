@@ -16,12 +16,13 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_sse2 neon"
+IUSE="cpu_flags_x86_sse2 featured neon"
 
 DEPEND="dev-libs/iniparser:=
 	dev-libs/libevent:=
 	dev-libs/protobuf:=
-	chromeos-base/metrics"
+	chromeos-base/metrics
+	featured? ( chromeos-base/featured:= )"
 RDEPEND="${DEPEND}"
 
 src_configure() {
