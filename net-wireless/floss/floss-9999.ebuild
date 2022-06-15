@@ -161,6 +161,11 @@ floss_build_rust() {
 	# Export the source path for bindgen
 	export CXX_ROOT_PATH="${S}"
 
+	# Some Rust crates may want to depend on C++ build output to determine
+	# whether to re-run. Export this directory location so that Rust knows which
+	# directory to check C++ output.
+	export CXX_OUTDIR="$(cros-workon_get_build_dir)/out/Default"
+
 	# System API location for proto files
 	export CROS_SYSTEM_API_ROOT="${SYSROOT}/usr/include/chromeos"
 
