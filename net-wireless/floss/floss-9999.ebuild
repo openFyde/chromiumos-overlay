@@ -71,6 +71,7 @@ DEPEND="
 
 BDEPEND="
 	dev-libs/tinyxml2:=
+	net-wireless/floss_tools
 "
 
 RDEPEND="${DEPEND}"
@@ -96,19 +97,6 @@ src_unpack() {
 }
 
 src_configure() {
-	if tc-is-cross-compiler ; then
-		# Delete old host build folder otherwise we will continue using
-		# old binaries
-		local build_dir="$(cros-workon_get_build_dir)"
-		rm -rf "${build_dir:?}/${CBUILD}"
-
-		# Build tools and move to host directory
-		mkdir -p "${build_dir}/${CBUILD}"
-		ARCH="$(tc-arch ${CBUILD})" tc-env_build platform "configure" "--host"
-		ARCH="$(tc-arch ${CBUILD})" tc-env_build platform "compile" "tools" "--host"
-		mv "${build_dir}/out" "${build_dir}/${CBUILD}/"
-	fi
-
 	local cxx_outdir="$(cros-workon_get_build_dir)/out/Default"
 	local rustflags=(
 		# Add C/C++ build path to linker search path
@@ -133,20 +121,16 @@ src_configure() {
 	platform_src_configure "--target_os=chromeos"
 }
 
-floss_build_tools() {
-	local bin_dir="$(cros-workon_get_build_dir)/out/Default/"
-	if tc-is-cross-compiler ; then
-		local host_dir="$(cros-workon_get_build_dir)/${CBUILD}/out/Default"
-		mkdir -p "${bin_dir}"
-		cp "${host_dir}/bluetooth_packetgen" "${bin_dir}"
-		cp "${host_dir}/bluetooth_flatbuffer_bundler" "${bin_dir}"
-	else
-		platform "compile" "tools" "--host"
-	fi
+copy_floss_tools() {
+	local bin_dir="/usr/bin"
+	local rust_dir="${ECARGO_HOME}/bin"
+	local cxx_dir="$(cros-workon_get_build_dir)/out/Default"
 
-	# Make sure packetgen is also available to rust
-	mkdir -p "${ECARGO_HOME}/bin/"
-	cp "${bin_dir}/bluetooth_packetgen" "${ECARGO_HOME}/bin/"
+	mkdir -p "${rust_dir}"
+	cp "${bin_dir}/bluetooth_packetgen" "${rust_dir}/"
+	cp "${bin_dir}/bluetooth_flatbuffer_bundler" "${rust_dir}/"
+	cp "${bin_dir}/bluetooth_packetgen" "${cxx_dir}/"
+	cp "${bin_dir}/bluetooth_flatbuffer_bundler" "${cxx_dir}/"
 }
 
 floss_build_rust() {
@@ -175,9 +159,9 @@ floss_build_rust() {
 }
 
 src_compile() {
-	# Build tools required for building the runtime and copy to both the GN
-	# directory and the Rust bin directory
-	floss_build_tools
+	# Copy the tools required for building the runtime to both the GN
+	# directory and the Rust bin directory.
+	copy_floss_tools
 
 	# Compile for target (generates static libs)
 	platform_src_compile

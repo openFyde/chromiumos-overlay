@@ -49,7 +49,9 @@ LICENSE="
 KEYWORDS="~*"
 
 DEPEND=""
-BDEPEND=""
+BDEPEND="
+	dev-libs/tinyxml2
+"
 RDEPEND="${DEPEND}"
 
 src_configure() {

@@ -589,3 +589,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-python/pebble
 	dev-util/cvise"
+
+# Needed for floss project.
+RDEPEND="${RDEPEND}
+	net-wireless/floss_tools"
