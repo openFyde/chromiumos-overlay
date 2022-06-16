@@ -9,8 +9,8 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # is using "provided by ebuild" macro which supported by cros-rust
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/audio_streams"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
-CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
+CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
+CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
 
 inherit cros-workon cros-rust
 
@@ -22,11 +22,12 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
-	>=dev-rust/async-trait-0.1.36:= <dev-rust/async-trait-0.2
+	=dev-rust/async-trait-0.1*:=
+	=dev-rust/futures-0.3*:=
 	=dev-rust/remain-0.2*:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	=dev-rust/thiserror-1*:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
