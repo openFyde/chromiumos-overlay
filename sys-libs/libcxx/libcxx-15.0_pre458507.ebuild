@@ -178,6 +178,7 @@ multilib_src_configure() {
 		# Disable stack allocation and features like posix_memalign.
 		append-cppflags "-D_LIBCPP_HAS_NO_LIBRARY_ALIGNED_ALLOCATION"
 		mycmakeargs+=(
+			"-DCMAKE_POSITION_INDEPENDENT_CODE=OFF"
 			"-DLIBCXXABI_ENABLE_SHARED=OFF"
 			"-DLIBCXXABI_BAREMETAL=ON"
 			"-DLIBCXXABI_SILENT_TERMINATE=ON"
