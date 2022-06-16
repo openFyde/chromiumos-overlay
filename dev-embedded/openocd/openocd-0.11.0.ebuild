@@ -31,6 +31,9 @@ RDEPEND="
 	ftdi? ( dev-embedded/libftdi:= )"
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
+PATCHES=(
+	"${FILESDIR}/5950-npcx.patch"
+)
 src_prepare() {
 	default
 	AT_NO_RECURSIVE=yes eautoreconf
