@@ -16,7 +16,7 @@ DESCRIPTION="OpenOCD - Open On-Chip Debugger"
 HOMEPAGE="http://openocd.sourceforge.net"
 LICENSE="GPL-2+"
 SLOT="0"
-IUSE="capstone +cmsis-dap dummy +ftdi +jlink parport +usb verbose-io"
+IUSE="capstone +cmsis-dap dummy +ftdi parport +usb verbose-io"
 RESTRICT="strip" # includes non-native binaries
 RDEPEND="
 	acct-group/plugdev
@@ -24,7 +24,6 @@ RDEPEND="
 	<dev-lang/jimtcl-0.80:=
 	capstone? ( dev-libs/capstone )
 	cmsis-dap? ( dev-libs/hidapi )
-	jlink? ( >=dev-embedded/libjaylink-0.2.0 )
 	usb? (
 		virtual/libusb:0
 		virtual/libusb:1
@@ -45,9 +44,9 @@ src_configure() {
 		--enable-buspirate
 		--enable-ep93xx
 		--enable-gw16012
+		--enable-jlink
 		--enable-sysfsgpio
 		--disable-internal-jimtcl
-		--disable-internal-libjaylink
 		--disable-werror
 		$(use_with capstone)
 		$(use_enable cmsis-dap)
@@ -55,7 +54,6 @@ src_configure() {
 		$(use_enable ftdi openjtag)
 		$(use_enable ftdi presto)
 		$(use_enable ftdi usb-blaster)
-		$(use_enable jlink)
 		$(use_enable parport)
 		$(use_enable parport parport_ppdev)
 		$(use_enable usb aice)
