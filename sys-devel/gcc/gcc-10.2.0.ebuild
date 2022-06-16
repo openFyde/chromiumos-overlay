@@ -170,6 +170,14 @@ src_configure() {
 		)
 	fi
 
+	# Make PIE (position independent executable) default for Cross-compiler
+	# Linux/GNU	builds.
+	# TODO(b/190047257): Enable for host as well i.e. *-linux-gnu* instead
+	# of *cros-linux-gnu*.
+	if [[ "${CTARGET}" == *cros-linux-gnu* ]]; then
+		confgcc+=( --enable-default-pie )
+	fi
+
 	# Handle target-specific options.
 	case ${CTARGET} in
 	arm*)	#264534
