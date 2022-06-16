@@ -121,6 +121,9 @@ src_compile() {
 }
 
 src_install() {
+	# TODO(https://crbug.com/1336815): remove workaround when bug is fixed.
+	dodir /bin
+
 	if use ocaml; then
 		findlib_src_preinst
 	fi
