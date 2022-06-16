@@ -25,9 +25,9 @@ NODE_HASHES=(
 )
 NPM_HASHES=(
 	# Current one.
-	50a933e09257e1f586db44434d81a3cc6b6e7d1c7506a92f3d33a644462e543d
-	# Next one.
 	ccc083efac8cc8ee6695be9f6154f249aac8b4256d6065bb3a41b913e1672c6c
+	# Next one.
+	7539e02265e046755ad0fffa36018f915c4feeb2c87f21346ded68a857f38153
 )
 PLUGIN_VERSIONS=(
 	# Current one.
