@@ -19,17 +19,18 @@ IUSE="manatee"
 RDEPEND="sys-apps/dbus"
 
 DEPEND="
+	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*:=
 	=dev-rust/getopts-0.2*:=
 	dev-rust/libchromeos:=
-	>=dev-rust/openssl-0.10.25 <dev-rust/openssl-0.11.0_alpha:=
-	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3.0.0_alpha:=
-	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3.0.0_alpha:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha:=
-	>=dev-rust/serde_derive-1.0.114 <dev-rust/serde_derive-2.0.0_alpha:=
-	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0_alpha:=
+	=dev-rust/log-0.4*:=
+	=dev-rust/openssl-0.10*:=
+	=dev-rust/protobuf-2*:=
+	=dev-rust/protoc-rust-2*:=
+	=dev-rust/serde-1*:=
+	=dev-rust/serde_derive-1*:=
+	=dev-rust/thiserror-1*:=
 "
 
 pkg_setup() {
