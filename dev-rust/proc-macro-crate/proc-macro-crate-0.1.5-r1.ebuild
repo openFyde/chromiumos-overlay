@@ -16,3 +16,4 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="=dev-rust/toml-0.5*:="
+RDEPEND="${DEPEND}"
