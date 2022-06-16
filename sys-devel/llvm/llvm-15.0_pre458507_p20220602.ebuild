@@ -30,7 +30,7 @@ KEYWORDS="-* amd64"
 # FIXME: llvm-tot is somewhat misleading: at the moment, it's essentially
 # llvm-next with a few extra checks enabled
 IUSE="debug +default-compiler-rt +default-libcxx doc libedit +libffi +llvm-crt
-	llvm-next llvm_pgo_generate llvm_pgo_use llvm-next_pgo_use llvm-tot
+	llvm-next llvm_pgo_generate +llvm_pgo_use llvm-next_pgo_use llvm-tot
 	multitarget ncurses ocaml test +thinlto xml video_cards_radeon continue-on-patch-failure"
 
 COMMON_DEPEND="
@@ -71,6 +71,12 @@ check_lld_works() {
 	echo 'int main() {return 0;}' > "${T}"/lld.cxx || die
 	echo "Trying to link program with lld"
 	$(tc-getCXX) -fuse-ld=lld -std=c++11 -o /dev/null "${T}"/lld.cxx
+}
+
+check_pgo_works() {
+	echo 'int main() {return 0;}' > "${T}"/pgo.cxx || die
+	echo "Trying to link program with pgo"
+	$(tc-getCXX) -std=c++11 -o /dev/null "${T}"/pgo.cxx -fprofile-instr-use="${WORKDIR}"/llvm.profdata
 }
 
 apply_pgo_profile() {
@@ -258,9 +264,18 @@ multilib_src_configure() {
 		fi
 
 		if apply_pgo_profile; then
-			mycmakeargs+=(
-				"-DLLVM_PROFDATA_FILE=${WORKDIR}/llvm.profdata"
-			)
+			if check_pgo_works; then
+				mycmakeargs+=(
+					"-DLLVM_PROFDATA_FILE=${WORKDIR}/llvm.profdata"
+				)
+			else
+				# PGO profile did not work which is only acceptable
+				# for the cases where llvm hash != profile hash.
+				# Error out in other cases.
+				$(tc-getCC) --version | grep -q "\b${EGIT_COMMIT}" && die \
+					"Could not build with PGO profile at sha ${EGIT_COMMIT}".
+				echo "Could not build with pgo profile, skipping pgo."
+			fi
 		fi
 
 		if use llvm_pgo_generate; then
