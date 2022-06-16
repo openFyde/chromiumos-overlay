@@ -336,8 +336,24 @@ go_test() {
 # @DESCRIPTION:
 # Wrapper function for running "go vet".
 go_vet() {
-	GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) vet \
+	# shellcheck disable=SC2154
+	GO111MODULE="${GO111MODULE:-off}" GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) vet \
 		"${CROS_GO_VET_FLAGS[@]}" "$@" || die
+}
+
+# @FUNCTION: go_lint
+# @DESCRIPTION:
+# Wrapper function for running "golint"
+go_lint() {
+	# shellcheck disable=SC2154
+	local go_lint_output_base="${CROS_ARTIFACTS_TMP_DIR}/linting_output/go_lint"
+	mkdir -p "${go_lint_output_base}"
+
+	local file_name="${1//'/...'/}"
+	file_name="${file_name//'/'/-}-$(date +%s)"
+
+	GO111MODULE="${GO111MODULE:-off}" GOPATH="$(cros-go_gopath)" golint \
+		"$@" >> "${go_lint_output_base}/${file_name}.txt" || die
 }
 
 # @FUNCTION: cros-go_src_compile
@@ -362,6 +378,11 @@ cros-go_src_compile() {
 	for pkg in "${CROS_GO_VET[@]}" ; do
 		einfo "Vetting \"${pkg}\""
 		go_vet "${pkg}"
+		# Enable the option to output to a file so that the chromite build API
+		# can access Go lints.
+		if [[ -n "${ENABLE_GO_LINT}" ]]; then
+			go_lint "${pkg}"
+		fi
 	done
 }
 
