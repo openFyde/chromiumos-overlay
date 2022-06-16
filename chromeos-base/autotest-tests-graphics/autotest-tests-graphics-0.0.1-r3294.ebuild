@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d5415a25a80c3d7d45467cbc2d26b51b4ff09a9d"
-CROS_WORKON_TREE="ea530abdc0b093b8cefde45bef95da7d37685472"
+CROS_WORKON_COMMIT="114892a539d854bacfd11c6e8412b12f6815bf2b"
+CROS_WORKON_TREE="e37dfbf412226b5d4f72a346c40a171d52a6196e"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -35,6 +35,7 @@ IUSE_TESTS="
 	+tests_graphics_Gbm
 	+tests_graphics_GLAPICheck
 	+tests_graphics_GLBench
+	+tests_graphics_HardwareProbe
 	+tests_graphics_KernelConfig
 	+tests_graphics_KernelMemory
 	+tests_graphics_LibDRM
