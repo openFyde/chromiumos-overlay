@@ -1,9 +1,0 @@
-DEFINED_PHASES=-
-DESCRIPTION=Low level support for a standard C++ library
-EAPI=6
-HOMEPAGE=http://libcxxabi.llvm.org/
-IUSE=+compiler-rt cros_host +libunwind msan llvm-next llvm-tot +static-libs
-KEYWORDS=*
-LICENSE=|| ( UoI-NCSA MIT )
-SLOT=0
-_md5_=94002d5bf45909a86f3819a2fc77b34a
