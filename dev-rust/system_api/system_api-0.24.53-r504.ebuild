@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d4df9f571ae8d9e22df0d520a6ae20d4eb789247"
-CROS_WORKON_TREE=("6b38fedb802cd02e3ab2123e80b6c3d78092fa96" "a0d8550678a1ed2a4ab62782049032a024bf40df" "f2eb2baa58d53161a48e2339b7ac82c52a32fe1d" "1069576199cc10cc2a07d3bddf08aaa5e3172a46" "489a8c6359833cc0dd9677de6f90d9bf5d9be037" "41983f98e3979f6b0bf7d011af1798d85a63f9ff" "ddd22f0572ba73430977571c1084513fb9c7fcc3")
+CROS_WORKON_COMMIT="ee743b609a1842973f0738f143813a824c7f002d"
+CROS_WORKON_TREE=("dea5f7f3fc7e88e61d3a41bd40d45e88a10264f3" "a0d8550678a1ed2a4ab62782049032a024bf40df" "f2eb2baa58d53161a48e2339b7ac82c52a32fe1d" "1069576199cc10cc2a07d3bddf08aaa5e3172a46" "489a8c6359833cc0dd9677de6f90d9bf5d9be037" "41983f98e3979f6b0bf7d011af1798d85a63f9ff" "ddd22f0572ba73430977571c1084513fb9c7fcc3" "3ef30ed62e9e2384286857ec646b140f2bd7b285")
 CROS_RUST_SUBDIR="system_api"
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} authpolicy/dbus_bindings cryptohome/dbus_bindings debugd/dbus_bindings login_manager/dbus_bindings shill/dbus_bindings power_manager/dbus_bindings"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} authpolicy/dbus_bindings cryptohome/dbus_bindings debugd/dbus_bindings login_manager/dbus_bindings shill/dbus_bindings power_manager/dbus_bindings vtpm"
 
 inherit cros-workon cros-rust
 
