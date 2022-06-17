@@ -40,12 +40,9 @@ REQUIRED_USE="libunwind? ( || ( libcxxabi libcxxrt ) )
 # MULTILIB_USEDEP is defined in an eclass, which shellcheck won't see
 # shellcheck disable=SC2154
 RDEPEND="
-	libcxxabi? ( ${CATEGORY}/libcxxabi )
 	libunwind? ( ${CATEGORY}/llvm-libunwind )
 	libcxxrt? ( ${CATEGORY}/libcxxrt[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
-	!libcxxabi? ( !libcxxrt? ( >=sys-devel/gcc-4.7:=[cxx] ) )
-	!cros_host? ( sys-libs/gcc-libs )
-	!<=${CATEGORY}/libcxxabi-14.0_pre450784-r1"
+	!cros_host? ( sys-libs/gcc-libs )"
 DEPEND="${RDEPEND}
 	cros_host? ( sys-devel/llvm )
 	app-arch/xz-utils"
@@ -98,13 +95,6 @@ multilib_src_configure() {
 		# CTARGET is defined in an eclass, which shellcheck won't see
 		# shellcheck disable=SC2154
 		cxxabi_incs="${SYSROOT}/${PREFIX}/include/libcxxabi"
-	elif use libcxxrt; then
-		cxxabi=libcxxrt
-		cxxabi_incs="${EPREFIX}/usr/include/libcxxrt"
-	else
-		local gcc_inc="${EPREFIX}/usr/lib/gcc/${CHOST}/$(gcc-fullversion)/include/g++-v$(gcc-major-version)"
-		cxxabi=libsupc++
-		cxxabi_incs="${gcc_inc};${gcc_inc}/${CHOST}"
 	fi
 	# Use vfpv3 to be able to target non-neon targets.
 	if [[ $(tc-arch) == "arm" ]] ; then
