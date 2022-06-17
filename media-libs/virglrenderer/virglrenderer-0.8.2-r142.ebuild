@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="e32b88bd179fe0c187c25a4b5a936825df6c36ac"
-CROS_WORKON_TREE="7a7161951064ec6af9182454023932cc4477b195"
+CROS_WORKON_COMMIT="da9be3788a7211c5fd87ae8850160b2416c20e3d"
+CROS_WORKON_TREE="3229cf758876cded531e2e91fc5ab1bb26da2e49"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -63,6 +63,7 @@ src_configure() {
 		-Dtracing=percetto
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
+		-Dcheck-gl-errors="false"
 		$(meson_use fuzzer)
 		--buildtype $(usex debug debug release)
 	)

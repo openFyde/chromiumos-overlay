@@ -61,6 +61,7 @@ src_configure() {
 		-Dtracing=percetto
 		-Dminigbm_allocation="true"
 		-Dplatforms="egl"
+		-Dcheck-gl-errors="false"
 		$(meson_use fuzzer)
 		--buildtype $(usex debug debug release)
 	)
