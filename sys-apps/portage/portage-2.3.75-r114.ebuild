@@ -6,9 +6,7 @@ EAPI=5
 CROS_WORKON_COMMIT="cab9de80fabc1f3340f4a65b49f9d9b284fe4ecf"
 CROS_WORKON_TREE="de57c95365012357d1c5bd97da4bbe65ac8da32b"
 PYTHON_COMPAT=(
-	pypy
-	python3_4 python3_5 python3_6 python3_7
-	python2_7
+	python3_{6..9}
 )
 PYTHON_REQ_USE='bzip2(+),threads(+)'
 
@@ -31,9 +29,7 @@ DEPEND="!build? ( $(python_gen_impl_dep 'ssl(+)') )
 	>=app-arch/tar-1.27
 	dev-lang/python-exec:2
 	>=sys-apps/sed-4.0.5 sys-devel/patch
-	doc? ( app-text/xmlto ~app-text/docbook-xml-dtd-4.4 )
-	epydoc? ( $(python_gen_cond_dep '>=dev-python/epydoc-2.0[${PYTHON_USEDEP}]' \
-		'python2*') )"
+	doc? ( app-text/xmlto ~app-text/docbook-xml-dtd-4.4 )"
 # Require sandbox-2.2 for bug #288863.
 # For xattr, we can spawn getfattr and setfattr from sys-apps/attr, but that's
 # quite slow, so it's not considered in the dependencies as an alternative to
@@ -50,8 +46,6 @@ RDEPEND="
 		>=sys-apps/sed-4.0.5
 		app-shells/bash:0[readline]
 		>=app-admin/eselect-1.2
-		$(python_gen_cond_dep 'dev-python/pyblake2[${PYTHON_USEDEP}]' \
-			python{2_7,3_4,3_5} pypy)
 		rsync-verify? (
 			>=app-portage/gemato-14[${PYTHON_USEDEP}]
 			>=app-crypt/openpgp-keys-gentoo-release-20180706
@@ -66,8 +60,6 @@ RDEPEND="
 	selinux? ( >=sys-libs/libselinux-2.0.94[python,${PYTHON_USEDEP}] )
 	xattr? ( kernel_linux? (
 		>=sys-apps/install-xattr-0.3
-		$(python_gen_cond_dep 'dev-python/pyxattr[${PYTHON_USEDEP}]' \
-			python2_7 pypy)
 	) )
 	!<app-portage/gentoolkit-0.3.0.8-r4
 	!<app-admin/logrotate-3.8.0
@@ -79,8 +71,6 @@ PDEPEND="
 	)"
 # coreutils-6.4 rdep is for date format in emerge-webrsync #164532
 # NOTE: FEATURES=installsources requires debugedit and rsync
-
-REQUIRED_USE="epydoc? ( $(python_gen_useflags 'python2*') )"
 
 SRC_ARCHIVES="https://dev.gentoo.org/~zmedico/portage/archives"
 
