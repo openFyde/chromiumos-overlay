@@ -1230,11 +1230,13 @@ FIRMWARE_BINARIES=(
 	builtin_fw_amdgpu_yellow_carp
 	builtin_fw_guc_adl
 	builtin_fw_guc_adl_kernelnext
+	builtin_fw_guc_adln
 	builtin_fw_guc_g9
 	builtin_fw_guc_jsl
 	builtin_fw_guc_tgl
 	builtin_fw_huc_adl
 	builtin_fw_huc_adl_kernelnext
+	builtin_fw_huc_adln
 	builtin_fw_huc_g9
 	builtin_fw_huc_jsl
 	builtin_fw_huc_tgl
@@ -1402,6 +1404,11 @@ builtin_fw_guc_adl_kernelnext_files=(
 	i915/adlp_guc_70.1.1.bin
 )
 
+builtin_fw_guc_adln_desc="GuC Firmware for ADL-N"
+builtin_fw_guc_adln_files=(
+	i915/adlp_guc_62.0.3.bin
+)
+
 builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
 builtin_fw_guc_g9_files=(
 	i915/kbl_guc_ver9_39.bin
@@ -1424,6 +1431,11 @@ builtin_fw_huc_adl_files=(
 
 builtin_fw_huc_adl_kernelnext_desc="HuC Firmware for ADL Kernelnext"
 builtin_fw_huc_adl_kernelnext_files=(
+	i915/tgl_huc_7.9.3.bin
+)
+
+builtin_fw_huc_adln_desc="HuC Firmware for ADL-N"
+builtin_fw_huc_adln_files=(
 	i915/tgl_huc_7.9.3.bin
 )
 
