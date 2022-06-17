@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bb99924c5189727488461975197d8966101c55b2"
+CROS_WORKON_COMMIT="ba8f4f38daa02a4138039fcde1b61ecfa4302a18"
 CROS_WORKON_TREE=("1f5bbd5363008347b153c2beb9a4be9a700eb090" "eb8272b4333d9a8379aed92829d7aac409fbf666" "b5e5cc3cb433b930d2a6b31ca36113049958a90e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
+	dev-libs/libevdev:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
