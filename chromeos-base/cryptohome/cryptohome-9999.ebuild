@@ -178,6 +178,9 @@ src_install() {
 		doins cert_provision.h
 	fi
 
+    # Install udev rules for cryptohome.
+	udev_dorules udev/50-dm-cryptohome.rules
+
 	# Install seccomp policy for bootlockboxd
 	insinto /usr/share/policy
 	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
