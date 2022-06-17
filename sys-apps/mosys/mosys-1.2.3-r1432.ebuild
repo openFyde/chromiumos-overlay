@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("d455739203b4cb8884554523cbdaa7571696c3c8" "ea98b6cd54ddda826190067096ccbccfa8839511")
+CROS_WORKON_COMMIT=("9692137d0bdd0a9fc23a3b40adc88c46617ba8d1" "ea98b6cd54ddda826190067096ccbccfa8839511")
 CROS_WORKON_TREE=("1f5bbd5363008347b153c2beb9a4be9a700eb090" "5f17d1b52c9ca6c83e38b0df6d4a74a45e12f88f")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -100,13 +100,6 @@ src_configure() {
 			break
 		fi
 	done
-
-	if use unibuild; then
-		if [[ "${platform_intf}" != "$(cros_config_host get-mosys-platform)" &&
-			"$(cros_config_host get-mosys-platform)" != "Majolica" ]]; then
-			die "USE flag data source does not match value configured in cros_config"
-		fi
-	fi
 
 	if [[ -n "${platform_intf}" ]]; then
 		emesonargs+=(
