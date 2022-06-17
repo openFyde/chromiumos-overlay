@@ -44,7 +44,8 @@ src_install() {
 	doins share/org.chromium.featured.conf
 
 	insinto /etc/init
-	doins share/featured.conf share/platform-features.json
+	doins share/featured.conf share/featured-chrome-restart.conf\
+		share/platform-features.json
 
 	local fuzzer_component_id="1096648"
 	platform_fuzzer_install "${S}"/OWNERS \
