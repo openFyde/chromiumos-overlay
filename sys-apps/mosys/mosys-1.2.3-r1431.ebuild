@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b86e7dfbcf2ab819336874c5109522ea69b11487" "ea98b6cd54ddda826190067096ccbccfa8839511")
+CROS_WORKON_COMMIT=("d455739203b4cb8884554523cbdaa7571696c3c8" "ea98b6cd54ddda826190067096ccbccfa8839511")
 CROS_WORKON_TREE=("1f5bbd5363008347b153c2beb9a4be9a700eb090" "5f17d1b52c9ca6c83e38b0df6d4a74a45e12f88f")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -28,13 +28,51 @@ WANT_LIBBRILLO="no"
 
 inherit meson flag-o-matic toolchain-funcs cros-unibuild cros-workon platform
 
+PLATFORM_NAMES=(
+	"Asuka"
+	"Asurada"
+	"Caroline"
+	"Cave"
+	"Chell"
+	"Cherry"
+	"Coral"
+	"Corsola"
+	"Dedede"
+	"Fizz"
+	"Generic"
+	"Glados"
+	"Gru"
+	"Grunt"
+	"Hatch"
+	"Herobrine"
+	"Kalista"
+	"Kukui"
+	"Lars"
+	"Oak"
+	"Octopus"
+	"Poppy"
+	"Puff"
+	"Reef"
+	"Sarien"
+	"Sentry"
+	"Strago"
+	"Trogdor"
+	"Volteer"
+	"Zork"
+)
+PLATFORM_NAME_USE_FLAGS=()
+for platform_name in "${PLATFORM_NAMES[@]}"; do
+	PLATFORM_NAME_USE_FLAGS+=("mosys_platform_${platform_name,,}")
+done
+
 DESCRIPTION="Utility for obtaining various bits of low-level system info"
 HOMEPAGE="http://mosys.googlecode.com/"
 
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="unibuild vpd_file_cache"
+IUSE="unibuild vpd_file_cache ${PLATFORM_NAME_USE_FLAGS[*]}"
+REQUIRED_USE="^^ ( ${PLATFORM_NAME_USE_FLAGS[*]} )"
 
 RDEPEND="
 	vpd_file_cache? ( chromeos-base/vpd )
@@ -56,13 +94,18 @@ src_configure() {
 		-Darch=$(tc-arch)
 	)
 
+	for ((i = 0; i < ${#PLATFORM_NAMES[@]}; i++)); do
+		if use "${PLATFORM_NAME_USE_FLAGS[${i}]}"; then
+			platform_intf="${PLATFORM_NAMES[${i}]}"
+			break
+		fi
+	done
+
 	if use unibuild; then
-		platform_intf="$(cros_config_host get-mosys-platform)"
-	else
-		# TODO(jrosenth): hard code some board to platform_intf
-		# mappings here for legacy non-unibuild boards.  For now, this
-		# feature is unibuild only.
-		true
+		if [[ "${platform_intf}" != "$(cros_config_host get-mosys-platform)" &&
+			"$(cros_config_host get-mosys-platform)" != "Majolica" ]]; then
+			die "USE flag data source does not match value configured in cros_config"
+		fi
 	fi
 
 	if [[ -n "${platform_intf}" ]]; then
