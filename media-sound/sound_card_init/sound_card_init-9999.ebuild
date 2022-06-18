@@ -22,6 +22,7 @@ DEPEND="
 	dev-rust/cc:=
 	dev-rust/getopts:=
 	dev-rust/sys_util:=
+	dev-rust/serde_json:=
 	dev-rust/serde_yaml:=
 	dev-rust/thiserror:=
 	dev-rust/remain:=
