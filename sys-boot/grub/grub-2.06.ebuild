@@ -27,6 +27,7 @@ src_prepare() {
 	epatch "${FILESDIR}/0003-Add-configure-option-to-reduce-visual-clutter-at-boo.patch"
 	epatch "${FILESDIR}/configure-Remove-obsoleted-malign-jumps-loops-functions.patch"
 	epatch "${FILESDIR}/configure-Check-for-falign-jumps-1-beside-falign-loops-1.patch"
+	epatch "${FILESDIR}/configure-replace-wl-r-d-fno-common.patch"
 
 	bash autogen.sh || die
 }
