@@ -36,6 +36,7 @@ src_prepare() {
 		"${FILESDIR}"/${PN}-2.9.3-kernel-types.patch
 		"${FILESDIR}"/${PN}-2.9.7-pass-fuse-fd.patch
 		"${FILESDIR}"/${PN}-2.9.8-user-option.patch
+		"${FILESDIR}"/${PN}-2.9.9-closefrom-glibc-2-34.patch
 	)
 	# sandbox violation with mtab writability wrt #438250
 	# don't sed configure.in without eautoreconf because of maintainer mode
