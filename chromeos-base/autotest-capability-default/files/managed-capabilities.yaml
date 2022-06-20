@@ -87,8 +87,11 @@
 ## HW encoding for 1080p@30fps h264 formatted videos. Same for vp8 and vp9.
 ## We mark a device with hw_enc_h264_2160_30 capability if it supports
 ## HW h264 encoding for 2160p but may not guarantee 30fps. Same for vp8 and vp9.
+## We mark a device with hw_enc_h264_vbr if it supports H264 variable bitrate
+## (VBR) encoding. Same for vp8 and vp9.
 - hw_enc_h264_1080_30
 - hw_enc_h264_2160_30
+- hw_enc_h264_vbr
 ## Add hw_enc_h264_odd_dimension when video.EncodeAccel has a test
 ## exercising odd-dimension encoding.
 
@@ -96,11 +99,13 @@
 - hw_enc_vp8_1080_30
 - hw_enc_vp8_2160_30
 - hw_enc_vp8_odd_dimension
+- hw_enc_vp8_vbr
 
 ## VP9
 - hw_enc_vp9_1080_30
 - hw_enc_vp9_2160_30
 - hw_enc_vp9_odd_dimension
+- hw_enc_vp9_vbr
 
 ## JPEG
 ## hw_enc_jpeg is marked if a device supports JPEG HW encoding.
