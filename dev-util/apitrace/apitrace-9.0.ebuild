@@ -43,6 +43,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-8.0-snappy-license.patch
 	"${FILESDIR}"/0001-Fallback-to-NULL-platform-if-no-X.patch
 	"${FILESDIR}"/${PN}-9.0-egl-environment.patch
+	"${FILESDIR}"/${P}-libc-dlopen-glibc-2.34.patch
 )
 
 src_prepare() {
