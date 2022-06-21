@@ -17,7 +17,7 @@ CROS_WORKON_REPO=(
 )
 CROS_WORKON_EGIT_BRANCH=(
 	"main"
-	"master"
+	"main"
 	"master"
 )
 CROS_WORKON_LOCALNAME=(
