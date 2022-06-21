@@ -60,6 +60,16 @@ CROS_WORKON_SUBTREE=(
 	""
 	""
 )
+CROS_WORKON_EGIT_BRANCH=(
+	"main"
+	"master"
+	"master"
+	"master"
+	"master"
+	"master"
+	"master"
+	"master"
+)
 
 PLATFORM_SUBDIR="nnapi"
 
