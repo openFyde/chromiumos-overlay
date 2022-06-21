@@ -8,9 +8,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("63a8a1366e390b757c37e167927102be0fc4fb63" "a77bf0779e1005c9fd840955193ac7257d67bc05" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
-CROS_WORKON_TREE=("c06f1438b73115db8af42bc05d3df2483c6abf29" "f64a48b91fc35d5760bca966436e0effc9e5cacb" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
-FIRMWARE_EC_BOARD="nocturne_fp"
+CROS_WORKON_COMMIT=("6c1587ca70f558b4f96b3f0b18ad8b027d3ba99d" "a77bf0779e1005c9fd840955193ac7257d67bc05" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
+CROS_WORKON_TREE=("9a15b4a98d7987870a1805a33883d0cf9123fc05" "f64a48b91fc35d5760bca966436e0effc9e5cacb" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
+FIRMWARE_EC_BOARD="dartmonkey"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-nocturne"
+	"../platform/release-firmware/fpmcu-dartmonkey"
 	"tpm2"
 	"cryptoc"
 )
@@ -37,8 +37,13 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 )
 
-inherit cros-workon cros-ec-release
+inherit cros-workon cros-ec-release cros-sanitizers
 
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
