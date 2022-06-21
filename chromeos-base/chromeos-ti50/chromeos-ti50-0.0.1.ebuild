@@ -16,14 +16,11 @@ RDEPEND="chromeos-base/chromeos-cr50-dev
 
 # There are two major types of images of Ti50, prod (used on most MP devices)
 # and pre-pvt, used on devices still not fully released.
-#
-# Until we have a pre-pvt ti50 branch, install MP image for both prod and
-# pre pvt iamges.
 PROD_IMAGE="ti50.ro.0.0.26.rw.0.21.0"
-PRE_PVT_IMAGE="ti50.ro.0.0.26.rw.0.21.0"
+PRE_PVT_IMAGE="ti50.ro.0.0.26.rw.0.22.0"
 
 # Ensure all images and included in the manifest.
-TI50_BASE_NAMES=( "${PRE_PVT_IMAGE}" )
+TI50_BASE_NAMES=( "${PROD_IMAGE}" "${PRE_PVT_IMAGE}" )
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 SRC_URI="$(printf " ${MIRROR_PATH}/%s.tar.xz" "${TI50_BASE_NAMES[@]}")"
 
@@ -39,5 +36,5 @@ src_install() {
 	einfo "Will install ${PROD_IMAGE} and ${PRE_PVT_IMAGE}"
 
 	newins "${PROD_IMAGE}"/*.bin.prod ti50.bin.prod
-	newins "${PRE_PVT_IMAGE}"/*.bin.prod ti50.bin.prepvt
+	newins "${PRE_PVT_IMAGE}"/*.bin.prepvt ti50.bin.prepvt
 }
