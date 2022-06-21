@@ -474,7 +474,8 @@ cros-rust_configure_cargo() {
 
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
-	use coverage && rustflags+=( -Zinstrument-coverage )
+ 	# TODO(b/230127632) disable Rust coverage until it works-as-intended.
+	# use coverage && rustflags+=( -Zinstrument-coverage )
 
 	# Rust compiler is not exporting the __asan_* symbols needed in
 	# asan builds. Force export-dynamic linker flag to export __asan_* symbols
