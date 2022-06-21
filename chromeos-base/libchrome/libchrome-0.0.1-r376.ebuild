@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("f4695e0740c37940285ac1cae35dc94ec62dd297" "3f3f26db8adf41f4698a5f4bc65919e38b7ac204")
-CROS_WORKON_TREE=("f13fe6260d63162b9e22bba96b94c30874378934" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0e1cb862a9838ddaa99ab739c2c7226dd787138a")
+CROS_WORKON_COMMIT=("8e0f87dfc29f93a3beb4d0135911de2139e00895" "b10a5b9d736bcc9c6a3114b175b376ea30c5cfd2")
+CROS_WORKON_TREE=("f13fe6260d63162b9e22bba96b94c30874378934" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "56f837d1384f93837efc17dbc28fe8991d10e183")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -109,7 +109,8 @@ src_test() {
 }
 
 src_install() {
-	export BASE_VER="$(cat BASE_VER)"
+	platform_install
+
 	dolib.so "${OUT}"/lib/libbase*.so
 	dolib.a "${OUT}"/libbase*.a
 
@@ -162,48 +163,6 @@ src_install() {
 		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
-
-	insinto /usr/include/libchrome/base/test
-	doins \
-		base/test/bind.h \
-		base/test/mock_callback.h \
-		base/test/scoped_chromeos_version_info.h \
-		base/test/scoped_feature_list.h \
-		base/test/scoped_running_on_chromeos.h \
-		base/test/scoped_run_loop_timeout.h \
-		base/test/simple_test_clock.h \
-		base/test/simple_test_tick_clock.h \
-		base/test/task_environment.h \
-		base/test/test_file_util.h \
-		base/test/test_future.h \
-		base/test/test_mock_time_task_runner.h \
-		base/test/test_pending_task.h \
-		base/test/test_switches.h \
-		base/test/test_timeouts.h \
-
-	if use crypto; then
-		insinto /usr/include/libchrome/crypto
-		doins \
-			crypto/crypto_export.h \
-			crypto/hmac.h \
-			crypto/libcrypto-compat.h \
-			crypto/nss_key_util.h \
-			crypto/nss_util.h \
-			crypto/nss_util_internal.h \
-			crypto/openssl_util.h \
-			crypto/p224.h \
-			crypto/p224_spake.h \
-			crypto/random.h \
-			crypto/rsa_private_key.h \
-			crypto/scoped_nss_types.h \
-			crypto/scoped_openssl_types.h \
-			crypto/scoped_test_nss_db.h \
-			crypto/secure_hash.h \
-			crypto/secure_util.h \
-			crypto/sha2.h \
-			crypto/signature_creator.h \
-			crypto/signature_verifier.h
-	fi
 
 	insinto /usr/$(get_libdir)/pkgconfig
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
@@ -281,7 +240,4 @@ src_install() {
 		# insinto /usr/share/libchrome/mojom_type_mappings_typemapping
 		# doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
 	# fi
-
-	insinto /usr/share/libchrome
-	doins BASE_VER
 }
