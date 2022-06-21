@@ -203,6 +203,6 @@ src_install() {
 	insinto /var/lib/initramfs
 	for target in ${TARGETS_IUSE}; do
 		use "${target}" &&
-			doins "${WORKDIR}/${target}.cpio.xz"
+			doins "${WORKDIR}/${target}.cpio"
 	done
 }
