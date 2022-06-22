@@ -119,7 +119,6 @@ platform_pkg_test() {
 	local tests=(
 		file_unittest
 		math_unittest
-		platform_unittest
 		vpd_unittest
 	)
 	local test_bin
