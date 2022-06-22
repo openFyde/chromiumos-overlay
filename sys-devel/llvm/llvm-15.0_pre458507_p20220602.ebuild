@@ -334,6 +334,38 @@ src_install() {
 	multilib-minimal_src_install
 }
 
+# This computes the toolchain SHA that gets baked into our compiler_wrapper
+# binaries. This SHA is potentially nice for uniquely identifying a toolchain,
+# but the most critical purpose that it serves is making the SHA for our
+# compiler_wrapper change with the toolchain that it was installed with. If any
+# of these binaries get modified and we fail to update compiler_wrapper, tools
+# like ccache, ninja, etc might not expect the updates without extra work (thus,
+# cached object files might not be considered stale across compiler updates).
+#
+# Rather than playing whack-a-mole with ways to inform each build system that
+# our compiler has changed (despite its hash remaining identical), we simply
+# modify its hash when any of the binaries it calls may change.
+compute_toolchain_sha() {
+	local toolchain_sha_binaries=(
+		"bin/clang"
+		"bin/clang-tidy"
+		"bin/ld.lld"
+	)
+
+	# Compute the SHA sums for each of these in parallel, then hash the
+	# result. This hash represents all of the (non-header, non-library)
+	# dependencies that Clang has.
+	#
+	# This is expected to be called in a subshell, so don't try to restore
+	# pipefail.
+	set -o pipefail
+	echo "${toolchain_sha_binaries[*]}" |
+		xargs -L1 -P8 sha256sum |
+		sort -k2 |
+		sha256sum - |
+		awk '{print $1}'
+}
+
 multilib_src_install() {
 	cmake_src_install
 
@@ -344,9 +376,19 @@ multilib_src_install() {
 	fi
 	local wrapper_script=clang_host_wrapper
 
+	local toolchain_sha
+	echo "Current directory is $(pwd)"
+	toolchain_sha="$(compute_toolchain_sha)" || die
+	einfo "Computed toolchain SHA = ${toolchain_sha}"
+
+	local common_wrapper_flags=(
+		"--version_suffix=_toolchain_sha_${toolchain_sha}"
+	)
+
 	GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config=cros.host --use_ccache=false \
 		--use_llvm_next="${use_llvm_next}" \
-		--output_file="${D}/usr/bin/${wrapper_script}" || die
+		--output_file="${D}/usr/bin/${wrapper_script}" \
+		"${common_wrapper_flags[@]}" || die
 
 	newbin "${D}/usr/bin/clang-tidy" "clang-tidy"
 	dobin "${FILESDIR}/bisect_driver.py"
@@ -376,13 +418,15 @@ multilib_src_install() {
 		GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config="cros.hardened" \
 			--use_ccache="${ccache_option}" \
 			--use_llvm_next="${use_llvm_next}" \
-			--output_file="${D}/usr/bin/sysroot_wrapper.hardened.${ccache_suffix}" || die
+			--output_file="${D}/usr/bin/sysroot_wrapper.hardened.${ccache_suffix}" \
+			"${common_wrapper_flags[@]}" || die
 
 		# Build non-hardened wrapper written in golang.
 		GO111MODULE=off "${FILESDIR}/compiler_wrapper/build.py" --config="cros.nonhardened" \
 			--use_ccache="${ccache_option}" \
 			--use_llvm_next="${use_llvm_next}" \
-			--output_file="${D}/usr/bin/sysroot_wrapper.${ccache_suffix}" || die
+			--output_file="${D}/usr/bin/sysroot_wrapper.${ccache_suffix}" \
+			"${common_wrapper_flags[@]}" || die
 	done
 
 	local cros_hardened_targets=(
