@@ -30,6 +30,7 @@ src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/arcvm-fsverity-certs.conf
 	doins arc/vm/scripts/init/arcvm-host.conf
+	doins arc/vm/scripts/init/arcvm-media-sharing-services.conf
 	doins arc/vm/scripts/init/arcvm-post-login-services.conf
 	doins arc/vm/scripts/init/arcvm-post-vm-start-services.conf
 	doins arc/vm/scripts/init/arcvm-pre-login-services.conf
