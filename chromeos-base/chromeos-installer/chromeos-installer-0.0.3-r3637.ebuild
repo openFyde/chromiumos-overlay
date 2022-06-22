@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="8e0f87dfc29f93a3beb4d0135911de2139e00895"
+CROS_WORKON_COMMIT="f5caed9f726c492522ebb6fbea6508ad9e2953bf"
 CROS_WORKON_TREE=("686c1688c7cbc5f9aa4368dee421b80afd19e51a" "f13fe6260d63162b9e22bba96b94c30874378934" "01d5aabaf0fd2f9b271a2445ef944cb16aace47b" "a65107acb3c4cbbae51687d8409856f07b5dda27" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -61,6 +61,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/cros_installer
 	if use mtd ; then
 		dobin "${OUT}"/nand_partition
