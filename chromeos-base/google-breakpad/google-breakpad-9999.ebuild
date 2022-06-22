@@ -60,13 +60,13 @@ src_configure() {
 		# like https://chromium.googlesource.com/breakpad/breakpad/+/4116671cbff9e99fbd834a1b2cdd174226b78c7c
 		einfo "Configuring 32-bit build"
 		mkdir work32
-		pushd work32 >/dev/null
+		pushd work32 >/dev/null || die
 		use cros_host && append-flags "-m32"
 		use_i686 && push_i686_env
 		ECONF_SOURCE=${S} multijob_child_init econf
 		use_i686 && pop_i686_env
 		use cros_host && filter-flags "-m32"
-		popd >/dev/null
+		popd >/dev/null || die
 	fi
 
 	if use_arm64; then
@@ -74,11 +74,11 @@ src_configure() {
 		# like https://chromium.googlesource.com/breakpad/breakpad/+/4116671cbff9e99fbd834a1b2cdd174226b78c7c
 		einfo "Configuring 64-bit build"
 		mkdir work64
-		pushd work64 >/dev/null
+		pushd work64 >/dev/null || die
 		use_arm64 && push_arm64_env
 		ECONF_SOURCE=${S} multijob_child_init econf
 		use_arm64 && pop_arm64_env
-		popd >/dev/null
+		popd >/dev/null || die
 	fi
 
 	multijob_finish
@@ -153,6 +153,7 @@ src_install() {
 		pop_arm64_env
 	fi
 
+	# shellcheck disable=SC2016 # we don't want `${libdir}` to expand below.
 	find "${ED}/usr" -name breakpad-client.pc \
 		-exec sed -i '/^Libs:/s/-L${libdir} //g' {} + || die
 }
