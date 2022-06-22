@@ -39,6 +39,7 @@ IUSE="
 	biod
 	borealis_host
 	camera_feature_hdrnet
+	camera_feature_portrait_mode
 	cdm_factory_daemon
 	cert_provision
 	cheets_user
