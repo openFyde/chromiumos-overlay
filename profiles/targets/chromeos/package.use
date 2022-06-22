@@ -81,8 +81,9 @@ net-libs/glib-networking -gnome -libproxy
 # Also |messages| is for enabling POST processor in the library.
 net-libs/libmicrohttpd	ssl messages
 net-libs/libsoup	-ssl
-# TODO(b/172893124): Enable http2
-net-misc/curl		adns -ftp -imap kerberos -http2 -pop3 -progress-meter -smtp -tftp
+# Disable boost.asio in net-libs/nghttp2 (b/172893124).
+net-libs/nghttp2	-cxx
+net-misc/curl		adns -ftp -imap kerberos -pop3 -progress-meter -smtp -tftp
 net-misc/dhcpcd		crash
 net-misc/iperf		threads
 # arping is used by some wifi autotests.
