@@ -1,0 +1,12 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile info install setup unpack
+DESCRIPTION=Exports JSON config from chromite/lib/firmware/ap_firmware_config
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/chromite/+/refs/heads/main/lib/firmware/README.md
+IUSE=cros_host cros_workon_tree_463d8b53ed2fbeb6a8c171f06ddcba0d54b823c1_5328e03abfd1af165a3a26805d1ff6b213a3ca48_3b77656cda07c717526856b187dc80caa6c06b22_047aec16e03eb36312cc201dc75d33e25ece833d
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+SLOT=0/0.0.1-r331
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=14dce76f19c53e1c0ae9ef96318103ec
