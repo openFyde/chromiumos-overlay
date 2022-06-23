@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0169f03232ae0858b1af619baf327e6778b70839"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f13fe6260d63162b9e22bba96b94c30874378934" "3348d054b9e9a09fd36cc269f9ba419ccb2f08ed" "1811069d8336280067e37e916bf8b24942da00cf" "edd137cde55c2268d930848055b52093fc82a3d9" "50ecc6b2cdffcdf8468fb3598a423b8e0558dd06" "29d52c6d2464057e3fde8214a173f96d96f3b267" "08897c4a40cbfc55436d85de2d7133d572556458" "0a6d4dbdf397fb89f6c03afb0230c188ae632ead" "686c1688c7cbc5f9aa4368dee421b80afd19e51a" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "7f75062369f81d0a20d6235046dafa9416de6f02")
+CROS_WORKON_COMMIT="1e366376233c715dde72c6365251150ad4ce1d22"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f13fe6260d63162b9e22bba96b94c30874378934" "3348d054b9e9a09fd36cc269f9ba419ccb2f08ed" "1811069d8336280067e37e916bf8b24942da00cf" "a2980548235a6761d7ad924bfcac61445bf6c0f7" "50ecc6b2cdffcdf8468fb3598a423b8e0558dd06" "29d52c6d2464057e3fde8214a173f96d96f3b267" "08897c4a40cbfc55436d85de2d7133d572556458" "0a6d4dbdf397fb89f6c03afb0230c188ae632ead" "686c1688c7cbc5f9aa4368dee421b80afd19e51a" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "7f75062369f81d0a20d6235046dafa9416de6f02")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo"
@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 # 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
-IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se"
+IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se qualcomm_camx"
 
 # Auto face framing depends on the face detection feature.
 REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
@@ -82,9 +82,9 @@ src_install() {
 	insinto /usr/share/policy
 	newins "seccomp_filter/cros-camera-algo-${ARCH}.policy" cros-camera-algo.policy
 
-	# The sandboxed GPU service is used by Portrait Mode feature and IPU6SE
-	# camera HAL.
-	if use camera_feature_portrait_mode || use ipu6se; then
+	# The sandboxed GPU service is used by Portrait Mode feature, IPU6SE
+	# and Qualcomm Camx camera HAL.
+	if use camera_feature_portrait_mode || use ipu6se || use qualcomm_camx; then
 		insinto /etc/init
 		doins init/cros-camera-gpu-algo.conf
 
