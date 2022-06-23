@@ -3,9 +3,9 @@
 
 EAPI="7"
 
-CROS_WORKON_PROJECT=("aosp/platform/external/libchrome")
-CROS_WORKON_LOCALNAME=("aosp/external/libchrome")
-CROS_WORKON_EGIT_BRANCH=("master")
+CROS_WORKON_PROJECT=("chromiumos/platform/libchrome")
+CROS_WORKON_LOCALNAME=("platform/libchrome")
+CROS_WORKON_EGIT_BRANCH=("main")
 CROS_WORKON_SUBTREE=("mojo/public/tools")
 PYTHON_COMPAT=( python3_{6..9} )
 

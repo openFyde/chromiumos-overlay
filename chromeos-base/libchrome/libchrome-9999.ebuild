@@ -3,9 +3,9 @@
 
 EAPI="7"
 
-CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/external/libchrome")
-CROS_WORKON_LOCALNAME=("platform2" "aosp/external/libchrome")
-CROS_WORKON_EGIT_BRANCH=("main" "master")
+CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/libchrome")
+CROS_WORKON_LOCALNAME=("platform2" "platform/libchrome")
+CROS_WORKON_EGIT_BRANCH=("main" "main")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
