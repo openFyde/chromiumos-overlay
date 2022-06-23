@@ -165,9 +165,9 @@ src_install() {
 
 	# Temporary fix for b/231741170: don't enable BQR on specific platforms
 	# to prevent device can't suspend issue.
-	if use bluez_disallow_bqr; then
-		sed -i 's/#DisallowBQR/DisallowBQR/g' main.conf
-	fi
+	# b/236801410: Unfortunately we observe this on most platforms, so let's
+	# just disable BQR entirely.
+	sed -i 's/#DisallowBQR/DisallowBQR/g' main.conf
 
 	insinto "/etc/bluetooth"
 	doins main.conf
