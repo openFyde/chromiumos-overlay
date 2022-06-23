@@ -14,6 +14,14 @@ KERNEL=="ttyCMBIM[0-9]", SUBSYSTEM=="ccci_node", GOTO="modem_change_mode"
 KERNEL=="wwan0mbim*", SUBSYSTEM=="wwan", GOTO="modem_change_mode"
 KERNEL=="wwan0at0", SUBSYSTEM=="wwan", GOTO="modem_change_mode"
 
+# Allow modem group to call for cold reboot of PCI device.
+# In this case, we catch the following path:
+# /devices/pci0000:00/0000:00:AA.0/0000:BB:00.0/wwan/wwan0 (wwan)
+# We set wwan device's cold_reboot endpoint as writable by modem group.
+ACTION=="add", DEVPATH=="*wwan/wwan0", \
+    RUN+="/bin/chgrp modem $sys/$devpath/device/cold_reboot" \
+    RUN+="/bin/chmod g+w $sys/$devpath/device/cold_reboot"
+
 #-------------------------------------------------------------------------------
 # 'usb' devices
 
