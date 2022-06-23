@@ -113,7 +113,8 @@ src_test() {
 		einfo Skipping unit tests on non-x86 platform
 		return
 	fi
-	emake -C build check
+	# VERBOSE controls the test log output.
+	emake -C build VERBOSE=1 check
 }
 
 src_install() {
