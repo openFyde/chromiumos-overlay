@@ -55,6 +55,7 @@ IUSE="
 	fusebox
 	fuzzer
 	fwupd
+	gl3590
 	hammerd
 	iioservice
 	ime
@@ -343,6 +344,7 @@ RDEPEND="
 		sys-apps/fwupd
 		sys-firmware/fwupd-peripherals
 		mmc? ( sys-firmware/mmc-firmware )
+		gl3590? ( sys-firmware/gl3590-firmware )
 	)
 	smbprovider? (
 		chromeos-base/smbfs
