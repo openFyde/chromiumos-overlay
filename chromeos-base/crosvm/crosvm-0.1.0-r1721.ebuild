@@ -299,6 +299,7 @@ src_test() {
 		# Skip tests in x86_64 that need KVM.
 		--skip "cpuid::tests::feature_and_vendor_name"
 		--skip "test_integration::simple_kvm"
+		--skip "test_integration::sys::unix::simple_kvm"
 	)
 
 	# If syslog isn't available, skip the tests.
