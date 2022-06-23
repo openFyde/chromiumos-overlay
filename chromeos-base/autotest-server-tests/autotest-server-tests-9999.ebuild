@@ -22,8 +22,6 @@ IUSE="
 	+autotest
 	biod
 	+cellular
-	+cheets_user
-	cheets_user_64
 	-chromeless_tests
 	-chromeless_tty
 	debugd
@@ -97,19 +95,11 @@ SERVER_IUSE_TESTS="
 	dlc_test? ( +tests_autoupdate_WithDLC )
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
-		cheets_user? (
-			+tests_cheets_CTS_Instant
-			+tests_cheets_CTS_P
-		)
-		cheets_user_64? (
-			+tests_cheets_CTS_Instant
-			+tests_cheets_CTS_P
-		)
+		+tests_cheets_CTS_Instant
+		+tests_cheets_CTS_P
 	)
 	android-vm-rvc? (
-		cheets_user_64? (
-			+tests_cheets_CTS_R
-		)
+		+tests_cheets_CTS_R
 	)
 	+tests_cellular_Callbox_AssertCellularData
 	+tests_cellular_Callbox_AssertSMS
