@@ -202,6 +202,7 @@ src_install() {
 	doins build/hps_platform/gateware/hps_platform_build.metadata
 
 	# Generate and install the build manifest.
+	# shellcheck disable=SC2154 # VCSID is supplied by cros-workon.eclass
 	echo "${VCSID}" > manifest.txt
 	cat models/manifest.txt >> manifest.txt
 
