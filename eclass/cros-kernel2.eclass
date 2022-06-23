@@ -2179,6 +2179,7 @@ kmake() {
 		HOSTCC="${BUILD_CC}" \
 		HOSTCXX="${BUILD_CXX}" \
 		HOSTPKG_CONFIG="${BUILD_PKG_CONFIG}" \
+		CLANG_CROSS_FLAGS="--target=${cross}" \
 		"$@"
 
 	# The kernel Makefile allows this optionally set from the environment,
@@ -2394,6 +2395,10 @@ cros-kernel2_src_configure() {
 			ewarn "Can't prepareconfig, falling back to default " \
 				"${config}"
 			cp "${config}" "${build_cfg}" || die
+			# Allow usage of GNU binutils in this case. It mostly happens in a
+			# developer local build where they are using the ebuild to build
+			# kernel with any upstream kernel hash.
+			cros_allow_gnu_build_tools
 		fi
 	fi
 
