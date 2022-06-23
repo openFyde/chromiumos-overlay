@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d680824e5cdfbd1fba58960a485cdd7a595ec17c"
-CROS_WORKON_TREE="6b16a2fce43de96dad800600905c33ac4e578140"
+CROS_WORKON_COMMIT="e366a7ff1ddcf024946cff178fb72ae3eeeb0d97"
+CROS_WORKON_TREE="8b9cade5fb6bec89dd9a8ae0b273ea41ba9d6a09"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -22,23 +22,20 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	dev-rust/data_model:=
+	chromeos-base/crosvm-base:=
 	=dev-rust/dbus-0.9*:=
-	=dev-rust/futures-0.3*:=
-	=dev-rust/getopts-0.2*:=
-	=dev-rust/intrusive-collections-0.9*:=
-	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0_alpha:=
+	=dev-rust/lazy_static-1*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	>=dev-rust/pkg-config-0.3.11 <dev-rust/pkg-config-0.4.0_alpha:=
-	>=dev-rust/protobuf-2.1 <dev-rust/protobuf-3.0_alpha:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2_alpha:=
+	=dev-rust/multi_log-0.1*:=
+	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
-	dev-rust/sys_util:=
+	=dev-rust/stderrlog-0.5*:=
+	=dev-rust/syslog-4*:=
 	dev-rust/system_api:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha:=
+	=dev-rust/thiserror-1*:=
 	dev-rust/vboot_reference-sys:=
-	>=dev-rust/zeroize-1.2.0 <dev-rust/zeroize-2.0.0_alpha:=
+	=dev-rust/zeroize-1*:=
 "
 
 RDEPEND="${DEPEND}
