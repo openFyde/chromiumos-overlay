@@ -281,16 +281,19 @@ platform_install_dbus_client_lib() {
 	insinto "${client_test_includes}/${libname}"
 	doins "${OUT}/gen/include/${libname}/dbus-proxy-mocks.h"
 
-	# Install pkg-config for client libraries.
-	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
-		"${OUT}" "lib${libname}-client" "${client_includes}" ||
-		die "Error generating lib${libname}-client.pc file"
-	"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
-		"${OUT}" "lib${libname}-client-test" "${client_test_includes}" ||
-		die "Error generating lib${libname}-client-test.pc file"
-	insinto "/usr/$(get_libdir)/pkgconfig"
-	doins "${OUT}/lib${libname}-client.pc"
-	doins "${OUT}/lib${libname}-client-test.pc"
+	if [[ -f "lib${libname}-client.pc.in" ]]; then
+		# Install pkg-config for client libraries.
+		ewarn "generate_pc_file.sh is deprecated.  Please switch to generate_pkg_config in BUILD.gn."
+		"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
+			"${OUT}" "lib${libname}-client" "${client_includes}" ||
+			die "Error generating lib${libname}-client.pc file"
+		"${PLATFORM_TOOLDIR}/generate_pc_file.sh" \
+			"${OUT}" "lib${libname}-client-test" "${client_test_includes}" ||
+			die "Error generating lib${libname}-client-test.pc file"
+		insinto "/usr/$(get_libdir)/pkgconfig"
+		doins "${OUT}/lib${libname}-client.pc"
+		doins "${OUT}/lib${libname}-client-test.pc"
+	fi
 }
 
 # @FUNCTION: platform_install_compilation_database
