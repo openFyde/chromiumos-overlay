@@ -89,6 +89,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use Python helper modules from CFU-Playground. These are developed
+	# upstream but are intimately tied to the HPS accelerator code.
+	export PYTHONPATH="third_party/python/CFU-Playground"
+
 	# Use Rust from hps-sdk, since the main Chrome OS Rust compiler
 	# does not yet support RISC-V.
 	export PATH="/opt/hps-sdk/bin:${PATH}"
@@ -125,6 +129,10 @@ src_configure() {
 }
 
 src_compile() {
+	# hps-factory needs an FPGA bitstream.
+	einfo "Building FPGA bitstream"
+	python -m soc.hps_soc || die
+
 	for tool in hps-factory hps-mon hps-util sign-rom ; do (
 		cd rust/${tool} || die
 		einfo "Building ${tool}"
