@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="e4703287c609ebaabd178df24d3fd5749e5c0c11"
-CROS_WORKON_TREE="0f5ac3fcbcccfcc65a6efa8ea9e2b4e0628e3bf7"
+CROS_WORKON_COMMIT="446c49b746865cb90397f135d5ec4b8d2dbe0e40"
+CROS_WORKON_TREE="a750e0abfcacd1ef8c984cad79aa58c0a6dfc4c1"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -24,8 +24,6 @@ IUSE="
 	+autotest
 	biod
 	+cellular
-	+cheets_user
-	cheets_user_64
 	-chromeless_tests
 	-chromeless_tty
 	debugd
@@ -99,19 +97,11 @@ SERVER_IUSE_TESTS="
 	dlc_test? ( +tests_autoupdate_WithDLC )
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
-		cheets_user? (
-			+tests_cheets_CTS_Instant
-			+tests_cheets_CTS_P
-		)
-		cheets_user_64? (
-			+tests_cheets_CTS_Instant
-			+tests_cheets_CTS_P
-		)
+		+tests_cheets_CTS_Instant
+		+tests_cheets_CTS_P
 	)
 	android-vm-rvc? (
-		cheets_user_64? (
-			+tests_cheets_CTS_R
-		)
+		+tests_cheets_CTS_R
 	)
 	+tests_cellular_Callbox_AssertCellularData
 	+tests_cellular_Callbox_AssertSMS
