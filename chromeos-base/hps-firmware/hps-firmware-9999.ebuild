@@ -92,7 +92,7 @@ src_prepare() {
 src_configure() {
 	# Use Python helper modules from CFU-Playground. These are developed
 	# upstream but are intimately tied to the HPS accelerator code.
-	export PYTHONPATH="third_party/python/CFU-Playground"
+	export PYTHONPATH="${S}/third_party/python/CFU-Playground"
 
 	# Use Rust and GCC from hps-sdk, since the main Chrome OS compilers
 	# do not yet support RISC-V.
