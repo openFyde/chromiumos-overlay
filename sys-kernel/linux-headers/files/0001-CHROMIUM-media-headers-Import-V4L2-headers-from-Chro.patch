@@ -194,15 +194,7 @@ diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
 index 1c095b5a99c5..c2c9e44e70a7 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -65,6 +65,7 @@
- #include <linux/types.h>
- #include <linux/v4l2-common.h>
- #include <linux/v4l2-controls.h>
-+#include <linux/media/h264-ctrls-legacy.h>
- 
- /*
-  * Common stuff for both V4L1 and V4L2
-@@ -626,6 +627,7 @@ struct v4l2_pix_format {
+@@ -626,6 +626,7 @@ struct v4l2_pix_format {
  #define V4L2_PIX_FMT_H264     v4l2_fourcc('H', '2', '6', '4') /* H264 with start codes */
  #define V4L2_PIX_FMT_H264_NO_SC v4l2_fourcc('A', 'V', 'C', '1') /* H264 without start codes */
  #define V4L2_PIX_FMT_H264_MVC v4l2_fourcc('M', '2', '6', '4') /* H264 MVC */
@@ -210,7 +202,7 @@ index 1c095b5a99c5..c2c9e44e70a7 100644
  #define V4L2_PIX_FMT_H263     v4l2_fourcc('H', '2', '6', '3') /* H263          */
  #define V4L2_PIX_FMT_MPEG1    v4l2_fourcc('M', 'P', 'G', '1') /* MPEG-1 ES     */
  #define V4L2_PIX_FMT_MPEG2    v4l2_fourcc('M', 'P', 'G', '2') /* MPEG-2 ES     */
-@@ -902,6 +904,7 @@ struct v4l2_plane {
+@@ -902,6 +903,7 @@ struct v4l2_plane {
   * @length:	size in bytes of the buffer (NOT its payload) for single-plane
   *		buffers (when type != *_MPLANE); number of elements in the
   *		planes array for multi-plane buffers
@@ -218,7 +210,7 @@ index 1c095b5a99c5..c2c9e44e70a7 100644
   *
   * Contains data exchanged by application and driver using one of the Streaming
   * I/O methods.
-@@ -925,7 +928,7 @@ struct v4l2_buffer {
+@@ -925,7 +927,7 @@ struct v4l2_buffer {
  		__s32		fd;
  	} m;
  	__u32			length;
@@ -227,7 +219,7 @@ index 1c095b5a99c5..c2c9e44e70a7 100644
  	__u32			reserved;
  };
  
-@@ -1579,6 +1582,7 @@ struct v4l2_ext_controls {
+@@ -1579,6 +1581,7 @@ struct v4l2_ext_controls {
  	union {
  #ifndef __KERNEL__
  		__u32 ctrl_class;
@@ -235,7 +227,7 @@ index 1c095b5a99c5..c2c9e44e70a7 100644
  #endif
  		__u32 which;
  	};
-@@ -1614,6 +1618,8 @@ enum v4l2_ctrl_type {
+@@ -1614,6 +1617,8 @@ enum v4l2_ctrl_type {
  	V4L2_CTRL_TYPE_U8	     = 0x0100,
  	V4L2_CTRL_TYPE_U16	     = 0x0101,
  	V4L2_CTRL_TYPE_U32	     = 0x0102,
@@ -244,7 +236,7 @@ index 1c095b5a99c5..c2c9e44e70a7 100644
  };
  
  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
-@@ -1669,6 +1675,7 @@ struct v4l2_querymenu {
+@@ -1669,6 +1674,7 @@ struct v4l2_querymenu {
  #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
  #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
  #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
