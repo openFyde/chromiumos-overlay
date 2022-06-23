@@ -15,16 +15,6 @@ CONFIG_RUN_FSP_GOP=y
 
 # Management Engine
 CONFIG_HAVE_ME_BIN=y
-# CONFIG_STITCH_ME_BIN=y
-# CONFIG_CSE_COMPONENTS_PATH="3rdparty/blobs/mainboard/google/brya/cse_inputs"
-# CONFIG_CSE_FPT_FILE="qs_inputs/csme.bin"
-# CONFIG_CSE_PMCP_FILE="qs_inputs/pmc.bin"
-# CONFIG_CSE_IOMP_FILE="qs_inputs/iom.bin"
-# CONFIG_CSE_TBTP_FILE="qs_inputs/tbt.bin"
-# CONFIG_CSE_NPHY_FILE="qs_inputs/nphy.bin"
-# CONFIG_CSE_PCHC_FILE="qs_inputs/pchc.bin"
-# CONFIG_CSE_IUNP_FILE="qs_inputs/iunit.bin"
-# CONFIG_CSE_OEMP_FILE="oem_km.bin"
 
 # Microcode
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
