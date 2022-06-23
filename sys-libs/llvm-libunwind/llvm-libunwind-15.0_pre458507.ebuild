@@ -78,9 +78,17 @@ multilib_src_configure() {
 	# Filter default portage flags to allow unwinding.
 	cros_enable_cxx_exceptions
 	append-cppflags "-D_LIBUNWIND_USE_DLADDR=0"
-	# Allow targeting non-neon targets for armv7a.
 	if [[ ${CATEGORY} == cross-armv7a* ]] ; then
+		# Allow targeting non-neon targets for armv7a.
 		append-flags -mfpu=vfpv3
+
+		# cross-armv7 builds fail due a to libgcc_eh.a bootstrap bug
+		# due to a global variable used for stack canary memory.
+		# https://bugzilla.redhat.com/show_bug.cgi?id=708452
+		# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=102352
+		# TODO(toolchain): Revisit this when the above GCC bug is
+		# fixed or we have glibc arm clang build support.
+		append-flags -fno-stack-protector
 	fi
 
 	local libdir=$(get_libdir)
