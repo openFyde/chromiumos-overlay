@@ -59,6 +59,32 @@ inherit python-any-r1 toolchain-funcs
 # These are the triples we use GCC with. `*-cros-*` triples should not be
 # included here.
 
+# @ECLASS-VARIABLE: CROS_RUSTC_BUILD_RAW_SOURCES
+# @DEFAULT_UNSET
+# @DESCRIPTION:
+# Set to a nonempty value if we want to build a nonstandard set of sources
+# (this is intended mostly to power bisection of rustc itself).
+# This should never be set to anything in production.
+#
+# If you want to set this as a user, each `emerge` of `dev-lang/rust-host` or
+# `dev-lang/rust` assumes the following:
+# 1. A full Rust checkout is available under `_CROS_RUSTC_RAW_SOURCES_ROOT`.
+# 2. You've ensured that all submodules under `_CROS_RUSTC_RAW_SOURCES_ROOT` are
+#    up-to-date with your currently checked out revision.
+# 3. You've ensured that the appropriate bootstrap compiler is cached under
+#    `_CROS_RUSTC_RAW_SOURCES_ROOT/build`.
+# 4. You've run `cargo vendor` under `_CROS_RUSTC_RAW_SOURCES_ROOT`
+# 5. The sources under `_CROS_RUSTC_RAW_SOURCES_ROOT` are the exact sources you
+#    want to apply `${PATCHES}` to.
+# 6. You are OK with this script modifying your rustc sources at
+#    `_CROS_RUSTC_RAW_SOURCES_ROOT` (by applying patches to them).
+#
+# Step 2 can be done with
+# `dev-lang/rust/files/bisect-scripts/clean_and_sync_rust_root.sh`. Steps 3 and
+# 4 can be accomplished with
+# `dev-lang/rust/files/bisect-scripts/prepare_rust_for_offline_build.sh`.
+CROS_RUSTC_BUILD_RAW_SOURCES=
+
 # There's a fair amount of direct commonality between dev-lang/rust and
 # dev-lang/rust-host. Capture that here.
 ABI_VER="$(ver_cut 1-2)"
@@ -71,9 +97,19 @@ SRC="${MY_P}-src.tar.gz"
 # since Rust uses the beta compiler to build the nightly compiler.
 BOOTSTRAP_VERSION="1.59.0"
 
+# If `CROS_RUSTC_BUILD_RAW_SOURCES` is nonempty, a full Rust source tree is
+# expected to be available here.
+_CROS_RUSTC_RAW_SOURCES_ROOT="${FILESDIR}/rust"
+
 HOMEPAGE="https://www.rust-lang.org/"
 
-SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz"
+if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+	SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz"
+else
+	# If a bisection is happening, we use the bootstrap compiler that upstream prefers.
+	# Clear this so we don't accidentally use it below.
+	BOOTSTRAP_VERSION=
+fi
 
 LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA"
 
@@ -84,7 +120,9 @@ DEPEND="${PYTHON_DEPS}
 	>=dev-lang/perl-5.0
 "
 
-BDEPEND="dev-lang/rust-bootstrap:${BOOTSTRAP_VERSION}"
+if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+	BDEPEND="dev-lang/rust-bootstrap:${BOOTSTRAP_VERSION}"
+fi
 
 PATCHES=(
 	"${FILESDIR}/rust-${PV}-add-cros-targets.patch"
@@ -134,23 +172,73 @@ cros-rustc_pkg_setup() {
 
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
 		addwrite "${CROS_RUSTC_DIR}"
+		# Disable warnings about 755 only applying to the deepest directory; that's
+		# fine.
+		# shellcheck disable=SC2174
 		mkdir -p -m 755 "${CROS_RUSTC_DIR}"
 		chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" "${CROS_RUSTC_DIR}"
+
+		if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+			addwrite "${_CROS_RUSTC_RAW_SOURCES_ROOT}"
+			ewarn "cros-rustc.eclass is using raw sources. This feature is for debugging only."
+		fi
 	fi
 }
 
+# Sets up a cargo config.toml that instructs our bootstrap rustc to use
+# the correct linker. `rust-bootstrap` can be made to work around this since
+# we have local patches, but bootstrap compilers downloaded from upstream
+# (e.g., during bisection) cannot. This should be called during src_unpack
+# if you opt out of calling `cros-rustc_src_unpack`. Otherwise,
+# `cros-rustc_src_unpack` will take care of this.
+cros-rustc_setup_cargo_home() {
+	export CARGO_HOME="${T}/cargo_home"
+	mkdir -p "${CARGO_HOME}" || die
+	cat >> "${CARGO_HOME}/config.toml" <<EOF || die
+
+[target.x86_64-unknown-linux-gnu]
+linker = "${CHOST}-clang"
+
+[target.${CHOST}]
+linker = "${CHOST}-clang"
+EOF
+}
+
 cros-rustc_src_unpack() {
+	cros-rustc_setup_cargo_home
+
+	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+		if [[ ! -d "${_CROS_RUSTC_RAW_SOURCES_ROOT}" ]]; then
+			eerror "You must have a full Rust checkout in _CROS_RUSTC_RAW_SOURCES_ROOT."
+			die
+		fi
+		if [[ -e "${S}" && ! -L "${S}" ]]; then
+			rm -rf "${S}" || die
+		fi
+		ln -sf "$(readlink -m "${_CROS_RUSTC_RAW_SOURCES_ROOT}")" "${S}" || die
+		default
+		return
+	fi
+
 	local dirs=( "${CROS_RUSTC_BUILD_DIR}" "${CROS_RUSTC_SRC_DIR}" )
 	if [[ -e "${CROS_RUSTC_SRC_DIR}" || -e "${CROS_RUSTC_BUILD_DIR}" ]]; then
 		einfo "Removing old source/build directories..."
 		rm -rf "${dirs[@]}"
 	fi
 
+	# Disable warnings about 755 only applying to the deepest directory; that's
+	# fine.
+	# shellcheck disable=SC2174
 	mkdir -p -m 755 "${dirs[@]}"
 	(cd "${CROS_RUSTC_SRC_DIR}" && default)
 }
 
 cros-rustc_src_prepare() {
+	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+		einfo "Synchronizing bootstrap compiler caches ..."
+		cp -avu "${_CROS_RUSTC_RAW_SOURCES_ROOT}/build/cache" "${CROS_RUSTC_BUILD_DIR}" || die
+	fi
+
 	# Copy "unknown" vendor targets to create cros_sdk target triple
 	# variants as referred to in 0001-add-cros-targets.patch and
 	# RUSTC_TARGET_TRIPLES. armv7a is treated specially because the cros
@@ -194,7 +282,7 @@ cros-rustc_src_prepare() {
 }
 
 cros-rustc_src_configure() {
-	tc-export PKG_CONFIG
+	tc-export CC PKG_CONFIG
 
 	# If FEATURES=ccache is set, we can cache LLVM builds. We could set this to
 	# true unconditionally, but invoking `ccache` to just have it `exec` the
@@ -205,16 +293,23 @@ cros-rustc_src_configure() {
 
 	local targets=""
 	local tt
+	# These variables are defined by users of this eclass; their use here is safe.
+	# shellcheck disable=SC2154
 	for tt in "${RUSTC_TARGET_TRIPLES[@]}" "${RUSTC_BARE_TARGET_TRIPLES[@]}" ; do
 		targets+="\"${tt}\", "
 	done
+
+	local bootstrap_compiler_info
+	if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+		bootstrap_compiler_info="
+cargo = \"/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/cargo\"
+rustc = \"/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/rustc\""
+	fi
 
 	local config=cros-config.toml
 	cat > "${config}" <<EOF
 [build]
 target = [${targets}]
-cargo = "/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/cargo"
-rustc = "/opt/rust-bootstrap-${BOOTSTRAP_VERSION}/bin/rustc"
 docs = false
 submodules = false
 python = "${EPYTHON}"
@@ -224,6 +319,7 @@ tools = ["cargo", "rustfmt", "clippy", "cargofmt"]
 sanitizers = true
 profiler = true
 build-dir = "${CROS_RUSTC_BUILD_DIR}"
+${bootstrap_compiler_info}
 
 [llvm]
 ccache = ${use_ccache}

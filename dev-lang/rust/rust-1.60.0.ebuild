@@ -45,8 +45,17 @@ KEYWORDS="*"
 # always presume that it exists.
 
 src_unpack() {
-	if cros-rustc_has_existing_checkout; then
+	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+		if ! cros-rustc_has_existing_checkout; then
+			eerror "No existing checkout detected; build rust-host first."
+			die
+		fi
+		# Unpacking consists only of ensuring symlink validity in this
+		# case.
+		cros-rustc_src_unpack
+	elif cros-rustc_has_existing_checkout; then
 		einfo "Skipping unpack; checkout already exists"
+		cros-rustc_setup_cargo_home
 	else
 		ewarn "No existing cros-rustc checkout found. Did you" \
 			"remember to emerge dev-lang/rust-host?"
