@@ -192,7 +192,7 @@ add_ec() {
 
 	local rw_file="${ecroot}/ec.RW.bin"
 	# TODO(jrosenth): can we do this for all EC's (not just Zephyr)?
-	if use zephyr_ec; then
+	if use zephyr_ec && [[ -f "${ecroot}/zephyr.bin" ]]; then
 		( cd "${T}" && dump_fmap -x "${ecroot}/zephyr.bin" RW_FW ) || \
 			die "Unable to extract RW region from FMAP"
 		rw_file="${T}/RW_FW"
@@ -703,7 +703,8 @@ src_compile() {
 			# instead of using the EC build target name.
 			if [[ -n "${zephyr_ec}" ]]; then
 				ec="${name}"
-			else
+			elif ! use cros_ec; then
+				# Only fallback to legacy EC only if its build is enabled.
 				ec=""
 			fi
 		fi
