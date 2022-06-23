@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform/xorg-conf"
 CROS_WORKON_PROJECT="chromiumos/platform/xorg-conf"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
-inherit cros-board cros-workon user
+inherit cros-board cros-workon
 
 DESCRIPTION="Board specific gestures library configuration file."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/xorg-conf/"
