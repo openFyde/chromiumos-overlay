@@ -41,6 +41,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
 	chromeos-base/metrics:=
+	chromeos-base/runtime_probe-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=
 	chromeos-base/tpm_manager-client:=
