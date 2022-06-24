@@ -8,4 +8,5 @@
 # the package, and it prints a string on stdout with the numerical version
 # number for said repo.
 
-echo 2.3.3
+exec gawk -F, '$1 ~ /^AC_INIT/ { print gensub(/[][, ]/, "", "g", $2); exit }' \
+  "$1/configure.ac"
