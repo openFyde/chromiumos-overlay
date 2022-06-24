@@ -3512,5 +3512,19 @@
             "from": 458507,
             "until": 462785
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[AARCH64 folding] Do not fold any copy with NZCV"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/163c77b2e0831853b59cdd24ece9637f8a19cc79.patch",
+        "version_range": {
+            "from": 459639,
+            "until": 465351
+        }
     }
 ]
