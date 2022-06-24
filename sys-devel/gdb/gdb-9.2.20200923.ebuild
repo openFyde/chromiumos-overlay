@@ -61,6 +61,7 @@ PATCHES=(
 	"${FILESDIR}"/gdb-9.2-update-loclists.patch
 	"${FILESDIR}"/gdb-9.2-inlined-unwind.patch
 	"${FILESDIR}"/gdb-9.2-amd64-linux-siginfo.c-Adjust-include-order-to-avoid-.patch
+        "${FILESDIR}"/gdb-9.2-iterator-include.patch
 )
 
 pkg_setup() {
