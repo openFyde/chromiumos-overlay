@@ -5,8 +5,9 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_WORKON_USE_VCSID=1
+PYTHON_COMPAT=( python3_{6..9} )
 
-inherit cros-workon cros-rust toolchain-funcs
+inherit cros-workon cros-rust toolchain-funcs python-any-r1
 
 DESCRIPTION="HPS firmware and tooling"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
@@ -17,14 +18,22 @@ KEYWORDS="~*"
 BDEPEND="
 	dev-embedded/hps-sdk
 	dev-rust/svd2rust
-	>=sci-electronics/litespi-2021.12_p20220215
-	sci-electronics/litex
 	>=sci-electronics/nextpnr-0.1_p20220210
 	sci-electronics/nmigen
 	sci-electronics/prjoxide
-	sci-electronics/pythondata-cpu-vexriscv
 	sci-electronics/yosys
+	$(python_gen_any_dep '
+		sci-electronics/litespi[${PYTHON_USEDEP}]
+		sci-electronics/litex[${PYTHON_USEDEP}]
+		sci-electronics/pythondata-cpu-vexriscv[${PYTHON_USEDEP}]
+	')
 "
+
+python_check_deps() {
+	has_version -b "sci-electronics/litespi[${PYTHON_USEDEP}]" &&
+		has_version -b "sci-electronics/litex[${PYTHON_USEDEP}]" &&
+		has_version -b "sci-electronics/pythondata-cpu-vexriscv[${PYTHON_USEDEP}]"
+}
 
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
