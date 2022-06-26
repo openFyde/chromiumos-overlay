@@ -178,12 +178,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		case ${CATEGORY}/${PN}:${PV} in
 		cross-*/glibc:*|\
 		*/linux-headers:4*|\
-		chromeos-base/ec-utils:*|\
 		dev-embedded/u-boot-tools:2018.05*|\
 		dev-python/numpy:1.19.4|\
 		dev-util/ragel:6.10|\
 		net-misc/socat:1.7.3.2*|\
-		sys-boot/grub:*|\
 		sys-boot/syslinux:*|\
 		sys-libs/binutils-libs:*|\
 		sys-libs/libselinux:3.0) return 1;;
