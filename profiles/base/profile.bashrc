@@ -193,9 +193,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		return 0
 	}
 	_sdk_build_filter_clang() {
-		case ${CATEGORY}/${PN}:${PV} in
-		chromeos-base/ec-devutils:*) return 1;;
-		esac
+		return 0
 	}
 	_sdk_build_filter_clang++() {
 		return 0
@@ -342,7 +340,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		case ${CATEGORY}/${PN}:${PV} in
 		chromeos-base/autotest-tests-lakitu:*|\
 		chromeos-base/chromeos-ec:*|\
-		chromeos-base/ec-devutils:*|\
 		media-libs/arc-mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-valhall:*|\
