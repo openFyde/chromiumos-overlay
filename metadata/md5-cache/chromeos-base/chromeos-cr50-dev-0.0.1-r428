@@ -4,13 +4,13 @@ DEPEND=dev-libs/openssl:0= virtual/libusb:1= fuzzer? ( dev-libs/protobuf:= ) fuz
 DESCRIPTION=Google Security Chip firmware code
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/cr50_stab
-IUSE=asan cros_host fuzzer msan quiet reef ubsan verbose cros_host cros_workon_tree_d97a60e21ec06dd04ba1b604b64d09bac1e6c133_f64a48b91fc35d5760bca966436e0effc9e5cacb_cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d asan coverage fuzzer msan tsan ubsan
+IUSE=asan cros_host fuzzer msan quiet reef ubsan verbose cros_host cros_workon_tree_d97a60e21ec06dd04ba1b604b64d09bac1e6c133_f6cadf087425f2c77af8879a7f83e722ab613a36_cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d asan coverage fuzzer msan tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!<chromeos-base/chromeos-ec-0.0.2 !<chromeos-base/ec-utils-0.0.2 dev-libs/openssl:0= virtual/libusb:1= fuzzer? ( dev-libs/protobuf:= )
 RESTRICT=binchecks
-SLOT=0/0.0.1-r427
+SLOT=0/0.0.1-r428
 SRC_URI=gs://chromeos-localmirror/distfiles/cr50.prod.ro.A.0.0.11 gs://chromeos-localmirror/distfiles/cr50.prod.ro.B.0.0.11
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=4a49517933ba1d15d6b1346e0f211a05
+_md5_=01e730cd77b1ee14b10eea3f172ba8a7
