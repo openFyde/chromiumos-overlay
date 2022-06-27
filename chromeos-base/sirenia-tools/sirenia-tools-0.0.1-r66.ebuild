@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="75691c56f04a0762f30b3ef9ac41939cb04147e0"
-CROS_WORKON_TREE="979b85a42d3a6f297ab835fce3ce1ce3a1a9d5bc"
+CROS_WORKON_COMMIT="2bfc65dc69d4865464a25493e382b6d144415cf3"
+CROS_WORKON_TREE="c7354236caac1908926d105c6fb3489b2cf17005"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,24 +22,28 @@ KEYWORDS="*"
 IUSE="cros_host"
 
 DEPEND="
+	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*:=
+	=dev-rust/assert_matches-1*:=
 	dev-rust/balloon_control:=
-	=dev-rust/base64-0.13*:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.8*:=
-	>=dev-rust/flexbuffers-0.1.1:= <dev-rust/flexbuffers-0.2.0
+	dev-rust/data_model:=
+	=dev-rust/dbus-0.9*:=
+	=dev-rust/dbus-crossroads-0.5*:=
+	=dev-rust/flexbuffers-2*:=
 	=dev-rust/getopts-0.2*:=
+	=dev-rust/libc-0.2*:=
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/openssl-0.10*:=
-	>=dev-rust/serde-1.0.114:= <dev-rust/serde-2
+	=dev-rust/multi_log-0.1*:=
+	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
-	>=dev-rust/serde_json-1.0.64:= <dev-rust/serde_json-2.0.0
+	=dev-rust/serde_json-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	=dev-rust/syslog-4*:=
+	=dev-rust/thiserror-1*:=
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="

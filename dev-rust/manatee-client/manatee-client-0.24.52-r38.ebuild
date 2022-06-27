@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="36d20879b0fbe02e2c47f81672bdec7498ef73ff"
-CROS_WORKON_TREE=("1e3c35be8175bd9d5582dbc4e16e297c225a21f1" "4cf5a3fe6e4bf660b401dc84040179158e3beaaf")
+CROS_WORKON_COMMIT="2bfc65dc69d4865464a25493e382b6d144415cf3"
+CROS_WORKON_TREE=("ab8cf6aa613b36ceb1b2533047cff491441a3f1b" "4cf5a3fe6e4bf660b401dc84040179158e3beaaf")
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -22,11 +22,8 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 IUSE="sirenia"
 
-RDEPEND="
-	sys-apps/dbus
-	sirenia? ( chromeos-base/manatee-runtime )
-"
-DEPEND="${RDEPEND}
+DEPEND="
+	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*:=
 	dev-rust/chromeos-dbus-bindings:=
@@ -35,10 +32,13 @@ DEPEND="${RDEPEND}
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/stderrlog-0.5*:=
-	dev-rust/sys_util:=
-	>=dev-rust/termion-1.5.0 <dev-rust/termion-2.0.0:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	=dev-rust/termion-1*:=
+	=dev-rust/thiserror-1*:=
 	=dev-rust/which-4*:=
+"
+RDEPEND="${DEPEND}
+	sys-apps/dbus
+	sirenia? ( chromeos-base/manatee-runtime )
 "
 
 BDEPEND="sirenia? ( chromeos-base/sirenia-tools )"
