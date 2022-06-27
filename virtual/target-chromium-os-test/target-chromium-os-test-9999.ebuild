@@ -43,6 +43,7 @@ IUSE="
 	python_targets_python3_6 python_targets_python3_8
 	scanner
 	+shill
+	ti50_onboard
 	+tpm
 	tpm2
 	unibuild
@@ -149,6 +150,7 @@ CROS_COMMON_RDEPEND="
 	cr50_onboard? ( dev-util/u2f-ref-code )
 	net-misc/rsync
 	sys-apps/memtester
+	ti50_onboard? ( dev-util/u2f-ref-code )
 	virtual/autotest-capability
 	virtual/chromeos-bsp-test
 "

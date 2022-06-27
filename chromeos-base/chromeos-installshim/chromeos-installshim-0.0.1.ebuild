@@ -19,6 +19,7 @@ IUSE="
 	tpm_slb9670
 	internal
 	+shill
+	ti50_onboard
 	tpm2"
 
 X86_DEPEND="
@@ -76,6 +77,7 @@ RDEPEND="
 	sys-libs/libcxx
 	sys-process/lsof
 	sys-process/procps
+	ti50_onboard? ( media-gfx/qrencode )
 	virtual/chromeos-auth-config
 	virtual/chromeos-bsp
 	virtual/udev
