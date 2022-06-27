@@ -2,13 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="82f125582cc94a685b2d52063b5f4131b88c7ddf"
-CROS_WORKON_TREE="741ac661033347bfbb06b46c397ec75b49552ace"
+CROS_WORKON_COMMIT="8d3af24b6e3d729f329941d4dd1a5e8bc246f0c5"
+CROS_WORKON_TREE="d1ce342ec28558eb729ce446c15faf6752396d15"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_WORKON_USE_VCSID=1
+PYTHON_COMPAT=( python3_{6..9} )
 
-inherit cros-workon cros-rust toolchain-funcs
+inherit cros-workon cros-rust toolchain-funcs python-any-r1
 
 DESCRIPTION="HPS firmware and tooling"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/hps-firmware"
@@ -19,14 +20,22 @@ KEYWORDS="*"
 BDEPEND="
 	dev-embedded/hps-sdk
 	dev-rust/svd2rust
-	>=sci-electronics/litespi-2021.12_p20220215
-	sci-electronics/litex
 	>=sci-electronics/nextpnr-0.1_p20220210
 	sci-electronics/nmigen
 	sci-electronics/prjoxide
-	sci-electronics/pythondata-cpu-vexriscv
 	sci-electronics/yosys
+	$(python_gen_any_dep '
+		sci-electronics/litespi[${PYTHON_USEDEP}]
+		sci-electronics/litex[${PYTHON_USEDEP}]
+		sci-electronics/pythondata-cpu-vexriscv[${PYTHON_USEDEP}]
+	')
 "
+
+python_check_deps() {
+	has_version -b "sci-electronics/litespi[${PYTHON_USEDEP}]" &&
+		has_version -b "sci-electronics/litex[${PYTHON_USEDEP}]" &&
+		has_version -b "sci-electronics/pythondata-cpu-vexriscv[${PYTHON_USEDEP}]"
+}
 
 DEPEND="
 	>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0
@@ -94,7 +103,7 @@ src_prepare() {
 src_configure() {
 	# Use Python helper modules from CFU-Playground. These are developed
 	# upstream but are intimately tied to the HPS accelerator code.
-	export PYTHONPATH="third_party/python/CFU-Playground"
+	export PYTHONPATH="${S}/third_party/python/CFU-Playground"
 
 	# Use Rust and GCC from hps-sdk, since the main Chrome OS compilers
 	# do not yet support RISC-V.
