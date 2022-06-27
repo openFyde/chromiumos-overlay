@@ -987,8 +987,13 @@ _create_registry_link() {
 	if [[ -e "${crate_dir}" && ! -L "${dest}" ]]; then
 		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
 		mkdir -p "${registry_dir}"
+		# A redundant link presence check is used inside the lock because we
+		# do not want to lock if we don't have to, but there is a time-of-check
+		# to time-of-use issue that shows up if the link presence check is not
+		# in the lock (two ebuilds may try to create the same lock with one
+		# succeeding and the other failing because the link already exists).
 		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
-			ln -srT "${crate_dir}" "${dest}" || die
+			sh -c '[ -L "$1" ] || ln -srT "$0" "$1"' "${crate_dir}" "${dest}" || die
 	fi
 }
 
