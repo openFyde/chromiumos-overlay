@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e6735b901dcf99550d1f2cc27f2eb5bbc82655ea"
-CROS_WORKON_TREE="a7dbdf4110a076bd25e29d44e5d58b33e3dcdc2c"
+CROS_WORKON_COMMIT="82f125582cc94a685b2d52063b5f4131b88c7ddf"
+CROS_WORKON_TREE="741ac661033347bfbb06b46c397ec75b49552ace"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
@@ -91,6 +91,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# Use Python helper modules from CFU-Playground. These are developed
+	# upstream but are intimately tied to the HPS accelerator code.
+	export PYTHONPATH="third_party/python/CFU-Playground"
+
 	# Use Rust from hps-sdk, since the main Chrome OS Rust compiler
 	# does not yet support RISC-V.
 	export PATH="/opt/hps-sdk/bin:${PATH}"
@@ -127,6 +131,10 @@ src_configure() {
 }
 
 src_compile() {
+	# hps-factory needs an FPGA bitstream.
+	einfo "Building FPGA bitstream"
+	python -m soc.hps_soc || die
+
 	for tool in hps-factory hps-mon hps-util sign-rom ; do (
 		cd rust/${tool} || die
 		einfo "Building ${tool}"

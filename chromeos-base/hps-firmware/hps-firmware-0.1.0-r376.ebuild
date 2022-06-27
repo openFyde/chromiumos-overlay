@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e6735b901dcf99550d1f2cc27f2eb5bbc82655ea"
-CROS_WORKON_TREE="a7dbdf4110a076bd25e29d44e5d58b33e3dcdc2c"
+CROS_WORKON_COMMIT="82f125582cc94a685b2d52063b5f4131b88c7ddf"
+CROS_WORKON_TREE="741ac661033347bfbb06b46c397ec75b49552ace"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_WORKON_USE_VCSID=1
@@ -204,6 +204,7 @@ src_install() {
 	doins build/hps_platform/gateware/hps_platform_build.metadata
 
 	# Generate and install the build manifest.
+	# shellcheck disable=SC2154 # VCSID is supplied by cros-workon.eclass
 	echo "${VCSID}" > manifest.txt
 	cat models/manifest.txt >> manifest.txt
 
