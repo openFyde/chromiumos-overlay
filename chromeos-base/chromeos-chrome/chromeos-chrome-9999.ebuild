@@ -1390,7 +1390,6 @@ src_install() {
 	# Keep the .dwp files with debug fission.
 	if use chrome_debug && use debug_fission; then
 		mkdir -p "${D}/usr/lib/debug/${CHROME_DIR}"
-		DWP="${CHOST}"-dwp
 		cd "${D}/${CHROME_DIR}" || die
 		# Iterate over all ELF files in current directory
 		while read -r i; do
@@ -1409,6 +1408,7 @@ src_install() {
 				continue
 			fi
 			source="${i}"
+			# shellcheck disable=SC2154
 			${DWP} -e "${FROM}/${source}" -o "${D}/usr/lib/debug/${CHROME_DIR}/${i}.dwp" || die
 		done < <(scanelf -ByF '%F' ".")
 	fi
