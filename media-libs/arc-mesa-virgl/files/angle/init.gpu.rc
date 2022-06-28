@@ -8,7 +8,7 @@ on early-init
     setprop ro.hardware.egl angle
     # TODO remove emulateAdvancedBlendEquations after b/234173199 gets fixed
     # TODO remove supportsShaderFramebufferFetch after b/234186318 gets fixed
-    setprop debug.angle.feature_overrides_disabled preferSubmitAtFBOBoundary:emulateAdvancedBlendEquations:supportsShaderFramebufferFetch
+    setprop debug.angle.feature_overrides_disabled exposeNonConformantExtensionsAndVersions:preferSubmitAtFBOBoundary:emulateAdvancedBlendEquations:supportsShaderFramebufferFetch
     # TODO remove forceContinuousRefreshOnSharedPresent after b/229267970 gets fixed
     # TODO remove perFrameWindowSizeQuery after b/236026298 gets fixed
     setprop debug.angle.feature_overrides_enabled forceContinuousRefreshOnSharedPresent:perFrameWindowSizeQuery
