@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("00b84306458e2baa175031bcd9ee71a2d4407740" "ed35fea2df3d8280d117bcb4334a0d705f118f04" "35425c92f989f7116ff0092a835a3fc3ff72f1ff" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "0283a5c967eb05e9224d43c669d6c6105fc2a55e")
-CROS_WORKON_TREE=("455da79bcff0fd8f44fbae5ad5e1d23e5ffd09fd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "67ceb1c33df344427f63e4d2e5be316d1d00d184" "fa19d4d93819ff423a1245308a5ef8fb5f134617" "c3473ab29243f136628d4c8708ab647c15f6a411" "e8e08223f1c2bd87095594bf46326f46c757fc37")
+CROS_WORKON_COMMIT=("5307ec261e71f48d49d474710eb9ec8187a98e76" "2175e915c0a513511e65808160180ccd60a3c7f7" "35425c92f989f7116ff0092a835a3fc3ff72f1ff" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "0283a5c967eb05e9224d43c669d6c6105fc2a55e")
+CROS_WORKON_TREE=("455da79bcff0fd8f44fbae5ad5e1d23e5ffd09fd" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "7d95f2dea791518b12532be2b19275fe4638b444" "fa19d4d93819ff423a1245308a5ef8fb5f134617" "c3473ab29243f136628d4c8708ab647c15f6a411" "e8e08223f1c2bd87095594bf46326f46c757fc37")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/packages/modules/Bluetooth"
@@ -162,6 +162,11 @@ floss_build_rust() {
 
 	# Export the source path for bindgen
 	export CXX_ROOT_PATH="${S}"
+
+	# Some Rust crates may want to depend on C++ build output to determine
+	# whether to re-run. Export this directory location so that Rust knows which
+	# directory to check C++ output.
+	export CXX_OUTDIR="$(cros-workon_get_build_dir)/out/Default"
 
 	# System API location for proto files
 	export CROS_SYSTEM_API_ROOT="${SYSROOT}/usr/include/chromeos"
