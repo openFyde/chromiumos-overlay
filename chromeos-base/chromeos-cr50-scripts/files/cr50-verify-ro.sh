@@ -172,13 +172,13 @@ version_to_ord() {
   local split_version
   local scale=256
 
-  if ! echo "${version}" | grep -qE "^([0-9]+\.){2}[0-9]+" ; then
+  if ! echo -n "${version}" | grep -qzE "^([0-9]+\.){2}[0-9]+$" ; then
     die "Wrong version string format: ${version}"
+  else
+    IFS='.' read -r -a split_version <<< "${version}"
+    echo "$(( (split_version[0] * scale + split_version[1]) * scale
+        + split_version[2] ))"
   fi
-
-  IFS='.' read -r -a split_version <<< "${version}"
-  echo "$(( (split_version[0] * scale + split_version[1]) * scale
-      + split_version[2] ))"
 }
 
 # Compare two version strings and return 0 (i.e. 'success' in bash terms) if
