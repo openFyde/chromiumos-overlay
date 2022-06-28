@@ -32,6 +32,7 @@ PATCHES=(
 	"${FILESDIR}"/0005-Revert-Media-Common-fixed-regression-about-TGL-KBL-j.patch
 	"${FILESDIR}"/0006-Revert-Media-Common-Optimization-getimage.patch
 	"${FILESDIR}"/0007-CHROMIUM-disable-GucSubmission-for-adl.patch
+	"${FILESDIR}"/0008-BACKPORT-RPLP-upstream.patch
 )
 
 src_configure() {
