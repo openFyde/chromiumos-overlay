@@ -3526,5 +3526,19 @@
             "from": 459639,
             "until": 465351
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[SLP]Fix PR56251: Do not remove the reordering from the root node, being used as an operand."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/bf4dcbd2df009ba71d9032379fe8bc37ba0903ff.patch",
+        "version_range": {
+            "from": 465792,
+            "until": 466174
+        }
     }
 ]
