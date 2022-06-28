@@ -138,7 +138,7 @@ src_configure() {
 src_compile() {
 	# Build FPGA bitstream
 	einfo "Building FPGA bitstream"
-	python -m soc.hps_soc --build --no-compile-software || die
+	python -m soc.hps_soc --no-compile-software || die
 
 	# Build FPGA application
 	einfo "Building FPGA application"
