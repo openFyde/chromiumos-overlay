@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="addb51a53dc346165433d4e81ef121a50503dcfc"
-CROS_WORKON_TREE="bc2ccaab7024f76d5df6f2eb165fb83a785b2e48"
+CROS_WORKON_COMMIT="05f77a7dd233aef87ef22da1e8ee24bbd1e0d54e"
+CROS_WORKON_TREE="4a6983b1c8c3afa7f287c960fd81bcb6c2c4ebf4"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since sound_card_init/Cargo.toml
@@ -24,6 +24,7 @@ DEPEND="
 	dev-rust/cc:=
 	dev-rust/getopts:=
 	dev-rust/sys_util:=
+	dev-rust/serde_json:=
 	dev-rust/serde_yaml:=
 	dev-rust/thiserror:=
 	dev-rust/remain:=
