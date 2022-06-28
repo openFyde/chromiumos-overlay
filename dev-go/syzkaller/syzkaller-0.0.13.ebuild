@@ -29,6 +29,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/0003-cros-syzkaller-use-arm-toolchain-available-within-ch.patch
 	eapply "${FILESDIR}"/0004-cros-syzkaller-only-do-exact-function-name-matching.patch
 	eapply "${FILESDIR}"/0005-cros-syzkaller-description-updates-for-devlink-t7xx.patch
+	eapply "${FILESDIR}"/0006-cros-syzkaller-do-not-unshare-CLONE_NEWNET.patch
 	eapply_user
 }
 
