@@ -24,9 +24,12 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="-alltests cros_host test"
+IUSE="-alltests cros_host +rustc-demangle test"
 
-COMMON_DEPEND="net-misc/curl:="
+COMMON_DEPEND="
+	rustc-demangle? ( dev-rust/rustc-demangle-capi:= )
+	net-misc/curl:=
+"
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	test? (
@@ -57,6 +60,7 @@ src_configure() {
 	mkdir build
 	pushd build >/dev/null || die
 	ECONF_SOURCE=${S} multijob_child_init econf --enable-system-test-libs \
+		$(use_enable rustc-demangle system-rustc-demangle) \
 		--bindir="$(usex cros_host /usr/bin /usr/local/bin)"
 	popd >/dev/null || die
 
