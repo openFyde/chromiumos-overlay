@@ -453,6 +453,39 @@ local_copy() {
 	fi
 }
 
+# @FUNCTION: _cros-workon_emit_src_to_buid_dest_map
+# @USAGE: <src_paths build_dest_paths>
+# @RETURN:
+# @INTERNAL
+# @DESCRIPTION:
+# Before compiling, portage copies src from chromeos repos to build
+# work directory. This function emits the src to build work directory
+# map to a file named src_to_build_dest_map.json.
+_cros-workon_emit_src_to_buid_dest_map() {
+	local -n src_paths="$1"
+	local -n build_dest_paths="$2"
+	local json='{"version":1.0, "mapping":[]}'
+	local length_src_paths=${#src_paths[@]}
+	local length_build_dest_paths=${#build_dest_paths[@]}
+
+	if [[ "${length_src_paths}" -eq "${length_build_dest_paths}" ]]; then
+		local j
+		for (( j = 0; j < length_src_paths; j++ )); do
+
+			local src_path="${src_paths[$j]/"${CHROOT_SOURCE_ROOT}"\//}"
+			json=$(
+				echo "${json}" |
+				jq --arg src_path "${src_path}" \
+				--arg build_dest_path "${build_dest_paths[$j]}" \
+				'.mapping += [{src_path: $src_path, build_dest_path: $build_dest_path}]' \
+			) || die
+		done
+		local output_json_path="${CROS_ARTIFACTS_TMP_DIR}/eclass/cros-workon/"
+		mkdir -p "${output_json_path}"
+		echo "${json}" >> "${output_json_path}/src_to_build_dest_map.json" || die
+	fi
+}
+
 set_vcsid() {
 	export VCSID="${PVR}-${1}"
 
@@ -618,6 +651,7 @@ cros-workon_src_unpack() {
 	local branch=( "${CROS_WORKON_EGIT_BRANCH[@]}" )
 	local path
 	get_paths
+	_cros-workon_emit_src_to_buid_dest_map path destdir
 
 	# Automatically build out-of-tree for common.mk packages.
 	# TODO(vapier): Enable this once all common.mk packages have converted.
