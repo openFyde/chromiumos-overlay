@@ -68,6 +68,7 @@ IUSE="
 	orderfile_generate
 	+orderfile_use
 	orderfile_verify
+	protected_av1
 	remoteexec
 	+runhooks
 	strict_toolchain_checks
@@ -247,6 +248,9 @@ set_build_args() {
 	# shellcheck disable=SC2119
 	# suppressing the false warning not to specify the optional argument of 'echotf".
 	use_goma_thin_lto=$(use goma_thinlto && use_goma && use thinlto; echotf)
+	# shellcheck disable=SC2119
+	# suppressing the false warning not to specify the optional argument of 'echotf".
+	use_protected_av1=$(use intel_oemcrypto || use protected_av1; echotf)
 	BUILD_ARGS=(
 		"is_chromeos_device=true"
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
@@ -260,7 +264,7 @@ set_build_args() {
 		"${EXTRA_GN_ARGS}"
 		"enable_pseudolocales=$(usetf cros-debug)"
 		"use_arc_protected_media=$(usetf arc_hw_oemcrypto)"
-		"use_chromeos_protected_av1=$(usetf intel_oemcrypto)"
+		"use_chromeos_protected_av1=${use_protected_av1}"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
 		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
