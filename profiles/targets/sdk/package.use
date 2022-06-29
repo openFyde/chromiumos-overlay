@@ -36,6 +36,9 @@ dev-libs/libpcre static-libs
 net-libs/nghttp2 static-libs
 sys-apps/attr static-libs
 
+# mkfs.erofs needs selinux for SELinux context labeling.
+sys-fs/erofs-utils selinux
+
 # mksquashfs used in build_image requires lzo/lz4/zstd support.
 # Also include lzma compressor for flexibility.
 # For SELinux context labeling it also needs selinux.

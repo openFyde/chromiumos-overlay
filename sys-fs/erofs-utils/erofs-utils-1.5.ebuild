@@ -18,13 +18,21 @@ HOMEPAGE="https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git"
 
 LICENSE="GPL-2"
 SLOT="0"
+IUSE="selinux"
 
-RDEPEND="app-arch/lz4:="
+RDEPEND="
+	app-arch/lz4:=
+	selinux? ( sys-libs/libselinux:= )
+"
 DEPEND="${RDEPEND}"
 
 src_prepare() {
 	default
 	eautoreconf
+}
+
+src_configure() {
+	econf $(use_with selinux)
 }
 
 src_install() {
