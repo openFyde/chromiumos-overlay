@@ -239,6 +239,7 @@ cros-rustc_src_prepare() {
 		cp -avu "${_CROS_RUSTC_RAW_SOURCES_ROOT}/build/cache" "${CROS_RUSTC_BUILD_DIR}" || die
 	fi
 
+	einfo "Applying Rust patches..."
 	# Copy "unknown" vendor targets to create cros_sdk target triple
 	# variants as referred to in 0001-add-cros-targets.patch and
 	# RUSTC_TARGET_TRIPLES. armv7a is treated specially because the cros
@@ -279,6 +280,7 @@ cros-rustc_src_prepare() {
 	default
 
 	touch "${_CROS_RUSTC_PREPARED_STAMP}"
+	einfo "Rust patch application completed successfully."
 }
 
 cros-rustc_src_configure() {
