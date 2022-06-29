@@ -257,6 +257,7 @@ make_unittests() {
 
 	local OPTS=(
 		"EC_HEADERS=${SYSROOT}/usr/include/chromeos/ec"
+		"CB_SOURCE=${COREBOOT_DESTDIR}"
 		"LP_SOURCE=${COREBOOT_DESTDIR}/payloads/libpayload"
 		"VB_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
 		"obj=${builddir}"
