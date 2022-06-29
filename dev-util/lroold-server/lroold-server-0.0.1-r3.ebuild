@@ -2,16 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="3124ca73164189e94931eedf50b68a8e8cb52686"
-CROS_WORKON_TREE="0a82488b21ac7734f64c67f4addb83f5f0eceb3f"
+CROS_WORKON_COMMIT="10baf177154b696c83d88350a4d5b81d1d5f0735"
+CROS_WORKON_TREE="c3f73cc3c4bc36a0d9ff17ee8deb577d8eceea1f"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/lro"
+CROS_WORKON_SUBTREE="src/chromiumos/lroold"
 
 inherit cros-go cros-workon
 
 DESCRIPTION="Common golang library to support google.longrunning.operations server impls"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/lro"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/lroold"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -22,7 +22,7 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_PACKAGES=(
-	"chromiumos/lro/..."
+	"chromiumos/lroold/..."
 )
 
 CROS_GO_TEST=(
@@ -39,7 +39,6 @@ DEPEND="
 	dev-go/mock
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
-	dev-go/uuid
 	chromeos-base/cros-config-api
 "
 
