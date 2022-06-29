@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("1007e36b0e85b85b2140e91cb52ae9041b6df40f" "ea98b6cd54ddda826190067096ccbccfa8839511")
-CROS_WORKON_TREE=("455da79bcff0fd8f44fbae5ad5e1d23e5ffd09fd" "5f17d1b52c9ca6c83e38b0df6d4a74a45e12f88f")
+CROS_WORKON_COMMIT=("f35acd9812b4fff25c51f83e60c267948e6617a8" "7bf7e35a5a98044033e4d32b0087b4e600178312")
+CROS_WORKON_TREE=("455da79bcff0fd8f44fbae5ad5e1d23e5ffd09fd" "c8df79a7c69c5f95e3a26167af268a935aa34924")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -121,7 +121,6 @@ platform_pkg_test() {
 	local tests=(
 		file_unittest
 		math_unittest
-		platform_unittest
 		vpd_unittest
 	)
 	local test_bin
