@@ -22,7 +22,6 @@ DEPEND="dev-libs/openssl:0=
 RDEPEND="${DEPEND}"
 
 PATCHES=(
-	"${FILESDIR}/${PN}-llvm-stringset.patch"
 	"${FILESDIR}/${PN}-signal_handler-fix-ambigous-max-ar.patch"
 )
 
