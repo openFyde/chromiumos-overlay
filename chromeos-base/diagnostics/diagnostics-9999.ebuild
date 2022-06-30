@@ -19,13 +19,18 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnost
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer wilco mesa_reven"
+IUSE="fuzzer wilco mesa_reven diagnostics mojo_service_manager"
+
+REQUIRED_USE="
+	diagnostics? ( mojo_service_manager )
+"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
+	chromeos-base/mojo_service_manager:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
