@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="57eb6ea8e8ebf6ecb859815ef15b962a38803bd2"
-CROS_WORKON_TREE="c243a33c6955e83081a3b858e6cdd92d37a1e149"
+CROS_WORKON_COMMIT="9ae9d2c03f42b25238f803a26ebae4902541317e"
+CROS_WORKON_TREE="4fb994c865757570ca5a40a5b376e7779dc9a584"
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 CROS_WORKON_LOCALNAME="platform/vboot_reference"
 
@@ -26,6 +26,7 @@ COMMON_DEPEND="
 	app-arch/libarchive:=
 	dev-libs/libzip:=
 	dev-libs/openssl:=
+	sys-apps/coreboot-utils:=
 	sys-apps/flashrom:=
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
