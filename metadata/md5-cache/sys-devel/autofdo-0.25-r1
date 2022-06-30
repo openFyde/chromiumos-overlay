@@ -8,6 +8,6 @@ KEYWORDS=*
 LICENSE=Apache-2.0
 RDEPEND=dev-libs/openssl:0= dev-libs/protobuf:= dev-libs/libffi sys-devel/llvm sys-libs/zlib
 SLOT=0
-SRC_URI=https://github.com/google/autofdo/archive/0.24.tar.xz -> autofdo-0.24.tar.xz
+SRC_URI=https://github.com/google/autofdo/archive/0.25.tar.xz -> autofdo-0.25.tar.xz
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cmake	b22e256fd899c7e0c747e8834eff121a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
-_md5_=5ec54430f7f4852a3e86c5d146c91a74
+_md5_=7c37ad4ff5e5f96768fb96f0fde2051a
