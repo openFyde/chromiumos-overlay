@@ -11,4 +11,4 @@ on early-init
     setprop debug.angle.feature_overrides_disabled exposeNonConformantExtensionsAndVersions:preferSubmitAtFBOBoundary:emulateAdvancedBlendEquations:supportsShaderFramebufferFetch
     # TODO remove forceContinuousRefreshOnSharedPresent after b/229267970 gets fixed
     # TODO remove perFrameWindowSizeQuery after b/236026298 gets fixed
-    setprop debug.angle.feature_overrides_enabled forceContinuousRefreshOnSharedPresent:perFrameWindowSizeQuery
+    setprop debug.angle.feature_overrides_enabled forceContinuousRefreshOnSharedPresent:perFrameWindowSizeQuery:preferLinearFilterForYUV
