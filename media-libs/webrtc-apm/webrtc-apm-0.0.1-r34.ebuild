@@ -4,8 +4,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="865a1769435d01a01e83a0034981abd515d8e717"
-CROS_WORKON_TREE="514df8214f0ffaaa105244c09af8705f518a9b6b"
+CROS_WORKON_COMMIT="6c381af40185c6e65a26b6525137df3d028f86e0"
+CROS_WORKON_TREE="5809111ef056ef06d411ca18f992a152741d4214"
 CROS_WORKON_PROJECT="chromiumos/third_party/webrtc-apm"
 CROS_WORKON_LOCALNAME="webrtc-apm"
 
@@ -18,12 +18,13 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_sse2 neon"
+IUSE="cpu_flags_x86_sse2 featured neon"
 
 DEPEND="dev-libs/iniparser:=
 	dev-libs/libevent:=
 	dev-libs/protobuf:=
-	chromeos-base/metrics"
+	chromeos-base/metrics
+	featured? ( chromeos-base/featured:= )"
 RDEPEND="${DEPEND}"
 
 src_configure() {
