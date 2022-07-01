@@ -21,7 +21,7 @@
 # images.
 # Only local tests can be marked private; remote test bundles are always
 # installed to the chroot.
-: ${TAST_BUNDLE_PRIVATE:=0}
+: "${TAST_BUNDLE_PRIVATE:=0}"
 
 # @ECLASS-VARIABLE: TAST_BUNDLE_EXCLUDE_DATA_FILES
 # @DESCRIPTION:
@@ -30,7 +30,7 @@
 # and that eclass copies the data files instead.
 : "${TAST_BUNDLE_EXCLUDE_DATA_FILES:=0}"
 
-inherit cros-go
+inherit cros-workon cros-go
 
 DEPEND="dev-go/crypto"
 RDEPEND="app-arch/tar"
