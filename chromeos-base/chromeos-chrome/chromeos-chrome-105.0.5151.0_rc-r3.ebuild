@@ -445,7 +445,6 @@ set_build_args() {
 	if use_remoteexec; then
 		BUILD_ARGS+=(
 			"use_remoteexec=true"
-			"use_rbe=true"
 		)
 		BUILD_STRING_ARGS+=(
 			"rbe_cc_cfg_file=${CHROME_ROOT}/src/buildtools/reclient_cfgs/rewrapper_chroot_compile.cfg"
