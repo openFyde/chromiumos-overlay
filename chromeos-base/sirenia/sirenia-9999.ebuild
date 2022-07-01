@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host manatee"
+IUSE="cros_host manatee sirenia"
 
 DEPEND="
 	chromeos-base/crosvm-base:=
@@ -49,6 +49,9 @@ RDEPEND="${DEPEND}
 "
 BDEPEND="chromeos-base/sirenia-tools"
 
+# Don't support USE=manatee on the host.
+REQUIRED_USE="cros_host? ( !manatee )"
+
 src_install() {
 	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/dugong"
@@ -62,21 +65,24 @@ src_install() {
 	insinto /usr/lib/tmpfiles.d
 	doins tmpfiles.d/*.conf
 
-	# Needed for initramfs, but not for the root-fs.
-	if use cros_host ; then
-		# /build is not allowed when installing to the host.
-		exeinto "/bin"
-	else
-		exeinto "/build/initramfs"
+	# In USE=sirenia, install trichichus and manatee_memory_service in the
+	# root filesystem.
+	if use sirenia; then
+		dobin "${build_dir}/trichechus"
+		dobin "${build_dir}/manatee_memory_service"
 	fi
 
+	# In USE=manatee builds, install trichichus and manatee_memory_service
+	# into the hypervisor's initramfs.
 	if use manatee ;  then
+		# Start dugong with the system.
 		insinto /etc/init
 		doins upstart/dugong.conf
+
+		# Install binaries in the initramfs.
+		exeinto "/build/initramfs"
 		doexe "${build_dir}/trichechus"
 		doexe "${build_dir}/manatee_memory_service"
-	else
-		dobin "${build_dir}/trichechus"
 	fi
 }
 
