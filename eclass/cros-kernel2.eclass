@@ -619,6 +619,16 @@ CONFIG_DEBUG_ATOMIC_SLEEP=y
 CONFIG_LOCALVERSION=\"-lockdep\"
 ${lockstat_config}
 "
+lockdebug_config_disable="
+# CONFIG_DEBUG_RT_MUTEXES is not set
+# CONFIG_DEBUG_SPINLOCK is not set
+# CONFIG_DEBUG_MUTEXES is not set
+# CONFIG_PROVE_RCU is not set
+# CONFIG_PROVE_LOCKING is not set
+# CONFIG_DEBUG_ATOMIC_SLEEP is not set
+# CONFIG_LOCALVERSION is not set
+# CONFIG_LOCK_STAT is not set
+"
 
 lpss_uart_desc="Enable Intel LPSS UART serial ports"
 lpss_uart_config="
