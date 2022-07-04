@@ -62,10 +62,4 @@ src_install() {
 		fi
 	fi
 	doins 20-mouse.conf
-
-	insinto "/usr/share/gestures"
-	case ${board} in
-	daisy)
-		doins "files/daisy_linearity.dat" ;;
-	esac
 }
