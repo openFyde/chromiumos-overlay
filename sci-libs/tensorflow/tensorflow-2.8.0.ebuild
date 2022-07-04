@@ -133,6 +133,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.8.0-0007-protobuff-cc-toolchain.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0008-remove-llvm-repo.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0009-resolve-overflow.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0010-resolve-tflite-c-asan.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -280,6 +281,7 @@ src_compile() {
 	# other packages to extract out xnnpack artifacts without installing benchmark_model
 	ebazel build -k --nobuild \
 		tensorflow/lite:libtensorflowlite.so \
+		tensorflow/lite/c:libtensorflowlite_c.so \
 		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 		"$(usex label_image '
 			//tensorflow/lite/examples/label_image:label_image' '')" \
@@ -297,6 +299,7 @@ src_compile() {
 	ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
 		--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 \
 		//tensorflow/lite:libtensorflowlite.so \
+		//tensorflow/lite/c:libtensorflowlite_c.so \
 		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
 		"$(usex label_image '
 			//tensorflow/lite/examples/label_image:label_image' '')" \
@@ -315,6 +318,9 @@ src_compile() {
 	cd "${BUILD_DIR}" || die
 	use python && python_foreach_impl run_in_build_dir do_compile
 	ebazel shutdown
+
+	einfo "Generate pkg-config file"
+	${PN}/c/generate-pc.sh --prefix="${EPREFIX}"/usr --libdir="$(get_libdir)" --version=${MY_PV} || die
 }
 
 src_install() {
@@ -354,6 +360,7 @@ src_install() {
 
 	einfo "Installing TF lite libraries"
 	dolib.so bazel-bin/tensorflow/lite/lib${PN}lite.so
+	dolib.so bazel-bin/tensorflow/lite/c/lib${PN}lite_c.so
 
 	if use label_image; then
 		einfo "Install label_image example"
@@ -390,6 +397,10 @@ src_install() {
 			dolib.a "${i}"
 		done
 	fi
+
+	einfo "Installing pkg-config file"
+	insinto /usr/"$(get_libdir)"/pkgconfig
+	doins ${PN}.pc ${PN}_cc.pc
 
 	einstalldocs
 }

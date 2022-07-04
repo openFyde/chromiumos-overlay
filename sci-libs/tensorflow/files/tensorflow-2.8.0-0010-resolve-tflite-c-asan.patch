@@ -1,0 +1,13 @@
+diff --git a/tensorflow/lite/c/BUILD b/tensorflow/lite/c/BUILD
+index af9852a28b4..8c9773c204b 100644
+--- a/tensorflow/lite/c/BUILD
++++ b/tensorflow/lite/c/BUILD
+@@ -28,7 +28,7 @@ tflite_cc_shared_object(
+         ],
+         "//tensorflow:windows": [],
+         "//conditions:default": [
+-            "-z defs",
++            "-Wl,-z,defs",
+             "-Wl,--version-script,$(location //tensorflow/lite/c:version_script.lds)",
+         ],
+     }),
