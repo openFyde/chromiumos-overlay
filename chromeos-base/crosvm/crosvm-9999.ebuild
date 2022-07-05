@@ -48,6 +48,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-task-4*:=
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/bitflags-1*:=
+	>=dev-rust/bytes-1.1.0:= <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen:=
 	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
 	=dev-rust/cfg-if-1*:=
