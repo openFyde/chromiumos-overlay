@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk arc/vm/mojo_proxy .gn"
 
 PLATFORM_SUBDIR="arc/vm/mojo_proxy"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="ARCVM mojo proxy."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/mojo_proxy"
@@ -33,6 +33,11 @@ src_install() {
 
 	insinto /etc/init
 	doins init/arcvm-server-proxy.conf
+}
+
+pkg_preinst() {
+	enewuser "arc-mojo-proxy"
+	enewgroup "arc-mojo-proxy"
 }
 
 platform_pkg_test() {
