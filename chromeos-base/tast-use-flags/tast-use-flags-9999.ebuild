@@ -109,8 +109,10 @@ IUSE="
 	ocr
 	octopus
 	ondevice_document_scanner
+	ondevice_grammar
 	ondevice_handwriting
 	ondevice_speech
+	ondevice_text_suggestions
 	pinweaver_csme
 	pita
 	racc
