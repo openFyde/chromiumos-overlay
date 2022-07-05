@@ -64,6 +64,7 @@ IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma intel_debug"
 IUSE="${IUSE} +bmpblk quiet unibuild verbose ti50_onboard"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} chipset_cezanne"
+IUSE="${IUSE} fw_debug"
 # virtual/coreboot-private-files is deprecated. When adding a new board you
 # should add the coreboot-private-files-{board/chipset} ebuilds into the private
 # overlays, and avoid creating virtual packages.
@@ -156,6 +157,9 @@ EOF
 	fi
 	if use ti50_onboard; then
 		echo "CONFIG_CBFS_VERIFICATION=y" >> "${CONFIG}"
+	fi
+	if use fw_debug; then
+		echo "CONFIG_BUILDING_WITH_DEBUG_FSP=y" >> "${CONFIG}"
 	fi
 	# disable coreboot's own EC firmware building mechanism
 	echo "CONFIG_EC_GOOGLE_CHROMEEC_FIRMWARE_NONE=y" >> "${CONFIG}"
