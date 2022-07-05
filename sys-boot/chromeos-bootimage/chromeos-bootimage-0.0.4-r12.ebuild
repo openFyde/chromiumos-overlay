@@ -25,6 +25,7 @@ IUSE="${IUSE} fsp unibuild u-boot tianocore cros_ec pd_sync +bmpblk"
 IUSE="${IUSE} ec_ro_sync"
 IUSE="${IUSE} +depthcharge"
 IUSE="${IUSE} payload-align-64 +payload-compress-lzma payload-compress-lz4"
+IUSE="${IUSE} +include_altfw"
 
 REQUIRED_USE="^^ ( payload-compress-lzma payload-compress-lz4 )"
 
@@ -626,9 +627,11 @@ build_images() {
 		add_ec "${depthcharge_config}" "${coreboot_config}" "${coreboot_file}.netboot" "pd" "${pd_folder}"
 	fi
 
-	setup_altfw "${coreboot_build_target}" "${coreboot_file}"
-	setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
-	setup_altfw "${coreboot_build_target}" "${coreboot_file}.netboot"
+	if use include_altfw; then
+		setup_altfw "${coreboot_build_target}" "${coreboot_file}"
+		setup_altfw "${coreboot_build_target}" "${coreboot_file}.serial"
+		setup_altfw "${coreboot_build_target}" "${coreboot_file}.netboot"
+	fi
 
 	# Keeps the find commands from failing with directory not found
 	mkdir -p "raw-assets-rw/${build_name}"
