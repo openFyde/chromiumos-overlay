@@ -177,7 +177,6 @@ RDEPEND="${RDEPEND}
 	dev-libs/libyaml
 	dev-libs/m17n-lib
 	dev-libs/protobuf
-	!=dev-libs/protobuf-3.19.3
 	dev-libs/protobuf-c
 	dev-libs/wayland
 	dev-python/cffi
