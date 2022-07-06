@@ -17,7 +17,7 @@ KEYWORDS="~*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
-IUSE="${IUSE} manatee_performance_tools"
+IUSE="${IUSE} manatee_performance_tools ufs"
 
 # Build Targets
 TARGETS_IUSE="
@@ -82,6 +82,7 @@ FACTORY_NETBOOT_DEPENDS="
 	chromeos-base/chromeos-storage-info
 	chromeos-base/ec-utils
 	chromeos-base/factory_installer
+	ufs? ( chromeos-base/factory_ufs )
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
 	dev-libs/openssl:0=
@@ -173,6 +174,7 @@ src_compile() {
 			BOARD="$(get_current_board_with_variant)" \
 			DETACHABLE="$(usex detachable 1 0)" \
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
+			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 			LIBDIR="$(get_libdir)" \
