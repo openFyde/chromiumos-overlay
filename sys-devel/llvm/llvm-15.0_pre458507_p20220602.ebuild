@@ -10,7 +10,7 @@ inherit cros-constants cmake flag-o-matic git-r3 multilib-minimal  \
 	python-any-r1 pax-utils toolchain-funcs
 
 LLVM_HASH="a58d0af058038595c93de961b725f86997cf8d4a" # r458507
-LLVM_NEXT_HASH="a58d0af058038595c93de961b725f86997cf8d4a" # r458507
+LLVM_NEXT_HASH="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
 
 DESCRIPTION="Low Level Virtual Machine"
 HOMEPAGE="http://llvm.org/"
