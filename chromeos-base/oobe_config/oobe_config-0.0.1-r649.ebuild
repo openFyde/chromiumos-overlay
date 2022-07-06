@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="919e4173733b8880496b873211cd25c1909c67cf"
-CROS_WORKON_TREE=("1127da40f25ab9f6f6d1c708ffc1308fbfff5f0e" "6a138b6e2bbc2266bfeab878a1175aa6ba110746" "b3d40dd8b9633e85d00396246f41d742729a1b8b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="80407b93b8e422e4fd941d9c749252df61f8d7f2"
+CROS_WORKON_TREE=("1127da40f25ab9f6f6d1c708ffc1308fbfff5f0e" "8461e76ae772419bd0aaa65bb326ad1cb100469a" "b3d40dd8b9633e85d00396246f41d742729a1b8b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk oobe_config metrics .gn"
 
 PLATFORM_SUBDIR="oobe_config"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Provides utilities to save and restore OOBE config."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_config/"
@@ -46,6 +46,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/rollback_prepare_save
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
@@ -76,6 +78,10 @@ src_install() {
 		oobe_config_restore-seccomp.policy
 	newins seccomp_filters/oobe_config_save-seccomp-"${ARCH}".policy \
 		oobe_config_save-seccomp.policy
+
+	insinto /usr/lib/tmpfiles.d/on-demand
+	doins tmpfiles.d/on-demand/oobe_config_restore.conf
+	doins tmpfiles.d/on-demand/oobe_config_save.conf
 }
 
 platform_pkg_test() {
