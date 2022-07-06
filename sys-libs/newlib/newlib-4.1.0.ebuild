@@ -64,6 +64,12 @@ pkg_setup() {
 }
 
 src_configure() {
+	# EC doesn't support unaligned access: b/239254184.
+	if [[ ${CTARGET} == armv7m* ]]; then
+		append-flags -mno-unaligned-access
+		CCASFLAGS="${CCASFLAGS} -mno-unaligned-access"
+	fi
+
 	# TODO: we should fix this
 	unset LDFLAGS
 	CHOST=${CTARGET} strip-unsupported-flags
