@@ -48,6 +48,10 @@ BDEPEND="
 
 EXPORT_FUNCTIONS src_compile src_install
 
+# @FUNCTION: cros-config-bsp_build_config
+# @USAGE: cros-config-bsp_build_config <generate_dir> <starlark_file>
+# @DESCRIPTION:
+# Generates a payload (ConfigBundle) config file based on Starlark config.
 cros-config-bsp_build_config() {
 	local config_dir=$1
 	local starlark_file=$2
@@ -55,6 +59,11 @@ cros-config-bsp_build_config() {
 		|| die "Failed to generate config under $(pwd)."
 }
 
+# @FUNCTION: cros-config-bsp_proto_converter
+# @USAGE:
+# cros-config-bsp_proto_converter <program_name> <project_name> <output_dir>
+# @DESCRIPTION:
+# Transforms a ConfigBundle file to platform JSON.
 cros-config-bsp_proto_converter() {
 	local program_config=$1
 	local project_config=$2
@@ -73,6 +82,27 @@ cros-config-bsp_proto_converter() {
 		|| die "Failed to run cros_config_proto_converter."
 }
 
+# @FUNCTION: cros-config-bsp_merge_payloads
+# @USAGE:
+# cros-config-bsp_merge_payloads <imported_config> <config_bundle> <output_file>
+# @DESCRIPTION:
+# Merges a backfilled ConfigBundle file with the ConfigBundle produced by Starlark.
+cros-config-bsp_merge_payloads() {
+	local imported_config=$1
+	local config_bundle=$2
+	local output_file=$3
+
+	cros_config_merge_backfilled_config \
+		--backfilled-config-bundle "${imported_config}" \
+		--config-bundle "${config_bundle}" \
+		--output "${output_file}" \
+		|| die "Failed to merge backfilled config and config payload"
+}
+
+# @FUNCTION: cros-config-bsp_gen_config
+# @USAGE: cros-config-bsp_gen_config
+# @DESCRIPTION:
+# Generates platform configuration files for the program and associated projects.
 cros-config-bsp_gen_config() {
 	# Re-establish the symlinks as they exist in the source tree.
 	ln -sfT "${S}/config" "${S}/${PROGRAM}/config" \
@@ -93,6 +123,8 @@ cros-config-bsp_gen_config() {
 			cros-config-bsp_build_config generated config.star
 			cros-config-bsp_proto_converter "program/generated/config.jsonproto" \
 				"generated/config.jsonproto" "${output_dir}"
+			cros-config-bsp_merge_payloads "generated/imported.jsonproto" \
+				"generated/config.jsonproto" "generated/joined.jsonproto"
 		)
 	done
 }
@@ -104,6 +136,10 @@ cros-config-bsp_src_compile() {
 
 cros-config-bsp_src_install() {
 	platform_json_install
+	local project
+	for project in "${PROJECTS[@]}"; do
+		platform_merged_install "${project}"
+	done
 
 	unibuild_install_files arc-files "${WORKDIR}/project-config.json"
 	unibuild_install_files thermal-files "${WORKDIR}/project-config.json"

@@ -419,6 +419,22 @@ platform_json_install() {
 	doins "${WORKDIR}/project-config.json"
 }
 
+# @FUNCTION: platform_merged_install
+# @USAGE:
+# @DESCRIPTION:
+# Install project-specific joined.jsonproto files into tmp dir.
+# These files will be available to the Build API as artifacts.
+# Args:
+#   $1: Name of the project being installed
+platform_merged_install() {
+	[[ $# -eq 1 ]] || die "${FUNCNAME}: takes a single argument"
+		einfo "Installing project-specific joined.jsonproto file."
+
+	insinto "/build/share/cros-unibuild/$1/generated"
+	doins "${S}/$1/generated/joined.jsonproto"
+}
+
+
 # @FUNCTION: unibuild_install_files
 # @USAGE: [config_file]
 # @DESCRIPTION:
