@@ -147,7 +147,7 @@ IUSE_LINUX_FIRMWARE=(
 )
 IUSE="
 	${IUSE_KERNEL_VERS[*]}
-	${IUSE_LINUX_FIRMWARE[@]/#/linux_firmware_}
+	${IUSE_LINUX_FIRMWARE[*]/#/linux_firmware_}
 	video_cards_radeon
 	video_cards_amdgpu"
 REQUIRED_USE="?? ( ${IUSE_KERNEL_VERS[*]} )"
@@ -279,7 +279,7 @@ RESTRICT="binchecks strip"
 FIRMWARE_INSTALL_ROOT="/lib/firmware"
 
 use_fw() {
-	use linux_firmware_$1
+	use "linux_firmware_$1"
 }
 
 doins_subdir() {
@@ -512,7 +512,7 @@ src_install() {
 	install_iwlwifi
 
 	for x in "${IUSE_BRCMWIFI[@]}"; do
-		use_fw ${x} || continue
+		use_fw "${x}" || continue
 		case ${x} in
 		brcmfmac-all)      doins_subdir brcm/brcmfmac* ;;
 		brcmfmac4354-sdio) doins_subdir brcm/brcmfmac4354-sdio.* ;;
