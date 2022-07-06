@@ -7,7 +7,7 @@ CROS_WORKON_TREE="bbb7b1e6a678e34950358a627c67d80fd792dfe9"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 CROS_RUST_CRATE_NAME="factory_ufs"
-CROS_RUST_SUBDIR="rust/src/factory_ufs"
+CROS_RUST_SUBDIR="rust"
 
 inherit cros-workon cros-rust
 
