@@ -5,7 +5,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 CROS_RUST_CRATE_NAME="factory_ufs"
-CROS_RUST_SUBDIR="rust/src/factory_ufs"
+CROS_RUST_SUBDIR="rust"
 
 inherit cros-workon cros-rust
 
