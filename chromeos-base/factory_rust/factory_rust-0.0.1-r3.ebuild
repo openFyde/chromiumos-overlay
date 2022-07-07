@@ -27,5 +27,6 @@ DEPEND="
 	=dev-rust/regex-1*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
+	>=dev-rust/tempdir-0.3.7 <dev-rust/tempdir-0.4.0_alpha:=
 	>=dev-rust/tempfile-3.2.0 <dev-rust/tempfile-4.0.0_alpha:=
 "
