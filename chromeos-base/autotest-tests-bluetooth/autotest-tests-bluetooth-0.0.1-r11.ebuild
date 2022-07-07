@@ -1,10 +1,10 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI="7"
 
-CROS_WORKON_COMMIT="86d6d0aa384723ec90c3a59626c79dfcb1df5786"
-CROS_WORKON_TREE="f989d988502270ee962aac6d7aaa1ea7d8c7d6e5"
+CROS_WORKON_COMMIT="2a44184b69e226d7544e5b9ad22a44b4171a9384"
+CROS_WORKON_TREE="ac38da645575fd857d261c17af53fd0a5189eb98"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -12,23 +12,28 @@ CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="SmbProvider Autotests"
+DESCRIPTION="Autotest tests for Bluetooth"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 # Enable autotest by default.
-IUSE="${IUSE} +autotest"
+IUSE="+autotest"
 
 RDEPEND="
-	chromeos-base/chromeos-chrome
-	chromeos-base/autotest-chrome
+	chromeos-base/autotest-client
+	dev-python/btsocket
 "
 
-DEPEND="${RDEPEND}"
+CLIENT_IUSE_TESTS="
+	+tests_bluetooth_AVLHCI
+	+tests_bluetooth_AVLDriver
+"
 
-IUSE_TESTS="
+IUSE_TESTS="${IUSE_TESTS}
+	${CLIENT_IUSE_TESTS}
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
