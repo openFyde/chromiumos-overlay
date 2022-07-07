@@ -46,7 +46,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="~*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer ipc-driver strace_ipc_driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer strace_ipc_driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -197,9 +197,6 @@ src_compile() {
 			platform "compile" "runtime_xnn_testrunner"
 		fi
 	fi
-	if use ipc-driver; then
-		platform "compile" "mojo-driver"
-	fi
 }
 
 src_install() {
@@ -233,15 +230,15 @@ src_install() {
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
-	if use ipc-driver; then
-		einfo "Installing seccomp policy files for ${ARCH}."
-		insinto /usr/share/policy
-		newins "seccomp/nnapi-hal-driver-seccomp-${ARCH}.policy" nnapi-hal-driver-seccomp.policy
 
-		einfo "Installing IPC HAL driver & worker"
-		dolib.so "${OUT}/lib/libmojo-driver.so"
-		dobin "${OUT}/nnapi_worker"
-	fi
+	einfo "Installing seccomp policy files for ${ARCH}."
+	insinto /usr/share/policy
+	newins "seccomp/nnapi-hal-driver-seccomp-${ARCH}.policy" nnapi-hal-driver-seccomp.policy
+
+	einfo "Installing IPC HAL driver & worker"
+	dolib.so "${OUT}/lib/libipc-nn-hal.so"
+	dolib.so "${OUT}/lib/libmojo-driver.so"
+	dobin "${OUT}/nnapi_worker"
 
 	# Install fuzz targets.
 	local fuzzer
