@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="040e949ae572e85130209abc02fbbee5247cb309"
-CROS_WORKON_TREE=("1127da40f25ab9f6f6d1c708ffc1308fbfff5f0e" "e9aca2318e88a746710354ef82b2735ff1fe4763" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="3753ddd0491f9804bf886245ad5c72785d3adaa7"
+CROS_WORKON_TREE=("1127da40f25ab9f6f6d1c708ffc1308fbfff5f0e" "9f169e2d15cb3a0fb7ed9bf55a6a443166e10796" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk arc/vm/mojo_proxy .gn"
 
 PLATFORM_SUBDIR="arc/vm/mojo_proxy"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="ARCVM mojo proxy."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/vm/mojo_proxy"
@@ -35,6 +35,11 @@ src_install() {
 
 	insinto /etc/init
 	doins init/arcvm-server-proxy.conf
+}
+
+pkg_preinst() {
+	enewuser "arc-mojo-proxy"
+	enewgroup "arc-mojo-proxy"
 }
 
 platform_pkg_test() {
