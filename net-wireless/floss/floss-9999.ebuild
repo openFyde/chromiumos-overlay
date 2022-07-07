@@ -59,7 +59,8 @@ KEYWORDS="~*"
 #  - Bluetooth user + group are added in bluez's postinst
 #
 DEPEND="
-	chromeos-base/system_api
+	chromeos-base/metrics:=
+	chromeos-base/system_api:=
 	dev-libs/flatbuffers:=
 	dev-libs/modp_b64:=
 	dev-libs/tinyxml2:=
@@ -128,7 +129,7 @@ src_configure() {
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 
 	cros-rust_src_configure
-	platform_src_configure
+	platform_src_configure "--target_os=chromeos"
 }
 
 floss_build_tools() {
