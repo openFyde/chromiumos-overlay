@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("040e949ae572e85130209abc02fbbee5247cb309" "6c4c55e5e44fc267b40104ee90279b673aa824fd")
-CROS_WORKON_TREE=("1127da40f25ab9f6f6d1c708ffc1308fbfff5f0e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2b2c472323578ac296f15a2874909f06f0d624f8")
+CROS_WORKON_COMMIT=("1d354cb2561ef3d8ec4176f30dfd4f57750aee44" "349243d830222b93398410a47246090e83b09df4")
+CROS_WORKON_TREE=("1127da40f25ab9f6f6d1c708ffc1308fbfff5f0e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f42343131419096d92a7669d3249d63f6c263021")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "platform/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "main")
@@ -134,6 +134,7 @@ src_install() {
 		base/posix
 		base/power_monitor
 		base/process
+		base/profiler
 		base/ranges
 		base/strings
 		base/synchronization
