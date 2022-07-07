@@ -4,13 +4,13 @@ DEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpaylo
 DESCRIPTION=coreboot's depthcharge payload
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=detachable fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery test cros_host cros_workon_tree_d6a1146091af5975ec950627e98644f644541b36_6b484e51c3508e8fa901c0478d83863cccd83a22_7cd185cbc96d5bd0f02af725946ed694756684fd has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild asan coverage fuzzer msan tsan ubsan
+IUSE=detachable fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery test cros_host cros_workon_tree_ac7bfbcf2c0c1e40dbb3ca825f5438f810f457c2_b2fae9df467cddace4c23c759c35d6d29e26dd4f_7cd185cbc96d5bd0f02af725946ed694756684fd has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild asan coverage fuzzer msan tsan ubsan
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpayload:= chromeos-base/chromeos-config:= has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
 REQUIRED_USE=unibuild
 RESTRICT=binchecks strip
-SLOT=0/0.0.1-r4037
+SLOT=0/0.0.1-r4038
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-unibuild	0d7d10969ffc8ec9d48610ec978d6298	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=28a1e80ad68e4649be348648b587ad26
+_md5_=2492e05106e43cd859a2679427cff7d4
