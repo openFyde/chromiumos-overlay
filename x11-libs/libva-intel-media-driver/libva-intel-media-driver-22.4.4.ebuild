@@ -13,7 +13,8 @@ HOMEPAGE="https://github.com/intel/media-driver"
 
 LICENSE="MIT BSD"
 SLOT="0"
-IUSE="ihd_cmrtlib"
+IUSE="ihd_cmrtlib video_cards_iHD_g8 video_cards_iHD_g9 video_cards_iHD_g11 video_cards_iHD_g12"
+REQUIRED_USE="|| ( video_cards_iHD_g8 video_cards_iHD_g9 video_cards_iHD_g11 video_cards_iHD_g12 )"
 
 DEPEND=">=media-libs/gmmlib-22.0.0:=
 	>=x11-libs/libva-2.14.0
@@ -40,6 +41,12 @@ src_configure() {
 		-DPLATFORM=linux
 		-DCMAKE_DISABLE_FIND_PACKAGE_X11=TRUE
 		-DBUILD_CMRTLIB=$(usex ihd_cmrtlib ON OFF)
+
+		-DGEN8=$(usex video_cards_iHD_g8 ON OFF)
+		-DGEN9=$(usex video_cards_iHD_g9 ON OFF)
+		-DGEN10=OFF
+		-DGEN11=$(usex video_cards_iHD_g11 ON OFF)
+		-DGEN12=$(usex video_cards_iHD_g12 ON OFF)
 	)
 	local CMAKE_BUILD_TYPE="Release"
 	cmake_src_configure
