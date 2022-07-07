@@ -1437,7 +1437,7 @@ builtin_fw_guc_tgl_files=(
 
 builtin_fw_huc_adl_desc="HuC Firmware for ADL"
 builtin_fw_huc_adl_files=(
-	i915/tgl_huc_7.5.0.bin
+	i915/tgl_huc_7.9.3.bin
 )
 
 builtin_fw_huc_adl_kernelnext_desc="HuC Firmware for ADL Kernelnext"
