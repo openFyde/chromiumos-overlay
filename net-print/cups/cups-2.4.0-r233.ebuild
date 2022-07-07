@@ -213,10 +213,11 @@ multilib_src_test() {
 }
 
 multilib_src_install() {
+	# Set STRIPPROG to a no-op so we can use portage split debug instead.
 	if multilib_is_native_abi; then
-		emake BUILDROOT="${D}" install
+		emake BUILDROOT="${D}" STRIPPROG=true install
 	else
-		emake BUILDROOT="${D}" install-libs install-headers
+		emake BUILDROOT="${D}" STRIPPROG=true install-libs install-headers
 		dobin cups-config
 	fi
 }
