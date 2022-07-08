@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d012553ca5893938200c04f2bd73158823a42497"
+CROS_WORKON_COMMIT="8e8ebfc39897a79f11c1e9258d3787145d97b0cf"
 CROS_WORKON_TREE="cd7798456bc2713aa4a71eaab236a4a66792aedf"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/sirenia/
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cros_host manatee"
+IUSE="cros_host manatee sirenia"
 
 DEPEND="
 	chromeos-base/crosvm-base:=
@@ -51,6 +51,9 @@ RDEPEND="${DEPEND}
 "
 BDEPEND="chromeos-base/sirenia-tools"
 
+# Don't support USE=manatee on the host.
+REQUIRED_USE="cros_host? ( !manatee )"
+
 src_install() {
 	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/dugong"
@@ -64,21 +67,24 @@ src_install() {
 	insinto /usr/lib/tmpfiles.d
 	doins tmpfiles.d/*.conf
 
-	# Needed for initramfs, but not for the root-fs.
-	if use cros_host ; then
-		# /build is not allowed when installing to the host.
-		exeinto "/bin"
-	else
-		exeinto "/build/initramfs"
+	# In USE=sirenia, install trichichus and manatee_memory_service in the
+	# root filesystem.
+	if use sirenia; then
+		dobin "${build_dir}/trichechus"
+		dobin "${build_dir}/manatee_memory_service"
 	fi
 
+	# In USE=manatee builds, install trichichus and manatee_memory_service
+	# into the hypervisor's initramfs.
 	if use manatee ;  then
+		# Start dugong with the system.
 		insinto /etc/init
 		doins upstart/dugong.conf
+
+		# Install binaries in the initramfs.
+		exeinto "/build/initramfs"
 		doexe "${build_dir}/trichechus"
 		doexe "${build_dir}/manatee_memory_service"
-	else
-		dobin "${build_dir}/trichechus"
 	fi
 }
 
