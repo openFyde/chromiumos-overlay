@@ -143,7 +143,7 @@ src_compile() {
 	einfo "Building FPGA bitstream"
 	python -m soc.hps_soc || die
 
-	for tool in hps-factory hps-mon hps-util sign-rom ; do (
+	for tool in hps-factory hps-mon hps-util ; do (
 		cd rust/${tool} || die
 		einfo "Building ${tool}"
 		ecargo_build
@@ -157,7 +157,6 @@ src_test() {
 }
 
 src_install() {
-	newbin "$(cros-rust_get_build_dir)/sign-rom" hps-sign-rom
 	dobin "$(cros-rust_get_build_dir)/hps-factory"
 	dobin "$(cros-rust_get_build_dir)/hps-mon"
 	dobin "$(cros-rust_get_build_dir)/hps-util"

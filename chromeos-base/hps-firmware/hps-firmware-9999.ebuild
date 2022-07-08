@@ -16,6 +16,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 BDEPEND="
+	chromeos-base/hps-sign-rom
 	dev-embedded/hps-sdk
 	dev-rust/svd2rust
 	>=sci-electronics/nextpnr-0.1_p20220210
@@ -154,14 +155,6 @@ src_compile() {
 		"${CARGO_TARGET_DIR}/riscv32i-unknown-none-elf/release/fpga_rom" \
 		"${S}/build/hps_platform/fpga_rom.bin" || die
 
-	# Build signing tool for the build host, so that we can use it below
-	(
-		cd rust/sign-rom || die
-		einfo "Building sign-rom for build host"
-		# TODO(b/218953559): this should be --target=$CBUILD, fix hps-sdk
-		ecargo build --target=x86_64-unknown-linux-gnu --release
-	)
-
 	# Build MCU firmware
 	for crate in stage0 stage1_app ; do (
 		einfo "Building MCU firmware ${crate}"
@@ -180,7 +173,7 @@ src_compile() {
 
 	# Sign MCU stage1 firmware with dev key
 	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
-	"${CARGO_TARGET_DIR}/x86_64-unknown-linux-gnu/release/sign-rom" \
+	hps-sign-rom \
 		--input "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin" \
 		--output "${CARGO_TARGET_DIR}/thumbv6m-none-eabi/release/stage1_app.bin.signed" \
 		--use-insecure-dev-key \
