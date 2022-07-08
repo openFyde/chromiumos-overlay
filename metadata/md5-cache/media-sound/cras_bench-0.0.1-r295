@@ -4,12 +4,12 @@ DEPEND=chromeos-base/chromeos-config-tools media-libs/alsa-lib cras-apm? ( media
 DESCRIPTION=Performance benchmarks for ChromeOS audio server
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/adhd/
-IUSE=+cras-apm asan cros_host cros_workon_tree_ef4ed6077ba9beecf6369552f3827e85d6cb2347 asan coverage fuzzer msan tsan ubsan
+IUSE=+cras-apm asan cros_host cros_workon_tree_db609d39b0839f11ffd5b63e4dae069531644090 asan coverage fuzzer msan tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/chromeos-config-tools media-libs/alsa-lib cras-apm? ( media-libs/webrtc-apm:= )
-SLOT=0/0.0.1-r294
+SLOT=0/0.0.1-r295
 SRC_URI=https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip https://github.com/google/benchmark/archive/refs/tags/v1.5.5.tar.gz -> google-benchmark-1.5.5.tar.gz
 _eclasses_=bazel	754d004c54b3ac8a286975d232cbab17	cros-bazel	f8f1ddf279e2cce6ed2320142f477dbf	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=1972527444cd465ff70f3b5755462514
+_md5_=bdaaee2c524268b4e94c8cfffeff6223
