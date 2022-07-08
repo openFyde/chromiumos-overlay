@@ -420,13 +420,6 @@ setup_compile_flags() {
 		append-ldflags -Wl,-generate-type-units
 	fi
 
-	# [Mod] Configurations related to orderfile_generate USE flag are removed.
-
-	# Turn off call graph profile sort (C3), when new pass manager is enabled.
-	# Only allow it when we want to generate orderfile.
-	# This is a temporary option and will need to be removed once orderfile is on.
-	EBUILD_LDFLAGS+=( "-Wl,--no-call-graph-profile-sort" )
-
 	# Enable std::vector []-operator bounds checking.
 	append-cxxflags -D__google_stl_debug_vector=1
 
