@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="a3bb319226d446cf492eb47be5ae63be5baded3d"
-CROS_WORKON_TREE="8b09807421f3da4616fce26abcfa7099e0e05e88"
+CROS_WORKON_COMMIT="4193f7f811753ea40d77b25fa5d03b05d04f010f"
+CROS_WORKON_TREE="2ab90952edfed80de65b8830d506f31fb29310aa"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -19,7 +19,7 @@ KEYWORDS="*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
-IUSE="${IUSE} manatee_performance_tools"
+IUSE="${IUSE} manatee_performance_tools ufs"
 
 # Build Targets
 TARGETS_IUSE="
@@ -84,6 +84,7 @@ FACTORY_NETBOOT_DEPENDS="
 	chromeos-base/chromeos-storage-info
 	chromeos-base/ec-utils
 	chromeos-base/factory_installer
+	ufs? ( chromeos-base/factory_ufs )
 	chromeos-base/vboot_reference
 	chromeos-base/vpd
 	dev-libs/openssl:0=
@@ -175,6 +176,7 @@ src_compile() {
 			BOARD="$(get_current_board_with_variant)" \
 			DETACHABLE="$(usex detachable 1 0)" \
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
+			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 			LIBDIR="$(get_libdir)" \
