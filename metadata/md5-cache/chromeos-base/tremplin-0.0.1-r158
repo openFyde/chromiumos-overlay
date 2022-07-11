@@ -4,11 +4,11 @@ DEPEND=app-emulation/lxd:0 app-emulation/lxd:4 chromeos-base/vm_guest_tools:= ch
 DESCRIPTION=Tremplin LXD client with gRPC support
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tremplin/
-IUSE=cros_host cros_workon_tree_671a0c65d1c86406fccf4e8fc0259ac98a6e4eb7
+IUSE=cros_host cros_workon_tree_9bdae8272896bdccd819ae02aed5b074f95ecb47
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=app-emulation/lxd:0 app-emulation/lxd:4
-SLOT=0/0.0.1-r157
+SLOT=0/0.0.1-r158
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-go	a78906457a303b16ac2583caab6eff8a	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=a85c4b900a22e07fa9f3e0e1ddb820dc
+_md5_=adee23a67d3acb0b6ce4f0bb5f9e39f7
