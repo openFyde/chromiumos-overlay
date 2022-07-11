@@ -4,11 +4,11 @@ DEPEND=chromeos-base/tast-build-deps:= dev-lang/go
 DESCRIPTION=Runner for local integration tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast/
-IUSE=cros_host cros_workon_tree_9f1691e5da84d3adabc971d14bf2d6e4c8e6502a
+IUSE=cros_host cros_workon_tree_16cd4b690ab84d7a34285c9f676343a57cff779c
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=app-arch/tar !chromeos-base/tast-common
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-go	a78906457a303b16ac2583caab6eff8a	cros-workon	7c730ff910638b996788c3c9ebcfd109	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=9db3755f0c6bdb4772fff207862235c2
+_md5_=d13f98dfa2851b2f81767a879b03e7e7
