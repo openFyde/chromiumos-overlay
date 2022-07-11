@@ -1,4 +1,3 @@
-set noparent
 include chromiumos/overlays/portage-stable:/eclass/OWNERS
 
 per-file cros-firmware.eclass = file:chromiumos/platform/firmware:/OWNERS

@@ -1,4 +1,3 @@
-set noparent
 include chromiumos/overlays/portage-stable:/metadata/OWNERS
 
 # Bot that commits cache updates.
