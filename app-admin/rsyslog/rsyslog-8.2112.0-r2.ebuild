@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -28,12 +28,14 @@ LICENSE="GPL-3 LGPL-3 Apache-2.0"
 SLOT="0"
 
 IUSE="clickhouse curl dbi debug doc elasticsearch +gcrypt gnutls imhttp"
-IUSE+=" impcap jemalloc kafka kerberos kubernetes libressl mdblookup"
+IUSE+=" impcap jemalloc kafka kerberos kubernetes mdblookup"
 IUSE+=" mongodb mysql normalize omhttp omhttpfs omudpspoof +openssl"
 IUSE+=" postgres rabbitmq redis relp rfc3195 rfc5424hmac snmp +ssl"
 IUSE+=" systemd test usertools +uuid xxhash zeromq"
 
 RESTRICT="!test? ( test )"
+
+PATCHES=( "${FILESDIR}/001-add-imstdoutsock-plugin.patch" )
 
 REQUIRED_USE="
 	kubernetes? ( normalize )
@@ -42,14 +44,11 @@ REQUIRED_USE="
 
 BDEPEND=">=sys-devel/autoconf-archive-2015.02.24
 	virtual/pkgconfig
-	elibc_musl? ( sys-libs/queue-standalone )
 	test? (
 		jemalloc? ( <sys-libs/libfaketime-0.9.7 )
 		!jemalloc? ( sys-libs/libfaketime )
 		${PYTHON_DEPS}
 	)"
-
-PATCHES=( "${FILESDIR}/001-add-imstdoutsock-plugin.patch" )
 
 RDEPEND="
 	>=dev-libs/libfastjson-0.99.8:=
@@ -60,7 +59,11 @@ RDEPEND="
 	dbi? ( >=dev-db/libdbi-0.8.3 )
 	elasticsearch? ( >=net-misc/curl-7.35.0 )
 	gcrypt? ( >=dev-libs/libgcrypt-1.5.3:= )
-	imhttp? ( www-servers/civetweb )
+	imhttp? (
+		dev-libs/apr-util
+		www-servers/civetweb
+		virtual/libcrypt:=
+	)
 	impcap? ( net-libs/libpcap )
 	jemalloc? ( >=dev-libs/jemalloc-3.3.1:= )
 	kafka? ( >=dev-libs/librdkafka-0.9.0.99:= )
@@ -77,19 +80,20 @@ RDEPEND="
 	omudpspoof? ( >=net-libs/libnet-1.1.6 )
 	postgres? ( >=dev-db/postgresql-8.4.20:= )
 	rabbitmq? ( >=net-libs/rabbitmq-c-0.3.0:= )
-	redis? ( >=dev-libs/hiredis-0.11.0:= )
+	redis? (
+		>=dev-libs/hiredis-0.11.0:=
+		dev-libs/libevent[threads]
+	)
 	relp? ( >=dev-libs/librelp-1.2.17:= )
 	rfc3195? ( >=dev-libs/liblogging-1.0.1:=[rfc3195] )
 	rfc5424hmac? (
-		!libressl? ( >=dev-libs/openssl-0.9.8y:0= )
-		libressl? ( dev-libs/libressl:= )
+		>=dev-libs/openssl-0.9.8y:0=
 	)
 	snmp? ( >=net-analyzer/net-snmp-5.7.2 )
 	ssl? (
 		gnutls? ( >=net-libs/gnutls-2.12.23:0= )
 		openssl? (
-			!libressl? ( dev-libs/openssl:0= )
-			libressl? ( dev-libs/libressl:0= )
+			dev-libs/openssl:0=
 		)
 	)
 	systemd? ( >=sys-apps/systemd-234 )
@@ -98,10 +102,11 @@ RDEPEND="
 	zeromq? (
 		>=net-libs/czmq-4:=[drafts]
 	)"
-DEPEND="${RDEPEND}
-	test? (
-		>=dev-libs/liblogging-1.0.1[stdlog]
-	)"
+
+DEPEND="
+	${RDEPEND}
+	elibc_musl? ( sys-libs/queue-standalone )
+"
 
 if [[ ${PV} == "9999" ]]; then
 	BDEPEND+=" doc? ( >=dev-python/sphinx-1.1.3-r7 )"
@@ -214,6 +219,7 @@ src_configure() {
 		--enable-omuxsock
 		# Misc
 		--enable-fmhash
+		--enable-fmunflatten
 		$(use_enable xxhash fmhash-xxhash)
 		--enable-pmaixforwardedfrom
 		--enable-pmciscoios
@@ -229,6 +235,7 @@ src_configure() {
 		$(use_enable mongodb ommongodb)
 		$(use_enable mysql)
 		$(use_enable postgres pgsql)
+		$(use_enable redis imhiredis)
 		$(use_enable redis omhiredis)
 		# Debug
 		$(use_enable debug)
