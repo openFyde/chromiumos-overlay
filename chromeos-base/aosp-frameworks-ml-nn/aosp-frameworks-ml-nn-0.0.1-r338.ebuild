@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("55fe26b58c0a6458f452b79307b61ad101e911ab" "b612b9e1aea9a5d4ba7ad3f963ef8905db336cef" "181f7c798017c00372848000f4ba38b04936e5ab")
-CROS_WORKON_TREE=("02bfff6bead7011dd0b16a3393e99a677d8e4e0e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5391e9b3bdca9d091a5ad9e6fb1afb2da49cab4e" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
+CROS_WORKON_COMMIT=("a28f66bef267d58a7d6f4abe87e5a431354d9d06" "a575ddd45215bb23ebfa4a64f482a899cab921bc" "181f7c798017c00372848000f4ba38b04936e5ab")
+CROS_WORKON_TREE=("02bfff6bead7011dd0b16a3393e99a677d8e4e0e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "912ef3a7b8bf84fbc5a5638184eb9dc86a8e43cd" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -48,7 +48,7 @@ HOMEPAGE="https://developer.android.com/ndk/guides/neuralnetworks"
 
 LICENSE="BSD-Google Apache-2.0"
 KEYWORDS="*"
-IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer ipc-driver strace_ipc_driver"
+IUSE="cpu_flags_x86_avx2 vendor-nnhal minimal-driver xnnpack fuzzer strace_ipc_driver"
 
 RDEPEND="
 	chromeos-base/nnapi:=
@@ -199,9 +199,6 @@ src_compile() {
 			platform "compile" "runtime_xnn_testrunner"
 		fi
 	fi
-	if use ipc-driver; then
-		platform "compile" "mojo-driver"
-	fi
 }
 
 src_install() {
@@ -235,15 +232,15 @@ src_install() {
 		einfo "Installing xnnpack drivers"
 		dolib.so "${OUT}/lib/libxnn-driver.so"
 	fi
-	if use ipc-driver; then
-		einfo "Installing seccomp policy files for ${ARCH}."
-		insinto /usr/share/policy
-		newins "seccomp/nnapi-hal-driver-seccomp-${ARCH}.policy" nnapi-hal-driver-seccomp.policy
 
-		einfo "Installing IPC HAL driver & worker"
-		dolib.so "${OUT}/lib/libmojo-driver.so"
-		dobin "${OUT}/nnapi_worker"
-	fi
+	einfo "Installing seccomp policy files for ${ARCH}."
+	insinto /usr/share/policy
+	newins "seccomp/nnapi-hal-driver-seccomp-${ARCH}.policy" nnapi-hal-driver-seccomp.policy
+
+	einfo "Installing IPC HAL driver & worker"
+	dolib.so "${OUT}/lib/libipc-nn-hal.so"
+	dolib.so "${OUT}/lib/libmojo-driver.so"
+	dobin "${OUT}/nnapi_worker"
 
 	# Install fuzz targets.
 	local fuzzer
