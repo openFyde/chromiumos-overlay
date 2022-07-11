@@ -218,6 +218,8 @@ src_test() {
 	local test_opts=(
 		# TODO(b/211023371): Re-enable libvda tests.
 		--exclude libvda
+		# Disable VAAPI testing as it would require us to depend on libva.
+		--exclude libva
 	)
 	use tpm2 || test_opts+=(--exclude tpm2 --exclude tpm2-sys)
 	use crosvm-video-ffmpeg || test_opts+=(--exclude ffmpeg)
