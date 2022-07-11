@@ -362,6 +362,9 @@ set_build_args() {
 		local arm_arch=$(get-flag march)
 		if [[ -n "${arm_arch}" ]]; then
 			BUILD_STRING_ARGS+=( "arm_arch=${arm_arch}" )
+			# Remove -march flag from {CC,CPP,CXX}FLAGS etc.
+			# Chromium will append -march=${arm_arch}.
+			filter-flags "-march=*"
 		fi
 		;;
 	arm64)
@@ -371,6 +374,9 @@ set_build_args() {
 		local arm_arch=$(get-flag march)
 		if [[ -n "${arm_arch}" ]]; then
 			BUILD_STRING_ARGS+=( "arm_arch=${arm_arch}" )
+			# Remove -march flag from {CC,CPP,CXX}FLAGS etc.
+			# Chromium will append -march=${arm_arch}.
+			filter-flags "-march=*"
 		fi
 		;;
 	amd64)
