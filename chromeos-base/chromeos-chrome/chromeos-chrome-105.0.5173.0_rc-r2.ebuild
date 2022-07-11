@@ -376,29 +376,6 @@ set_build_args() {
 	amd64)
 		BUILD_STRING_ARGS+=( "target_cpu=x64" )
 		;;
-	mips)
-		local mips_arch target_arch
-
-		# shellcheck disable=SC2086 # suppressing the false warning of expanding vars.
-		mips_arch="$($(tc-getCPP) ${CFLAGS} ${CPPFLAGS} -E -P - <<<_MIPS_ARCH)"
-		# Strip away any enclosing quotes.
-		mips_arch="${mips_arch//\"}"
-		# TODO(benchan): Use tc-endian from toolchain-func to determine endianess
-		# when Chrome later cares about big-endian.
-		case "${mips_arch}" in
-		mips64*)
-			target_arch=mips64el
-			;;
-		*)
-			target_arch=mipsel
-			;;
-		esac
-
-		BUILD_STRING_ARGS+=(
-			"target_cpu=${target_arch}"
-			"mips_arch_variant=${mips_arch}"
-		)
-		;;
 	*)
 		die "Unsupported architecture: ${ARCH}"
 		;;
