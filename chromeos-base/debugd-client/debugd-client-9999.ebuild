@@ -31,6 +31,7 @@ BDEPEND="
 "
 
 src_install() {
+	platform_install
 	# Install DBus client library.
 	platform_install_dbus_client_lib "debugd"
 }
