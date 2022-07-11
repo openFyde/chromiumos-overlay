@@ -13,6 +13,11 @@
 # managed in the same way.  You've got a git tree and you want to build
 # it.  This automates a lot of that common stuff in one place.
 
+case ${EAPI:-0} in
+0|1|2|3) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
+*) ;;
+esac
+
 inherit cros-constants cros-credentials
 
 # Default slotting for cros-workon packages.
