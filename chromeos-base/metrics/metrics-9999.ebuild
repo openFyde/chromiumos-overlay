@@ -86,6 +86,9 @@ src_install() {
 		timer{,_mock}.h \
 		"${OUT}"/gen/include/metrics/structured/structured_events.h
 
+	insinto /usr/include/metrics/structured
+	doins structured/event_base.h
+
 	insinto /usr/include/metrics/structured/proto
 	doins "${OUT}"/gen/include/metrics/structured/proto/storage.pb.h \
 		"${OUT}"/gen/include/metrics/structured/proto/structured_data.pb.h
