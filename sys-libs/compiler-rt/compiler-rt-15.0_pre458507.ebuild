@@ -105,10 +105,13 @@ src_configure() {
 		append-flags -Oz # Optimize for smallest size.
 
 		mycmakeargs+=(
+			"-DCMAKE_POSITION_INDEPENDENT_CODE=OFF"
+			"-DCOMPILER_RT_BUILTINS_ENABLE_PIC=OFF"
 			"-DCOMPILER_RT_OS_DIR=baremetal"
 			"-DCOMPILER_RT_BAREMETAL_BUILD=yes"
 			"-DCMAKE_C_COMPILER_TARGET=${CTARGET}"
 			"-DCOMPILER_RT_DEFAULT_TARGET_ONLY=yes"
+			"-DCOMPILER_RT_BUILD_CRT=OFF"
 			"-DCOMPILER_RT_BUILD_SANITIZERS=no"
 			"-DCOMPILER_RT_BUILD_LIBFUZZER=no"
 		)
@@ -149,6 +152,15 @@ src_install() {
 	rm -f "${ED}${libdir}"/clang/*/dfsan_abilist.txt || die
 	rm -f "${ED}${libdir}"/clang/*/*/dfsan_abilist.txt || die
 	rm -f "${ED}${libdir}"/clang/*/bin/* || die
+
+	if is_baremetal_abi; then
+		# Verify that no relocations are generated for baremetal.
+		local elf_file
+		while read -r elf_file; do
+			$(tc-getREADELF) --relocs "${elf_file}" | grep GOT && \
+				die "Unexpected GOT relocations found in ${elf_file}"
+		done < <(scanelf -RByF '%F' "${D}")
+	fi
 
 	# Copy compiler-rt files to a new clang version to handle llvm updates gracefully.
 	local llvm_version=$(llvm-config --version)
