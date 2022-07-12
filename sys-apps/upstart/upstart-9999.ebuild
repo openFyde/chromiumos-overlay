@@ -50,6 +50,9 @@ src_prepare() {
 	# kernel command-line when we need to.
 	use debug && eapply "${FILESDIR}"/upstart-1.2-log-verbosity.patch
 
+	# Set the paths to run inside /build/$BOARD:
+	sed -i "/^build_dir=/s:.*:\0;build_dir=\${build_dir#\"${SYSROOT}\"}:" init/tests/test_conf_preload.sh.in || die
+
 	# The selinux patch changes makefile.am and configure.ac
 	# so we need to run autoreconf, and if we don't the system
 	# will do it for us, and incorrectly too.
@@ -81,6 +84,15 @@ src_configure() {
 	fi
 
 	econf "${myconf[@]}"
+
+	# Remove /build/$BOARD to ensure the path to binaries are correct
+	# within the test chroot.
+	for file in "test/Makefile" "scripts/Makefile" "Makefile" "lib/Makefile"; do
+		sed -i "/abs_top_builddir = /s|${SYSROOT}||" "${file}" || die
+	done
+	for file in "init/Makefile"; do
+		sed -i "/TEST_DATA_DIR = /s|\$(srcdir)|${S#${SYSROOT}}/init|" "${file}" || die
+	done
 }
 
 src_compile() {
