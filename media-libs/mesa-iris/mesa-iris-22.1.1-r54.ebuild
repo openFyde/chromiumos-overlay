@@ -20,7 +20,7 @@ HOMEPAGE="http://mesa3d.org/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 
-IUSE="debug libglvnd perfetto tools vulkan zstd"
+IUSE="debug libglvnd tools vulkan zstd"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
@@ -62,7 +62,6 @@ src_configure() {
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
 		-Dglvnd=$(usex libglvnd true false)
-		-Dperfetto=$(usex perfetto true false)
 		$(meson_feature zstd)
 		# Set platforms empty to avoid the default "auto" setting. If
 		# platforms is empty meson.build will add surfaceless.
