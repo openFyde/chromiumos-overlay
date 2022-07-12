@@ -1,0 +1,66 @@
+# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="d859ee4e7d79174406529e7818ca8adb3fbc3cd2"
+CROS_WORKON_TREE=("02bfff6bead7011dd0b16a3393e99a677d8e4e0e" "6b72e578db9aa72dac4452126a9e2677572e2a0b" "38bb7e5dce1f79aeb5d2f4249d892367f798538a" "6ed97df8defff98402f77ccced581e5862729960" "9996ca2269ab80ee2f1c97dcde4afde657b17581" "fb7b92b8a8254adf339d91ecf9ae61d42e589a25" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libmems metrics rmad .gn"
+
+PLATFORM_SUBDIR="rmad"
+
+inherit cros-workon cros-unibuild platform tmpfiles user
+
+DESCRIPTION="ChromeOS RMA daemon."
+HOMEPAGE=""
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="cr50_onboard iioservice ti50_onboard"
+
+COMMON_DEPEND="
+	chromeos-base/chromeos-config-tools:=
+	chromeos-base/minijail:=
+"
+
+RDEPEND="
+	${COMMON_DEPEND}
+	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	iioservice? ( chromeos-base/iioservice_simpleclient )
+	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/croslog
+	chromeos-base/hardware_verifier
+	chromeos-base/libmems
+	chromeos-base/runtime_probe
+"
+
+DEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/cryptohome-client:=
+	chromeos-base/metrics:=
+	chromeos-base/shill-client:=
+	chromeos-base/system_api:=
+	chromeos-base/tpm_manager-client:=
+	chromeos-base/vboot_reference:=
+"
+
+pkg_preinst() {
+	# Create user and group for RMA.
+	enewuser "rmad"
+	enewgroup "rmad"
+}
+
+src_install() {
+	platform_install
+
+	dotmpfiles tmpfiles.d/*.conf
+}
+
+platform_pkg_test() {
+	platform test_all
+}
