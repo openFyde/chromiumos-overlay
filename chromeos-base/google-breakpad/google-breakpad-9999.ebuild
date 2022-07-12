@@ -16,7 +16,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/src/third_party/lss"
 )
 
-inherit cros-arm64 cros-i686 cros-workon flag-o-matic multiprocessing
+inherit cros-arm64 cros-i686 cros-workon cros-sanitizers flag-o-matic multiprocessing
 
 DESCRIPTION="Google crash reporting"
 HOMEPAGE="https://chromium.googlesource.com/breakpad/breakpad"
@@ -40,7 +40,12 @@ src_prepare() {
 }
 
 src_configure() {
-	append-flags -g
+	sanitizers-setup-env
+
+	# -fno-sanitize=alignment since this package interprets ELF binaries
+	# directly, which often involves `reinterpret_cast`s on `ptr+offset`
+	# pairs that make no attempt to guarantee alignment.
+	append-flags -g -fno-sanitize=alignment
 
 	# Disable flaky tests by default.  Do it here because the CPPFLAGS
 	# are recorded at configure time and not read on the fly.
