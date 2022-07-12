@@ -20,7 +20,7 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/provision/cmd/cros-provision"
+	"chromiumos/test/provision/v2/cros-provision"
 )
 
 CROS_GO_TEST=(
