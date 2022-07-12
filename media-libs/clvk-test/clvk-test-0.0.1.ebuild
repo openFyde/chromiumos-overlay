@@ -3,9 +3,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cf96214811598681ad9080f92b777d0feec2b5ff"
+CROS_WORKON_COMMIT="d416170a674622f20bac04b7dd33b68bfb4096f6"
 
-CROS_WORKON_TREE="cf96214811598681ad9080f92b777d0feec2b5ff"
+CROS_WORKON_TREE="d416170a674622f20bac04b7dd33b68bfb4096f6"
 
 CROS_WORKON_MANUAL_UPREV="1"
 
@@ -47,6 +47,11 @@ RDEPEND="
 BDEPEND="
 	>=dev-util/cmake-3.13.4
 "
+
+PATCHES=()
+if [[ ${PV} != "9999" ]]; then
+	PATCHES+=("${FILESDIR}/clvk-gtest.patch")
+fi
 
 src_prepare() {
 	cmake-utils_src_prepare

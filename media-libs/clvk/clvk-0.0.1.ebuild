@@ -4,13 +4,13 @@
 EAPI=7
 
 CROS_WORKON_COMMIT=(
-	"cf96214811598681ad9080f92b777d0feec2b5ff"
-	"0724cc2e25be67e9385f6ab590b551e5d98b1fa7"
+	"d416170a674622f20bac04b7dd33b68bfb4096f6"
+	"36be6ddbf10224792ce241f8b089ef9e22c15d80"
 )
 
 CROS_WORKON_TREE=(
-	"cf96214811598681ad9080f92b777d0feec2b5ff"
-	"0724cc2e25be67e9385f6ab590b551e5d98b1fa7"
+	"d416170a674622f20bac04b7dd33b68bfb4096f6"
+	"36be6ddbf10224792ce241f8b089ef9e22c15d80"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -85,6 +85,8 @@ if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
 	# TODO(b/228820464) : To be removed once Intel issue on OpMulExtended is fixed.
 	PATCHES+=("${FILESDIR}/hack-mul-extended.patch")
+	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
+	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 fi
 
 src_unpack() {

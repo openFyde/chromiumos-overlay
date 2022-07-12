@@ -75,6 +75,8 @@ if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
 	# TODO(b/228820464) : To be removed once Intel issue on OpMulExtended is fixed.
 	PATCHES+=("${FILESDIR}/hack-mul-extended.patch")
+	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
+	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 fi
 
 src_unpack() {

@@ -44,6 +44,11 @@ BDEPEND="
 	>=dev-util/cmake-3.13.4
 "
 
+PATCHES=()
+if [[ ${PV} != "9999" ]]; then
+	PATCHES+=("${FILESDIR}/clvk-gtest.patch")
+fi
+
 src_prepare() {
 	cmake-utils_src_prepare
 	eapply_user
