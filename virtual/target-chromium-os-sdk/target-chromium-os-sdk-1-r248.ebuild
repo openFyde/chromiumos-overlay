@@ -576,6 +576,7 @@ RDEPEND="${RDEPEND}
 
 # Needed for hps-firmware.
 RDEPEND="${RDEPEND}
+	chromeos-base/hps-sign-rom
 	dev-rust/svd2rust
 	sci-electronics/litescope
 	sci-electronics/liteeth
