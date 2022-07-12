@@ -276,6 +276,9 @@ src_test() {
 		--skip "cpuid::tests::feature_and_vendor_name"
 		--skip "test_integration::simple_kvm"
 		--skip "test_integration::sys::unix::simple_kvm"
+		# Disabled since the test won't pass on builders with disabled
+		# cores. b/238787107
+		--skip "tsc::calibrate::tests"
 	)
 
 	# If syslog isn't available, skip the tests.
