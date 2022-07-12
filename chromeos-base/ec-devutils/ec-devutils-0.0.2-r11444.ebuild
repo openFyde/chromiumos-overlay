@@ -58,7 +58,7 @@ src_compile() {
 	# host (BUILDCC, amd64). So we need to override HOSTCC by target "CC".
 	export HOSTCC="${CC}"
 	set_board
-	emake utils-host
+	emake CC="${CC}" utils-host
 	# Add usb_updater2 for servo or hammer updates.
 	emake -C extra/usb_updater usb_updater2
 	if use hammerd; then
