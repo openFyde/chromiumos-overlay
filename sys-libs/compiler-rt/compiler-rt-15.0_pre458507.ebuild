@@ -102,6 +102,8 @@ src_configure() {
 
 	if is_baremetal_abi; then
 		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
+		append-flags -Oz # Optimize for smallest size.
+
 		mycmakeargs+=(
 			"-DCOMPILER_RT_OS_DIR=baremetal"
 			"-DCOMPILER_RT_BAREMETAL_BUILD=yes"
