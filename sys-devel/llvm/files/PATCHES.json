@@ -3540,5 +3540,33 @@
             "from": 465792,
             "until": 466174
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[AsmParser] Automatically declare and lex attribute keywords (NFC)"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/86c770346c26ce4c9abf5a5b7ab4b5bbfdcf9d78.patch",
+        "version_range": {
+            "from": 458507,
+            "until": 460128
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[X86] initial -mfunction-return=thunk-extern support"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/2240d72f15f3b7b9d9fb65450f9bf635fd310f6f.patch",
+        "version_range": {
+            "from": 458507,
+            "until": 467477
+        }
     }
 ]
