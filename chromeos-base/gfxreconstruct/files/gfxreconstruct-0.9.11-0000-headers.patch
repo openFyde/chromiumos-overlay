@@ -1,0 +1,37 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index a2d4637..e311ad8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -98,7 +98,7 @@ endif()
+ 
+ configure_file("${CMAKE_SOURCE_DIR}/project_version.h.in" "${CMAKE_BINARY_DIR}/project_version.h")
+ 
+-option(BUILD_WERROR "Build with warnings as errors" ON)
++option(BUILD_WERROR "Build with warnings as errors" OFF)
+ 
+ # Code checks
+ include("CodeStyle")
+diff --git a/cmake/FindVulkanVersion.cmake b/cmake/FindVulkanVersion.cmake
+index 38ff455..7972d19 100644
+--- a/cmake/FindVulkanVersion.cmake
++++ b/cmake/FindVulkanVersion.cmake
+@@ -9,8 +9,7 @@ set(VULKAN_VERSION_PATCH "")
+ find_file (VULKAN_HEADER
+             vulkan_core.h
+             HINTS
+-                external/Vulkan-Headers/include/vulkan
+-                ../external/Vulkan-Headers/include/vulkan)
++                /usr/include/vulkan)
+ 
+ MESSAGE(STATUS "Vulkan Header = ${VULKAN_HEADER}")
+ 
+@@ -20,8 +19,7 @@ else()
+     find_file(VULKAN_HEADER
+                 vulkan.h
+                 HINTS
+-                    external/Vulkan-Headers/include/vulkan
+-                    ../external/Vulkan-Headers/include/vulkan)
++                    /usr/include/vulkan)
+     set(VulkanHeaders_main_header ${VULKAN_HEADER})
+ endif()
+
