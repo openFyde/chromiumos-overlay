@@ -1,0 +1,13 @@
+BDEPEND=x11-libs/xcb-util-keysyms dev-util/ninja >=dev-util/cmake-3.9.6
+DEFINED_PHASES=compile configure install prepare test unpack
+DEPEND=x11-libs/libxcb
+DESCRIPTION=Vulkan API Capture and Replay Tools
+EAPI=7
+HOMEPAGE=https://github.com/LunarG/gfxreconstruct
+KEYWORDS=*
+LICENSE=MIT
+RDEPEND=x11-libs/libxcb
+SLOT=0
+SRC_URI=https://github.com/LunarG/gfxreconstruct/archive/761837794a1e57f918a85af7000b12e531b178ae.tar.gz -> gfxreconstruct-761837794a1e57f918a85af7000b12e531b178ae.tar.gz
+_eclasses_=cmake-utils	91d6ef31dc426240577497cacbf2508c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	unpacker	04385b0f181c42fa9c18ec0e31729d1f	xdg-utils	ff2ff954e6b17929574eee4efc5152ba
+_md5_=e8a04938ad0576dc7705c1523674c725
