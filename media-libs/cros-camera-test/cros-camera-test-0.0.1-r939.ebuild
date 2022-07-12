@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="a4729aaae6206be0a3a4782ef80be1a1d907a9b6"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1811069d8336280067e37e916bf8b24942da00cf" "1e197ca6cf5e3a9e484f0c33a5d5fcd34437c131" "13589065b95265afa465b9bd0a87dde7a58e9481" "98e14b065465da9503e1e0083b78f5b5b59fbefb" "6b72e578db9aa72dac4452126a9e2677572e2a0b" "02bfff6bead7011dd0b16a3393e99a677d8e4e0e")
+CROS_WORKON_COMMIT="89f58e1bf113f3c2d5e0c0713976582e4fbc26f2"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1811069d8336280067e37e916bf8b24942da00cf" "56e2f2742d16168a8d8f7eced788a6c79af7928f" "13589065b95265afa465b9bd0a87dde7a58e9481" "98e14b065465da9503e1e0083b78f5b5b59fbefb" "6b72e578db9aa72dac4452126a9e2677572e2a0b" "02bfff6bead7011dd0b16a3393e99a677d8e4e0e")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
@@ -39,4 +39,5 @@ DEPEND="${RDEPEND}
 src_install() {
 	platform_src_install
 	dobin "${OUT}/cros_camera_test"
+	dolib.so "${OUT}/lib/libfake_date_time.so"
 }
