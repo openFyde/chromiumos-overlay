@@ -10,6 +10,7 @@ CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/libchrome")
 CROS_WORKON_SUBTREE=("common-mk .gn" "")
 
 WANT_LIBCHROME="no"
+# shellcheck disable=SC2034
 IS_LIBCHROME="yes"
 inherit cros-workon libchrome-version platform
 
@@ -75,7 +76,14 @@ src_prepare() {
 				continue
 			fi
 		fi
-		eapply "${S}/libchrome_tools/patches/${patch}" || die "failed to patch ${patch}"
+		if [[ ${patch} == *.patch ]]; then
+			eapply "${S}/libchrome_tools/patches/${patch}"
+		elif [[ -x "${S}/libchrome_tools/patches/${patch}" ]]; then
+			einfo "Applying ${patch} ..."
+			"${S}/libchrome_tools/patches/${patch}" || die "failed to patch by running script ${patch}"
+		else
+			die "Invalid patch file ${patch}"
+		fi
 	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
 	eapply_user
 }
@@ -163,7 +171,7 @@ src_install() {
 	)
 	use dbus && header_dirs+=( dbus )
 
-	insinto /usr/$(get_libdir)/pkgconfig
+	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
 
 	# Install libmojo.
@@ -190,7 +198,7 @@ src_install() {
 		)
 
 		# Install libmojo.pc.
-		insinto /usr/$(get_libdir)/pkgconfig
+		insinto "/usr/$(get_libdir)/pkgconfig"
 		doins "${OUT}"/obj/libchrome/libmojo.pc
 
 		# Install generate_mojom_bindings.
