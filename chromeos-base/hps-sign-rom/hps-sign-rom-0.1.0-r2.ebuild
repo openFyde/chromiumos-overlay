@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4884e4bfa7edc06ddedbcfc358fb646330f3885d"
-CROS_WORKON_TREE="1958a4fce34dec39f57c63305ef8494127763b99"
+CROS_WORKON_COMMIT="db653ece9ab99b59e94a845f4935ff2afaf39dae"
+CROS_WORKON_TREE="53397a5a329dd93bbf53019ebd8b39854b7ad0a1"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_RUST_SUBDIR="rust/sign-rom"
