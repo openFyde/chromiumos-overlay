@@ -19,6 +19,7 @@ DEPEND="
 	chromeos-base/featured
 	=dev-rust/bindgen-0.59*:=
 	=dev-rust/log-0.4*:=
+	=dev-rust/thiserror-1*:=
 "
 
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
