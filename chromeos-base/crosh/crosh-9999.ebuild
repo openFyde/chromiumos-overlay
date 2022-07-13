@@ -47,17 +47,6 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/net-tools
 "
 
-src_compile() {
-	# File order is important here.
-	sed \
-		-e '/^#/d' \
-		-e '/^$/d' \
-		inputrc.safe inputrc.extra \
-		> "${WORKDIR}"/inputrc.crosh || die
-
-	cros-rust_src_compile
-}
-
 src_test() {
 	./run_tests.sh || die
 
@@ -80,6 +69,4 @@ src_install() {
 	doins dev.d/*.sh
 	insinto "${d}/removable.d"
 	doins removable.d/*.sh
-	insinto "${d}"
-	doins "${WORKDIR}"/inputrc.crosh
 }
