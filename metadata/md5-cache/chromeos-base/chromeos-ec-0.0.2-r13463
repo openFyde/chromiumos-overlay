@@ -4,13 +4,13 @@ DEPEND=has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chro
 DESCRIPTION=Embedded Controller firmware code
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/ec/+/HEAD/README.md
-IUSE=has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild cros_host unibuild cros_host cros_workon_tree_de8f8dba8598a675afe7d496504c8e600aec6df0_cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild quiet verbose +coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test cros_host cros_workon_tree_de8f8dba8598a675afe7d496504c8e600aec6df0_cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d
+IUSE=has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild cros_host unibuild cros_host cros_workon_tree_ea7ec94de6b90884ece81b4d40fdcebf92fe300e_cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild quiet verbose +coreboot-sdk unibuild fuzzer bootblock_in_ec asan msan ubsan test cros_host cros_workon_tree_ea7ec94de6b90884ece81b4d40fdcebf92fe300e_cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d
 KEYWORDS=*
 LICENSE=CrOS-EC
 PROPERTIES=live live
 RDEPEND=has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= ) has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= ) fuzzer? ( dev-libs/openssl:= dev-libs/protobuf:= ) test? ( dev-libs/openssl:= dev-libs/protobuf:= )
 REQUIRED_USE=|| ( cros_host unibuild ) coreboot-sdk unibuild
 RESTRICT=strip
-SLOT=0/0.0.2-r13462
+SLOT=0/0.0.2-r13463
 _eclasses_=coreboot-sdk	b3fb569501ebe9ba5b808b9766a0392f	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-ec	8817861fcac63d6497065e52e5c26859	cros-ec-board	972232fae22a2fec7ceddda60e7a5968	cros-unibuild	29229a14b23b4e14632ee9bb10cfb4a9	cros-workon	22e82ad4a28bc98f7ba44997d64c2a2c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=1af97673fc06d30a5cb24979d8293e4c
+_md5_=6f9e72221db7525a5a1de4a14cd05578
