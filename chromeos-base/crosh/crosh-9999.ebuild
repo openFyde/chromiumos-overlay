@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crosh/"
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="+rust-crosh"
+IUSE=""
 
 COMMON_DEPEND="
 	chromeos-base/vboot_reference:=
@@ -72,12 +72,8 @@ src_test() {
 }
 
 src_install() {
-	if use rust-crosh; then
-		dobin "$(cros-rust_get_build_dir)/crosh"
-		newbin crosh crosh.sh
-	else
-		dobin crosh
-	fi
+	dobin "$(cros-rust_get_build_dir)/crosh"
+	newbin crosh crosh.sh
 	dobin network_diag
 	local d="/usr/share/crosh"
 	insinto "${d}/dev.d"
