@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libhwsec
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test tpm tpm_dynamic tpm2"
+IUSE="profiling test tpm tpm_dynamic tpm2"
 
 RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
