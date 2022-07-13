@@ -79,6 +79,7 @@ cros-config-bsp_proto_converter() {
 		--output "${output_dir}/project-config.json" \
 		--program_config "${program_config}" \
 		--project_configs "${project_config}" \
+		--dtd-path config/payload_utils/media_profiles.dtd \
 		|| die "Failed to run cros_config_proto_converter."
 }
 
@@ -105,17 +106,17 @@ cros-config-bsp_merge_payloads() {
 # Generates platform configuration files for the program and associated projects.
 cros-config-bsp_gen_config() {
 	# Re-establish the symlinks as they exist in the source tree.
-	ln -sfT "${S}/config" "${S}/${PROGRAM}/config" \
+	ln -sfT "${S}/config" "${S}/program/${PROGRAM}/config" \
 		|| die "Failed to create '${PROGRAM}' link."
 	(
-		cd "${S}/${PROGRAM}" || die "Unable to cd into ${PROGRAM}."
+		cd "${S}/program/${PROGRAM}" || die "Unable to cd into ${PROGRAM}."
 		cros-config-bsp_build_config generated config.star
 	)
 	local project
 	for project in "${PROJECTS[@]}"; do
 		ln -sfT "${S}/config" "${S}/${project}/config" \
 			|| die "Failed to create '${project}/config' link."
-		ln -sfT "${S}/${PROGRAM}" "${S}/${project}/program" \
+		ln -sfT "${S}/program/${PROGRAM}" "${S}/${project}/program" \
 			|| die "Failed to create '${project}/program' link."
 		local output_dir="sw_build_config/platform/chromeos-config/generated"
 		(
