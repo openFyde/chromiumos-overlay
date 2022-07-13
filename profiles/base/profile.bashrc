@@ -198,13 +198,10 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_sdk_build_filter_ld() {
 		case ${CATEGORY}/${PN}:${PV} in
-		app-crypt/nss:3.44*|\
 		cross-*/gcc:*|\
 		cross-*/go:*|\
 		dev-embedded/coreboot-sdk:*|\
-		dev-lang/go:*|\
-		dev-libs/nss:3.44*|\
-		dev-util/perf:5.15) return 1;;
+		dev-lang/go:*) return 1;;
 		esac
 	}
 	_sdk_build_filter_as() {
@@ -293,19 +290,16 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-devel/gdb:*|\
 		sys-devel/m4:*|\
 		sys-fs/rar2fs:1.29.5|\
-		sys-libs/gcc-libs:*|\
 		sys-libs/binutils-libs:*|\
 		x11-libs/gdk-pixbuf:*) return 1;;
 		esac
 	}
 	_board_build_filter_gcc() {
 		case ${CATEGORY}/${PN}:${PV} in
-		app-benchmarks/lmbench:3.0*|\
 		app-emulation/docker:*|\
 		chromeos-base/autotest-tests:*|\
 		chromeos-base/chromeos-ec:*|\
 		chromeos-base/chromeos-ish:*|\
-		chromeos-base/ec-utils:*|\
 		dev-go/syzkaller:*|\
 		dev-python/numpy:1.19.4|\
 		media-libs/arc-img-ddk:*|\
@@ -359,16 +353,12 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_board_build_filter_ld() {
 		case ${CATEGORY}/${PN}:${PV} in
-		app-crypt/nss:3.44*|\
-		dev-libs/nss:3.44*|\
-		dev-util/perf:5.15|\
 		media-libs/arc-mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-bifrost:*|\
 		sys-kernel/arcvm-kernel-*:*|\
 		sys-kernel/chromeos-kernel-*:*|\
 		sys-kernel/raspberrypi-kernel:*|\
-		sys-kernel/upstream-kernel-*:*|\
-		sys-libs/gcc-libs:*) return 1;;
+		sys-kernel/upstream-kernel-*:*) return 1;;
 		esac
 	}
 	_board_build_filter_as() {
