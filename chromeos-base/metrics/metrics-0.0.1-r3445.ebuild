@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="473c4b7c5aa25eaacdd27b48f58a8a6a94b343ca"
+CROS_WORKON_COMMIT="046c17d15e1a47c856d7d804499877a7d108e480"
 CROS_WORKON_TREE=("c79649aa86c6e76494520006877c89b38c13feb9" "9996ca2269ab80ee2f1c97dcde4afde657b17581" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -87,6 +87,9 @@ src_install() {
 		structured/c_structured_metrics.h \
 		timer{,_mock}.h \
 		"${OUT}"/gen/include/metrics/structured/structured_events.h
+
+	insinto /usr/include/metrics/structured
+	doins structured/event_base.h
 
 	insinto /usr/include/metrics/structured/proto
 	doins "${OUT}"/gen/include/metrics/structured/proto/storage.pb.h \

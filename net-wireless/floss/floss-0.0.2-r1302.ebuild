@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("631b62e5e1ffc3fad647c07ec82972acddd0e750" "294eee6e21ea17b9912bd230b0a062a99a3fdcb7" "d49c8dcd3a02a6ac7e18c7fa33320fe7daa2a967" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "0283a5c967eb05e9224d43c669d6c6105fc2a55e")
+CROS_WORKON_COMMIT=("046c17d15e1a47c856d7d804499877a7d108e480" "294eee6e21ea17b9912bd230b0a062a99a3fdcb7" "d49c8dcd3a02a6ac7e18c7fa33320fe7daa2a967" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "0283a5c967eb05e9224d43c669d6c6105fc2a55e")
 CROS_WORKON_TREE=("c79649aa86c6e76494520006877c89b38c13feb9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "2be540adc0e3e86c1bcde3c27a3b0dd365604efd" "4095bbd98e926c13bc871a2e971ca2ad964c477e" "c3473ab29243f136628d4c8708ab647c15f6a411" "e8e08223f1c2bd87095594bf46326f46c757fc37")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -61,7 +61,8 @@ KEYWORDS="*"
 #  - Bluetooth user + group are added in bluez's postinst
 #
 DEPEND="
-	chromeos-base/system_api
+	chromeos-base/metrics:=
+	chromeos-base/system_api:=
 	dev-libs/flatbuffers:=
 	dev-libs/modp_b64:=
 	dev-libs/tinyxml2:=
@@ -130,7 +131,7 @@ src_configure() {
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 
 	cros-rust_src_configure
-	platform_src_configure
+	platform_src_configure "--target_os=chromeos"
 }
 
 floss_build_tools() {
