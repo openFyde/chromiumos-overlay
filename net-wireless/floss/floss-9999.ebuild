@@ -127,6 +127,7 @@ src_configure() {
 	use asan && rustflags+=( '-lc++' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
+	export TARGET_OS_VARIANT="chromeos"
 
 	cros-rust_src_configure
 	platform_src_configure "--target_os=chromeos"
