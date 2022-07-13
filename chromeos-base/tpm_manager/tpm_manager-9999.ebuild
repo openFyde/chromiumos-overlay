@@ -39,6 +39,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/minijail
 	chromeos-base/libhwsec[test?]
+	chromeos-base/libhwsec-foundation
 	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client
