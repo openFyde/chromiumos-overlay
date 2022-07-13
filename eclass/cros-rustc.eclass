@@ -148,7 +148,7 @@ SRC="${MY_P}-src.tar.gz"
 # The version of rust-bootstrap that we're using to build our current Rust
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
-BOOTSTRAP_VERSION="1.59.0"
+BOOTSTRAP_VERSION="1.61.0"
 
 # If `CROS_RUSTC_BUILD_RAW_SOURCES` is nonempty, a full Rust source tree is
 # expected to be available here.
@@ -185,22 +185,20 @@ if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 fi
 
 PATCHES=(
-	"${FILESDIR}/rust-${PV}-add-cros-targets.patch"
-	"${FILESDIR}/rust-${PV}-fix-rpath.patch"
-	"${FILESDIR}/rust-${PV}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
-	"${FILESDIR}/rust-${PV}-no-test-on-build.patch"
-	"${FILESDIR}/rust-${PV}-sanitizer-supported.patch"
-	"${FILESDIR}/rust-${PV}-cc.patch"
-	"${FILESDIR}/rust-${PV}-revert-libunwind-build.patch"
-	"${FILESDIR}/rust-${PV}-ld-argv0.patch"
-	"${FILESDIR}/rust-${PV}-Handle-sparse-git-repo-without-erroring.patch"
-	"${FILESDIR}/rust-${PV}-disable-mutable-noalias.patch"
-	"${FILESDIR}/rust-${PV}-add-armv7a-sanitizers.patch"
-	"${FILESDIR}/rust-${PV}-fix-libunwind-backtrace-visibility.patch"
-	"${FILESDIR}/rust-${PV}-passes-only-in-pre-link.patch"
-	"${FILESDIR}/rust-${PV}-Revert-DebugInfo-Re-enable-instruction-referencing-f.patch"
-	"${FILESDIR}/rust-${PV}-Don-t-build-std-for-uefi-targets.patch"
-	"${FILESDIR}/rust-${PV}-Bump-cc-version-in-bootstrap-to-fix-build-of-uefi-ta.patch"
+	"${FILESDIR}/rust-add-cros-targets.patch"
+	"${FILESDIR}/rust-fix-rpath.patch"
+	"${FILESDIR}/rust-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
+	"${FILESDIR}/rust-no-test-on-build.patch"
+	"${FILESDIR}/rust-sanitizer-supported.patch"
+	"${FILESDIR}/rust-cc.patch"
+	"${FILESDIR}/rust-revert-libunwind-build.patch"
+	"${FILESDIR}/rust-ld-argv0.patch"
+	"${FILESDIR}/rust-Handle-sparse-git-repo-without-erroring.patch"
+	"${FILESDIR}/rust-disable-mutable-noalias.patch"
+	"${FILESDIR}/rust-add-armv7a-sanitizers.patch"
+	"${FILESDIR}/rust-passes-only-in-pre-link.patch"
+	"${FILESDIR}/rust-Don-t-build-std-for-uefi-targets.patch"
+	"${FILESDIR}/rust-Bump-cc-version-in-bootstrap-to-fix-build-of-uefi-ta.patch"
 )
 
 # Locations where we cache our build/src dirs.
@@ -463,6 +461,7 @@ cros-rustc_src_configure() {
 		ccache = ${use_ccache}
 		ninja = true
 		targets = "AArch64;ARM;X86"
+		static-libstdcpp = false
 		${llvm_options}
 
 		[install]
