@@ -8,5 +8,5 @@ REQUIRED_USE=dlc kvm_host ^^ ( amd64 arm arm64 )
 RESTRICT=nomirror
 SLOT=0
 SRC_URI=amd64? ( gs://termina-component-testing/uprev-test/amd64/105.14971.0.0/guest-vm-base.tbz -> termina_amd64.tbz ) arm? ( gs://termina-component-testing/uprev-test/arm/105.14971.0.0/guest-vm-base.tbz -> termina_arm.tbz ) arm64? ( gs://termina-component-testing/uprev-test/arm/105.14971.0.0/guest-vm-base.tbz -> termina_arm.tbz )
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-workon	7c730ff910638b996788c3c9ebcfd109	dlc	980ce13d2129fa5614d43ffa9d1bb90f	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-workon	22e82ad4a28bc98f7ba44997d64c2a2c	dlc	980ce13d2129fa5614d43ffa9d1bb90f	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=c6103b567993473b609418261e0119a3
