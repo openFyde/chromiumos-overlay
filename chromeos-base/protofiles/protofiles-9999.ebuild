@@ -73,11 +73,17 @@ POLICY_DIR_PROTO_FILES=(
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 
 src_compile() {
+	# Generate policy_templates.json
+	"${POLICY_DIR}/resources/policy_templates.py" \
+		--src="${POLICY_DIR}/resources/policy_templates.json" \
+		--dest="${POLICY_DIR}/resources/generated_policy_templates.json" \
+		|| die "Failed to generate policy_templates.json"
+
 	# Generate cloud_policy.proto.
 	"${POLICY_DIR}/tools/generate_policy_source.py" \
 		--cloud-policy-protobuf="${WORKDIR}/cloud_policy.proto" \
 		--chrome-version-file="${FILESDIR}/VERSION" \
-		--policy-templates-file="${POLICY_DIR}/resources/policy_templates.json" \
+		--policy-templates-file="${POLICY_DIR}/resources/generated_policy_templates.json" \
 		--target-platform="chrome_os" \
 		|| die "Failed to generate cloud_policy.proto"
 }
@@ -103,6 +109,7 @@ src_install() {
 	doins "${WORKDIR}"/cloud_policy.proto
 	insinto /usr/share/policy_resources
 	doins "${POLICY_DIR}"/resources/policy_templates.json
+	doins "${POLICY_DIR}"/resources/generated_policy_templates.json
 	doins "${FILESDIR}"/VERSION
 	exeinto /usr/share/policy_tools
 	doexe "${POLICY_DIR}"/tools/generate_policy_source.py

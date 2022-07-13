@@ -56,12 +56,18 @@ RDEPEND="
 	dev-python/protobuf-python
 "
 src_compile() {
+	# Generate policy_templates.json
+	"${POLICY_DIR}/resources/policy_templates.py" \
+		--src="${POLICY_DIR}/resources/policy_templates.json" \
+		--dest="${POLICY_DIR}/resources/generated_policy_templates.json" \
+		|| die "Failed to generate policy_templates.json"
+
 	# Generate cloud_policy.proto with --all-chrome-versions option.
 	"${POLICY_DIR}/tools/generate_policy_source.py" \
 		--cloud-policy-protobuf="${WORKDIR}/cloud_policy.proto" \
 		--all-chrome-versions \
 		--target-platform="chrome_os" \
-		--policy-templates-file="${POLICY_DIR}/resources/policy_templates.json" \
+		--policy-templates-file="${POLICY_DIR}/resources/generated_policy_templates.json" \
 		|| die
 
 	# Create Python bindings needed for policy_testserver.py.

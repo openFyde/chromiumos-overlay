@@ -61,13 +61,13 @@ CROS_WORKON_MANUAL_UPREV=1
 #   packages that rely on the new policies. If you added new device
 #   policy encodings above that will at least be authpolicy.
 CROS_WORKON_COMMIT=(
-	"93e409280b9363d42887e358ef88ad3e9fc7a0b8" # policy
+	"409ddc1ad21fde913ad6be7fa3b67e79cbfd740c" # policy
 	"acb07d8034884b0f5e6d3b4379f6032fdb733e44" # private_membership
 	"04a46b48f70713db831b32da1581437d587f4081" # shell-encryption
 )
 # git rev-parse $HASH:./
 CROS_WORKON_TREE=(
-	"c586a8246ba265e0f67e2137dfbcdac3f5e69daf" # policy
+	"8a888cc34b4ca828415674d5a826a9bf0799b550" # policy
 	"b8d20bc0d11609ffe2bc40bb4b3613cf94b6bd6d" # private_membership
 	"f684c7405b47af0d6f74e4bc062845fca1359fe4" # shell-encryption
 )
@@ -103,11 +103,17 @@ POLICY_DIR_PROTO_FILES=(
 RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 
 src_compile() {
+	# Generate policy_templates.json
+	"${POLICY_DIR}/resources/policy_templates.py" \
+		--src="${POLICY_DIR}/resources/policy_templates.json" \
+		--dest="${POLICY_DIR}/resources/generated_policy_templates.json" \
+		|| die "Failed to generate policy_templates.json"
+
 	# Generate cloud_policy.proto.
 	"${POLICY_DIR}/tools/generate_policy_source.py" \
 		--cloud-policy-protobuf="${WORKDIR}/cloud_policy.proto" \
 		--chrome-version-file="${FILESDIR}/VERSION" \
-		--policy-templates-file="${POLICY_DIR}/resources/policy_templates.json" \
+		--policy-templates-file="${POLICY_DIR}/resources/generated_policy_templates.json" \
 		--target-platform="chrome_os" \
 		|| die "Failed to generate cloud_policy.proto"
 }
@@ -133,6 +139,7 @@ src_install() {
 	doins "${WORKDIR}"/cloud_policy.proto
 	insinto /usr/share/policy_resources
 	doins "${POLICY_DIR}"/resources/policy_templates.json
+	doins "${POLICY_DIR}"/resources/generated_policy_templates.json
 	doins "${FILESDIR}"/VERSION
 	exeinto /usr/share/policy_tools
 	doexe "${POLICY_DIR}"/tools/generate_policy_source.py
