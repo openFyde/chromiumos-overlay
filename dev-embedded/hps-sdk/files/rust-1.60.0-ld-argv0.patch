@@ -11,7 +11,7 @@ diff --git a/library/std/src/sys/unix/os.rs b/library/std/src/sys/unix/os.rs
 index 41ca97623..ffe3b99cd 100644
 --- a/library/std/src/sys/unix/os.rs
 +++ b/library/std/src/sys/unix/os.rs
-@@ -339,12 +339,45 @@
+@@ -352,12 +352,45 @@
  
  #[cfg(any(target_os = "linux", target_os = "android", target_os = "emscripten"))]
  pub fn current_exe() -> io::Result<PathBuf> {
@@ -30,9 +30,9 @@ index 41ca97623..ffe3b99cd 100644
 +    };
 +
      match crate::fs::read_link("/proc/self/exe") {
-         Err(ref e) if e.kind() == io::ErrorKind::NotFound => Err(io::Error::new_const(
+         Err(ref e) if e.kind() == io::ErrorKind::NotFound => Err(io::const_io_error!(
              io::ErrorKind::Uncategorized,
-             &"no /proc/self/exe available. Is /proc mounted?",
+             "no /proc/self/exe available. Is /proc mounted?",
          )),
 -        other => other,
 +        Err(x) => Err(x),

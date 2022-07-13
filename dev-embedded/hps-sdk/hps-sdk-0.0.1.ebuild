@@ -13,8 +13,8 @@ LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA GPL-3 LGPL-3 libgcc FD
 KEYWORDS="*"
 SLOT="0"
 
-RUST_VERSION="1.58.1"
-RUST_BOOTSTRAP_VERSION="1.57.0"
+RUST_VERSION="1.60.0"
+RUST_BOOTSTRAP_VERSION="1.59.0"
 RUST_BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
 
 # These revisions match the submodules in
@@ -71,18 +71,20 @@ src_prepare() {
 	sed -e 's:"unknown":"cros":g' aarch64_unknown_linux_gnu.rs >aarch64_cros_linux_gnu.rs || die
 	popd || die
 
-	eapply "${FILESDIR}/rust-1.58.1-add-cros-targets.patch"
-	eapply "${FILESDIR}/rust-1.58.1-fix-rpath.patch"
-	eapply "${FILESDIR}/rust-1.58.1-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
-	eapply "${FILESDIR}/rust-1.58.1-no-test-on-build.patch"
-	eapply "${FILESDIR}/rust-1.58.1-sanitizer-supported.patch"
-	eapply "${FILESDIR}/rust-1.58.1-cc.patch"
-	eapply "${FILESDIR}/rust-1.58.1-revert-libunwind-build.patch"
-	eapply "${FILESDIR}/rust-1.58.1-ld-argv0.patch"
-	eapply "${FILESDIR}/rust-1.58.1-Handle-sparse-git-repo-without-erroring.patch"
-	eapply "${FILESDIR}/rust-1.58.1-disable-mutable-noalias.patch"
-	eapply "${FILESDIR}/rust-1.58.1-add-armv7a-sanitizers.patch"
-	eapply "${FILESDIR}/rust-1.58.1-fix-libunwind-backtrace-visibility.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-add-cros-targets.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-fix-rpath.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-no-test-on-build.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-sanitizer-supported.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-cc.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-revert-libunwind-build.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-ld-argv0.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-Handle-sparse-git-repo-without-erroring.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-disable-mutable-noalias.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-add-armv7a-sanitizers.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-fix-libunwind-backtrace-visibility.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-passes-only-in-pre-link.patch"
+	eapply "${FILESDIR}/rust-${RUST_VERSION}-Revert-DebugInfo-Re-enable-instruction-referencing-f.patch"
 
 	# For the rustc_llvm module, the build will link with -nodefaultlibs and manually choose the
 	# std C++ library. For x86_64 Linux, the build script always chooses libstdc++ which will not
