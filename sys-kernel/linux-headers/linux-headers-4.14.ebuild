@@ -72,6 +72,7 @@ PATCHES=(
 	"${FILESDIR}/0050-BACKPORT-media-videodev2.h-Add-v4l2-definition-for-HEVC.patch"
 	"${FILESDIR}/0051-CHROMIUM-v4l2-add-upstream-work-in-progress-V4L2-AV1.patch"
 	"${FILESDIR}/0052-BACKPORT-add-rseq-syscall-definitions.patch"
+	"${FILESDIR}/0053-BACKPORT-fanotify-add-support-for-create-attrib-move.patch"
 )
 
 src_unpack() {
