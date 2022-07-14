@@ -1,1 +1,0 @@
-prjoxide-0.1.0_p20210924.ebuild
