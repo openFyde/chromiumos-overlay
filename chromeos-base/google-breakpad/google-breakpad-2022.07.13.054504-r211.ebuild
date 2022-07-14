@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c161459d7e94d7ef5840ba90aa26a4d5f955c976" "e1e7b0ad8ee99a875b272c8e33e308472e897660")
-CROS_WORKON_TREE=("2b7e2cb30d4568ad8a7eee20afc9587d07aad77b" "c2034bc1106379848e2c8c7b68f40d13b3c09097")
+CROS_WORKON_COMMIT=("335e61656fa6034fabc3431a91e5800ba6fc3dc9" "e1e7b0ad8ee99a875b272c8e33e308472e897660")
+CROS_WORKON_TREE=("75d62b1d79d030850963909b7c2f1ccc00dafa46" "c2034bc1106379848e2c8c7b68f40d13b3c09097")
 CROS_WORKON_PROJECT=(
 	"breakpad/breakpad"
 	"linux-syscall-support"
@@ -18,7 +18,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/src/third_party/lss"
 )
 
-inherit cros-arm64 cros-i686 cros-workon flag-o-matic multiprocessing
+inherit cros-arm64 cros-i686 cros-workon cros-sanitizers flag-o-matic multiprocessing
 
 DESCRIPTION="Google crash reporting"
 HOMEPAGE="https://chromium.googlesource.com/breakpad/breakpad"
@@ -26,9 +26,12 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="-alltests cros_host test"
+IUSE="-alltests cros_host +rustc-demangle test"
 
-COMMON_DEPEND="net-misc/curl:="
+COMMON_DEPEND="
+	rustc-demangle? ( dev-rust/rustc-demangle-capi:= )
+	net-misc/curl:=
+"
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	test? (
@@ -42,7 +45,12 @@ src_prepare() {
 }
 
 src_configure() {
-	append-flags -g
+	sanitizers-setup-env
+
+	# -fno-sanitize=alignment since this package interprets ELF binaries
+	# directly, which often involves `reinterpret_cast`s on `ptr+offset`
+	# pairs that make no attempt to guarantee alignment.
+	append-flags -g -fno-sanitize=alignment
 
 	# Disable flaky tests by default.  Do it here because the CPPFLAGS
 	# are recorded at configure time and not read on the fly.
@@ -54,6 +62,7 @@ src_configure() {
 	mkdir build
 	pushd build >/dev/null || die
 	ECONF_SOURCE=${S} multijob_child_init econf --enable-system-test-libs \
+		$(use_enable rustc-demangle system-rustc-demangle) \
 		--bindir="$(usex cros_host /usr/bin /usr/local/bin)"
 	popd >/dev/null || die
 
