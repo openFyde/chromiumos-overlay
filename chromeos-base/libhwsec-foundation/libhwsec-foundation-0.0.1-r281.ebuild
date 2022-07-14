@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0820492ee68f354de8640570fa57daa5e24ef0d6"
+CROS_WORKON_COMMIT="fa4a21f034e8aabd184d840c5e6cb9925f8374a0"
 CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "9996ca2269ab80ee2f1c97dcde4afde657b17581" "9fa46b42720f91b51ccda51c6c208b86ae9b6695" "92700840b98c9930f09300eabce93899cf204aa3" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,7 +23,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libhwsec
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test tpm tpm_dynamic tpm2"
+IUSE="profiling test tpm tpm_dynamic tpm2"
 
 RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
