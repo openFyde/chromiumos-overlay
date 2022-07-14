@@ -50,7 +50,6 @@ IUSE="
 	+fonts
 	hibernate
 	hw_details
-	goma
 	goma_thinlto
 	+highdpi
 	iioservice
@@ -69,7 +68,6 @@ IUSE="
 	+orderfile_use
 	orderfile_verify
 	protected_av1
-	remoteexec
 	+runhooks
 	strict_toolchain_checks
 	subpixel_rendering
@@ -88,7 +86,6 @@ REQUIRED_USE="
 	cfi? ( thinlto )
 	afdo_verify? ( !afdo_use )
 	orderfile_generate? ( !orderfile_use )
-	?? ( goma remoteexec )
 	"
 
 OZONE_PLATFORM_PREFIX=ozone_platform_
@@ -228,11 +225,11 @@ echotf() { echox "${1:-$?}" true false ; }
 usetf()  { usex "$1" true false ; }
 
 use_remoteexec() {
-	[[ "${USE_REMOTEEXEC:-$(usetf remoteexec)}" == "true" ]]
+	[[ -n "${USE_REMOTEEXEC}" && "${USE_REMOTEEXEC}" == "true" ]]
 }
 
 use_goma() {
-	[[ "${USE_GOMA:-$(usetf goma)}" == "true" ]]
+	[[ -n "${USE_GOMA}" && "${USE_GOMA}" == "true" ]]
 }
 
 should_upload_build_logs() {
