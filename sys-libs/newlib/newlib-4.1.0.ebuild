@@ -76,6 +76,10 @@ src_configure() {
 		# itself just gets in the way.
 		--disable-newlib-supplied-syscalls
 	)
+
+	# b/239063738: Enable 64-bit printf
+	myconf+=( --enable-newlib-io-long-long )
+
 	[[ ${CTARGET} == "spu" ]] \
 		&& myconf+=( --disable-newlib-multithread ) \
 		|| myconf+=( $(use_enable threads newlib-multithread) )
