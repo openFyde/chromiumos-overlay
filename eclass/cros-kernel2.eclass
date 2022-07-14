@@ -192,7 +192,6 @@ CONFIG_FRAGMENTS=(
 	blkdevram
 	builtin_driver_amdgpu
 	ca0132
-	cec
 	criu
 	cros_ec_mec
 	debug
@@ -202,7 +201,6 @@ CONFIG_FRAGMENTS=(
 	dmadebug
 	dm_snapshot
 	docker
-	dp_cec
 	drm_dp_aux_chardev
 	dwc2_dual_role
 	dyndebug
@@ -343,12 +341,6 @@ CONFIG_SND_HDA_CODEC_CA0132=y
 CONFIG_SND_HDA_DSP_LOADER=y
 "
 
-cec_desc="Consumer Electronics Control support"
-cec_config="
-CONFIG_CEC_CORE=y
-CONFIG_MEDIA_CEC_SUPPORT=y
-"
-
 criu_desc="Flags required if you wish to use the criu python library"
 criu_config="
 CONFIG_CHECKPOINT_RESTORE=y
@@ -420,11 +412,6 @@ dm_snapshot_desc="Snapshot device mapper target"
 dm_snapshot_config="
 CONFIG_BLK_DEV_DM=y
 CONFIG_DM_SNAPSHOT=m
-"
-
-dp_cec_desc="DisplayPort CEC-Tunneling-over-AUX support"
-dp_cec_config="
-CONFIG_DRM_DP_CEC=y
 "
 
 drm_dp_aux_chardev_desc="DisplayPort DP AUX driver support"
