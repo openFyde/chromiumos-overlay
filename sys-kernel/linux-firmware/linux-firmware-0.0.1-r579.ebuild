@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="589242d353497ef88c068e0dfeb1ed7670958a0a"
-CROS_WORKON_TREE="b8f6eebb6c153b37202cd60e365a0ad72335e5a8"
+CROS_WORKON_COMMIT="c04217e90bd5400c239ac5f60601ebe3c38fc809"
+CROS_WORKON_TREE="fe39930b9693b211557030e5ce0f78a2c77a49b6"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -149,7 +149,7 @@ IUSE_LINUX_FIRMWARE=(
 )
 IUSE="
 	${IUSE_KERNEL_VERS[*]}
-	${IUSE_LINUX_FIRMWARE[@]/#/linux_firmware_}
+	${IUSE_LINUX_FIRMWARE[*]/#/linux_firmware_}
 	video_cards_radeon
 	video_cards_amdgpu"
 REQUIRED_USE="?? ( ${IUSE_KERNEL_VERS[*]} )"
@@ -281,7 +281,7 @@ RESTRICT="binchecks strip"
 FIRMWARE_INSTALL_ROOT="/lib/firmware"
 
 use_fw() {
-	use linux_firmware_$1
+	use "linux_firmware_$1"
 }
 
 doins_subdir() {
@@ -409,7 +409,7 @@ src_install() {
 	use_fw marvell-pcie8997 && doins_subdir mrvl/pcieusb8997_combo_v4.bin
 	use_fw mt7921e && doins_subdir mediatek/WIFI_{MT7961_patch_mcu_1_2_hdr,RAM_CODE_MT7961_1}.bin
 	use_fw mt7921e-bt && doins_subdir mediatek/BT_RAM_CODE_MT7961_1_2_hdr.bin
-	use_fw mt8173-vpu && doins vpu_{d,p}.bin
+	use_fw mt8173-vpu && doins_subdir mediatek/mt8173/vpu_{d,p}.bin
 	use_fw nvidia-xusb && doins_subdir nvidia/tegra*/xusb.bin
 	use_fw qca6174a-3-bt && doins_subdir qca/{nvm,rampatch}_0044*.bin
 	use_fw qca6174a-5-bt && doins_subdir qca/{nvm,rampatch}_usb_00000302*.bin
@@ -514,7 +514,7 @@ src_install() {
 	install_iwlwifi
 
 	for x in "${IUSE_BRCMWIFI[@]}"; do
-		use_fw ${x} || continue
+		use_fw "${x}" || continue
 		case ${x} in
 		brcmfmac-all)      doins_subdir brcm/brcmfmac* ;;
 		brcmfmac4354-sdio) doins_subdir brcm/brcmfmac4354-sdio.* ;;
