@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="0820492ee68f354de8640570fa57daa5e24ef0d6"
+CROS_WORKON_COMMIT="0506add889645d2ce921a776df9ee56dcbe5082a"
 CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "9fa46b42720f91b51ccda51c6c208b86ae9b6695" "92700840b98c9930f09300eabce93899cf204aa3" "b90d0e8f789e8cfe86794cb3f36ae69967b7dc36" "9996ca2269ab80ee2f1c97dcde4afde657b17581" "0a9598deba4de10118e4af0dc50356739dd9eef3" "c3f848940e0a2d93b7fb902d66dbd68eb39543cf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -41,6 +41,7 @@ RDEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/minijail
 	chromeos-base/libhwsec[test?]
+	chromeos-base/libhwsec-foundation
 	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client
