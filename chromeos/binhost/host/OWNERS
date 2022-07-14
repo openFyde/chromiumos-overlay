@@ -5,3 +5,6 @@ per-file sdk_version.conf = 3su6n15k.default@developer.gserviceaccount.com
 # TODO(b/217208150): it's unclear that we want to keep the following owner, but
 # # adding it lets us unblock the SDK builder.
 per-file sdk_version.conf = chromeos-ci-prod@chromeos-bot.iam.gserviceaccount.com
+# Allow the toolchain team to make changes to this file, since we sometimes need
+# to do manual updates for e.g., Rust rolls.
+per-file sdk_version.conf = file:/chromiumos/third_party/toolchain-utils:/OWNERS.toolchain

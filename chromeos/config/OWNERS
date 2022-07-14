@@ -5,3 +5,6 @@ per-file make.conf.amd64-host=3su6n15k.default@developer.gserviceaccount.com
 per-file make.conf.amd64-host=chromeos-ci-prod@chromeos-bot.iam.gserviceaccount.com
 # ChromeOS release bot
 per-file chromeos_version.sh=chromeos-ci-release@chromeos-bot.iam.gserviceaccount.com
+# Allow the toolchain team to make changes to this file, since we sometimes need
+# to do manual updates for e.g., Rust rolls.
+per-file make.conf.amd64-host=file:/chromiumos/third_party/toolchain-utils:/OWNERS.toolchain
