@@ -313,6 +313,7 @@ SERVER_IUSE_TESTS="
 	+tests_provision_FactoryImage
 	+tests_provision_FirmwareUpdate
 	+tests_provision_QuickProvision
+	+tests_pvs_Sequence
 	+tests_rlz_CheckPing
 	+tests_sequences
 	+tests_servo_LabControlVerification
