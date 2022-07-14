@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="26ea54cfafbc07be9bfdfc1ab8ca4be7394fea27"
-CROS_WORKON_TREE="f02226e0e3cb5f70e3af93c85cd1ad52516ae36c"
+CROS_WORKON_COMMIT="cb5e803d34469d3fe34b8505fbafb900354c83b3"
+CROS_WORKON_TREE="1cb570e94e52809b2fd9b1d52e83043e3b99ce29"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -108,6 +108,7 @@ SERVER_IUSE_TESTS="
 	+tests_display_EdidStress
 	+tests_display_HotPlugAtBoot
 	+tests_display_HotPlugAtSuspend
+	+tests_display_LidCloseOpen
 	+tests_display_Resolution
 	+tests_display_ResolutionList
 	+tests_display_ServerChameleonConnection
