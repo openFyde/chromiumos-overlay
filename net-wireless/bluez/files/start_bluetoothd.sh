@@ -10,7 +10,7 @@
 
 bluetooth_dir="/etc/bluetooth"
 conf_file="${bluetooth_dir}/main.conf"
-experimental="d4992530-b9ec-469f-ab01-6c481c47da1c,671b10b5-42c0-4696-9227-eb28d1b049d6,330859bc-7506-492d-9370-9a6f0614037f"
+experimental="d4992530-b9ec-469f-ab01-6c481c47da1c,671b10b5-42c0-4696-9227-eb28d1b049d6"
 
 bt_offload="$(cros_config /bluetooth/flags enable-bluetooth-offload)"
 if [ "$bt_offload" = "true" ]; then
@@ -20,6 +20,14 @@ fi
 ll_privacy_file="/var/lib/bluetooth/bluetooth-llprivacy.experimental"
 if grep -q "enable" "${ll_privacy_file}"; then
     experimental="${experimental},15c0a148-c273-11ea-b3de-0242ac130004"
+fi
+
+# "1" in quality_conf_file means to enable BQR while "0" means to disable BQR.
+quality_conf_file="/var/lib/bluetooth/quality.conf"
+if grep -q "^1$" "${quality_conf_file}"; then
+    # To enable BQR globally by default in the future, remove the if-condition
+    # above and fi below.
+    experimental="${experimental},330859bc-7506-492d-9370-9a6f0614037f"
 fi
 
 # Make a copy of main.conf to /var to make it editable
