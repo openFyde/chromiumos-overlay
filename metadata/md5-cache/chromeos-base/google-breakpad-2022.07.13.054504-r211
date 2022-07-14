@@ -4,11 +4,11 @@ DEPEND=rustc-demangle? ( dev-rust/rustc-demangle-capi:= ) net-misc/curl:= test? 
 DESCRIPTION=Google crash reporting
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/breakpad/breakpad
-IUSE=-alltests cros_host +rustc-demangle test cros_host cros_workon_tree_ cros_arm64 cros_host cros_workon_tree_ cros_i686 cros_host cros_workon_tree_ asan coverage fuzzer msan tsan ubsan
-KEYWORDS=~*
+IUSE=-alltests cros_host +rustc-demangle test cros_host cros_workon_tree_75d62b1d79d030850963909b7c2f1ccc00dafa46_c2034bc1106379848e2c8c7b68f40d13b3c09097 cros_arm64 cros_host cros_workon_tree_75d62b1d79d030850963909b7c2f1ccc00dafa46_c2034bc1106379848e2c8c7b68f40d13b3c09097 cros_i686 cros_host cros_workon_tree_75d62b1d79d030850963909b7c2f1ccc00dafa46_c2034bc1106379848e2c8c7b68f40d13b3c09097 asan coverage fuzzer msan tsan ubsan
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live live
 RDEPEND=rustc-demangle? ( dev-rust/rustc-demangle-capi:= ) net-misc/curl:=
-SLOT=0/9999
+SLOT=0/2022.07.13.054504-r211
 _eclasses_=cros-arm64	99e3147108567dd0bb2989d51049e8c0	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-i686	2e67545fc7d4a6f126932c99c39a6627	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	22e82ad4a28bc98f7ba44997d64c2a2c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=705a56397c28e50265018e60aeecc497
+_md5_=3e5f084d010d24bf202b4769c0cfb323
