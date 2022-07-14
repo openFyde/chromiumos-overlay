@@ -9,5 +9,5 @@ RDEPEND=dev-go/mod dev-go/net dev-go/sync dev-go/xerrors dev-go/text dev-go/gold
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://go.googlesource.com/tools/+archive/v0.1.9.tar.gz -> go.googlesource.com-tools-v0.1.9.tar.gz
-_eclasses_=cros-go	a78906457a303b16ac2583caab6eff8a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-go	9e4f3d4e15241da364684ed8b906b8d9	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=93a9dd04293cd0a3f6a6a6a22fb8ef81

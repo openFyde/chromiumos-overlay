@@ -9,5 +9,5 @@ RDEPEND=dev-go/gapi dev-go/gcp dev-go/gcp-iam dev-go/gcp-trace dev-go/genproto
 RESTRICT=binchecks
 SLOT=0
 SRC_URI=https://github.com/GoogleCloudPlatform/google-cloud-go/archive/ae85bf6f82f4807ee46a814b416659cf0a766f0f.tar.gz -> github.com-GoogleCloudPlatform-google-cloud-go-ae85bf6f82f4807ee46a814b416659cf0a766f0f.tar.gz
-_eclasses_=cros-go	a78906457a303b16ac2583caab6eff8a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-go	9e4f3d4e15241da364684ed8b906b8d9	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=55f47eaf632df61a7f87d0adebda9a53
