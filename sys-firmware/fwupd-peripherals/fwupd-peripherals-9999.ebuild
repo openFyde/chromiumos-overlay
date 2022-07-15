@@ -14,7 +14,7 @@ DESCRIPTION="Installs peripherals firmware update files used by fwupd."
 HOMEPAGE="https://fwupd.org/lvfs/devices/"
 FILENAMES=(
 	# Dell WD19/WD19DC/WD19TB/WD22TB4
-	"8588b47ab2e9deeb2fb0f7ba188c58f00591395876b70ad53586f325289ece1c-DellDockFirmwareUpdateLinux_01.00.24.cab"
+	"a7ec6fb710d020ab2589e67935c83f507908ecce32ada5e8a773df02518efed6-DellDockFirmwareUpdateLinux_01.00.09.cab"
 	# Lenovo MiniDock
 	"9950c7162ef41c770bca803b5455bd7bd82c9820b4ca2075bdf5bce4ac91a895-Lenovo-Mini_Dock-2020-10-29-155326_release.cab"
 	# Lenovo Powered Travel Hub Gen2
