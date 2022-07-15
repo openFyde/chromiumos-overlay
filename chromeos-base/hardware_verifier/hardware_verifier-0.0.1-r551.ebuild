@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f756d81c45f8a94d4ed6b5cc591035cd84b32564"
-CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "657430c315ca70db10634d724d1800faca686404" "38bb7e5dce1f79aeb5d2f4249d892367f798538a" "53ab4b0d4cdfcd2203ddeb7ac3d6fe24ea82d365" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="282a5461d61428868371e73641088f0b407e016b"
+CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "657430c315ca70db10634d724d1800faca686404" "68361c6922909c829d679a3b5f79a5a64e977c35" "53ab4b0d4cdfcd2203ddeb7ac3d6fe24ea82d365" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,6 +24,7 @@ KEYWORDS="*"
 DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/runtime_probe-client:=
 	chromeos-base/system_api:=
 	chromeos-base/vboot_reference:=
 "
