@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("0820492ee68f354de8640570fa57daa5e24ef0d6" "a575ddd45215bb23ebfa4a64f482a899cab921bc" "181f7c798017c00372848000f4ba38b04936e5ab")
+CROS_WORKON_COMMIT=("748eef652785a7ef979274c52dfce51a803ef053" "a575ddd45215bb23ebfa4a64f482a899cab921bc" "181f7c798017c00372848000f4ba38b04936e5ab")
 CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "912ef3a7b8bf84fbc5a5638184eb9dc86a8e43cd" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
 inherit cros-constants
 
@@ -64,6 +64,8 @@ DEPEND="
 "
 
 src_configure() {
+	# This warning is triggered in tensorflow.
+	append-flags "-Wno-unused-but-set-variable"
 	if use x86 || use amd64; then
 		append-cppflags "-D_Float16=__fp16"
 		append-cxxflags "-Xclang -fnative-half-type"
