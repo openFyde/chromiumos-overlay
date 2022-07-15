@@ -64,6 +64,7 @@ src_install() {
 		cros_healthd
 		cryptohome
 		debugd
+		discod
 		dlcservice
 		kerberos
 		login_manager
