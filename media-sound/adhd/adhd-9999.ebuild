@@ -65,12 +65,14 @@ src_configure() {
 		# Disable "gc-sections" for fuzzer builds, https://crbug.com/1026125 .
 		append-ldflags "-Wl,--no-gc-sections"
 		econf $(use_enable cras-apm webrtc-apm) \
+			$(use_enable cras-ml ml) \
 			--with-system-cras-rust \
 			$(use_enable featured) \
 			$(use_enable amd64 fuzzer)
 	else
 		econf $(use_enable selinux) \
 			$(use_enable cras-apm webrtc-apm) \
+			$(use_enable cras-ml ml) \
 			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \

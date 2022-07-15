@@ -134,6 +134,9 @@ USE="${USE} extra_japanese_fonts"
 # Enable generic mosys platform by default.
 USE="${USE} mosys_platform_generic"
 
+# Enable cras-ml
+USE="${USE} cras-ml"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
