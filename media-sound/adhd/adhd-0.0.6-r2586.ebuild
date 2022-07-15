@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan +cras-apm featured fuzzer selinux systemd"
+IUSE="asan +cras-apm cras-ml featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	media-libs/ladspa-sdk:=
 	media-libs/sbc:=
 	media-libs/speex:=
+	cras-ml? ( sci-libs/tensorflow:= )
 	>=sys-apps/dbus-1.4.12:=
 	selinux? ( sys-libs/libselinux:= )
 	virtual/udev:=
