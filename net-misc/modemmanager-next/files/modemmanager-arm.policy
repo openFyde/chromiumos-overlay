@@ -82,6 +82,7 @@ setpgid: 1
 execve: 1
 tgkill: 1
 accept: 1
+accept4: 1
 ARM_set_tls: 1
 set_tid_address: 1
 ugetrlimit: 1
