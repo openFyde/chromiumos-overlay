@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="asan +cras-apm cras-ml featured fuzzer selinux systemd"
+IUSE="asan +cras-apm cras-ml dlc featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -36,6 +36,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	media-sound/alsa-utils
+	dlc? ( media-sound/sr-bt-dlc:= )
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
 	featured? ( chromeos-base/featured )
