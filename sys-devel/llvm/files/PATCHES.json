@@ -3568,5 +3568,33 @@
             "from": 458507,
             "until": 467477
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[clang][test] fix typo in fn attr"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/d2792e7d37c4b454a6b052cd569ff13ed7f22159.patch",
+        "version_range": {
+            "from": 458507,
+            "until": 467756
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[clang][CodeGen] add fn_ret_thunk_extern to synthetic fns"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/140bfdca60ae8b1b2ad115846379e3c9ca914bfb.patch",
+        "version_range": {
+            "from": 458507,
+            "until": 467776
+        }
     }
 ]
