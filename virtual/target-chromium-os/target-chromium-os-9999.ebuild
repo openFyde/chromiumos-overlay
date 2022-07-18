@@ -344,6 +344,7 @@ RDEPEND="
 	fwupd? (
 		sys-apps/fwupd
 		sys-firmware/fwupd-peripherals
+		sys-firmware/fwupd-storage
 		mmc? ( sys-firmware/mmc-firmware )
 		gl3590? ( sys-firmware/gl3590-firmware )
 	)
