@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9d43a0414900ef0ac91d61ad9f0e9da7729787b"
-CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "657430c315ca70db10634d724d1800faca686404" "68361c6922909c829d679a3b5f79a5a64e977c35" "6ed97df8defff98402f77ccced581e5862729960" "72e7465f6d4271944dc51daaa36ca7d7d073ec63" "f4a83f45460bd78aba8651ac56b79148dd725da0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2ed7851edfa7655e5a206094bdff6444f8f71c19"
+CROS_WORKON_TREE=("e747749e00f36b7c255da2376d5f0e9989bcd2f9" "657430c315ca70db10634d724d1800faca686404" "68361c6922909c829d679a3b5f79a5a64e977c35" "6ed97df8defff98402f77ccced581e5862729960" "72e7465f6d4271944dc51daaa36ca7d7d073ec63" "0b51a242dde7b4719858fbad15a656d31d6eba7b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -43,6 +43,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
 	chromeos-base/metrics:=
+	chromeos-base/runtime_probe-client:=
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=
 	chromeos-base/tpm_manager-client:=
