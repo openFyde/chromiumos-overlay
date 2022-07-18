@@ -87,6 +87,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21.8-fix-cupsbytesperline.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-buffer-overflow-in-halftoner.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-tempbuffer-size-in-halftoner.patch"
+	"${FILESDIR}/${PN}-3.21.8-fix-bad-header-read.patch"
 )
 
 #DISABLE_AUTOFORMATTING="yes"
