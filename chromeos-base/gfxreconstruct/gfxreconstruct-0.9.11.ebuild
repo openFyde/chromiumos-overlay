@@ -17,9 +17,13 @@ SLOT="0"
 
 S="${WORKDIR}/gfxreconstruct-${GIT_HASH}"
 
-DEPEND="x11-libs/libxcb"
+DEPEND="x11-libs/libxcb
+	sys-libs/zlib
+	app-arch/zstd"
 RDEPEND="${DEPEND}"
-BDEPEND="x11-libs/xcb-util-keysyms"
+BDEPEND="
+	x11-libs/xcb-util-keysyms
+	dev-util/vulkan-headers"
 
 PATCHES=(
 	# Look for Vulkan headers in the right place during build.
