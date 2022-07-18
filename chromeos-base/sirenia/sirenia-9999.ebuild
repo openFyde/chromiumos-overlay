@@ -69,6 +69,7 @@ src_install() {
 	# root filesystem.
 	if use sirenia; then
 		dobin "${build_dir}/trichechus"
+		dobin "${build_dir}/manatee_crash_handler"
 		dobin "${build_dir}/manatee_memory_service"
 	fi
 
@@ -82,6 +83,7 @@ src_install() {
 		# Install binaries in the initramfs.
 		exeinto "/build/initramfs"
 		doexe "${build_dir}/trichechus"
+		doexe "${build_dir}/manatee_crash_handler"
 		doexe "${build_dir}/manatee_memory_service"
 	fi
 }
