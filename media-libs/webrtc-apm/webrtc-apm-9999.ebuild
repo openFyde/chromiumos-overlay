@@ -27,6 +27,7 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	sanitizers-setup-env
+	cros_optimize_package_for_speed
 
 	export USE_NEON=$(usex neon 1 0)
 	export USE_SSE2=$(usex cpu_flags_x86_sse2 1 0)
