@@ -93,6 +93,11 @@ BDEPEND="
 	sys-devel/flex
 "
 
+PATCHES=(
+	"${FILESDIR}"/UPSTREAM-anv-advertise-rectangularLines-only-for-Gen10.patch
+	"${FILESDIR}"/CHROMIUM-i965-increase-BRW_MAX_UBO-to-16.patch
+)
+
 driver_list() {
 	local drivers="$(sort -u <<< "${1// /$'\n'}")"
 	echo "${drivers//$'\n'/,}"
