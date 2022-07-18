@@ -1,1 +1,0 @@
-http-0.1.19.ebuild
