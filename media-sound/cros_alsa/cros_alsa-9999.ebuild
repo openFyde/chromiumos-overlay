@@ -26,6 +26,7 @@ DEPEND="
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
+	dev-rust/sys_util:=
 	dev-rust/remain:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
