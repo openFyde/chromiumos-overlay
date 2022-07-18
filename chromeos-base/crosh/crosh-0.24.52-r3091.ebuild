@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5a42543ca3f7dc8e97d68c272a61983a1f748c45"
+CROS_WORKON_COMMIT="645c5acf9b5eb1e078c07b26afaf829e7d1bb37a"
 CROS_WORKON_TREE="33460a4fd162e71d38fb4122de087012eb74f9a7"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -49,17 +49,6 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/net-tools
 "
 
-src_compile() {
-	# File order is important here.
-	sed \
-		-e '/^#/d' \
-		-e '/^$/d' \
-		inputrc.safe inputrc.extra \
-		> "${WORKDIR}"/inputrc.crosh || die
-
-	cros-rust_src_compile
-}
-
 src_test() {
 	./run_tests.sh || die
 
@@ -82,6 +71,4 @@ src_install() {
 	doins dev.d/*.sh
 	insinto "${d}/removable.d"
 	doins removable.d/*.sh
-	insinto "${d}"
-	doins "${WORKDIR}"/inputrc.crosh
 }
