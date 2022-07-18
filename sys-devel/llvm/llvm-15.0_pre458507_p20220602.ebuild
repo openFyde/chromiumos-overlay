@@ -152,7 +152,10 @@ multilib_src_configure() {
 
 	local targets
 	if use multitarget; then
-		targets='host;X86;ARM;AArch64;NVPTX'
+	# for LLVM breakages specific to BPF (only)
+	# contact cros-enterprise-security@google.com
+	# for everything else contact OWNERs
+		targets='host;X86;ARM;AArch64;NVPTX;BPF'
 	else
 		targets='host;CppBackend'
 		use video_cards_radeon && targets+=';AMDGPU'
