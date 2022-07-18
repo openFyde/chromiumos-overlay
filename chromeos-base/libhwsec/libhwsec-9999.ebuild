@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation
 	chromeos-base/tpm_manager-client
 	dev-libs/openssl:0=
+	dev-libs/flatbuffers
 	tpm2? ( chromeos-base/trunks:=[test?] )
 	tpm? ( app-crypt/trousers:= )
 	fuzzer? (
