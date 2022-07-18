@@ -58,6 +58,7 @@ src_install() {
 	doins config/ipp_attributes.json
 	doins config/ippusb_printer.json
 	doins config/ippusb_backflip_printer.json
+	doins config/ippusb_printer_plus_storage.json
 	doins config/usb_printer.json
 
 	# Install upstart files into rootfs, since upstart won't look in
