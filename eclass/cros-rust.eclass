@@ -624,7 +624,7 @@ _ecargo_write_clippy() {
 	local sysroot_old="${SYSROOT}"
 	SYSROOT=$(rustc --print sysroot)
 	echo "{\"package_path\":\"${S}\"}" > "${clippy_output_base}/${PF}.json"
-	ecargo clippy ---message-format json --target="${CHOST}" --release \
+	ecargo clippy --message-format json --target="${CHOST}" --release \
 		--manifest-path="${S}/Cargo.toml" >> "${clippy_output_base}/${PF}.json"
 	export SYSROOT="${sysroot_old}"
 }
