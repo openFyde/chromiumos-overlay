@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="b87add8692831b298686f134bd944db3579a6750"
-CROS_WORKON_TREE="047e0d2a7b0b6b4da8c2ebd6ad27d996f4ac6431"
+CROS_WORKON_COMMIT="dc9af742619f97dc1dd9e0b8fd5ae66381f44b19"
+CROS_WORKON_TREE="139bdc94d1ff46978d92c82238e62d224549746f"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -94,6 +94,7 @@ IUSE_TESTS=(
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
 	+tests_power_BatteryDrain
+	+tests_power_CellularIdle
 	+tests_power_Display
 	+tests_power_Idle
 	+tests_power_IdleSuspend
