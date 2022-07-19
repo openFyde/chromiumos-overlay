@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9d43a0414900ef0ac91d61ad9f0e9da7729787b"
-CROS_WORKON_TREE="f57879d6180da63034607391c56ec93432fe3c3e"
+CROS_WORKON_COMMIT="cc8316dec4c8389d0e6f86f267d04566aa98ff03"
+CROS_WORKON_TREE="3b94d21015b70ad2a11e890fd58495debfd58afb"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,7 +25,7 @@ DEPEND="
 	=dev-rust/dbus-0.8*:=
 	=dev-rust/lazy_static-1.4*:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/nix-0.19*:=
+	=dev-rust/nix-0.23*:=
 	=dev-rust/serde-1.0*:=
 	=dev-rust/serde_json-1.0*:=
 	dev-rust/sys_util:=
