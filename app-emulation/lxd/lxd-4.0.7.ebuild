@@ -103,6 +103,12 @@ src_unpack() {
 				-exec mv {} "${S}/_dist/src/${EGO_PN}" \;
 }
 
+src_prepare() {
+	cd "${S}/_dist/src/github.com/lxc/lxd" || die
+	eapply "${FILESDIR}/0003-syscall_wrappers-don-t-conflict-with-glibc-provided-.patch"
+	eapply_user
+}
+
 src_configure() {
 	DEPS="${S}/_dist/deps"
 
