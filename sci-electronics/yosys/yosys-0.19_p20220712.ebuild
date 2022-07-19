@@ -8,10 +8,10 @@ inherit toolchain-funcs
 DESCRIPTION="A framework for Verilog RTL synthesis."
 HOMEPAGE="https://yosyshq.net/yosys/"
 
-GIT_REV="9c93668954fe2ec7aa1fb64573f6e9bf97824b60"
+GIT_REV="08c319fc352fb2670b7416b5fb16ddcb9a400049"
 
 # These have to match Yosys Makefile's ABCREV and ABCURL variables.
-ABC_GIT_REV="f6fa2dd"
+ABC_GIT_REV="5f40c47"
 ABC_GIT_URL="https://github.com/YosysHQ/abc"
 
 SRC_URI="
@@ -30,13 +30,15 @@ RDEPEND="${DEPEND} sci-electronics/iverilog"
 
 PATCHES=(
 	"${FILESDIR}/yosys-fix-Makefile-tools.patch"
+	# workaround for https://github.com/YosysHQ/yosys/issues/3416
+	"${FILESDIR}/0001-Revert-nexus-Use-memory_libmap-pass.patch"
 )
 
 src_unpack() {
 	default
 
 	# Yosys' Makefile expects ABC in the 'abc' directory.
-	cd "${S}"
+	cd "${S}" || die
 	mv ../abc-* abc || die
 
 	# Make sure Makefile's ABCURL and ABCREV match ebuild ones.

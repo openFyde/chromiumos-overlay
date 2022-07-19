@@ -6,21 +6,21 @@
 
 --- a/Makefile
 +++ b/Makefile
-@@ -145,7 +145,7 @@ bumpversion:
- ABCREV = f6fa2dd
+@@ -156,7 +156,7 @@ bumpversion:
+ ABCREV = 5f40c47
  ABCPULL = 1
  ABCURL ?= https://github.com/YosysHQ/abc
--ABCMKARGS = CC="$(CXX)" CXX="$(CXX)" ABC_USE_LIBSTDCXX=1 VERBOSE=$(Q)
-+ABCMKARGS = CC="$(CC)" CXX="$(CXX)" ABC_USE_LIBSTDCXX=1 VERBOSE=$(Q)
-
+-ABCMKARGS = CC="$(CXX)" CXX="$(CXX)" ABC_USE_LIBSTDCXX=1 ABC_USE_NAMESPACE=abc VERBOSE=$(Q)
++ABCMKARGS = CC="$(CC)" CXX="$(CXX)" ABC_USE_LIBSTDCXX=1 ABC_USE_NAMESPACE=abc VERBOSE=$(Q)
+ 
  # set ABCEXTERNAL = <abc-command> to use an external ABC instance
  # Note: The in-tree ABC (yosys-abc) will not be installed when ABCEXTERNAL is set.
-@@ -187,8 +187,6 @@ endif
+@@ -198,8 +198,6 @@ endif
  endif
-
+ 
  ifeq ($(CONFIG),clang)
 -CXX = clang
 -LD = clang++
  CXXFLAGS += -std=$(CXXSTD) -Os
- ABCMKARGS += ARCHFLAGS="-DABC_USE_STDINT_H"
+ ABCMKARGS += ARCHFLAGS="-DABC_USE_STDINT_H -Wno-c++11-narrowing"
  
