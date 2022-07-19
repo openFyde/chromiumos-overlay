@@ -18,6 +18,10 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
+python_check_deps() {
+	has_version -b "chromeos-base/chromite-sdk[${PYTHON_USEDEP}]"
+}
+
 src_compile() {
 	"${S}/chromite/bin/cros" ap dump-config -o "${T}/fw-config.json" \
 		|| die "cros ap dump-config failed"

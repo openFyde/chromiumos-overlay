@@ -194,3 +194,7 @@ LIBDIR_x86="lib"
 
 # Default kernel config family.
 CHROMEOS_KERNEL_FAMILY="chromeos"
+
+# Force Python 3.6 for ebuilds using python-any-r1 until Python 3.8 is deemed
+# stable for use.
+PYTHON_COMPAT_OVERRIDE="python3_6"
