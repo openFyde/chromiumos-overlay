@@ -1,5 +1,6 @@
 # Copyright 2022 The ChromiumOS Authors.
-# Distributed under the terms of the GNU General Public License v2
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
@@ -22,6 +23,7 @@ DEPEND="
 	=dev-rust/glob-0.3*:=
 	>=dev-rust/hmac-sha256-0.1.7 <dev-rust/hmac-sha256-0.2.0_alpha:=
 	=dev-rust/libc-0.2*:=
+	=dev-rust/nix-0.23*:=
 	=dev-rust/num-derive-0.3*:=
 	=dev-rust/num-traits-0.2*:=
 	=dev-rust/regex-1*:=
