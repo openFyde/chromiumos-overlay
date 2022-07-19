@@ -31,7 +31,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/rand-0.7*:=
 	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha:=
 	dev-rust/remain:=
-	=dev-rust/rustyline-7*:=
+	=dev-rust/rustyline-9*:=
 	dev-rust/shell-words:=
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
