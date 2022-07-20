@@ -10,6 +10,7 @@ one and extract the details.
 """
 
 import argparse
+import itertools
 import os
 from pathlib import Path
 import re
@@ -115,12 +116,6 @@ def extract_license(page):
                 break
 
 
-def find_licenses(srcdir):
-    """Walk |srcdir| looking for man page licenses."""
-    for page in srcdir.glob('man[0-9]/*.[0-9]'):
-        yield from extract_license(page)
-
-
 def get_parser():
     """Get CLI parser."""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -129,6 +124,8 @@ def get_parser():
     parser.add_argument('-d', '--srcdir', type=Path,
                         default=os.environ.get('S'),
                         help='Source dir to walk (e.g. $S)')
+    parser.add_argument('files', nargs='*', default=[],
+                        help='Source files (overrides --srcdir)')
     return parser
 
 
@@ -137,12 +134,19 @@ def main(argv):
     parser = get_parser()
     opts = parser.parse_args(argv)
 
-    if not opts.srcdir:
+    if not opts.srcdir and not opts.files:
         parser.error('--srcdir is required')
-    if not opts.srcdir.is_dir():
-        parser.error(f'{opts.srcdir}: --srcdir does not exist')
+    elif opts.srcdir and opts.files:
+        parser.error('--srcdir and files are mutually exclusive')
+    elif opts.srcdir:
+        if not opts.srcdir.is_dir():
+            parser.error(f'{opts.srcdir}: --srcdir is missing or is not a dir')
 
-    licenses = find_licenses(opts.srcdir)
+        files = opts.srcdir.glob('man[0-9]/*.[0-9]')
+    else:
+        files = [Path(x) for x in opts.files]
+
+    licenses = itertools.chain.from_iterable(extract_license(x) for x in files)
     data = '\n'.join(licenses)
     if opts.output:
         with open(opts.output, 'w', encoding='utf-8') as fp:
