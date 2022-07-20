@@ -31,7 +31,7 @@ DEPEND="chromeos-base/system_api:=
 	>=dev-rust/protoc-rust-2.3:= <dev-rust/protoc-rust-3
 	=dev-rust/syslog-4*:=
 	=dev-rust/tempfile-3*:=
-	>=dev-rust/time-0.1.40:= <dev-rust/time-0.2.0
+	=dev-rust/time-0.3*:=
 	"
 RDEPEND="sys-apps/dbus"
 
