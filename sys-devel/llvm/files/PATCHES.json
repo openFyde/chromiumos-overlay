@@ -3566,6 +3566,20 @@
         "rel_patch_path": "cherry/2240d72f15f3b7b9d9fb65450f9bf635fd310f6f.patch",
         "version_range": {
             "from": 458507,
+            "until": 465103
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[X86] initial -mfunction-return=thunk-extern support"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/2240d72f15f3b7b9d9fb65450f9bf635fd310f6f-v2.patch",
+        "version_range": {
+            "from": 465103,
             "until": 467477
         }
     },
