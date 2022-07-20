@@ -10,7 +10,6 @@ one and extract the details.
 """
 
 import argparse
-import itertools
 import os
 from pathlib import Path
 import re
@@ -79,7 +78,7 @@ def extract_license(page):
 
         # Ignore stub pointer files.
         if data.startswith('.so '):
-            return
+            return None
 
         # Find the name of the license to do high level checks.
         matches = list(EXTRACT_LICENSE.finditer(data))
@@ -124,8 +123,10 @@ def extract_license(page):
                             license_text += line + ' '
                 license_text = license_text.strip()
 
-                yield f'{page.name}\n{copyright_text}\n\n{license_text}\n'
-                break
+                return (license_text, copyright_text)
+
+    # No licenses were found that required attribution.
+    return None
 
 
 def get_parser():
@@ -158,8 +159,27 @@ def main(argv):
     else:
         files = [Path(x) for x in opts.files]
 
-    licenses = itertools.chain.from_iterable(extract_license(x) for x in files)
-    data = '\n'.join(licenses)
+    # Merge pages with same licenses into one to avoid duplication.
+    licenses = {}
+    for file in files:
+        result = extract_license(file)
+        if result:
+            license_text, copyright_text = result
+            licenses.setdefault(license_text, []).append(
+                (file.name, copyright_text))
+
+    # Then produce the final notice lines.
+    lines = []
+    for license_text, pages in sorted(licenses.items()):
+        for page, copyright_text in pages:
+            lines += [page, copyright_text]
+        lines += ['', license_text]
+        lines += ['-' * 80]
+    # Remove the last ~ banner since we don't need it at the end of the file.
+    lines.pop()
+
+    # Then write it all out.
+    data = '\n'.join(lines).strip() + '\n'
     if opts.output:
         with open(opts.output, 'w', encoding='utf-8') as fp:
             fp.write(data)
