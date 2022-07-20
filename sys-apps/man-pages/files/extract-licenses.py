@@ -108,9 +108,21 @@ def extract_license(page):
                 copyright_text = '\n'.join(lines).strip()
 
                 # Format the license text.
+                license_text = ''
+                # First remove the different comment styles.
                 lines = [x[3:].strip()
                          for x in match.group(2).strip().splitlines()]
-                license_text = '\n'.join(lines).strip()
+                # Then merge sentences.
+                for i, line in enumerate(lines):
+                    line = line.strip()
+                    if i == 0:
+                        license_text = line + ' '
+                    else:
+                        if not line:
+                            license_text = license_text.strip() + '\n\n'
+                        else:
+                            license_text += line + ' '
+                license_text = license_text.strip()
 
                 yield f'{page.name}\n{copyright_text}\n\n{license_text}\n'
                 break
