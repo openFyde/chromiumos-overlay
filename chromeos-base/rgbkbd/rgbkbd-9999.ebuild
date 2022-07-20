@@ -43,6 +43,13 @@ src_install() {
 	dotmpfiles tmpfiles.d/rgbkbd.conf
 
 	udev_dorules udev/*.rules
+
+	if use fuzzer; then
+		local fuzzer_component_id="1131926"
+		platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/rgb_daemon_fuzzer \
+			--comp "${fuzzer_component_id}"
+	fi
 }
 
 platform_pkg_test() {
