@@ -130,6 +130,9 @@ src_install() {
 		doins cras-config/dsp.ini.sample
 		# Install fuzzer binary
 		fuzzer_install "${S}/OWNERS" cras/src/cras_rclient_message_fuzzer
+		local fuzzer_component_id="769744"
+		fuzzer_install "${S}/OWNERS" cras/src/cras_fl_media_fuzzer \
+			--comp "${fuzzer_component_id}"
 		local fuzzer_component_id="777118"
 		fuzzer_install "${S}/OWNERS" cras/src/cras_hfp_slc_fuzzer \
 			--dict "${S}/cras/src/fuzz/cras_hfp_slc.dict" \
