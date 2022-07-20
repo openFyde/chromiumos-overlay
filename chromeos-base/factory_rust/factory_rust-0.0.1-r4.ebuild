@@ -24,6 +24,8 @@ DEPEND="
 	=dev-rust/glob-0.3*:=
 	>=dev-rust/hmac-sha256-0.1.7 <dev-rust/hmac-sha256-0.2.0_alpha:=
 	=dev-rust/libc-0.2*:=
+	=dev-rust/num-derive-0.3*:=
+	=dev-rust/num-traits-0.2*:=
 	=dev-rust/regex-1*:=
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_json-1*:=
