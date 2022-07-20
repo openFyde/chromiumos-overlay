@@ -64,10 +64,11 @@ def line_iscomment(line):
     # \" ...
     # .\" ...
     # '\" ...
-    # We can't use triple double quotes here because it'll be invalid syntax, so we're forced to use
-    # triple single quotes instead.
+    # .
+    # We can't use triple double quotes here because it'll be invalid syntax,
+    # so we're forced to use triple single quotes instead.
     # pylint: disable=invalid-triple-quote
-    return re.match(r'''^[.']?\\"''', line)
+    return re.match(r'''^(\.$|[.']?\\")''', line)
 
 
 def extract_license(page):
