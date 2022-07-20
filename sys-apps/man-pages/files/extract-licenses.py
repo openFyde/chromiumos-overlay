@@ -101,7 +101,7 @@ def extract_license(page):
                     if not line_iscomment(line) or '%%%LICENSE_' in line:
                         break
                     lines.insert(0, line[3:].strip())
-                assert len(lines) > 1, header
+                assert lines, f'{page}: invalid header:\n{header}'
                 # Trim a weird leading line pending upstream cleanup.
                 if lines[0] == 't':
                     lines.pop(0)
