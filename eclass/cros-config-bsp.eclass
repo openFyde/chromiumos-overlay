@@ -77,8 +77,8 @@ cros-config-bsp_proto_converter() {
 	mkdir -p "${output_dir}"
 	cros_config_proto_converter \
 		--output "${output_dir}/project-config.json" \
-		--program_config "${program_config}" \
-		--project_configs "${project_config}" \
+		--program-config "${program_config}" \
+		--project-configs "${project_config}" \
 		--dtd-path config/payload_utils/media_profiles.dtd \
 		|| die "Failed to run cros_config_proto_converter."
 }
