@@ -44,6 +44,7 @@ listen: 1
 recvmsg: 1
 chdir: 1
 getpid: 1
+gettid: 1
 
 # architecture-dependent syscalls:
 mmap: 1
