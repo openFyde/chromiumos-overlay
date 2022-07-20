@@ -63,7 +63,6 @@ DEPEND="
 	=dev-rust/riscv-rt-0.8*:=
 	>=dev-rust/rusb-0.8.1:= <dev-rust/rusb-0.9
 	=dev-rust/rustyline-9*:=
-	>=dev-rust/serialport-4.0.1:= <dev-rust/serialport-5
 	>=dev-rust/simple_logger-1.13.0:= <dev-rust/simple_logger-2
 	>=dev-rust/spi-memory-0.2.0:= <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*:=
