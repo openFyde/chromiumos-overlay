@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6320199f5e5a8d238b001ddfe331866ac7abc902"
-CROS_WORKON_TREE="ac7030d4fb6d28b578e0d8b9b28e3cbe60550a92"
+CROS_WORKON_COMMIT="b965be65edfdef9437c401ad2ddda8a21c775b47"
+CROS_WORKON_TREE="2863c6a8055055d2655845884c1ed209f785b3ad"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -28,6 +28,7 @@ DEPEND="
 	=dev-rust/proc-macro2-1*:=
 	=dev-rust/quote-1*:=
 	=dev-rust/syn-1*:=
+	dev-rust/sys_util:=
 	dev-rust/remain:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
