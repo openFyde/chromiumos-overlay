@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8bd46a334bf57f261a995738c667faa506e486ed"
-CROS_WORKON_TREE="4158c72f35f162308415993eb11861cab1b53a51"
+CROS_WORKON_COMMIT="4402a9a458661c7bb331fef7ae2ff89297a1ab07"
+CROS_WORKON_TREE="3d1e5bbe600540a592c9955ba408c04d197e427d"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -33,7 +33,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/rand-0.7*:=
 	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha:=
 	dev-rust/remain:=
-	=dev-rust/rustyline-7*:=
+	=dev-rust/rustyline-9*:=
 	dev-rust/shell-words:=
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
