@@ -28,7 +28,7 @@ DEPEND="
 	=dev-rust/log-0.4*:=
 	=dev-rust/once_cell-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	dev-rust/syslog:=
+	=dev-rust/syslog-6*:=
 	=dev-rust/openssl-0.10*:=
 	=dev-rust/protobuf-2*:=
 	=dev-rust/serde-1*:=
