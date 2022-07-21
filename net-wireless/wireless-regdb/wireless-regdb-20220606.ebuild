@@ -1,4 +1,4 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -16,9 +16,6 @@ KEYWORDS="*"
 PATCHES=(
 	"${FILESDIR}"/regdb-ar-5ghz.patch
 	"${FILESDIR}"/regdb-Ensure-outfile-is-written.patch
-	# TODO(b:201792393) Once Gentoo upstream has this patch, uprev our
-	# wireless-regdb package so we can get rid of this patch.
-	"${FILESDIR}"/regdb-gb-5ghz.patch
 )
 
 src_compile() {
