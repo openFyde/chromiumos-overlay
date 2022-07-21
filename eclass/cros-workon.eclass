@@ -868,6 +868,9 @@ cros-workon_enforce_subtrees() {
 		find_args+=( ! -path "${p}" )
 	done
 
+	# We need to permit access to Clang Tidy files for linting.
+	find_args+=( ! -path "**/.clang-tidy" )
+
 	if [[ "${S}" == "${WORKDIR}"/* ]]; then
 		# $S is writable, so just remove ignorelisted files.
 		find "${find_args[@]}" -exec rm -rf {} +
