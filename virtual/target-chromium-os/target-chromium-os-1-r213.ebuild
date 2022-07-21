@@ -67,6 +67,7 @@ IUSE="
 	kerberos_daemon
 	kvm_host
 	lacros_rootfs
+	lvm_stateful_partition
 	manatee
 	media_perception
 	memd
@@ -364,6 +365,7 @@ RDEPEND="
 		assistant-dlc? ( chromeos-base/assistant-dlc )
 	)
 	mojo_service_manager? ( chromeos-base/mojo_service_manager )
+	lvm_stateful_partition? ( chromeos-base/lvmd )
 "
 
 ################################################################################
