@@ -46,14 +46,6 @@ src_compile() {
 	distutils-r1_src_compile
 }
 
-python_test() {
-	py.test -v build/ || die
-}
-
-src_test() {
-	distutils-r1_src_test
-}
-
 src_configure() {
 	sanitizers-setup-env
 	default
@@ -63,7 +55,7 @@ src_install() {
 	local makeargs=(
 		$(usex cros_host '' EXTRA_DIRS=chromeos)
 		DESTDIR="${D}"
-		LIBDIR=/usr/$(get_libdir)
+		LIBDIR="/usr/$(get_libdir)"
 		UDEV_DEST="${D}$(get_udevdir)/rules.d"
 		install
 	)
