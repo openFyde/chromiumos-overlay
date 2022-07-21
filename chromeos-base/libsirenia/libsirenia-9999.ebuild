@@ -34,6 +34,7 @@ DEPEND="
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*:=
 	=dev-rust/serde-1*:=
+	=dev-rust/serde_bytes-0.10*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/thiserror-1*:=

@@ -34,6 +34,7 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/serde-1*:=
+	=dev-rust/serde_bytes-0.10*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/stderrlog-0.5*:=

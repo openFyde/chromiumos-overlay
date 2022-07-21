@@ -22,11 +22,14 @@ IUSE="cros_host manatee"
 DEPEND="
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*:=
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha:=
+	=dev-rust/assert_matches-1*:=
 	dev-rust/libchromeos:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha:=
+	=dev-rust/log-0.4*:=
+	=dev-rust/once_cell-1*:=
+	=dev-rust/serde-1*:=
+	=dev-rust/serde_bytes-0.10*:=
+	=dev-rust/stderrlog-0.5*:=
 	dev-rust/sync:=
-	dev-rust/sys_util:=
 "
 RDEPEND="${DEPEND}"
 
