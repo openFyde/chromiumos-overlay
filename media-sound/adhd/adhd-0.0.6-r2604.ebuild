@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="5eccfb64bcc43f1394cae0aa827ef458bb978bf8"
-CROS_WORKON_TREE="7d379d34324e94712033a3c811c5635f70ea13e8"
+CROS_WORKON_COMMIT="dc4c48a3e00898e8173d40f729aa8c7d04371e2b"
+CROS_WORKON_TREE="9f1897967bb8e78040f8f67e0cd12df06b48e795"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -67,12 +67,14 @@ src_configure() {
 		# Disable "gc-sections" for fuzzer builds, https://crbug.com/1026125 .
 		append-ldflags "-Wl,--no-gc-sections"
 		econf $(use_enable cras-apm webrtc-apm) \
+			$(use_enable cras-ml ml) \
 			--with-system-cras-rust \
 			$(use_enable featured) \
 			$(use_enable amd64 fuzzer)
 	else
 		econf $(use_enable selinux) \
 			$(use_enable cras-apm webrtc-apm) \
+			$(use_enable cras-ml ml) \
 			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \
