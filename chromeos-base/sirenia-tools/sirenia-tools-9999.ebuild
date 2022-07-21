@@ -40,7 +40,6 @@ DEPEND="
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	=dev-rust/syslog-4*:=
 	=dev-rust/thiserror-1*:=
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
