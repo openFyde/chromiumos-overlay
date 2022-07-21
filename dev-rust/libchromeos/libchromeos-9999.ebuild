@@ -29,7 +29,7 @@ DEPEND="
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	=dev-rust/syslog-4*:=
+	=dev-rust/syslog-6*:=
 	dev-rust/system_api:=
 	=dev-rust/thiserror-1*:=
 	dev-rust/vboot_reference-sys:=
