@@ -9,7 +9,7 @@ PYTHON_REQ_USE="threads(+),xml"
 # 14 and 15 spit out a lot of warnings about subdirs
 WANT_AUTOMAKE="1.13"
 
-inherit cros-fuzzer cros-sanitizers autotools linux-info python-single-r1 readme.gentoo-r1 udev
+inherit cros-fuzzer cros-sanitizers autotools python-single-r1 readme.gentoo-r1 udev
 
 DESCRIPTION="HP Linux Imaging and Printing - Print, scan, fax drivers and service tools"
 HOMEPAGE="https://developers.hp.com/hp-linux-imaging-and-printing"
@@ -89,9 +89,6 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21.8-fix-tempbuffer-size-in-halftoner.patch"
 )
 
-CONFIG_CHECK="~PARPORT ~PPDEV"
-ERROR_PARPORT="Please make sure kernel parallel port support is enabled (PARPORT and PPDEV)."
-
 #DISABLE_AUTOFORMATTING="yes"
 DOC_CONTENTS="
 For more information on setting up your printer please take
@@ -105,8 +102,6 @@ pkg_setup() {
 	python-single-r1_pkg_setup
 
 	use scanner && ! use X && einfo "You need USE=X for the scanner GUI."
-
-	use parport && linux-info_pkg_setup
 
 	if use minimal ; then
 		einfo "Installing driver portions only, make sure you know what you are doing."
@@ -140,13 +135,6 @@ src_prepare() {
 		-e '/^Version=.*/d' \
 		-e '/^Comment=.*/d' hplip-systray.desktop.in || die
 
-	# Fix for Gentoo bug https://bugs.gentoo.org/show_bug.cgi?id=345725
-	# Upstream bug: https://bugs.launchpad.net/hplip/+bug/880847,
-	# https://bugs.launchpad.net/hplip/+bug/500086
-	local udevdir=$(get_udevdir)
-	sed -i -e "s|/etc/udev|${udevdir}|g" \
-		$(find . -type f -exec grep -l /etc/udev {} +) || die
-
 	# Force recognition of Gentoo distro by hp-check
 	sed -i \
 		-e "s:file('/etc/issue', 'r').read():'Gentoo':" \
@@ -164,77 +152,78 @@ src_configure() {
 		fuzzer-setup-env || die
 	fi
 
-	local drv_build minimal_build
+	local drv_build=()
+	local minimal_build=()
 
 	sanitizers-setup-env
 
 	if use hpcups ; then
-		drv_build="$(use_enable hpcups hpcups-install)"
+		drv_build+=("$(use_enable hpcups hpcups-install)")
 		if use static-ppds ; then
-			drv_build="${drv_build} --enable-cups-ppd-install"
-			drv_build="${drv_build} --disable-cups-drv-install"
+			drv_build+=( --enable-cups-ppd-install )
+			drv_build+=( --disable-cups-drv-install )
 		else
-			drv_build="${drv_build} --enable-cups-drv-install"
-			drv_build="${drv_build} --disable-cups-ppd-install"
+			drv_build+=( --enable-cups-drv-install )
+			drv_build+=( --disable-cups-ppd-install )
 		fi
 	else
-		drv_build="--disable-hpcups-install"
-		drv_build="${drv_build} --disable-cups-drv-install"
-		drv_build="${drv_build} --disable-cups-ppd-install"
+		drv_build+=( --disable-hpcups-install )
+		drv_build+=( --disable-cups-drv-install )
+		drv_build+=( --disable-cups-ppd-install )
 	fi
 
 	if use hpijs ; then
-		drv_build="${drv_build} $(use_enable hpijs hpijs-install)"
+		drv_build+=(" $(use_enable hpijs hpijs-install)")
 		if use static-ppds ; then
-			drv_build="${drv_build} --enable-foomatic-ppd-install"
-			drv_build="${drv_build} --disable-foomatic-drv-install"
+			drv_build+=( --enable-foomatic-ppd-install )
+			drv_build+=( --disable-foomatic-drv-install )
 		else
-			drv_build="${drv_build} --enable-foomatic-drv-install"
-			drv_build="${drv_build} --disable-foomatic-ppd-install"
+			drv_build+=( --enable-foomatic-drv-install )
+			drv_build+=( --disable-foomatic-ppd-install )
 		fi
 	else
-		drv_build="${drv_build} --disable-hpijs-install"
-		drv_build="${drv_build} --disable-foomatic-drv-install"
-		drv_build="${drv_build} --disable-foomatic-ppd-install"
+		drv_build+=( --disable-hpijs-install )
+		drv_build+=( --disable-foomatic-drv-install )
+		drv_build+=( --disable-foomatic-ppd-install )
 	fi
 
 	if use minimal ; then
 		if use hpijs ; then
-			minimal_build="--enable-hpijs-only-build"
+			minimal_build+=( --enable-hpijs-only-build )
 		else
-			minimal_build="--disable-hpijs-only-build"
+			minimal_build+=( --disable-hpijs-only-build )
 		fi
 		if use hpcups ; then
-			minimal_build="${minimal_build} --enable-hpcups-only-build"
+			minimal_build+=( --enable-hpcups-only-build )
 		else
-			minimal_build="${minimal_build} --disable-hpcups-only-build"
+			minimal_build+=( --disable-hpcups-only-build )
 		fi
-		minimal_build="${minimal_build} --disable-fax-build"
-		minimal_build="${minimal_build} --disable-network-build"
-		minimal_build="${minimal_build} --disable-scan-build"
-		minimal_build="${minimal_build} --disable-gui-build"
+		minimal_build+=( --disable-fax-build )
+		minimal_build+=( --disable-network-build )
+		minimal_build+=( --disable-scan-build )
+		minimal_build+=( --disable-gui-build )
 	else
 		if use fax ; then
-			minimal_build="${minimal_build} --enable-fax-build"
+			minimal_build+=( --enable-fax-build )
 		else
-			minimal_build="${minimal_build} --disable-fax-build"
+			minimal_build+=( --disable-fax-build )
 		fi
 		if use snmp ; then
-			minimal_build="${minimal_build} --enable-network-build"
+			minimal_build+=( --enable-network-build )
 		else
-			minimal_build="${minimal_build} --disable-network-build"
+			minimal_build+=( --disable-network-build )
 		fi
 		if use scanner ; then
-			minimal_build="${minimal_build} --enable-scan-build"
+			minimal_build+=( --enable-scan-build )
 		else
-			minimal_build="${minimal_build} --disable-scan-build"
+			minimal_build+=( --disable-scan-build )
 		fi
 		if use qt5 ; then
-			minimal_build="${minimal_build} --enable-qt5"
-			minimal_build="${minimal_build} --enable-gui-build"
+			minimal_build+=( --enable-qt5 )
+			minimal_build+=( --enable-gui-build )
 		else
-			minimal_build="${minimal_build} --disable-gui-build"
-			minimal_build="${minimal_build} --disable-qt5"
+			minimal_build+=( --disable-gui-build )
+			minimal_build+=( --disable-qt5 )
 		fi
 	fi
 
@@ -251,15 +240,15 @@ src_configure() {
 		--disable-qt3 \
 		--disable-qt4 \
 		--disable-udev_sysfs_rules \
-		--with-cupsbackenddir=$("${cups_config}" --serverbin)/backend \
-		--with-cupsfilterdir=$("${cups_config}" --serverbin)/filter \
+		--with-cupsbackenddir="$("${cups_config}" --serverbin)"/backend \
+		--with-cupsfilterdir="$("${cups_config}" --serverbin)"/filter \
 		--with-docdir=/usr/share/doc/${PF} \
 		--with-htmldir=/usr/share/doc/${PF}/html \
 		--enable-hpps-install \
 		$(use_enable !minimal dbus-build) \
 		--disable-network-build \
-		${drv_build} \
-		${minimal_build} \
+		"${drv_build[@]}" \
+		"${minimal_build[@]}" \
 		$(use_enable doc doc-build) \
 		$(use_enable libusb0 libusb01_build) \
 		$(use_enable parport pp-build) \
