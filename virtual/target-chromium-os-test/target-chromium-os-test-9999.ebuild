@@ -41,6 +41,7 @@ IUSE="
 	p2p
 	+perfetto
 	python_targets_python3_6 python_targets_python3_8
+	racc
 	scanner
 	+shill
 	ti50_onboard
@@ -119,6 +120,9 @@ CROS_COMMON_RDEPEND="
 	)
 	camera_feature_hdrnet? (
 		media-libs/cros-camera-hdrnet-tests
+	)
+	racc? (
+		chromeos-base/factory_runtime_probe
 	)
 	chromeos-base/recover-duts
 	chromeos-base/tast-local-test-runner
