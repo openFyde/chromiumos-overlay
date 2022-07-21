@@ -46,32 +46,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_src_install
-
-	dobin "${OUT}/runtime_probe"
-
-	# Install upstart configs and scripts.
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.RuntimeProbe.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.RuntimeProbe.service
-
-
-	# Install sandbox information.
-	insinto /etc/runtime_probe/sandbox
-	doins sandbox/"${ARCH}"/args.json
-	doins sandbox/"${ARCH}"/*-seccomp.policy
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	newins "seccomp/runtime_probe-seccomp-${ARCH}.policy" \
-	runtime_probe-seccomp.policy
+	platform_install
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
@@ -85,5 +60,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
