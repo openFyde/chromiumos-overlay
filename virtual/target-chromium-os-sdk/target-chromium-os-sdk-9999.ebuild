@@ -583,7 +583,10 @@ RDEPEND="${RDEPEND}
 	sci-electronics/nextpnr
 	sci-electronics/nmigen
 	sci-electronics/pythondata-misc-tapcfg
-	sci-electronics/verilator"
+	sci-electronics/verilator
+	sci-electronics/yosys
+	sci-electronics/yosys-f4pga-plugins
+	"
 
 # Needed for cvise.
 RDEPEND="${RDEPEND}

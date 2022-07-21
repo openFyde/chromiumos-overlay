@@ -22,7 +22,7 @@ SRC_URI="
 S="${WORKDIR}/${PN}-${GIT_REV}"
 
 LICENSE="ISC"
-SLOT="0"
+SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND=""

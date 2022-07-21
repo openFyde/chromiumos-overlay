@@ -23,6 +23,7 @@ BDEPEND="
 	sci-electronics/nmigen
 	sci-electronics/prjoxide
 	sci-electronics/yosys
+	sci-electronics/yosys-f4pga-plugins
 	$(python_gen_any_dep '
 		sci-electronics/litespi[${PYTHON_USEDEP}]
 		sci-electronics/litex[${PYTHON_USEDEP}]
