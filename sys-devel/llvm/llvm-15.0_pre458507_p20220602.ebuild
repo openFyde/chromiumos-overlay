@@ -301,6 +301,16 @@ multilib_src_configure() {
 		)
 #	fi
 
+	if [[ -z "${CCACHE_DISABLE:-}" ]]; then
+		# If ccache is enabled, use it as a compiler launcher. Chances
+		# are that folks are iterating on LLVM, and ccache speeds that
+		# up substantially.
+		mycmakeargs+=(
+			"-DCMAKE_C_COMPILER_LAUNCHER=ccache"
+			"-DCMAKE_CXX_COMPILER_LAUNCHER=ccache"
+		)
+	fi
+
 	if multilib_is_native_abi; then
 		mycmakeargs+=(
 			"-DLLVM_BUILD_DOCS=$(usex doc)"
@@ -320,6 +330,14 @@ multilib_src_configure() {
 }
 
 multilib_src_compile() {
+	# ...If folks are iterating on LLVM with `emerge`, every successful
+	# `emerge` invocation will replace their old compiler. Since doing so
+	# updates mtimes, we should be focusing on the _content_ of the
+	# compiler, rather than the mtime.
+	#
+	# Note that this is in `src_compile`, since it won't apply if we do it
+	# in `src_configure`.
+	export CCACHE_COMPILERCHECK=content
 	cmake_src_compile
 
 	pax-mark m "${BUILD_DIR}"/bin/llvm-rtdyld
