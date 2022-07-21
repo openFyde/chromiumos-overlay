@@ -26,10 +26,6 @@ CONFIG_INTEL_GMA_ADD_VBT=y
 # Microcode
 CONFIG_CPU_MICROCODE_CBFS_EXTERNAL_BINS=y
 
-# TODO(b/227801913): Enable CBFS verification by removing this.
-# If ti50_onboard, CBFS_VERIFICATION will be enabled automatically by the ebuild.
-CONFIG_CBFS_VERIFICATION=n
-
 # Serial console disabled by default (do not remove)
 # CONFIG_CONSOLE_SERIAL is not set
 
