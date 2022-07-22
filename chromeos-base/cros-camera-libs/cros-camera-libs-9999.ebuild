@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 # 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
-IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode camera_feature_effects ipu6 ipu6ep ipu6se qualcomm_camx"
+IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_frame_annotator camera_feature_hdrnet camera_feature_portrait_mode camera_feature_effects ipu6 ipu6ep ipu6se qualcomm_camx"
 
 # Auto face framing depends on the face detection feature.
 REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
@@ -51,6 +51,7 @@ RDEPEND="
 	virtual/libudev:=
 	virtual/opengles:=
 	x11-libs/libdrm:=
+	camera_feature_frame_annotator? ( media-libs/skia:= )
 "
 
 DEPEND="
