@@ -7,7 +7,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
-inherit cros-debug cros-workon libchrome-version autotools flag-o-matic multilib multilib-minimal pam user systemd toolchain-funcs cros-fuzzer cros-sanitizers tmpfiles
+inherit cros-debug cros-workon autotools flag-o-matic multilib multilib-minimal pam user systemd toolchain-funcs cros-fuzzer cros-sanitizers tmpfiles
 
 MY_P=${P/_rc/rc}
 MY_P=${MY_P/_beta/b}
@@ -180,7 +180,6 @@ multilib_src_compile() {
 		if use test; then
 			tc-export PKG_CONFIG
 			cros-debug-add-NDEBUG
-			export BASE_VER="$(libchrome_ver)"
 			emake compile-test
 		fi
 	else

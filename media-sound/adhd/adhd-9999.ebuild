@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
 inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon
-inherit cros-unibuild systemd user libchrome-version
+inherit cros-unibuild systemd user
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
@@ -77,8 +77,7 @@ src_configure() {
 			--enable-metrics \
 			--with-system-cras-rust \
 			$(use_enable featured) \
-			$(use_enable amd64 fuzzer) \
-			BASE_VER="$(libchrome_ver)"
+			$(use_enable amd64 fuzzer)
 	fi
 }
 

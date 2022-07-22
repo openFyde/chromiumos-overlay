@@ -124,7 +124,7 @@ platform() {
 		# shellcheck disable=SC2154
 		cache_dir="${BUILD_DIR}"
 	fi
-	if [[ "${WANT_LIBCHROME}" == "yes" || -n "${IS_LIBCHROME}" ]]; then
+	if [[ "${WANT_LIBCHROME}" == "yes" ]]; then
 		export BASE_VER="$(libchrome_ver)"
 	fi
 	local cmd=(

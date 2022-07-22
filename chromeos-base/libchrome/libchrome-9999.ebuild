@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE=("common-mk .gn" "")
 WANT_LIBCHROME="no"
 # shellcheck disable=SC2034
 IS_LIBCHROME="yes"
-inherit cros-workon libchrome-version platform
+inherit cros-workon platform
 
 DESCRIPTION="Chrome base/ and dbus/ libraries extracted for use on Chrome OS"
 HOMEPAGE="http://dev.chromium.org/chromium-os/packages/libchrome"
