@@ -40,6 +40,7 @@ src_install() {
 		utility
 		error
 		tpm
+		profiling
 	)
 	local d
 	for d in "${header_dirs[@]}" ; do
@@ -48,6 +49,7 @@ src_install() {
 	done
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
+	dolib.a "${OUT}"/libhwsec-profiling.a
 
 	dosbin "${OUT}"/tpm_version_client
 
