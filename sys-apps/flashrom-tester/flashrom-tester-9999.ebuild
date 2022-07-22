@@ -23,7 +23,7 @@ DEPEND="=dev-rust/rand-0.6*:=
 	=dev-rust/clap-2.33*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
-	=dev-rust/built-0.3*:=
+	=dev-rust/built-0.5*:=
 	=dev-rust/sys-info-0.9.1:=
 	=dev-rust/serde_json-1*:=
 "
