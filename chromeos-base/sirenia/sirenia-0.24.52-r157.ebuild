@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="21e6045802b93dcf60c69459602139dbbffb2ea8"
-CROS_WORKON_TREE="452ac96725f475d7c3755c90ff83c086e65ae63e"
+CROS_WORKON_COMMIT="2fabbbd5d10cbc611f55b16f62348ce80656ef51"
+CROS_WORKON_TREE="f16e76be2adbc85add886bd5911f24f93ee44883"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -71,6 +71,7 @@ src_install() {
 	# root filesystem.
 	if use sirenia; then
 		dobin "${build_dir}/trichechus"
+		dobin "${build_dir}/manatee_crash_handler"
 		dobin "${build_dir}/manatee_memory_service"
 	fi
 
@@ -84,6 +85,7 @@ src_install() {
 		# Install binaries in the initramfs.
 		exeinto "/build/initramfs"
 		doexe "${build_dir}/trichechus"
+		doexe "${build_dir}/manatee_crash_handler"
 		doexe "${build_dir}/manatee_memory_service"
 	fi
 }
