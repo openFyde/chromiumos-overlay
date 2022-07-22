@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=fuzzer? ( chromeos-base/trunks:= ) cr50_onboard? ( chromeos-base/trunks:= ) ti50_onboard? ( chromeos-base/trunks:= ) >=chromeos-base/protofiles-0.0.43:= chromeos-base/system_api:= >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=U2FHID library used by the internal corp U2F library
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/client/
+IUSE=fuzzer cr50_onboard ti50_onboard cros_host cros_workon_tree_4055d34d682d2a7ff6bc4285499301674c0779ab_ab7dabe784b92eb862399024b3f6962797cd0f37_14ea278c59597b6f2d689136556a44aaad8e22b1_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_4055d34d682d2a7ff6bc4285499301674c0779ab_ab7dabe784b92eb862399024b3f6962797cd0f37_14ea278c59597b6f2d689136556a44aaad8e22b1_e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=fuzzer? ( chromeos-base/trunks:= ) cr50_onboard? ( chromeos-base/trunks:= ) ti50_onboard? ( chromeos-base/trunks:= ) >=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r1651:=
+SLOT=0/0.0.1-r54
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-fuzzer	9d6878ef259cd0afa5a3230b0919f9dd	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	22e82ad4a28bc98f7ba44997d64c2a2c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	97a01c2315e1937479525d1188354c4f	libchrome-version	64964ae80efbdd2531893ec3efe2a00c	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	ac77c9e60b979b7d2af5f61dc8c9dc05	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=73c0fde8a75864a85c8cbca47802a02f
