@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("b7c42dfe3e9bd706f8a828bde85c1fdd7dee2dd1" "bb873e9a318812529ba568edaff0b1abfa229fc3" "1b21e29164673325ba654baa61304c98e833a742" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "0283a5c967eb05e9224d43c669d6c6105fc2a55e")
+CROS_WORKON_COMMIT=("6ff1011fc73b10d29129516acd827cd03da1795b" "bb873e9a318812529ba568edaff0b1abfa229fc3" "1b21e29164673325ba654baa61304c98e833a742" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "0283a5c967eb05e9224d43c669d6c6105fc2a55e")
 CROS_WORKON_TREE=("4055d34d682d2a7ff6bc4285499301674c0779ab" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4ec120ad6ce68eeafe52e13d549d4f91d80de40f" "3d54476f99c9f563d33cded316886665779a75ff" "c3473ab29243f136628d4c8708ab647c15f6a411" "e8e08223f1c2bd87095594bf46326f46c757fc37")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -73,6 +73,7 @@ DEPEND="
 
 BDEPEND="
 	dev-libs/tinyxml2:=
+	net-wireless/floss_tools
 "
 
 RDEPEND="${DEPEND}"
@@ -98,19 +99,6 @@ src_unpack() {
 }
 
 src_configure() {
-	if tc-is-cross-compiler ; then
-		# Delete old host build folder otherwise we will continue using
-		# old binaries
-		local build_dir="$(cros-workon_get_build_dir)"
-		rm -rf "${build_dir:?}/${CBUILD}"
-
-		# Build tools and move to host directory
-		mkdir -p "${build_dir}/${CBUILD}"
-		ARCH="$(tc-arch ${CBUILD})" tc-env_build platform "configure" "--host"
-		ARCH="$(tc-arch ${CBUILD})" tc-env_build platform "compile" "tools" "--host"
-		mv "${build_dir}/out" "${build_dir}/${CBUILD}/"
-	fi
-
 	local cxx_outdir="$(cros-workon_get_build_dir)/out/Default"
 	local rustflags=(
 		# Add C/C++ build path to linker search path
@@ -135,20 +123,16 @@ src_configure() {
 	platform_src_configure "--target_os=chromeos"
 }
 
-floss_build_tools() {
-	local bin_dir="$(cros-workon_get_build_dir)/out/Default/"
-	if tc-is-cross-compiler ; then
-		local host_dir="$(cros-workon_get_build_dir)/${CBUILD}/out/Default"
-		mkdir -p "${bin_dir}"
-		cp "${host_dir}/bluetooth_packetgen" "${bin_dir}"
-		cp "${host_dir}/bluetooth_flatbuffer_bundler" "${bin_dir}"
-	else
-		platform "compile" "tools" "--host"
-	fi
+copy_floss_tools() {
+	local bin_dir="/usr/bin"
+	local rust_dir="${ECARGO_HOME}/bin"
+	local cxx_dir="$(cros-workon_get_build_dir)/out/Default"
 
-	# Make sure packetgen is also available to rust
-	mkdir -p "${ECARGO_HOME}/bin/"
-	cp "${bin_dir}/bluetooth_packetgen" "${ECARGO_HOME}/bin/"
+	mkdir -p "${rust_dir}"
+	cp "${bin_dir}/bluetooth_packetgen" "${rust_dir}/"
+	cp "${bin_dir}/bluetooth_flatbuffer_bundler" "${rust_dir}/"
+	cp "${bin_dir}/bluetooth_packetgen" "${cxx_dir}/"
+	cp "${bin_dir}/bluetooth_flatbuffer_bundler" "${cxx_dir}/"
 }
 
 floss_build_rust() {
@@ -177,9 +161,9 @@ floss_build_rust() {
 }
 
 src_compile() {
-	# Build tools required for building the runtime and copy to both the GN
-	# directory and the Rust bin directory
-	floss_build_tools
+	# Copy the tools required for building the runtime to both the GN
+	# directory and the Rust bin directory.
+	copy_floss_tools
 
 	# Compile for target (generates static libs)
 	platform_src_compile
