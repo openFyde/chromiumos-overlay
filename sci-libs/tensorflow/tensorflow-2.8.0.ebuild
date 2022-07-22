@@ -332,6 +332,11 @@ src_install() {
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 
 	einfo "Installing TF lite headers"
+
+	local HEADERS_TMP
+	HEADERS_TMP="${WORKDIR}/headers_tmp"
+	mkdir -p "${HEADERS_TMP}"
+
 	# From tensorflow/lite/lib_package/create_ios_frameworks.sh
 	find ${PN}/lite -name "*.h" \
 		-not -path "${PN}/lite/tools/*" \
@@ -340,9 +345,13 @@ src_install() {
 		-not -path "${PN}/lite/toco/*" \
 		-not -path "${PN}/lite/java/*" |
 	while read -r i; do
-		insinto "/usr/include/${PN}/${i%/*}"
-		doins "${i}"
+		mkdir -p "${HEADERS_TMP}/${i%/*}"
+		cp "${i}" "${HEADERS_TMP}/${i%/*}"
 	done
+
+	insinto "/usr/include/${PN}"
+	doins -r "${HEADERS_TMP}/tensorflow"
+
 	einfo "Installing selected TF core headers"
 	local selected=( lib/bfloat16/bfloat16.h platform/byte_order.h platform/macros.h platform/bfloat16.h )
 	for i in "${selected[@]}"; do
