@@ -17,8 +17,23 @@
 inherit cros-debug libchrome-version
 
 # Require a recent one from time to time to help keep people up-to-date.
+# shellcheck disable=SC2154
 RDEPEND="
-	>=chromeos-base/libchrome-0.0.1-r268:0=[cros-debug=]
+	>=chromeos-base/libchrome-0.0.1-r${REQUIRED_LIBCHROME_EBUILD_VERSION}:0=[cros-debug=]
 "
 
 DEPEND="${RDEPEND}"
+
+# @FUNCTION: libchrome_ver
+# @DESCRIPTION:
+# Output current libchrome BASE_VER, from SYSROOT-installed BASE_VER file.
+# LIBCHROME_SYSROOT can be set.
+# If LIBCHROME_SYSROOT is set, it read $LIBCHROME_SYSROOT-installed BASE_VER
+# file.
+libchrome_ver() {
+	local basever_file="${SYSROOT}/usr/share/libchrome/BASE_VER"
+	if [[ -n "${LIBCHROME_SYSROOT}" ]]; then
+		basever_file="${LIBCHROME_SYSROOT}/usr/share/libchrome/BASE_VER"
+	fi
+	cat "${basever_file}" || die "cat ${basever_file} error."
+}

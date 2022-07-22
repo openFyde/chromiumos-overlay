@@ -9,22 +9,8 @@
 # @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
 # @BLURB: helper eclass for managing libchrome version
 # @DESCRIPTION:
-# This eclass manages the libchrome version.
+# This eclass manages the libchrome ebuild version.
+# This file is also owned by libchrome team in case of revision bump.
 
-# @FUNCTION: libchrome_ver
-# @DESCRIPTION:
-# Output current libchrome BASE_VER, from SYSROOT-installed BASE_VER file.
-# IS_LIBCHROME or LIBCHROME_SYSROOT can be set.
-# If IS_LIBCHROME is set, it read ${S}/BASE_VER instead.
-# If LIBCHROME_SYSROOT is set, it read $LIBCHROME_SYSROOT-installed BASE_VER
-# file.
-libchrome_ver() {
-	local basever_file="${SYSROOT}/usr/share/libchrome/BASE_VER"
-	if [[ -n "${IS_LIBCHROME}" ]]; then
-		basever_file="${S}/BASE_VER"
-	fi
-	if [[ -n "${LIBCHROME_SYSROOT}" ]]; then
-		basever_file="${LIBCHROME_SYSROOT}/usr/share/libchrome/BASE_VER"
-	fi
-	cat "${basever_file}" || die "cat ${basever_file} error. Please depends on libchrome if you use it."
-}
+# shellcheck disable=SC2034
+REQUIRED_LIBCHROME_EBUILD_VERSION=268
