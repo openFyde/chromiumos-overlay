@@ -28,6 +28,7 @@ KEYWORDS="~*"
 RDEPEND="sys-fs/lvm2:="
 DEPEND="
 	${RDEPEND}
+	chromeos-base/lvmd-client:=
 	chromeos-base/system_api:="
 
 src_install() {
