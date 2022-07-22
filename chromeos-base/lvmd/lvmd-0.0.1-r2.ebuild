@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6cdfe429dca4e684e13002765174db59e2de1e4c"
+CROS_WORKON_COMMIT="670f99fdd1c56b5c8ac2d93f317f2c742acf74d0"
 CROS_WORKON_TREE=("4055d34d682d2a7ff6bc4285499301674c0779ab" "973a58edee991a2e4eaf01bdd098de0acb48ffb6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,6 +30,7 @@ KEYWORDS="*"
 RDEPEND="sys-fs/lvm2:="
 DEPEND="
 	${RDEPEND}
+	chromeos-base/lvmd-client:=
 	chromeos-base/system_api:="
 
 src_install() {
