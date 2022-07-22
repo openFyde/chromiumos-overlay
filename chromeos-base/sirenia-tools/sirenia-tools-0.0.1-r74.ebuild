@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="21e6045802b93dcf60c69459602139dbbffb2ea8"
+CROS_WORKON_COMMIT="6cdfe429dca4e684e13002765174db59e2de1e4c"
 CROS_WORKON_TREE="452ac96725f475d7c3755c90ff83c086e65ae63e"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,7 +42,6 @@ DEPEND="
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	=dev-rust/syslog-4*:=
 	=dev-rust/thiserror-1*:=
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
