@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk metrics .gn"
 
 PLATFORM_SUBDIR="metrics"
 
-inherit cros-constants cros-workon libchrome-version platform tmpfiles systemd user
+inherit cros-constants cros-workon platform tmpfiles systemd user
 
 DESCRIPTION="Metrics aggregation service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/metrics/"
@@ -68,10 +68,8 @@ src_install() {
 	fowners chronos:chronos-access "${daemon_store}"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
-	local v="$(libchrome_ver)"
-	./platform2_preinstall.sh "${OUT}" "${v}"
 	dolib.so "${OUT}/lib/libmetrics.so"
-	doins "${OUT}/lib/libmetrics.pc"
+	doins "${S}/libmetrics.pc"
 	dolib.so "${OUT}/lib/libstructuredmetrics.so"
 	doins "${OUT}"/obj/metrics/structured/libstructuredmetrics.pc
 
