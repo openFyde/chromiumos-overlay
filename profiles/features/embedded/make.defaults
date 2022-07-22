@@ -97,5 +97,8 @@ USE="${USE} -spaced"
 # Disable ML benchmarking
 USE="${USE} -ml_benchmark_drivers"
 
+# Disable mojo service manager.
+USE="${USE} -mojo_service_manager"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
