@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8e0b30dbed4b2409c84c0872432f51da9caa9ffe"
-CROS_WORKON_TREE=("4055d34d682d2a7ff6bc4285499301674c0779ab" "43b57d0197927e4a711984ebf5845dc077948ee4" "ea852373dd3262ae525b3aaa664020cd393a0c37" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="61f564c63a96d64ba64f191ad08f9835a9c7426a"
+CROS_WORKON_TREE=("4055d34d682d2a7ff6bc4285499301674c0779ab" "43b57d0197927e4a711984ebf5845dc077948ee4" "b4f440dee55ca850364524dbf7575a26c60e57f1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -45,6 +45,13 @@ src_install() {
 	dotmpfiles tmpfiles.d/rgbkbd.conf
 
 	udev_dorules udev/*.rules
+
+	if use fuzzer; then
+		local fuzzer_component_id="1131926"
+		platform_fuzzer_install "${S}"/OWNERS \
+			"${OUT}"/rgb_daemon_fuzzer \
+			--comp "${fuzzer_component_id}"
+	fi
 }
 
 platform_pkg_test() {
