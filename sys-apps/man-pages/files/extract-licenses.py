@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 import re
 import sys
+from typing import List, Optional, Tuple, Union
 
 
 # Extract the license name & text from a section like:
@@ -57,7 +58,7 @@ KNOWN_LICENSES = ATTRIBUTION_LICENSES | {
 }
 
 
-def line_iscomment(line):
+def line_iscomment(line: str) -> bool:
     """Whether |line| is a roff comment."""
     # A variety of possible formats here.  This should get cleaned up in newer
     # versions, but we have to deal with it in current releases.
@@ -71,7 +72,7 @@ def line_iscomment(line):
     return re.match(r'''^(\.$|[.']?\\")''', line)
 
 
-def extract_license(page):
+def extract_license(page: Path) -> Union[None, Tuple[str, str]]:
     """Extract the license from |page|."""
     with open(page, encoding='utf-8') as fp:
         data = fp.read()
@@ -129,7 +130,7 @@ def extract_license(page):
     return None
 
 
-def get_parser():
+def get_parser() -> argparse.ArgumentParser:
     """Get CLI parser."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('-o', '--output', type=Path,
@@ -142,7 +143,7 @@ def get_parser():
     return parser
 
 
-def main(argv):
+def main(argv: Optional[List[str]] = None) -> Optional[int]:
     """The main entry point for scripts."""
     parser = get_parser()
     opts = parser.parse_args(argv)
