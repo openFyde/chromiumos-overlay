@@ -24,6 +24,7 @@ IUSE="
 	chromeless_tty
 	cras
 	diag
+	hdctools
 	hps
 	lldbserver
 	nvme
@@ -156,7 +157,7 @@ RDEPEND="${RDEPEND}
 	dev-python/dbus-python
 	dev-python/pydbus
 	dev-python/hid-tools
-	dev-util/hdctools
+	hdctools? ( dev-util/hdctools )
 	lldbserver? ( dev-util/lldb-server )
 	dev-util/mem
 	dev-util/strace
