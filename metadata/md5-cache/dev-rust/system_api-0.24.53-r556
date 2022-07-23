@@ -4,12 +4,12 @@ DEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= >=dev-rust/protob
 DESCRIPTION=Chrome OS system API D-Bus bindings for Rust.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system_api/
-IUSE=cros_host cros_workon_tree_0233666e1280ee6b68c389c3d3e58a4530d13510_a0d8550678a1ed2a4ab62782049032a024bf40df_977d49fa7e04eb0af74fa77165ab6b9e60486283_c7bd7c1304c81d7c3da4a5a1c334537d2a9a8226_8829a5a24648f7ac6d85554f6e0e8bb8ac9cde29_489a8c6359833cc0dd9677de6f90d9bf5d9be037_7cc201f289fa9c069a6d875631a08fee7c97d439_ddd22f0572ba73430977571c1084513fb9c7fcc3_0cba4e910a25ebe32645ab268db10a25245ec8a8 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_8dedad7841a018ee074638bfbd6e0168da083181_a0d8550678a1ed2a4ab62782049032a024bf40df_977d49fa7e04eb0af74fa77165ab6b9e60486283_c7bd7c1304c81d7c3da4a5a1c334537d2a9a8226_8829a5a24648f7ac6d85554f6e0e8bb8ac9cde29_489a8c6359833cc0dd9677de6f90d9bf5d9be037_7cc201f289fa9c069a6d875631a08fee7c97d439_ddd22f0572ba73430977571c1084513fb9c7fcc3_0cba4e910a25ebe32645ab268db10a25245ec8a8 cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-rust/chromeos-dbus-bindings:= =dev-rust/dbus-0.9*:= >=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3 >=dev-rust/protoc-rust-2.16.2:= <dev-rust/protoc-rust-3 !chromeos-base/system_api-rust virtual/rust-binaries:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.24.53-r555
+SLOT=0/0.24.53-r556
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	3c4e33d5d08105b9f6a85500b9c9e588	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	ef32a61bc5aebb70f04172c67b6c0c54	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=6fd487fa6fc8ff8bea8418ccb8b6a09b
+_md5_=86f1517afc4c5fc1df1b99a5709dc028
