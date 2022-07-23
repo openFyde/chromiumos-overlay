@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c27f529a0bad45baa744473673a4249f5cc46139"
-CROS_WORKON_TREE="e0f700050ca9b7e4a5af118b302da35ba890e93c"
+CROS_WORKON_COMMIT="795f40d0069915fd45195883dfcd9dd6201fbc05"
+CROS_WORKON_TREE="2d17d011de637599df35ce05b748d99ae7618d44"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,7 +30,7 @@ DEPEND="
 	=dev-rust/log-0.4*:=
 	=dev-rust/once_cell-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	dev-rust/syslog:=
+	=dev-rust/syslog-6*:=
 	=dev-rust/openssl-0.10*:=
 	=dev-rust/protobuf-2*:=
 	=dev-rust/serde-1*:=

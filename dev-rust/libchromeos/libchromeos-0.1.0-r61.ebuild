@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="88ebae50336c52293e19f6444f1cb36677841d38"
-CROS_WORKON_TREE="94a4e5204128281ce31ee4522e601238c1019ac4"
+CROS_WORKON_COMMIT="795f40d0069915fd45195883dfcd9dd6201fbc05"
+CROS_WORKON_TREE="1bd2df917ffe0fcefbb459b4c1d9838bfacffc8e"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -31,7 +31,7 @@ DEPEND="
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/stderrlog-0.5*:=
-	=dev-rust/syslog-4*:=
+	=dev-rust/syslog-6*:=
 	dev-rust/system_api:=
 	=dev-rust/thiserror-1*:=
 	dev-rust/vboot_reference-sys:=
