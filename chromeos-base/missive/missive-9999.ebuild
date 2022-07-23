@@ -36,6 +36,7 @@ DEPEND="
 pkg_preinst() {
 	enewuser missived
 	enewgroup missived
+	enewgroup missived_senders
 }
 
 src_install() {
