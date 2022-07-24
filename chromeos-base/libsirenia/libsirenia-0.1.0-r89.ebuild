@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="21e6045802b93dcf60c69459602139dbbffb2ea8"
-CROS_WORKON_TREE="fa4e2aa11b53b8a92ac26b24962f2dec51b4c0b3"
+CROS_WORKON_COMMIT="dfd81ad0b536a7a262dd724d71d2ba3435ed6509"
+CROS_WORKON_TREE="dca9eb7d9022c6045c004cf26b27be3497409c86"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -36,6 +36,7 @@ DEPEND="
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*:=
 	=dev-rust/serde-1*:=
+	=dev-rust/serde_bytes-0.10*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
 	=dev-rust/thiserror-1*:=
