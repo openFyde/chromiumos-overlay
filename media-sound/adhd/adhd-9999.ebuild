@@ -76,6 +76,7 @@ src_configure() {
 			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \
+			$(use_enable dlc) \
 			$(use_enable featured) \
 			$(use_enable amd64 fuzzer)
 	fi
