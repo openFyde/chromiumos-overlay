@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f0a0ddfe7dd53123a0fb0f3adcd34de9923c3870"
-CROS_WORKON_TREE=("e7f63c823468db13a24ebe2323042c054c4316c9" "bf505c457c37bfaedc5dee4d1114aa1180425680" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="0ac00bc826fb8beb7811342d4ec32ff9f08223e5"
+CROS_WORKON_TREE=("e7f63c823468db13a24ebe2323042c054c4316c9" "394b7478fb984f7fa4ae9760817f53915deb69bf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -66,6 +66,7 @@ src_install() {
 		cros_healthd
 		cryptohome
 		debugd
+		discod
 		dlcservice
 		kerberos
 		login_manager
