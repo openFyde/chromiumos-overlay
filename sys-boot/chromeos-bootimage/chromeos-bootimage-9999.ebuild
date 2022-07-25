@@ -190,11 +190,12 @@ add_ec() {
 	einfo "Padding ${name}{ro,rw} ${pad} byte."
 
 	local rw_file="${ecroot}/ec.RW.bin"
-	# TODO(jrosenth): can we do this for all EC's (not just Zephyr)?
-	if use zephyr_ec && [[ -f "${ecroot}/zephyr.bin" ]]; then
-		( cd "${T}" && dump_fmap -x "${ecroot}/zephyr.bin" RW_FW ) || \
-			die "Unable to extract RW region from FMAP"
-		rw_file="${T}/RW_FW"
+	if [[ ! -f "${rw_file}" ]]; then
+		if [[ -f "${ecroot}/ec.bin" ]]; then
+			( cd "${T}" && dump_fmap -x "${ecroot}/ec.bin" RW_FW ) || \
+				die "Unable to extract RW region from FMAP"
+			rw_file="${T}/RW_FW"
+		fi
 	fi
 	openssl dgst -sha256 -binary "${rw_file}" > "${T}/ecrw.hash" || \
 		die "Unable to compute RW hash"
@@ -700,7 +701,7 @@ src_compile() {
 		compress_assets "${froot}" "${name}"
 		einfo "Building image for: ${name}"
 		if use zephyr_ec; then
-			# Zephyr installs under ${froot}/${name}/zephyr.bin,
+			# Zephyr installs under ${froot}/${name}/ec.bin,
 			# instead of using the EC build target name.
 			if [[ -n "${zephyr_ec}" ]]; then
 				ec="${name}"

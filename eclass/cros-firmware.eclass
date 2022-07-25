@@ -273,7 +273,7 @@ cros-firmware_src_compile() {
 			-b "${local_root}/image-BUILD_TARGET.bin"
 		local local_dir="${local_root}/BUILD_TARGET"
 		if use zephyr_ec; then
-			_add_param local_image_cmd -e "${local_dir}/zephyr.bin"
+			_add_param local_image_cmd -e "${local_dir}/ec.bin"
 		elif use cros_ec; then
 			_add_param local_image_cmd -e "${local_dir}/ec.bin"
 			_add_param local_image_cmd -p "${local_dir}/pd.bin"
