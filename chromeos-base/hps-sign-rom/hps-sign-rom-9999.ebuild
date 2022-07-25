@@ -57,12 +57,6 @@ RDEPEND="
 "
 
 src_prepare() {
-	# Delete some optional dependencies that are not packaged in ChromiumOS.
-	sed -i \
-		-e '/ optional = true/d' \
-		-e '/^direct /d' \
-		../hps-mon/Cargo.toml
-
 	# config.toml is intended for use when running `cargo` directly but would
 	# mess with the ebuild if we didn't delete it.
 	rm -f ../.cargo/config.toml

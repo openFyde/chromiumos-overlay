@@ -90,12 +90,6 @@ src_prepare() {
 	# Not using cros-rust_src_prepare because it wrongly assumes Cargo.toml is
 	# in the root of ${S} and we don't need its manipulations anyway.
 
-	# Delete some optional dependencies that are not packaged in Chromium OS.
-	sed -i \
-		-e '/ optional = true/d' \
-		-e '/^direct /d' \
-		rust/hps-mon/Cargo.toml
-
 	# config.toml is intended for use when running `cargo` directly but would
 	# mess with the ebuild if we didn't delete it.
 	rm -f rust/.cargo/config.toml
