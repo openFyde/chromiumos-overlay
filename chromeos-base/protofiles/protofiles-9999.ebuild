@@ -75,7 +75,6 @@ RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 src_compile() {
 	# Generate policy_templates.json
 	"${POLICY_DIR}/resources/policy_templates.py" \
-		--src="${POLICY_DIR}/resources/policy_templates.json" \
 		--dest="${POLICY_DIR}/resources/generated_policy_templates.json" \
 		|| die "Failed to generate policy_templates.json"
 
