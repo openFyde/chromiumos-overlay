@@ -63,6 +63,10 @@ src_prepare() {
 		-e '/^direct /d' \
 		../hps-mon/Cargo.toml
 
+	# config.toml is intended for use when running `cargo` directly but would
+	# mess with the ebuild if we didn't delete it.
+	rm -f ../.cargo/config.toml
+
 	cros-rust_src_prepare
 }
 
