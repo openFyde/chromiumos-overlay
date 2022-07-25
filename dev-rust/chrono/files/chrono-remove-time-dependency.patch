@@ -1,0 +1,17 @@
+diff --git b/Cargo.toml a/Cargo.toml
+index 2d3e764..1d6bc42 100644
+--- b/Cargo.toml
++++ a/Cargo.toml
+@@ -95,7 +95,10 @@ __internal_bench = []
+ alloc = []
+ clock = ["libc", "std", "winapi"]
+-default = ["clock", "std", "oldtime"]
++default = ["clock", "std"]
+-oldtime = ["time"]
++# Remove this dependency; users who want `time` should use time-0.3,
++# and the `time` shipped with chrono is vulnerable to RUSTSEC-2020-0071.
++#oldtime = ["time"]
++oldtime = []
+ std = []
+ unstable-locales = ["pure-rust-locales", "alloc"]
+ wasmbind = ["wasm-bindgen", "js-sys"]

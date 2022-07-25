@@ -22,9 +22,12 @@ DEPEND="
 	=dev-rust/serde-1*:=
 	=dev-rust/serde_derive-1*:=
 	=dev-rust/serde_json-1*:=
-	>=dev-rust/time-0.1.43:= <dev-rust/time-0.2.0
 "
 RDEPEND="${DEPEND}"
+
+PATCHES=(
+	"${FILESDIR}/${PN}-remove-time-dependency.patch"
+)
 
 # error: no matching package named `pure-rust-locales` found
 RESTRICT="test"
