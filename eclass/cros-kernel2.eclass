@@ -1215,7 +1215,6 @@ CONFIG_DEBUG_KOBJECT_RELEASE=y
 # be built into the kernel using CONFIG_EXTRA_FIRMWARE.
 
 FIRMWARE_BINARIES=(
-	builtin_fw_amdgpu
 	builtin_fw_amdgpu_carrizo
 	builtin_fw_amdgpu_gc_10_3_7
 	builtin_fw_amdgpu_green_sardine
@@ -1379,14 +1378,6 @@ builtin_fw_amdgpu_yellow_carp_files=(
 	amdgpu/yellow_carp_ta.bin
 	amdgpu/yellow_carp_toc.bin
 	amdgpu/yellow_carp_vcn.bin
-)
-
-builtin_fw_amdgpu_desc="Firmware for AMD GPU (Deprecated)"
-builtin_fw_amdgpu_files=(
-	"${builtin_fw_amdgpu_carrizo_files[@]}"
-	"${builtin_fw_amdgpu_picasso_files[@]}"
-	"${builtin_fw_amdgpu_raven2_files[@]}"
-	"${builtin_fw_amdgpu_stoney_files[@]}"
 )
 
 builtin_fw_guc_adl_desc="GuC Firmware for ADL"
