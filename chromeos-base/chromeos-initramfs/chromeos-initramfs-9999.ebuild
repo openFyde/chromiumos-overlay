@@ -17,7 +17,7 @@ KEYWORDS="~*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
-IUSE="${IUSE} manatee_performance_tools ufs"
+IUSE="${IUSE} manatee_performance_tools nvme ufs"
 
 # Build Targets
 TARGETS_IUSE="
@@ -57,6 +57,7 @@ MINIOS_DEPENDS="
 	net-misc/dhcp
 	net-misc/dhcpcd
 	net-wireless/wpa_supplicant-cros
+	nvme? ( sys-apps/nvme-cli )
 	sys-apps/flashrom
 	sys-apps/pv
 	virtual/assets
@@ -176,6 +177,7 @@ src_compile() {
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
+			INCLUDE_NVME_CLI="$(usex nvme 1 0)" \
 			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 			LIBDIR="$(get_libdir)" \
 			LOCALE_LIST="${RECOVERY_LOCALES:-}" \
