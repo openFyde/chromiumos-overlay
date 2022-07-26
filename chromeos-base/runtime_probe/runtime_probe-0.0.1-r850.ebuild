@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="77c7a44e1e4fa16f5f211c21f634f88f1e6d30ec"
-CROS_WORKON_TREE=("e7f63c823468db13a24ebe2323042c054c4316c9" "38710905fc38d218f0537e67abef96ffbe2f56bc" "658fea23003574cd8061f0dc2991788c3c8b0b61" "bd9dc34416252481cb1e42d5a8823557e83a4cb9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="b04b7c392da680a81111d1093c5aa2c45a7eec1c"
+CROS_WORKON_TREE=("e7f63c823468db13a24ebe2323042c054c4316c9" "38710905fc38d218f0537e67abef96ffbe2f56bc" "658fea23003574cd8061f0dc2991788c3c8b0b61" "802281743997fc4cc0c35a1d3ca0cc60e978c611" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,32 +48,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_src_install
-
-	dobin "${OUT}/runtime_probe"
-
-	# Install upstart configs and scripts.
-	insinto /etc/init
-	doins init/*.conf
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.RuntimeProbe.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.RuntimeProbe.service
-
-
-	# Install sandbox information.
-	insinto /etc/runtime_probe/sandbox
-	doins sandbox/"${ARCH}"/args.json
-	doins sandbox/"${ARCH}"/*-seccomp.policy
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	newins "seccomp/runtime_probe-seccomp-${ARCH}.policy" \
-	runtime_probe-seccomp.policy
+	platform_install
 
 	# Install udev rules.
 	udev_dorules udev/*.rules
@@ -87,5 +62,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
