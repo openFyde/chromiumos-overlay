@@ -390,26 +390,16 @@ setup_compile_flags() {
 	EBUILD_LDFLAGS=()
 
 	if use thinlto; then
-		# We need to change the default value of import-instr-limit in
-		# LLVM to limit the text size increase. The default value is
-		# 100, and we change it to 30 to reduce the text size increase
-		# from 25% to 10%. The performance number of page_cycler is the
-		# same on two of the thinLTO configurations, we got 1% slowdown
-		# on speedometer when changing import-instr-limit from 100 to 30.
-		# We need to further reduce it to 20 for arm to limit the size
-		# increase to 10%.
-		local thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=30"
-		if use arm; then
-			thinlto_ldflag="-Wl,-plugin-opt,-import-instr-limit=20"
-			EBUILD_LDFLAGS+=( -gsplit-dwarf )
-		fi
-		EBUILD_LDFLAGS+=( "${thinlto_ldflag}" )
 		# if using thinlto, we need to pass the equivalent of
 		# -fdebug-types-section to the backend, to prevent out-of-range
 		# relocations (see
 		# https://bugs.chromium.org/p/chromium/issues/detail?id=1032159).
 		append-ldflags -Wl,-mllvm
 		append-ldflags -Wl,-generate-type-units
+	else
+		# Non-ThinLTO builds with symbol_level=2 may have out-of-range
+		# relocations, too: crbug.com/1050819.
+		append-flags -fdebug-types-section
 	fi
 
 	# Enable std::vector []-operator bounds checking.
