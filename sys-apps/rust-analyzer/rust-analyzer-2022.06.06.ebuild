@@ -209,3 +209,7 @@ BDEPEND="${RDEPEND}
 S="${WORKDIR}/${PN}-${DATE}"
 
 CARGO_INSTALL_PATH="${S}/crates/rust-analyzer"
+
+src_install() {
+	RUST_ANALYZER_REV="${DATE}" cargo_src_install
+}
