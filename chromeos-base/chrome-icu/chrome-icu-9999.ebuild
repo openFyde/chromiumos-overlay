@@ -389,14 +389,6 @@ setup_compile_flags() {
 	EBUILD_CXXFLAGS=()
 	EBUILD_LDFLAGS=()
 
-	# LLVM needs this when parsing profiles.
-	# See README on https://github.com/google/autofdo
-	# For ARM, we do not need this flag because we don't get profiles
-	# from ARM machines. And it triggers an llvm assertion when thinlto
-	# and debug fission is used together.
-	# See https://bugs.llvm.org/show_bug.cgi?id=37255
-	use arm || append-flags -fdebug-info-for-profiling
-
 	if use thinlto; then
 		# We need to change the default value of import-instr-limit in
 		# LLVM to limit the text size increase. The default value is
