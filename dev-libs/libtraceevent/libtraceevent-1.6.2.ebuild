@@ -13,7 +13,8 @@ SLOT="0/${MAJOR_VERSION}"
 KEYWORDS="*"
 IUSE="test"
 
-RDEPEND=""
+# Many files provided by this package used to be part of trace-cmd prior to version 3.0.0
+RDEPEND="!<dev-util/trace-cmd-3.0.0"
 DEPEND="${RDEPEND}
 	test? ( dev-util/cunit )
 "
