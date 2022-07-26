@@ -24,6 +24,7 @@ IUSE="
 	android-container-pi
 	android-vm-pi
 	android-vm-rvc
+	android-vm-tm
 	arc
 	arc-camera1
 	arc-camera3
