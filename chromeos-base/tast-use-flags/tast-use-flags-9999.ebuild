@@ -65,6 +65,7 @@ IUSE="
 	drm_atomic
 	elm
 	fizz
+	flex_id
 	force_breakpad
 	fwupd
 	gboard_decoder
