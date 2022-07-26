@@ -29,7 +29,6 @@ DOCS=( changelog README.md )
 
 PATCHES=(
 	"${FILESDIR}/${PN}-1.0.2-chrome-icu.patch"
-	"${FILESDIR}/${PN}-1.0.5-algorithm.patch"
 )
 
 src_compile() {
