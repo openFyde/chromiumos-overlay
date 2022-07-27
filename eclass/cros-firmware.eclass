@@ -1,5 +1,6 @@
 # Copyright (c) 2013 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 #
 # Original Author: The Chromium OS Authors <chromium-os-dev@chromium.org>
 # Purpose: Generate shell script containing firmware update bundle.
@@ -18,30 +19,31 @@ inherit cros-workon cros-unibuild cros-constants
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_BCS_OVERLAY
 # @DESCRIPTION: (Optional) Name of board overlay on Binary Component Server
-: ${CROS_FIRMWARE_BCS_OVERLAY:=$(
+: "${CROS_FIRMWARE_BCS_OVERLAY:=$(
 	# EBUILD will be the full path to the ebuild file.
 	IFS="/"
+	# shellcheck disable=SC2046,SC2086
 	set -- ${EBUILD}
 	# Chop off the ebuild, the $PN dir, and the $CATEGORY dir.
 	n=$(( $# - 3 ))
 	echo "${!n}"
-)}
+)}"
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_MAIN_IMAGE
 # @DESCRIPTION: (Optional) Location of system firmware (BIOS) image
-: ${CROS_FIRMWARE_MAIN_IMAGE:=}
+: "${CROS_FIRMWARE_MAIN_IMAGE:=}"
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_MAIN_RW_IMAGE
 # @DESCRIPTION: (Optional) Location of RW system firmware image
-: ${CROS_FIRMWARE_MAIN_RW_IMAGE:=}
+: "${CROS_FIRMWARE_MAIN_RW_IMAGE:=}"
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_EC_IMAGE
 # @DESCRIPTION: (Optional) Location of EC firmware image
-: ${CROS_FIRMWARE_EC_IMAGE:=}
+: "${CROS_FIRMWARE_EC_IMAGE:=}"
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_PD_IMAGE
 # @DESCRIPTION: (Optional) Location of PD firmware image
-: ${CROS_FIRMWARE_PD_IMAGE:=}
+: "${CROS_FIRMWARE_PD_IMAGE:=}"
 
 # Check for EAPI 2+
 case "${EAPI:-0}" in
@@ -129,9 +131,9 @@ _add_uri() {
 # Output a URL for the given firmware variable.
 # This calls _add_uri() after setting up the required parameters.
 #  $1: Variable containing the required filename (e.g. "FW_IMAGE_LOCATION")
+#  $2: src uri (unused)
 _add_source() {
 	local var="$1"
-	local src_uri="$2"
 	local overlay="${CROS_FIRMWARE_BCS_OVERLAY#overlay-}"
 	local input="${!var}"
 
@@ -156,7 +158,7 @@ _unpack_archive() {
 	case "${input##*.}" in
 		tar|tbz2|tbz|bz|gz|tgz|zip|xz) ;;
 		*)
-			eval ${var}="'${input}'"
+			eval "${var}='${input}'"
 			return
 			;;
 	esac
@@ -164,12 +166,13 @@ _unpack_archive() {
 	mkdir -p "${folder}" || die "Not able to create ${folder}"
 	(cd "${folder}" && unpack "${unpack_name}") ||
 		die "Failed to unpack ${unpack_name}."
-	local contents=($(ls "${folder}"))
+	local contents=()
+	mapfile -d '' contents < <(find "${folder}" -mindepth 1 -maxdepth 1 -print0)
 	if [[ ${#contents[@]} -gt 1 ]]; then
 		# Currently we can only serve one file (or directory).
 		ewarn "WARNING: package ${input} contains multiple files."
 	fi
-	eval ${var}="'${folder}/${contents}'"
+	eval "${var}='${contents[0]}'"
 }
 
 cros-firmware_src_unpack() {
@@ -385,7 +388,7 @@ cros-firmware_src_test() {
 # Internal function to expand a string (separated by ifs) into bash array.
 _expand_list() {
 	local var="$1" ifs="$2"
-	IFS="${ifs}" read -r -a ${var} <<<"${*:3}"
+	IFS="${ifs}" read -r -a "${var?}" <<<"${*:3}"
 }
 
 # @FUNCTION: cros-firmware_setup_source
@@ -404,12 +407,14 @@ cros-firmware_setup_source() {
 	# the ebuild filename.
 	local basedir="${EBUILD%/*}"
 	local files="${basedir}/files"
-	local i uris
+	local i
 
 	if [[ -f "${files}/srcuris" ]]; then
+		local uris
 		mapfile -t uris < "${files}/srcuris"
 		SRC_URI+=" ${uris[*]}"
 	else
+		local uris
 		FW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_IMAGE}"
 		FW_RW_IMAGE_LOCATION="${CROS_FIRMWARE_MAIN_RW_IMAGE}"
 		EC_IMAGE_LOCATION="${CROS_FIRMWARE_EC_IMAGE}"
