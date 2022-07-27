@@ -27,8 +27,6 @@ DEPEND="
 	>=dev-rust/getrandom-0.2.3 <dev-rust/getrandom-0.3.0_alpha:=
 	>=dev-rust/serde-1.0.117 <dev-rust/serde-2.0.0_alpha:=
 	>=dev-rust/once_cell-1.8.0 <dev-rust/once_cell-2.0.0_alpha:=
-	>=dev-rust/const-random-0.1.12 <dev-rust/const-random-0.2.0_alpha:=
-	>=dev-rust/serde-1.0.117 <dev-rust/serde-2.0.0_alpha:=
 "
 RDEPEND="${DEPEND}"
 
