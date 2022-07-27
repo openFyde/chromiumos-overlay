@@ -36,6 +36,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/vboot_reference:=
+	media-libs/minigbm:=
 "
 
 pkg_preinst() {
