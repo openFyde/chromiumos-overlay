@@ -21,7 +21,7 @@
 #
 # The GN output folder is named as "out_icu_${BOARD}".
 
-EAPI=5
+EAPI=7
 
 PYTHON_COMPAT=( python3_{6..9} )
 inherit binutils-funcs chromium-source cros-constants cros-sanitizers flag-o-matic multilib toolchain-funcs python-any-r1 multiprocessing
@@ -358,6 +358,9 @@ src_unpack() {
 # services; 2) we exclude the case CHROME_ORIGIN=LOCAL_BINARY and 3) we do
 # not need patches.
 src_prepare() {
+	# Must call eapply_user in EAPI 7, but this function is a no-op here.
+	eapply_user
+
 	cd "${CHROME_ROOT}/src" || die "Cannot chdir to ${CHROME_ROOT}"
 	mkdir -p "${CHROME_CACHE_DIR}/src/${BUILD_OUT}"
 	if [[ -n "${BUILD_OUT_SYM}" ]]; then
