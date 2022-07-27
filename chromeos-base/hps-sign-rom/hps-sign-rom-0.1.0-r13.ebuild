@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bbb1f1966a513a5d375df5a4293445042d14cad5"
-CROS_WORKON_TREE="707a0afe91a50431e73245b61ed1283f179f86c9"
+CROS_WORKON_COMMIT="5a20b0031d697785baa56a44bc436550b52e81eb"
+CROS_WORKON_TREE="384df389a5b1a3ce6cb7063c86857c72f3ecb67b"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_RUST_SUBDIR="rust/sign-rom"
@@ -25,7 +25,7 @@ DEPEND="
 	=dev-rust/colored-2*:=
 	>=dev-rust/cortex-m-0.6.2:= <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rt-0.6.13:= <dev-rust/cortex-m-rt-0.7.0
-	>=dev-rust/cortex-m-rtic-0.5.5:= <dev-rust/cortex-m-rtic-0.6.0
+	>=dev-rust/cortex-m-rtic-1.1.3:= <dev-rust/cortex-m-rtic-2.0.0
 	=dev-rust/crc-2*:=
 	>=dev-rust/defmt-0.2.1:= <dev-rust/defmt-0.3.0
 	=dev-rust/defmt-rtt-0.2*:=
@@ -59,11 +59,9 @@ RDEPEND="
 "
 
 src_prepare() {
-	# Delete some optional dependencies that are not packaged in ChromiumOS.
-	sed -i \
-		-e '/ optional = true/d' \
-		-e '/^direct /d' \
-		../hps-mon/Cargo.toml
+	# config.toml is intended for use when running `cargo` directly but would
+	# mess with the ebuild if we didn't delete it.
+	rm -f ../.cargo/config.toml
 
 	cros-rust_src_prepare
 }
