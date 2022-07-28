@@ -56,6 +56,7 @@ DEPEND="
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
 	>=dev-rust/indicatif-0.16.2:= <dev-rust/indicatif-0.17
 	>=dev-rust/linux-embedded-hal-0.3.1:= <dev-rust/linux-embedded-hal-0.4
+	>=dev-rust/log-0.4.14:= <dev-rust/log-0.5
 	>=dev-rust/num_enum-0.5.1:= <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*:=
 	=dev-rust/panic-halt-0.2*:=
