@@ -20,6 +20,8 @@ if [[ ${PV} == "9998" ]] ; then
 	EGIT_REPO_URI="https://github.com/fwupd/fwupd"
 	EGIT_BRANCH="main"
 	inherit git-r3
+	# shellcheck disable=SC5000 # This is only for the non-cros-workon 9998
+	# revision, not for a true cros-workon.
 	KEYWORDS="*"
 fi
 
@@ -109,7 +111,7 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	
+
 	local plugins=(
 		-Dplugin_emmc="enabled"
 		-Dplugin_parade_lspcon="enabled"
@@ -159,7 +161,7 @@ src_configure() {
 		$(meson_feature systemd)
 		$(meson_use test tests)
 
-		${plugins[@]}
+		"${plugins[@]}"
 	)
 	use uefi && emesonargs+=( -Defi_os_dir="gentoo" )
 	export CACHE_DIRECTORY="${T}"
@@ -190,11 +192,11 @@ src_install() {
 
 	insinto /etc/init
 	# Install upstart script for fwupd daemon.
-	doins "${FILESDIR}"/fwupd.conf
+	doins "${FILESDIR}"/init/fwupd.conf
 	# Install upstart script for activating firmware update on logout/shutdown.
-	doins "${FILESDIR}"/fwupdtool-activate.conf
+	doins "${FILESDIR}"/init/fwupdtool-activate.conf
 	# Install upstart script for automatic firmware update on device plug-in.
-	doins "${FILESDIR}"/fwupdtool-update.conf
+	doins "${FILESDIR}"/init/fwupdtool-update.conf
 
 	insinto /usr/lib/tmpfiles.d
 	# Install tmpfiles script for generating the necessary directories
