@@ -207,6 +207,8 @@ src_install() {
 	einfo "Installing runtime & common Headers."
 	insinto /usr/include/aosp/frameworks/ml/nn/common
 	doins -r "${S}"/common/include
+	insinto /usr/include/aosp/frameworks/ml/nn/common
+	doins -r "${S}"/common/types
 	insinto /usr/include/aosp/frameworks/ml/nn/runtime
 	doins -r "${S}"/runtime/include
 	insinto /usr/include/aosp/frameworks/ml/nn/driver/cache
