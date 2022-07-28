@@ -40,9 +40,6 @@ RDEPEND="
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
-# TODO(b/231316289): Re-enable once flakes are fixed.
-RESTRICT="test"
-
 src_unpack() {
 	cros-workon_src_unpack
 	S+="/zephyr/zmake"
