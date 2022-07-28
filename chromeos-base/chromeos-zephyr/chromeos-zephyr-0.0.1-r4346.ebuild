@@ -85,6 +85,13 @@ src_compile() {
 	fi
 	run_zmake build -B "${root_build_dir}" "${projects[@]}" \
 		|| die "Failed to build ${projects[*]} in ${root_build_dir}."
+	# Rename zephyr.bin to ec.bin for backwards compatibility.
+	for project in "${projects[@]}" ; do
+		if [[ -f "${root_build_dir}/${project}"/output/zephyr.bin ]] ; then
+			mv "${root_build_dir}/${project}"/output/zephyr.bin \
+				"${root_build_dir}/${project}"/output/ec.bin || die
+		fi
+	done
 }
 
 src_install() {
