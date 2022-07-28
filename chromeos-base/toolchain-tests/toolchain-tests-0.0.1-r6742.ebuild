@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="588cafbaf6d1bc1e8146abd46c8b616a9c81459c"
-CROS_WORKON_TREE="2b6fa6cee1bb35cb8d9f9318be95ab93a28fda4e"
+CROS_WORKON_COMMIT="d6b6f80b99d3c4fa68ee34547d3eeea4feb8e9d8"
+CROS_WORKON_TREE="f53f1b5abf569edb6bae2ce737cbee30b80afa23"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
