@@ -36,6 +36,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-16.patch   # Downloaded from upstream
 	"${FILESDIR}"/${P}-no-debug-tracing.patch
 	"${FILESDIR}"/${P}-force-ssd-mode.patch
+	"${FILESDIR}"/${P}-tracefs.patch
 )
 
 src_configure() {
@@ -53,6 +54,7 @@ src_install() {
 	# install executable into guest vendor image for ARCVM
 	if use arcvm; then
 		arc-build-constants-configure
+		# shellcheck disable=SC2154 # Defined in arc-build-constants.eclass.
 		exeinto "${ARC_VM_VENDOR_DIR}/bin"
 		doexe "${WORKDIR}/${P}/src/ureadahead"
 	fi
