@@ -23,3 +23,6 @@ CONFIG_CPU_MICROCODE_CBFS_NONE=y
 
 CONFIG_HAVE_SPL_FILE=y
 CONFIG_SPL_TABLE_FILE="3rdparty/amd_blobs/sabrina/PSP/TypeId0x55_SplTableBl_SBR.sbin"
+
+CONFIG_HAVE_PSP_WHITELIST_FILE=y
+CONFIG_PSP_WHITELIST_FILE="3rdparty/amd_blobs/sabrina/PSP/mdn-whitelist.sbin"
