@@ -28,6 +28,7 @@ RDEPEND="
 CLIENT_IUSE_TESTS="
 	+tests_bluetooth_AVLHCI
 	+tests_bluetooth_AVLDriver
+	+tests_bluetooth_AdapterQuickHealthClient
 "
 
 IUSE_TESTS="${IUSE_TESTS}
