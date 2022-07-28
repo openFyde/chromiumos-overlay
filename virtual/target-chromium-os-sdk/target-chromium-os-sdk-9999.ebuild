@@ -616,3 +616,7 @@ RDEPEND="${RDEPEND}
 # Needed by starlark config generation
 RDEPEND="${RDEPEND}
 	dev-go/lucicfg"
+
+# needed for include what you use.
+RDEPEND="${RDEPEND}
+	dev-util/iwyu"
