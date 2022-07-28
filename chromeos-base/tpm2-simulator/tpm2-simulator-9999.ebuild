@@ -3,7 +3,6 @@
 
 EAPI=7
 
-CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -20,7 +19,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
-IUSE="selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
+IUSE="biometrics_dev selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
 
 COMMON_DEPEND="
 	tpm? ( !test? ( dev-libs/libtpms:= ) )

@@ -37,7 +37,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/pinweaver/+/main
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="biometrics_dev"
 
 RDEPEND=""
 
