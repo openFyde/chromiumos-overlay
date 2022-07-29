@@ -4,12 +4,12 @@ DEPEND=>=dev-rust/anyhow-1.0.38:= <dev-rust/anyhow-2.0.0 >=dev-rust/bayer-0.1.5 
 DESCRIPTION=HPS firmware and tooling
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/hps-firmware
-IUSE=cros_host cros_workon_tree_771a8a17a801fc44f27e3b7182d97acd38e8666f cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
+IUSE=cros_host cros_workon_tree_e4e12b045683c0ca463fcf756a0b0385c10b931f cros-debug asan coverage fuzzer msan tsan ubsan amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=!<chromeos-base/hps-firmware-images-0.0.1-r17 virtual/rust-binaries:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r406
+SLOT=0/0.1.0-r407
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	3c4e33d5d08105b9f6a85500b9c9e588	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	ef32a61bc5aebb70f04172c67b6c0c54	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=a126abc3c6ddc7f2edc911486b34877c
+_md5_=ed8faa79054b5ca8539da8b610a7b44c
