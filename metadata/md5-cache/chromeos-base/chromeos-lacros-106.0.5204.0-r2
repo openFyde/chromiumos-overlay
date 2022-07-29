@@ -1,9 +1,0 @@
-DEFINED_PHASES=install unpack
-DESCRIPTION=Rootfs lacros for all architectures
-EAPI=7
-KEYWORDS=*
-LICENSE=BSD-Google
-RDEPEND=chromeos-base/chromeos-chrome
-SLOT=0
-SRC_URI=amd64? ( gs://chrome-unsigned/desktop-5c0tCh/106.0.5204.0/lacros64/lacros_compressed.squash -> chromeos-lacros-amd64-squash-106.0.5204.0 gs://chrome-unsigned/desktop-5c0tCh/106.0.5204.0/lacros64/metadata.json -> chromeos-lacros-amd64-metadata-106.0.5204.0 ) arm? ( gs://chrome-unsigned/desktop-5c0tCh/106.0.5204.0/lacros-arm32/lacros_compressed.squash -> chromeos-lacros-arm-squash-106.0.5204.0 gs://chrome-unsigned/desktop-5c0tCh/106.0.5204.0/lacros-arm32/metadata.json -> chromeos-lacros-arm-metadata-106.0.5204.0 ) arm64? ( gs://chrome-unsigned/desktop-5c0tCh/106.0.5204.0/lacros-arm64/lacros_compressed.squash -> chromeos-lacros-arm64-squash-106.0.5204.0 gs://chrome-unsigned/desktop-5c0tCh/106.0.5204.0/lacros-arm64/metadata.json -> chromeos-lacros-arm64-metadata-106.0.5204.0 )
-_md5_=a54a017c16003fc71d65b98f4b3a54b1
