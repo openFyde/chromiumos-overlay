@@ -86,7 +86,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protoc-rust-2.8:=
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/quote-1*:=
-	=dev-rust/rand-0.6*:=
 	=dev-rust/rand-0.8*:=
 	dev-rust/regex:=
 	dev-rust/remain:=
