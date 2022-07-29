@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk discod libhwsec-foundation .gn"
 
 PLATFORM_SUBDIR="discod"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 DESCRIPTION="Disk Control daemon for ChromiumOS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/discod/"
@@ -29,6 +29,11 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/system_api:=
 "
+
+pkg_preinst() {
+	enewuser "disco"
+	enewgroup "disco"
+}
 
 src_install() {
 	platform_install
