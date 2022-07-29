@@ -30,43 +30,9 @@ RDEPEND="
 	"
 
 src_install() {
-	# Install header files.
-	local header_dirs=(
-		.
-		status
-		status/impl
-		syscaller
-		tpm_error
-		utility
-		error
-		tpm
-		profiling
-	)
-	local d
-	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/libhwsec-foundation/"${d}"
-		doins "${d}"/*.h
-	done
-
-	dolib.so "${OUT}"/lib/libhwsec-foundation.so
-	dolib.a "${OUT}"/libhwsec-profiling.a
-
-	dosbin "${OUT}"/tpm_version_client
-
-	if use tpm_dynamic; then
-		dosbin tool/tpm_version
-
-		insinto /etc/init
-		doins init/no-tpm-checker.conf
-	fi
+	platform_install
 }
 
 platform_pkg_test() {
-	local tests=(
-		hwsec-foundation_testrunner
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
