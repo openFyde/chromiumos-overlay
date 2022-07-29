@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="2f2e4ea470a8e1da78609609b9463bbd2701c621"
-CROS_WORKON_TREE="fec0074cffccdb9aec0ac11ac49b917d793b0c9b"
+CROS_WORKON_COMMIT="9d341ba0999c88d20370912b3541be52c34c9d83"
+CROS_WORKON_TREE="a7296f70ca763f9518f2553f8eccc935450c5808"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -19,7 +19,7 @@ KEYWORDS="*"
 IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
-IUSE="${IUSE} manatee_performance_tools ufs"
+IUSE="${IUSE} manatee_performance_tools nvme ufs"
 
 # Build Targets
 TARGETS_IUSE="
@@ -46,19 +46,20 @@ RECOVERY_DEPENDS="
 	"
 
 MINIOS_DEPENDS="
+	chromeos-base/chromeos-installer
+	chromeos-base/common-assets
+	chromeos-base/factory_installer
+	chromeos-base/minijail
 	chromeos-base/minios
+	chromeos-base/update-utils
+	chromeos-base/vboot_reference
+	chromeos-base/vpd
 	dev-util/strace
 	net-misc/curl
 	net-misc/dhcp
 	net-misc/dhcpcd
 	net-wireless/wpa_supplicant-cros
-	chromeos-base/minijail
-	chromeos-base/chromeos-installer
-	chromeos-base/factory_installer
-	chromeos-base/common-assets
-	chromeos-base/update-utils
-	chromeos-base/vboot_reference
-	chromeos-base/vpd
+	nvme? ( sys-apps/nvme-cli )
 	sys-apps/flashrom
 	sys-apps/pv
 	virtual/assets
@@ -178,6 +179,7 @@ src_compile() {
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
+			INCLUDE_NVME_CLI="$(usex nvme 1 0)" \
 			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
 			LIBDIR="$(get_libdir)" \
 			LOCALE_LIST="${RECOVERY_LOCALES:-}" \
