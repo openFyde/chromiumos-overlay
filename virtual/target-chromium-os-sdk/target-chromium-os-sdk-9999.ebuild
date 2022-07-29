@@ -582,6 +582,7 @@ RDEPEND="${RDEPEND}
 	sci-electronics/litedram
 	sci-electronics/nextpnr
 	sci-electronics/nmigen
+	sci-electronics/pythondata-cpu-vexriscv
 	sci-electronics/pythondata-misc-tapcfg
 	sci-electronics/verilator
 	sci-electronics/yosys
