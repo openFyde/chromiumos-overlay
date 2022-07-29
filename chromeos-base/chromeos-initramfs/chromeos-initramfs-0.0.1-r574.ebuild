@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="430e01197a5a343c3aa77c65a028c9390a2e38b8"
-CROS_WORKON_TREE="138b721807e0c5e66132efa7a8b0f44aa515f51f"
+CROS_WORKON_COMMIT="2f2e4ea470a8e1da78609609b9463bbd2701c621"
+CROS_WORKON_TREE="fec0074cffccdb9aec0ac11ac49b917d793b0c9b"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -205,6 +205,6 @@ src_install() {
 	insinto /var/lib/initramfs
 	for target in ${TARGETS_IUSE}; do
 		use "${target}" &&
-			doins "${WORKDIR}/${target}.cpio.xz"
+			doins "${WORKDIR}/${target}.cpio"
 	done
 }
