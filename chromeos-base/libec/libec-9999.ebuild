@@ -27,6 +27,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/chromeos-ec-headers:=
+	chromeos-base/power_manager-client:=
 "
 
 src_install() {
