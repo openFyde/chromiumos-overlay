@@ -24,7 +24,6 @@ DEPEND=""
 
 if [[ ${PV} != 9999 ]]; then
 	ORIG_URI="gs://chrome-unsigned/desktop-5c0tCh"
-	# arm64 will use arm32 build of lacros.
 	SRC_URI="
 		amd64? (
 			${ORIG_URI}/${PV}/lacros64/lacros_compressed.squash -> ${PN}-amd64-squash-${PV}
@@ -35,8 +34,8 @@ if [[ ${PV} != 9999 ]]; then
 			${ORIG_URI}/${PV}/lacros-arm32/metadata.json -> ${PN}-arm-metadata-${PV}
 		)
 		arm64? (
-			${ORIG_URI}/${PV}/lacros-arm32/lacros_compressed.squash -> ${PN}-arm-squash-${PV}
-			${ORIG_URI}/${PV}/lacros-arm32/metadata.json -> ${PN}-arm-metadata-${PV}
+			${ORIG_URI}/${PV}/lacros-arm64/lacros_compressed.squash -> ${PN}-arm64-squash-${PV}
+			${ORIG_URI}/${PV}/lacros-arm64/metadata.json -> ${PN}-arm64-metadata-${PV}
 		)
 	"
 fi
@@ -49,13 +48,8 @@ src_unpack() {
 
 src_install() {
 	insinto /opt/google/lacros
-	if use amd64; then
-		newins "${DISTDIR}/${PN}-amd64-squash-${PV}" lacros.squash
-		newins "${DISTDIR}/${PN}-amd64-metadata-${PV}" metadata.json
-	elif use arm || use arm64; then
-		newins "${DISTDIR}/${PN}-arm-squash-${PV}" lacros.squash
-		newins "${DISTDIR}/${PN}-arm-metadata-${PV}" metadata.json
-	fi
+	newins "${DISTDIR}/${PN}-${ARCH}-squash-${PV}" lacros.squash
+	newins "${DISTDIR}/${PN}-${ARCH}-metadata-${PV}" metadata.json
 
 	# Upstart configuration
 	insinto /etc/init
