@@ -1,7 +1,7 @@
 # Copyright 2016 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 inherit eutils toolchain-funcs
 
@@ -18,6 +18,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
+PATCHES=(
+	"${FILESDIR}/${P}-e66f895-dw-tag-variable-fix.patch"
+)
 
 is_cross() {
 	[[ "${CATEGORY}" == cross-* ]]
