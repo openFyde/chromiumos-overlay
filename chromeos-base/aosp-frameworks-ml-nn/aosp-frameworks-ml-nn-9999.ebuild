@@ -241,8 +241,8 @@ src_install() {
 
 	einfo "Installing IPC HAL driver & worker"
 	dolib.so "${OUT}/lib/libipc-nn-hal.so"
-	dolib.so "${OUT}/lib/libmojo-driver.so"
-	dobin "${OUT}/nnapi_worker"
+	dolib.so "${OUT}/lib/libmojo-driver-canonical.so"
+	# dobin "${OUT}/nnapi_worker"
 
 	# Install fuzz targets.
 	local fuzzer
