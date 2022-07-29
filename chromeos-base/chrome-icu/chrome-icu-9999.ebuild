@@ -99,9 +99,7 @@ DEPEND="
 	x11-libs/libdrm
 "
 
-# [Mod] NaCl utilities are removed.
-
-usetf()  { usex $1 true false ; }
+usetf()  { usex "$1" true false ; }
 
 set_build_args() {
 	# [Mod] 1. Add a new arg "icu_disable_thin_archive=true".
@@ -127,7 +125,6 @@ set_build_args() {
 		"linux_use_bundled_binutils=false"
 		"use_debug_fission=false"
 		"enable_remoting=false"
-		"enable_nacl=false"
 		"enable_nacl=false"
 		"icu_use_data_file=true"
 		# Add this to make xkbcommon handling identical with chromeos-chrome.
@@ -552,8 +549,6 @@ chrome_make() {
 	[[ "${ret}" -eq 0 ]] || die
 }
 
-# [Mod] src_compile() is simplied because 1) the case CHROME_LOCAL=LOCAL_BINARY
-# is excluded. 2) we do not need nacl or tests.
 src_compile() {
 	cd "${CHROME_ROOT}"/src || die "Cannot chdir to ${CHROME_ROOT}/src"
 
