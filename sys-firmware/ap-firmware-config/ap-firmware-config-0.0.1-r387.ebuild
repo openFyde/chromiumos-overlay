@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0a794f8900c030c506eabd903b56df86b7049dbe"
-CROS_WORKON_TREE=("8cfae8497fe762b5e89d6922e557498ad94eae4a" "5328e03abfd1af165a3a26805d1ff6b213a3ca48" "e592c80486e6d1721c692e26664a17dada66980f" "047aec16e03eb36312cc201dc75d33e25ece833d")
+CROS_WORKON_COMMIT="1754b60d3e75b976174e1d7128ce92353a22c442"
+CROS_WORKON_TREE=("2532bbb18118ad62621aa35566acdf6b19edd49b" "5328e03abfd1af165a3a26805d1ff6b213a3ca48" "3338d43341d9be1a6afc6d7e7c8774647f953724" "047aec16e03eb36312cc201dc75d33e25ece833d")
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_LOCALNAME="../../chromite"
@@ -19,6 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/chromite/+/refs/heads/mai
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
+
+python_check_deps() {
+	has_version -b "chromeos-base/chromite-sdk[${PYTHON_USEDEP}]"
+}
 
 src_compile() {
 	"${S}/chromite/bin/cros" ap dump-config -o "${T}/fw-config.json" \
