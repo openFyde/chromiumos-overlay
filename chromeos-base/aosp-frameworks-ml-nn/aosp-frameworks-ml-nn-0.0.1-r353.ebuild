@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("33c7baa94a5c1b5ec8499fecc1e33bcbc68bd8c9" "2a73d5487f13901a0448bc7011bbe67de9b52488" "181f7c798017c00372848000f4ba38b04936e5ab")
+CROS_WORKON_COMMIT=("90ae23a222d546fb25e9716b007138d73dfc999b" "2a73d5487f13901a0448bc7011bbe67de9b52488" "181f7c798017c00372848000f4ba38b04936e5ab")
 CROS_WORKON_TREE=("d69331a889ece3a58b2af6179628702a2ee8f85d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "28558dbeb085c18aa4fb9e78031e4e32b3b5fb49" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
 inherit cros-constants
 
@@ -209,6 +209,8 @@ src_install() {
 	einfo "Installing runtime & common Headers."
 	insinto /usr/include/aosp/frameworks/ml/nn/common
 	doins -r "${S}"/common/include
+	insinto /usr/include/aosp/frameworks/ml/nn/common
+	doins -r "${S}"/common/types
 	insinto /usr/include/aosp/frameworks/ml/nn/runtime
 	doins -r "${S}"/runtime/include
 	insinto /usr/include/aosp/frameworks/ml/nn/driver/cache
