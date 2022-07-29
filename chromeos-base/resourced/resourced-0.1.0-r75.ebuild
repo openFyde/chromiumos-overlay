@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9d43a0414900ef0ac91d61ad9f0e9da7729787b"
+CROS_WORKON_COMMIT="15f4574f272939a23a1928c4d551e9a1738f4a48"
 CROS_WORKON_TREE="c74ab3f081c41ddc2c3503fe6a7795ad974f2971"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ DEPEND="
 	=dev-rust/anyhow-1*:=
 	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-tree-0.9*:=
+	dev-rust/featured:=
 	=dev-rust/glob-0.3*:=
 	=dev-rust/once_cell-1.7*:=
 	=dev-rust/regex-1.5*:=
