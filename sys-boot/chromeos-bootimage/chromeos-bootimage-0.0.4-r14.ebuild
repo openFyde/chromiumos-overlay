@@ -8,7 +8,7 @@ CROS_WORKON_TREE="f365214c3256d3259d78a5f4516923c79940b702"
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="../platform/empty-project"
 
-inherit cros-debug cros-unibuild cros-workon
+inherit cros-debug cros-unibuild cros-workon eutils
 
 DESCRIPTION="ChromeOS firmware image builder"
 HOMEPAGE="http://www.chromium.org"
@@ -63,13 +63,8 @@ CROS_FIRMWARE_IMAGE_DIR="/firmware"
 CROS_FIRMWARE_ROOT="${SYSROOT}${CROS_FIRMWARE_IMAGE_DIR}"
 
 do_cbfstool() {
-	local output
 	einfo cbfstool "$@"
-	output=$(cbfstool "$@" 2>&1)
-	if [ $? != 0 ]; then
-		die "Failed cbfstool invocation: cbfstool $@\n${output}"
-	fi
-	printf "${output}"
+	cbfstool "$@" 2>&1 || die "Failed cbfstool invocation: cbfstool $*"
 }
 
 sign_region() {
@@ -77,41 +72,40 @@ sign_region() {
 	local keydir=$2
 	local slot=$3
 
-	local tmpfile=`mktemp`
+	local tmpfile=$(emktemp)
 	local cbfs=FW_MAIN_${slot}
 	local vblock=VBLOCK_${slot}
 
-	do_cbfstool ${fw_image} read -r ${cbfs} -f ${tmpfile}
-	local size=$(do_cbfstool ${fw_image} print -k -r ${cbfs} | \
+	do_cbfstool "${fw_image}" read -r "${cbfs}" -f "${tmpfile}"
+	local size=$(do_cbfstool "${fw_image}" print -k -r "${cbfs}" | \
 		tail -1 | \
 		sed "/(empty).*null/ s,^(empty)[[:space:]]\(0x[0-9a-f]*\)\tnull\t.*$,\1,")
-	size=$(printf "%d" ${size})
+	size=$(printf "%d" "${size}")
 
 	# If the last entry is called "(empty)" and of type "null", remove it from
 	# the section so it isn't part of the signed data, to improve boot speed
 	# if (as often happens) there's a large unused suffix.
-	if [ -n "${size}" ] && [ ${size} -gt 0 ]; then
-		head -c ${size} ${tmpfile} > ${tmpfile}.2
-		mv ${tmpfile}.2 ${tmpfile}
+	if [[ -n "${size}" && "${size}" -gt 0 ]]; then
+		truncate -s "${size}" "${tmpfile}" || die
 		# Use 255 (aka 0xff) as the filler, this greatly reduces
 		# memory areas which need to be programmed for spi flash
 		# chips, because the erase value is 0xff.
-		do_cbfstool ${fw_image} write --force -u -i 255 \
-			-r ${cbfs} -f ${tmpfile}
+		do_cbfstool "${fw_image}" write --force -u -i 255 \
+			-r "${cbfs}" -f "${tmpfile}"
 	fi
 
 	futility vbutil_firmware \
-		--vblock ${tmpfile}.out \
-		--keyblock ${keydir}/firmware.keyblock \
-		--signprivate ${keydir}/firmware_data_key.vbprivk \
+		--vblock "${tmpfile}.out" \
+		--keyblock "${keydir}/firmware.keyblock" \
+		--signprivate "${keydir}/firmware_data_key.vbprivk" \
 		--version 1 \
-		--fv ${tmpfile} \
-		--kernelkey ${keydir}/kernel_subkey.vbpubk \
-		--flags 0
+		--fv "${tmpfile}" \
+		--kernelkey "${keydir}/kernel_subkey.vbpubk" \
+		--flags 0 || die
 
-	do_cbfstool ${fw_image} write -u -i 255 -r ${vblock} -f ${tmpfile}.out
+	do_cbfstool "${fw_image}" write -u -i 255 -r "${vblock}" -f "${tmpfile}.out"
 
-	rm -f ${tmpfile} ${tmpfile}.out
+	rm -f "${tmpfile}" "${tmpfile}.out"
 }
 
 sign_image() {
@@ -246,9 +240,9 @@ build_image() {
 	local dst_image="${outdir}image${suffix}${image_type}.bin"
 
 	einfo "Building image ${dst_image}"
-	cp ${src_image} ${dst_image}
-	add_payloads ${dst_image} ${ro_payload} ${rw_payload}
-	sign_image ${dst_image} "${devkeys_dir}"
+	cp "${src_image}" "${dst_image}" || die
+	add_payloads "${dst_image}" "${ro_payload}" "${rw_payload}"
+	sign_image "${dst_image}" "${devkeys_dir}"
 }
 
 # Hash the payload of an altfw alternative bootloader
@@ -289,7 +283,6 @@ hash_altfw_payload() {
 #   $1: coreboot build target to use for prefix on target-specific payloads
 #   $2: coreboot file to add alternative bootloaders to
 setup_altfw() {
-	local target="$1"
 	local rom="$2"
 	local bl_list="${T}/altfw"
 
@@ -301,7 +294,7 @@ setup_altfw() {
 		-t "cbfs header" -b -4
 	do_cbfstool "${rom}" add-master-header -r RW_LEGACY
 	rm "${T}/ptr"
-	> "${bl_list}"
+	: > "${bl_list}"
 
 	# Add U-Boot if enabled
 	if use u-boot; then
@@ -358,7 +351,7 @@ setup_altfw() {
 		done
 		for f in "${root}"etc/*; do
 			do_cbfstool "${rom}" add -r RW_LEGACY -f "${f}" \
-				-n "${f#$root}" -t raw
+				-n "${f#${root}}" -t raw
 		done
 		echo "3;altfw/seabios;SeaBIOS;SeaBIOS bootloader" \
 			>> "${bl_list}"
@@ -663,10 +656,11 @@ build_images() {
 	local argsfile="${PORTAGE_USERNAME}/${name}/cmdline"
 	"${FILESDIR}/netboot_firmware_settings.py" \
 		-i "${outdir}image${suffix}.net.bin" \
-		--bootfile="${bootfile}" --argsfile="${argsfile}" &&
-		"${FILESDIR}/netboot_firmware_settings.py" \
-			-i "${outdir}image${suffix}.dev.bin" \
-			--bootfile="${bootfile}" --argsfile="${argsfile}" ||
+		--bootfile="${bootfile}" --argsfile="${argsfile}" ||
+		die "failed to preset netboot parameter defaults."
+	"${FILESDIR}/netboot_firmware_settings.py" \
+		-i "${outdir}image${suffix}.dev.bin" \
+		--bootfile="${bootfile}" --argsfile="${argsfile}" ||
 		die "failed to preset netboot parameter defaults."
 	einfo "Netboot configured to boot ${bootfile}, fetch kernel command" \
 		"line from ${argsfile}, and use the DHCP-provided TFTP server IP."
@@ -724,6 +718,6 @@ src_install() {
 	while read -r name; do
 		read -r coreboot
 		read -r depthcharge
-		doins "${name}"/image-${name}*.bin
+		doins "${name}/image-${name}"*.bin
 	done
 }
