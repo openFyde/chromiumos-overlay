@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ead526b43922f8d78e1d23a2dedb9a0f0bc4180a"
-CROS_WORKON_TREE="0d2b844c843a5241dcc2cfdf1b6e0d7b28024ac1"
+CROS_WORKON_COMMIT="dd1d096537340b37c2b46b095e40b8a7c4e39367"
+CROS_WORKON_TREE="e24ea8d6fa141edb37715d2ba7456734c3864357"
 CROS_RUST_SUBDIR="cras/src/server/rust"
 
 CROS_WORKON_LOCALNAME="adhd"
@@ -20,14 +20,26 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/c
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test"
+IUSE="dlc test"
 
 DEPEND="
+	>=dev-rust/anyhow-1.0.55:= <dev-rust/anyhow-2.0.0
+	=dev-rust/dbus-0.9*:=
 	dev-rust/libc:=
+	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
+	dev-rust/system_api:=
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
+
+src_compile() {
+	local features=(
+		$(usex dlc cras_dlc "")
+	)
+	cros-rust_src_compile -v --features="${features[*]}"
+}
 
 src_install() {
 	dolib.a "$(cros-rust_get_build_dir)/libcras_rust.a"

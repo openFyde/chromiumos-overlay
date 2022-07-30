@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="91ef40d71ce357c14e737abccd16475fae0d50f4"
-CROS_WORKON_TREE="5318a2c928c7bec55a1c98c37f1201de0d73586b"
+CROS_WORKON_COMMIT="dd1d096537340b37c2b46b095e40b8a7c4e39367"
+CROS_WORKON_TREE="1b337a056c8d0b44726cf35c25de651c82bf7a33"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -78,6 +78,7 @@ src_configure() {
 			--enable-hats \
 			--enable-metrics \
 			--with-system-cras-rust \
+			$(use_enable dlc) \
 			$(use_enable featured) \
 			$(use_enable amd64 fuzzer)
 	fi
