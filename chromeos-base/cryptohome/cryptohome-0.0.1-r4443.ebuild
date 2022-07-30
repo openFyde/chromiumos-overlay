@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e53d24a79952a09f03dc10b1da16e1422763c4a5"
+CROS_WORKON_COMMIT="d95465cf3564db02bc4808d66ad31191cc71c4ed"
 CROS_WORKON_TREE=("d69331a889ece3a58b2af6179628702a2ee8f85d" "7835b6d2e93f3ed423e6542b9d0ac2ddbf86d9c7" "f42f3b9258406b8e5647a03e6c34cb4807e7ec49" "cf8d539286bee4ed53732db0fd6adf83ff5d0def" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,7 +29,7 @@ IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
 	test tpm tpm_dynamic tpm_insecure_fallback tpm2 tpm2_simulator uprev-4-to-5
-	user_session_isolation +vault_legacy_mount vtpm_proxy"
+	user_session_isolation uss_migration +vault_legacy_mount vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
