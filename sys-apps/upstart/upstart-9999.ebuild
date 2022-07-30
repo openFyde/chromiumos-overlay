@@ -5,7 +5,7 @@ EAPI="7"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
-CROS_WORKON_EGIT_BRANCH="chromeos-1.2"
+CROS_WORKON_EGIT_BRANCH="chromeos-1.13"
 
 inherit cros-workon autotools flag-o-matic
 
@@ -31,7 +31,8 @@ RDEPEND=">=sys-apps/dbus-1.2.16
 	)
 	global_seccomp? (
 		chromeos-base/minijail
-	)"
+	)
+	dev-libs/json-c"
 DEPEND=">=dev-libs/expat-2.0.0
 	nls? ( sys-devel/gettext )
 	direncryption? (
@@ -62,10 +63,12 @@ src_configure() {
 	append-lfs-flags
 
 	local myconf=(
+		--libdir="${EPREFIX}/usr/$(get_libdir)"
 		--prefix=/
 		--exec-prefix=
 		--includedir="${prefix}/usr/include"
 		--disable-rpath
+		--disable-cgroups
 		$(use_with direncryption dircrypto-keyring)
 		$(use_enable selinux)
 		$(use_enable nls)
