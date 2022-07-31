@@ -2,24 +2,37 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f5aa82850f1239446ecc6c8eadb77871b2839cea"
-CROS_WORKON_TREE="932d3e0f17076404ebb5e12d70679a0ef38e59ca"
+
+CROS_WORKON_COMMIT="36bbdb8d8b482adcb6cf0c4ec964379ab3dae912"
+CROS_WORKON_TREE="50ff56847adc1c06bd073daf8dd41ba065a4451f"
+PYTHON_COMPAT=( python3_{6..9} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest-deponly
+inherit cros-workon autotest-deponly python-any-r1
 
-DESCRIPTION="Dependencies for WebGL many planets deep test"
+DESCRIPTION="Autotest touchpad deps"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
-SRC_URI=""
-
 LICENSE="GPL-2"
+SLOT="0"
 KEYWORDS="*"
 
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="webgl_mpd"
+AUTOTEST_DEPS_LIST="touchpad-tests"
+AUTOTEST_CONFIG_LIST=
+AUTOTEST_PROFILERS_LIST=
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+# deps/touchpad-tests
+RDEPEND="
+	x11-drivers/touchpad-tests
+	chromeos-base/touch_firmware_test
+	chromeos-base/mttools
+"
+
+DEPEND="${RDEPEND}"
