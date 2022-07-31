@@ -4,6 +4,8 @@
 
 EAPI="5"
 
+CROS_WORKON_COMMIT="2e7833ad916c493969d00871cdf56db4407b80eb"
+CROS_WORKON_TREE="040a39591a38d3dc778725575c72dcdc1b07e032"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
 CROS_WORKON_EGIT_BRANCH="mesa-img"
@@ -23,7 +25,7 @@ HOMEPAGE="http://mesa3d.sourceforge.net/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -76,6 +78,18 @@ QA_WX_LOAD="usr/lib*/opengl/xorg-x11/lib/libGL.so*"
 pkg_setup() {
 	# workaround toc-issue wrt #386545
 	use ppc64 && append-flags -mminimal-toc
+
+	# Remove symlinks created by an earlier version so we don't have
+	# install conflicts.
+	# TODO: Delete this after June 2019, since everybody should have
+	# upgraded by then.
+	local d
+	for d in EGL GL GLES GLES2 GLES3 KHR; do
+		local replaced_link="${ROOT}${ARC_PREFIX}/vendor/include/${d}"
+		if [[ -L "${replaced_link}" ]]; then
+			rm -f "${replaced_link}"
+		fi
+	done
 }
 
 src_prepare() {
