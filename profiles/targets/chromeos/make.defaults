@@ -164,7 +164,8 @@ LINUX_FIRMWARE="${LINUX_FIRMWARE} rtl8153"
 FEATURES="allow-missing-manifests buildpkg clean-logs -collision-protect
           -ebuild-locks force-mirror nodoc noinfo noman -merge-sync -pid-sandbox
           parallel-install -preserve-libs sandbox splitdebug -strict userfetch
-          userpriv usersandbox -unknown-features-warn network-sandbox"
+          userpriv usersandbox -unknown-features-warn network-sandbox
+          -binpkg-multi-instance"
 
 # We reset compiler settings as the base ones are generic (just -O2) and our
 # common make.conf already adds those and more.
