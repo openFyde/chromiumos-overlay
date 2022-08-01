@@ -4,6 +4,8 @@
 # Standardizes the setup for chromeos-config-bsp ebuilds across
 # all overlays based on config managed in the project specific
 # repos (located under src/project).
+# Note: this eclass does not support cros_workon_make as it
+# updates the source tree (where config files are generated)
 
 # Check for EAPI 7+
 case "${EAPI:-0}" in
@@ -114,6 +116,11 @@ cros-config-bsp_gen_config() {
 	)
 	local project
 	for project in "${PROJECTS[@]}"; do
+		# Clean any generated config dirs
+		rm -rf "${S}/${project}/sw_build_config/platform/chromeos-config/generated" \
+			|| die "Unable to remove sw_build_config generated dir"
+		rm -rf "${S}/${project}/public_sw_build_config/platform/chromeos-config/generated" \
+			|| die "Unable to remove public_sw_build_config generated dir"
 		ln -sfT "${S}/config" "${S}/${project}/config" \
 			|| die "Failed to create '${project}/config' link."
 		ln -sfT "${S}/program/${PROGRAM}" "${S}/${project}/program" \
