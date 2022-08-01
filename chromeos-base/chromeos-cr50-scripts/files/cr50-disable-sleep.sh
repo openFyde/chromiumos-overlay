@@ -10,8 +10,15 @@
 
 set -eu -o pipefail
 
+finish() {
+  if [[ -v COPROC_PID ]]; then
+    kill "${COPROC_PID}"
+    wait "${COPROC_PID}"
+  fi
+}
+
 # Remove SIGTERM trap to avoid recursion then kill process group
-trap 'trap - SIGTERM && kill -- -$$' SIGTERM EXIT
+trap finish EXIT
 
 script_name="$(basename "$0")"
 
@@ -34,14 +41,17 @@ monitor_suspend_dbus_signal() {
   local interface='org.chromium.PowerManager'
   local signal='SuspendImminent'
 
+  coproc \
+    /sbin/minijail0 -u nobody -g nobody /usr/bin/dbus-monitor --system \
+      --profile "type='signal',interface='${interface}',member='${signal}'"
+
   logit "Start monitoring dbus for SuspendImminent signal"
-  while read -r line; do
+  while read -r -u "${COPROC[0]}" line; do
     if [ -z "${line##*${signal}*}" ]; then
       logit "SuspendImminent signal received"
       send_disable_deep_sleep_command_to_cr50
     fi
-  done < <(minijail0 -u nobody -g nobody /usr/bin/dbus-monitor --system \
-    --profile "type='signal',interface='${interface}',member='${signal}'")
+  done
 }
 
 main() {
