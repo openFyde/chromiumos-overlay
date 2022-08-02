@@ -67,53 +67,20 @@ do_cbfstool() {
 	cbfstool "$@" 2>&1 || die "Failed cbfstool invocation: cbfstool $*"
 }
 
-sign_region() {
-	local fw_image=$1
-	local keydir=$2
-	local slot=$3
-
-	local tmpfile=$(emktemp)
-	local cbfs=FW_MAIN_${slot}
-	local vblock=VBLOCK_${slot}
-
-	do_cbfstool "${fw_image}" read -r "${cbfs}" -f "${tmpfile}"
-	local size=$(do_cbfstool "${fw_image}" print -k -r "${cbfs}" | \
-		tail -1 | \
-		sed "/(empty).*null/ s,^(empty)[[:space:]]\(0x[0-9a-f]*\)\tnull\t.*$,\1,")
-	size=$(printf "%d" "${size}")
-
-	# If the last entry is called "(empty)" and of type "null", remove it from
-	# the section so it isn't part of the signed data, to improve boot speed
-	# if (as often happens) there's a large unused suffix.
-	if [[ -n "${size}" && "${size}" -gt 0 ]]; then
-		truncate -s "${size}" "${tmpfile}" || die
-		# Use 255 (aka 0xff) as the filler, this greatly reduces
-		# memory areas which need to be programmed for spi flash
-		# chips, because the erase value is 0xff.
-		do_cbfstool "${fw_image}" write --force -u -i 255 \
-			-r "${cbfs}" -f "${tmpfile}"
-	fi
-
-	futility vbutil_firmware \
-		--vblock "${tmpfile}.out" \
-		--keyblock "${keydir}/firmware.keyblock" \
-		--signprivate "${keydir}/firmware_data_key.vbprivk" \
-		--version 1 \
-		--fv "${tmpfile}" \
-		--kernelkey "${keydir}/kernel_subkey.vbpubk" \
-		--flags 0 || die
-
-	do_cbfstool "${fw_image}" write -u -i 255 -r "${vblock}" -f "${tmpfile}.out"
-
-	rm -f "${tmpfile}" "${tmpfile}.out"
+do_futility() {
+	einfo futility "$@"
+	futility "$@" 2>&1 || die "Failed futility invocation: futility $*"
 }
 
 sign_image() {
 	local fw_image=$1
 	local keydir=$2
 
-	sign_region "${fw_image}" "${keydir}" A
-	sign_region "${fw_image}" "${keydir}" B
+	do_futility sign \
+		--keyset "${keydir}" \
+		--version 1 \
+		--flags 0 \
+		"${fw_image}"
 }
 
 add_payloads() {
