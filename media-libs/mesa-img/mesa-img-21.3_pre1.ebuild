@@ -4,6 +4,9 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT="813ee839be2ce7c3c804dc90cba5678323bcad7c"
+CROS_WORKON_TREE="b09304eab38348e2a157c4adc75542a460746ce9"
+
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="mesa-img"
@@ -14,7 +17,7 @@ if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
 fi
 
-inherit base flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
+inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
 [[ ${PV/_rc*/} == ${PV} ]] || FOLDER+="/RC"
@@ -22,12 +25,20 @@ FOLDER="${PV/_rc*/}"
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
 
+#SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
+if [[ $PV = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
+	SRC_URI="${SRC_PATCHES}"
+else
+	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
+		${SRC_PATCHES}"
+fi
+
 # Most of the code is MIT/X11.
 # ralloc is LGPL-3
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT LGPL-3 SGI-B-2.0"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 
 INTEL_CARDS="intel"
 RADEON_CARDS="amdgpu radeon"
@@ -84,6 +95,18 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/FROMLIST-anv-advertise-rectangularLines-only-for-Gen10.patch
+	"${FILESDIR}"/0001-Add-pvr-dri-driver.patch
+	"${FILESDIR}"/0002-Force-Mesa-to-use-the-PVR-driver-for-platform-device.patch
+	"${FILESDIR}"/0003-dri-Add-some-new-DRI-formats-and-fourccs.patch
+	"${FILESDIR}"/0004-GL_EXT_sparse_texture-entry-points.patch
+	"${FILESDIR}"/0005-Add-support-for-various-GLES-extensions.patch
+	"${FILESDIR}"/0009-GL_EXT_shader_pixel_local_storage2-entry-points.patch
+	"${FILESDIR}"/0010-GL_IMG_framebuffer_downsample-entry-points.patch
+	"${FILESDIR}"/0011-GL_OVR_multiview-entry-points.patch
+	"${FILESDIR}"/0012-Add-OVR_multiview_multisampled_render_to_texture.patch
+	"${FILESDIR}"/0017-egl-automatically-call-eglReleaseThread-on-thread-te.patch
+	"${FILESDIR}"/0066-mesa-partially-revert-pbuffer-attribute-removal.patch
+	"${FILESDIR}"/0067-egl_dri2-set-pbuffer-config-attribs-to-0-for-non-pbu.patch
 )
 
 driver_list() {
@@ -98,6 +121,9 @@ src_prepare() {
 			-e "s/-DHAVE_POSIX_MEMALIGN//" \
 			configure.ac || die
 	fi
+
+	# Produce a dummy git_sha1.h file because .git will not be copied to portage tmp directory
+	echo '#define MESA_GIT_SHA1 "git-0000000"' > src/git_sha1.h
 	default
 }
 
@@ -153,10 +179,10 @@ src_configure() {
 		-Dplatforms="${egl_platforms}"
 		-Dprefer-iris=false
 		-Dshader-cache-default=false
-		$(meson_feature egl)
-		$(meson_feature gbm)
-		$(meson_feature gles1)
-		$(meson_feature gles2)
+		$(meson_use egl)
+		$(meson_use gbm)
+		$(meson_use gles1)
+		$(meson_use gles2)
 		$(meson_feature zstd)
 		$(meson_use selinux)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
