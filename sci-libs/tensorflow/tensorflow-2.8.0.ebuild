@@ -19,7 +19,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="mpi +python xla label_image benchmark_model xnnpack inference_accuracy_eval tflite_custom_ops"
+IUSE="mpi +python xla label_image benchmark_model xnnpack inference_accuracy_eval tflite_custom_ops tflite_opencl_profiling"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -293,6 +293,8 @@ src_compile() {
 			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 		"$(usex xnnpack '
 			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+		"$(usex tflite_opencl_profiling '
+			//tensorflow/lite/delegates/gpu/cl/testing:performance_profiling' '')" \
 		"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')" \
 		"$(usex inference_accuracy_eval '
 			//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
@@ -311,6 +313,8 @@ src_compile() {
 			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
 		"$(usex xnnpack '
 			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
+		"$(usex tflite_opencl_profiling '
+			//tensorflow/lite/delegates/gpu/cl/testing:performance_profiling' '')" \
 		"$(usex inference_accuracy_eval '
 			//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
 			//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
@@ -383,6 +387,11 @@ src_install() {
 	if use benchmark_model; then
 		einfo "Install benchmark_model tool"
 		dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
+	fi
+
+	if use tflite_opencl_profiling; then
+		einfo "Install performance_profiling tool"
+		dobin bazel-bin/tensorflow/lite/delegates/gpu/cl/testing/performance_profiling
 	fi
 
 	if use inference_accuracy_eval; then
