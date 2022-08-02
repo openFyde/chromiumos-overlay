@@ -143,7 +143,7 @@ src_install() {
 	dobin "${BUILD_OUTPUT}/traced_probes"
 	dobin "${BUILD_OUTPUT}/perfetto"
 
-	dotmpfiles "${FILESDIR}/tmpfiles.d/traced.conf"
+	dotmpfiles "${FILESDIR}"/tmpfiles.d/*.conf
 
 	insinto /etc/init
 	doins "${FILESDIR}/init/traced.conf"
