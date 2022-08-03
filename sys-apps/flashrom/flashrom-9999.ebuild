@@ -101,46 +101,27 @@ BDEPEND="sys-apps/diffutils"
 DOCS=( README.chromiumos Documentation/ )
 
 src_configure() {
+	# Constructing programmers array from enabled IUSE flags
+	local flag programmer_flags=(
+		atahpt atapromise atavia buspirate_spi ch341a_spi dediprog developerbox_spi
+		digilent_spi drkaiser dummy ft2232_spi gfxnvidia internal it8212 jlink_spi
+		linux_mtd linux_spi mediatek_i2c_spi mstarddc_spi nic3com nicintel_eeprom
+		nicintel_spi nicintel nicnatsemi nicrealtek ogp_spi parade_lspcon pickit2_spi
+		pony_spi raiden_debug_spi rayer_spi realtek_mst_i2c_spi satamv satasii
+		serprog stlinkv3_spi usbblaster_spi
+	)
+	local programmers=$(
+		# shellcheck disable=SC2046
+		printf '%s,' $(for flag in "${programmer_flags[@]}"; do usev "${flag}"; done)
+	)
+
+	# Remove trailing comma.
+	programmers=${programmers%,}
+
 	local emesonargs=(
 		-Ddefault_library="$(usex static static shared)"
 		-Ddefault_programmer_name=internal
-		$(meson_use atahpt config_atahpt)
-		$(meson_use atapromise config_atapromise)
-		$(meson_use atavia config_atavia)
-		$(meson_use buspirate_spi config_buspirate_spi)
-		$(meson_use ch341a_spi config_ch341a_spi)
-		$(meson_use dediprog config_dediprog)
-		$(meson_use developerbox_spi config_developerbox_spi)
-		$(meson_use digilent_spi config_digilent_spi)
-		$(meson_use drkaiser config_drkaiser)
-		$(meson_use dummy config_dummy)
-		$(meson_use ft2232_spi config_ft2232_spi)
-		$(meson_use gfxnvidia config_gfxnvidia)
-		$(meson_use internal config_internal)
-		$(meson_use it8212 config_it8212)
-		$(meson_use jlink_spi config_jlink_spi)
-		$(meson_use linux_mtd config_linux_mtd)
-		$(meson_use linux_spi config_linux_spi)
-		$(meson_use mediatek_i2c_spi config_mediatek_i2c_spi)
-		$(meson_use mstarddc_spi config_mstarddc_spi)
-		$(meson_use nic3com config_nic3com)
-		$(meson_use nicintel_eeprom config_nicintel_eeprom)
-		$(meson_use nicintel_spi config_nicintel_spi)
-		$(meson_use nicintel config_nicintel)
-		$(meson_use nicnatsemi config_nicnatsemi)
-		$(meson_use nicrealtek config_nicrealtek)
-		$(meson_use ogp_spi config_ogp_spi)
-		$(meson_use parade_lspcon config_parade_lspcon)
-		$(meson_use pickit2_spi config_pickit2_spi)
-		$(meson_use pony_spi config_pony_spi)
-		$(meson_use raiden_debug_spi config_raiden_debug_spi)
-		$(meson_use rayer_spi config_rayer_spi)
-		$(meson_use realtek_mst_i2c_spi config_realtek_mst_i2c_spi)
-		$(meson_use satamv config_satamv)
-		$(meson_use satasii config_satasii)
-		$(meson_use serprog config_serprog)
-		$(meson_use stlinkv3_spi config_stlinkv3_spi)
-		$(meson_use usbblaster_spi config_usbblaster_spi)
+		-Dprogrammer="${programmers}"
 		$(meson_feature cli classic_cli)
 		$(meson_feature ich_descriptors ich_descriptors_tool)
 		$(meson_feature wiki classic_cli_print_wiki)
