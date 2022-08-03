@@ -635,6 +635,22 @@ cros_log_failed_packages() {
 		echo "${CATEGORY}/${PF} ${EBUILD_PHASE:-"unknown"}" \
 			 >> "${CROS_METRICS_DIR}/FAILED_PACKAGES"
 	fi
+
+	# Failures in these phases are often due to broken generation, so include
+	# the logs if they exist.
+	case ${EBUILD_PHASE} in
+	unpack|prepare|configure)
+		local f
+		for f in libtoolize aclocal autoconf autoheader automake autopoint; do
+			f="${T}/${f}.out"
+			if [[ -e ${f} ]]; then
+				echo "### START ${f} ###"
+				cat "${f}"
+				echo "### END ${f} ###"
+			fi
+		done
+		;;
+	esac
 }
 
 cros_optimize_package_for_speed() {
