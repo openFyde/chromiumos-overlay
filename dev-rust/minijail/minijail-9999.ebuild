@@ -12,17 +12,15 @@ inherit cros-constants
 
 CROS_RUST_SUBDIR="rust/minijail"
 
-CROS_WORKON_MANUAL_UPREV=1
-CROS_WORKON_LOCALNAME="../aosp/external/minijail"
-CROS_WORKON_PROJECT="platform/external/minijail"
-CROS_WORKON_EGIT_BRANCH="master"
-CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_LOCALNAME="../platform/minijail"
+CROS_WORKON_PROJECT="chromiumos/platform/minijail"
+CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
 DESCRIPTION="rust bindings for minijail"
-HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
+HOMEPAGE="https://google.github.io/minijail"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"

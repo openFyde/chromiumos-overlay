@@ -5,11 +5,9 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_WORKON_MANUAL_UPREV=1
-CROS_WORKON_LOCALNAME="aosp/external/minijail"
-CROS_WORKON_PROJECT="platform/external/minijail"
-CROS_WORKON_EGIT_BRANCH="master"
-CROS_WORKON_REPO="${CROS_GIT_AOSP_URL}"
+CROS_WORKON_LOCALNAME="../platform/minijail"
+CROS_WORKON_PROJECT="chromiumos/platform/minijail"
+CROS_WORKON_EGIT_BRANCH="main"
 
 PYTHON_COMPAT=( python3_{6..9} )
 
@@ -22,7 +20,7 @@ DISTUTILS_SINGLE_IMPL=1
 inherit cros-debug cros-sanitizers cros-workon cros-common.mk toolchain-funcs distutils-r1
 
 DESCRIPTION="helper binary and library for sandboxing & restricting privs of services"
-HOMEPAGE="https://android.googlesource.com/platform/external/minijail"
+HOMEPAGE="https://google.github.io/minijail/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
