@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7b6f3c581b1e843a7d375074412d8419fd6983ef"
-CROS_WORKON_TREE=("d69331a889ece3a58b2af6179628702a2ee8f85d" "7c94fe5ba0224778170fff63764249cf6942a497" "04b304bfe9b1cb40709964339c46a34f69002fd7" "67c27d20e77e66ba89544563b05854576dfe9894" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="7232dbf71537bae6d8b1cbc0f60cece32edb31fe"
+CROS_WORKON_TREE=("d69331a889ece3a58b2af6179628702a2ee8f85d" "7c94fe5ba0224778170fff63764249cf6942a497" "04b304bfe9b1cb40709964339c46a34f69002fd7" "3c272999b00069d888ea77f89074d07ef40ef6d5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,6 +42,7 @@ src_install() {
 		utility
 		error
 		tpm
+		profiling
 	)
 	local d
 	for d in "${header_dirs[@]}" ; do
@@ -50,6 +51,7 @@ src_install() {
 	done
 
 	dolib.so "${OUT}"/lib/libhwsec-foundation.so
+	dolib.a "${OUT}"/libhwsec-profiling.a
 
 	dosbin "${OUT}"/tpm_version_client
 
