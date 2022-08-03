@@ -296,7 +296,7 @@ multilib_src_install_all() {
 
 	# Install our own conf files
 	insinto /etc/cups
-	doins "${FILESDIR}"/{cupsd,cups-files}.conf
+	doins "${FILESDIR}"/{cupsd,cupsd-debug,cups-files}.conf
 	if use upstart; then
 		insinto /etc/init
 		doins "${FILESDIR}"/init/cups-post-upstart-socket-bridge.conf

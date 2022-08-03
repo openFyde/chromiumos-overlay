@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b7c42dfe3e9bd706f8a828bde85c1fdd7dee2dd1"
+CROS_WORKON_COMMIT="21ef314f166d1c49a4b388e89bace09ac13e3d50"
 CROS_WORKON_TREE="9f52ac3e563d9881b5a0bcb553f5dc83d8ae8d10"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -64,6 +64,9 @@ src_install() {
 
 	insinto /etc/init
 	newins "init/ippusb-bridge.conf" "ippusb-bridge.conf"
+
+	insinto /usr/share/ippusb_bridge
+	newins "init/ippusb-bridge-debug.conf" "ippusb-bridge-debug.conf"
 
 	exeinto /usr/libexec/ippusb
 	doexe "init/bridge_start"
