@@ -101,6 +101,8 @@ PATCHES=(
 	"${FILESDIR}/rust-${PV}-fix-libunwind-backtrace-visibility.patch"
 	"${FILESDIR}/rust-${PV}-passes-only-in-pre-link.patch"
 	"${FILESDIR}/rust-${PV}-Revert-DebugInfo-Re-enable-instruction-referencing-f.patch"
+	"${FILESDIR}/rust-${PV}-Don-t-build-std-for-uefi-targets.patch"
+	"${FILESDIR}/rust-${PV}-Bump-cc-version-in-bootstrap-to-fix-build-of-uefi-ta.patch"
 )
 
 # Locations where we cache our build/src dirs.

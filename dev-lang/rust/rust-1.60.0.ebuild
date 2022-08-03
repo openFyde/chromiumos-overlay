@@ -21,6 +21,13 @@ RUSTC_BARE_TARGET_TRIPLES=(
 	thumbv6m-none-eabi # Cortex-M0, M0+, M1
 	thumbv7m-none-eabi # Cortex-M3
 	thumbv7em-none-eabihf # Cortex-M4F, M7F, FPU, hardfloat
+
+	# These UEFI targets are used by and supported for ChromeOS flex;
+	# contact chromeos-flex-eng@google.com with any questions. Please
+	# add chromeos-toolchain@google.com if you would like to use any of
+	# these triples for your project.
+	i686-unknown-uefi
+	x86_64-unknown-uefi
 )
 
 # shellcheck disable=SC2034
