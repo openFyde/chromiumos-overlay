@@ -19,10 +19,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservi
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer"
+IUSE="
+	fuzzer
+	lvm_stateful_partition
+"
 
 RDEPEND="
 	chromeos-base/imageloader:=
+	lvm_stateful_partition? ( chromeos-base/lvmd:= )
 	chromeos-base/minijail:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:="
@@ -30,6 +34,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client:=
 	chromeos-base/imageloader-client:=
+	lvm_stateful_partition? ( chromeos-base/lvmd-client:= )
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/session_manager-client:=
 	chromeos-base/update_engine-client:=
