@@ -48,7 +48,7 @@ src_install() {
 	doins system_api.pc
 
 	insinto /usr/include/chromeos
-	doins -r dbus switches constants
+	doins -r dbus switches constants mojo
 	find "${D}" -name OWNERS -delete || die
 
 	# Install the dbus-constants.h files in the respective daemons' client library
