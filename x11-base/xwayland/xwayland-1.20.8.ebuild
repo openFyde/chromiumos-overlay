@@ -31,6 +31,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	>=dev-libs/wayland-protocols-1.1
 	>=sys-kernel/linux-headers-4.4-r16
+	media-fonts/font-util
 	media-libs/libepoxy
 	>=x11-libs/libdrm-2.4.46
 	>=x11-libs/libxkbfile-1.0.4
