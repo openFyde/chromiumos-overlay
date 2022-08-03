@@ -597,3 +597,7 @@ RDEPEND="${RDEPEND}
 # Needed for floss project.
 RDEPEND="${RDEPEND}
 	net-wireless/floss_tools"
+
+# Needed to build cros-camera-hal-qti.
+RDEPEND="${RDEPEND}
+	dev-perl/XML-Simple"
