@@ -64,7 +64,7 @@ COMMON_DEPEND="
 	llvm? ( virtual/libelf:= )
 	virtual/udev:=
 	X? (
-		!<x11-base/xorg-server-1.7:=
+		!<x11-base/xorg-server-1.7
 		>=x11-libs/libX11-1.3.99.901:=
 		x11-libs/libXdamage:=
 		x11-libs/libXext:=
