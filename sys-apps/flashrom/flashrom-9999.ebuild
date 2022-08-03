@@ -34,7 +34,6 @@ IUSE="
 	jlink_spi
 	+linux_mtd
 	+linux_spi
-	+lspcon_i2c_spi
 	+mediatek_i2c_spi
 	mstarddc_spi
 	+nic3com
@@ -44,6 +43,7 @@ IUSE="
 	+nicnatsemi
 	+nicrealtek
 	+ogp_spi
+	+parade_lspcon
 	+pickit2_spi
 	+pony_spi
 	+raiden_debug_spi
@@ -119,7 +119,6 @@ src_configure() {
 		$(meson_use jlink_spi config_jlink_spi)
 		$(meson_use linux_mtd config_linux_mtd)
 		$(meson_use linux_spi config_linux_spi)
-		$(meson_use lspcon_i2c_spi config_lspcon_i2c_spi)
 		$(meson_use mediatek_i2c_spi config_mediatek_i2c_spi)
 		$(meson_use mstarddc_spi config_mstarddc_spi)
 		$(meson_use nic3com config_nic3com)
@@ -129,6 +128,7 @@ src_configure() {
 		$(meson_use nicnatsemi config_nicnatsemi)
 		$(meson_use nicrealtek config_nicrealtek)
 		$(meson_use ogp_spi config_ogp_spi)
+		$(meson_use parade_lspcon config_parade_lspcon)
 		$(meson_use pickit2_spi config_pickit2_spi)
 		$(meson_use pony_spi config_pony_spi)
 		$(meson_use raiden_debug_spi config_raiden_debug_spi)
