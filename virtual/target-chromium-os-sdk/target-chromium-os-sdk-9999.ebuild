@@ -601,3 +601,7 @@ RDEPEND="${RDEPEND}
 # Needed to build cros-camera-hal-qti.
 RDEPEND="${RDEPEND}
 	dev-perl/XML-Simple"
+
+# Needed for vkbench.
+RDEPEND="${RDEPEND}
+	dev-util/glslang"
