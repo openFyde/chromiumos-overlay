@@ -51,6 +51,7 @@ COMMON_DEPEND="
 	fuzzer? (
 		dev-cpp/gtest:=
 	)
+	chromeos-base/pinweaver:=
 	"
 
 RDEPEND="
@@ -118,7 +119,7 @@ src_install() {
 	fi
 
 	insinto /usr/include/trunks
-	doins *.h
+	doins ./*.h
 	doins "${OUT}"/gen/include/trunks/*.h
 
 	insinto /usr/include/trunks/csme

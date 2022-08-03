@@ -26,13 +26,17 @@ COMMON_DEPEND="
 	chromeos-base/tpm_manager-client
 	dev-libs/openssl:0=
 	dev-libs/flatbuffers
-	tpm2? ( chromeos-base/trunks:=[test?] )
+	tpm2? (
+		chromeos-base/pinweaver:=
+		chromeos-base/trunks:=[test?]
+	)
 	tpm? ( app-crypt/trousers:= )
 	fuzzer? (
 		app-crypt/trousers:=
 		chromeos-base/trunks:=
 	)
 	test? (
+		chromeos-base/pinweaver:=
 		chromeos-base/trunks:=[test]
 		chromeos-base/tpm2-simulator:=[test]
 	)
