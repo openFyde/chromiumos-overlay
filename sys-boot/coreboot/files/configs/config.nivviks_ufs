@@ -5,10 +5,10 @@ CONFIG_BOARD_GOOGLE_NIVVIKS=y
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/nissa/descriptor-nivviks_ufs.bin"
 
 # Management Engine
-CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/nissa/csme-nivviks.bin"
+CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/nissa/csme-nivviks_ufs.bin"
 
 # Management Engine FW update
-CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/nissa/me_rw-nivviks.bin"
+CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/nissa/me_rw-nivviks_ufs.bin"
 
 # Video Blob
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/nissa/vbt-nivviks.bin"
