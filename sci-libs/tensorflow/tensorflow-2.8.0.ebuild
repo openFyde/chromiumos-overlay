@@ -280,44 +280,37 @@ src_compile() {
 		cd "${BUILD_DIR}" || die
 	fi
 
-	# fail early if any deps are missing
-	# Duplication of the benchmark_model artifacts behind different flags is done to allow
-	# other packages to extract out xnnpack artifacts without installing benchmark_model
-	ebazel build -k --nobuild \
-		tensorflow/lite:libtensorflowlite.so \
-		tensorflow/lite/c:libtensorflowlite_c.so \
-		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-		"$(usex label_image '
-			//tensorflow/lite/examples/label_image:label_image' '')" \
-		"$(usex benchmark_model '
-			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-		"$(usex xnnpack '
-			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-		"$(usex tflite_opencl_profiling '
-			//tensorflow/lite/delegates/gpu/cl/testing:performance_profiling' '')" \
-		"$(usex python '//tensorflow/tools/pip_package:build_pip_package' '')" \
-		"$(usex inference_accuracy_eval '
-			//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
-			//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
+	local bazel_args=()
+	bazel_args+=("tensorflow/lite:libtensorflowlite.so")
+	bazel_args+=("tensorflow/lite/c:libtensorflowlite_c.so")
+	bazel_args+=("//tensorflow/lite/kernels/internal:install_nnapi_extra_headers")
+	if use label_image; then
+		bazel_args+=("//tensorflow/lite/examples/label_image:label_image")
+	fi
+	# Duplication of the benchmark_model artifacts behind different flags is
+	# done to allow other packages to extract out xnnpack artifacts without
+	# installing benchmark_model
+	if use benchmark_model; then
+		bazel_args+=("//tensorflow/lite/tools/benchmark:benchmark_model")
+	fi
+	if use tflite_opencl_profiling; then
+		bazel_args+=("//tensorflow/lite/delegates/gpu/cl/testing:performance_profiling")
+	fi
+	if use inference_accuracy_eval; then
+		bazel_args+=("//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval")
+		bazel_args+=("//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval")
+	fi
+	if use xnnpack; then
+		bazel_args+=("//tensorflow/lite/tools/benchmark:benchmark_model")
+	fi
 
-	# Duplication of the benchmark_model artifacts behind different flags is done to allow
-	# other packages to extract out xnnpack artifacts without installing benchmark_model
+	# fail early if any deps are missing
+	ebazel build -k --nobuild "${bazel_args[@]}"
+
+	# build if deps are present
 	ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
 		--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 \
-		//tensorflow/lite:libtensorflowlite.so \
-		//tensorflow/lite/c:libtensorflowlite_c.so \
-		//tensorflow/lite/kernels/internal:install_nnapi_extra_headers \
-		"$(usex label_image '
-			//tensorflow/lite/examples/label_image:label_image' '')" \
-		"$(usex benchmark_model '
-			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-		"$(usex xnnpack '
-			//tensorflow/lite/tools/benchmark:benchmark_model' '')" \
-		"$(usex tflite_opencl_profiling '
-			//tensorflow/lite/delegates/gpu/cl/testing:performance_profiling' '')" \
-		"$(usex inference_accuracy_eval '
-			//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval
-			//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval' '')"
+		"${bazel_args[@]}"
 
 	do_compile() {
 		ebazel build //tensorflow/tools/pip_package:build_pip_package
