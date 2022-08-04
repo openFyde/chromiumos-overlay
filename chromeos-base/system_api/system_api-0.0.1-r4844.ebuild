@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c3eb99dbcca95a1df71db954fef7a96d99163b93"
+CROS_WORKON_COMMIT="090eee785e899501e03008d0e1071c9e7277eeb3"
 CROS_WORKON_TREE=("6033acccb2692b8db6487d103a800dba7b056f9e" "391abb8bd564de75e43739058feba99feb0b180b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -50,7 +50,7 @@ src_install() {
 	doins system_api.pc
 
 	insinto /usr/include/chromeos
-	doins -r dbus switches constants
+	doins -r dbus switches constants mojo
 	find "${D}" -name OWNERS -delete || die
 
 	# Install the dbus-constants.h files in the respective daemons' client library
