@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="27a5c5b41ee78bdfdac00d4ccebe582cabcb1958"
-CROS_WORKON_TREE="83b122decc3ec681a1f11aef85749f8cfb8bdb01"
+CROS_WORKON_COMMIT="7858673acc4f02025953002bc6cfff3eb782e30c"
+CROS_WORKON_TREE="03a6da383a64fabbb7862b77133daaf012666c91"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -36,7 +36,6 @@ IUSE="
 	jlink_spi
 	+linux_mtd
 	+linux_spi
-	+lspcon_i2c_spi
 	+mediatek_i2c_spi
 	mstarddc_spi
 	+nic3com
@@ -46,6 +45,7 @@ IUSE="
 	+nicnatsemi
 	+nicrealtek
 	+ogp_spi
+	+parade_lspcon
 	+pickit2_spi
 	+pony_spi
 	+raiden_debug_spi
@@ -121,7 +121,6 @@ src_configure() {
 		$(meson_use jlink_spi config_jlink_spi)
 		$(meson_use linux_mtd config_linux_mtd)
 		$(meson_use linux_spi config_linux_spi)
-		$(meson_use lspcon_i2c_spi config_lspcon_i2c_spi)
 		$(meson_use mediatek_i2c_spi config_mediatek_i2c_spi)
 		$(meson_use mstarddc_spi config_mstarddc_spi)
 		$(meson_use nic3com config_nic3com)
@@ -131,6 +130,7 @@ src_configure() {
 		$(meson_use nicnatsemi config_nicnatsemi)
 		$(meson_use nicrealtek config_nicrealtek)
 		$(meson_use ogp_spi config_ogp_spi)
+		$(meson_use parade_lspcon config_parade_lspcon)
 		$(meson_use pickit2_spi config_pickit2_spi)
 		$(meson_use pony_spi config_pony_spi)
 		$(meson_use raiden_debug_spi config_raiden_debug_spi)
