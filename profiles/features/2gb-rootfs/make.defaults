@@ -14,6 +14,9 @@ USE="${USE} -ondevice_text_suggestions"
 # Disable on-device handwriting.
 USE="${USE} -ondevice_handwriting"
 
+# Enable document scanning by DLC due to insufficient rootfs.
+USE="${USE} -ondevice_document_scanner ondevice_document_scanner_dlc"
+
 # Disable Floss Bluetooth
 USE="${USE} -floss"
 
