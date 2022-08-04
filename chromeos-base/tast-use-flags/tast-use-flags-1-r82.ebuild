@@ -71,7 +71,6 @@ IUSE="
 	flex_id
 	force_breakpad
 	fwupd
-	gboard_decoder
 	grunt
 	hammerd
 	hana
