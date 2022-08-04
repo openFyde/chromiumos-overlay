@@ -117,7 +117,7 @@ src_install() {
 	doins share/org.chromium.debugd.conf
 
 	insinto /etc/init
-	doins share/{debugd,trace_marker-test}.conf share/kernel-features.json
+	doins share/debugd.conf share/kernel-features.json
 
 	insinto /etc/perf_commands
 	doins -r share/perf_commands/*
