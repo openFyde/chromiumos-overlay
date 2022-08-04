@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-inherit cros-sanitizers toolchain-funcs
+inherit cros-sanitizers eutils toolchain-funcs
 
 DESCRIPTION="QDL flash loader for USB devices"
 HOMEPAGE="https://github.com/andersson/qdl"
@@ -21,6 +21,12 @@ RDEPEND="dev-libs/libxml2:=
 DEPEND="${RDEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
+
+src_prepare()
+{
+	eapply "${FILESDIR}"/${PN}-0.1_p20211103-last_sector.patch
+	eapply_user
+}
 
 src_configure() {
 	sanitizers-setup-env
