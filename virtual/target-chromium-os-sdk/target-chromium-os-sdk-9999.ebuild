@@ -576,12 +576,12 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	chromeos-base/hps-sign-rom
 	dev-rust/svd2rust
+	sci-electronics/amaranth
 	sci-electronics/litescope
 	sci-electronics/liteeth
 	sci-electronics/litespi
 	sci-electronics/litedram
 	sci-electronics/nextpnr
-	sci-electronics/nmigen
 	sci-electronics/pythondata-cpu-vexriscv
 	sci-electronics/pythondata-misc-tapcfg
 	sci-electronics/verilator

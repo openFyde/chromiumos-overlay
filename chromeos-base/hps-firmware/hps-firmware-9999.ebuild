@@ -19,8 +19,8 @@ BDEPEND="
 	chromeos-base/hps-sign-rom
 	dev-embedded/hps-sdk
 	dev-rust/svd2rust
+	sci-electronics/amaranth
 	>=sci-electronics/nextpnr-0.1_p20220210
-	sci-electronics/nmigen
 	sci-electronics/prjoxide
 	sci-electronics/yosys
 	sci-electronics/yosys-f4pga-plugins
