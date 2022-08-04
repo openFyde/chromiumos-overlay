@@ -143,6 +143,9 @@ USE="${USE} cras-ml"
 # Enable mojo service manager by default.
 USE="${USE} mojo_service_manager"
 
+# Enable ondevice speech by default.
+USE="${USE} ondevice_speech"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

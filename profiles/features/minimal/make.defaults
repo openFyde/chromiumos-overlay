@@ -98,5 +98,8 @@ USE="${USE} -mojo_service_manager"
 # Disable SELinux.
 USE="${USE} -selinux"
 
+# Disable ondevice speech.
+USE="${USE} -ondevice_speech"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""
