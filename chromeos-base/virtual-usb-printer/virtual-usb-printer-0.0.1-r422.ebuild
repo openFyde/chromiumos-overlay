@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("669cbe9f915defa4349aec6846ab942d05ef9604" "58cfcd735ebb04412139d877467279df27ca9f55")
-CROS_WORKON_TREE=("6033acccb2692b8db6487d103a800dba7b056f9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "c48684ce551f88bfed1f1f696afa0e05823f1d5b")
+CROS_WORKON_COMMIT=("881f1c96a0a21e4c2d4556f6871992086bfb0436" "32994a4f2975cd2e2db0d41666a0f2079efe3c41")
+CROS_WORKON_TREE=("6033acccb2692b8db6487d103a800dba7b056f9e" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "fbc96bb8d66dce01057684128e257bb25c85e88f")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_EGIT_BRANCH=("main" "chromeos")
@@ -60,6 +60,7 @@ src_install() {
 	doins config/ipp_attributes.json
 	doins config/ippusb_printer.json
 	doins config/ippusb_backflip_printer.json
+	doins config/ippusb_printer_plus_storage.json
 	doins config/usb_printer.json
 
 	# Install upstart files into rootfs, since upstart won't look in
