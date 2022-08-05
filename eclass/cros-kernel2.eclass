@@ -2538,12 +2538,6 @@ cros-kernel2_src_configure() {
 		# This is not fatal and happens if source is not a git tree
 		git rev-parse HEAD >"${old_hash}" 2>/dev/null
 	fi
-
-	# Create .scmversion file so that kernel release version
-	# doesn't include git hash for cros worked on builds.
-	if [[ "${PV}" == "9999" ]]; then
-		touch "$(cros-workon_get_build_dir)/.scmversion"
-	fi
 }
 
 # @FUNCTION: get_dtb_name
