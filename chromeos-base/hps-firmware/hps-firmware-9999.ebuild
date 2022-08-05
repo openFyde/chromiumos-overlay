@@ -181,7 +181,7 @@ src_compile() {
 
 src_test() {
 	einfo "Running gateware unit tests"
-	python -m unittest -v soc/*.py || die
+	python -m unittest discover -v || die
 
 	einfo "Running Rust tests"
 	cd rust || die
