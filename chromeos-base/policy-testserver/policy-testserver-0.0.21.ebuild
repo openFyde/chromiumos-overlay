@@ -35,7 +35,7 @@ CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_COMMIT=(
 	"05d9f22315757117685ad2f5265148f900f18034" # tlslite
 	"8599944a086c503a4e31a95e226e967f5db560f7" # testserver
-	"409ddc1ad21fde913ad6be7fa3b67e79cbfd740c" # policy
+	"2abe61e3fd23797ab5e7caf28ed8d3e6a873d2d2" # policy
 	"acb07d8034884b0f5e6d3b4379f6032fdb733e44" # private_membership
 	"04a46b48f70713db831b32da1581437d587f4081" # shell-encryption
 )
@@ -65,7 +65,6 @@ RDEPEND="
 src_compile() {
 	# Generate policy_templates.json
 	"${POLICY_DIR}/resources/policy_templates.py" \
-		--src="${POLICY_DIR}/resources/policy_templates.json" \
 		--dest="${POLICY_DIR}/resources/generated_policy_templates.json" \
 		|| die "Failed to generate policy_templates.json"
 

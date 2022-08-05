@@ -61,13 +61,13 @@ CROS_WORKON_MANUAL_UPREV=1
 #   packages that rely on the new policies. If you added new device
 #   policy encodings above that will at least be authpolicy.
 CROS_WORKON_COMMIT=(
-	"409ddc1ad21fde913ad6be7fa3b67e79cbfd740c" # policy
+	"2abe61e3fd23797ab5e7caf28ed8d3e6a873d2d2" # policy
 	"acb07d8034884b0f5e6d3b4379f6032fdb733e44" # private_membership
 	"04a46b48f70713db831b32da1581437d587f4081" # shell-encryption
 )
 # git rev-parse $HASH:./
 CROS_WORKON_TREE=(
-	"8a888cc34b4ca828415674d5a826a9bf0799b550" # policy
+	"a6e16b51c45b12815ab48eeb9c96cd3040850d9b" # policy
 	"b8d20bc0d11609ffe2bc40bb4b3613cf94b6bd6d" # private_membership
 	"f684c7405b47af0d6f74e4bc062845fca1359fe4" # shell-encryption
 )
@@ -105,7 +105,6 @@ RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 src_compile() {
 	# Generate policy_templates.json
 	"${POLICY_DIR}/resources/policy_templates.py" \
-		--src="${POLICY_DIR}/resources/policy_templates.json" \
 		--dest="${POLICY_DIR}/resources/generated_policy_templates.json" \
 		|| die "Failed to generate policy_templates.json"
 
