@@ -7,7 +7,8 @@ CONFIG_COLLECT_TIMESTAMPS=y
 
 # TODO(b/227809919): Enable CBFS verification by removing this.
 # If ti50_onboard, CBFS_VERIFICATION will be enabled automatically by the ebuild.
-CONFIG_CBFS_VERIFICATION=n
+# CONFIG_CBFS_VERIFICATION is not set
+# CONFIG_VBOOT_GSCVD is not set
 
 CONFIG_USE_BLOBS=y
 CONFIG_USE_AMD_BLOBS=y
