@@ -7,7 +7,7 @@ EAPI=7
 PYTHON_COMPAT=( python3_{6..9} )
 
 inherit cros-constants cmake flag-o-matic git-r3 multilib-minimal  \
-	python-any-r1 pax-utils toolchain-funcs
+	python-single-r1 pax-utils toolchain-funcs
 
 LLVM_HASH="a58d0af058038595c93de961b725f86997cf8d4a" # r458507
 LLVM_NEXT_HASH="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
@@ -56,7 +56,7 @@ BDEPEND="
 	dev-lang/perl
 	libffi? ( virtual/pkgconfig )
 	sys-devel/gnuconfig
-	$(python_gen_any_dep '
+	$(python_gen_cond_dep '
 		dev-python/sphinx[${PYTHON_USEDEP}]
 		doc? ( dev-python/recommonmark[${PYTHON_USEDEP}] )
 	')
@@ -231,6 +231,10 @@ multilib_src_configure() {
 
 		# b/204220308: Disable ORC since we are not using it.
 		"-DCOMPILER_RT_BUILD_ORC=OFF"
+
+		# b/241569725: Explicitly set Python version so that it
+		# chooses the version we're currently supporting
+		"-DPython3_EXECUTABLE=${PYTHON}"
 	)
 
 	if check_lld_works; then
