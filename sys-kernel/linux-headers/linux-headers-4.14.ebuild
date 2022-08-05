@@ -73,6 +73,7 @@ PATCHES=(
 	"${FILESDIR}/0051-CHROMIUM-v4l2-add-upstream-work-in-progress-V4L2-AV1.patch"
 	"${FILESDIR}/0052-BACKPORT-add-rseq-syscall-definitions.patch"
 	"${FILESDIR}/0053-BACKPORT-fanotify-add-support-for-create-attrib-move.patch"
+	"${FILESDIR}/0054-BACKPORT-LoadPin-Enable-loading-from-trusted-dm-veri.patch"
 )
 
 src_unpack() {
