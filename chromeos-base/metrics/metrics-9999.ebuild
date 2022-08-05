@@ -67,6 +67,11 @@ src_install() {
 	fperms 0774 "${daemon_store}"
 	fowners chronos:chronos-access "${daemon_store}"
 
+	local appsync_daemon_store="/etc/daemon-store/appsync-consent"
+	dodir "${appsync_daemon_store}"
+	fperms 0774 "${appsync_daemon_store}"
+	fowners chronos:chronos-access "${appsync_daemon_store}"
+
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	dolib.so "${OUT}/lib/libmetrics.so"
 	doins "${S}/libmetrics.pc"
