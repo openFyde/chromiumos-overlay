@@ -1,1 +1,0 @@
-cros-camera-document-scanner-dlc-2021.11.10.ebuild
