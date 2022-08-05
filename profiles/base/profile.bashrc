@@ -166,7 +166,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-libs/lzo:2.10*|\
 		dev-python/grpcio:1.23.0|\
 		dev-python/psutil:5.5.0|\
-		dev-util/patchutils:*|\
+		dev-util/patchutils:0.3.3|\
 		net-libs/libmnl:1.0.4*|\
 		sys-apps/groff:1.22*|\
 		sys-devel/m4:1.4.18*|\
@@ -182,7 +182,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		dev-python/numpy:1.19.4|\
 		dev-util/ragel:6.10|\
 		net-misc/socat:1.7.3.2*|\
-		sys-boot/syslinux:*|\
+		sys-boot/syslinux:6.04*|\
 		sys-libs/binutils-libs:*|\
 		sys-libs/libselinux:3.0) return 1;;
 		esac
@@ -213,8 +213,9 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	_board_build_filter_pkg_config() {
 		case ${CATEGORY}/${PN}:${PV} in
 		app-benchmarks/lmbench:3.0*|\
-		app-emulation/docker:*|\
-		app-text/ghostscript-gpl:*|\
+		app-emulation/docker:19*|\
+		app-emulation/docker:20*|\
+		app-text/ghostscript-gpl:9.55*|\
 		media-libs/arc-cros-gralloc:*|\
 		media-libs/arc-img-ddk:*|\
 		media-libs/arc-mali-drivers:*|\
@@ -267,13 +268,13 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_board_build_filter_cc() {
 		case ${CATEGORY}/${PN}:${PV} in
-		app-benchmarks/sysbench:*|\
+		app-benchmarks/sysbench:1.0.10|\
 		dev-libs/libdaemon:*|\
 		dev-libs/libffi:3.1*|\
 		dev-libs/libusb-compat:0.1.5*|\
 		dev-python/grpcio:*|\
-		dev-python/psutil:*|\
-		media-libs/libogg:*|\
+		dev-python/psutil:5.5.0|\
+		media-libs/libogg:1.3.5|\
 		net-dns/avahi:*|\
 		net-libs/libmnl:*|\
 		net-libs/libnetfilter_cthelper:*|\
@@ -296,7 +297,8 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_board_build_filter_gcc() {
 		case ${CATEGORY}/${PN}:${PV} in
-		app-emulation/docker:*|\
+		app-emulation/docker:19*|\
+		app-emulation/docker:20*|\
 		chromeos-base/autotest-tests:*|\
 		chromeos-base/chromeos-ec:*|\
 		chromeos-base/chromeos-ish:*|\
@@ -311,7 +313,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-boot/chromeos-mrc:*|\
 		sys-boot/coreboot:*|\
 		sys-boot/depthcharge:*|\
-		sys-boot/syslinux:*|\
+		sys-boot/syslinux:6.04*|\
 		sys-firmware/chromeos-fpmcu-release-bloonchipper:*|\
 		sys-firmware/chromeos-fpmcu-release-dartmonkey:*|\
 		sys-firmware/chromeos-fpmcu-release-nami:*|\
