@@ -1,5 +1,6 @@
-# Copyright (c) 2010 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2
+# Copyright 2010 The ChromiumOS Authors.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
@@ -98,7 +99,8 @@ RDEPEND="${COMMON_DEPEND}
 	sys-apps/upstart
 	sys-apps/util-linux
 	sys-block/parted
-	sys-fs/e2fsprogs"
+	sys-fs/e2fsprogs
+	sys-kernel/linux-firmware"
 
 
 src_unpack() {
