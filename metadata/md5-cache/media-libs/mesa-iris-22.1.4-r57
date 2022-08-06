@@ -4,11 +4,11 @@ DEPEND=dev-libs/expat:= >=x11-libs/libdrm-2.4.94:=
 DESCRIPTION=The Mesa 3D Graphics Library
 EAPI=7
 HOMEPAGE=http://mesa3d.org/
-IUSE=debug libglvnd tools vulkan zstd cros_host cros_workon_tree_f86a5a4d73a652ef759fcf4bab298d4949d99497 asan coverage fuzzer msan tsan ubsan
+IUSE=debug libglvnd tools vulkan zstd cros_host cros_workon_tree_091ba5963bbc6e095dede2f4f06f80322ce12168 asan coverage fuzzer msan tsan ubsan
 KEYWORDS=*
 LICENSE=MIT SGI-B-2.0
 PROPERTIES=live
 RDEPEND=dev-libs/expat:= >=x11-libs/libdrm-2.4.94:= libglvnd? ( media-libs/libglvnd ) !libglvnd? ( !media-libs/libglvnd ) zstd? ( app-arch/zstd )
-SLOT=0/22.1.4-r56
+SLOT=0/22.1.4-r57
 _eclasses_=base	ec46b36a6f6fd1d0b505a33e0b74e413	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	cros-workon	ef32a61bc5aebb70f04172c67b6c0c54	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	meson	1cac59cd2074f59abbe00de88e93af9f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=35a2d3dfb49797e55bdeff4955229ca6
+_md5_=7d4155aed25175bac85a22a8f2510d78
