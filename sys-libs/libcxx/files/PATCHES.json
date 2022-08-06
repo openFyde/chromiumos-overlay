@@ -209,5 +209,33 @@
             "from": 464293,
             "until": 465884
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[libc++] Add a test to pin down the set of transitive public includes"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "23d6cde14de352e05c66ae34cd237e3a7a8955d1.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 465694
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[libc++] Re-add transitive includes that had been removed since LLVM 14"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "de4a57cb21a19179d7be830967e642b868a05a91.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 466067
+        }
     }
 ]
