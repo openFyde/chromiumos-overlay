@@ -127,6 +127,7 @@ src_install() {
 	dobin "${FILESDIR}/get_bluetooth_device_class.sh"
 	dobin "${FILESDIR}/start_bluetoothd.sh"
 	dobin "${FILESDIR}/start_bluetoothlog.sh"
+	dobin "${FILESDIR}/set_bluetooth_coredump.sh"
 
 	# Install init scripts.
 	if use systemd; then
@@ -151,6 +152,7 @@ src_install() {
 	udev_dorules "${FILESDIR}/99-uhid.rules"
 	udev_dorules "${FILESDIR}/99-ps3-gamepad.rules"
 	udev_dorules "${FILESDIR}/99-bluetooth-quirks.rules"
+	udev_dorules "${FILESDIR}/99-bluetooth-devcoredump.rules"
 
 	# Install the config files.
 	cp "${FILESDIR}/main.conf" main.conf || die
