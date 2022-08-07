@@ -1,0 +1,8 @@
+DEFINED_PHASES=-
+DESCRIPTION=Licenses for NEC PPD files
+EAPI=7
+HOMEPAGE=https://jpn.nec.com/printer/laser/index.html
+KEYWORDS=*
+LICENSE=LICENSE.nec-ppds
+SLOT=0
+_md5_=8b9e9e1a51df60dfa092d9a24ea496e3
