@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ef3f8691edd3ab77b00e0b69444a8e2e0036b332"
-CROS_WORKON_TREE="79ce387ec81e6ce71e43983b4f15631de03ce7f6"
+CROS_WORKON_COMMIT="994b0e9fbc4622425230e729ef09b39e66e679e5"
+CROS_WORKON_TREE="a3ae580fd8d643980195b89816a63e8d6c61af34"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -30,6 +30,7 @@ RDEPEND="
 CLIENT_IUSE_TESTS="
 	+tests_bluetooth_AVLHCI
 	+tests_bluetooth_AVLDriver
+	+tests_bluetooth_AdapterQuickHealthClient
 "
 
 IUSE_TESTS="${IUSE_TESTS}
