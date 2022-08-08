@@ -197,6 +197,10 @@ src_install() {
 	# Install tmpfiles (don't forget to update sepolicy if you change the
 	# files/folders created to something other than /var/lib/bluetooth)
 	dotmpfiles "${FILESDIR}/tmpfiles.d/floss.conf"
+
+	# Install config files
+	insinto /etc/bluetooth/
+	doins "${FILESDIR}/config/bt_did.conf"
 }
 
 platform_pkg_test() {
