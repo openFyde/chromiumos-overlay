@@ -64,7 +64,7 @@ IUSE="amd_cpu intel_cpu"
 # GSC
 IUSE="${IUSE} mocktpm ti50_onboard"
 # AMD chipsets
-IUSE="${IUSE} chipset_cezanne chipset_picasso chipset_stoneyridge"
+IUSE="${IUSE} chipset_cezanne chipset_stoneyridge"
 # Debug
 IUSE="${IUSE} fw_debug intel_debug intel-compliance-test-mode"
 # Logging
