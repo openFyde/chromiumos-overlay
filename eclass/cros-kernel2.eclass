@@ -1387,6 +1387,7 @@ builtin_fw_guc_adl_desc="GuC Firmware for ADL"
 builtin_fw_guc_adl_files=(
 	i915/tgl_guc_49.0.1.bin
 	i915/adlp_guc_62.0.3.bin
+	i915/adlp_guc_69.0.3.bin
 )
 
 builtin_fw_guc_adl_kernelnext_desc="GuC Firmware for ADL Kernelnext"
@@ -1397,7 +1398,7 @@ builtin_fw_guc_adl_kernelnext_files=(
 
 builtin_fw_guc_adln_desc="GuC Firmware for ADL-N"
 builtin_fw_guc_adln_files=(
-	i915/tgl_guc_62.0.0.bin
+	i915/tgl_guc_69.0.3.bin
 )
 
 builtin_fw_guc_g9_desc="GuC Firmware for Gen9"
