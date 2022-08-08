@@ -6,7 +6,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk discod libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk discod libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="discod"
 
@@ -20,6 +20,7 @@ IUSE=""
 
 COMMON_DEPEND="
 	chromeos-base/libhwsec-foundation:=
+	chromeos-base/metrics:=
 	sys-apps/rootdev:=
 "
 
