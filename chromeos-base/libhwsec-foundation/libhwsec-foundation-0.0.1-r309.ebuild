@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1a23f32c407371216dce72b8edba954e08ec6fdb"
-CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "04b304bfe9b1cb40709964339c46a34f69002fd7" "3c272999b00069d888ea77f89074d07ef40ef6d5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="98b3b14ce9691c4e0d1c3d0797a3f961a1dea314"
+CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "04b304bfe9b1cb40709964339c46a34f69002fd7" "8ca9c97a07408fdff5abf480fb1b2a15405b6bc0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,43 +32,9 @@ RDEPEND="
 	"
 
 src_install() {
-	# Install header files.
-	local header_dirs=(
-		.
-		status
-		status/impl
-		syscaller
-		tpm_error
-		utility
-		error
-		tpm
-		profiling
-	)
-	local d
-	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/libhwsec-foundation/"${d}"
-		doins "${d}"/*.h
-	done
-
-	dolib.so "${OUT}"/lib/libhwsec-foundation.so
-	dolib.a "${OUT}"/libhwsec-profiling.a
-
-	dosbin "${OUT}"/tpm_version_client
-
-	if use tpm_dynamic; then
-		dosbin tool/tpm_version
-
-		insinto /etc/init
-		doins init/no-tpm-checker.conf
-	fi
+	platform_install
 }
 
 platform_pkg_test() {
-	local tests=(
-		hwsec-foundation_testrunner
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
