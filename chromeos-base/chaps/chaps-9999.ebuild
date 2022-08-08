@@ -119,7 +119,6 @@ platform_pkg_test() {
 		object_policy_test
 		object_pool_test
 		object_store_test
-		opencryptoki_importer_test
 		isolate_login_client_test
 	)
 	use tpm2 && tests+=(
