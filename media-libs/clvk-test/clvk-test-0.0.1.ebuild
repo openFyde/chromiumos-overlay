@@ -1,11 +1,12 @@
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2
+# Copyright 2021 The ChromiumOS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d416170a674622f20bac04b7dd33b68bfb4096f6"
+CROS_WORKON_COMMIT="ad6d1b71dc6b351928b6c9e9d4d826e39fe2ea44"
 
-CROS_WORKON_TREE="d416170a674622f20bac04b7dd33b68bfb4096f6"
+CROS_WORKON_TREE="ad6d1b71dc6b351928b6c9e9d4d826e39fe2ea44"
 
 CROS_WORKON_MANUAL_UPREV="1"
 

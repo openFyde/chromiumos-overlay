@@ -1,16 +1,17 @@
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2
+# Copyright 2021 The ChromiumOS Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
 EAPI=7
 
 CROS_WORKON_COMMIT=(
-	"d416170a674622f20bac04b7dd33b68bfb4096f6"
-	"36be6ddbf10224792ce241f8b089ef9e22c15d80"
+	"ad6d1b71dc6b351928b6c9e9d4d826e39fe2ea44"
+	"c6e5827af039c20e44c6c0a1d9ee6dd89c251646"
 )
 
 CROS_WORKON_TREE=(
-	"d416170a674622f20bac04b7dd33b68bfb4096f6"
-	"36be6ddbf10224792ce241f8b089ef9e22c15d80"
+	"ad6d1b71dc6b351928b6c9e9d4d826e39fe2ea44"
+	"c6e5827af039c20e44c6c0a1d9ee6dd89c251646"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -66,7 +67,7 @@ DEPEND="
 	>=dev-util/vulkan-headers-1.3.211
 	>=dev-util/opencl-headers-2021.04.29
 	>=dev-util/spirv-tools-1.3.211
-	>=dev-util/spirv-headers-1.3.211
+	>=dev-util/spirv-headers-1.3.211-r1
 "
 
 # target runtime dependencies
@@ -82,12 +83,13 @@ BDEPEND="
 
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
-	PATCHES+=("${FILESDIR}/clvk-CL_MEM_USE_COPY_HOST_PTR.patch")
 	PATCHES+=("${FILESDIR}/clvk-opencl12.patch")
 	# TODO(b/228820464) : To be removed once Intel issue on OpMulExtended is fixed.
 	PATCHES+=("${FILESDIR}/hack-mul-extended.patch")
 	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
 	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
+	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
+	PATCHES+=("${FILESDIR}/clvk-sampledbuffer.patch")
 fi
 
 src_unpack() {
