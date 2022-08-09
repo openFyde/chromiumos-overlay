@@ -49,6 +49,8 @@ src_configure() {
 	export SECCOMP_DEFAULT_RET_LOG=$(usex default-ret-log)
 	export USE_SYSTEM_GTEST=yes
 	export DEFAULT_PIVOT_ROOT=/mnt/empty
+	export BLOCK_SYMLINKS_IN_BINDMOUNT_PATHS=yes
+	export BINDMOUNT_ALLOWED_PREFIXES=/dev,/sys,/var/log/power_manager
 }
 
 # Use qemu-user to run the platform-specific dump_constants binary in order to
