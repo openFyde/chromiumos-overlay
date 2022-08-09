@@ -25,6 +25,7 @@ DEPEND="
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/futures-0.3*:=
 	=dev-rust/remain-0.2*:=
+	dev-rust/serde_json:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	=dev-rust/thiserror-1*:=
