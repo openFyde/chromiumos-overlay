@@ -46,6 +46,10 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-15.0_pre458507_p20220602-r1000"; then
+		eapply "${FILESDIR}/0001-refactors-so-that-the-project-is-LLVM-15-compatible.patch"
+		eapply_user
+	fi
 	sed -i -e 's:-n auto::' -e 's:--flake8::' setup.cfg || die
 	cmake_src_prepare
 }
