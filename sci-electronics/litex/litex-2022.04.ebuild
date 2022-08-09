@@ -12,9 +12,7 @@ create FPGA Cores/SOCs, to create FPGA Cores/SoCs, to explore various digital de
 architectures and create full FPGA based systems."
 HOMEPAGE="https://github.com/enjoy-digital/litex"
 
-GIT_REV="6b3eda16f23d485ebcb13739b2f53d108d8e5451"
-
-SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
+SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
@@ -27,11 +25,9 @@ RDEPEND="
 	dev-python/requests[${PYTHON_USEDEP}]
 "
 
-S="${WORKDIR}/${PN}-${GIT_REV}"
-
-PATCHES="
-	${FILESDIR}/litex-2021.04_p20210811-add-riscv-cros-elf-to-known-riscv-toolchains.patch
-"
+PATCHES=(
+	"${FILESDIR}/${P}-add-riscv-cros-elf-to-known-riscv-toolchains.patch"
+)
 
 distutils_enable_tests unittest
 
@@ -39,6 +35,8 @@ src_test() {
 	# ECC tests require 'litedram' which in turn requires 'litex' for testing.
 	# Let's just skip them.
 	mv test/{,skipped-}test_ecc.py || die
+	# Similarly, the CPU tests require liteeth.
+	mv test/{,skipped-}test_cpu.py || die
 
 	distutils-r1_src_test
 }

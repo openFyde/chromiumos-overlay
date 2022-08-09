@@ -4,24 +4,22 @@
 EAPI=7
 
 PYTHON_COMPAT=( python3_{6..9} )
+DISTUTILS_USE_SETUPTOOLS=rdepend
 inherit distutils-r1
 
-DESCRIPTION="LiteICLink provides small footprint and configurable Inter-Chip
-communication cores."
-HOMEPAGE="https://github.com/enjoy-digital/liteiclink"
+DESCRIPTION="LiteEth provides a small footprint and configurable Ethernet core."
+HOMEPAGE="https://github.com/enjoy-digital/liteeth"
 
-GIT_REV="3d8ecdbcf9f0260292221ff63b0ad3f5e409a955"
-SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
+SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
+	sci-electronics/liteiclink[${PYTHON_USEDEP}]
 	sci-electronics/litex[${PYTHON_USEDEP}]
 	sci-electronics/migen[${PYTHON_USEDEP}]
 "
-
-S="${WORKDIR}/${PN}-${GIT_REV}"
 
 distutils_enable_tests unittest

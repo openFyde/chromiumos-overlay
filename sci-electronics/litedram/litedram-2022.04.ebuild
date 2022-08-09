@@ -10,8 +10,7 @@ inherit distutils-r1
 DESCRIPTION="LiteDRAM provides a small footprint and configurable DRAM core."
 HOMEPAGE="https://github.com/enjoy-digital/litedram"
 
-GIT_REV="203cc73cebec56faa0ed5c8900e15ac2c1dfe32b"
-SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
+SRC_URI="https://github.com/enjoy-digital/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-2"
 SLOT="0"
@@ -29,8 +28,6 @@ RDEPEND="
 		)
 	)
 "
-
-S="${WORKDIR}/${PN}-${GIT_REV}"
 
 distutils_enable_tests unittest
 
