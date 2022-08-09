@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1a23f32c407371216dce72b8edba954e08ec6fdb"
+CROS_WORKON_COMMIT="9bbe3d4f06a612d74b364226851f121bd539e8c5"
 CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -68,6 +68,11 @@ src_install() {
 	dodir "${daemon_store}"
 	fperms 0774 "${daemon_store}"
 	fowners chronos:chronos-access "${daemon_store}"
+
+	local appsync_daemon_store="/etc/daemon-store/appsync-consent"
+	dodir "${appsync_daemon_store}"
+	fperms 0774 "${appsync_daemon_store}"
+	fowners chronos:chronos-access "${appsync_daemon_store}"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	dolib.so "${OUT}/lib/libmetrics.so"
