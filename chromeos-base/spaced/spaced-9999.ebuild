@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk spaced .gn"
+CROS_WORKON_SUBTREE="common-mk spaced system_api .gn"
 
 PLATFORM_SUBDIR="spaced"
 
@@ -19,6 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/spaced/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="+seccomp"
+
+DEPEND="
+	chromeos-base/system_api:=
+"
 
 pkg_preinst() {
 	enewuser "spaced"
