@@ -1,9 +1,10 @@
 # Copyright 2021 The Chromium OS Authors. All rights reserved.
-# Distributed under the terms of the GNU General Public License v2
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0f30e679cfa077ec2b52502e778d50aa45738cc8"
+CROS_WORKON_COMMIT="bc351184c9e87089a5c985fb829b2d76d1b79104"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4be8d3ae5664634825afc2e6e4b8c24816ee9b9e" "835ea099c8643676eca960bb95a9349559008807" "81608e81e7a1a6aacd7096a66fd44588c1d5ece9")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -44,7 +45,7 @@ REQUIRED_USE="
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
 PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.07.26.tbz2"
-PACKAGE_DOCUMENT_SCANNING="chromeos-document-scanning-lib-2021.11.10.tar.bz2"
+PACKAGE_DOCUMENT_SCANNING="chromeos-document-scanning-lib-2022.08.05.tar.bz2"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2022.02.24.tar.bz2"
 PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2020.04.06-unstripped.tbz2"
