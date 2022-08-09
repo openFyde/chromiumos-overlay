@@ -74,11 +74,10 @@ src_configure() {
 
 	export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 
-	append-flags "-UENABLE_SHADER_CACHE"
-
 	emesonargs+=(
 		-Dexecmem=false
 		-Dglvnd=$(usex libglvnd true false)
+		-Dshader-cache-default=false
 		-Dglx=disabled
 		-Dllvm=true
 		-Dshared-llvm=false
