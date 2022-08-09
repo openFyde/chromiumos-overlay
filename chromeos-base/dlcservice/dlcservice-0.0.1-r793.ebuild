@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1a23f32c407371216dce72b8edba954e08ec6fdb"
+CROS_WORKON_COMMIT="709c9b55279309d92c25d38874a8350e10c9d6a9"
 CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "be66f552f2c2ee937edafa582658f67dad6bf29e" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,10 +21,14 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservi
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer"
+IUSE="
+	fuzzer
+	lvm_stateful_partition
+"
 
 RDEPEND="
 	chromeos-base/imageloader:=
+	lvm_stateful_partition? ( chromeos-base/lvmd:= )
 	chromeos-base/minijail:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:="
@@ -32,6 +36,7 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client:=
 	chromeos-base/imageloader-client:=
+	lvm_stateful_partition? ( chromeos-base/lvmd-client:= )
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/session_manager-client:=
 	chromeos-base/update_engine-client:=
