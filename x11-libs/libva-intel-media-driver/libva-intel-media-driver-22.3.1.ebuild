@@ -33,6 +33,7 @@ PATCHES=(
 	"${FILESDIR}"/0006-Revert-Media-Common-Optimization-getimage.patch
 	"${FILESDIR}"/0007-CHROMIUM-disable-GucSubmission-for-adl.patch
 	"${FILESDIR}"/0008-BACKPORT-RPLP-upstream.patch
+	"${FILESDIR}"/0009-FROMGIT-iHD-VP-Force-set-m_EngineCaps-to-0-in-constr.patch
 )
 
 src_configure() {
