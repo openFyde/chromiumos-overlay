@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dbace629416f1d5a9c06b9ed4d741e0b1dbd2ba6"
-CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "04b304bfe9b1cb40709964339c46a34f69002fd7" "8ca9c97a07408fdff5abf480fb1b2a15405b6bc0" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "ed3191fe255018177a98de972a08328fcd54f3a0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="cc72118a5d931e8b71614ca8b000048fdd02afb5"
+CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "2e036f417afe5d55dcbd138f7bfe2c98ab14403f" "8ca9c97a07408fdff5abf480fb1b2a15405b6bc0" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "0c8e3de65339e7e6a1ffe16a54c7ae719bacc57c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -53,6 +53,7 @@ COMMON_DEPEND="
 	fuzzer? (
 		dev-cpp/gtest:=
 	)
+	chromeos-base/pinweaver:=
 	"
 
 RDEPEND="
@@ -120,7 +121,7 @@ src_install() {
 	fi
 
 	insinto /usr/include/trunks
-	doins *.h
+	doins ./*.h
 	doins "${OUT}"/gen/include/trunks/*.h
 
 	insinto /usr/include/trunks/csme
