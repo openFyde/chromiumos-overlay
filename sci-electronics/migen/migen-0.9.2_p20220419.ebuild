@@ -10,7 +10,7 @@ inherit distutils-r1
 DESCRIPTION="Python toolbox for building complex digital hardware."
 HOMEPAGE="https://github.com/m-labs/migen"
 
-GIT_REV="ac703010eaa06ac9b6e32f97c6fa98b15de22b31"
+GIT_REV="d4e3f34177c32f09904397179e6ed9c83175e528"
 SRC_URI="https://github.com/m-labs/${PN}/archive/${GIT_REV}.tar.gz -> ${PN}-${GIT_REV}.tar.gz"
 
 LICENSE="BSD-2"
