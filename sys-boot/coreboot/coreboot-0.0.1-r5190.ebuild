@@ -161,16 +161,18 @@ EOF
 	if use fw_debug; then
 		echo "CONFIG_BUILDING_WITH_DEBUG_FSP=y" >> "${CONFIG}"
 	fi
-	# disable coreboot's own EC firmware building mechanism
-	echo "CONFIG_EC_GOOGLE_CHROMEEC_FIRMWARE_NONE=y" >> "${CONFIG}"
-	echo "CONFIG_EC_GOOGLE_CHROMEEC_PD_FIRMWARE_NONE=y" >> "${CONFIG}"
-	# enable common GBB flags for development
-	echo "CONFIG_GBB_FLAG_DEV_SCREEN_SHORT_DELAY=y" >> "${CONFIG}"
-	echo "CONFIG_GBB_FLAG_DISABLE_FW_ROLLBACK_CHECK=y" >> "${CONFIG}"
-	echo "CONFIG_GBB_FLAG_FORCE_DEV_BOOT_USB=y" >> "${CONFIG}"
-	echo "CONFIG_GBB_FLAG_FORCE_DEV_SWITCH_ON=y" >> "${CONFIG}"
 	local version=$("${CHROOT_SOURCE_ROOT}"/src/third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh |grep "^[[:space:]]*CHROMEOS_VERSION_STRING=" |cut -d= -f2 | tr - _)
-	echo "CONFIG_VBOOT_FWID_VERSION=\".${version}\"" >> "${CONFIG}"
+	{
+		# disable coreboot's own EC firmware building mechanism
+		echo "CONFIG_EC_GOOGLE_CHROMEEC_FIRMWARE_NONE=y"
+		echo "CONFIG_EC_GOOGLE_CHROMEEC_PD_FIRMWARE_NONE=y"
+		# enable common GBB flags for development
+		echo "CONFIG_GBB_FLAG_DEV_SCREEN_SHORT_DELAY=y"
+		echo "CONFIG_GBB_FLAG_DISABLE_FW_ROLLBACK_CHECK=y"
+		echo "CONFIG_GBB_FLAG_FORCE_DEV_BOOT_USB=y"
+		echo "CONFIG_GBB_FLAG_FORCE_DEV_SWITCH_ON=y"
+		echo "CONFIG_VBOOT_FWID_VERSION=\".${version}\""
+	} >> "${CONFIG}"
 	if use em100-mode; then
 		einfo "Enabling em100 mode via CONFIG_EM100 (slower SPI flash)"
 		echo "CONFIG_EM100=y" >> "${CONFIG}"
@@ -213,10 +215,10 @@ EOF
 
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
 	file="${FILESDIR}/configs/fwserial.${board}"
-	if [ ! -f "${file}" ] && [ -n "${base_board}" ]; then
+	if [[ ! -f "${file}" && -n "${base_board}" ]]; then
 		file="${FILESDIR}/configs/fwserial.${base_board}"
 	fi
-	if [ ! -f "${file}" ]; then
+	if [[ ! -f "${file}" ]]; then
 		file="${FILESDIR}/configs/fwserial.default"
 	fi
 	cat "${file}" >> "${CONFIG_SERIAL}" || die
@@ -346,7 +348,7 @@ add_fw_blobs() {
 			"${blobfile}" || die
 	done
 
-	if [ -d ${froot}/cbfs ]; then
+	if [[ -d "${froot}/cbfs" ]]; then
 		die "something is still using ${froot}/cbfs, which is deprecated."
 	fi
 }
@@ -375,7 +377,7 @@ src_compile() {
 		export CROSS_COMPILE_arm64=${COREBOOT_SDK_PREFIX_arm64}
 		export CROSS_COMPILE_arm=${COREBOOT_SDK_PREFIX_arm}
 
-		export PATH=/opt/coreboot-sdk/bin:$PATH
+		export PATH="/opt/coreboot-sdk/bin:${PATH}"
 	fi
 
 	use verbose && elog "Toolchain:\n$(sh util/xcompile/xcompile)\n"
@@ -424,19 +426,19 @@ do_install() {
 	FSP=$( awk 'BEGIN{FS="\""} /CONFIG_FSP_FILE=/ { print $2 }' \
 		"${CONFIG}" )
 	if [[ -n "${FSP}" ]]; then
-		newins ${FSP} fsp.bin
+		newins "${FSP}" fsp.bin
 	fi
 	# Save the psp_verstage binary for signing on AMD Fam17h platforms
 	if [[ -e "${BUILD_DIR}/psp_verstage.bin" ]]; then
 		newins "${BUILD_DIR}/psp_verstage.bin" psp_verstage.bin
 	fi
 	if [[ -n "${OPROM}" ]]; then
-		newins ${OPROM} ${CBFSOPROM}
+		newins "${OPROM}" "${CBFSOPROM}"
 	fi
 	if use memmaps; then
 		for mapfile in "${BUILD_DIR}"/cbfs/fallback/*.map
 		do
-			doins $mapfile
+			doins "${mapfile}"
 		done
 	fi
 	newins "${CONFIG}" coreboot.config
