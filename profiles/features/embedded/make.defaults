@@ -100,5 +100,8 @@ USE="${USE} -ml_benchmark_drivers"
 # Disable mojo service manager.
 USE="${USE} -mojo_service_manager"
 
+# Disable SELinux.
+USE="${USE} -selinux"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
