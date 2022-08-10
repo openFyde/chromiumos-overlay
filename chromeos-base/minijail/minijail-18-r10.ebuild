@@ -7,7 +7,7 @@ CROS_WORKON_COMMIT="45e2dd6f2d40b817d2d47b056c8a91b14a99bcb1"
 CROS_WORKON_TREE="06acbd51e27d778759023ce81fc15ea8515f83e5"
 inherit cros-constants
 
-CROS_WORKON_LOCALNAME="../platform/minijail"
+CROS_WORKON_LOCALNAME="platform/minijail"
 CROS_WORKON_PROJECT="chromiumos/platform/minijail"
 CROS_WORKON_EGIT_BRANCH="main"
 
