@@ -41,7 +41,6 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/load-config-testrunner"
 	platform_test "run" "${OUT}/mock-printer-testrunner"
 	platform_test "run" "${OUT}/smart-buffer-testrunner"
-	platform_test "run" "${OUT}/usb-printer-testrunner"
 }
 
 src_install() {
