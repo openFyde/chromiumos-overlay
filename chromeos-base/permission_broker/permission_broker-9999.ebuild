@@ -10,7 +10,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk permission_broker .gn"
 
 PLATFORM_NATIVE_TEST="yes"
-PLATFORM_SUBDIR="${PN}"
+PLATFORM_SUBDIR="permission_broker"
 
 inherit cros-workon platform udev user
 
