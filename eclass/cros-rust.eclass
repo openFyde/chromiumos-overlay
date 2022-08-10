@@ -132,8 +132,8 @@ RDEPEND="
 	virtual/rust-binaries:=
 "
 
-ECARGO_HOME="${WORKDIR}/cargo_home"
 CROS_RUST_REGISTRY_BASE="/usr/lib/cros_rust_registry"
+ECARGO_HOME="${WORKDIR}/cargo_home"
 CROS_RUST_REGISTRY_DIR="${CROS_RUST_REGISTRY_BASE}/store"
 CROS_RUST_REGISTRY_INST_DIR="${CROS_RUST_REGISTRY_BASE}/registry"
 # Crate owners directory. This has one file per crate in
@@ -287,6 +287,8 @@ cros-rust_src_unpack() {
 	fi
 
 	# Tell cargo not to use terminal colors if NOCOLOR is set.
+	# Shellcheck thinks NOCOLOR is never defined.
+	# shellcheck disable=SC2154
 	if [[ "${NOCOLOR}" == true || "${NOCOLOR}" == yes ]]; then
 		cat <<- EOF >> "${ECARGO_HOME}/config"
 
@@ -489,7 +491,7 @@ cros-rust_configure_cargo() {
 
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
- 	# TODO(b/230127632) disable Rust coverage until it works-as-intended.
+	# TODO(b/230127632) disable Rust coverage until it works-as-intended.
 	# use coverage && rustflags+=( -Cinstrument-coverage )
 
 	# Rust compiler is not exporting the __asan_* symbols needed in
@@ -565,6 +567,9 @@ cros-rust_update_cargo_lock() {
 	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
 		# Force an update the Cargo.lock file.
 		ecargo generate-lockfile
+		# Shellcheck thinks CROS_WORKON_INCREMENTAL_BUILD is never
+		# defined.
+		# shellcheck disable=SC2154
 		if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" == "1" ]]; then
 			local previous_lockfile="${CARGO_TARGET_DIR}/Cargo.lock.prev"
 			# If any of the dependencies have changed, clear the incremental results.
@@ -1041,6 +1046,82 @@ _create_registry_link() {
 			echo -n "${PF}" > "${owners}" || die
 		) 100>"$(cros-rust_get_reg_lock)"
 	fi
+}
+
+# @FUNCTION: cros-rust_cleanup_vendor_registry_links
+# @DESCRIPTION: force [crate name ...]
+# This cleans up the given vendor directories. If force is nonempty, their links
+# will be cleaned up regardless of declared ownership. Otherwise, ownership will
+# be respected.
+cros-rust_cleanup_vendor_registry_links() {
+	local force="$1"
+	shift
+	local dirs=( "$@" )
+
+	local owner_dir="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}"
+	# The registry might not exist. In that case, great; skip everything.
+	# Check the owner dir rather than the registry dir, since the registry
+	# dir is created before the owner dir, and both are needed for the logic
+	# below.
+	[[ -e "${inst_dir}" ]] || return 0
+
+	local dir remove_paths=()
+	for dir in "${dirs[@]}"; do
+		remove_paths+=( "${dir##*/}" )
+	done
+
+	(
+		local inst_dir=""
+		local owned_files=()
+
+		cd "${owner_dir}" || die
+		flock --exclusive 100
+		if [[ -n "${force}" ]]; then
+			owned_files=( "${remove_paths[@]}" )
+		else
+			for path in "${remove_paths[@]}"; do
+				if [[ "$(< "${path}" 2>/dev/null)" == "${PF}" ]]; then
+					owned_files+=( "${path}" )
+				fi
+			done
+		fi
+
+		rm -f "${owned_files[@]}" || die
+		cd "${ROOT}${CROS_RUST_REGISTRY_INST_DIR}" || die
+		rm -f "${owned_files[@]}" || die
+	) 100>"$(cros-rust_get_reg_lock)"
+}
+
+# @FUNCTION: cros-rust_create_vendor_registry_links
+# @DESCRIPTION: [crate name ...]
+# creates a registry link for every crate in [vendor tree base]. [vendor tree
+# base] should be a path to the root of a Cargo vendor/ directory. Intended
+# specifically for use by third-party-crates-src.
+#
+# This assumes that all of the crates in [vendor tree base] have been installed
+# in the registry directory.
+cros-rust_create_vendor_registry_links() {
+	local dirs=( "$@" )
+
+	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
+	mkdir -p "${registry_dir}" || die
+
+	# Use a subshell so we can conveniently lock the registry lock only once.
+	(
+		flock --exclusive 100 || die
+		local crate_srcs="${ROOT}${CROS_RUST_REGISTRY_DIR}"
+		local crate crate_src
+		for crate in "${dirs[@]}"; do
+			crate_src="${crate_srcs}/${crate}"
+			# We unconditionally remove crate links from the registry in prerm and
+			# preinst stages. Since we can call this from postrm (to readd any links in
+			# case another package now provides a crate), ensure the source exists;
+			# exit cleanly otherwise.
+			if [[ -e "${crate_src}" ]]; then
+				ln -srTf "${crate_src}" "${registry_dir}/${crate}" || die
+			fi
+		done
+	) 100>"$(cros-rust_get_reg_lock)"
 }
 
 # @FUNCTION: cros-rust_pkg_preinst

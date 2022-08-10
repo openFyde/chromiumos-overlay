@@ -1,5 +1,6 @@
 *~
 *.swp
+__pycache__/
 cross-*
 
 # Local eng changes to text editor config shouldn't show up in `git status`
