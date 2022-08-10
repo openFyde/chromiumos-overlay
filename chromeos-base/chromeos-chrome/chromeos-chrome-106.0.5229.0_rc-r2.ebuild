@@ -714,6 +714,7 @@ setup_test_lists() {
 		capture_unittests
 		dawn_end2end_tests
 		dawn_unittests
+		fake_dmserver
 		gl_tests
 		jpeg_decode_accelerator_unittest
 		ozone_gl_unittests
