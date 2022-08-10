@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libmems metrics rmad .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libec libmems metrics rmad .gn"
 
 PLATFORM_SUBDIR="rmad"
 
@@ -40,6 +40,7 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
+	chromeos-base/libec:=
 	chromeos-base/metrics:=
 	chromeos-base/runtime_probe-client:=
 	chromeos-base/shill-client:=
