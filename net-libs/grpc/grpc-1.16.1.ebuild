@@ -1,7 +1,7 @@
 # Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit cros-fuzzer cros-sanitizers flag-o-matic toolchain-funcs
 
@@ -12,7 +12,7 @@ HOMEPAGE="https://www.grpc.io"
 SRC_URI="https://github.com/${PN}/${PN}/archive/v${MY_PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="Apache-2.0"
-SLOT="0"
+SLOT="1.16.1"
 KEYWORDS="*"
 IUSE="examples doc systemtap static-libs"
 
@@ -23,6 +23,7 @@ RDEPEND="
 	net-dns/c-ares:=
 	sys-libs/zlib:=
 	systemtap? ( dev-util/systemtap )
+	!~net-libs/grpc-1.16.1:0
 "
 # 	dev-util/google-perftools
 
@@ -90,35 +91,33 @@ src_compile() {
 }
 
 src_install() {
-	emake \
-		prefix="${D}"/usr \
-		INSTALL_LIBDIR="$(get_libdir)" \
-		STRIP=/bin/true \
-		install
+	# TODO(b/233623601) Remove this ebuild altogether.
+	# Install the shared objects for this legacy version to the path parallels
+	# expects until the parallels plugin is rebuilt to use the latest version
+	# on ChromeOS.
+	local alt_v="6.0.0"
+	dolib.so "libs/opt/libaddress_sorting.so.${alt_v}"
+	dolib.so "libs/opt/libgpr.so.${alt_v}"
+	dolib.so "libs/opt/libgrpc++.so.${PV}"
+	dolib.so "libs/opt/libgrpc++_cronet.so.${PV}"
+	dolib.so "libs/opt/libgrpc++_error_details.so.${PV}"
+	dolib.so "libs/opt/libgrpc++_reflection.so.${PV}"
+	dolib.so "libs/opt/libgrpc++_unsecure.so.${PV}"
+	dolib.so "libs/opt/libgrpc.so.${alt_v}"
+	dolib.so "libs/opt/libgrpc_cronet.so.${alt_v}"
+	dolib.so "libs/opt/libgrpc_unsecure.so.${alt_v}"
+	dolib.so "libs/opt/libgrpcpp_channelz.so.${PV}"
 
-	use static-libs || find "${ED}" -name '*.a' -delete
-
-	if use examples; then
-		find examples -name '.gitignore' -delete || die
-		dodoc -r examples
-		docompress -x /usr/share/doc/${PF}/examples
-	fi
-
-	if use doc; then
-		find doc -name '.gitignore' -delete || die
-		local DOCS=( AUTHORS README.md TROUBLESHOOTING.md doc/. )
-	fi
-
-	einstalldocs
-}
-
-pkg_postinst() {
-	local v
-	for v in ${REPLACING_VERSIONS}; do
-		if ver_test "${v}" -lt 1.16.0; then
-			ewarn "python bindings and tools moved to separate independent packages"
-			ewarn "check dev-python/grpcio and dev-python/grpcio-tools"
-		fi
+	# ChromeOS: symlinks required by PITA.
+	local symdir="/usr/$(get_libdir)"
+	local libs=(
+		'libgrpc++'
+		'libgrpc++_alts'
+		'libgrpc++_error_details'
+		'libgrpc++_reflection'
+		'libgrpc++_unsecure'
+	)
+	for lib in "${libs[@]}"; do
+		dosym "./${lib}.so.${PV}" "${symdir}/${lib}.so.1"
 	done
-
 }
