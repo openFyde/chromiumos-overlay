@@ -5,7 +5,7 @@ EAPI=7
 
 inherit cros-constants
 
-CROS_WORKON_LOCALNAME="platform/minijail"
+CROS_WORKON_LOCALNAME="../platform/minijail"
 CROS_WORKON_PROJECT="chromiumos/platform/minijail"
 CROS_WORKON_EGIT_BRANCH="main"
 
