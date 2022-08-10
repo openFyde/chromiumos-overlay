@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("0f30e679cfa077ec2b52502e778d50aa45738cc8" "927a6f0793e8cb15226e9431516cc8f90beeb27d" "181f7c798017c00372848000f4ba38b04936e5ab")
-CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "02b9f84df0b40010d822c0af0f8bfc88fcfc3abc" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
+CROS_WORKON_COMMIT=("be0a51c6f8bf94ab19e7d38c575e1a602652383d" "a20bb10d95f22dc95f0f1779205b381f8c14569d" "181f7c798017c00372848000f4ba38b04936e5ab")
+CROS_WORKON_TREE=("81608e81e7a1a6aacd7096a66fd44588c1d5ece9" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e982c0b168527570ec0e64866af23d7199ef2d42" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -244,7 +244,7 @@ src_install() {
 	einfo "Installing IPC HAL driver & worker"
 	dolib.so "${OUT}/lib/libipc-nn-hal.so"
 	dolib.so "${OUT}/lib/libmojo-driver-canonical.so"
-	# dobin "${OUT}/nnapi_worker"
+	dobin "${OUT}/nnapi_worker_canonical"
 
 	# Install fuzz targets.
 	local fuzzer
