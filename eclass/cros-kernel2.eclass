@@ -28,7 +28,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_mali_g57? ( virtual/opengles )
 	builtin_fw_t210_bpmp? ( sys-kernel/tegra_bpmp-t210 )
 	builtin_fw_t210_nouveau? ( sys-kernel/nouveau-firmware )
-	builtin_fw_x86_adl_ucode? ( sys-boot/coreboot-private-files-baseboard-brya )
+	builtin_fw_x86_adl_ucode? ( sys-firmware/brya-kernel-ucode )
 	builtin_fw_x86_adln_ucode? ( sys-firmware/adln-ucode-firmware-private )
 	builtin_fw_x86_amd_ucode? ( sys-kernel/linux-firmware[linux_firmware_amd_ucode] )
 	builtin_fw_x86_aml_ucode? ( chromeos-base/aml-ucode-firmware-private )
@@ -41,6 +41,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_x86_intel_ucode? ( sys-firmware/intel-ucode-firmware )
 	builtin_fw_x86_jsl_ucode? ( chromeos-base/jsl-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
+	builtin_fw_x86_rpl_ucode? ( sys-firmware/brya-kernel-ucode )
 	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
 	builtin_fw_x86_tgl_ucode? ( chromeos-base/tgl-ucode-firmware-private )
 	builtin_fw_x86_whl_ucode? ( chromeos-base/whl-ucode-firmware-private )
@@ -1264,6 +1265,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_intel_ucode
 	builtin_fw_x86_jsl_ucode
 	builtin_fw_x86_kbl_ucode
+	builtin_fw_x86_rpl_ucode
 	builtin_fw_x86_skl_ucode
 	builtin_fw_x86_tgl_ucode
 	builtin_fw_x86_whl_ucode
@@ -1657,8 +1659,6 @@ builtin_fw_x86_intel_ucode_files=(
 
 builtin_fw_x86_adl_ucode_desc="Intel ucode for ADL"
 builtin_fw_x86_adl_ucode_files=(
-	intel-ucode/06-9a-02
-	intel-ucode/06-9a-03
 	intel-ucode/06-9a-04
 )
 
@@ -1716,6 +1716,12 @@ builtin_fw_x86_kbl_ucode_desc="Intel ucode for KBL"
 builtin_fw_x86_kbl_ucode_files=(
 	intel-ucode/06-8e-09
 	intel-ucode/06-8e-0a
+)
+
+builtin_fw_x86_rpl_ucode_desc="Intel ucode for RPL"
+builtin_fw_x86_rpl_ucode_files=(
+	intel-ucode/06-ba-02
+	intel-ucode/06-ba-03
 )
 
 builtin_fw_x86_skl_ucode_desc="Intel ucode for SKL"
