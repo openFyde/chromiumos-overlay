@@ -30,7 +30,7 @@ RDEPEND="${DEPEND}
 
 src_install() {
 	cros-rust_src_install
-	dobin "$(cros-rust_get_build_dir)/hello_world"
+	dobin "$(cros-rust_get_build_dir)/tpm2_read_board_id"
 }
 
 src_test() {
