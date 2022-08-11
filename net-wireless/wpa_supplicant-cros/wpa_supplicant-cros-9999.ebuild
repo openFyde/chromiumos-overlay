@@ -159,6 +159,7 @@ src_configure() {
 	Kconfig_style_config IEEE80211R
 	Kconfig_style_config IEEE80211N
 	Kconfig_style_config IEEE80211AC
+	Kconfig_style_config IEEE80211AX
 	Kconfig_style_config HT_OVERRIDES
 	Kconfig_style_config VHT_OVERRIDES
 	Kconfig_style_config OCV
