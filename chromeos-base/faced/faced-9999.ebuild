@@ -33,6 +33,14 @@ DEPEND="
 	chromeos-base/system_api:=
 "
 
+pkg_setup() {
+	# Create the "faced" user and group in pkg_setup instead of pkg_preinst
+	# in order to mount cryptohome daemon store
+	enewuser "faced"
+	enewgroup "faced"
+	cros-workon_pkg_setup
+}
+
 src_install() {
 	platform_install
 }
