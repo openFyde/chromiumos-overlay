@@ -495,11 +495,6 @@ cros-rust_configure_cargo() {
 
 	if use fuzzer; then
 		rustflags+=(
-			# We can get segfaults unless we turn this off; see
-			# https://github.com/rust-lang/rust/issues/99886
-			# Presumably we can remove this once that bug is
-			# resolved.
-			-Cllvm-args=-experimental-debug-variable-locations=0
 			--cfg fuzzing
 			-Cpasses=sancov-module
 			-Cllvm-args=-sanitizer-coverage-level=4
@@ -819,13 +814,6 @@ cros-rust_publish() {
 
 	local name="${1:-${CROS_RUST_CRATE_NAME}}"
 	local version="${2:-${default_version}}"
-
-	# Cargo.toml.orig is now reserved by `cargo package`.
-	if [[ -e Cargo.toml.orig ]]; then
-		# Don't try to delete it if it isn't present, because that can
-		# be a permission error in the Portage sandbox.
-		rm -f Cargo.toml.orig || die
-	fi
 
 	# Create the .crate file.
 	ecargo package --allow-dirty --no-metadata --no-verify --offline || die

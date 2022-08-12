@@ -65,7 +65,6 @@ RUSTC_RAW_FULL_BOOTSTRAP_SEQUENCE=(
 	1.57.0
 	1.58.1
 	1.59.0
-	1.60.0
 )
 
 RUSTC_FULL_BOOTSTRAP_SEQUENCE=()
@@ -208,11 +207,6 @@ src_compile() {
 	local next_version rustc_dir
 	for next_version in "${RUSTC_VERSION_SEQUENCE[@]}"; do
 		einfo "Building rustc-${next_version} using rustc-${prev_version}"
-		# This became necessary in Rust 1.61.0.
-		local static_libstdcpp='static-libstdcpp = false'
-		if [[ "${next_version}" < "1.61.0" ]]; then
-			static_libstdcpp=''
-		fi
 		rustc_dir="${WORKDIR}/rustc-${next_version}-src"
 		cd "${rustc_dir}" || die "Could not chdir to ${rustc_dir}"
 		cat > config.toml <<EOF
@@ -235,7 +229,6 @@ default-linker = "${CC}"
 [llvm]
 # For rust-bootstrap, we only need x86_64, which LLVM calls X86.
 targets = "X86"
-${static_libstdcpp}
 
 [target.x86_64-unknown-linux-gnu]
 cc = "${CC}"
