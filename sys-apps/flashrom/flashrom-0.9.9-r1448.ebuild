@@ -21,16 +21,16 @@ KEYWORDS="*"
 IUSE="
 	atahpt
 	atapromise
-	+atavia
-	+buspirate_spi
-	+ch341a_spi
+	atavia
+	buspirate_spi
+	ch341a_spi
 	dediprog
-	+developerbox_spi
-	+digilent_spi
-	+drkaiser
+	developerbox_spi
+	digilent_spi
+	drkaiser
 	+dummy
 	+ft2232_spi
-	+gfxnvidia
+	gfxnvidia
 	+internal
 	+it8212
 	jlink_spi
@@ -38,21 +38,21 @@ IUSE="
 	+linux_spi
 	+mediatek_i2c_spi
 	mstarddc_spi
-	+nic3com
-	+nicintel
-	+nicintel_eeprom
-	+nicintel_spi
-	+nicnatsemi
-	+nicrealtek
-	+ogp_spi
+	nic3com
+	nicintel
+	nicintel_eeprom
+	nicintel_spi
+	nicnatsemi
+	nicrealtek
+	ogp_spi
 	+parade_lspcon
-	+pickit2_spi
-	+pony_spi
+	pickit2_spi
+	pony_spi
 	+raiden_debug_spi
-	+rayer_spi
+	rayer_spi
 	+realtek_mst_i2c_spi
-	+satasii
-	+satamv
+	satasii
+	satamv
 	+serprog static
 	+stlinkv3_spi
 	test
