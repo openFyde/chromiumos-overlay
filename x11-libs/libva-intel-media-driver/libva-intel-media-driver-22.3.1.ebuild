@@ -34,6 +34,7 @@ PATCHES=(
 	"${FILESDIR}"/0007-CHROMIUM-disable-GucSubmission-for-adl.patch
 	"${FILESDIR}"/0008-BACKPORT-RPLP-upstream.patch
 	"${FILESDIR}"/0009-FROMGIT-iHD-VP-Force-set-m_EngineCaps-to-0-in-constr.patch
+	"${FILESDIR}"/0010-FROMGIT-iHD-Enable-VP8-for-SKL.patch
 )
 
 src_configure() {
