@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="148f838b217050a5405e10c15bfd30dd769f8a19"
-CROS_WORKON_TREE="8a4a7057c5b283b255ea3458779cde8c954101ba"
+CROS_WORKON_COMMIT="2a82f0f01c4d374f742de533013b6431a5fbef5d"
+CROS_WORKON_TREE="54dc28b2ba07f905cdf8b247981361b1187bfa18"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,7 +32,7 @@ RDEPEND="${DEPEND}
 
 src_install() {
 	cros-rust_src_install
-	dobin "$(cros-rust_get_build_dir)/hello_world"
+	dobin "$(cros-rust_get_build_dir)/tpm2_read_board_id"
 }
 
 src_test() {
