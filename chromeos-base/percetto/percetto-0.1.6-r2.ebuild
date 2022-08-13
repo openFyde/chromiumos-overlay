@@ -19,6 +19,10 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
+PATCHES=(
+	"${FILESDIR}"/FROMLIST-fix-build-issues-with-v28.0-sdk.patch
+)
+
 src_configure() {
 	# If not building with cros-debug, the SDK should be built with NDEBUG as
 	# well.
