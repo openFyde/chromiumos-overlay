@@ -16,6 +16,7 @@ inherit cros-rustc
 
 KEYWORDS="*"
 
+BDEPEND="sys-devel/llvm"
 # dev-lang/rust-1.59.0 introduced the split between dev-lang/rust and
 # dev-lang/rust-host; note that here to work around file collisions.
 RDEPEND="!<dev-lang/rust-1.59.0"

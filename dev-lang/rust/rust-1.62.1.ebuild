@@ -37,7 +37,7 @@ inherit cros-rustc
 
 # Use PVR to require simultaneous uprevs of both rust-host and rust, since
 # they're logically talking about the same sources.
-BDEPEND="=dev-lang/rust-host-${PVR}"
+BDEPEND="=dev-lang/rust-host-${PVR} sys-devel/llvm"
 RDEPEND="=dev-lang/rust-host-${PVR}"
 KEYWORDS="*"
 
