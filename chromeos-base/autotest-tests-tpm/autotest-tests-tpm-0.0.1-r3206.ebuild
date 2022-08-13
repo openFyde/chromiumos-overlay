@@ -2,14 +2,17 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="0727b4381fa765b82b263d0bc710d1cbdffaefc4"
-CROS_WORKON_TREE="0dbf5ad985bc0e95032ee939a1cb4305861fb624"
+
+CROS_WORKON_COMMIT="95817555154e03c0e8c0041edfc89da1793b67fb"
+CROS_WORKON_TREE="6a73a3b9893611d68f40462d2c15d7af94c522b8"
+PYTHON_COMPAT=( python3_{6..9} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="debugd autotests"
+DESCRIPTION="Autotests involving the tpm"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
@@ -17,13 +20,20 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 # Enable autotest by default.
-IUSE="+autotest"
+IUSE="+autotest tpm2"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
+	tpm2? ( chromeos-base/g2f_tools )
 "
+DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
+	+tests_firmware_Cr50VirtualNVRam
+	+tests_firmware_Cr50VirtualNVRamServer
+	+tests_firmware_Cr50U2fPowerwash
+	+tests_hardware_TPMCheck
+	+tests_kernel_TPMStress
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
