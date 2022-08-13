@@ -607,3 +607,8 @@ RDEPEND="${RDEPEND}
 # Needed for vkbench.
 RDEPEND="${RDEPEND}
 	dev-util/glslang"
+
+# Needed for federated-service.
+RDEPEND="${RDEPEND}
+	app-arch/snappy
+	media-libs/giflib"
