@@ -2143,7 +2143,7 @@ kmake() {
 		unset CC CXX LD STRIP OBJCOPY NM AR
 	fi
 
-	tc-export_build_env BUILD_{CC,CXX,PKG_CONFIG}
+	tc-export_build_env BUILD_{CC,CXX,LD,PKG_CONFIG}
 	CHOST=${cross} tc-export CC CXX LD STRIP OBJCOPY NM AR
 	if use clang; then
 		STRIP=llvm-strip
@@ -2181,6 +2181,7 @@ kmake() {
 		HOSTCC="${BUILD_CC}" \
 		HOSTCXX="${BUILD_CXX}" \
 		HOSTPKG_CONFIG="${BUILD_PKG_CONFIG}" \
+		HOSTLD="${BUILD_LD}" \
 		CLANG_CROSS_FLAGS="--target=${cross}" \
 		"$@"
 

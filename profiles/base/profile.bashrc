@@ -357,10 +357,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		case ${CATEGORY}/${PN}:${PV} in
 		media-libs/arc-mali-drivers-bifrost:*|\
 		media-libs/mali-drivers-bifrost:*|\
-		sys-kernel/arcvm-kernel-*:*|\
-		sys-kernel/chromeos-kernel-*:*|\
-		sys-kernel/raspberrypi-kernel:*|\
-		sys-kernel/upstream-kernel-*:*) return 1;;
+		sys-kernel/raspberrypi-kernel:*) return 1;;
 		esac
 	}
 	_board_build_filter_as() {
