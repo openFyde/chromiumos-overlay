@@ -20,8 +20,12 @@ SERVO_V4P1_NAME_PREV="servo_v4p1_v2.0.7721-8af602eee"  # Local builds are tempor
 
 # Dev channel firmware
 SERVO_V4P1_NAME_DEV="servo_v4p1_v2.0.8588-3eac32bd44"  # USB3 Patch from CL/3586439
+C2D2_NAME_DEV="c2d2_v2.4.73-d771c18ba9"  # servo-firmware-R81-12768.151.0
+SERVO_MICRO_NAME_DEV="servo_micro_v2.4.73-d771c18ba9"  # servo-firmware-R81-12768.151.0
 
 # Alpha channel firmware
+C2D2_NAME_ALPHA="c2d2_v2.0.18040-0fa6cb3063"                # R106-15042.0.0 build
+SERVO_MICRO_NAME_ALPHA="servo_micro_v2.0.18040-0fa6cb3063"  # R106-15042.0.0 build
 SERVO_V4P1_NAME_ALPHA="servo_v4p1_v2.0.13477-1c6bb5adb" # R103-14703.0.0 build
 
 UPDATER_PATH="/usr/share/servo_updater/firmware"
@@ -30,8 +34,12 @@ MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
 
 SRC_URI="
 	${MIRROR_PATH}/${C2D2_NAME}.tar.gz
+	${MIRROR_PATH}/${C2D2_NAME_DEV}.tar.xz
+	${MIRROR_PATH}/${C2D2_NAME_ALPHA}.tar.xz
 	${MIRROR_PATH}/${SERVO_MICRO_NAME}.tar.xz
+	${MIRROR_PATH}/${SERVO_MICRO_NAME_DEV}.tar.xz
 	${MIRROR_PATH}/${SERVO_MICRO_NAME_PREV}.tar.gz
+	${MIRROR_PATH}/${SERVO_MICRO_NAME_ALPHA}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4_NAME}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4_NAME_PREV}.tar.xz
 	${MIRROR_PATH}/${SERVO_V4P1_NAME}.tar.xz
@@ -54,16 +62,20 @@ src_install() {
 	insinto "${UPDATER_PATH}"
 
 	doins "${C2D2_NAME}.bin"
-	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.alpha.bin"
+	doins "${C2D2_NAME_DEV}.bin"
+	doins "${C2D2_NAME_ALPHA}.bin"
+	dosym "${C2D2_NAME_ALPHA}.bin" "${UPDATER_PATH}/c2d2.alpha.bin"
 	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.stable.bin"
-	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.dev.bin"
+	dosym "${C2D2_NAME_DEV}.bin" "${UPDATER_PATH}/c2d2.dev.bin"
 	dosym "${C2D2_NAME}.bin" "${UPDATER_PATH}/c2d2.prev.bin"
 
 	doins "${SERVO_MICRO_NAME}.bin"
+	doins "${SERVO_MICRO_NAME_DEV}.bin"
+	doins "${SERVO_MICRO_NAME_ALPHA}.bin"
 	doins "${SERVO_MICRO_NAME_PREV}.bin"
-	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.alpha.bin"
+	dosym "${SERVO_MICRO_NAME_ALPHA}.bin" "${UPDATER_PATH}/servo_micro.alpha.bin"
 	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.stable.bin"
-	dosym "${SERVO_MICRO_NAME}.bin" "${UPDATER_PATH}/servo_micro.dev.bin"
+	dosym "${SERVO_MICRO_NAME_DEV}.bin" "${UPDATER_PATH}/servo_micro.dev.bin"
 	dosym "${SERVO_MICRO_NAME_PREV}.bin" "${UPDATER_PATH}/servo_micro.prev.bin"
 
 	doins "${SERVO_V4_NAME}.bin"
