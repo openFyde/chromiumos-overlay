@@ -58,6 +58,7 @@ munmap: 1
 setsockopt: 1
 pipe2: 1
 getdents64: 1
+sched_getaffinity: 1
 sched_getattr: 1
 bind: 1
 getsockname: 1
@@ -89,3 +90,6 @@ clock_gettime: 1
 gettimeofday: 1
 newfstatat: 1
 tgkill: 1
+sysinfo: 1
+unlink: 1
+unlinkat: 1

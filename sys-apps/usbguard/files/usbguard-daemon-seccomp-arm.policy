@@ -71,6 +71,7 @@ getuid32: 1
 ioctl: arg1 == TCGETS
 listen: 1
 pipe: 1
+pipe2: 1
 rt_sigtimedwait: 1
 rt_sigtimedwait_time64: 1
 shutdown: 1

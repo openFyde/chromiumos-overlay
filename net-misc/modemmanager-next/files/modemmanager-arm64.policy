@@ -41,6 +41,7 @@ set_robust_list: 1
 sched_setattr: 1
 setsockopt: 1
 sendto: 1
+sched_getaffinity: 1
 sched_getattr: 1
 bind: 1
 getpeername: 1
@@ -51,6 +52,7 @@ geteuid: 1
 getegid: 1
 getuid: 1
 gettimeofday: 1
+clock_gettime: 1
 madvise: 1
 mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
@@ -81,3 +83,5 @@ restart_syscall: 1
 exit: 1
 exit_group: 1
 rt_sigreturn: 1
+unlinkat: 1
+sysinfo: 1

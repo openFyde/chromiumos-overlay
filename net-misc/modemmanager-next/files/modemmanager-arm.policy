@@ -47,6 +47,7 @@ set_robust_list: 1
 sched_setattr: 1
 setsockopt: 1
 sendto: 1
+sched_getaffinity: 1
 sched_getattr: 1
 bind: 1
 getpeername: 1
@@ -94,3 +95,6 @@ restart_syscall: 1
 exit: 1
 exit_group: 1
 rt_sigreturn: 1
+sysinfo: 1
+unlink: 1
+unlinkat: 1
