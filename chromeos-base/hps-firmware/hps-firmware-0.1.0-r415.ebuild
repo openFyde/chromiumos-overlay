@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="837f41291bc26e933fe4e301025a96530c931f47"
-CROS_WORKON_TREE="fb710f2e0908c3029361faef0d4897ab303db6dd"
+CROS_WORKON_COMMIT="5a75c335cea499b97184f97206fd0013e85c9299"
+CROS_WORKON_TREE="f14c7bdc042186dd0302aaa28cd3e7cd281f9c90"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_WORKON_USE_VCSID=1
@@ -183,7 +183,7 @@ src_compile() {
 
 src_test() {
 	einfo "Running gateware unit tests"
-	python -m unittest -v soc/*.py || die
+	python -m unittest discover -v || die
 
 	einfo "Running Rust tests"
 	cd rust || die
