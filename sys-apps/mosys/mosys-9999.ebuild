@@ -69,11 +69,10 @@ HOMEPAGE="http://mosys.googlecode.com/"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="unibuild vpd_file_cache ${PLATFORM_NAME_USE_FLAGS[*]}"
+IUSE="unibuild ${PLATFORM_NAME_USE_FLAGS[*]}"
 REQUIRED_USE="^^ ( ${PLATFORM_NAME_USE_FLAGS[*]} )"
 
 RDEPEND="
-	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
 	chromeos-base/minijail:="
 DEPEND="${RDEPEND}"
@@ -88,7 +87,6 @@ src_configure() {
 	local platform_intf=""
 	local emesonargs=(
 		"$(meson_use unibuild)"
-		"$(meson_use vpd_file_cache use_vpd_file_cache)"
 		-Darch=$(tc-arch)
 	)
 
