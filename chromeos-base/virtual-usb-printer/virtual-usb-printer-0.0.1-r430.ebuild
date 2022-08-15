@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("7a00840971ccd42860fbf51eb248bbfcad9f7648" "ee7d0d6884398994c72cfc1188ffcf2095531f68")
-CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "0d72578a2a2f149ab1a86005c28d946bd97ae4c2")
+CROS_WORKON_COMMIT=("7a00840971ccd42860fbf51eb248bbfcad9f7648" "220c226dfa084717b7fbe1caec13494fa0729681")
+CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "63af51265ec204d9c559a7777a9728adbc75206f")
 CROS_WORKON_LOCALNAME=("platform2" "third_party/virtual-usb-printer")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/third_party/virtual-usb-printer")
 CROS_WORKON_EGIT_BRANCH=("main" "chromeos")
@@ -43,6 +43,7 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/load-config-testrunner"
 	platform_test "run" "${OUT}/mock-printer-testrunner"
 	platform_test "run" "${OUT}/smart-buffer-testrunner"
+	platform_test "run" "${OUT}/usb-printer-testrunner"
 }
 
 src_install() {
