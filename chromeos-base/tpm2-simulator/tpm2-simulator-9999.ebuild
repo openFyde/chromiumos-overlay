@@ -20,7 +20,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
-IUSE="selinux tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
+IUSE="selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
 
 COMMON_DEPEND="
 	tpm? ( !test? ( dev-libs/libtpms:= ) )
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	test? ( chromeos-base/tpm2:=[test] )
 	chromeos-base/minijail:=
 	chromeos-base/pinweaver:=
+	ti50_onboard? ( !test? ( chromeos-base/ti50-emulator:= ) )
 	chromeos-base/vboot_reference:=[tpm2_simulator?]
 	dev-libs/openssl:0=
 	sys-libs/libselinux:=
