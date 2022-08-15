@@ -190,6 +190,7 @@ CONFIG_FRAGMENTS=(
 	aurora
 	binder
 	blkdevram
+	bpf_extras
 	builtin_driver_amdgpu
 	ca0132
 	criu
@@ -329,6 +330,12 @@ blkdevram_config="
 CONFIG_BLK_DEV_RAM=y
 CONFIG_BLK_DEV_RAM_COUNT=16
 CONFIG_BLK_DEV_RAM_SIZE=16384
+"
+
+bpf_extras_desc="Enable BPF extras. Relocation information and LSM hooks."
+bpf_extras_config="
+CONFIG_DEBUG_INFO_BTF=y
+CONFIG_BPF_LSM=y
 "
 
 builtin_driver_amdgpu_desc="DRM driver for AMD GPUs"
