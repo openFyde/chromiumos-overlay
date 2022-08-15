@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dbb1136242ba822d539eaf11493f3b68815adb7f"
-CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "2e72f56ad37eadb01ad2b42e9938beb23cb3a389" "2e036f417afe5d55dcbd138f7bfe2c98ab14403f" "8ca9c97a07408fdff5abf480fb1b2a15405b6bc0" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "0c8e3de65339e7e6a1ffe16a54c7ae719bacc57c" "944879c9353c2df8adb7022407a8d319671325c1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="058bd86f63b7a8c0417b00b941f7c99ea35121ce"
+CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "98a2d89f871182ca4558a8d37777bdc2385405fa" "2e036f417afe5d55dcbd138f7bfe2c98ab14403f" "8ca9c97a07408fdff5abf480fb1b2a15405b6bc0" "509fcdecd3a70e50e5aa4e48d65de2dbd6decdb9" "0c8e3de65339e7e6a1ffe16a54c7ae719bacc57c" "944879c9353c2df8adb7022407a8d319671325c1" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -121,7 +121,6 @@ platform_pkg_test() {
 		object_policy_test
 		object_pool_test
 		object_store_test
-		opencryptoki_importer_test
 		isolate_login_client_test
 	)
 	use tpm2 && tests+=(
