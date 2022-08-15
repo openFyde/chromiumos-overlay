@@ -37,3 +37,18 @@ index 8808a520..dcb7e59a 100644
  
    // Override the C99 inline semantics to accommodate for more OpenCL C
    // programs in the wild.
+diff --git a/clspv/lib/PushConstant.cpp b/clspv/lib/PushConstant.cpp
+index a1ba95a4..49b1344f 100644
+--- a/clspv/lib/PushConstant.cpp
++++ b/clspv/lib/PushConstant.cpp
+@@ -259,7 +259,10 @@ void RedeclareGlobalPushConstants(Module &M, StructType *mangled_struct_ty,
+         auto new_gep = ConstantExpr::getGetElementPtr(
+             push_constant_ty, new_GV, indices, gep_operator->isInBounds());
+         user->replaceAllUsesWith(new_gep);
++      } else if (auto ptrtoint = dyn_cast<PtrToIntOperator>(user)) {
++        user->replaceAllUsesWith(ConstantExpr::getPtrToInt(new_GV, ptrtoint->getType()));
+       } else {
++        user->print(errs());
+         assert(false && "unexpected global use");
+       }
+     }
