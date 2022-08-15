@@ -11,3 +11,22 @@ index 9e92205..8b9e2cd 100644
  static cl_version gOpenCLCVersion = CL_MAKE_VERSION(1, 2, 0);
  
  static constexpr bool devices_support_images() { return true; }
+diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
+index 5223711..69d3ead 100644
+--- a/clvk/src/device.cpp
++++ b/clvk/src/device.cpp
+@@ -396,14 +396,6 @@ void cvk_device::build_extension_ils_list() {
+     if (m_properties.apiVersion >= VK_MAKE_VERSION(1, 1, 0)) {
+         m_extensions.push_back(
+             MAKE_NAME_VERSION(1, 0, 0, "cl_khr_device_uuid"));
+-        VkSubgroupFeatureFlags required_subgroup_ops =
+-            VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_ARITHMETIC_BIT;
+-        if ((m_subgroup_properties.supportedOperations &
+-            required_subgroup_ops) == required_subgroup_ops) {
+-            m_extensions.push_back(
+-                MAKE_NAME_VERSION(1, 0, 0, "cl_khr_subgroups"));
+-            m_has_subgroups_support = true;
+-        }
+     }
+ 
+     // Enable cl_khr_fp16 if we have 16-bit storage and shaderFloat16
