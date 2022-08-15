@@ -10,5 +10,5 @@ RDEPEND=>=dev-rust/clap-2.33.0 <dev-rust/clap-3.0.0_alpha:= >=dev-rust/lazy_stat
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.3.26/r0
 SRC_URI=https://crates.io/api/v1/crates/structopt/0.3.26/download -> structopt-0.3.26.crate
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	3c4e33d5d08105b9f6a85500b9c9e588	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d2750757005d6a444f8eb12bb9eb9944	cros-rust	24d71fadc2429a746667883967f45305	cros-sanitizers	5d3cd3adbab6bd1fbf1edd64d5041997	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=cf195f22e1cd7549cd10862b8be47fa0
