@@ -48,6 +48,8 @@ src_prepare() {
 	ln -s gcc gnat-gpl-2017-x86_64-linux-bin/bin/cc
 	# Add a gcc patch to make it builds with glibc 2.26.
 	cp "${FILESDIR}/${PN}-gcc-ucontext.patch" "${S}/util/crossgcc/patches/gcc-6.3.0_ucontext.patch"
+	# Enable default support for RV32IAFC multilib target
+	cp "${FILESDIR}/${PN}-rv32iafc.patch" "${S}/util/crossgcc/patches/gcc-11.2.0_rv32iafc.patch"
 }
 
 src_compile() {
