@@ -3653,5 +3653,19 @@
             "from": 465103,
             "until": 466067
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[SemaCXX] Set promotion type for enum if its type is promotable"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/d870a575631d2cedab2ff237af8edd17916edc64.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 468514
+        }
     }
 ]
