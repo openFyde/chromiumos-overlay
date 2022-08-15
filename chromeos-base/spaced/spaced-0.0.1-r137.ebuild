@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="04144703e308d4e97591ac07ba3be8ff6d938e08"
-CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "f302f9e58a603cea4726e5ae7199ec635e463966" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="d13dd0b21dd2f011e57e5ac09a03d3d5656ae480"
+CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "f302f9e58a603cea4726e5ae7199ec635e463966" "044442db70720c9cc47c1f43790597e15c063f0c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk spaced .gn"
+CROS_WORKON_SUBTREE="common-mk spaced system_api .gn"
 
 PLATFORM_SUBDIR="spaced"
 
@@ -21,6 +21,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/spaced/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="+seccomp"
+
+DEPEND="
+	chromeos-base/system_api:=
+"
 
 pkg_preinst() {
 	enewuser "spaced"
