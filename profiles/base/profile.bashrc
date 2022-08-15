@@ -219,15 +219,15 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		media-libs/arc-cros-gralloc:*|\
 		media-libs/arc-img-ddk:*|\
 		media-libs/arc-mali-drivers:*|\
-		media-libs/arc-mali-drivers-bifrost:*|\
+		media-libs/arc-mali-drivers-bifrost:25.*|\
 		media-libs/arc-mesa:*|\
 		media-libs/arc-mesa-amd:*|\
 		media-libs/arc-mesa-freedreno:*|\
 		media-libs/arc-mesa-img:*|\
 		media-libs/arc-mesa-iris:*|\
 		media-libs/arc-mesa-virgl:*|\
-		media-libs/mali-drivers-bifrost:*|\
-		media-libs/mali-drivers-valhall:*|\
+		media-libs/mali-drivers-bifrost:32.*|\
+		media-libs/mali-drivers-valhall:32.*|\
 		media-libs/mesa:*|\
 		media-libs/mesa-amd:*|\
 		media-libs/mesa-llvmpipe:*|\
@@ -334,9 +334,9 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		case ${CATEGORY}/${PN}:${PV} in
 		chromeos-base/autotest-tests-lakitu:*|\
 		chromeos-base/chromeos-ec:*|\
-		media-libs/arc-mali-drivers-bifrost:*|\
-		media-libs/mali-drivers-bifrost:*|\
-		media-libs/mali-drivers-valhall:*|\
+		media-libs/arc-mali-drivers-bifrost:25.*|\
+		media-libs/mali-drivers-bifrost:32.*|\
+		media-libs/mali-drivers-valhall:32.*|\
 		net-libs/nodejs:12*|\
 		sys-boot/coreboot:*|\
 		sys-devel/arc-llvm:*|\
@@ -345,9 +345,9 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_board_build_filter_clang++() {
 		case ${CATEGORY}/${PN}:${PV} in
-		media-libs/arc-mali-drivers-bifrost:*|\
-		media-libs/mali-drivers-bifrost:*|\
-		media-libs/mali-drivers-valhall:*|\
+		media-libs/arc-mali-drivers-bifrost:25.*|\
+		media-libs/mali-drivers-bifrost:32.*|\
+		media-libs/mali-drivers-valhall:32.*|\
 		net-libs/nodejs:12*|\
 		sys-devel/arc-llvm:*|\
 		sys-devel/llvm:*) return 1;;
@@ -355,8 +355,8 @@ cros_pre_src_prepare_build_toolchain_catch() {
 	}
 	_board_build_filter_ld() {
 		case ${CATEGORY}/${PN}:${PV} in
-		media-libs/arc-mali-drivers-bifrost:*|\
-		media-libs/mali-drivers-bifrost:*|\
+		media-libs/arc-mali-drivers-bifrost:25.*|\
+		media-libs/mali-drivers-bifrost:32.*|\
 		sys-kernel/raspberrypi-kernel:*) return 1;;
 		esac
 	}
