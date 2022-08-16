@@ -26,6 +26,8 @@ evdev:input:b0003v3175p9100e*-*m4*
 evdev:input:b0003v046DpC548e*-*m4*
 evdev:input:b0005v046DpB36Fe*-*m4*
 evdev:input:b0005v046DpB370e*-*m4*
+evdev:input:b0005v046DpB371e*-*m4*
+evdev:input:b0005v046DpB374e*-*m4*
  KEYBOARD_KEY_000c00d5=micmute
 
 # Google Hangouts Meet speakermic and Google Meet speakermic
