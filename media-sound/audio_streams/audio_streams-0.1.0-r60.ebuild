@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="867ba52f7243fd0d07f86eb47a87373393a13a2c"
-CROS_WORKON_TREE=("198941553c123cea4774f67021c9e7da7842eeff" "8083bdbef3cd7fbbc9ec90941ff0418df2ce6d78")
+CROS_WORKON_COMMIT="f7f06fc33d7ba16cfdc65a0b69d9e03a215559c5"
+CROS_WORKON_TREE=("c66fe2b273ec2db9b4e08bb5c6929d203e1f5c2a" "8083bdbef3cd7fbbc9ec90941ff0418df2ce6d78")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
