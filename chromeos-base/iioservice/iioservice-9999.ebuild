@@ -26,7 +26,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 )
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE=(".gn iioservice libmems common-mk metrics" "")
+CROS_WORKON_SUBTREE=(".gn iioservice libmems common-mk metrics mojo_service_manager" "")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="iioservice/daemon"
@@ -45,6 +45,7 @@ RDEPEND="
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
 	chromeos-base/mems_setup
+	chromeos-base/mojo_service_manager:=
 	virtual/chromeos-ec-driver-init
 "
 
