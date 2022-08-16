@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("f46beaa7c16fcfbc475f39790da207b0ab3b7f7c" "3bdf06e95efdd31769178b60f73ba4712aee93d3")
+CROS_WORKON_COMMIT=("d90fcf6ec9b5125564adb0f0610c6d586f93887d" "3bdf06e95efdd31769178b60f73ba4712aee93d3")
 CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "757a76e92ffc0c10e060b22887ccc855a47bc31b")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "platform/libchrome")
@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 # TODO(b/204383858): remove 'endeavour' when patch
 # backward-compatibility-add-base-AdaptCallbackForRepaeting.patch is not needed
-IUSE="cros_host +crypto +dbus fuzzer +mojo libchrome_b182295239 media_perception board_use_mistral"
+IUSE="cros_host +crypto +dbus fuzzer +mojo media_perception"
 
 PLATFORM_SUBDIR="libchrome"
 
@@ -90,14 +90,6 @@ src_prepare() {
 
 src_configure() {
 	cros_optimize_package_for_speed
-	# TODO(b/182295239): Revert when root cause is identified.
-	# For reasons unknown yet at b/182295239, gale didn't boot if getrandom is called.
-	# Currently we suspect some seccomp filters or kernel/glibc version but
-	# there's no deterministic evidence to point to any of them.
-	# Use this workaround to skip to /dev/urandom fallback.
-	if use libchrome_b182295239; then
-		append-cxxflags "-DLIBCHROME_USE_DEV_URANDOM"
-	fi
 	platform_src_configure
 }
 
