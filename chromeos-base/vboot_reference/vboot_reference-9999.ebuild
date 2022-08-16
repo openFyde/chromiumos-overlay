@@ -3,8 +3,12 @@
 
 EAPI=7
 
-CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
-CROS_WORKON_LOCALNAME="platform/vboot_reference"
+# platform2 is used purely for the platform2_test.py wrapper
+
+CROS_WORKON_PROJECT=("chromiumos/platform/vboot_reference" "chromiumos/platform2")
+CROS_WORKON_LOCALNAME=("platform/vboot_reference" "platform2")
+CROS_WORKON_SUBTREE=("" "common-mk")
+CROS_WORKON_DESTDIR=("${S}/vboot_reference" "${S}/platform2")
 
 inherit cros-debug cros-fuzzer cros-sanitizers cros-workon cros-constants
 
@@ -64,8 +68,8 @@ src_configure() {
 }
 
 vemake() {
-	emake \
-		SRCDIR="${S}" \
+	emake -C "${S}/vboot_reference" \
+		SRCDIR="${S}/vboot_reference" \
 		LIBDIR="$(get_libdir)" \
 		ARCH="$(tc-arch)" \
 		SDK_BUILD=$(usev cros_host) \
@@ -90,7 +94,16 @@ src_compile() {
 src_test() {
 	! use amd64 && ! use x86 && ewarn "Skipping unittests for non-x86" && return 0
 
-	vemake runtests
+	# Supply a test wrapper, platform2_test.py. vboot_reference test scripts use
+	# 'BUILD_RUN' for the build dir inside the wrapper. platform2_test would
+	# filter that out of the environment so we ensure that it gets through using
+	# --env.
+	RUNTEST="${S}/platform2/common-mk/platform2_test.py --action=run"
+	RUNTEST+=" $(usex cros_host --host --sysroot="${SYSROOT}")"
+	RUNTEST+=" --env=BUILD_RUN=\${BUILD_RUN} --"
+	vemake \
+		RUNTEST="${RUNTEST}" \
+		runtests
 }
 
 src_install() {
@@ -120,11 +133,11 @@ src_install() {
 	if use fuzzer; then
 		einfo "Installing fuzzers"
 		local fuzzer_component_id="167186"
-		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/cgpt_fuzzer \
+		fuzzer_install "${S}"/vboot_reference/OWNERS "$(get_build_dir)"/tests/cgpt_fuzzer \
 			--comp "${fuzzer_component_id}"
-		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/vb2_keyblock_fuzzer \
+		fuzzer_install "${S}"/vboot_reference/OWNERS "$(get_build_dir)"/tests/vb2_keyblock_fuzzer \
 			--comp "${fuzzer_component_id}"
-		fuzzer_install "${S}"/OWNERS "$(get_build_dir)"/tests/vb2_preamble_fuzzer \
+		fuzzer_install "${S}"/vboot_reference/OWNERS "$(get_build_dir)"/tests/vb2_preamble_fuzzer \
 			--comp "${fuzzer_component_id}"
 	fi
 }
