@@ -20,7 +20,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 # TODO(b/204383858): remove 'endeavour' when patch
 # backward-compatibility-add-base-AdaptCallbackForRepaeting.patch is not needed
-IUSE="cros_host +crypto +dbus fuzzer +mojo libchrome_b182295239 media_perception board_use_mistral"
+IUSE="cros_host +crypto +dbus fuzzer +mojo media_perception"
 
 PLATFORM_SUBDIR="libchrome"
 
@@ -88,14 +88,6 @@ src_prepare() {
 
 src_configure() {
 	cros_optimize_package_for_speed
-	# TODO(b/182295239): Revert when root cause is identified.
-	# For reasons unknown yet at b/182295239, gale didn't boot if getrandom is called.
-	# Currently we suspect some seccomp filters or kernel/glibc version but
-	# there's no deterministic evidence to point to any of them.
-	# Use this workaround to skip to /dev/urandom fallback.
-	if use libchrome_b182295239; then
-		append-cxxflags "-DLIBCHROME_USE_DEV_URANDOM"
-	fi
 	platform_src_configure
 }
 
