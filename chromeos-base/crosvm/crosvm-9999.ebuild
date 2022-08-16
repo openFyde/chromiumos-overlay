@@ -73,6 +73,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/memoffset-0.6:= <dev-rust/memoffset-1
 	dev-rust/minijail:=
 	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha:=
+	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha:=
 	~dev-rust/num_cpus-1.9.0:=
 	=dev-rust/num-traits-0.2*:=
 	>=dev-rust/once_cell-1.7.2:= <dev-rust/once_cell-2
