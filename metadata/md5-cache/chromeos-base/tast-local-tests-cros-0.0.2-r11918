@@ -4,11 +4,11 @@ DEPEND=chromeos-base/tast-build-deps:= dev-lang/go dev-go/crypto
 DESCRIPTION=Bundle of local integration tests for Chrome OS
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast-tests/
-IUSE=arc chromeless_tty chromeless_tests cups cros_host cros_workon_tree_76d1bc2ea613dda9ee89a1e9d82269db5ad91863_b9d8bf31386b0067d252e563a5dd998754b816df cros_host cros_workon_tree_76d1bc2ea613dda9ee89a1e9d82269db5ad91863_b9d8bf31386b0067d252e563a5dd998754b816df
+IUSE=arc chromeless_tty chromeless_tests cups cros_host cros_workon_tree_9a420d4784469d88688af88e5cb2d81b3a48c140_b9d8bf31386b0067d252e563a5dd998754b816df cros_host cros_workon_tree_9a420d4784469d88688af88e5cb2d81b3a48c140_b9d8bf31386b0067d252e563a5dd998754b816df
 KEYWORDS=*
 LICENSE=Apache-2.0 BSD-Google
 PROPERTIES=live live
 RDEPEND=chromeos-base/policy-testserver chromeos-base/tast-local-helpers-cros chromeos-base/tast-tests-local-data chromeos-base/virtual-usb-printer chromeos-base/wprgo !chromeless_tty? ( !chromeless_tests? ( chromeos-base/drm-tests ) ) dev-libs/openssl:0= dev-python/pyftdi arc? ( chromeos-base/tast-local-apks-cros dev-util/android-tools dev-util/android-uiautomator-server ) net-misc/curl cups? ( net-print/ippsample ) sys-apps/memtester sys-apps/rootdev virtual/udev app-arch/tar
 SLOT=0/0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194	cros-go	9e4f3d4e15241da364684ed8b906b8d9	cros-workon	ef32a61bc5aebb70f04172c67b6c0c54	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	tast-bundle	b98b8e2383f1767859fd623600c37ee4	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=203e720db1823bb1fb214ae1392b0c70
+_md5_=8959234063800f9d8d39e8afaec74a38
