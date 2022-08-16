@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("dbb1136242ba822d539eaf11493f3b68815adb7f" "73b4433e502690d622075f47dde18849bfbbb2a5")
-CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "1ea13e9e3e2cc1fabd9775806e986787d736562b")
+CROS_WORKON_COMMIT=("d90fcf6ec9b5125564adb0f0610c6d586f93887d" "f5a6d1de0179bc3b1583861befd111b7b74dd876")
+CROS_WORKON_TREE=("60fa47aebd6ebfb702012849bd560717fceddcd4" "7a24480abdfa575abc1da20d0d5b500a0be6b217")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -71,11 +71,10 @@ HOMEPAGE="http://mosys.googlecode.com/"
 LICENSE="BSD-Google BSD Apache-2.0 MIT ISC Unlicense"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="unibuild vpd_file_cache ${PLATFORM_NAME_USE_FLAGS[*]}"
+IUSE="unibuild ${PLATFORM_NAME_USE_FLAGS[*]}"
 REQUIRED_USE="^^ ( ${PLATFORM_NAME_USE_FLAGS[*]} )"
 
 RDEPEND="
-	vpd_file_cache? ( chromeos-base/vpd )
 	dev-util/cmocka
 	chromeos-base/minijail:="
 DEPEND="${RDEPEND}"
@@ -90,7 +89,6 @@ src_configure() {
 	local platform_intf=""
 	local emesonargs=(
 		"$(meson_use unibuild)"
-		"$(meson_use vpd_file_cache use_vpd_file_cache)"
 		-Darch=$(tc-arch)
 	)
 
