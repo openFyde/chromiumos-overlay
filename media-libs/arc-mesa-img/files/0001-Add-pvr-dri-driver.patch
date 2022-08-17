@@ -1,4 +1,4 @@
-From 81a928c136675656468b585e9fa98a2c1ff6d75e Mon Sep 17 00:00:00 2001
+From e5f4922ae62bafa1f393fdecf86ae03f0617e0f2 Mon Sep 17 00:00:00 2001
 From: Frank Binns <frank.binns@imgtec.com>
 Date: Tue, 14 Apr 2020 09:47:46 +0100
 Subject: [PATCH 01/12] Add pvr dri driver
@@ -7,22 +7,22 @@ Subject: [PATCH 01/12] Add pvr dri driver
  meson.build                               |  19 +-
  meson_options.txt                         |   2 +-
  src/mesa/drivers/dri/meson.build          |   5 +
- src/mesa/drivers/dri/pvr/dri_support.h    | 581 +++++++++++++++
+ src/mesa/drivers/dri/pvr/dri_support.h    | 587 +++++++++++++++
  src/mesa/drivers/dri/pvr/img_drm_fourcc.h | 113 +++
  src/mesa/drivers/dri/pvr/imgpixfmts.h     | 307 ++++++++
  src/mesa/drivers/dri/pvr/imgyuv.h         |  58 ++
  src/mesa/drivers/dri/pvr/mesa_context.c   | 208 ++++++
  src/mesa/drivers/dri/pvr/meson.build      |  44 ++
- src/mesa/drivers/dri/pvr/pvrcb.c          | 324 +++++++++
+ src/mesa/drivers/dri/pvr/pvrcb.c          | 342 +++++++++
  src/mesa/drivers/dri/pvr/pvrcompat.c      | 838 ++++++++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrdri.c         | 613 ++++++++++++++++
- src/mesa/drivers/dri/pvr/pvrdri.h         | 188 +++++
+ src/mesa/drivers/dri/pvr/pvrdri.c         | 615 ++++++++++++++++
+ src/mesa/drivers/dri/pvr/pvrdri.h         | 191 +++++
  src/mesa/drivers/dri/pvr/pvrdri_support.h | 206 ++++++
  src/mesa/drivers/dri/pvr/pvrext.c         | 704 ++++++++++++++++++
  src/mesa/drivers/dri/pvr/pvrmesa.h        |  36 +
  src/mesa/drivers/dri/pvr/pvrutil.c        | 235 ++++++
  src/meson.build                           |   1 +
- 18 files changed, 4473 insertions(+), 9 deletions(-)
+ 18 files changed, 4502 insertions(+), 9 deletions(-)
  create mode 100644 src/mesa/drivers/dri/pvr/dri_support.h
  create mode 100644 src/mesa/drivers/dri/pvr/img_drm_fourcc.h
  create mode 100644 src/mesa/drivers/dri/pvr/imgpixfmts.h
@@ -126,10 +126,10 @@ index 239ca962c2a..88a973bb84f 100644
    libmesa_dri_drivers = shared_library(
 diff --git a/src/mesa/drivers/dri/pvr/dri_support.h b/src/mesa/drivers/dri/pvr/dri_support.h
 new file mode 100644
-index 00000000000..631410438fd
+index 00000000000..0e6f50727f2
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/dri_support.h
-@@ -0,0 +1,581 @@
+@@ -0,0 +1,587 @@
 +/* -*- mode: c; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 +/* vi: set ts=8 sw=8 sts=8: */
 +/*************************************************************************/ /*!
@@ -708,6 +708,12 @@ index 00000000000..631410438fd
 +		void (*DrawableRemoveReference)
 +			(void *pvReferenceHandle);
 +	} v3;
++	/* The v4 interface is an extension of v3, so v3 is required as well */
++	struct {
++		void (*DestroyLoaderImageState)
++			(const struct __DRIscreenRec *psDRIScreen,
++			 void *pvLoaderPrivate);
++	} v4;
 +};
 +
 +#endif /* defined(__PVRDRIIFCE_H__) */
@@ -1473,10 +1479,10 @@ index 00000000000..b6ea63a787c
 +)
 diff --git a/src/mesa/drivers/dri/pvr/pvrcb.c b/src/mesa/drivers/dri/pvr/pvrcb.c
 new file mode 100644
-index 00000000000..095d5d314ce
+index 00000000000..9c1d0236000
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrcb.c
-@@ -0,0 +1,324 @@
+@@ -0,0 +1,342 @@
 +/*
 + * Copyright (c) Imagination Technologies Ltd.
 + *
@@ -1800,6 +1806,24 @@ index 00000000000..095d5d314ce
 +   PVRDRIDrawable *psPVRDrawable = pvReferenceHandle;
 +
 +   PVRDRIDrawableRemoveReference(psPVRDrawable);
++}
++
++void
++MODSUPDestroyLoaderImageState(const struct __DRIscreenRec *psDRIScreen,
++                              void *pvLoaderPrivate)
++{
++   const __DRIimageLoaderExtension *psImageLoader = psDRIScreen->image.loader;
++   const __DRIdri2LoaderExtension *psDRI2Loader = psDRIScreen->dri2.loader;
++
++   if (psImageLoader && psImageLoader->base.version >= 4 &&
++       psImageLoader->destroyLoaderImageState) {
++      return psImageLoader->destroyLoaderImageState(pvLoaderPrivate);
++   }
++
++   if (psDRI2Loader && psDRI2Loader->base.version >= 5 &&
++       psDRI2Loader->destroyLoaderImageState) {
++      return psDRI2Loader->destroyLoaderImageState(pvLoaderPrivate);
++   }
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrcompat.c b/src/mesa/drivers/dri/pvr/pvrcompat.c
 new file mode 100644
@@ -2647,10 +2671,10 @@ index 00000000000..23a57dde682
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri.c b/src/mesa/drivers/dri/pvr/pvrdri.c
 new file mode 100644
-index 00000000000..ab941f71567
+index 00000000000..152c7ac1c11
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdri.c
-@@ -0,0 +1,613 @@
+@@ -0,0 +1,615 @@
 +/*
 + * Copyright (c) Imagination Technologies Ltd.
 + *
@@ -2845,12 +2869,14 @@ index 00000000000..ab941f71567
 +      .v3.DrawableGetReferenceHandle = MODSUPDrawableGetReferenceHandle,
 +      .v3.DrawableAddReference = MODSUPDrawableAddReference,
 +      .v3.DrawableRemoveReference = MODSUPDrawableRemoveReference,
++      /* Version 4 callbacks */
++      .v4.DestroyLoaderImageState = MODSUPDestroyLoaderImageState,
 +   };
 +
 +   if (!PVRLoaderIsSupported(psDRIScreen))
 +      return NULL;
 +
-+   if (!PVRDRICompatInit(&sDRICallbacksV2, 3, 0))
++   if (!PVRDRICompatInit(&sDRICallbacksV2, 4, 0))
 +      return NULL;
 +
 +   psPVRScreen = calloc(1, sizeof(*psPVRScreen));
@@ -3266,10 +3292,10 @@ index 00000000000..ab941f71567
 +}
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri.h b/src/mesa/drivers/dri/pvr/pvrdri.h
 new file mode 100644
-index 00000000000..fd465bf7f5c
+index 00000000000..e044419bc52
 --- /dev/null
 +++ b/src/mesa/drivers/dri/pvr/pvrdri.h
-@@ -0,0 +1,188 @@
+@@ -0,0 +1,191 @@
 +/*
 + * Copyright (c) Imagination Technologies Ltd.
 + *
@@ -3456,6 +3482,9 @@ index 00000000000..fd465bf7f5c
 +void MODSUPDrawableAddReference(void *pvReferenceHandle);
 +
 +void MODSUPDrawableRemoveReference(void *pvReferenceHandle);
++
++void MODSUPDestroyLoaderImageState(const struct __DRIscreenRec *psDRIScreen,
++                                   void *pvLoaderPrivate);
 +
 +#endif /* defined(__PVRDRI_H__) */
 diff --git a/src/mesa/drivers/dri/pvr/pvrdri_support.h b/src/mesa/drivers/dri/pvr/pvrdri_support.h
