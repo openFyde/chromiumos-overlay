@@ -75,6 +75,7 @@ PATCHES=(
 	"${FILESDIR}/0053-BACKPORT-fanotify-add-support-for-create-attrib-move.patch"
 	"${FILESDIR}/0054-BACKPORT-LoadPin-Enable-loading-from-trusted-dm-veri.patch"
 	"${FILESDIR}/0055-CHROMIUM-v4l2-add-upstream-V4L2-HEVC-stateless-contr.patch"
+	"${FILESDIR}/0056-BACKPORT-add-close_range-syscall-definitions.patch"
 )
 
 src_unpack() {
