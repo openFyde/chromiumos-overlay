@@ -29,6 +29,8 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	dolib.so "${OUT}/lib/libfeatures.so"
 	dolib.so "${OUT}/lib/libfeatures_c.so"
+	dolib.so "${OUT}/lib/libfake_platform_features.so"
+	dolib.so "${OUT}/lib/libc_fake_feature_library.so"
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	doins "${OUT}/lib/libfeatures.pc"
@@ -38,6 +40,8 @@ src_install() {
 	doins feature_export.h
 	doins c_feature_library.h
 	doins feature_library.h
+	doins c_fake_feature_library.h
+	doins fake_platform_features.h
 
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
