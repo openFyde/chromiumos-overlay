@@ -67,7 +67,7 @@ vemake() {
 	emake \
 		SRCDIR="${S}" \
 		LIBDIR="$(get_libdir)" \
-		ARCH=$(tc-arch) \
+		ARCH="$(tc-arch)" \
 		SDK_BUILD=$(usev cros_host) \
 		TPM2_MODE=$(usev tpm2) \
 		PD_SYNC=$(usev pd_sync) \
@@ -75,6 +75,7 @@ vemake() {
 		TPM2_SIMULATOR="$(usev tpm2_simulator)" \
 		VTPM_PROXY="$(usev vtpm_proxy)" \
 		FUZZ_FLAGS="${SANITIZER_CFLAGS}" \
+		BUILD="$(get_build_dir)" \
 		"$@"
 }
 
@@ -83,19 +84,18 @@ src_compile() {
 	tc-export CC AR CXX PKG_CONFIG
 	# vboot_reference knows the flags to use
 	unset CFLAGS
-	vemake BUILD="$(get_build_dir)" all $(usex fuzzer fuzzers '')
+	vemake all $(usex fuzzer fuzzers '')
 }
 
 src_test() {
 	! use amd64 && ! use x86 && ewarn "Skipping unittests for non-x86" && return 0
 
-	vemake BUILD="$(get_build_dir)" USE_PLATFORM2_TEST_WRAPPER=1 runtests
+	vemake runtests
 }
 
 src_install() {
 	einfo "Installing programs"
 	vemake \
-		BUILD="$(get_build_dir)" \
 		DESTDIR="${D}" \
 		install install_dev
 
