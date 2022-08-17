@@ -28,7 +28,6 @@ DEPEND="
 	sys-libs/compiler-rt
 	sys-libs/glibc
 	sys-libs/libcxx
-	sys-libs/libcxxabi
 	sys-libs/libxcrypt
 	sys-libs/llvm-libunwind
 "
