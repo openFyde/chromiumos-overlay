@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0db4b97573cf6a4010771cad74ced5f4587a3ee8"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4be8d3ae5664634825afc2e6e4b8c24816ee9b9e" "524d9fdeafcf32f87c6404af76b90fa1a569d94c" "387f5a95f1bcee499d4d15d279a10f5fdff81c44" "ee8a7435f90cebefba021290aaf3f9f1f69bbb03" "6fbe2e8c4ee5c1d121cdc9fefba4663826c68b8d" "e8fa0c152d7508f5490de37be923f510d16adb23" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "60fa47aebd6ebfb702012849bd560717fceddcd4")
+CROS_WORKON_COMMIT="d7dc1ef3ac8433d0a8dd6291b6f8e6e4e0ad8dab"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4be8d3ae5664634825afc2e6e4b8c24816ee9b9e" "524d9fdeafcf32f87c6404af76b90fa1a569d94c" "978ca215177bcfe490e4c1b45cd16bc0516fa9f5" "ee8a7435f90cebefba021290aaf3f9f1f69bbb03" "6fbe2e8c4ee5c1d121cdc9fefba4663826c68b8d" "e8fa0c152d7508f5490de37be923f510d16adb23" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "60fa47aebd6ebfb702012849bd560717fceddcd4")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
