@@ -8,13 +8,13 @@ inherit cros-rust
 DESCRIPTION="Project Oxide - documenting Lattice's 28nm \"Nexus\" FPGA parts"
 HOMEPAGE="https://github.com/gatecat/prjoxide"
 
-GIT_REV="d1fc5cd045531a0cc48ebffd5802f4ef84067aea"
+GIT_REV="ea89720449915ab73afdb6f1f2f48939dae6a9e7"
 
 # 'database' submodule.
-DB_GIT_REV="1566e0d8af245c4d52f4c5ec04667e5a4f0f01e2"
+DB_GIT_REV="56009be1ca77a7123ffdb50a813216302a42ac27"
 
 # '3rdparty/fpga-interchange-schema' submodule.
-SCHEMA_GIT_REV="78abf3f30770ccc6d0e1f5dbfeaef2666f55acf6"
+SCHEMA_GIT_REV="c985b4648e66414b250261c1ba4cbe45a2971b1c"
 
 SRC_URI="
 	https://github.com/gatecat/prjoxide/archive/${GIT_REV}.tar.gz -> prjoxide-${GIT_REV}.tar.gz
@@ -40,10 +40,6 @@ RDEPEND="
 
 PRJOXIDE_ROOT_DIR="${WORKDIR}/${PN}-${GIT_REV}"
 S="${PRJOXIDE_ROOT_DIR}/libprjoxide/prjoxide"
-
-PATCHES=(
-	"${FILESDIR}/prjoxide-update-clap.patch"
-)
 
 src_unpack() {
 	cros-rust_src_unpack
