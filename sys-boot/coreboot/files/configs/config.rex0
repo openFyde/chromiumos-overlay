@@ -13,4 +13,4 @@ CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/rex/me_rw-rex0.bin
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/rex/vbt/vbt.bin"
 
 # Microcode
-CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/rex/ucode.bin"
+CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/rex/ucode-rex0.bin"
