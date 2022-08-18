@@ -29,13 +29,10 @@ FACTORY_FRAMEWORK_RDEPEND="
 # Note: dbus-python may be temporarily broken on embedded platform.
 
 # Packages shared by several pytests inside factory.
-# TODO(itspeter): Might remove cryptohome once a conclusion
-#                 comes in http://crosbug.com/p/31800.
 FACTORY_TEST_RDEPEND="
 	app-arch/lbzip2
 	app-arch/pigz
 	app-arch/xz-utils
-	chromeos-base/cryptohome
 	dev-python/numpy
 	dev-python/pyserial
 	dev-python/python-evdev
