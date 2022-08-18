@@ -153,11 +153,6 @@ src_install() {
 		components/policy/core/common
 		testing/gmock/include/gmock
 		testing/gtest/include/gtest
-		third_party/abseil-cpp/absl/synchronization
-		third_party/abseil-cpp/absl/types
-		third_party/perfetto/include/perfetto/tracing/
-		third_party/perfetto/include/perfetto/protozero/
-		third_party/perfetto/protos/perfetto/trace/track_event/
 	)
 	use dbus && header_dirs+=( dbus )
 
