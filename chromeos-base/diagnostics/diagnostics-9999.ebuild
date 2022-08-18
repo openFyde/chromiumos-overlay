@@ -26,7 +26,6 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
-	dev-libs/libevdev:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
