@@ -4,19 +4,19 @@
 EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT="56f81e6776c1c100c3f627b2c1feb9dcae2aad3c"
-	CROS_WORKON_TREE="f2dad5f135f56bf9e56b44d5b9637ffb59d38f23"
+	CROS_WORKON_COMMIT="60cf6bcef1390473419df14e3214da149dbd8f99"
+	CROS_WORKON_TREE="8b07d3ffc5ac89bd8547c8f80d8e365c1d7e32e8"
 fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_LOCALNAME="libdrm"
-CROS_WORKON_EGIT_BRANCH="chromeos-2.4.106"
+CROS_WORKON_EGIT_BRANCH="chromeos-2.4.112"
 CROS_WORKON_MANUAL_UPREV="1"
 
 P=${P#"arc-"}
 PN=${PN#"arc-"}
 S="${WORKDIR}/${P}"
 
-inherit cros-workon arc-build meson multilib-minimal
+inherit cros-workon arc-build flag-o-matic meson multilib-minimal
 
 DESCRIPTION="X.Org libdrm library"
 HOMEPAGE="http://dri.freedesktop.org/"
@@ -32,12 +32,12 @@ if [[ ${PV} = *9999* ]]; then
 else
 	KEYWORDS="*"
 fi
-VIDEO_CARDS="amdgpu exynos freedreno nouveau omap radeon vc4 vmware"
+VIDEO_CARDS="amdgpu freedreno nouveau omap radeon vc4 vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
-IUSE="${IUSE_VIDEO_CARDS} libkms manpages +udev"
+IUSE="${IUSE_VIDEO_CARDS} manpages +udev"
 RESTRICT="test" # see bug #236845
 
 RDEPEND=""
@@ -55,6 +55,7 @@ PATCHES=(
 src_configure() {
 	# FIXME(tfiga): Could inherit arc-build invoke this implicitly?
 	arc-build-select-clang
+	# append-lfs-flags noop for Android/bionic b/260698283, hence not added.
 	multilib-minimal_src_configure
 }
 
@@ -64,14 +65,12 @@ multilib_src_configure() {
 	local emesonargs=(
 		-Dinstall-test-programs=false
 		$(meson_use video_cards_amdgpu amdgpu)
-		$(meson_use video_cards_exynos exynos)
 		$(meson_use video_cards_freedreno freedreno)
 		$(meson_use video_cards_nouveau nouveau)
 		$(meson_use video_cards_omap omap)
 		$(meson_use video_cards_radeon radeon)
 		$(meson_use video_cards_vc4 vc4)
 		$(meson_use video_cards_vmware vmwgfx)
-		$(meson_use libkms)
 		$(meson_use manpages man-pages)
 		$(meson_use udev)
 		-Dcairo-tests=false
