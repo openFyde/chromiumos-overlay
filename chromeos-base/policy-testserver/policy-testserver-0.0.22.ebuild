@@ -35,7 +35,7 @@ CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_COMMIT=(
 	"05d9f22315757117685ad2f5265148f900f18034" # tlslite
 	"8599944a086c503a4e31a95e226e967f5db560f7" # testserver
-	"2abe61e3fd23797ab5e7caf28ed8d3e6a873d2d2" # policy
+	"a0469c024eb6ee2053c754da8dc4a2c496bdac63" # policy
 	"acb07d8034884b0f5e6d3b4379f6032fdb733e44" # private_membership
 	"04a46b48f70713db831b32da1581437d587f4081" # shell-encryption
 )
