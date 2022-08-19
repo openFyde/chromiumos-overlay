@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="b6f5adbc6cefe9535d285dbfaaa6cce1bc7eb1f4"
-CROS_WORKON_TREE=("797a56dcd3d630eac50ce164adaae94a6b72a7dc" "62cca4c4bfa31b4c3c14a84d519e964a5fc685d7")
+CROS_WORKON_COMMIT="63da3b8a228c74af43bd6d0ae9bfe64729bf01f1"
+CROS_WORKON_TREE=("797a56dcd3d630eac50ce164adaae94a6b72a7dc" "10cbb2bc5c4471d3b21b57ecdcbf20da5c0cbfc0")
 CROS_RUST_SUBDIR="cras/client/cras-sys"
 # TODO(b/175640259) Fix tests for ARM.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
