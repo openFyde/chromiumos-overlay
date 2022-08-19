@@ -76,6 +76,7 @@ src_install() {
 		power_manager
 		rgbkbd
 		rmad
+		shadercached
 		shill
 		smbprovider
 		tpm_manager
