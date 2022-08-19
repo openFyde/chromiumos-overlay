@@ -111,50 +111,6 @@ src_install() {
 	dolib.a "${OUT}"/libbase*.a
 
 	local mojom_dirs=()
-	local header_dirs=(
-		base
-		base/allocator
-		base/allocator/partition_allocator
-		base/allocator/partition_allocator/starscan
-		base/containers
-		base/debug
-		base/files
-		base/functional
-		base/hash
-		base/i18n
-		base/json
-		base/memory
-		base/message_loop
-		base/metrics
-		base/numerics
-		base/posix
-		base/power_monitor
-		base/process
-		base/profiler
-		base/ranges
-		base/strings
-		base/synchronization
-		base/system
-		base/task
-		base/task/common
-		base/task/sequence_manager
-		base/task/thread_pool
-		base/third_party/icu
-		base/third_party/nspr
-		base/third_party/valgrind
-		base/threading
-		base/time
-		base/timer
-		base/trace_event
-		base/trace_event/common
-		base/types
-		build
-		components/policy
-		components/policy/core/common
-		testing/gmock/include/gmock
-		testing/gtest/include/gtest
-	)
-	use dbus && header_dirs+=( dbus )
 
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
@@ -165,18 +121,6 @@ src_install() {
 		dolib.so "${OUT}"/lib/libmojo.so
 
 		# Install headers.
-		header_dirs+=(
-			ipc
-			mojo/core/
-			mojo/core/embedder
-			mojo/core/ports
-			mojo/public/c/system
-			mojo/public/cpp/base
-			mojo/public/cpp/bindings
-			mojo/public/cpp/bindings/lib
-			mojo/public/cpp/platform
-			mojo/public/cpp/system
-		)
 		mojom_dirs+=(
 			mojo/public/interfaces/bindings
 			mojo/public/mojom/base
@@ -211,10 +155,6 @@ src_install() {
 
 	# Install header files.
 	local d
-	for d in "${header_dirs[@]}" ; do
-		insinto /usr/include/libchrome/"${d}"
-		doins "${d}"/*.h
-	done
 	for d in "${mojom_dirs[@]}"; do
 		insinto /usr/include/libchrome/"${d}"
 		doins "${OUT}"/gen/include/"${d}"/*.h
