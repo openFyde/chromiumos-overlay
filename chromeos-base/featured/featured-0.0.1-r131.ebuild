@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="7b353fa19f505db95cd7339e843608bdb311532a"
-CROS_WORKON_TREE=("3c24635bdb70bad9c4066b34bc5ced871ab8294a" "22e52d4fb41b450b6adf0d2783dfb7cdcb950caf" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="2231457a6474c19d9b51499ddc2aa80bb9b82b67"
+CROS_WORKON_TREE=("3c24635bdb70bad9c4066b34bc5ced871ab8294a" "18ef313fea73e711a21223952b7b627b50639754" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,6 +31,8 @@ src_install() {
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	dolib.so "${OUT}/lib/libfeatures.so"
 	dolib.so "${OUT}/lib/libfeatures_c.so"
+	dolib.so "${OUT}/lib/libfake_platform_features.so"
+	dolib.so "${OUT}/lib/libc_fake_feature_library.so"
 	local v="$(libchrome_ver)"
 	./platform2_preinstall.sh "${OUT}" "${v}"
 	doins "${OUT}/lib/libfeatures.pc"
@@ -40,6 +42,8 @@ src_install() {
 	doins feature_export.h
 	doins c_feature_library.h
 	doins feature_library.h
+	doins c_fake_feature_library.h
+	doins fake_platform_features.h
 
 	# Install DBus configuration.
 	insinto /etc/dbus-1/system.d
