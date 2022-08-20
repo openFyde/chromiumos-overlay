@@ -1,0 +1,33 @@
+# Copyright 2022 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="16fcd93b78b5265da2dd9c01669e574602fc89e3"
+CROS_WORKON_TREE=("702155bb86de2fd19e985a30ab9833bd73f715f7" "edf6b365830aa3f1a32a8ce09d33d3a29fac5842" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk diagnostics .gn"
+PLATFORM_SUBDIR="diagnostics/testing"
+
+inherit cros-workon platform
+
+DESCRIPTION="Test utility for cros-healthd"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/master/diagnostics"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE=""
+
+DEPEND="
+	chromeos-base/diagnostics:=
+"
+
+src_install() {
+	platform_install
+}
+
+platform_pkg_test() {
+	platform test_all
+}
