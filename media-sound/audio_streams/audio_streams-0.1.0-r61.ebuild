@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="f7f06fc33d7ba16cfdc65a0b69d9e03a215559c5"
+CROS_WORKON_COMMIT="f7e0977023968570705f2ec3d7534e5e4427a88b"
 CROS_WORKON_TREE=("c66fe2b273ec2db9b4e08bb5c6929d203e1f5c2a" "8083bdbef3cd7fbbc9ec90941ff0418df2ce6d78")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -27,6 +27,7 @@ DEPEND="
 	=dev-rust/async-trait-0.1*:=
 	=dev-rust/futures-0.3*:=
 	=dev-rust/remain-0.2*:=
+	dev-rust/serde_json:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	=dev-rust/thiserror-1*:=
