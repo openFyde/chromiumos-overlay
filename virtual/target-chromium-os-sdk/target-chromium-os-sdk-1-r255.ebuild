@@ -236,7 +236,6 @@ RDEPEND="${RDEPEND}
 	sys-devel/bc
 	sys-devel/llvm
 	>=sys-libs/glibc-2.27
-	sys-libs/libcxxabi
 	sys-libs/libcxx
 	sys-libs/llvm-libunwind
 	virtual/udev
