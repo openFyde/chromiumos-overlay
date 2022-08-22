@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f84952c3b085c6cb9a09850326a5837d5c250116"
+CROS_WORKON_COMMIT="0dc24bb658a4dc786adb969d54b28b4c4f00036e"
 CROS_WORKON_TREE="814cfa9332de3d58522bb07b9f26b88d0d490c3f"
 CROS_WORKON_PROJECT="chromiumos/third_party/coreboot"
 CROS_WORKON_LOCALNAME="coreboot"
@@ -50,6 +50,8 @@ src_prepare() {
 	ln -s gcc gnat-gpl-2017-x86_64-linux-bin/bin/cc
 	# Add a gcc patch to make it builds with glibc 2.26.
 	cp "${FILESDIR}/${PN}-gcc-ucontext.patch" "${S}/util/crossgcc/patches/gcc-6.3.0_ucontext.patch"
+	# Enable default support for RV32IAFC multilib target
+	cp "${FILESDIR}/${PN}-rv32iafc.patch" "${S}/util/crossgcc/patches/gcc-11.2.0_rv32iafc.patch"
 }
 
 src_compile() {
