@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8ed13de5a4159cca0229c7928509ba53ab5af7b7"
+CROS_WORKON_COMMIT="2c2145d09f99a6c11113b5ae7c2bb66554148bb1"
 CROS_WORKON_TREE="1918cfed9f282c86e67ec7ec566fa92f5bf7eb7a"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -184,7 +184,7 @@ build_cil() {
 		-s "${policy_files[@]}" > "${output}.conf" \
 		|| die "failed to generate ${output}.conf"
 	checkpolicy -M -C -c "${SELINUX_VERSION}" "${output}.conf" \
-		-o "${output}" || die "failed to build $output"
+		-o "${output}" || die "failed to build ${output}"
 }
 
 build_android_reqd_cil() {
@@ -213,14 +213,14 @@ check_filetrans_defined_in_file_contexts() {
 	einfo "Verifying policy and file_contexts for filetrans_pattern"
 	_is_empty() {
 		local err=0
-		while read line; do
-			if [[ "$err" -eq "0" ]]; then
+		while read -r line; do
+			if [[ "${err}" -eq "0" ]]; then
 				ewarn "Expected to find these lines in file_contexts, but were not found:"
 				err=1
 			fi
-			ewarn "$line"
+			ewarn "${line}"
 		done
-		return $err
+		return ${err}
 	}
 	# filetrans is a kind of typetransition. Typetrasition is described like
 	# the following in a .cil file:
@@ -230,7 +230,7 @@ check_filetrans_defined_in_file_contexts() {
 	#  - both source and target are not tmpfs-related.
 	#  - source is not unconfined domain: chromeos
 	#  - type is not process since we only care file typetransition.
-	cat chromeos.cil | awk '
+	awk '
 		/^\(typetransition/	{
 						context=substr($NF,0,length($NF)-1)
 						if ($4=="process"||$2=="chromeos") next;
@@ -240,7 +240,7 @@ check_filetrans_defined_in_file_contexts() {
 						if(NF==6) { print substr($5,2,length($5)-2) ".*u:object_r:" context ":s0" }
 						else { print "u:object_r:" context ":s0" }
 					}
-	' | sort -u | xargs -d'\n' -n 1 sh -c 'grep $0 file_contexts >/dev/null || echo $0' | _is_empty
+	' chromeos.cil | sort -u | xargs -d'\n' -n 1 sh -c 'grep $0 file_contexts >/dev/null || echo $0' | _is_empty
 }
 
 # cat cil-file | get_attributed_type(attribute) => types separated by spaces
@@ -255,18 +255,18 @@ check_attribute_include() {
 	shift 1
 	einfo "Checking type set (attribute ${poolname}) equals to union of type sets of (attribute $@)"
 	local pool="$(cat chromeos.cil | get_attributed_type "${poolname}" | tr ' ' '\n')"
-	local remaining_types="$pool"
-	for attr in $@; do
-		remaining_types="$(echo "$remaining_types" | egrep -v "^$attr$")"
-		for t in `cat chromeos.cil | get_attributed_type "${attr}"`; do
-			if ! grep "$t" <(echo "$pool") >/dev/null; then
+	local remaining_types="${pool}"
+	for attr in "$@"; do
+		remaining_types="$(echo "${remaining_types}" | grep -E -v "^${attr}$")"
+		for t in $(cat chromeos.cil | get_attributed_type "${attr}"); do
+			if ! grep "${t}" <(echo "${pool}") >/dev/null; then
 				die "${t} type should have attribute ${poolname} to have attribute ${attr}"
 			fi
-			remaining_types="$(echo "$remaining_types" | egrep -v "^$t$")"
+			remaining_types="$(echo "${remaining_types}" | grep -E -v "^${t}$")"
 		done
 	done
-	if ! [[ -z "$remaining_types" ]]; then
-		die "Types with attribute $poolname should have at least one of $@, but these doesn't: \n$(echo "${remaining_types}" | tr '\n' ' ')"
+	if ! [[ -z "${remaining_types}" ]]; then
+		die "Types with attribute ${poolname} should have at least one of $@, but these doesn't: \n$(echo "${remaining_types}" | tr '\n' ' ')"
 	fi
 }
 
@@ -329,7 +329,9 @@ src_compile() {
 	if use nocheck; then
 		ewarn "Some post-compile checks are skipped. Please remove nocheck from your USE flag"
 	else
-		einfo 'Use USE="$USE nocheck" emerge-$BOARD selinux-policy to speed up emerge for development purpose'.
+		# We don't want to expand the variables in the help text.
+		#shellcheck disable=SC2016
+		einfo 'Use USE="$USE nocheck" emerge-$BOARD selinux-policy to speed up emerge for development purposes'
 		check_file_type_and_attribute
 	fi
 }
@@ -394,7 +396,7 @@ src_test() {
 	local cur=0
 	while read -r rule; do
 		cur=$((cur+1))
-		printf "Checking neverallow rules: %d/%d\r" "$cur" "$loc"
-		sepolicy-analyze "${SEPOLICY_FILENAME}" neverallow -n "$rule" || (echo failed for "$rule"; die)
+		printf "Checking neverallow rules: %d/%d\r" "${cur}" "${loc}"
+		sepolicy-analyze "${SEPOLICY_FILENAME}" neverallow -n "${rule}" || (echo failed for "${rule}"; die)
 	done < neverallows
 }
