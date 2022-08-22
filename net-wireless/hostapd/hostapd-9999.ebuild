@@ -3,6 +3,7 @@
 
 EAPI="6"
 CROS_WORKON_PROJECT="chromiumos/third_party/hostap"
+CROS_WORKON_EGIT_BRANCH="wpa_supplicant-2.9.1"
 CROS_WORKON_LOCALNAME="../third_party/wpa_supplicant-cros/current"
 
 inherit cros-workon toolchain-funcs savedconfig
