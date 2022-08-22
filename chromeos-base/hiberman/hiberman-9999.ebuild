@@ -52,6 +52,9 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.Hibernate.conf
 
+	insinto /usr/share/dbus-1/system-services
+	doins dbus/org.chromium.Hibernate.service
+
 	insinto /etc/init
 	doins "${FILESDIR}/hiberman.conf"
 }
