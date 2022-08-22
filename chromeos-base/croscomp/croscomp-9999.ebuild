@@ -84,8 +84,8 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha:=
 	dev-rust/cbindgen:=
 	x11-drivers/opengles-headers:=
-	=dev-rust/cfg-if-1.0.0:=
-	=dev-rust/jobserver-0.1.16:=
+	~dev-rust/cfg-if-1.0.0:=
+	~dev-rust/jobserver-0.1.16:=
 	=dev-rust/tokio-1*:=
 	=dev-rust/tokio-macros-1*:=
 "
