@@ -64,6 +64,7 @@ mmap: arg2 in 0xfffffffb || arg2 in 0xfffffffd
 mprotect: arg2 in 0xfffffffb || arg2 in 0xfffffffd
 mremap: 1
 munmap: 1
+name_to_handle_at: 1
 nanosleep: 1
 clock_nanosleep: 1
 newfstatat: 1
