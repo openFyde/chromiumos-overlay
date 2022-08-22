@@ -5,6 +5,7 @@ EAPI=7
 
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
+CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/cros_async"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"

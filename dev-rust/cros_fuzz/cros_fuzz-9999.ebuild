@@ -7,6 +7,7 @@ CROS_RUST_SUBDIR="common/cros-fuzz"
 
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
+CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=""  # TODO(b/195126527): limit subtree to common/

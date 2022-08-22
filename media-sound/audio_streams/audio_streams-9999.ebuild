@@ -5,6 +5,7 @@ EAPI="7"
 
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
+CROS_WORKON_EGIT_BRANCH="chromeos"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
 # is using "provided by ebuild" macro which supported by cros-rust
 CROS_WORKON_INCREMENTAL_BUILD=1
