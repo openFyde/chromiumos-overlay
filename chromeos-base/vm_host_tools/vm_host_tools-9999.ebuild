@@ -14,6 +14,7 @@ PLATFORM2_PATHS=(
 	metrics
 	.gn
 	sirenia
+	spaced
 	libcrossystem
 
 	vm_tools/BUILD.gn
@@ -61,8 +62,10 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
+	chromeos-base/spaced
 	net-libs/grpc:=
 	dev-libs/protobuf:=
+	sys-apps/util-linux:=
 "
 
 RDEPEND="
