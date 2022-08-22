@@ -128,6 +128,7 @@ generate_font_cache() {
 pkg_setup() {
 	local fontdir fontname
 	for fontdir in "${SYSROOT}"/usr/share/fonts/*/; do
+		[[ -d "${fontdir}" ]] || break
 		fontname=$(basename "${fontdir}")
 		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" > \
 			"${fontdir}"/.uuid || die
