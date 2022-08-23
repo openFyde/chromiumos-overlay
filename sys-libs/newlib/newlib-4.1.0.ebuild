@@ -64,10 +64,16 @@ pkg_setup() {
 }
 
 src_configure() {
-	# EC doesn't support unaligned access: b/239254184.
 	if [[ ${CTARGET} == armv7m* ]]; then
+		# EC doesn't support unaligned access: b/239254184.
 		append-flags -mno-unaligned-access
 		CCASFLAGS="${CCASFLAGS} -mno-unaligned-access"
+
+		# TODO(b/234507656): Allow for configuring different FPUs or using soft
+		# float depending on the target. For now these are defaults targeting
+		# common boards used by EC.
+		append-flags -mfpu=fpv4-sp-d16
+		append-flags -mfloat-abi=hard
 	fi
 
 	# TODO: we should fix this
