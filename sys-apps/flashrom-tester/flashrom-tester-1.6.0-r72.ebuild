@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="da7cbb710a09ef06491459e8b99d8e0d68435d36"
+CROS_WORKON_COMMIT="8c069c5bae6160eb0085756313c84ff428453efa"
 CROS_WORKON_TREE="7d631aa30921a8fe5909f6f001feea129849c8c6"
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
@@ -26,7 +26,7 @@ DEPEND="=dev-rust/rand-0.6*:=
 	=dev-rust/libc-0.2*:=
 	=dev-rust/log-0.4*:=
 	=dev-rust/built-0.5*:=
-	=dev-rust/sys-info-0.9.1:=
+	~dev-rust/sys-info-0.9.1:=
 	=dev-rust/serde_json-1*:=
 "
 
