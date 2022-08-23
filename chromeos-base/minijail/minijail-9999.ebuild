@@ -51,6 +51,7 @@ src_configure() {
 	export DEFAULT_PIVOT_ROOT=/mnt/empty
 	export BLOCK_SYMLINKS_IN_BINDMOUNT_PATHS=yes
 	export BINDMOUNT_ALLOWED_PREFIXES=/dev,/sys,/var/log/power_manager
+	export BLOCK_SYMLINKS_IN_NONINIT_MOUNTNS_TMP=yes
 }
 
 # Use qemu-user to run the platform-specific dump_constants binary in order to
