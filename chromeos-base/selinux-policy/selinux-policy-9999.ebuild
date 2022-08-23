@@ -367,15 +367,28 @@ src_install() {
 # Check policy violation for neverallow rules extracted from CTS SELinuxNeverallowRulesTest.
 src_test() {
 	if ! use android-container-pi; then
-		# Skipping the test for ARCVM.
-		# We only run SELinux CTS against the guest-side policy of ARCVM.
+		ewarn "********************************************************"
+		ewarn "WARNING: Build-time SELinux policy tests only apply to"
+		ewarn "boards shipping android-container-pi."
+		ewarn "Test again using e.g. caroline or kevin to ensure full"
+		ewarn "test coverage."
+		ewarn "********************************************************"
+		return
+	fi
+
+	if ! ( use cheets_user || use cheets_user_64 ); then
+		ewarn "********************************************************"
+		ewarn "WARNING: Build-time SELinux policy tests are skipped on"
+		ewarn "boards shipping ARC userdebug builds (including betty)."
+		ewarn "Test again using e.g. caroline or kevin to ensure full"
+		ewarn "test coverage."
+		ewarn "********************************************************"
 		return
 	fi
 
 	local neverallowjava="${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java"
-	if [ ! -f "${SYSROOT}/etc/selinux/intermediates/SELinuxNeverallowRulesTest.java" ]; then
-		ewarn "No SELinuxNeverallowRulesTest.java found. CTS neverallow pre-test is skipped."
-		return
+	if [ ! -f "${neverallowjava}" ]; then
+		die "No SELinuxNeverallowRulesTest.java found"
 	fi
 
 	# Extract 'String neverallowRule = "neverallow ...";' lines from the Java source code and
@@ -391,10 +404,18 @@ src_test() {
 	if [[ "${loc}" -lt "100" ]]; then
 		die "too few test cases. something is wrong."
 	fi
-	local cur=0
+	local fail
 	while read -r rule; do
-		cur=$((cur+1))
-		printf "Checking neverallow rules: %d/%d\r" "${cur}" "${loc}"
-		sepolicy-analyze "${SEPOLICY_FILENAME}" neverallow -n "${rule}" || (echo failed for "${rule}"; die)
+		if ! sepolicy-analyze "${SEPOLICY_FILENAME}" neverallow -n "${rule}"; then
+			eerror "sepolicy-analyze failed for rule: ${rule}"
+			fail=1
+		fi
 	done < neverallows
+
+	if [[ -n "${fail}" ]]; then
+		die "SELinux neverallow check(s) failed, see logs above." \
+			"If you're seeing this failure in CQ, make sure to" \
+			"use the same failing board(s) when testing locally" \
+			"as SELinux rules may differ by board."
+	fi
 }
