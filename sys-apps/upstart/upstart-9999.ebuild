@@ -15,7 +15,7 @@ HOMEPAGE="http://upstart.ubuntu.com/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge"
+IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge -upstart_scripts"
 
 RDEPEND=">=sys-apps/dbus-1.2.16
 	>=sys-libs/libnih-1.0.2
@@ -75,6 +75,7 @@ src_configure() {
 		$(use_with direncryption dircrypto-keyring)
 		$(use_enable selinux)
 		$(use_enable nls)
+		$(use_enable upstart_scripts scripts)
 	)
 
 	if use global_seccomp; then
@@ -87,7 +88,7 @@ src_configure() {
 
 	# Remove /build/$BOARD to ensure the path to binaries are correct
 	# within the test chroot.
-	for file in "test/Makefile" "scripts/Makefile" "Makefile" "lib/Makefile"; do
+	for file in "test/Makefile" $(usex upstart_scripts "scripts/Makefile" "") "Makefile" "lib/Makefile"; do
 		sed -i "/abs_top_builddir = /s|${SYSROOT}||" "${file}" || die
 	done
 	for file in "init/Makefile"; do
