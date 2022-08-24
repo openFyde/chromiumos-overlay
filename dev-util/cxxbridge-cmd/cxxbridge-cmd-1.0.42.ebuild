@@ -16,11 +16,11 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/clap-2.33:= <dev-rust/clap-3.0.0_alpha
-	>=dev-rust/codespan-reporting-0.11:= <dev-rust/codespan-reporting-0.12.0_alpha
-	>=dev-rust/proc-macro2-1.0.26:= <dev-rust/proc-macro2-2.0.0_alpha
-	>=dev-rust/quote-1.0:= <dev-rust/quote-2.0.0_alpha
-	>=dev-rust/syn-1.0.68:= <dev-rust/syn-2.0.0_alpha
+	=dev-rust/clap-2*:=
+	=dev-rust/codespan-reporting-0.11*:=
+	=dev-rust/proc-macro2-1*:=
+	=dev-rust/quote-1*:=
+	=dev-rust/syn-1*:=
 "
 
 # Package was briefly installed at slot 1.0.42. We don't want that.
