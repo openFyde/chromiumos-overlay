@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="49838a67ad6a2156929eaa0b8a26b9fef128f024"
-CROS_WORKON_TREE=("9ca78a2d46421d17d297bbb13b05eebbb51d330a" "b2ae20cf5a237ca246eecb61de48d18247370fd5" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="c6964609958134454e8fb2bcc47859807ed2e21d"
+CROS_WORKON_TREE=("9ca78a2d46421d17d297bbb13b05eebbb51d330a" "21f33449b94f847d4c3165a7dd3a27adcc70be52" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 
-IUSE="selinux tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
+IUSE="selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
 
 COMMON_DEPEND="
 	tpm? ( !test? ( dev-libs/libtpms:= ) )
@@ -33,6 +33,7 @@ COMMON_DEPEND="
 	test? ( chromeos-base/tpm2:=[test] )
 	chromeos-base/minijail:=
 	chromeos-base/pinweaver:=
+	ti50_onboard? ( !test? ( chromeos-base/ti50-emulator:= ) )
 	chromeos-base/vboot_reference:=[tpm2_simulator?]
 	dev-libs/openssl:0=
 	sys-libs/libselinux:=
