@@ -91,10 +91,10 @@ src_install() {
 	dirs=( system_api )
 
 	# These are project-specific files.
-	dirs+=( $(
+	while IFS='' read -r dbus_project; do dirs+=("${dbus_project}"); done < <(
 		cd "${S}/dbus" || die
-		dirname */*.proto | sort -u
-	) )
+		dirname -- */*.proto | sort -u
+	)
 
 	for dir in "${dirs[@]}"; do
 		insinto /usr/include/"${dir}"/proto_bindings
