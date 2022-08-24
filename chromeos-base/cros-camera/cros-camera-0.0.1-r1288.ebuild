@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9940ba862dbbed1a286307c6aa5ea86e778bb0b6"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4be8d3ae5664634825afc2e6e4b8c24816ee9b9e" "245c311f8836a5f5e257f740418511b1a04a3618" "3561b231f9cb26e6ee72a312e0400838c3924580" "3b956886c6fa32bc9f5efb71a47047d5e8f3e2a5" "6fbe2e8c4ee5c1d121cdc9fefba4663826c68b8d" "98d553fee1fb775bdc64cb66893b46848c0f4f1a" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "9ca78a2d46421d17d297bbb13b05eebbb51d330a")
+CROS_WORKON_COMMIT="4b43a478a5a0ea8645013d67882d64bf21b3ca27"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "4be8d3ae5664634825afc2e6e4b8c24816ee9b9e" "ba6fc0c8d3baaa9da6fa620db98f3813df25bd2d" "3561b231f9cb26e6ee72a312e0400838c3924580" "c897c52b0a4c205d1166ddc8694c4ea860ab61e9" "3b956886c6fa32bc9f5efb71a47047d5e8f3e2a5" "6fbe2e8c4ee5c1d121cdc9fefba4663826c68b8d" "37fb21b6ae9513dad2902c3cf8881ade36e0882b" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "9ca78a2d46421d17d297bbb13b05eebbb51d330a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
 # workaround for unexpected sandbox behavior.
-CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/features camera/hal camera/hal_adapter camera/include camera/mojo common-mk"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/features camera/gpu camera/hal camera/hal_adapter camera/include camera/mojo common-mk"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
