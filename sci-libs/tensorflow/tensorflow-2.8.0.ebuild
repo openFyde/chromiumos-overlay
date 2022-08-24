@@ -307,16 +307,10 @@ src_compile() {
 	# fail early if any deps are missing
 	ebazel build -k --nobuild "${bazel_args[@]}"
 
-	nostrip_config=""
-	# Do not quote ${FEATURES}, despite what the linter says. It will break this.
-	if has nostrip ${FEATURES}
-	then
-		nostrip_config="--define tflite_keep_symbols=true"
-	fi
-
 	# build if deps are present
 	ebazel build --copt=-DTFLITE_SUPPORTS_GPU_DELEGATE=1 \
-		--copt=-DEGL_NO_X11 --cxxopt=-std=c++17 "${nostrip_config}" \
+		--copt=-DEGL_NO_X11 --cxxopt=-std=c++17          \
+		--define tflite_keep_symbols=true                \
 		"${bazel_args[@]}"
 
 	do_compile() {
