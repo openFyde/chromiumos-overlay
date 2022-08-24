@@ -16,7 +16,7 @@ HOMEPAGE="https://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole kernel-4_4 kernel-3_18"
+IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole kernel-4_4"
 
 # We need to make sure timezone-data is merged before us.
 # See pkg_setup below as well as http://crosbug.com/27413
@@ -170,7 +170,7 @@ src_install() {
 		# behavior for all other driver features across those platforms.
 		#
 		# Revert this change once we stop building/shipping those kernels.
-		if (use kernel-4_4 || use kernel-3_18) ; then
+		if use kernel-4_4 ; then
 			rm -f "${D}"/lib/udev/rules.d/??-usb-rtl_nic-net.rules
 		fi
 
