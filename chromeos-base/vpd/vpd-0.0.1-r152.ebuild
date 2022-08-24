@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="20bf6ac7f99f1c83e1b696f575cdfc9d8fe62498"
-CROS_WORKON_TREE="6f10d62d5594742f7ff14af4645e80d1c249ab16"
+CROS_WORKON_COMMIT="df3801b3b9bc911b8c13f39d13b33d00faa9bac5"
+CROS_WORKON_TREE="92d08b274fd87e33fcba59b366ccb0bce0e33dcf"
 CROS_WORKON_PROJECT="chromiumos/platform/vpd"
 CROS_WORKON_LOCALNAME="platform/vpd"
 
