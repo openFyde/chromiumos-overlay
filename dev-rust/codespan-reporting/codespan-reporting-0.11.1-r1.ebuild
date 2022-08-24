@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/serde-1:= <dev-rust/serde-2
-	>=dev-rust/termcolor-1:= <dev-rust/termcolor-2
 	>=dev-rust/unicode-width-0.1:= <dev-rust/unicode-width-0.2
 "
 RDEPEND="${DEPEND}"

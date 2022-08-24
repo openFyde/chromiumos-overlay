@@ -3,6 +3,8 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT="117c20d69286fcd5664f2403860ed9b8615d86b4"
+CROS_WORKON_TREE="b239a5dd58e258664f3342eba6e204be4e7ae2e7"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -14,7 +16,7 @@ inherit cros-workon cros-rust python-single-r1
 
 DESCRIPTION="Sources of third-party crates used by ChromeOS"
 HOMEPAGE='https://chromium.googlesource.com/chromiumos/third_party/rust_crates/+/HEAD/'
-KEYWORDS="~*"
+KEYWORDS="*"
 
 # There's no obvious need for testing these crates at the moment. Further,
 # testing these crates could be complicated, since we're pulling in the union of

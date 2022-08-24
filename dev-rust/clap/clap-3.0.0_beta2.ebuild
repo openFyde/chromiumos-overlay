@@ -16,6 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/atty-0.2*:=
 	>=dev-rust/bitflags-1.2.0:= <dev-rust/bitflags-2.0.0
 	~dev-rust/clap_derive-3.0.0_beta2:=
@@ -24,7 +25,6 @@ DEPEND="
 	>=dev-rust/os_str_bytes-2.3.0:= <dev-rust/os_str_bytes-3.0.0
 	=dev-rust/regex-1*:=
 	=dev-rust/strsim-0.10*:=
-	>=dev-rust/termcolor-1.1.0:= <dev-rust/termcolor-2.0.0
 	>=dev-rust/terminal_size-0.1.12:= <dev-rust/terminal_size-0.2.0
 	=dev-rust/textwrap-0.12*:=
 	=dev-rust/unicode-width-0.1*:=

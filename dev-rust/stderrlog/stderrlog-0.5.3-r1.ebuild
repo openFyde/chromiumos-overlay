@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/atty-0.2.6 <dev-rust/atty-0.3.0_alpha:=
 	>=dev-rust/chrono-0.4.10 <dev-rust/chrono-0.5.0_alpha:=
 	>=dev-rust/log-0.4.11 <dev-rust/log-0.5.0_alpha:=
-	=dev-rust/termcolor-1.1*:=
 	=dev-rust/thread_local-1.1*:=
 "
 RDEPEND="${DEPEND}"
