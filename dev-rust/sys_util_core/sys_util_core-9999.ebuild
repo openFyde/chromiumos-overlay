@@ -59,8 +59,3 @@ pkg_prerm() {
 	cros-rust_pkg_prerm poll_token_derive
 	cros-rust_pkg_prerm
 }
-
-pkg_postrm() {
-	cros-rust_pkg_postrm poll_token_derive
-	cros-rust_pkg_postrm
-}

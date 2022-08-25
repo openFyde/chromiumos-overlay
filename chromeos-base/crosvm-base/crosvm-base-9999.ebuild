@@ -113,8 +113,3 @@ pkg_prerm() {
 	cros-rust_pkg_prerm base_event_token_derive
 	cros-rust_pkg_prerm
 }
-
-pkg_postrm() {
-	cros-rust_pkg_postrm base_event_token_derive
-	cros-rust_pkg_postrm
-}

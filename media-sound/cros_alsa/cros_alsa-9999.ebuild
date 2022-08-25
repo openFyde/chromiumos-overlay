@@ -79,8 +79,3 @@ pkg_prerm() {
 	cros-rust_pkg_prerm cros_alsa_derive
 	cros-rust_pkg_prerm cros_alsa
 }
-
-pkg_postrm() {
-	cros-rust_pkg_postrm cros_alsa_derive
-	cros-rust_pkg_postrm cros_alsa
-}

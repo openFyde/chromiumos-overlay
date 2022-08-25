@@ -118,7 +118,7 @@ inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizer
 IUSE="amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
-EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm pkg_postrm
+EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm
 
 # virtual/rust-binaries is listed in both DEPEND and RDEPEND. Changing the
 # version of virtual/rust-binaries forces a rebuild of everything that
@@ -136,6 +136,14 @@ ECARGO_HOME="${WORKDIR}/cargo_home"
 CROS_RUST_REGISTRY_BASE="/usr/lib/cros_rust_registry"
 CROS_RUST_REGISTRY_DIR="${CROS_RUST_REGISTRY_BASE}/store"
 CROS_RUST_REGISTRY_INST_DIR="${CROS_RUST_REGISTRY_BASE}/registry"
+# Crate owners directory. This has one file per crate in
+# CROS_RUST_REGISTRY_INST_DIR that describes the package which installed the
+# crate's link in CROS_RUST_REGISTRY_INST_DIR. This is needed to support our
+# current preinst/postinst/prerm functions without introducing race conditions:
+# - prerm will delete a symlink if the symlink is owned by the current package
+# - preinst will delete a symlink regardless of ownership
+# - postinst installs a new symlink and declares ownership of it
+CROS_RUST_REGISTRY_OWNER_DIR="${CROS_RUST_REGISTRY_BASE}/owners"
 
 # Ignore odr violations in unit tests in asan builds
 # (https://github.com/rust-lang/rust/issues/41807).
@@ -949,13 +957,15 @@ _cros-rust_prepare_lock() {
 
 # @FUNCTION: _cleanup_registry_link
 # @INTERNAL
-# @USAGE: [crate name] [crate version]
+# @USAGE: force [crate name] [crate version]
 # @DESCRIPTION:
 # Unlink a library crate from the local registry. This is repeated in the prerm
-# and preinst stages.
+# and preinst stages. If force is nonempty, the link will be cleaned up
+# regardless of declared ownership. Otherwise, ownership will be respected.
 _cleanup_registry_link() {
-	local name="${1:-${CROS_RUST_CRATE_NAME}}"
-	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
+	local force="$1"
+	local name="${2:-${CROS_RUST_CRATE_NAME}}"
+	local version="${3:-${CROS_RUST_CRATE_VERSION}}"
 	local crate="${name}-${version}"
 
 	local crate_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${crate}"
@@ -967,16 +977,25 @@ _cleanup_registry_link() {
 	local link="${registry_dir}/${crate}"
 	# Add a check to avoid spamming when it doesn't exist (e.g. binary crates).
 	if [[ -L "${link}" ]]; then
-		einfo "Removing ${crate} from Cargo registry"
 		# Acquire a exclusive lock since this modifies the registry.
 		_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
-		# This triggers a linter error SC2016 which says:
-		#   "Expressions don't expand in single quotes, use double quotes for that."
-		# In this case, though, that is exactly what we want since we need the string
-		# to be passed to sh without being evaluated first.
-		# shellcheck disable=SC2016
-		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
-			sh -c 'rm -f "$0"' "${link}" || die
+		(
+			local owner="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}/${link}"
+			local removed
+			flock --exclusive 100 || die
+			if [[ -n ${force} ]] || [[ $(< "${owner}") == "${PF}" ]]; then
+				rm -f "${link}" "${owner}" || die
+				removed=1
+			fi
+			flock -u 100
+
+			if [[ -n "${removed}" ]]; then
+				einfo "Removed ${crate} from Cargo registry"
+			else
+				einfo "${crate} removal from Cargo registry" \
+					"skipped due to new symlink owner"
+			fi
+		) 100>"$(cros-rust_get_reg_lock)"
 	fi
 }
 
@@ -984,8 +1003,8 @@ _cleanup_registry_link() {
 # @INTERNAL
 # @USAGE: [crate name] [crate version]
 # @DESCRIPTION:
-# Link a library crate from the local registry. This is repeated in the postrm
-# and postinst stages.
+# Link a library crate from the local registry. This is performed in the
+# postinst stage.
 _create_registry_link() {
 	local name="${1:-${CROS_RUST_CRATE_NAME}}"
 	local version="${2:-${CROS_RUST_CRATE_VERSION}}"
@@ -999,20 +1018,28 @@ _create_registry_link() {
 		crate="$(basename "${crate_dir}")"
 	fi
 
-	# Only install the link if there is a library crates to register. This avoids
-	# dangling symlinks in the case that this only installs executables, or the
-	# ebuild is being removed.
-	local dest="${registry_dir}/${crate}"
-	if [[ -e "${crate_dir}" && ! -L "${dest}" ]]; then
+	# Only install the link if there is a library crates to register. This
+	# avoids dangling symlinks in the case that this only installs
+	# executables, or the ebuild is being removed.
+	if [[ -e "${crate_dir}" ]]; then
+		local owners_dir="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}"
 		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
-		mkdir -p "${registry_dir}"
-		# A redundant link presence check is used inside the lock because we
-		# do not want to lock if we don't have to, but there is a time-of-check
-		# to time-of-use issue that shows up if the link presence check is not
-		# in the lock (two ebuilds may try to create the same lock with one
-		# succeeding and the other failing because the link already exists).
-		flock --no-fork --exclusive "$(cros-rust_get_reg_lock)" \
-			sh -c '[ -L "$1" ] || ln -srT "$0" "$1"' "${crate_dir}" "${dest}" || die
+		mkdir -p "${registry_dir}" "${owners_dir}"
+		# A redundant link presence check is used inside the lock
+		# because we do not want to lock if we don't have to, but there
+		# is a time-of-check to time-of-use issue that shows up if the
+		# link presence check is not in the lock (two ebuilds may try to
+		# create the same lock with one succeeding and the other failing
+		# because the link already exists).
+		(
+			local dest="${registry_dir}/${crate}"
+			local owners="${owners_dir}/${crate}"
+			flock --exclusive 100 || die
+			if [[ ! -L "${dest}" ]]; then
+				ln -srT "${crate_dir}" "${dest}" || die
+			fi
+			echo -n "${PF}" > "${owners}" || die
+		) 100>"$(cros-rust_get_reg_lock)"
 	fi
 }
 
@@ -1027,7 +1054,8 @@ cros-rust_pkg_preinst() {
 		die "${FUNCNAME[0]}() should only be used in pkg_preinst() phase"
 	fi
 
-	_cleanup_registry_link "$@"
+	# Forcibly remove any existing link.
+	_cleanup_registry_link 1 "$@"
 }
 
 # @FUNCTION: cros-rust_pkg_postinst
@@ -1047,29 +1075,16 @@ cros-rust_pkg_postinst() {
 # @FUNCTION: cros-rust_pkg_prerm
 # @USAGE: [crate name] [crate version]
 # @DESCRIPTION:
-# Unlink a library crate from the local registry.
+# Unlink a library crate from the local registry unless another package now owns
+# the link.
 cros-rust_pkg_prerm() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_prerm" ]]; then
 		die "${FUNCNAME[0]}() should only be used in pkg_prerm() phase"
 	fi
 
-	_cleanup_registry_link "$@"
-}
-
-# @FUNCTION: cros-rust_pkg_postrm
-# @USAGE: [crate name] [crate version]
-# @DESCRIPTION:
-# Conditionally relink a library crate if the destination exists. In the rare
-# case that a crate is moved from one ebuild to another, this ensures the
-# cros_rust_registry is consistent.
-cros-rust_pkg_postrm() {
-	debug-print-function "${FUNCNAME[0]}" "$@"
-	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_postrm" ]]; then
-		die "${FUNCNAME[0]}() should only be used in pkg_postrm() phase"
-	fi
-
-	_create_registry_link "$@"
+	# Clean the link only if it's still owned by us
+	_cleanup_registry_link "" "$@"
 }
 
 # @FUNCTION: cros-rust_get_crate_version
