@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="144a3456d3088846c6f953a52175b762a852f1db"
+CROS_WORKON_COMMIT="5c077094946ed6e8b7c99befc360f1941c5ac351"
 CROS_WORKON_TREE="1fa9c5f073e1ebe58a00a06080a16b4c6823c052"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,6 +30,8 @@ DEPEND="
 	=dev-rust/glob-0.3*:=
 	=dev-rust/once_cell-1.7*:=
 	=dev-rust/regex-1.5*:=
+	=dev-rust/futures-0.3*:=
+	=dev-rust/grpcio-0.9*:=
 	dev-rust/sys_util:=
 "
 
