@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="49838a67ad6a2156929eaa0b8a26b9fef128f024"
+CROS_WORKON_COMMIT="5c077094946ed6e8b7c99befc360f1941c5ac351"
 CROS_WORKON_TREE=("9ca78a2d46421d17d297bbb13b05eebbb51d330a" "c4a1716e2dc9f5305335dee84c17e17f49dffa2b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -93,10 +93,10 @@ src_install() {
 	dirs=( system_api )
 
 	# These are project-specific files.
-	dirs+=( $(
+	while IFS='' read -r dbus_project; do dirs+=("${dbus_project}"); done < <(
 		cd "${S}/dbus" || die
-		dirname */*.proto | sort -u
-	) )
+		dirname -- */*.proto | sort -u
+	)
 
 	for dir in "${dirs[@]}"; do
 		insinto /usr/include/"${dir}"/proto_bindings
