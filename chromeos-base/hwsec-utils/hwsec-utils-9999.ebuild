@@ -16,8 +16,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hwsec-ut
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="test cr50_onboard"
-
+IUSE="cr50_onboard generic_tpm2 test ti50_onboard"
+REQUIRED_USE="^^ ( ti50_onboard cr50_onboard generic_tpm2 )"
+CANDIDATES=( "cr50_onboard" "generic_tpm2" "ti50_onboard" )
 
 
 DEPEND=""
@@ -27,6 +28,18 @@ RDEPEND="${DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 "
 
+src_compile() {
+	local features=()
+
+	local candidate
+	for candidate in "${CANDIDATES[@]}"; do
+		if use "${candidate}"; then
+			features+=("${candidate}")
+		fi
+	done
+
+	cros-rust_src_compile --features="${features[*]}"
+}
 
 src_install() {
 	cros-rust_src_install
@@ -34,5 +47,14 @@ src_install() {
 }
 
 src_test() {
-	cros-rust_src_test
+	local features=()
+
+	local candidate
+	for candidate in "${CANDIDATES[@]}"; do
+		if use "${candidate}"; then
+			features+=("${candidate}")
+		fi
+	done
+
+	cros-rust_src_compile --features="${features[*]}"
 }
