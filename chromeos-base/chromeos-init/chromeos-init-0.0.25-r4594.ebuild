@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="806fa2298fd7d0ffa16e9c1d9b4f805d666a0d8e"
-CROS_WORKON_TREE=("9ca78a2d46421d17d297bbb13b05eebbb51d330a" "6b4993cf5221413a7e774ddb594a9560687c45c1" "19f36342be7994842e12ce8eadbb21be2e51ae97" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="1c1da116f390b9a8d2ea71d223b76597ee3dbbf5"
+CROS_WORKON_TREE=("9ca78a2d46421d17d297bbb13b05eebbb51d330a" "c30b8178491fb0aeea1100bf05b2ce7be0e4190f" "19f36342be7994842e12ce8eadbb21be2e51ae97" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -82,18 +82,7 @@ platform_pkg_test() {
 		platform_test "run" "./${test_bin}"
 	done
 
-	local cpp_tests=(
-		clobber_state_test
-		file_attrs_cleaner_test
-		periodic_scheduler_test
-		process_killer_test
-		usermode-helper_test
-		utils_test
-	)
-
-	for test_bin in "${cpp_tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
 
 src_install_upstart() {
@@ -170,7 +159,7 @@ src_install() {
 	fi
 
 	insinto /usr/share/cros
-	doins *_utils.sh
+	doins ./*_utils.sh
 
 	exeinto /usr/share/cros/init
 	doexe is_feature_enabled.sh
