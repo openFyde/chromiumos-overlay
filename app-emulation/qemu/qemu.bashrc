@@ -5,7 +5,9 @@
 cros_pre_src_configure_xopensource() {
 	# Workaround to build qemu 5.2 with ncurses 5.
 	# ncurses 6 does not appear to need it.
-	append-cppflags "-D_XOPEN_SOURCE_EXTENDED"
+	if [[ "${PV}" == 5.* ]]; then
+		append-cppflags "-D_XOPEN_SOURCE_EXTENDED"
+	fi
 }
 
 cros_post_src_install_lddtree() {
