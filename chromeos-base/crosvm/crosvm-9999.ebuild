@@ -265,6 +265,7 @@ src_test() {
 		# Also exclude the following since their tests are run in their ebuilds.
 		--exclude enumn
 		--exclude sys_util
+		--features chromeos
 		"${test_opts[@]}"
 	)
 
