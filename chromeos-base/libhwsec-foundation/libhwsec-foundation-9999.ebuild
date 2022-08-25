@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk metrics libhwsec-foundation .gn"
 
 PLATFORM_SUBDIR="libhwsec-foundation"
 
-inherit cros-workon platform
+inherit cros-workon platform tmpfiles
 
 DESCRIPTION="Crypto and utility functions used in TPM related daemons."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libhwsec-foundation/"
@@ -29,6 +29,11 @@ RDEPEND="
 
 src_install() {
 	platform_install
+
+	# Install tmpfiles.d for creating dir for profiling data.
+	if use profiling; then
+		dotmpfiles profiling/tmpfiles.d/profiling.conf
+	fi
 }
 
 platform_pkg_test() {
