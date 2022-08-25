@@ -43,7 +43,7 @@ SRC_URI+=" https://gitweb.gentoo.org/proj/locale-gen.git/snapshot/locale-gen-${L
 SRC_URI+=" multilib-bootstrap? ( https://dev.gentoo.org/~dilfridge/distfiles/gcc-multilib-bootstrap-${GCC_BOOTSTRAP_VER}.tar.xz )"
 SRC_URI+=" systemd? ( https://gitweb.gentoo.org/proj/toolchain/glibc-systemd.git/snapshot/glibc-systemd-${GLIBC_SYSTEMD_VER}.tar.gz )"
 
-IUSE="audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only"
+IUSE="audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only llvm"
 
 # Minimum kernel version that glibc requires
 MIN_KERN_VER="3.2.0"
@@ -403,6 +403,16 @@ setup_flags() {
 	strip-unsupported-flags
 	filter-flags -m32 -m64 '-mabi=*'
 
+	if use llvm; then
+		# TODO(toolchain): armv7a -mthumb is broken in the Clang patches, drop when fixed
+		if [[ $(tc-arch ${CTARGET}) == arm ]] ; then
+			filter-flags -mthumb
+			append-flags -marm
+		fi
+		# TODO(b:241257035): bootstrapping without GCC fails
+		append-ldflags -rtlib=libgcc -unwindlib=none
+	fi
+
 	# glibc aborts if rpath is set by LDFLAGS
 	filter-ldflags '-Wl,-rpath=*'
 
@@ -506,18 +516,28 @@ setup_env() {
 	# top of each other.
 	local VAR=CFLAGS_${ABI}
 
-	# For ChromiumOS, the default compiler is clang, we need to set it to gcc.
-	: ${__GLIBC_CC:=$(tc-getCC ${CTARGET})}
-	export __GLIBC_CC CC="${__GLIBC_CC}"
-	cros_use_gcc
+	if use llvm; then
+		# TODO(toolchain): Fix b:237647466 and drop the allow gnu tools call
+		cros_allow_gnu_build_tools
+
+		export CC="${CTARGET}-clang ${!VAR}"
+		export CXX=${CTARGET}-clang++
+	else
+		# For ChromiumOS, the default compiler is clang, we need to set it to gcc.
+		: ${__GLIBC_CC:=$(tc-getCC ${CTARGET})}
+		export __GLIBC_CC CC="${__GLIBC_CC}"
+		cros_use_gcc
+	fi
 	export CC="${CC} ${!VAR}"
 	einfo " $(printf '%15s' 'Manual CC:')   ${CC}"
 }
 
 foreach_abi() {
+	if ! use llvm; then
 	# For ChromiumOS, we need to unset __GLIBC_CC CC here. Otherwise
 	# we could not run sudo emerge sys-libs/glibc inside chroot.
 	unset __GLIBC_CC CC
+	fi
 	setup_env
 
 	local ret=0
@@ -802,6 +822,10 @@ src_prepare() {
 
 	EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" eapply "${FILESDIR}"/local/${PN}-${PV}
 
+	if use llvm ; then
+		EPATCH_SUFFIX="patch" EPATCH_FORCE="yes" eapply "${FILESDIR}"/local/${PN}-${PV}/llvm
+	fi
+
 	default
 
 	gnuconfig_update
@@ -821,7 +845,12 @@ src_prepare() {
 	# Fix permissions on some of the scripts.
 	chmod u+x "${S}"/scripts/*.sh
 
-	cros_use_gcc
+	if use llvm ; then
+		# TODO(toolchain): Fix b:237647466 and drop the allow gnu tools call
+		cros_allow_gnu_build_tools
+	else
+		cros_use_gcc
+	fi
 
 	cd "${S}"
 }
@@ -922,7 +951,6 @@ glibc_do_configure() {
 	fi
 
 	myconf+=(
-		--without-cvs
 		--disable-werror
 		--enable-bind-now
 		--build=${CBUILD_OPT:-${CBUILD}}
@@ -960,6 +988,10 @@ glibc_do_configure() {
 
 		${EXTRA_ECONF}
 	)
+
+	if use llvm ; then
+		myconf+=( --with-default-link=yes )
+	fi
 
 	# We rely on sys-libs/timezone-data for timezone tools normally.
 	myconf+=( $(use_enable vanilla timezone-tools) )
@@ -1011,7 +1043,12 @@ glibc_do_configure() {
 glibc_headers_configure() {
 	export ABI=default
 
-	cros_use_gcc
+	if ! use llvm ; then
+		cros_use_gcc
+	else
+		# TODO(toolchain): Fix b:237647466 and drop the allow gnu tools call
+		cros_allow_gnu_build_tools
+	fi
 
 	local builddir=$(builddir "headers")
 	mkdir -p "${builddir}"
@@ -1096,7 +1133,6 @@ glibc_headers_configure() {
 	myconf+=(
 		--disable-sanity-checks
 		--enable-hacker-mode
-		--without-cvs
 		--disable-werror
 		--enable-bind-now
 		--build=${CBUILD_OPT:-${CBUILD}}

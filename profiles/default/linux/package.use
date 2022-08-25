@@ -118,3 +118,10 @@ cross-aarch64-cros-linux-gnu/glibc		stack-realign
 cross-x86_64-cros-linux-gnu/glibc 		stack-realign
 cross-i686-cros-linux-gnu/glibc			stack-realign
 cross-armv7a-cros-linux-gnueabihf/glibc		stack-realign
+
+# enable these only for local testing, do not enable in production
+sys-libs/glibc					-llvm
+cross-aarch64-cros-linux-gnu/glibc		-llvm
+cross-x86_64-cros-linux-gnu/glibc		-llvm
+cross-i686-cros-linux-gnu/glibc			-llvm
+cross-armv7a-cros-linux-gnueabihf/glibc		-llvm

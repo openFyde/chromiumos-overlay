@@ -136,6 +136,7 @@ src_configure() {
 		--disable-canonical-system-headers
 		--enable-checking=release
 		--enable-linker-build-id
+		--enable-wchar
 
 		--with-bugurl='https://bugs.chromium.org'
 
