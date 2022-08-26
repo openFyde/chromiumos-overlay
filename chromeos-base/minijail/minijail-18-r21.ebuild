@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="458bddbbbbbf48ce16d5377f0b1b214f113e5327"
-CROS_WORKON_TREE="925fb16d9272779fd20ff294c7ee448b791c3b7f"
+CROS_WORKON_COMMIT="b12f5678472aa2eada9981feecddb924e7b3e098"
+CROS_WORKON_TREE="957e3af1ff6328d32c2c24e022e389e799fa2cf2"
 inherit cros-constants
 
 CROS_WORKON_LOCALNAME="platform/minijail"
@@ -53,6 +53,7 @@ src_configure() {
 	export DEFAULT_PIVOT_ROOT=/mnt/empty
 	export BLOCK_SYMLINKS_IN_BINDMOUNT_PATHS=yes
 	export BINDMOUNT_ALLOWED_PREFIXES=/dev,/sys,/var/log/power_manager
+	export BLOCK_SYMLINKS_IN_NONINIT_MOUNTNS_TMP=yes
 }
 
 # Use qemu-user to run the platform-specific dump_constants binary in order to
