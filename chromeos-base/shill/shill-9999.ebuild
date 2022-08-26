@@ -234,8 +234,6 @@ src_install() {
 			--comp "${vpn_fuzzer_component_id}"
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}/vpn_ipsec_connection_fuzzer" \
 			--comp "${vpn_fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}/vpn_l2tp_ipsec_driver_fuzzer" \
-			--comp "${vpn_fuzzer_component_id}"
 	fi
 }
 
