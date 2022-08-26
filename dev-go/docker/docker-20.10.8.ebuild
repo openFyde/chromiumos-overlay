@@ -29,6 +29,7 @@ CROS_GO_PACKAGES=(
 	"github.com/docker/docker/api/types/volume"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/errdefs"
+	"github.com/docker/docker/pkg/stdcopy"
 )
 
 inherit cros-go
