@@ -8,7 +8,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill vpn-manager .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill .gn"
 
 PLATFORM_SUBDIR="shill"
 
@@ -53,7 +53,6 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
-	vpn? ( chromeos-base/vpn-manager:= )
 "
 PDEPEND="chromeos-base/patchpanel"
 
