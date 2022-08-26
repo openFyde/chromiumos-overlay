@@ -22,6 +22,7 @@ RDEPEND="media-libs/alsa-lib
 DEPEND="${RDEPEND}"
 
 src_configure() {
+	export WITH_CRAS=true
 	sanitizers-setup-env
 	cros-common.mk_src_configure
 }
@@ -34,13 +35,13 @@ src_test() {
 
 src_install() {
 	# Install built tools
-	pushd "${OUT}" >/dev/null
+	pushd "${OUT}" >/dev/null || die
 	dobin src/alsa_api_test
 	dobin alsa_conformance_test/alsa_conformance_test
 	dobin src/alsa_helpers
 	dobin src/audiofuntest
 	dobin src/cras_api_test
-	dobin src/loopback_latency
+	dobin loopback_latency/loopback_latency
 	dobin script/alsa_conformance_test.py
 	dobin script/cyclic_bench.py
 	popd >/dev/null || die
