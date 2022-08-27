@@ -1428,6 +1428,15 @@ src_install() {
 		into /usr/local
 		dobin "${CHROME_ROOT}"/src/build/lacros/mojo_connection_lacros_launcher.py
 	fi
+
+	if use chrome_internal; then
+		# Copy LibAssistant v1 and v2 libraries to a temp build folder for later
+		# installation of `assistant-dlc`.
+		exeinto /build/share/libassistant
+		doexe "${FROM}/libassistant.so"
+		doexe "${FROM}/libassistant_v2.so"
+	fi
+
 	# The icu data is used by both chromeos-base/chrome-icu and this package.
 	# chromeos-base/chrome-icu is responsible for installing the icu
 	# data, so we remove it from ${D} here.
