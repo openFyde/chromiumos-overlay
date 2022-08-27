@@ -27,6 +27,7 @@ REQUIRED_USE="
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
 "
 
+# TODO(b/230430190): Remove shill-client dependency after experiment ended.
 COMMON_DEPEND="
 	tpm? (
 		app-crypt/trousers:=
@@ -42,6 +43,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/shill-client:=
 	chromeos-base/tpm_manager:=
 	chromeos-base/secure-erase-file:=
 	dev-libs/flatbuffers:=
