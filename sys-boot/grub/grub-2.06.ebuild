@@ -17,8 +17,7 @@ PROVIDE="virtual/bootloader"
 
 export STRIP_MASK="*.img *.mod *.module"
 
-# The ordering doesn't seem to matter.
-PLATFORMS=( "efi" "pc" )
+PLATFORMS=( "efi" )
 TARGETS=( "i386" "x86_64" )
 
 PATCHES=(
