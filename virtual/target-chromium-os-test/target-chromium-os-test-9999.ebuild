@@ -22,6 +22,7 @@ IUSE="
 	arc-camera3
 	biod
 	camera_feature_auto_framing
+	camera_feature_frame_annotator
 	camera_feature_hdrnet
 	-chromeless_tests
 	cheets
@@ -121,6 +122,9 @@ CROS_COMMON_RDEPEND="
 	)
 	camera_feature_auto_framing? (
 		media-libs/cros-camera-auto-framing-tests
+	)
+	camera_feature_frame_annotator? (
+		media-libs/cros-camera-frame-annotator
 	)
 	camera_feature_hdrnet? (
 		media-libs/cros-camera-hdrnet-tests

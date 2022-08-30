@@ -52,7 +52,6 @@ RDEPEND="
 	virtual/libudev:=
 	virtual/opengles:=
 	x11-libs/libdrm:=
-	camera_feature_frame_annotator? ( media-libs/skia:= )
 "
 
 DEPEND="
