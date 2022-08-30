@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wired_8021x +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -38,8 +38,7 @@ COMMON_DEPEND="
 	net-libs/libtirpc:=
 	net-firewall/conntrack-tools:=
 	net-firewall/iptables:=
-	wifi? ( virtual/wpa_supplicant )
-	wired_8021x? ( virtual/wpa_supplicant )
+	virtual/wpa_supplicant
 	sys-apps/rootdev:=
 	cellular? ( net-misc/modemmanager-next:= )
 "
@@ -55,10 +54,6 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
 "
 PDEPEND="chromeos-base/patchpanel"
-
-REQUIRED_USE="
-	fuzzer? ( wifi )
-"
 
 pkg_setup() {
 	enewgroup "shill"
@@ -79,9 +74,7 @@ pkg_preinst() {
 
 get_dependent_services() {
 	local dependent_services=()
-	if use wifi || use wired_8021x; then
-		dependent_services+=(wpasupplicant)
-	fi
+	dependent_services+=(wpasupplicant)
 	if use systemd; then
 		echo "network-services.service ${dependent_services[*]/%/.service }"
 	else
@@ -110,9 +103,7 @@ src_install() {
 	dobin bin/set_wake_on_lan
 	dobin bin/shill_login_user
 	dobin bin/shill_logout_user
-	if use wifi || use wired_8021x; then
-		dobin bin/wpa_debug
-	fi
+	dobin bin/wpa_debug
 	dobin "${OUT}"/shill
 
 	local shims_dir=/usr/$(get_libdir)/shill/shims
@@ -125,12 +116,10 @@ src_install() {
 
 	use cellular && doexe "${OUT}"/set-apn-helper
 
-	if use wifi || use wired_8021x; then
-		sed \
-			"s,@libdir@,/usr/$(get_libdir)", \
-			shims/wpa_supplicant.conf.in \
-			> "${D}/${shims_dir}/wpa_supplicant.conf"
-	fi
+	sed \
+		"s,@libdir@,/usr/$(get_libdir)", \
+		shims/wpa_supplicant.conf.in \
+		> "${D}/${shims_dir}/wpa_supplicant.conf"
 
 	if use sae_h2e; then
 		# If supplicant's version is recent enough (July 2021 rebase

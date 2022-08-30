@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/ne
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="fuzzer +wifi"
+IUSE="fuzzer"
 
 DEPEND="
 	dev-libs/re2:=
