@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2f6b8108a332ff756fa190bb1bba54b09c7e217"
+CROS_WORKON_COMMIT="76dfdc4a8aa3d20899c351f3225d4bc900d95922"
 CROS_WORKON_TREE=("9cddaab94373bf5cc18d0c29b52822676e80d756" "d19ca573169fc5f3ee828fe8d6e8bac43f1fcba4" "9b7b73bb2e3daa0653cec8c73a23532c0d32833a" "0b343737ed85a0444890f51bc74376c57ba7fdca" "1454f5ebf6a159645127c22d8c4e382e8752569d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,6 +29,7 @@ REQUIRED_USE="
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
 "
 
+# TODO(b/230430190): Remove shill-client dependency after experiment ended.
 COMMON_DEPEND="
 	tpm? (
 		app-crypt/trousers:=
@@ -44,6 +45,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/shill-client:=
 	chromeos-base/tpm_manager:=
 	chromeos-base/secure-erase-file:=
 	dev-libs/flatbuffers:=
