@@ -26,6 +26,7 @@ IUSE="
 	-chromeless_tests
 	cheets
 	chromeless_tty
+	clvk
 	cr50_onboard
 	+cras
 	cros_embedded
@@ -231,7 +232,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/toolchain-tests
 	vulkan? (
 		chromeos-base/vkbench
-		media-libs/clvk
+		!clvk? ( media-libs/clvk )
 		media-libs/clvk-test
 		media-libs/opencl-cts
 	)
