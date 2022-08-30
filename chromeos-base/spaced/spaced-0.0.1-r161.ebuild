@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2f6b8108a332ff756fa190bb1bba54b09c7e217"
+CROS_WORKON_COMMIT="de2f65ec30e96b8a458c167b180cfb4f6554fa0c"
 CROS_WORKON_TREE=("9cddaab94373bf5cc18d0c29b52822676e80d756" "a1dd35132fdb87f22251fe8b32b851734fc6c40f" "e0e9aa0ca4003efc7a2f64d1e25c4a79bcebb7d8" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -33,6 +33,7 @@ pkg_preinst() {
 
 src_install() {
 	platform_install
+	platform_install_dbus_client_lib
 
 	if use seccomp; then
 		local policy="seccomp/spaced-seccomp-${ARCH}.policy"
