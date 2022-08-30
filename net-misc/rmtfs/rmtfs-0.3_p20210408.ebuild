@@ -13,7 +13,7 @@ SRC_URI="https://github.com/andersson/rmtfs/archive/${GIT_SHA1}.tar.gz -> ${P}.t
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS="*"
-IUSE="asan +seccomp modemfwd"
+IUSE="asan +seccomp"
 
 DEPEND="
 	net-libs/libqrtr:=
@@ -24,17 +24,9 @@ RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}-${GIT_SHA1}"
 
-src_prepare() {
-	cp "${FILESDIR}/rmtfs.conf" "${T}"/
-	if use modemfwd; then
-		echo "start on started syslog and stopped verify_fsg and ((qcom-rmtfs-added and qcom-modem-added) or rmtfs-early) and started modemfwd-helpers" >> "${T}/rmtfs.conf"
-	else
-		echo "start on started syslog and stopped verify_fsg and ((qcom-rmtfs-added and qcom-modem-added) or rmtfs-early)" >> "${T}/rmtfs.conf"
-	fi
-
-	eapply "${FILESDIR}/patches/0001-Use-fdatasync-instead-of-O_SYNC-on-storage.patch"
-	eapply_user
-}
+PATCHES=(
+	"${FILESDIR}/patches/0001-Use-fdatasync-instead-of-O_SYNC-on-storage.patch"
+)
 
 src_configure() {
 	sanitizers-setup-env
@@ -44,7 +36,7 @@ src_install() {
 	emake DESTDIR="${D}" prefix="${EPREFIX}/usr" install
 
 	insinto /etc/init
-	doins "${T}/rmtfs.conf"
+	doins "${FILESDIR}/rmtfs.conf"
 	doins "${FILESDIR}/check-rmtfs-early.conf"
 	insinto /lib/udev/rules.d
 	doins "${FILESDIR}/77-rmtfs.rules"
