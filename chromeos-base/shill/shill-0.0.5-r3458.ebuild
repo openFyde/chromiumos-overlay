@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1bf36c886ffe11a1863eb73b2244464a2da40632"
-CROS_WORKON_TREE=("e9b5125e1997da827cca1bbd3b21829a4037c402" "98a2d89f871182ca4558a8d37777bdc2385405fa" "fb8e41991af9e4c6c88768b137a9b48e4e5e47da" "19f36342be7994842e12ce8eadbb21be2e51ae97" "406302c947ea599017643b75ec3b13f5a3cca1a7" "462cb7ad367bdc196dd234e5bae863472f6d704b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="bdc92088a075448159fe03bdc5290eaa527bbed4"
+CROS_WORKON_TREE=("e9b5125e1997da827cca1bbd3b21829a4037c402" "98a2d89f871182ca4558a8d37777bdc2385405fa" "fb8e41991af9e4c6c88768b137a9b48e4e5e47da" "19f36342be7994842e12ce8eadbb21be2e51ae97" "22bbca92ffed3327aa9df3b9eaa2908fd85f6bd3" "462cb7ad367bdc196dd234e5bae863472f6d704b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -235,8 +235,6 @@ src_install() {
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}/openvpn_management_server_fuzzer" \
 			--comp "${vpn_fuzzer_component_id}"
 		platform_fuzzer_install "${S}"/OWNERS "${OUT}/vpn_ipsec_connection_fuzzer" \
-			--comp "${vpn_fuzzer_component_id}"
-		platform_fuzzer_install "${S}"/OWNERS "${OUT}/vpn_l2tp_ipsec_driver_fuzzer" \
 			--comp "${vpn_fuzzer_component_id}"
 	fi
 }
