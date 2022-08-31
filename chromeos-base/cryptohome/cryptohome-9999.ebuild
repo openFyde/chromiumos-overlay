@@ -25,9 +25,10 @@ KEYWORDS="~*"
 IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
-	lvm_stateful_partition mount_oop pinweaver selinux slow_mount systemd
-	test tpm tpm_dynamic tpm_insecure_fallback tpm2 tpm2_simulator uprev-4-to-5
-	user_session_isolation uss_migration +vault_legacy_mount vtpm_proxy"
+	lvm_application_containers lvm_stateful_partition mount_oop pinweaver
+	selinux slow_mount systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2
+	tpm2_simulator uprev-4-to-5 user_session_isolation uss_migration
+	+vault_legacy_mount vtpm_proxy"
 
 REQUIRED_USE="
 	device_mapper
@@ -166,6 +167,11 @@ src_install() {
 				"${D}/etc/init/cryptohomed.conf" ||
 				die "Can't replace fscrypt_v2 flag in cryptohomed.conf"
 		fi
+		if use lvm_application_containers; then
+			sed -i '/env APPLICATION_CONTAINERS=/s:=.*:="--application_containers":' \
+				"${D}/etc/init/cryptohomed.conf" ||
+				die "Can't replace application_containers flag in cryptohomed.conf"
+		fi
 	fi
 	exeinto /usr/share/cros/init
 	if use tpm_dynamic; then
@@ -178,7 +184,7 @@ src_install() {
 		doins cert_provision.h
 	fi
 
-    # Install udev rules for cryptohome.
+	# Install udev rules for cryptohome.
 	udev_dorules udev/50-dm-cryptohome.rules
 
 	# Install seccomp policy for bootlockboxd
