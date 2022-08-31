@@ -59,8 +59,8 @@ if [[ "${WANT_LIBBRILLO}" == "yes" ]]; then
 	if [[ "${WANT_LIBCHROME}" == "no" ]]; then
 		die "libbrillo requires libchrome"
 	fi
-	DEPEND+=" >=chromeos-base/libbrillo-0.0.1-r1651:="
-	RDEPEND+=" >=chromeos-base/libbrillo-0.0.1-r1651:="
+	DEPEND+=" >=chromeos-base/libbrillo-0.0.1-r2042:="
+	RDEPEND+=" >=chromeos-base/libbrillo-0.0.1-r2042:="
 fi
 
 # While not all packages utilize USE=test, it's common to write gn conditionals
