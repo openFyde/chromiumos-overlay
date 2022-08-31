@@ -31,6 +31,7 @@ COMMON_DEPEND="
 	ti50_onboard? (
 		chromeos-base/trunks:=
 	)
+	chromeos-base/session_manager-client:=
 "
 
 RDEPEND="${COMMON_DEPEND}"

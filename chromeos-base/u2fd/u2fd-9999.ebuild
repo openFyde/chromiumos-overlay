@@ -42,6 +42,7 @@ COMMON_DEPEND="
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/power_manager-client:=
+	chromeos-base/session_manager-client:=
 	chromeos-base/tpm_manager:=
 	chromeos-base/u2fd-client:=
 	dev-libs/hidapi:=
