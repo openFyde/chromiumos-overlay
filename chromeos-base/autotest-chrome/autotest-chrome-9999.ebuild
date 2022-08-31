@@ -99,6 +99,7 @@ IUSE_TESTS=(
 	+tests_power_LoadTest
 	+tests_power_LowMemorySuspend
 	+tests_power_Speedometer2
+	+tests_power_ThermalLoad
 	+tests_power_UiResume
 	+tests_power_VideoCall
 	+tests_power_VideoDetector
