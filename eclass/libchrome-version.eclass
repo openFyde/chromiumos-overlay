@@ -13,4 +13,4 @@
 # This file is also owned by libchrome team in case of revision bump.
 
 # shellcheck disable=SC2034
-REQUIRED_LIBCHROME_EBUILD_VERSION=268
+REQUIRED_LIBCHROME_EBUILD_VERSION=438
