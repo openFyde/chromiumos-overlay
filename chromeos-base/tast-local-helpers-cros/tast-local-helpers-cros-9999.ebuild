@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE=("common-mk .gn" "helpers")
 
 PLATFORM_SUBDIR="tast-tests/helpers/local"
 
-inherit cros-workon platform
+inherit cros-workon cros-rust platform
 
 DESCRIPTION="Compiled executables used by local Tast tests in the cros bundle"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/+/master/helpers"
@@ -30,12 +30,39 @@ RDEPEND="
 	chromeos-base/goldctl
 	media-video/ffmpeg
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	dev-rust/libchromeos:=
+"
+
+src_unpack() {
+	platform_src_unpack
+	cros-rust_src_unpack
+}
+
+src_configure() {
+	platform_src_configure
+	cros-rust_src_configure
+}
+
+src_compile() {
+	platform_src_compile
+	cros-rust_src_compile
+}
+
+src_test() {
+	platform_src_test
+	cros-rust_src_test
+}
+
 
 src_install() {
 	# Executable files' names take the form <category>.<TestName>.<bin_name>.
 	exeinto /usr/libexec/tast/helpers/local/cros
 	doexe "${OUT}"/*.[A-Z]*.*
+
+	local build_dir="$(cros-rust_get_build_dir)"
+	newexe "${build_dir}/crash_rust_panic" crash.Rust.panic
+
 	# Install symbol list file to the location required by minidump_stackwalk.
 	# See https://www.chromium.org/developers/decoding-crash-dumps for details.
 	local crasher_exec="${OUT}/platform.UserCrash.crasher"
