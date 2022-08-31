@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("1bf36c886ffe11a1863eb73b2244464a2da40632" "5e9a89d06c41edf5cf43da8acf5f26ed104887e6")
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a97bd01dbd0e88c337336d29105ee63b03a4ef9f" "4d8f590bd987ed599a906fe078fb08b51c7c7f9c" "e9b5125e1997da827cca1bbd3b21829a4037c402" "19f36342be7994842e12ce8eadbb21be2e51ae97" "693bb2d63562c6eff050d04f75aab1e9251e6548")
+CROS_WORKON_COMMIT=("f2c1c613a3ad7bc4b1f7458640d700e7ff35ea16" "5e9a89d06c41edf5cf43da8acf5f26ed104887e6")
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "e620b0b45959d5da9ecba264f93ad4c6b17e9e69" "4d8f590bd987ed599a906fe078fb08b51c7c7f9c" "e9b5125e1997da827cca1bbd3b21829a4037c402" "19f36342be7994842e12ce8eadbb21be2e51ae97" "273019a0499f774245ce265bae193684fdfa2091" "693bb2d63562c6eff050d04f75aab1e9251e6548")
 inherit cros-constants
 
 CROS_WORKON_PROJECT=(
@@ -28,7 +28,7 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 )
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE=(".gn iioservice libmems common-mk metrics" "")
+CROS_WORKON_SUBTREE=(".gn iioservice libmems common-mk metrics mojo_service_manager" "")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="iioservice/daemon"
@@ -47,6 +47,7 @@ RDEPEND="
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
 	chromeos-base/mems_setup
+	chromeos-base/mojo_service_manager:=
 	virtual/chromeos-ec-driver-init
 "
 
