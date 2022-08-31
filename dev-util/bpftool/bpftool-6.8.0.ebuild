@@ -26,7 +26,7 @@ PATCHES=(
        "${FILESDIR}/0001-remove-compilation-of-skeletons.patch"
 )
 
-S=${WORKDIR}/${PN}/src
+S=${WORKDIR}/${P}/src
 
 bpftool_make() {
 	local arch=$(tc-arch-kernel)
