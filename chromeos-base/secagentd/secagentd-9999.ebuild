@@ -17,21 +17,26 @@ DESCRIPTION="Enterprise security event reporting."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secagentd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+
 COMMON_DEPEND="
 	chromeos-base/missive:=
 	>=dev-libs/libbpf-0.8.1
 "
+
 RDEPEND="${COMMON_DEPEND}
 	>=sys-process/audit-3.0
 "
+
+# Depending on linux-sources makes it so vmlinux is available on the board
+# build root. This is needed so bpftool can generate vmlinux.h at build time.
 DEPEND="${COMMON_DEPEND}
-	dev-util/bpftool:=
 	virtual/linux-sources:=
 	virtual/pkgconfig:=
 "
 
-BDEPEND="${COMMON_DEPEND}
-	>=sys-devel/llvm-15.0_pre458507_p20220602-r13
+# bpftool is needed in the SDK to generate C code skeletons from compiled BPF applications.
+BDEPEND="
+	dev-util/bpftool:=
 "
 
 pkg_setup() {
