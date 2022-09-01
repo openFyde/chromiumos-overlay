@@ -44,9 +44,6 @@ pkg_setup() {
 src_install() {
 	dosbin "${OUT}"/smbfs
 
-	insinto /usr/share/policy
-	newins seccomp_filters/smbfs-seccomp-"${ARCH}".policy smbfs-seccomp.policy
-
 	local daemon_store="/etc/daemon-store/smbfs"
 	dodir "${daemon_store}"
 	fperms 0700 "${daemon_store}"

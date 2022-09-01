@@ -98,6 +98,7 @@ src_install() {
 	use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
 	use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
 	use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
+	use seccomp && newins "seccomp_policy/smbfs-seccomp-${ARCH}.policy"        smbfs-seccomp.policy
 
 	# Install upstart config file.
 	insinto /etc/init
