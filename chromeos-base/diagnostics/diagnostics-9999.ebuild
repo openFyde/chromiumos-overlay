@@ -19,10 +19,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnost
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer wilco mesa_reven diagnostics mojo_service_manager"
+IUSE="fuzzer wilco mesa_reven diagnostics mojo_service_manager iioservice"
 
 REQUIRED_USE="
-	diagnostics? ( mojo_service_manager )
+	diagnostics? ( mojo_service_manager iioservice )
 "
 
 # TODO(204734015): Remove app-arch/zstd:=.
@@ -46,6 +46,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
 	chromeos-base/debugd-client:=
+	chromeos-base/libiioservice_ipc:=
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
@@ -57,6 +58,7 @@ DEPEND="
 # currently the only client.
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/iioservice
 	dev-util/stressapptest
 	wilco? (
 		sys-block/fio
