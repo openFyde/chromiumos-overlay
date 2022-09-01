@@ -159,7 +159,8 @@ src_install() {
 		systemd_dounit init/shill-start-user-session.service
 		systemd_dounit init/shill-stop-user-session.service
 
-		local dependent_services=$(get_dependent_services)
+		local dependent_services
+		dependent_services=$(get_dependent_services) # ShellCheck gets confused if these lines are merged as local dependent_services=$(get_dependent_services)
 		systemd_dounit "${T}/shill.service"
 		for dependent_service in ${dependent_services}; do
 			systemd_enable_service "${dependent_service}" shill.service
