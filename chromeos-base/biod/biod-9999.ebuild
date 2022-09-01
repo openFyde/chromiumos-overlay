@@ -10,7 +10,8 @@ CROS_WORKON_SUBTREE="common-mk biod chromeos-config libec metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
-inherit cros-fuzzer cros-sanitizers cros-workon cros-unibuild platform udev user
+inherit cros-fuzzer cros-sanitizers cros-workon cros-unibuild platform \
+	tmpfiles udev user
 
 DESCRIPTION="Biometrics Daemon for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/biod/README.md"
@@ -76,6 +77,8 @@ src_install() {
 	platform_install
 
 	udev_dorules udev/99-biod.rules
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Set up cryptohome daemon mount store in daemon's mount
 	# namespace.
