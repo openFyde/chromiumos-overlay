@@ -13,8 +13,6 @@ LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="-* amd64"
 
-PROVIDE="virtual/bootloader"
-
 export STRIP_MASK="*.img *.mod *.module"
 
 PLATFORMS=( "efi" )
@@ -83,8 +81,8 @@ src_configure() {
 	multijob_init
 	for platform in "${PLATFORMS[@]}" ; do
 		for target in "${TARGETS[@]}" ; do
-			mkdir -p ${target}-${platform}-build
-			pushd ${target}-${platform}-build >/dev/null
+			mkdir -p "${target}-${platform}-build"
+			pushd "${target}-${platform}-build" >/dev/null || die
 			# GRUB defaults to a --program-prefix set based on target
 			# platform; explicitly set it to nothing to install unprefixed
 			# tools.  https://savannah.gnu.org/bugs/?39818
@@ -100,11 +98,11 @@ src_configure() {
 				--enable-quiet-boot \
 				--sbindir=/sbin \
 				--bindir=/bin \
-				--libdir=/$(get_libdir) \
-				--with-platform=${platform} \
-				--target=${target} \
+				--libdir="/$(get_libdir)" \
+				--with-platform="${platform}" \
+				--target="${target}" \
 				--program-prefix=
-			popd >/dev/null
+			popd >/dev/null || die
 		done
 	done
 	multijob_finish
@@ -116,7 +114,7 @@ src_compile() {
 	for platform in "${PLATFORMS[@]}" ; do
 		for target in "${TARGETS[@]}" ; do
 			multijob_child_init \
-				emake -C ${target}-${platform}-build -j1
+				emake -C "${target}-${platform}-build" -j1
 		done
 	done
 	multijob_finish
@@ -128,7 +126,7 @@ src_install() {
 	# parallel installation.
 	for platform in "${PLATFORMS[@]}" ; do
 		for target in "${TARGETS[@]}" ; do
-			emake -C ${target}-${platform}-build DESTDIR="${D}" \
+			emake -C "${target}-${platform}-build" DESTDIR="${D}" \
 				install bashcompletiondir="$(get_bashcompdir)"
 		done
 	done
