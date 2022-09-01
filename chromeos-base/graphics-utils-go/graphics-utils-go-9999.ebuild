@@ -50,6 +50,7 @@ IUSE=""
 DEPEND="
 	chromeos-base/cros-config-api
 	dev-go/crypto
+	dev-go/errors
 	dev-go/fogleman-gg
 	dev-go/go-image
 	dev-go/go-pdf
