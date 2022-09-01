@@ -422,6 +422,11 @@ RDEPEND="${RDEPEND}
 	dev-util/ninja
 	"
 
+# Host dependencies for building eBPFs.
+RDEPEND="${RDEPEND}
+	dev-util/bpftool
+	"
+
 # Host dependencies for converting sparse into raw images (simg2img).
 RDEPEND="${RDEPEND}
 	brillo-base/libsparse
