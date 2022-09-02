@@ -52,6 +52,7 @@ src_configure() {
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export TARGET_DIR=/usr/local/factory
 	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
+	export CLOSURE_LIB_DIR="/opt/closure-library"
 	export FROM_EBUILD=1
 
 	# Support out-of-tree build.

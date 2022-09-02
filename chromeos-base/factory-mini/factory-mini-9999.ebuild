@@ -65,6 +65,7 @@ src_configure() {
 	export BOARD="${SYSROOT##*/}"
 	export TARGET_DIR=/usr/local/factory
 	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
+	export CLOSURE_LIB_DIR="/opt/closure-library"
 }
 
 src_compile() {
