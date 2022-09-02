@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d66cbe7014a72ca801294e88731f304368408764"
-CROS_WORKON_TREE="f77e2fb7b0ef0c94ce82e84778abf046256040fc"
+CROS_WORKON_COMMIT="818adac336dff6aed9e5823de27042396d8e293a"
+CROS_WORKON_TREE="405afdea31e31246a2cde458e73731541537aea7"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -18,8 +18,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hwsec-ut
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test cr50_onboard"
-
+IUSE="cr50_onboard generic_tpm2 test ti50_onboard"
+REQUIRED_USE="^^ ( ti50_onboard cr50_onboard generic_tpm2 )"
+CANDIDATES=( "cr50_onboard" "generic_tpm2" "ti50_onboard" )
 
 
 DEPEND=""
@@ -29,6 +30,18 @@ RDEPEND="${DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 "
 
+src_compile() {
+	local features=()
+
+	local candidate
+	for candidate in "${CANDIDATES[@]}"; do
+		if use "${candidate}"; then
+			features+=("${candidate}")
+		fi
+	done
+
+	cros-rust_src_compile --features="${features[*]}"
+}
 
 src_install() {
 	cros-rust_src_install
@@ -36,5 +49,14 @@ src_install() {
 }
 
 src_test() {
-	cros-rust_src_test
+	local features=()
+
+	local candidate
+	for candidate in "${CANDIDATES[@]}"; do
+		if use "${candidate}"; then
+			features+=("${candidate}")
+		fi
+	done
+
+	cros-rust_src_compile --features="${features[*]}"
 }
