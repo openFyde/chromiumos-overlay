@@ -286,7 +286,6 @@ RDEPEND="
 	spaced? ( chromeos-base/spaced )
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
-	vpn? ( chromeos-base/vpn-manager )
 	cras? (
 		media-sound/adhd
 		media-sound/cras_tests
