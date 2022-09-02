@@ -95,6 +95,9 @@ USE="${USE} arc-camera3"
 # Enable document scanning by default.
 USE="${USE} ondevice_document_scanner"
 
+# Enable Camera Frame Annotator by default.
+USE="${USE} camera_feature_frame_annotator"
+
 # Enable Downloadable Content (DLC).
 USE="${USE} dlc"
 
