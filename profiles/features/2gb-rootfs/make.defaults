@@ -17,6 +17,9 @@ USE="${USE} -ondevice_handwriting"
 # Enable document scanning by DLC due to insufficient rootfs.
 USE="${USE} -ondevice_document_scanner ondevice_document_scanner_dlc"
 
+# Disable Camera Frame Annotator.
+USE="${USE} -camera_feature_frame_annotator"
+
 # Disable Floss Bluetooth
 USE="${USE} -floss"
 
