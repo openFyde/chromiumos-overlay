@@ -7,9 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-# TODO(crbug/1184685): "libhwsec" is not necessary; remove it after solving
-# the bug.
-CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation metrics trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec-foundation metrics trunks .gn"
 
 PLATFORM_SUBDIR="trunks"
 
