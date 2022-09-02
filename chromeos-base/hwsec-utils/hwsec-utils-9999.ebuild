@@ -56,5 +56,5 @@ src_test() {
 		fi
 	done
 
-	cros-rust_src_compile --features="${features[*]}"
+	cros-rust_src_test --features="${features[*]}"
 }
