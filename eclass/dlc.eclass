@@ -124,6 +124,12 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # (Please consult @chromeos-core-services team before using this)
 : "${DLC_CRITICAL_UPDATE:="false"}"
 
+# @ECLASS-VARIABLE: DLC_LOADPIN_VERITY_DIGEST
+# @DESCRIPTION:
+# Add DLC as part of trusted verity digest by the kernel.
+# (Please consult @chromeos-core-services team before using this)
+: "${DLC_LOADPIN_VERITY_DIGEST:="false"}"
+
 # @FUNCTION: dlc_add_path
 # @USAGE: <path to add the DLC prefix to>
 # @RETURN:
@@ -210,6 +216,10 @@ dlc_src_install() {
 
 	if [[ "${DLC_CRITICAL_UPDATE}" == "true" ]]; then
 		args+=( --critical-update )
+	fi
+
+	if [[ "${DLC_LOADPIN_VERITY_DIGEST}" == "true" ]]; then
+		args+=( --loadpin-verity-digest )
 	fi
 
 	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
