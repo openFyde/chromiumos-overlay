@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="818adac336dff6aed9e5823de27042396d8e293a"
+CROS_WORKON_COMMIT="4f4f3aeb42243f073264cd184495bcb20f5fe92e"
 CROS_WORKON_TREE="405afdea31e31246a2cde458e73731541537aea7"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -58,5 +58,5 @@ src_test() {
 		fi
 	done
 
-	cros-rust_src_compile --features="${features[*]}"
+	cros-rust_src_test --features="${features[*]}"
 }
