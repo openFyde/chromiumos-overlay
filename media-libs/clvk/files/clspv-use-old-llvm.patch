@@ -1,5 +1,5 @@
 diff --git a/clspv/lib/BitcastUtils.cpp b/clspv/lib/BitcastUtils.cpp
-index c4599bef..a0b3695b 100644
+index a4284dd8..77228209 100644
 --- a/clspv/lib/BitcastUtils.cpp
 +++ b/clspv/lib/BitcastUtils.cpp
 @@ -384,8 +384,9 @@ void GroupVectorValuesInPair(IRBuilder<> &Builder,
@@ -14,18 +14,18 @@ index c4599bef..a0b3695b 100644
    Values.resize(NewValuesSize);
  }
 diff --git a/clspv/lib/Compiler.cpp b/clspv/lib/Compiler.cpp
-index 8808a520..dcb7e59a 100644
+index 89bcc675..dc8c3f47 100644
 --- a/clspv/lib/Compiler.cpp
 +++ b/clspv/lib/Compiler.cpp
-@@ -276,7 +276,6 @@ int SetCompilerInstanceOptions(
+@@ -272,7 +272,6 @@ int SetCompilerInstanceOptions(
    instance.getCodeGenOpts().SimplifyLibCalls = false;
    instance.getCodeGenOpts().EmitOpenCLArgMetadata = false;
    instance.getCodeGenOpts().DisableO0ImplyOptNone = true;
--  instance.getCodeGenOpts().OpaquePointers = OpaquePointers;
+-  instance.getCodeGenOpts().OpaquePointers = clspv::Option::OpaquePointers();
    instance.getDiagnosticOpts().IgnoreWarnings = IgnoreWarnings;
  
    instance.getLangOpts().SinglePrecisionConstants =
-@@ -324,8 +323,9 @@ int SetCompilerInstanceOptions(
+@@ -320,8 +319,9 @@ int SetCompilerInstanceOptions(
    // We manually include the OpenCL headers below, so this vector is unused.
    std::vector<std::string> includes;
  
