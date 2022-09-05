@@ -150,7 +150,7 @@
         "rel_patch_path": "cmake/llvm-3.8-allow_custom_cmake_build_types.patch",
         "version_range": {
             "from": 0,
-            "until": null
+            "until": 471474
         }
     },
     {
@@ -3666,6 +3666,20 @@
         "version_range": {
             "from": 465103,
             "until": 468514
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Used as destination of target generators"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cmake/llvm-90dcdc4b6e7d-allow_custom_cmake_build_types.patch",
+        "version_range": {
+          "from": 471474,
+          "until": null
         }
     }
 ]
