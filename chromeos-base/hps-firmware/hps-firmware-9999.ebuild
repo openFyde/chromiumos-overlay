@@ -53,6 +53,7 @@ DEPEND="
 	=dev-rust/ed25519-compact-1*:=
 	>=dev-rust/embedded-hal-0.2.4:= <dev-rust/embedded-hal-0.3.0
 	=dev-rust/embedded-hal-mock-0.8*:=
+	>=dev-rust/ftdi-0.1.3:= <dev-rust/ftdi-0.2
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
 	>=dev-rust/indicatif-0.16.2:= <dev-rust/indicatif-0.17
