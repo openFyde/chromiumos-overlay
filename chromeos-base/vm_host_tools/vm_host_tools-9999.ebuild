@@ -173,7 +173,7 @@ src_install() {
 	# Create daemon store folder for crosvm and pvm
 	local crosvm_store="/etc/daemon-store/crosvm"
 	dodir "${crosvm_store}"
-	fperms 0700 "${crosvm_store}"
+	fperms 0750 "${crosvm_store}"
 	fowners crosvm:crosvm "${crosvm_store}"
 
 	local pvm_store="/etc/daemon-store/pvm"
