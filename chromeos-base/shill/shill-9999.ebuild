@@ -45,7 +45,9 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	net-misc/dhcpcd
+	vpn? ( net-dialup/xl2tpd:= )
 	vpn? ( net-vpn/openvpn )
+	vpn? ( net-vpn/strongswan:= )
 	wireguard? ( net-vpn/wireguard-tools )
 "
 DEPEND="${COMMON_DEPEND}
