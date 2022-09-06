@@ -29,6 +29,7 @@ PATCHES=(
 	"${FILESDIR}"/0003-Disable-Media-Memory-Compression-MMC-on-ADL.patch
 	"${FILESDIR}"/0004-Revert-Media-Common-fixed-regression-about-TGL-KBL-j.patch
 	"${FILESDIR}"/0005-Revert-Media-Common-Optimization-getimage.patch
+	"${FILESDIR}"/0006-FROMGIT-iHD-VP-Force-set-m_EngineCaps-to-0-in-constr.patch
 )
 
 src_configure() {
