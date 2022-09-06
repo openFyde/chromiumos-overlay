@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b6c0c67750f9583826ca46492673c358430f5b0a"
+CROS_WORKON_COMMIT="afd3a9d9b7bd4645524a70e4e0cf88c527ec8962"
 CROS_WORKON_TREE=("f063c143da4054868aadc5be54cc3a45415a698e" "98a2d89f871182ca4558a8d37777bdc2385405fa" "fb8e41991af9e4c6c88768b137a9b48e4e5e47da" "19f36342be7994842e12ce8eadbb21be2e51ae97" "2b47c4c2afa13115aedd270296cf9bdc514ca0ef" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -47,7 +47,9 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	net-misc/dhcpcd
+	vpn? ( net-dialup/xl2tpd:= )
 	vpn? ( net-vpn/openvpn )
+	vpn? ( net-vpn/strongswan:= )
 	wireguard? ( net-vpn/wireguard-tools )
 "
 DEPEND="${COMMON_DEPEND}
