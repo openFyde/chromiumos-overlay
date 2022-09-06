@@ -1,4 +1,4 @@
-From 999090f0f75818a7775c05e30dfaf3d5e73758aa Mon Sep 17 00:00:00 2001
+From 904408599b32ee0d18ec614ae25f22b66989eda9 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
 Date: Mon, 22 Nov 2021 17:00:06 +1100
 Subject: [PATCH] Use chrome-icu
@@ -12,7 +12,7 @@ Don't build man page.
  3 files changed, 9 insertions(+), 5 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index f56dd6c..c09dba4 100644
+index a12358b..4aafe55 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -20,9 +20,9 @@ prefix = /usr
@@ -27,12 +27,12 @@ index f56dd6c..c09dba4 100644
  CXXFLAGS := $(shell $(PKG_CONFIG) --cflags $(DEPS))
  CXXFLAGS += -Wall -Wextra -Wno-sign-compare -Wno-missing-field-initializers -pedantic -std=c++20
  ifeq ($(DEBUG), 1)
-@@ -64,9 +64,8 @@ all-clean:
+@@ -65,9 +65,8 @@ all-clean:
  $(MAN): README.md
  	pandoc $< -s -t man -o $@
  
--install: all doc
-+install: all
+-install: $(DEST) $(MAN)
++install: $(DEST)
  	$(INSTALL_PROGRAM) "$(DEST)" "$(DESTDIR)$(bindir)/$(DEST)"
 -	$(INSTALL_DATA) $(MAN) "$(DESTDIR)$(MANDIR)/$(MAN)"
  
@@ -55,10 +55,10 @@ index cf26430..0a11b60 100644
  ifeq ($(DEBUG), 1)
  CXXFLAGS += -O0 -g
 diff --git a/lib/tree.cc b/lib/tree.cc
-index 1006348..0babe90 100644
+index e8702f2..b587b18 100644
 --- a/lib/tree.cc
 +++ b/lib/tree.cc
-@@ -296,6 +296,9 @@ void Tree::BuildTree() {
+@@ -353,6 +353,9 @@ void Tree::BuildTree() {
        need_prefix_ = name.starts_with('/') || name.starts_with("../");
    }
  
@@ -69,5 +69,5 @@ index 1006348..0babe90 100644
    std::string encoding;
    if (opts_.encoding)
 -- 
-2.34.0.rc2.393.gf8c9666880-goog
+2.37.2.789.g6183377224-goog
 
