@@ -410,7 +410,14 @@ local_copy_cp() {
 	for sl in "${CROS_WORKON_SUBDIRS_TO_COPY[@]}"; do
 		if [[ -d "${src}/${sl}" ]]; then
 			mkdir -p "${dst}/${sl}"
+			# Reset file permissions as we sync them across to avoid any badness
+			# the developer has created in their tree.  For example, if they chmod
+			# 600 a source file, we don't want that propagating over.  Files should
+			# be 644 or 755, while dirs should all be 755.  Any permissions that we
+			# want on installed files should come from the build system or ebuilds.
+			# This matches general git behavior too.
 			rsync -a --safe-links \
+				--no-perms --executability --chmod=ugo=rwX \
 				--exclude-from=<(
 					cd "${src}/${sl}" || \
 						die "cd ${src}/${sl}"
