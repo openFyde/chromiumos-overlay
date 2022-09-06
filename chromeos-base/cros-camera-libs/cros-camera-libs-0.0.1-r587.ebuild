@@ -3,11 +3,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ac5f5af2544a05e176476f4bf90b1f40a8afe788"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f063c143da4054868aadc5be54cc3a45415a698e" "19f36342be7994842e12ce8eadbb21be2e51ae97" "ff65ca0654f4ad010db90044a858e246d3a70bdd" "8d65449f25d7beaac938c43156fc3ebc80dea1ba" "ea88e07ba6ea384266081d4584d9b08fbde3ef4a" "ffe4c57354fbb9657289cd85d0b638efc8e172e3" "dfca03ac1f2edbf642708af0992891cc93024aa8" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "0f8162ff9f6ac631d51015788a59900fa1190abd" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "6c730fa6bc9c00d204b80c4944f1951b8f35a48e")
+CROS_WORKON_COMMIT="01d2e05203e1673486eb5823ebc71b9363610cd6"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f063c143da4054868aadc5be54cc3a45415a698e" "19f36342be7994842e12ce8eadbb21be2e51ae97" "ff65ca0654f4ad010db90044a858e246d3a70bdd" "bb760e31fa8f32409cba9597cfc0045b5b129ac4" "2074699b24a590bc8dae383bdc0f3351fc5b9d79" "ffe4c57354fbb9657289cd85d0b638efc8e172e3" "097b25b85b7dec4791de5338c0fd84f117363220" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "0f8162ff9f6ac631d51015788a59900fa1190abd" "8a9ef8758fbc933dbbb61914e0a924d6fd9626f6" "6c730fa6bc9c00d204b80c4944f1951b8f35a48e" "4aad1773476a4fd5d6d51a5332a66ad94dd3aa13")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo"
+CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo ml_core"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 # 'camera_feature_*' and 'ipu6*' are passed to and used in BUILD.gn files.
-IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode ipu6 ipu6ep ipu6se qualcomm_camx"
+IUSE="camera_feature_auto_framing camera_feature_face_detection camera_feature_hdrnet camera_feature_portrait_mode camera_feature_effects ipu6 ipu6ep ipu6se qualcomm_camx"
 
 # Auto face framing depends on the face detection feature.
 REQUIRED_USE="camera_feature_auto_framing? ( camera_feature_face_detection )"
