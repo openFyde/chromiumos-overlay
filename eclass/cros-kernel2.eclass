@@ -89,6 +89,7 @@ IUSE="
 	tpm2
 	-kernel_afdo
 	-kernel_afdo_verify
+	-kern_arm_afdo
 	+vdso32
 	-criu
 	-docker
@@ -101,6 +102,7 @@ REQUIRED_USE="
 	compilation_database? ( clang )
 	?? ( fit_compression_kernel_lz4 fit_compression_kernel_lzma )
 	frozen_gcc? ( !clang )
+	kern_arm_afdo? ( kernel_afdo )
 	lld? ( clang )
 	llvm_ias? ( clang )
 "
@@ -123,14 +125,25 @@ KERNEL_VERSION="${KERNEL_VERSION/_/.}"
 # Specifying AutoFDO profiles in SRC_URI and let ebuild fetch it for us.
 # Prefer the frozen version of afdo profiles if set.
 AFDO_VERSION=${AFDO_FROZEN_PROFILE_VERSION:-${AFDO_PROFILE_VERSION}}
+ARM_AFDO_VERSION=${ARM_AFDO_FROZEN_PROFILE_VERSION:-${ARM_AFDO_PROFILE_VERSION}}
+
+GS_PREFIX="gs://chromeos-prebuilt/afdo-job/cwp/kernel"
 if [[ -n "${AFDO_VERSION}" ]]; then
 	# Set AFDO_LOCATION if not already set.
-	: "${AFDO_LOCATION:="gs://chromeos-prebuilt/afdo-job/cwp/kernel/${KERNEL_VERSION}"}"
+	: "${AFDO_LOCATION:="${GS_PREFIX}/${KERNEL_VERSION}"}"
 	AFDO_GCOV="${PN}-${AFDO_VERSION}.gcov"
 	AFDO_GCOV_COMPBINARY="${AFDO_GCOV}.compbinary.afdo"
-	SRC_URI+="
-		kernel_afdo? ( ${AFDO_LOCATION}/${AFDO_VERSION}.gcov.xz -> ${AFDO_GCOV}.xz )
-	"
+	SRC_URI+=" kernel_afdo? (
+		${AFDO_LOCATION}/${AFDO_VERSION}.gcov.xz -> ${AFDO_GCOV}.xz
+	)"
+fi
+if [[ -n "${ARM_AFDO_VERSION}" ]]; then
+	: "${ARM_AFDO_LOCATION:="${GS_PREFIX}/arm/${KERNEL_VERSION}"}"
+	ARM_AFDO_GCOV="${PN}-${ARM_AFDO_VERSION}.gcov"
+	ARM_AFDO_GCOV_COMPBINARY="${ARM_AFDO_GCOV}.compbinary.afdo"
+	SRC_URI+=" kern_arm_afdo? (
+		${ARM_AFDO_LOCATION}/${ARM_AFDO_VERSION}.gcov.xz -> ${ARM_AFDO_GCOV}.xz
+	)"
 fi
 
 apply_private_patches() {
@@ -2305,8 +2318,21 @@ cros-kernel2_src_unpack() {
 	fi
 
 	cros-workon_src_unpack
+	if use kern_arm_afdo; then
+		# Use the Arm profile version.
+		AFDO_VERSION="${ARM_AFDO_VERSION}"
+		AFDO_GCOV="${ARM_AFDO_GCOV}"
+		AFDO_GCOV_COMPBINARY="${ARM_AFDO_GCOV_COMPBINARY}"
+	fi
 	if use kernel_afdo && [[ -z "${AFDO_VERSION}" ]]; then
-		eerror "AFDO_PROFILE_VERSION is required in .ebuild by kernel_afdo."
+		if use kern_arm_afdo; then
+			PROF_VER="ARM_AFDO_PROFILE_VERSION"
+			AFDO_FLAG="kern_arm_afdo"
+		else
+			PROF_VER="AFDO_PROFILE_VERSION"
+			AFDO_FLAG="kernel_afdo"
+		fi
+		eerror "${PROF_VER} is required in .ebuild by ${AFDO_FLAG}."
 		die
 	fi
 
