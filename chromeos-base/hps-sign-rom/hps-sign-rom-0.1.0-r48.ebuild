@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2e4f9d5dce045704b60696758e8419db2f2cb175"
-CROS_WORKON_TREE="08b666fe448681cd439ec06e0ecb3c4249f16893"
+CROS_WORKON_COMMIT="f07281fb12797ee4da9e29c3a03ce797ab963449"
+CROS_WORKON_TREE="5f874fce32ec3358137d26313d86170946078064"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_RUST_SUBDIR="rust/sign-rom"
@@ -32,6 +32,7 @@ DEPEND="
 	=dev-rust/ed25519-compact-1*:=
 	>=dev-rust/embedded-hal-0.2.4:= <dev-rust/embedded-hal-0.3.0
 	=dev-rust/embedded-hal-mock-0.8*:=
+	>=dev-rust/ftdi-0.1.3:= <dev-rust/ftdi-0.2
 	>=dev-rust/hmac-sha256-0.1.6:= <dev-rust/hmac-sha256-0.2.0
 	>=dev-rust/image-0.23.14:= <dev-rust/image-0.24
 	>=dev-rust/indicatif-0.16.2:= <dev-rust/indicatif-0.17
