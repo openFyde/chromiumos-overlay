@@ -42,7 +42,7 @@ REQUIRED_USE="
 "
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
-PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.08.10.tbz2"
+PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.09.06.tbz2"
 PACKAGE_DOCUMENT_SCANNING="chromeos-document-scanning-lib-2022.08.05.tar.bz2"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2022.02.24.tar.bz2"
