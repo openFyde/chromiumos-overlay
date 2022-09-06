@@ -114,6 +114,7 @@ IUSE="
 	+trim_supported
 	typecd
 	ubsan
+	ufs
 	usb_bouncer
 	usbguard
 	+vpn
@@ -368,6 +369,7 @@ RDEPEND="
 	)
 	mojo_service_manager? ( chromeos-base/mojo_service_manager )
 	lvm_stateful_partition? ( chromeos-base/lvmd )
+	ufs? ( chromeos-base/discod )
 "
 
 ################################################################################
