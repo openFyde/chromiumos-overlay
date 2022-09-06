@@ -24,7 +24,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	+classic debug dri egl +gallium -gbm gles1 gles2
+	debug dri egl +gallium -gbm gles1 gles2
 	kvm_guest llvm +nptl pic selinux shared-glapi vulkan wayland zstd
 	libglvnd"
 
@@ -71,15 +71,9 @@ src_configure() {
 	# to include it for all platforms though.
 	use video_cards_llvmpipe && append-flags "-rtlib=libgcc -shared-libgcc --unwindlib=libgcc -lpthread"
 
-	if use !gallium && use !classic && use !vulkan; then
-		ewarn "You enabled neither classic, gallium, nor vulkan "
+	if use !gallium && use !vulkan; then
+		ewarn "You enabled neither gallium nor vulkan "
 		ewarn "USE flags. No hardware drivers will be built."
-	fi
-
-	# Configurable DRI drivers
-	if use classic; then
-		# Intel code
-		dri_driver_enable video_cards_intel i965
 	fi
 
 	# Configurable gallium drivers
@@ -87,6 +81,7 @@ src_configure() {
 		gallium_enable video_cards_llvmpipe swrast
 
 		# Intel code
+		gallium_enable video_cards_intel crocus
 		gallium_enable video_cards_iris iris
 
 		# Nouveau code
@@ -125,7 +120,6 @@ src_configure() {
 		# than explicitly setting surfaceless because it forces it to be
 		# the default. b/206629705
 		-Dplatforms=''
-		-Dprefer-iris=false
 		-Dshader-cache-default=false
 		$(meson_use libglvnd glvnd)
 		$(meson_feature egl)
@@ -155,13 +149,7 @@ src_install() {
 }
 
 # $1 - VIDEO_CARDS flag (check skipped for "--")
-# other args - names of DRI drivers to enable
-dri_driver_enable() {
-	if [[ $1 == -- ]] || use "$1"; then
-		shift
-		DRI_DRIVERS+=("$@")
-	fi
-}
+# other args - names of drivers to enable
 
 gallium_enable() {
 	if [[ $1 == -- ]] || use "$1"; then
