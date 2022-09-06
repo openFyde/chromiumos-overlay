@@ -936,6 +936,17 @@ src_configure() {
 		"cros_v8_snapshot_extra_cppflags=${CPPFLAGS_host}"
 		"cros_v8_snapshot_extra_ldflags=${LDFLAGS_host}"
 	)
+	if use nacl && use arm64; then
+		# Flags for building 32-bit NaCl on ARM64.
+		BUILD_STRING_ARGS+=(
+			"cros_nacl_helper_arm32_ar=llvm-ar"
+			"cros_nacl_helper_arm32_cc=armv7a-cros-linux-gnueabihf-clang"
+			"cros_nacl_helper_arm32_cxx=armv7a-cros-linux-gnueabihf-clang++"
+			"cros_nacl_helper_arm32_ld=armv7a-cros-linux-gnueabihf-clang++"
+			"cros_nacl_helper_arm32_readelf=llvm-readelf"
+			"cros_nacl_helper_arm32_sysroot=/usr/armv7a-cros-linux-gnueabihf"
+		)
+	fi
 
 	local arg
 	for arg in "${BUILD_STRING_ARGS[@]}"; do
