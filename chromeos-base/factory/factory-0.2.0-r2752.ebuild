@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="e4060c366d8196a23fee06aae01de5295eaa3fb9"
-CROS_WORKON_TREE="17ae32a9751bfa325f776be72d6489c724786988"
+CROS_WORKON_COMMIT="714e7b4647b46eb050f17975f85eeee85a4217d3"
+CROS_WORKON_TREE="db9d7d1035cfa3828a0070195d006e9ef285ba14"
 CROS_WORKON_PROJECT="chromiumos/platform/factory"
 CROS_WORKON_LOCALNAME="platform/factory"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -54,6 +54,7 @@ src_configure() {
 	export SRCROOT="${CROS_WORKON_SRCROOT}"
 	export TARGET_DIR=/usr/local/factory
 	export WEBGL_AQUARIUM_DIR="${WORKDIR}/webgl_aquarium_static"
+	export CLOSURE_LIB_DIR="/opt/closure-library"
 	export FROM_EBUILD=1
 
 	# Support out-of-tree build.
