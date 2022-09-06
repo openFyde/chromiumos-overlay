@@ -13,9 +13,10 @@ LICENSE="|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA GPL-3 LGPL-3 libgcc FD
 KEYWORDS="*"
 SLOT="0"
 
-RUST_VERSION="1.60.0"
-RUST_BOOTSTRAP_VERSION="1.59.0"
+RUST_VERSION="1.62.1"
+RUST_BOOTSTRAP_VERSION="1.61.0"
 RUST_BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
+MIRI_REV="ea63a695c8ba0f4322f21074f7646e0ea9f43001"
 
 # These revisions match the submodules in
 # https://github.com/riscv-collab/riscv-gnu-toolchain/tree/2021.04.23
@@ -27,6 +28,7 @@ SRC_URI="
 	https://static.rust-lang.org/dist/rustc-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}.tar.xz
 	https://static.rust-lang.org/dist/rust-std-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}.tar.xz
 	https://static.rust-lang.org/dist/cargo-${RUST_BOOTSTRAP_VERSION}-${RUST_BOOTSTRAP_HOST_TRIPLE}.tar.xz
+	https://github.com/rust-lang/miri/archive/${MIRI_REV}.tar.gz -> miri-${MIRI_REV}.tar.gz
 	https://github.com/riscv-collab/riscv-binutils-gdb/archive/${BINUTILS_REV}.tar.gz -> riscv-binutils-gdb-${BINUTILS_REV}.tar.gz
 	https://github.com/riscv-collab/riscv-gcc/archive/${GCC_REV}.tar.gz -> riscv-gcc-${GCC_REV}.tar.gz
 	ftp://sourceware.org/pub/newlib/newlib-4.1.0.tar.gz
@@ -50,6 +52,11 @@ src_unpack() {
 		"${rust_std_dir}/lib/rustlib/${RUST_BOOTSTRAP_HOST_TRIPLE}" \
 		"${rustc_dir}/lib/rustlib/" \
 		|| die
+
+	# Replace rustc's bundled copy of miri (which is not expected to work)
+	# with the miri we fetched and unpacked
+	rm -r "${WORKDIR}/rustc-${RUST_VERSION}-src/src/tools/miri"
+	mv "${WORKDIR}/miri-${MIRI_REV}" "${WORKDIR}/rustc-${RUST_VERSION}-src/src/tools/miri"
 }
 
 src_prepare() {
@@ -71,20 +78,20 @@ src_prepare() {
 	sed -e 's:"unknown":"cros":g' aarch64_unknown_linux_gnu.rs >aarch64_cros_linux_gnu.rs || die
 	popd || die
 
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-add-cros-targets.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-fix-rpath.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-no-test-on-build.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-sanitizer-supported.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-cc.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-revert-libunwind-build.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-ld-argv0.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-Handle-sparse-git-repo-without-erroring.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-disable-mutable-noalias.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-add-armv7a-sanitizers.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-fix-libunwind-backtrace-visibility.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-passes-only-in-pre-link.patch"
-	eapply "${FILESDIR}/rust-${RUST_VERSION}-Revert-DebugInfo-Re-enable-instruction-referencing-f.patch"
+	eapply "${FILESDIR}/rust-add-cros-targets.patch"
+	eapply "${FILESDIR}/rust-fix-rpath.patch"
+	eapply "${FILESDIR}/rust-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
+	eapply "${FILESDIR}/rust-no-test-on-build.patch"
+	eapply "${FILESDIR}/rust-sanitizer-supported.patch"
+	eapply "${FILESDIR}/rust-cc.patch"
+	eapply "${FILESDIR}/rust-revert-libunwind-build.patch"
+	eapply "${FILESDIR}/rust-ld-argv0.patch"
+	eapply "${FILESDIR}/rust-Handle-sparse-git-repo-without-erroring.patch"
+	eapply "${FILESDIR}/rust-disable-mutable-noalias.patch"
+	eapply "${FILESDIR}/rust-add-armv7a-sanitizers.patch"
+	eapply "${FILESDIR}/rust-passes-only-in-pre-link.patch"
+	eapply "${FILESDIR}/rust-Don-t-build-std-for-uefi-targets.patch"
+	eapply "${FILESDIR}/rust-Bump-cc-version-in-bootstrap-to-fix-build-of-uefi-ta.patch"
 
 	# For the rustc_llvm module, the build will link with -nodefaultlibs and manually choose the
 	# std C++ library. For x86_64 Linux, the build script always chooses libstdc++ which will not
@@ -131,6 +138,7 @@ profiler = false
 ninja = true
 targets = "AArch64;ARM;RISCV;X86"
 experimental-targets = ""
+static-libstdcpp = false
 
 [install]
 prefix = "${D}/opt/hps-sdk"
