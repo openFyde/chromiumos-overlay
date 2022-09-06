@@ -137,6 +137,7 @@ RDEPEND="${RDEPEND}
 	chromeos-base/usi-test
 	dev-vcs/git
 	net-analyzer/tcpdump
+	net-analyzer/speedtest-cli
 	net-analyzer/traceroute
 	net-dialup/minicom
 	net-dns/bind-tools
