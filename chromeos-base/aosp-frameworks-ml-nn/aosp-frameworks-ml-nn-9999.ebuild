@@ -214,6 +214,8 @@ src_install() {
 	insinto /usr/include/aosp/frameworks/ml/nn/driver/cache
 	doins "${S}"/driver/cache/nnCache/nnCache.h
 	doins "${S}"/driver/cache/BlobCache/BlobCache.h
+	insinto /usr/include/aosp/hardware/interfaces
+	doins -r "${S}"/../../hardware/interfaces/neuralnetworks
 
 	einfo "Installing libs."
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
