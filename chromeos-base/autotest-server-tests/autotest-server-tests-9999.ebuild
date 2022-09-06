@@ -292,6 +292,7 @@ SERVER_IUSE_TESTS="
 	+tests_platform_InitLoginPerfServer
 	+tests_platform_KernelErrorPaths
 	+tests_platform_MTBF
+	+tests_platform_SPRITE
 	power_management? (
 		+tests_platform_PowerStatusStress
 		+tests_power_WakeSources
