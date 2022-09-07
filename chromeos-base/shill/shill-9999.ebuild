@@ -36,8 +36,6 @@ COMMON_DEPEND="
 	vpn? ( net-dialup/ppp:= )
 	net-dns/c-ares:=
 	net-libs/libtirpc:=
-	net-firewall/conntrack-tools:=
-	net-firewall/iptables:=
 	virtual/wpa_supplicant
 	sys-apps/rootdev:=
 "

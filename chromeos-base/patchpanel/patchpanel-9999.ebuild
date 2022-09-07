@@ -32,6 +32,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/shill
 	net-dns/dnsmasq
+	net-firewall/conntrack-tools
 	net-firewall/iptables
 	net-misc/bridge-utils
 	net-misc/radvd
