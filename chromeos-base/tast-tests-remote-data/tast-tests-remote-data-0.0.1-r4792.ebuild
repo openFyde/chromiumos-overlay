@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("78f92666b2d8c9812f4c94040a05888c836326b2" "cc5f4caf9b6fbf1a848103938e04190c15dbabef")
-CROS_WORKON_TREE="ec2a0a76fb811310bc06b8f6b1dbc877f9d57cd3"
+CROS_WORKON_COMMIT=("903fab36a0e1bc0fcb0c24abafba8bb7f9414da3" "cc5f4caf9b6fbf1a848103938e04190c15dbabef")
+CROS_WORKON_TREE="0ee2d72b7035fb8f086944a1eeb6acb30d4ce999"
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/fw-testing-configs"
