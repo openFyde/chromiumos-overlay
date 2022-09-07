@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wired_8021x +wpa3_sae +wireguard"
+IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="

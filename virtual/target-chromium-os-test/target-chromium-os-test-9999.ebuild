@@ -54,7 +54,6 @@ IUSE="
 	vulkan
 	wifi_hostap_test
 	wifi_testbed_ap
-	+wired_8021x
 "
 
 # Packages required to support autotest images.  Dependencies here
@@ -226,7 +225,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/secure-wipe
 	shill? (
 		chromeos-base/shill-test-scripts
-		wired_8021x? ( net-wireless/hostapd )
+		net-wireless/hostapd
 	)
 	!chromeless_tests? ( chromeos-base/telemetry )
 	chromeos-base/toolchain-tests
