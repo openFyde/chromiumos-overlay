@@ -11,10 +11,12 @@ CROS_GO_PACKAGES=(
 inherit cros-go
 
 DESCRIPTION="AOSP frameworks/base protobuf files"
-HOMEPAGE="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android11-dev/core/proto/"
-GIT_COMMIT="c29468777021f4970ab20b38601448fe81ecdcbb"
-SRC_URI="https://android.googlesource.com/platform/frameworks/base/+archive/${GIT_COMMIT}/core/proto.tar.gz -> aosp-frameworks-base-core-proto-${PV}.tar.gz"
-
+HOMEPAGE="https://android.googlesource.com/platform/frameworks/base/+/refs/heads/android13-dev/core/proto/"
+GIT_COMMIT="f564bb5b380f336bfe453718d8ddb7e7c51057dc"
+GIT_COMMIT_PROTO_LOGGING="3b3844a3601b3f0f05d0403a32347101b9a562d9"
+SRC_URI="https://android.googlesource.com/platform/frameworks/base/+archive/${GIT_COMMIT}/core/proto.tar.gz -> aosp-frameworks-base-core-proto-${PV}.tar.gz
+		https://android.googlesource.com/platform/frameworks/proto_logging/+archive/${GIT_COMMIT_PROTO_LOGGING}/stats/enums.tar.gz -> aosp-frameworks-proto-logging-stats-enums-${PV}.tar.gz
+		"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
@@ -33,22 +35,32 @@ src_unpack() {
 	# Unpack the tar.gz files manually since they need to be unpacked in special directories.
 
 	mkdir -p frameworks/base/core/proto || die
+	mkdir -p frameworks/proto_logging/stats/enums || die
 
 	pushd . || die
 	cd frameworks/base/core/proto || die
 	unpack "aosp-frameworks-base-core-proto-${PV}.tar.gz"
 	popd || die
+
+	pushd . || die
+	cd frameworks/proto_logging/stats/enums || die
+	unpack "aosp-frameworks-proto-logging-stats-enums-${PV}.tar.gz"
+	popd || die
 }
 
 src_compile() {
-	# SRC_URI contains all .proto files from Android frameworks/base (~150 .proto files).
+	# SRC_URI contains all .proto files from Android frameworks/base (~160 .proto files).
 	# For Tast, we only need a subset: Activity Manager,  Window Manager,
 	# and its dependencies.
 	# If there is a need to add more, add a new "protoc" or extend an
 	# existing one.
 
 	local core_path="frameworks/base/core/proto/android"
+	local proto_logging_path="frameworks/proto_logging/stats/enums"
+	# core/proto path
 	local cp="${WORKDIR}/${core_path}"
+	# proto_logging/stats/enums path
+	local pse="${WORKDIR}/${proto_logging_path}"
 	local out="${WORKDIR}/gen/go/src"
 
 	# protoc allow us to map a "protobuf import" with a "golang import".
@@ -57,9 +69,7 @@ src_compile() {
 	# files must use the "android.com" import prefix.
 	local imports_to_remap=(
 		"${core_path}/app/activitymanager.proto"
-		"${core_path}/app/appexit_enums.proto"
 		"${core_path}/app/appexitinfo.proto"
-		"${core_path}/app/enums.proto"
 		"${core_path}/app/notification.proto"
 		"${core_path}/app/profilerinfo.proto"
 		"${core_path}/app/statusbarmanager.proto"
@@ -82,6 +92,7 @@ src_compile() {
 		"${core_path}/os/powermanager.proto"
 		"${core_path}/os/worksource.proto"
 		"${core_path}/privacy.proto"
+		"${core_path}/typedef.proto"
 		"${core_path}/server/activitymanagerservice.proto"
 		"${core_path}/server/animationadapter.proto"
 		"${core_path}/server/intentresolver.proto"
@@ -92,11 +103,22 @@ src_compile() {
 		"${core_path}/view/display.proto"
 		"${core_path}/view/displaycutout.proto"
 		"${core_path}/view/displayinfo.proto"
-		"${core_path}/view/enums.proto"
+		"${core_path}/view/insetssource.proto"
+		"${core_path}/view/insetssourcecontrol.proto"
 		"${core_path}/view/remote_animation_target.proto"
 		"${core_path}/view/surface.proto"
 		"${core_path}/view/surfacecontrol.proto"
 		"${core_path}/view/windowlayoutparams.proto"
+		"${proto_logging_path}/app/enums.proto"
+		"${proto_logging_path}/app/job/enums.proto"
+		"${proto_logging_path}/bluetooth/enums.proto"
+		"${proto_logging_path}/net/enums.proto"
+		"${proto_logging_path}/os/enums.proto"
+		"${proto_logging_path}/server/job/enums.proto"
+		"${proto_logging_path}/service/enums.proto"
+		"${proto_logging_path}/service/procstats_enum.proto"
+		"${proto_logging_path}/telephony/enums.proto"
+		"${proto_logging_path}/view/enums.proto"
 	)
 
 	# Specifies the go_package for each protobuf file. E.g. for file
@@ -111,6 +133,7 @@ src_compile() {
 
 
 	mkdir -p "${out}" || die
+
 	# One "protoc" invocation per directory, otherwise it will create
 	# package conflicts.
 	# Use a different "import_path" per directory to avoid name conflict.
@@ -118,15 +141,14 @@ src_compile() {
 		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/privacy.proto" \
+		"${cp}/typedef.proto" \
 		|| die
 
 	protoc \
 		--go_out="${out}" \
 		--proto_path="${WORKDIR}" \
 		"${cp}/app/activitymanager.proto" \
-		"${cp}/app/appexit_enums.proto" \
 		"${cp}/app/appexitinfo.proto" \
-		"${cp}/app/enums.proto" \
 		"${cp}/app/notification.proto" \
 		"${cp}/app/profilerinfo.proto" \
 		"${cp}/app/statusbarmanager.proto" \
@@ -193,11 +215,73 @@ src_compile() {
 		"${cp}/view/display.proto" \
 		"${cp}/view/displaycutout.proto" \
 		"${cp}/view/displayinfo.proto" \
-		"${cp}/view/enums.proto" \
+		"${cp}/view/insetssource.proto" \
+		"${cp}/view/insetssourcecontrol.proto" \
 		"${cp}/view/remote_animation_target.proto" \
 		"${cp}/view/surface.proto" \
 		"${cp}/view/surfacecontrol.proto" \
 		"${cp}/view/windowlayoutparams.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/app/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/app/job/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/bluetooth/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/net/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/os/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/net/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/server/job/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/service/enums.proto" \
+		"${pse}/service/procstats_enum.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/telephony/enums.proto" \
+		|| die
+
+	protoc \
+		--go_out="${out}" \
+		--proto_path="${WORKDIR}" \
+		"${pse}/view/enums.proto" \
 		|| die
 
 	CROS_GO_WORKSPACE="${WORKDIR}/gen/go/"
