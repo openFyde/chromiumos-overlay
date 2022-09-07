@@ -1,0 +1,36 @@
+# Copyright 2019 The Chromium OS Authors. All rights reserved.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="95e6fc60096e208e9c3f38cab8e41066fbb65bde"
+CROS_WORKON_TREE=("cfee39c602b1e7245b488e40b8e6c51a32658e5f" "522199287569258d5b8f335f5725d388d0f43dce" "4d8f590bd987ed599a906fe078fb08b51c7c7f9c" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_INCREMENTAL_BUILD="1"
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+# TODO(crbug.com/809389): Remove libmems from this list.
+CROS_WORKON_SUBTREE="common-mk iioservice libmems .gn"
+
+PLATFORM_SUBDIR="iioservice/iioservice_simpleclient"
+
+inherit cros-workon platform
+
+DESCRIPTION="A simple client to test iioservice's mojo IPC for Chromium OS."
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE=""
+
+RDEPEND="
+	chromeos-base/libiioservice_ipc:=
+	chromeos-base/libmems:=
+"
+
+DEPEND="${RDEPEND}
+	chromeos-base/system_api:=
+"
+
+src_install() {
+	platform_install
+}
