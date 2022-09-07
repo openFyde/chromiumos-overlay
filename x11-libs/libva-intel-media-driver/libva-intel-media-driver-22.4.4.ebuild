@@ -30,6 +30,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-Revert-Media-Common-fixed-regression-about-TGL-KBL-j.patch
 	"${FILESDIR}"/0005-Revert-Media-Common-Optimization-getimage.patch
 	"${FILESDIR}"/0006-FROMGIT-iHD-VP-Force-set-m_EngineCaps-to-0-in-constr.patch
+	"${FILESDIR}"/0007-FROMGIT-iHD-Enable-VP8-for-SKL.patch
 )
 
 src_configure() {
