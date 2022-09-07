@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/futures-core-0.3.13:= <dev-rust/futures-core-0.4
-	>=dev-rust/futures-task-0.3.13:= <dev-rust/futures-task-0.4
-	>=dev-rust/futures-util-0.3.13:= <dev-rust/futures-util-0.4
-	>=dev-rust/num_cpus-1.8.0:=
+	>=dev-rust/futures-core-0.3.13 <dev-rust/futures-core-0.4
+	>=dev-rust/futures-task-0.3.13 <dev-rust/futures-task-0.4
+	>=dev-rust/futures-util-0.3.13 <dev-rust/futures-util-0.4
+	>=dev-rust/num_cpus-1.8.0
 "
 RDEPEND="${DEPEND}
 	!~dev-rust/${PN}-0.3.1

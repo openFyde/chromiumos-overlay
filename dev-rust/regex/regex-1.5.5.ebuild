@@ -17,9 +17,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/aho-corasick-0.7.18 <dev-rust/aho-corasick-0.8.0_alpha:=
-	>=dev-rust/memchr-2.4.0 <dev-rust/memchr-3.0.0_alpha:=
-	>=dev-rust/regex-syntax-0.6.25 <dev-rust/regex-syntax-0.7.0_alpha:=
+	>=dev-rust/aho-corasick-0.7.18 <dev-rust/aho-corasick-0.8.0_alpha
+	>=dev-rust/memchr-2.4.0 <dev-rust/memchr-3.0.0_alpha
+	>=dev-rust/regex-syntax-0.6.25 <dev-rust/regex-syntax-0.7.0_alpha
 "
 RDEPEND="${DEPEND}"
 

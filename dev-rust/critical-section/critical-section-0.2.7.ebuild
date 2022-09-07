@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bare-metal-1*:=
-	=dev-rust/cfg-if-1*:=
-	>=dev-rust/riscv-0.7.0 <dev-rust/riscv-0.8.0:=
-	>=dev-rust/cortex-m-0.7.2 <dev-rust/riscv-0.8.0:=
+	=dev-rust/bare-metal-1*
+	=dev-rust/cfg-if-1*
+	>=dev-rust/riscv-0.7.0 <dev-rust/riscv-0.8.0
+	>=dev-rust/cortex-m-0.7.2 <dev-rust/riscv-0.8.0
 "
 RDEPEND="${DEPEND}"
 

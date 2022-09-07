@@ -17,10 +17,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cfg-if-1*:=
-	=dev-rust/rand-0.8*:=
-	=dev-rust/remove_dir_all-0.5*:=
-	>=dev-rust/libc-0.2.27:= <dev-rust/libc-0.3.0_alpha
+	=dev-rust/cfg-if-1*
+	=dev-rust/rand-0.8*
+	=dev-rust/remove_dir_all-0.5*
+	>=dev-rust/libc-0.2.27 <dev-rust/libc-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

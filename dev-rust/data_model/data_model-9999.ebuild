@@ -25,10 +25,10 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/assertions:=
-	dev-rust/libc:=
-	=dev-rust/remain-0.2*:=
-	=dev-rust/serde-1*:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	dev-rust/libc
+	=dev-rust/remain-0.2*
+	=dev-rust/serde-1*
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

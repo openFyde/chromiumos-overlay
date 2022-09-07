@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/rayon-core-1.2.0 <dev-rust/rayon-core-2.0.0_alpha:=
+	>=dev-rust/rayon-core-1.2.0 <dev-rust/rayon-core-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

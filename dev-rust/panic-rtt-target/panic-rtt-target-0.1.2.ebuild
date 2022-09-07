@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha:=
-	>=dev-rust/rtt-target-0.3.1 <dev-rust/rtt-target-0.4.0_alpha:=
+	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha
+	>=dev-rust/rtt-target-0.3.1 <dev-rust/rtt-target-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

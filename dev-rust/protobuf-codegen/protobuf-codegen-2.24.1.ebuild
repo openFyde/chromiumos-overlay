@@ -16,7 +16,7 @@ IUSE="cros_host"
 
 BDEPEND="!cros_host? ( =${CATEGORY}/${PF} )"
 DEPEND="
-	~dev-rust/protobuf-${PV}:=
+	~dev-rust/protobuf-${PV}
 "
 
 RDEPEND="${DEPEND}"

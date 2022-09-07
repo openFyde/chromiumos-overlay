@@ -13,6 +13,6 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/cc-1.0.0:=
-	>=dev-rust/libc-0.2.0:=
+DEPEND=">=dev-rust/cc-1.0.0
+	>=dev-rust/libc-0.2.0
 "

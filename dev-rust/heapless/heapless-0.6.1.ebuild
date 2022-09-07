@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/as-slice-0.1.5:= <dev-rust/as-slice-0.2.0
-	>=dev-rust/generic-array-0.14.4:= <dev-rust/generic-array-0.15.0
-	=dev-rust/hash32-0.1*:=
-	=dev-rust/stable_deref_trait-1*:=
+	>=dev-rust/as-slice-0.1.5 <dev-rust/as-slice-0.2.0
+	>=dev-rust/generic-array-0.14.4 <dev-rust/generic-array-0.15.0
+	=dev-rust/hash32-0.1*
+	=dev-rust/stable_deref_trait-1*
 "
 RDEPEND="${DEPEND}"
 

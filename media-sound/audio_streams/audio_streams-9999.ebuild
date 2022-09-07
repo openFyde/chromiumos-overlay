@@ -23,13 +23,13 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/async-trait-0.1*:=
-	=dev-rust/futures-0.3*:=
-	=dev-rust/remain-0.2*:=
-	dev-rust/serde_json:=
+	=dev-rust/async-trait-0.1*
+	=dev-rust/futures-0.3*
+	=dev-rust/remain-0.2*
+	dev-rust/serde_json
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	=dev-rust/thiserror-1*:=
+	=dev-rust/thiserror-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

@@ -16,6 +16,6 @@ KEYWORDS="*"
 # serde and serde_test are unused optional dependencies, but add them in anyways
 # so that we don't get errors from cargo later on.
 DEPEND="
-	>=dev-rust/serde-1.0.25:= <dev-rust/serde-2
-	>=dev-rust/serde_test-1:= <dev-rust/serde_test-2
+	>=dev-rust/serde-1.0.25 <dev-rust/serde-2
+	>=dev-rust/serde_test-1 <dev-rust/serde_test-2
 "

@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/crossbeam-utils-0.7*:=
-	>=dev-rust/futures-0.1.19:= <dev-rust/futures-0.2.0
+	=dev-rust/crossbeam-utils-0.7*
+	>=dev-rust/futures-0.1.19 <dev-rust/futures-0.2.0
 "
 RDEPEND="${DEPEND}"
 

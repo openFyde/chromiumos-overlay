@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/base64-0.10*:=
-	=dev-rust/bitflags-1*:=
-	=dev-rust/serde-1*:=
+	=dev-rust/base64-0.10*
+	=dev-rust/bitflags-1*
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
 
@@ -27,8 +27,8 @@ RDEPEND="${DEPEND}"
 IUSE="test"
 TEST_DEPS="
 	test? (
-		=dev-rust/serde_bytes-0.10*:=
-		=dev-rust/serde_json-1*:=
+		=dev-rust/serde_bytes-0.10*
+		=dev-rust/serde_json-1*
 	)
 "
 DEPEND+="${TEST_DEPS}"

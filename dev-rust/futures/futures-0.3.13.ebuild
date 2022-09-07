@@ -16,13 +16,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/futures-channel-0.3.13:= <dev-rust/futures-channel-0.4
-	>=dev-rust/futures-core-0.3.13:= <dev-rust/futures-core-0.4
-	>=dev-rust/futures-executor-0.3.13:= <dev-rust/futures-executor-0.4
-	>=dev-rust/futures-io-0.3.13:= <dev-rust/futures-io-0.4
-	>=dev-rust/futures-sink-0.3.13:= <dev-rust/futures-sink-0.4
-	>=dev-rust/futures-task-0.3.13:= <dev-rust/futures-task-0.4
-	>=dev-rust/futures-util-0.3.13:= <dev-rust/futures-util-0.4
+	>=dev-rust/futures-channel-0.3.13 <dev-rust/futures-channel-0.4
+	>=dev-rust/futures-core-0.3.13 <dev-rust/futures-core-0.4
+	>=dev-rust/futures-executor-0.3.13 <dev-rust/futures-executor-0.4
+	>=dev-rust/futures-io-0.3.13 <dev-rust/futures-io-0.4
+	>=dev-rust/futures-sink-0.3.13 <dev-rust/futures-sink-0.4
+	>=dev-rust/futures-task-0.3.13 <dev-rust/futures-task-0.4
+	>=dev-rust/futures-util-0.3.13 <dev-rust/futures-util-0.4
 "
 RDEPEND="${DEPEND}
 	!~dev-rust/${PN}-0.3.1

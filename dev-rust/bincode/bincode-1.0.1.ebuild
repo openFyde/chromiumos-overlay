@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/byteorder-1.2.0:= <dev-rust/byteorder-2.0.0
-	>=dev-rust/serde-1.0.63:= <dev-rust/serde-2.0.0
-	>=dev-rust/serde_derive-1.0.27:= <dev-rust/serde_derive-2.0.0
+	>=dev-rust/byteorder-1.2.0 <dev-rust/byteorder-2.0.0
+	>=dev-rust/serde-1.0.63 <dev-rust/serde-2.0.0
+	>=dev-rust/serde_derive-1.0.27 <dev-rust/serde_derive-2.0.0
 "

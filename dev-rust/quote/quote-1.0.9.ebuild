@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/proc-macro2-1.0.20:= <dev-rust/proc-macro2-2.0.0
+	>=dev-rust/proc-macro2-1.0.20 <dev-rust/proc-macro2-2.0.0
 "
 RDEPEND="${DEPEND}"
 

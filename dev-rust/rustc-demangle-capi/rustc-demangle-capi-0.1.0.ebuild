@@ -16,7 +16,7 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/rustc-demangle-0.1.16 <dev-rust/rustc-demangle-0.2.0_alpha:=
+	>=dev-rust/rustc-demangle-0.1.16 <dev-rust/rustc-demangle-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

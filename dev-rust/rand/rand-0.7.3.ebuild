@@ -16,13 +16,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/getrandom-0.1.1:= <dev-rust/getrandom-0.2.0
-	>=dev-rust/libc-0.2.22:= <dev-rust/libc-0.3.0
-	>=dev-rust/log-0.4.4:= <dev-rust/log-0.5.0
-	>=dev-rust/rand_chacha-0.2.1:= <dev-rust/rand_chacha-0.3.0
-	>=dev-rust/rand_core-0.5.1:= <dev-rust/rand_core-0.6.0
-	=dev-rust/rand_hc-0.2*:=
-	=dev-rust/rand_pcg-0.2*:=
+	>=dev-rust/getrandom-0.1.1 <dev-rust/getrandom-0.2.0
+	>=dev-rust/libc-0.2.22 <dev-rust/libc-0.3.0
+	>=dev-rust/log-0.4.4 <dev-rust/log-0.5.0
+	>=dev-rust/rand_chacha-0.2.1 <dev-rust/rand_chacha-0.3.0
+	>=dev-rust/rand_core-0.5.1 <dev-rust/rand_core-0.6.0
+	=dev-rust/rand_hc-0.2*
+	=dev-rust/rand_pcg-0.2*
 "
 RDEPEND="${DEPEND}"
 

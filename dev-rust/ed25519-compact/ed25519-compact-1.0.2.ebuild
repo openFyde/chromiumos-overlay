@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/ct-codecs-1.1.0 <dev-rust/ct-codecs-2.0.0_alpha:=
-	>=dev-rust/ed25519-1.2.0 <dev-rust/ed25519-2.0.0_alpha:=
-	=dev-rust/getrandom-0.2*:=
+	>=dev-rust/ct-codecs-1.1.0 <dev-rust/ct-codecs-2.0.0_alpha
+	>=dev-rust/ed25519-1.2.0 <dev-rust/ed25519-2.0.0_alpha
+	=dev-rust/getrandom-0.2*
 "
 RDEPEND="${DEPEND}"
 

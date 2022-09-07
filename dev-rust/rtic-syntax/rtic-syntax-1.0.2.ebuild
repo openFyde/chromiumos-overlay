@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/indexmap-1.0.2 <dev-rust/indexmap-2.0.0_alpha:=
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/quote-1*:=
-	>=dev-rust/syn-1.0.12 <dev-rust/syn-2.0.0_alpha:=
+	>=dev-rust/indexmap-1.0.2 <dev-rust/indexmap-2.0.0_alpha
+	=dev-rust/proc-macro2-1*
+	=dev-rust/quote-1*
+	>=dev-rust/syn-1.0.12 <dev-rust/syn-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -14,7 +14,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/rand-0.3*:=
+	=dev-rust/rand-0.3*
 "
 
 # error: could not compile `rustc-serialize`

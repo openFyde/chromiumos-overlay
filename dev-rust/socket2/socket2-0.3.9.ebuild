@@ -14,9 +14,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cfg-if-0.1*:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/redox_syscall-0.1*:=
-	=dev-rust/winapi-0.3*:=
-	=dev-rust/tempdir-0.3*:=
+	=dev-rust/cfg-if-0.1*
+	=dev-rust/libc-0.2*
+	=dev-rust/redox_syscall-0.1*
+	=dev-rust/winapi-0.3*
+	=dev-rust/tempdir-0.3*
 "

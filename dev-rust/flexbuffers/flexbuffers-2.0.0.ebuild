@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bitflags-1.2.1 <dev-rust/bitflags-2.0.0_alpha:=
-	>=dev-rust/byteorder-1.4.2 <dev-rust/byteorder-2.0.0_alpha:=
-	>=dev-rust/num_enum-0.5.1 <dev-rust/num_enum-0.6.0_alpha:=
-	>=dev-rust/serde-1.0.119 <dev-rust/serde-2.0.0_alpha:=
-	>=dev-rust/serde_derive-1.0.119 <dev-rust/serde_derive-2.0.0_alpha:=
+	>=dev-rust/bitflags-1.2.1 <dev-rust/bitflags-2.0.0_alpha
+	>=dev-rust/byteorder-1.4.2 <dev-rust/byteorder-2.0.0_alpha
+	>=dev-rust/num_enum-0.5.1 <dev-rust/num_enum-0.6.0_alpha
+	>=dev-rust/serde-1.0.119 <dev-rust/serde-2.0.0_alpha
+	>=dev-rust/serde_derive-1.0.119 <dev-rust/serde_derive-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

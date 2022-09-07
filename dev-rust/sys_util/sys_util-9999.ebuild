@@ -26,20 +26,20 @@ IUSE="test"
 # ebuilds that install executables, import sys_util, and use the libcap
 # functionality need to RDEPEND on libcap
 DEPEND="
-	=dev-rust/android_log-sys-0.2*:=
+	=dev-rust/android_log-sys-0.2*
 	dev-rust/assertions:=
 	dev-rust/sys_util_core:=
 	dev-rust/data_model:=
-	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/quote-1*:=
-	=dev-rust/remain-0.2*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_json-1*:=
-	=dev-rust/syn-1*:=
+	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3.0
+	=dev-rust/proc-macro2-1*
+	=dev-rust/quote-1*
+	=dev-rust/remain-0.2*
+	=dev-rust/serde-1*
+	=dev-rust/serde_json-1*
+	=dev-rust/syn-1*
 	dev-rust/sync:=
-	dev-rust/tempfile:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	dev-rust/tempfile
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	sys-libs/libcap:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

@@ -16,6 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/clippy-0.0*:=
-	=dev-rust/serde-1*:=
+	=dev-rust/clippy-0.0*
+	=dev-rust/serde-1*
 "

@@ -16,6 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/libusb1-sys-0.3.5:= <dev-rust/libusb1-sys-0.4
-	=dev-rust/libc-0.2*:=
+	>=dev-rust/libusb1-sys-0.3.5 <dev-rust/libusb1-sys-0.4
+	=dev-rust/libc-0.2*
 "

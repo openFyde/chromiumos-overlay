@@ -13,10 +13,10 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="=dev-rust/error-chain-0.11*:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/log-0.4*:=
-	=dev-rust/time-0.1*:=
-	=dev-rust/unix_socket-0.5*:=
+DEPEND="=dev-rust/error-chain-0.11*
+	=dev-rust/libc-0.2*
+	=dev-rust/log-0.4*
+	=dev-rust/time-0.1*
+	=dev-rust/unix_socket-0.5*
 "
 RDEPEND="${DEPEND}"

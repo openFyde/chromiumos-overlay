@@ -14,5 +14,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/rand_core_transitional-0.3.1:=
+	~dev-rust/rand_core_transitional-0.3.1
 "

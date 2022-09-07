@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/backtrace-0.3.51 <dev-rust/backtrace-0.4.0_alpha:=
+	>=dev-rust/backtrace-0.3.51 <dev-rust/backtrace-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

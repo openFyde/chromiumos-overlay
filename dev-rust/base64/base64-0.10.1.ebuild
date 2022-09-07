@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/byteorder-1.2.6:= <dev-rust/byteorder-2.0.0
+	>=dev-rust/byteorder-1.2.6 <dev-rust/byteorder-2.0.0
 "
 RDEPEND="${DEPEND}"
 

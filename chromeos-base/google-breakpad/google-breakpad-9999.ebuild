@@ -27,7 +27,7 @@ KEYWORDS="~*"
 IUSE="-alltests cros_host +rustc-demangle test"
 
 COMMON_DEPEND="
-	rustc-demangle? ( dev-rust/rustc-demangle-capi:= )
+	rustc-demangle? ( dev-rust/rustc-demangle-capi )
 	net-misc/curl:=
 "
 RDEPEND="${COMMON_DEPEND}"

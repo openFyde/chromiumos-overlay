@@ -29,9 +29,9 @@ IUSE="test"
 # chromeos-base/minijail and sys-libs/libcap
 DEPEND="
 	chromeos-base/minijail:=
-	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
-	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
-	=dev-rust/which-4*:=
+	>=dev-rust/libc-0.2.44 <dev-rust/libc-0.3.0
+	>=dev-rust/pkg-config-0.3.0 <dev-rust/pkg-config-0.4.0
+	=dev-rust/which-4*
 	sys-libs/libcap:=
 	virtual/bindgen:=
 "

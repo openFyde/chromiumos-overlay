@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/cortex-m-rt-macros-0.1.8:=
-	>=dev-rust/r0-0.2.2:= <dev-rust/r0-0.3.0
+	~dev-rust/cortex-m-rt-macros-0.1.8
+	>=dev-rust/r0-0.2.2 <dev-rust/r0-0.3.0
 "
 RDEPEND="${DEPEND}"
 

@@ -17,6 +17,6 @@ KEYWORDS="*"
 BDEPEND="dev-libs/protobuf"
 
 DEPEND="
-	=dev-rust/log-0*:=
-	=dev-rust/which-4*:=
+	=dev-rust/log-0*
+	=dev-rust/which-4*
 "

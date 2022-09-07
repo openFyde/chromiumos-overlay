@@ -17,21 +17,21 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha:=
-	=dev-rust/cfg-if-1*:=
-	=dev-rust/dirs-next-2*:=
-	=dev-rust/fd-lock-3*:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/log-0.4*:=
-	=dev-rust/memchr-2*:=
-	=dev-rust/radix_trie-0.2*:=
-	>=dev-rust/regex-1.5.4 <dev-rust/regex-2.0.0_alpha:=
-	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha:=
-	=dev-rust/unicode-segmentation-1*:=
-	=dev-rust/unicode-width-0.1*:=
-	=dev-rust/nix-0.23*:=
-	=dev-rust/skim-0.9*:=
-	=dev-rust/utf8parse-0.2*:=
+	>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha
+	=dev-rust/cfg-if-1*
+	=dev-rust/dirs-next-2*
+	=dev-rust/fd-lock-3*
+	=dev-rust/libc-0.2*
+	=dev-rust/log-0.4*
+	=dev-rust/memchr-2*
+	=dev-rust/radix_trie-0.2*
+	>=dev-rust/regex-1.5.4 <dev-rust/regex-2.0.0_alpha
+	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha
+	=dev-rust/unicode-segmentation-1*
+	=dev-rust/unicode-width-0.1*
+	=dev-rust/nix-0.23*
+	=dev-rust/skim-0.9*
+	=dev-rust/utf8parse-0.2*
 "
 RDEPEND="${DEPEND}"
 

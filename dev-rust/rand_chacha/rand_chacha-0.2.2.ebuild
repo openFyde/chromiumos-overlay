@@ -16,6 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/ppv-lite86-0.2.6:= <dev-rust/ppv-lite86-0.3.0
-	=dev-rust/rand_core-0.5*:=
+	>=dev-rust/ppv-lite86-0.2.6 <dev-rust/ppv-lite86-0.3.0
+	=dev-rust/rand_core-0.5*
 "

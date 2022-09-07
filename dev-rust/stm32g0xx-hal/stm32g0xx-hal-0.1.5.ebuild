@@ -16,12 +16,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bare-metal-1*:=
-	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha:=
-	>=dev-rust/embedded-hal-0.2.6 <dev-rust/embedded-hal-0.3.0_alpha:=
-	=dev-rust/nb-1*:=
-	=dev-rust/stm32g0-0.13*:=
-	>=dev-rust/void-1.0.2 <dev-rust/void-2.0.0_alpha:=
+	=dev-rust/bare-metal-1*
+	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha
+	>=dev-rust/embedded-hal-0.2.6 <dev-rust/embedded-hal-0.3.0_alpha
+	=dev-rust/nb-1*
+	=dev-rust/stm32g0-0.13*
+	>=dev-rust/void-1.0.2 <dev-rust/void-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

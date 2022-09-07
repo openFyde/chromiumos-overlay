@@ -16,6 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/hermit-abi-0.1.3:= <dev-rust/hermit-abi-0.2.0
-	>=dev-rust/libc-0.2.26:= <dev-rust/libc-0.3.0
+	>=dev-rust/hermit-abi-0.1.3 <dev-rust/hermit-abi-0.2.0
+	>=dev-rust/libc-0.2.26 <dev-rust/libc-0.3.0
 "

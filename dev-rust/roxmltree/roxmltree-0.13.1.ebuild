@@ -16,5 +16,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/xmlparser-0.13.3:= <dev-rust/xmlparser-0.14
+	>=dev-rust/xmlparser-0.13.3 <dev-rust/xmlparser-0.14
 "

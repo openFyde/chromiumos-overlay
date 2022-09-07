@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/match_cfg-0.1*:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/winapi-0.3*:=
+	=dev-rust/match_cfg-0.1*
+	=dev-rust/libc-0.2*
+	=dev-rust/winapi-0.3*
 "
 RDEPEND="${DEPEND}"
 

@@ -16,12 +16,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha:=
-	=dev-rust/cfg-if-1*:=
-	=dev-rust/log-0.4*:=
-	=dev-rust/managed-0.8*:=
-	=dev-rust/num-traits-0.2*:=
-	=dev-rust/paste-1*:=
+	>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha
+	=dev-rust/cfg-if-1*
+	=dev-rust/log-0.4*
+	=dev-rust/managed-0.8*
+	=dev-rust/num-traits-0.2*
+	=dev-rust/paste-1*
 "
 RDEPEND="${DEPEND}"
 

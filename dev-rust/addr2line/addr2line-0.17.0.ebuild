@@ -16,15 +16,15 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/rustc-std-workspace-alloc-1*:=
-	>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0_alpha:=
-	=dev-rust/rustc-std-workspace-core-1*:=
-	=dev-rust/cpp_demangle-0.3*:=
-	=dev-rust/fallible-iterator-0.2*:=
-	=dev-rust/gimli-0.26*:=
-	>=dev-rust/object-0.27.1 <dev-rust/object-0.28.0_alpha:=
-	=dev-rust/rustc-demangle-0.1*:=
-	=dev-rust/smallvec-1*:=
+	=dev-rust/rustc-std-workspace-alloc-1*
+	>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0_alpha
+	=dev-rust/rustc-std-workspace-core-1*
+	=dev-rust/cpp_demangle-0.3*
+	=dev-rust/fallible-iterator-0.2*
+	=dev-rust/gimli-0.26*
+	>=dev-rust/object-0.27.1 <dev-rust/object-0.28.0_alpha
+	=dev-rust/rustc-demangle-0.1*
+	=dev-rust/smallvec-1*
 "
 RDEPEND="${DEPEND}"
 

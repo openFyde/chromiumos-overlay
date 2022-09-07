@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/linked-hash-map-0.5.3 <dev-rust/linked-hash-map-0.6.0_alpha:=
+	>=dev-rust/linked-hash-map-0.5.3 <dev-rust/linked-hash-map-0.6.0_alpha
 "
 RDEPEND="${DEPEND}"
 

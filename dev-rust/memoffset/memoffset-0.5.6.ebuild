@@ -14,5 +14,5 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="=dev-rust/autocfg-1*:="
+DEPEND="=dev-rust/autocfg-1*"
 RDEPEND="${DEPEND}"

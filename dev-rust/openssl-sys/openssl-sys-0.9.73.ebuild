@@ -14,13 +14,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/autocfg-1*:=
-	>=dev-rust/bindgen-0.59.2:= <dev-rust/bindgen-1
-	=dev-rust/cc-1*:=
-	=dev-rust/libc-0.2*:=
-	>=dev-rust/pkg-config-0.3.9:= <dev-rust/pkg-config-0.4
-	>=dev-rust/vcpkg-0.2.8:= <dev-rust/vcpkg-0.3
-	>=dev-rust/openssl-src-111.0.1:= <dev-rust/openssl-src-112
+	=dev-rust/autocfg-1*
+	>=dev-rust/bindgen-0.59.2 <dev-rust/bindgen-1
+	=dev-rust/cc-1*
+	=dev-rust/libc-0.2*
+	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4
+	>=dev-rust/vcpkg-0.2.8 <dev-rust/vcpkg-0.3
+	>=dev-rust/openssl-src-111.0.1 <dev-rust/openssl-src-112
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are
 # pulled in when installing binpkgs since the full source tree is required to

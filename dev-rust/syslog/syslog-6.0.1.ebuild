@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/error-chain-0.12.2 <dev-rust/error-chain-0.13.0_alpha:=
-	>=dev-rust/hostname-0.3.1 <dev-rust/hostname-0.4.0_alpha:=
-	>=dev-rust/libc-0.2.112 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/log-0.4.8 <dev-rust/log-0.5.0_alpha:=
-	>=dev-rust/time-0.3.5 <dev-rust/time-0.4.0_alpha:=
+	>=dev-rust/error-chain-0.12.2 <dev-rust/error-chain-0.13.0_alpha
+	>=dev-rust/hostname-0.3.1 <dev-rust/hostname-0.4.0_alpha
+	>=dev-rust/libc-0.2.112 <dev-rust/libc-0.3.0_alpha
+	>=dev-rust/log-0.4.8 <dev-rust/log-0.5.0_alpha
+	>=dev-rust/time-0.3.5 <dev-rust/time-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

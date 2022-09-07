@@ -17,5 +17,5 @@ KEYWORDS="*"
 S="${WORKDIR}/${CROS_RUST_CRATE_NAME}-${PV}"
 
 DEPEND="
-	~dev-rust/rand_core-0.4.0:=
+	~dev-rust/rand_core-0.4.0
 "

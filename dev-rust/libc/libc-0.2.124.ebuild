@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/rustc-std-workspace-core-1*:=
+	=dev-rust/rustc-std-workspace-core-1*
 "
 RDEPEND="${DEPEND}"
 

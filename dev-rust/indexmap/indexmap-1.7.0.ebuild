@@ -25,10 +25,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/hashbrown-0.11*:=
-	>=dev-rust/rayon-1.2.0:= <dev-rust/rayon-2.0.0
-	=dev-rust/serde-1*:=
-	=dev-rust/autocfg-1*:=
+	=dev-rust/hashbrown-0.11*
+	>=dev-rust/rayon-1.2.0 <dev-rust/rayon-2.0.0
+	=dev-rust/serde-1*
+	=dev-rust/autocfg-1*
 "
 RDEPEND="${DEPEND}"
 

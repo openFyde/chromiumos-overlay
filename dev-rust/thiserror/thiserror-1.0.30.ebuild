@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/thiserror-impl-1.0.30:=
+	~dev-rust/thiserror-impl-1.0.30
 "
 RDEPEND="${DEPEND}"
 

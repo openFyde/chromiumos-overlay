@@ -16,13 +16,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/itoa-1.0.1 <dev-rust/itoa-2.0.0_alpha:=
-	>=dev-rust/quickcheck-1.0.3 <dev-rust/quickcheck-2.0.0_alpha:=
-	>=dev-rust/rand-0.8.4 <dev-rust/rand-0.9.0_alpha:=
-	>=dev-rust/serde-1.0.126 <dev-rust/serde-2.0.0_alpha:=
-	~dev-rust/time-macros-0.2.4:=
-	>=dev-rust/libc-0.2.98 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/num_threads-0.1.2 <dev-rust/num_threads-0.2.0_alpha:=
+	>=dev-rust/itoa-1.0.1 <dev-rust/itoa-2.0.0_alpha
+	>=dev-rust/quickcheck-1.0.3 <dev-rust/quickcheck-2.0.0_alpha
+	>=dev-rust/rand-0.8.4 <dev-rust/rand-0.9.0_alpha
+	>=dev-rust/serde-1.0.126 <dev-rust/serde-2.0.0_alpha
+	~dev-rust/time-macros-0.2.4
+	>=dev-rust/libc-0.2.98 <dev-rust/libc-0.3.0_alpha
+	>=dev-rust/num_threads-0.1.2 <dev-rust/num_threads-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

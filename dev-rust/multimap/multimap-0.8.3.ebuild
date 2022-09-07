@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/serde-1.0*:=
+	=dev-rust/serde-1.0*
 "
 RDEPEND="${DEPEND}"
 
@@ -24,7 +24,7 @@ RDEPEND="${DEPEND}"
 
 IUSE="test"
 TEST_DEPS="
-	test? ( =dev-rust/serde_test-1.0*:= )
+	test? ( =dev-rust/serde_test-1.0* )
 "
 DEPEND+="${TEST_DEPS}"
 RDEPEND+="${TEST_DEPS}"

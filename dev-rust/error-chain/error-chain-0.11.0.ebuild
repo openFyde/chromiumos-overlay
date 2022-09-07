@@ -13,5 +13,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/backtrace-0.3.0:=
-"
+DEPEND=">=dev-rust/backtrace-0.3.0"

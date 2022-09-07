@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/lazy_static-1*:=
+	=dev-rust/lazy_static-1*
 	>=dev-rust/lexical-core-0.6.0 <dev-rust/lexical-core-0.8.0
-	=dev-rust/memchr-2*:=
-	=dev-rust/regex-1*:=
-	=dev-rust/version_check-0.9*:=
+	=dev-rust/memchr-2*
+	=dev-rust/regex-1*
+	=dev-rust/version_check-0.9*
 "
 
 # error: could not compile `nom`

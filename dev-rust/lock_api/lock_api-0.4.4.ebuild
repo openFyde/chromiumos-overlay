@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/owning_ref-0.4.1 <dev-rust/owning_ref-0.5.0_alpha:=
-	>=dev-rust/scopeguard-1.1.0 <dev-rust/scopeguard-2.0.0_alpha:=
-	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha:=
+	>=dev-rust/owning_ref-0.4.1 <dev-rust/owning_ref-0.5.0_alpha
+	>=dev-rust/scopeguard-1.1.0 <dev-rust/scopeguard-2.0.0_alpha
+	>=dev-rust/serde-1.0.114 <dev-rust/serde-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

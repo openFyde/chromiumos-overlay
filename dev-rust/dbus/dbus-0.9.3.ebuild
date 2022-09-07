@@ -17,11 +17,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/futures-channel-0.3*:=
-	=dev-rust/futures-executor-0.3*:=
-	=dev-rust/futures-util-0.3*:=
-	>=dev-rust/libc-0.2.66:= <dev-rust/libc-0.3.0_alpha
-	=dev-rust/libdbus-sys-0.2*:=
+	=dev-rust/futures-channel-0.3*
+	=dev-rust/futures-executor-0.3*
+	=dev-rust/futures-util-0.3*
+	>=dev-rust/libc-0.2.66 <dev-rust/libc-0.3.0_alpha
+	=dev-rust/libdbus-sys-0.2*
 "
 RDEPEND="${DEPEND}"
 

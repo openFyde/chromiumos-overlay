@@ -21,10 +21,10 @@ KEYWORDS="~*"
 IUSE="fuzzer test"
 
 DEPEND="
-	dev-rust/libc:=
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/quote-1*:=
-	=dev-rust/syn-1*:=
+	dev-rust/libc
+	=dev-rust/proc-macro2-1*
+	=dev-rust/quote-1*
+	=dev-rust/syn-1*
 	dev-rust/sys_util:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "

@@ -16,6 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/getrandom-0.1*:=
-	=dev-rust/serde-1*:=
+	=dev-rust/getrandom-0.1*
+	=dev-rust/serde-1*
 "

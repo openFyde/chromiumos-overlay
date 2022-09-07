@@ -18,17 +18,17 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bytes-1*:=
-	>=dev-rust/memchr-2.2.0 <dev-rust/memchr-3.0.0_alpha:=
-	>=dev-rust/mio-0.8.1 <dev-rust/mio-0.9.0_alpha:=
-	>=dev-rust/num_cpus-1.8.0 <dev-rust/num_cpus-2.0.0_alpha:=
-	>=dev-rust/once_cell-1.5.2 <dev-rust/once_cell-2.0.0_alpha:=
-	=dev-rust/parking_lot-0.12*:=
-	=dev-rust/pin-project-lite-0.2*:=
-	>=dev-rust/socket2-0.4.4 <dev-rust/socket2-0.5.0_alpha:=
-	>=dev-rust/tokio-macros-1.7.0 <dev-rust/tokio-macros-2.0.0_alpha:=
-	>=dev-rust/libc-0.2.42 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/signal-hook-registry-1.1.1 <dev-rust/signal-hook-registry-2.0.0_alpha:=
+	=dev-rust/bytes-1*
+	>=dev-rust/memchr-2.2.0 <dev-rust/memchr-3.0.0_alpha
+	>=dev-rust/mio-0.8.1 <dev-rust/mio-0.9.0_alpha
+	>=dev-rust/num_cpus-1.8.0 <dev-rust/num_cpus-2.0.0_alpha
+	>=dev-rust/once_cell-1.5.2 <dev-rust/once_cell-2.0.0_alpha
+	=dev-rust/parking_lot-0.12*
+	=dev-rust/pin-project-lite-0.2*
+	>=dev-rust/socket2-0.4.4 <dev-rust/socket2-0.5.0_alpha
+	>=dev-rust/tokio-macros-1.7.0 <dev-rust/tokio-macros-2.0.0_alpha
+	>=dev-rust/libc-0.2.42 <dev-rust/libc-0.3.0_alpha
+	>=dev-rust/signal-hook-registry-1.1.1 <dev-rust/signal-hook-registry-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

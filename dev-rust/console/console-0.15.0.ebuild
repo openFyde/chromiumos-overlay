@@ -17,11 +17,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/libc-0.2*:=
-	=dev-rust/once_cell-1*:=
-	>=dev-rust/regex-1.4.2 <dev-rust/regex-2.0.0_alpha:=
-	>=dev-rust/terminal_size-0.1.14 <dev-rust/terminal_size-0.2.0_alpha:=
-	=dev-rust/unicode-width-0.1*:=
+	=dev-rust/libc-0.2*
+	=dev-rust/once_cell-1*
+	>=dev-rust/regex-1.4.2 <dev-rust/regex-2.0.0_alpha
+	>=dev-rust/terminal_size-0.1.14 <dev-rust/terminal_size-0.2.0_alpha
+	=dev-rust/unicode-width-0.1*
 "
 RDEPEND="${DEPEND}"
 

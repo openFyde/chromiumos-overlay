@@ -14,10 +14,10 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/protobuf-${PV}:=
-	~dev-rust/protobuf-codegen-${PV}:=
-	~dev-rust/protoc-${PV}:=
-	=dev-rust/tempfile-3*:=
+	~dev-rust/protobuf-${PV}
+	~dev-rust/protobuf-codegen-${PV}
+	~dev-rust/protoc-${PV}
+	=dev-rust/tempfile-3*
 "
 
 RDEPEND=${DEPEND}

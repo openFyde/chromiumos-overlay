@@ -15,7 +15,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/lazy_static-1*:=
+	=dev-rust/lazy_static-1*
 "
 
 PATCHES=(

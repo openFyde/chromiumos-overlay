@@ -16,6 +16,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/zeroize_derive-1.3.0 <dev-rust/zeroize_derive-2.0.0_alpha:=
+	>=dev-rust/zeroize_derive-1.3.0 <dev-rust/zeroize_derive-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"

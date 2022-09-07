@@ -14,8 +14,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bincode-1.0*:=
-	=dev-rust/serde-1.0*:=
-	=dev-rust/serde_derive-1.0*:=
-	=dev-rust/serde_test-1.0*:=
+	=dev-rust/bincode-1.0*
+	=dev-rust/serde-1.0*
+	=dev-rust/serde_derive-1.0*
+	=dev-rust/serde_test-1.0*
 "

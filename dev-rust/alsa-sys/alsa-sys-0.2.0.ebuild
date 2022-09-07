@@ -14,8 +14,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/libc-0.2.65:=
+	>=dev-rust/libc-0.2.65
 	<dev-rust/libc-0.3
-	>=dev-rust/pkg-config-0.3.0:= <dev-rust/pkg-config-0.4.0
+	>=dev-rust/pkg-config-0.3.0 <dev-rust/pkg-config-0.4.0
 	>=media-libs/alsa-lib-1.1.8-r3:= <media-libs/alsa-lib-2.0.0
 "

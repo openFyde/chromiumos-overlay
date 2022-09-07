@@ -14,9 +14,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bytes-0.5*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_derive-1*:=
+	=dev-rust/bytes-0.5*
+	=dev-rust/serde-1*
+	=dev-rust/serde_derive-1*
 "
 
 RDEPEND="${DEPEND}"

@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/clap-3.1.10 <dev-rust/clap-4.0.0_alpha:=
-	>=dev-rust/clap_complete-3.1.2 <dev-rust/clap_complete-4.0.0_alpha:=
+	>=dev-rust/clap-3.1.10 <dev-rust/clap-4.0.0_alpha
+	>=dev-rust/clap_complete-3.1.2 <dev-rust/clap_complete-4.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

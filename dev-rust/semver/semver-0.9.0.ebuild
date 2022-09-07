@@ -14,12 +14,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/semver-parser-0.7*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/crates-index-0.5*:=
-	=dev-rust/serde_derive-1*:=
-	=dev-rust/serde_json-1*:=
-	=dev-rust/tempdir-0.3*:=
+	=dev-rust/semver-parser-0.7*
+	=dev-rust/serde-1*
+	=dev-rust/crates-index-0.5*
+	=dev-rust/serde_derive-1*
+	=dev-rust/serde_json-1*
+	=dev-rust/tempdir-0.3*
 "
 
 # error: could not compile `semver`

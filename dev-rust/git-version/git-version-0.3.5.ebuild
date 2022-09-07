@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/git-version-macro-0.3.5:=
-	=dev-rust/proc-macro-hack-0.5*:=
+	~dev-rust/git-version-macro-0.3.5
+	=dev-rust/proc-macro-hack-0.5*
 "
 RDEPEND="${DEPEND}"
 

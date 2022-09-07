@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/adler32-1.0.4 <dev-rust/adler32-2.0.0_alpha:=
-	=dev-rust/byteorder-1*:=
-	=dev-rust/gzip-header-0.3*:=
+	>=dev-rust/adler32-1.0.4 <dev-rust/adler32-2.0.0_alpha
+	=dev-rust/byteorder-1*
+	=dev-rust/gzip-header-0.3*
 "
 RDEPEND="${DEPEND}"
 

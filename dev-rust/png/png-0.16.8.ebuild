@@ -20,10 +20,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bitflags-1*:=
-	>=dev-rust/crc32fast-1.2.0 <dev-rust/crc32fast-2.0.0_alpha:=
-	>=dev-rust/deflate-0.8.2 <dev-rust/deflate-0.9.0_alpha:=
-	>=dev-rust/miniz_oxide-0.4.1 <dev-rust/miniz_oxide-0.5.0_alpha:=
+	=dev-rust/bitflags-1*
+	>=dev-rust/crc32fast-1.2.0 <dev-rust/crc32fast-2.0.0_alpha
+	>=dev-rust/deflate-0.8.2 <dev-rust/deflate-0.9.0_alpha
+	>=dev-rust/miniz_oxide-0.4.1 <dev-rust/miniz_oxide-0.5.0_alpha
 "
 RDEPEND="${DEPEND}"
 

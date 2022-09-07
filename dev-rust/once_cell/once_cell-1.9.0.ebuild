@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/atomic-polyfill-0.1*:=
-	=dev-rust/parking_lot-0.11*:=
+	=dev-rust/atomic-polyfill-0.1*
+	=dev-rust/parking_lot-0.11*
 "
 RDEPEND="${DEPEND}"
 

@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/argh_shared-0.1.7 <dev-rust/argh_shared-0.2.0_alpha:=
-	>=dev-rust/heck-0.3.1 <dev-rust/heck-0.4.0_alpha:=
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/quote-1*:=
-	=dev-rust/syn-1*:=
+	>=dev-rust/argh_shared-0.1.7 <dev-rust/argh_shared-0.2.0_alpha
+	>=dev-rust/heck-0.3.1 <dev-rust/heck-0.4.0_alpha
+	=dev-rust/proc-macro2-1*
+	=dev-rust/quote-1*
+	=dev-rust/syn-1*
 "
 RDEPEND="${DEPEND}"
 

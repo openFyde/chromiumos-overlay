@@ -14,7 +14,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/memoffset-0.5.4:= <dev-rust/memoffset-0.6"
+DEPEND=">=dev-rust/memoffset-0.5.4 <dev-rust/memoffset-0.6"
 
 # error: could not compile `intrusive-collections`
 RESTRICT="test"

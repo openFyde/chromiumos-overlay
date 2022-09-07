@@ -26,12 +26,12 @@ KEYWORDS="~*"
 
 DEPEND="
 	dev-rust/data_model:=
-	>=dev-rust/libc-0.2.93:=
-	=dev-rust/remain-0.2*:=
+	>=dev-rust/libc-0.2.93
+	=dev-rust/remain-0.2*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	dev-rust/tempfile:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	dev-rust/tempfile
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 "
 RDEPEND="${DEPEND}"
 

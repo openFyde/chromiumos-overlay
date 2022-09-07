@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/once_cell-1.8.0 <dev-rust/once_cell-2.0.0_alpha:=
-	=dev-rust/regex-1*:=
-	=dev-rust/serde-1*:=
-	>=dev-rust/thiserror-1.0.5 <dev-rust/thiserror-2.0.0_alpha:=
+	>=dev-rust/once_cell-1.8.0 <dev-rust/once_cell-2.0.0_alpha
+	=dev-rust/regex-1*
+	=dev-rust/serde-1*
+	>=dev-rust/thiserror-1.0.5 <dev-rust/thiserror-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

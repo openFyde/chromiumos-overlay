@@ -17,9 +17,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/libc-0.2*:=
-	=dev-rust/cc-1*:=
-	=dev-rust/pkg-config-0.3*:=
+	=dev-rust/libc-0.2*
+	=dev-rust/cc-1*
+	=dev-rust/pkg-config-0.3*
 	virtual/libusb:1
 "
 RDEPEND="${DEPEND}"

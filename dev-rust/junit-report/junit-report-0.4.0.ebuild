@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/chrono-0.4.11:= <dev-rust/chrono-0.5.0
-	=dev-rust/derive-getters-0.1*:=
-	>=dev-rust/thiserror-1.0.19:= <dev-rust/thiserror-2
-	>=dev-rust/xml-rs-0.8.3:= <dev-rust/xml-rs-0.9
+	>=dev-rust/chrono-0.4.11 <dev-rust/chrono-0.5.0
+	=dev-rust/derive-getters-0.1*
+	>=dev-rust/thiserror-1.0.19 <dev-rust/thiserror-2
+	>=dev-rust/xml-rs-0.8.3 <dev-rust/xml-rs-0.9
 "

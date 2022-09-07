@@ -17,8 +17,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/quote-1*:=
-	=dev-rust/syn-1*:=
+	=dev-rust/quote-1*
+	=dev-rust/syn-1*
 "
 RDEPEND="${DEPEND}"
 

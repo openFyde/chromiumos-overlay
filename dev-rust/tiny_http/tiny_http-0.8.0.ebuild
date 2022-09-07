@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/ascii-1*:=
-	=dev-rust/chunked_transfer-1*:=
-	=dev-rust/url-2*:=
-	=dev-rust/chrono-0.4*:=
-	=dev-rust/log-0.4*:=
+	=dev-rust/ascii-1*
+	=dev-rust/chunked_transfer-1*
+	=dev-rust/url-2*
+	=dev-rust/chrono-0.4*
+	=dev-rust/log-0.4*
 "
 RDEPEND="${DEPEND}
 	!~dev-rust/tiny_http-0.7.0

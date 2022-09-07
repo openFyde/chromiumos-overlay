@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/unicode-segmentation-1.2.0 <dev-rust/unicode-segmentation-2.0.0_alpha:=
+	>=dev-rust/unicode-segmentation-1.2.0 <dev-rust/unicode-segmentation-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

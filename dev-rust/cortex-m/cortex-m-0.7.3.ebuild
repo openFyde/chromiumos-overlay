@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bare-metal-0.2*:=
-	>=dev-rust/bitfield-0.13.2:= <dev-rust/bitfield-0.14.0
-	>=dev-rust/embedded-hal-0.2.4:= <dev-rust/embedded-hal-0.3.0
-	=dev-rust/volatile-register-0.2*:=
+	=dev-rust/bare-metal-0.2*
+	>=dev-rust/bitfield-0.13.2 <dev-rust/bitfield-0.14.0
+	>=dev-rust/embedded-hal-0.2.4 <dev-rust/embedded-hal-0.3.0
+	=dev-rust/volatile-register-0.2*
 "
 RDEPEND="${DEPEND}"
 

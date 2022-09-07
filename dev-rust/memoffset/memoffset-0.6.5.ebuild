@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/autocfg-1*:=
+	=dev-rust/autocfg-1*
 "
 RDEPEND="${DEPEND}"
 

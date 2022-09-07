@@ -65,7 +65,7 @@ DEPEND="
 	dev-libs/modp_b64:=
 	dev-libs/tinyxml2:=
 	dev-libs/openssl:=
-	=dev-rust/cc-1*:=
+	=dev-rust/cc-1*
 	net-wireless/bluez
 "
 

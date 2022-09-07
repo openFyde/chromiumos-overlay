@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/cfg-if-0.1.2:= <dev-rust/cfg-if-0.2.0
-	=dev-rust/crossbeam-utils-0.7*:=
-	=dev-rust/maybe-uninit-2*:=
+	>=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0
+	=dev-rust/crossbeam-utils-0.7*
+	=dev-rust/maybe-uninit-2*
 "
 RDEPEND="${DEPEND}"
 

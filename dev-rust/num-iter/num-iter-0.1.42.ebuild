@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0_alpha:=
-	>=dev-rust/num-traits-0.2.11 <dev-rust/num-traits-0.3.0_alpha:=
-	=dev-rust/autocfg-1*:=
+	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0_alpha
+	>=dev-rust/num-traits-0.2.11 <dev-rust/num-traits-0.3.0_alpha
+	=dev-rust/autocfg-1*
 "
 RDEPEND="${DEPEND}"
 

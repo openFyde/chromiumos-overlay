@@ -13,10 +13,10 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/cc-1.0.25:=
-	>=dev-rust/libc-0.2:=
-	>=dev-rust/libssh2-sys-0.2.11:=
-	>=dev-rust/libz-sys-1.0.22:=
-	>=dev-rust/pkg-config-0.3.7:=
-	>=dev-rust/openssl-sys-0.9.47:=
+DEPEND=">=dev-rust/cc-1.0.25
+	>=dev-rust/libc-0.2
+	>=dev-rust/libssh2-sys-0.2.11
+	>=dev-rust/libz-sys-1.0.22
+	>=dev-rust/pkg-config-0.3.7
+	>=dev-rust/openssl-sys-0.9.47
 "

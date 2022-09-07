@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/heck-0.4*:=
-	=dev-rust/proc-macro-error-1*:=
-	>=dev-rust/proc-macro2-1.0.28 <dev-rust/proc-macro2-2.0.0_alpha:=
-	>=dev-rust/quote-1.0.9 <dev-rust/quote-2.0.0_alpha:=
-	>=dev-rust/syn-1.0.74 <dev-rust/syn-2.0.0_alpha:=
+	=dev-rust/heck-0.4*
+	=dev-rust/proc-macro-error-1*
+	>=dev-rust/proc-macro2-1.0.28 <dev-rust/proc-macro2-2.0.0_alpha
+	>=dev-rust/quote-1.0.9 <dev-rust/quote-2.0.0_alpha
+	>=dev-rust/syn-1.0.74 <dev-rust/syn-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -17,13 +17,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/backtrace-0.3.49 <dev-rust/backtrace-0.4.0_alpha:=
-	=dev-rust/cfg-if-1*:=
-	>=dev-rust/instant-0.1.4 <dev-rust/instant-0.2.0_alpha:=
-	>=dev-rust/petgraph-0.5.1 <dev-rust/petgraph-0.6.0_alpha:=
-	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha:=
-	>=dev-rust/thread-id-3.3.0 <dev-rust/thread-id-4.0.0_alpha:=
-	>=dev-rust/libc-0.2.71 <dev-rust/libc-0.3.0_alpha:=
+	>=dev-rust/backtrace-0.3.49 <dev-rust/backtrace-0.4.0_alpha
+	=dev-rust/cfg-if-1*
+	>=dev-rust/instant-0.1.4 <dev-rust/instant-0.2.0_alpha
+	>=dev-rust/petgraph-0.5.1 <dev-rust/petgraph-0.6.0_alpha
+	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha
+	>=dev-rust/thread-id-3.3.0 <dev-rust/thread-id-4.0.0_alpha
+	>=dev-rust/libc-0.2.71 <dev-rust/libc-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

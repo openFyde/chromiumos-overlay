@@ -17,7 +17,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/unicode-xid-0.2.2 <dev-rust/unicode-xid-0.3.0_alpha:=
+	>=dev-rust/unicode-xid-0.2.2 <dev-rust/unicode-xid-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

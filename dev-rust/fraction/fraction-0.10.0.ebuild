@@ -16,14 +16,14 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/byteorder-1*:=
-	=dev-rust/bytes-1*:=
-	=dev-rust/juniper-0.15*:=
-	>=dev-rust/lazy_static-1.1.0 <dev-rust/lazy_static-2.0.0_alpha:=
-	=dev-rust/num-0.2*:=
-	=dev-rust/postgres-types-0.2*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_derive-1*:=
+	=dev-rust/byteorder-1*
+	=dev-rust/bytes-1*
+	=dev-rust/juniper-0.15*
+	>=dev-rust/lazy_static-1.1.0 <dev-rust/lazy_static-2.0.0_alpha
+	=dev-rust/num-0.2*
+	=dev-rust/postgres-types-0.2*
+	=dev-rust/serde-1*
+	=dev-rust/serde_derive-1*
 "
 RDEPEND="${DEPEND}"
 

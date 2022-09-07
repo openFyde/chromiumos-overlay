@@ -10,7 +10,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 DEPEND="
-	=dev-rust/cmake-0.1*:=
+	=dev-rust/cmake-0.1*
 "
 RDEPEND="${DEPEND}"
 post_src_unpack() {

@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/form_urlencoded-1*:=
-	=dev-rust/idna-0.2*:=
-	=dev-rust/matches-0.1*:=
-	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha:=
-	=dev-rust/serde-1*:=
+	=dev-rust/form_urlencoded-1*
+	=dev-rust/idna-0.2*
+	=dev-rust/matches-0.1*
+	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
 

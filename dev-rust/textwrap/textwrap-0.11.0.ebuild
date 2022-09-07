@@ -16,9 +16,9 @@ KEYWORDS="*"
 CROS_RUST_REMOVE_DEV_DEPS=1
 
 DEPEND="
-	=dev-rust/unicode-width-0.1*:=
-	=dev-rust/hyphenation-0.7*:=
-	=dev-rust/term_size-0.3*:=
+	=dev-rust/unicode-width-0.1*
+	=dev-rust/hyphenation-0.7*
+	=dev-rust/term_size-0.3*
 "
 
 # error: could not compile `textwrap`

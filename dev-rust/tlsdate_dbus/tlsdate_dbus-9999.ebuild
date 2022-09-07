@@ -19,7 +19,7 @@ SLOT="0/${PVR}"
 KEYWORDS="~*"
 
 DEPEND="
-	=dev-rust/dbus-0.9*:=
+	=dev-rust/dbus-0.9*
 	dev-rust/chromeos-dbus-bindings:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

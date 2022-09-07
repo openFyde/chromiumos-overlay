@@ -27,7 +27,7 @@ KEYWORDS="~*"
 IUSE="asan test"
 
 DEPEND="
-	>=dev-rust/libc-0.2.44:= <dev-rust/libc-0.3.0
+	>=dev-rust/libc-0.2.44 <dev-rust/libc-0.3.0
 	>=dev-rust/minijail-sys-0.0.13:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

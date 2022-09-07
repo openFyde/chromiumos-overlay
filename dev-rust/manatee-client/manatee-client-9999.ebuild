@@ -23,15 +23,15 @@ IUSE="sirenia"
 DEPEND="
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
-	=dev-rust/anyhow-1*:=
+	=dev-rust/anyhow-1*
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.9*:=
-	=dev-rust/getopts-0.2*:=
+	=dev-rust/dbus-0.9*
+	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*:=
-	=dev-rust/stderrlog-0.5*:=
-	=dev-rust/thiserror-1*:=
-	=dev-rust/which-4*:=
+	=dev-rust/log-0.4*
+	=dev-rust/stderrlog-0.5*
+	=dev-rust/thiserror-1*
+	=dev-rust/which-4*
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus

@@ -19,7 +19,7 @@ DEPEND="
 	~dev-rust/generic-array-0.13.3:0.13.3=
 	~dev-rust/generic-array-0.14.4:0.14.4=
 	~dev-rust/generic-array-0.12.4:0.12.4=
-	>=dev-rust/stable_deref_trait-1.1.1:= <dev-rust/stable_deref_trait-2.0.0
+	>=dev-rust/stable_deref_trait-1.1.1 <dev-rust/stable_deref_trait-2.0.0
 "
 RDEPEND="${DEPEND}"
 

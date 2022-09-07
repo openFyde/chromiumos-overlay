@@ -17,12 +17,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/backtrace-0.3.60 <dev-rust/backtrace-0.4.0_alpha:=
-	=dev-rust/cfg-if-1*:=
-	=dev-rust/petgraph-0.6*:=
-	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha:=
-	=dev-rust/thread-id-4*:=
-	>=dev-rust/libc-0.2.95 <dev-rust/libc-0.3.0_alpha:=
+	>=dev-rust/backtrace-0.3.60 <dev-rust/backtrace-0.4.0_alpha
+	=dev-rust/cfg-if-1*
+	=dev-rust/petgraph-0.6*
+	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha
+	=dev-rust/thread-id-4*
+	>=dev-rust/libc-0.2.95 <dev-rust/libc-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/static_assertions-1.1.0 <dev-rust/static_assertions-2.0.0_alpha:=
+	>=dev-rust/static_assertions-1.1.0 <dev-rust/static_assertions-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

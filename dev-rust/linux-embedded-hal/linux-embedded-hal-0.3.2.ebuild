@@ -16,16 +16,16 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cast-0.3*:=
-	>=dev-rust/embedded-hal-0.2.6 <dev-rust/embedded-hal-0.3.0_alpha:=
-	=dev-rust/gpio-cdev-0.5*:=
-	=dev-rust/i2cdev-0.5*:=
-	>=dev-rust/nb-0.1.3 <dev-rust/nb-0.2.0_alpha:=
-	=dev-rust/serial-core-0.4*:=
-	=dev-rust/serial-unix-0.4*:=
-	=dev-rust/spidev-0.5*:=
-	=dev-rust/sysfs_gpio-0.6*:=
-	=dev-rust/void-1*:=
+	=dev-rust/cast-0.3*
+	>=dev-rust/embedded-hal-0.2.6 <dev-rust/embedded-hal-0.3.0_alpha
+	=dev-rust/gpio-cdev-0.5*
+	=dev-rust/i2cdev-0.5*
+	>=dev-rust/nb-0.1.3 <dev-rust/nb-0.2.0_alpha
+	=dev-rust/serial-core-0.4*
+	=dev-rust/serial-unix-0.4*
+	=dev-rust/spidev-0.5*
+	=dev-rust/sysfs_gpio-0.6*
+	=dev-rust/void-1*
 "
 RDEPEND="${DEPEND}"
 

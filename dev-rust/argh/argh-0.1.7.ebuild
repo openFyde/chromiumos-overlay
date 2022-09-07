@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/argh_derive-0.1.7 <dev-rust/argh_derive-0.2.0_alpha:=
-	>=dev-rust/argh_shared-0.1.7 <dev-rust/argh_shared-0.2.0_alpha:=
+	>=dev-rust/argh_derive-0.1.7 <dev-rust/argh_derive-0.2.0_alpha
+	>=dev-rust/argh_shared-0.1.7 <dev-rust/argh_shared-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -17,14 +17,14 @@ SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="chromeos-base/system_api
-	=dev-rust/base64-0.13*:=
-	=dev-rust/dbus-0.8*:=
-	=dev-rust/getopts-0.2*:=
-	=dev-rust/lazy_static-1*:=
-	>=dev-rust/libc-0.2.44:=
+	=dev-rust/base64-0.13*
+	=dev-rust/dbus-0.8*
+	=dev-rust/getopts-0.2*
+	=dev-rust/lazy_static-1*
+	>=dev-rust/libc-0.2.44
 	!>=dev-rust/libc-0.3
-	>=dev-rust/protobuf-2.16:= <dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.16:= <dev-rust/protoc-rust-3
+	>=dev-rust/protobuf-2.16 <dev-rust/protobuf-3
+	>=dev-rust/protoc-rust-2.16 <dev-rust/protoc-rust-3
 "
 
 RDEPEND="sys-apps/dbus"

@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0_alpha:=
-	=dev-rust/rustc-std-workspace-core-1*:=
-	>=dev-rust/libc-0.2.18 <dev-rust/libc-0.3.0_alpha:=
+	>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0_alpha
+	=dev-rust/rustc-std-workspace-core-1*
+	>=dev-rust/libc-0.2.18 <dev-rust/libc-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

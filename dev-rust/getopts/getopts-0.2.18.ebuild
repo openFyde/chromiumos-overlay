@@ -14,6 +14,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	dev-rust/log:=
-	dev-rust/unicode-width:=
+	dev-rust/log
+	dev-rust/unicode-width
 "

@@ -17,19 +17,19 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/atty-0.2*:=
-	>=dev-rust/bitflags-1.2.0:= <dev-rust/bitflags-2.0.0
-	~dev-rust/clap_derive-3.0.0_beta2:=
-	=dev-rust/indexmap-1*:=
-	=dev-rust/lazy_static-1*:=
-	>=dev-rust/os_str_bytes-2.3.0:= <dev-rust/os_str_bytes-3.0.0
-	=dev-rust/regex-1*:=
-	=dev-rust/strsim-0.10*:=
-	>=dev-rust/terminal_size-0.1.12:= <dev-rust/terminal_size-0.2.0
-	=dev-rust/textwrap-0.12*:=
-	=dev-rust/unicode-width-0.1*:=
-	=dev-rust/vec_map-0.8*:=
-	>=dev-rust/yaml-rust-0.4.1:= <dev-rust/yaml-rust-0.5.0
+	=dev-rust/atty-0.2*
+	>=dev-rust/bitflags-1.2.0 <dev-rust/bitflags-2.0.0
+	~dev-rust/clap_derive-3.0.0_beta2
+	=dev-rust/indexmap-1*
+	=dev-rust/lazy_static-1*
+	>=dev-rust/os_str_bytes-2.3.0 <dev-rust/os_str_bytes-3.0.0
+	=dev-rust/regex-1*
+	=dev-rust/strsim-0.10*
+	>=dev-rust/terminal_size-0.1.12 <dev-rust/terminal_size-0.2.0
+	=dev-rust/textwrap-0.12*
+	=dev-rust/unicode-width-0.1*
+	=dev-rust/vec_map-0.8*
+	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0
 "
 RDEPEND="${DEPEND}"
 
@@ -43,7 +43,7 @@ S="${WORKDIR}/${PN}-${CROS_RUST_CRATE_VERSION}"
 IUSE="test"
 TEST_DEPS="
 	test? (
-		~dev-rust/criterion-0.3.2:=
+		~dev-rust/criterion-0.3.2
 		=dev-rust/version-sync-0.8*:=
 	)
 "

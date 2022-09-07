@@ -21,6 +21,6 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/serde-1*:=
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"

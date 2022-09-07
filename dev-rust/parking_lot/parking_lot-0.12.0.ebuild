@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/lock_api-0.4.6 <dev-rust/lock_api-0.5.0_alpha:=
-	=dev-rust/parking_lot_core-0.9*:=
+	>=dev-rust/lock_api-0.4.6 <dev-rust/lock_api-0.5.0_alpha
+	=dev-rust/parking_lot_core-0.9*
 "
 RDEPEND="${DEPEND}"
 

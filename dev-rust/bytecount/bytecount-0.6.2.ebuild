@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/packed_simd_2-0.3.4 <dev-rust/packed_simd_2-0.4.0_alpha:=
+	>=dev-rust/packed_simd_2-0.3.4 <dev-rust/packed_simd_2-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

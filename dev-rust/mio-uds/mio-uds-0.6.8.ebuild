@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/iovec-0.1*:=
-	>=dev-rust/libc-0.2.69:= <dev-rust/libc-0.3.0
-	>=dev-rust/mio-0.6.5:= <dev-rust/mio-0.7.0
+	=dev-rust/iovec-0.1*
+	>=dev-rust/libc-0.2.69 <dev-rust/libc-0.3.0
+	>=dev-rust/mio-0.6.5 <dev-rust/mio-0.7.0
 "
 RDEPEND="${DEPEND}"
 

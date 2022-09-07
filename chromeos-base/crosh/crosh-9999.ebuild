@@ -23,21 +23,21 @@ COMMON_DEPEND="
 "
 
 DEPEND="${COMMON_DEPEND}
-	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0_alpha:=
-	=dev-rust/chrono-0.4*:=
-	=dev-rust/dbus-0.9*:=
-	=dev-rust/getopts-0.2*:=
+	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0_alpha
+	=dev-rust/chrono-0.4*
+	=dev-rust/dbus-0.9*
+	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
-	=dev-rust/rand-0.7*:=
-	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha:=
-	dev-rust/remain:=
-	=dev-rust/rustyline-9*:=
-	dev-rust/shell-words:=
+	=dev-rust/rand-0.7*
+	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha
+	dev-rust/remain
+	=dev-rust/rustyline-9*
+	dev-rust/shell-words
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
-	dev-rust/tempfile:=
+	dev-rust/tempfile
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
-	=dev-rust/textwrap-0.11*:=
+	=dev-rust/textwrap-0.11*
 "
 RDEPEND="${COMMON_DEPEND}
 	app-admin/sudo

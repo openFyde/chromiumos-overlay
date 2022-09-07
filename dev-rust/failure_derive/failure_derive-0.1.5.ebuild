@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/proc-macro2-0.4*:=
-	=dev-rust/quote-0.6*:=
-	=dev-rust/syn-0.15*:=
-	=dev-rust/synstructure-0.10*:=
+	=dev-rust/proc-macro2-0.4*
+	=dev-rust/quote-0.6*
+	=dev-rust/syn-0.15*
+	=dev-rust/synstructure-0.10*
 "

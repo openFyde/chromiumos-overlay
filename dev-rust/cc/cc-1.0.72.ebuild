@@ -18,7 +18,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/jobserver-0.1.16 <dev-rust/jobserver-0.2.0_alpha:=
+	>=dev-rust/jobserver-0.1.16 <dev-rust/jobserver-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/matches-0.1*:=
-	=dev-rust/unicode-bidi-0.3*:=
-	>=dev-rust/unicode-normalization-0.1.17 <dev-rust/unicode-normalization-0.2.0_alpha:=
+	=dev-rust/matches-0.1*
+	=dev-rust/unicode-bidi-0.3*
+	>=dev-rust/unicode-normalization-0.1.17 <dev-rust/unicode-normalization-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

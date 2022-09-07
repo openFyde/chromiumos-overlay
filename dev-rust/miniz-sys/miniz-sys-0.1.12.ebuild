@@ -14,6 +14,6 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/libc-0.2:= <dev-rust/libc-0.3
-	>=dev-rust/cc-1.0:= <dev-rust/cc-2
+	>=dev-rust/libc-0.2 <dev-rust/libc-0.3
+	>=dev-rust/cc-1.0 <dev-rust/cc-2
 "

@@ -22,12 +22,12 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
-	>=dev-rust/clap-3.1.12:= <dev-rust/clap-4.0
-	=dev-rust/dbus-0.9*:=
-	dev-rust/hound:=
+	>=dev-rust/clap-3.1.12 <dev-rust/clap-4.0
+	=dev-rust/dbus-0.9*
+	dev-rust/hound
 	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "

@@ -19,13 +19,13 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND="
-	dev-rust/cc:=
-	dev-rust/getopts:=
+	dev-rust/cc
+	dev-rust/getopts
 	dev-rust/sys_util:=
-	dev-rust/serde_json:=
-	dev-rust/serde_yaml:=
-	dev-rust/thiserror:=
-	dev-rust/remain:=
+	dev-rust/serde_json
+	dev-rust/serde_yaml
+	dev-rust/thiserror
+	dev-rust/remain
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
 	media-sound/libcras:=

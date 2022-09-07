@@ -18,6 +18,6 @@ KEYWORDS="*"
 # dev-rust/dbus needs to be 0.9.3 or newer, but a wildcard constraint is used to
 # avoid a 0.6 version being pulled in to the slot.
 DEPEND="
-	=dev-rust/dbus-0.9*:=
+	=dev-rust/dbus-0.9*
 "
 RDEPEND="${DEPEND}"

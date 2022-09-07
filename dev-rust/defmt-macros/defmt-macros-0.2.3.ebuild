@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	~dev-rust/defmt-parser-0.2.2:=
-	>=dev-rust/proc-macro2-1.0.27:= <dev-rust/proc-macro2-2.0.0
-	>=dev-rust/quote-1.0.9:= <dev-rust/quote-2.0.0
-	=dev-rust/syn-1*:=
+	~dev-rust/defmt-parser-0.2.2
+	>=dev-rust/proc-macro2-1.0.27 <dev-rust/proc-macro2-2.0.0
+	>=dev-rust/quote-1.0.9 <dev-rust/quote-2.0.0
+	=dev-rust/syn-1*
 "
 RDEPEND="${DEPEND}"
 

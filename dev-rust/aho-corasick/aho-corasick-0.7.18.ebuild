@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/memchr-2.4.0:= <dev-rust/memchr-3.0.0
+	>=dev-rust/memchr-2.4.0 <dev-rust/memchr-3.0.0
 "
 RDEPEND="${DEPEND}"
 

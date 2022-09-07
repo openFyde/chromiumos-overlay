@@ -13,7 +13,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/cfg-if-0.1.0:=
-	>=dev-rust/libc-0.2.1:=
-	>=dev-rust/tempdir-0.3.0:=
+DEPEND=">=dev-rust/cfg-if-0.1.0
+	>=dev-rust/libc-0.2.1
+	>=dev-rust/tempdir-0.3.0
 "

@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bytemuck_derive-1*:=
+	=dev-rust/bytemuck_derive-1*
 "
 RDEPEND="${DEPEND}"
 

@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/derivative-2*:=
-	>=dev-rust/num_enum_derive-0.5.1:= <dev-rust/num_enum_derive-0.6.0
+	=dev-rust/derivative-2*
+	>=dev-rust/num_enum_derive-0.5.1 <dev-rust/num_enum_derive-0.6.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

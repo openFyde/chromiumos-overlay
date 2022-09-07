@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/hyphenation-0.8.4 <dev-rust/hyphenation-0.9.0_alpha:=
-	>=dev-rust/smawk-0.3.1 <dev-rust/smawk-0.4.0_alpha:=
-	>=dev-rust/terminal_size-0.1.17 <dev-rust/terminal_size-0.2.0_alpha:=
-	>=dev-rust/unicode-linebreak-0.1.2 <dev-rust/unicode-linebreak-0.2.0_alpha:=
-	>=dev-rust/unicode-width-0.1.9 <dev-rust/unicode-width-0.2.0_alpha:=
+	>=dev-rust/hyphenation-0.8.4 <dev-rust/hyphenation-0.9.0_alpha
+	>=dev-rust/smawk-0.3.1 <dev-rust/smawk-0.4.0_alpha
+	>=dev-rust/terminal_size-0.1.17 <dev-rust/terminal_size-0.2.0_alpha
+	>=dev-rust/unicode-linebreak-0.1.2 <dev-rust/unicode-linebreak-0.2.0_alpha
+	>=dev-rust/unicode-width-0.1.9 <dev-rust/unicode-width-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

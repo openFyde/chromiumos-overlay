@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/proc-macro-hack-0.5.11:= <dev-rust/proc-macro-hack-0.6.0
-	=dev-rust/ufmt-macros-0.1*:=
-	=dev-rust/ufmt-write-0.1*:=
+	>=dev-rust/proc-macro-hack-0.5.11 <dev-rust/proc-macro-hack-0.6.0
+	=dev-rust/ufmt-macros-0.1*
+	=dev-rust/ufmt-write-0.1*
 "
 RDEPEND="${DEPEND}"
 

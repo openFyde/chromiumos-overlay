@@ -39,37 +39,37 @@ RDEPEND="${COMMON_DEPEND}
 
 # Deps for third party crates
 dlib_DEPEND="
-	=dev-rust/libloading-0.7*:=
+	=dev-rust/libloading-0.7*
 "
 
 wayland_scanner_DEPEND="
-	>=dev-rust/proc-macro2-1.0.11 <dev-rust/proc-macro2-2.0.0_alpha:=
-	=dev-rust/quote-1*:=
-	>=dev-rust/xml-rs-0.7.0 <dev-rust/xml-rs-0.9.0_alpha:=
+	>=dev-rust/proc-macro2-1.0.11 <dev-rust/proc-macro2-2.0.0_alpha
+	=dev-rust/quote-1*
+	>=dev-rust/xml-rs-0.7.0 <dev-rust/xml-rs-0.9.0_alpha
 "
 
 wayland_commons_DEPEND="
-	=dev-rust/nix-0.23*:=
-	>=dev-rust/once_cell-1.1.0 <dev-rust/once_cell-2.0.0_alpha:=
-	=dev-rust/smallvec-1*:=
+	=dev-rust/nix-0.23*
+	>=dev-rust/once_cell-1.1.0 <dev-rust/once_cell-2.0.0_alpha
+	=dev-rust/smallvec-1*
 "
 
 wayland_sys_DEPEND="
 	${dlib_DEPEND}
-	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha:=
-	=dev-rust/libc-0.2*:=
-	>=dev-rust/memoffset-0.6.4 <dev-rust/memoffset-0.7.0_alpha:=
-	>=dev-rust/pkg-config-0.3.7 <dev-rust/pkg-config-0.4.0_alpha:=
+	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
+	=dev-rust/libc-0.2*
+	>=dev-rust/memoffset-0.6.4 <dev-rust/memoffset-0.7.0_alpha
+	>=dev-rust/pkg-config-0.3.7 <dev-rust/pkg-config-0.4.0_alpha
 "
 
 wayland_server_DEPEND="
-	=dev-rust/bitflags-1*:=
-	>=dev-rust/downcast-rs-1.0.4 <dev-rust/downcast-rs-2.0.0_alpha:=
-	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/nix-0.23*:=
-	=dev-rust/parking_lot-0.11*:=
-	=dev-rust/scoped-tls-1*:=
+	=dev-rust/bitflags-1*
+	>=dev-rust/downcast-rs-1.0.4 <dev-rust/downcast-rs-2.0.0_alpha
+	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
+	=dev-rust/libc-0.2*
+	=dev-rust/nix-0.23*
+	=dev-rust/parking_lot-0.11*
+	=dev-rust/scoped-tls-1*
 "
 
 DEPEND="${COMMON_DEPEND}
@@ -79,15 +79,15 @@ DEPEND="${COMMON_DEPEND}
 	${wayland_server_DEPEND}
 
 	dev-libs/wayland-protocols:=
-	>=dev-rust/env_logger-0.8.3 <dev-rust/env_logger-0.9.0_alpha:=
-	>=dev-rust/nix-0.23.0 <dev-rust/nix-0.24.0_alpha:=
-	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha:=
-	dev-rust/cbindgen:=
+	>=dev-rust/env_logger-0.8.3 <dev-rust/env_logger-0.9.0_alpha
+	>=dev-rust/nix-0.23.0 <dev-rust/nix-0.24.0_alpha
+	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha
+	dev-rust/cbindgen
 	x11-drivers/opengles-headers:=
-	~dev-rust/cfg-if-1.0.0:=
-	~dev-rust/jobserver-0.1.16:=
-	=dev-rust/tokio-1*:=
-	=dev-rust/tokio-macros-1*:=
+	~dev-rust/cfg-if-1.0.0
+	~dev-rust/jobserver-0.1.16
+	=dev-rust/tokio-1*
+	=dev-rust/tokio-macros-1*
 "
 
 BDEPEND="

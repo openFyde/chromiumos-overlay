@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/either-1.6.0:= <dev-rust/either-2.0.0
-	=dev-rust/lazy_static-1*:=
-	>=dev-rust/libc-0.2.65:= <dev-rust/libc-0.3
-	>=dev-rust/regex-1.5.4:= <dev-rust/regex-2.0.0
+	>=dev-rust/either-1.6.0 <dev-rust/either-2.0.0
+	=dev-rust/lazy_static-1*
+	>=dev-rust/libc-0.2.65 <dev-rust/libc-0.3
+	>=dev-rust/regex-1.5.4 <dev-rust/regex-2.0.0
 "
 RDEPEND="${DEPEND}"
 

@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/memchr-2.3.0 <dev-rust/memchr-3.0.0_alpha:=
-	=dev-rust/minimal-lexical-0.2*:=
-	=dev-rust/version_check-0.9*:=
+	>=dev-rust/memchr-2.3.0 <dev-rust/memchr-3.0.0_alpha
+	=dev-rust/minimal-lexical-0.2*
+	=dev-rust/version_check-0.9*
 "
 RDEPEND="${DEPEND}"
 

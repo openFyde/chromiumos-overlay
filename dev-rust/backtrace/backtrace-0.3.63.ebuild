@@ -16,17 +16,17 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/addr2line-0.17*:=
-	=dev-rust/cfg-if-1*:=
-	=dev-rust/cpp_demangle-0.3*:=
-	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha:=
-	=dev-rust/miniz_oxide-0.4*:=
-	=dev-rust/object-0.27*:=
-	>=dev-rust/rustc-demangle-0.1.4 <dev-rust/rustc-demangle-0.2.0_alpha:=
-	=dev-rust/rustc-serialize-0.3*:=
-	=dev-rust/serde-1*:=
-	>=dev-rust/cc-1.0.67 <dev-rust/cc-2.0.0_alpha:=
-	>=dev-rust/winapi-0.3.9:=
+	=dev-rust/addr2line-0.17*
+	=dev-rust/cfg-if-1*
+	=dev-rust/cpp_demangle-0.3*
+	>=dev-rust/libc-0.2.94 <dev-rust/libc-0.3.0_alpha
+	=dev-rust/miniz_oxide-0.4*
+	=dev-rust/object-0.27*
+	>=dev-rust/rustc-demangle-0.1.4 <dev-rust/rustc-demangle-0.2.0_alpha
+	=dev-rust/rustc-serialize-0.3*
+	=dev-rust/serde-1*
+	>=dev-rust/cc-1.0.67 <dev-rust/cc-2.0.0_alpha
+	>=dev-rust/winapi-0.3.9
 "
 RDEPEND="${DEPEND}"
 

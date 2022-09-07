@@ -14,7 +14,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/unicode-xid-0.1:=
+	>=dev-rust/unicode-xid-0.1
 "
 
 # ---- test_debug_tokenstream stdout ----

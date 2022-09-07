@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/glob-0.3*:=
-	~dev-rust/include_dir_impl-0.6.1:=
-	=dev-rust/proc-macro-hack-0.5*:=
+	=dev-rust/glob-0.3*
+	~dev-rust/include_dir_impl-0.6.1
+	=dev-rust/proc-macro-hack-0.5*
 "
 RDEPEND="${DEPEND}"
 
@@ -26,7 +26,7 @@ RDEPEND="${DEPEND}"
 
 CROS_RUST_REMOVE_DEV_DEPS=0
 TEST_DEPS="
-	=dev-rust/tempdir-0.3*:=
+	=dev-rust/tempdir-0.3*
 "
 DEPEND+="${TEST_DEPS}"
 RDEPEND+="${TEST_DEPS}"

@@ -27,22 +27,22 @@ SLOT="0"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/capnp-0.14*:=
-	~dev-rust/clap-3.0.0_beta2:=
-	~dev-rust/clap_derive-3.0.0_beta2:=
-	=dev-rust/flate2-1*:=
-	=dev-rust/include_dir-0.6*:=
-	>=dev-rust/itertools-0.8.2:= <dev-rust/itertools-0.9.0
-	>=dev-rust/lazy_static-1.4.0:= <dev-rust/lazy_static-2.0.0
-	>=dev-rust/log-0.4.11:= <dev-rust/log-0.5.0
-	=dev-rust/multimap-0.8*:=
-	=dev-rust/num-bigint-0.4*:=
-	>=dev-rust/pulldown-cmark-0.6.1:= <dev-rust/pulldown-cmark-0.7.0
-	=dev-rust/regex-1*:=
-	>=dev-rust/ron-0.5.1:= <dev-rust/ron-0.6.0
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_json-1*:=
-	=dev-rust/capnpc-0.14*:=
+	=dev-rust/capnp-0.14*
+	~dev-rust/clap-3.0.0_beta2
+	~dev-rust/clap_derive-3.0.0_beta2
+	=dev-rust/flate2-1*
+	=dev-rust/include_dir-0.6*
+	>=dev-rust/itertools-0.8.2 <dev-rust/itertools-0.9.0
+	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0
+	>=dev-rust/log-0.4.11 <dev-rust/log-0.5.0
+	=dev-rust/multimap-0.8*
+	=dev-rust/num-bigint-0.4*
+	>=dev-rust/pulldown-cmark-0.6.1 <dev-rust/pulldown-cmark-0.7.0
+	=dev-rust/regex-1*
+	>=dev-rust/ron-0.5.1 <dev-rust/ron-0.6.0
+	=dev-rust/serde-1*
+	=dev-rust/serde_json-1*
+	=dev-rust/capnpc-0.14*
 "
 RDEPEND="
 	${DEPEND}

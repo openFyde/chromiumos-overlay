@@ -18,9 +18,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/nix-0.23*:=
+	>=dev-rust/bitflags-1.3.0 <dev-rust/bitflags-2.0.0_alpha
+	=dev-rust/libc-0.2*
+	=dev-rust/nix-0.23*
 "
 RDEPEND="${DEPEND}"
 

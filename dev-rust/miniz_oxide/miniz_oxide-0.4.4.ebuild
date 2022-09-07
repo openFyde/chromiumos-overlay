@@ -14,5 +14,5 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/adler-1.0:= <dev-rust/adler-2
+	>=dev-rust/adler-1.0 <dev-rust/adler-2
 "

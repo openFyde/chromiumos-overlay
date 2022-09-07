@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/ftdi-mpsse-0.1*:=
-	>=dev-rust/libftdi1-sys-1.1.0 <dev-rust/libftdi1-sys-2.0.0_alpha:=
-	>=dev-rust/thiserror-1.0.15 <dev-rust/thiserror-2.0.0_alpha:=
+	=dev-rust/ftdi-mpsse-0.1*
+	>=dev-rust/libftdi1-sys-1.1.0 <dev-rust/libftdi1-sys-2.0.0_alpha
+	>=dev-rust/thiserror-1.0.15 <dev-rust/thiserror-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

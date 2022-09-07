@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/endian-type-0.1.2 <dev-rust/endian-type-0.2.0_alpha:=
-	=dev-rust/nibble_vec-0.1*:=
-	=dev-rust/serde-1*:=
+	>=dev-rust/endian-type-0.1.2 <dev-rust/endian-type-0.2.0_alpha
+	=dev-rust/nibble_vec-0.1*
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
 

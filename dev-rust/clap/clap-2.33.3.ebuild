@@ -16,16 +16,16 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/atty-0.2.2:= <dev-rust/atty-0.3.0
-	=dev-rust/bitflags-1*:=
-	~dev-rust/clippy-0.0.166:=
-	=dev-rust/strsim-0.8*:=
-	=dev-rust/term_size-0.3*:=
-	=dev-rust/textwrap-0.11*:=
-	>=dev-rust/unicode-width-0.1.4:= <dev-rust/unicode-width-0.2.0
-	=dev-rust/vec_map-0.8*:=
-	=dev-rust/yaml-rust-0.3*:=
-	=dev-rust/ansi_term-0.11*:=
+	>=dev-rust/atty-0.2.2 <dev-rust/atty-0.3.0
+	=dev-rust/bitflags-1*
+	~dev-rust/clippy-0.0.166
+	=dev-rust/strsim-0.8*
+	=dev-rust/term_size-0.3*
+	=dev-rust/textwrap-0.11*
+	>=dev-rust/unicode-width-0.1.4 <dev-rust/unicode-width-0.2.0
+	=dev-rust/vec_map-0.8*
+	=dev-rust/yaml-rust-0.3*
+	=dev-rust/ansi_term-0.11*
 "
 RDEPEND="${DEPEND}"
 

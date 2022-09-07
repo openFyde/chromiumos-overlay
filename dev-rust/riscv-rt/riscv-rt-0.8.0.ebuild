@@ -14,11 +14,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/panic-halt-0.2*:=
-	=dev-rust/r0-1*:=
-	=dev-rust/riscv-0.7*:=
-	>=dev-rust/riscv-rt-macros-0.1.6 <dev-rust/riscv-rt-macros-0.2.0_alpha:=
-	>=dev-rust/riscv-target-0.1.2 <dev-rust/riscv-target-0.2.0_alpha:=
+	=dev-rust/panic-halt-0.2*
+	=dev-rust/r0-1*
+	=dev-rust/riscv-0.7*
+	>=dev-rust/riscv-rt-macros-0.1.6 <dev-rust/riscv-rt-macros-0.2.0_alpha
+	>=dev-rust/riscv-target-0.1.2 <dev-rust/riscv-target-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

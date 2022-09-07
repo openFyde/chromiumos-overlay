@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/ioctl-rs-0.1.5 <dev-rust/ioctl-rs-0.2.0_alpha:=
-	>=dev-rust/libc-0.2.1 <dev-rust/libc-0.3.0_alpha:=
-	=dev-rust/serial-core-0.4*:=
-	>=dev-rust/termios-0.2.2 <dev-rust/termios-0.3.0_alpha:=
+	>=dev-rust/ioctl-rs-0.1.5 <dev-rust/ioctl-rs-0.2.0_alpha
+	>=dev-rust/libc-0.2.1 <dev-rust/libc-0.3.0_alpha
+	=dev-rust/serial-core-0.4*
+	>=dev-rust/termios-0.2.2 <dev-rust/termios-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

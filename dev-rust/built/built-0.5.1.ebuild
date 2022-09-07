@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cargo-lock-7*:=
-	=dev-rust/chrono-0.4*:=
-	=dev-rust/git2-0.13*:=
-	=dev-rust/semver-1*:=
+	=dev-rust/cargo-lock-7*
+	=dev-rust/chrono-0.4*
+	=dev-rust/git2-0.13*
+	=dev-rust/semver-1*
 "
 RDEPEND="${DEPEND}"
 

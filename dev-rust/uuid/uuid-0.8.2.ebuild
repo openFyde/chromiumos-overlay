@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/getrandom-0.2*:=
-	=dev-rust/md5-0.7*:=
-	>=dev-rust/serde-1.0.56:= <dev-rust/serde-2.0.0
-	=dev-rust/sha1-0.6*:=
-	=dev-rust/slog-2*:=
+	=dev-rust/getrandom-0.2*
+	=dev-rust/md5-0.7*
+	>=dev-rust/serde-1.0.56 <dev-rust/serde-2.0.0
+	=dev-rust/sha1-0.6*
+	=dev-rust/slog-2*
 "
 RDEPEND="${DEPEND}"
 

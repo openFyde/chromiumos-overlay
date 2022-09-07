@@ -16,14 +16,14 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bytes-1*:=
-	=dev-rust/futures-0.3*:=
-	=dev-rust/grpcio-sys-0.9*:=
-	=dev-rust/libc-0.2*:=
-	=dev-rust/log-0.4*:=
-	=dev-rust/parking_lot-0.11*:=
-	=dev-rust/prost-0.7*:=
-	=dev-rust/protobuf-2*:=
+	=dev-rust/bytes-1*
+	=dev-rust/futures-0.3*
+	=dev-rust/grpcio-sys-0.9*
+	=dev-rust/libc-0.2*
+	=dev-rust/log-0.4*
+	=dev-rust/parking_lot-0.11*
+	=dev-rust/prost-0.7*
+	=dev-rust/protobuf-2*
 "
 RDEPEND="${DEPEND}"
 

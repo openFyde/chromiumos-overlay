@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/proc-macro2-1*:=
-	=dev-rust/quote-1*:=
-	>=dev-rust/syn-1.0.3:= <dev-rust/syn-2
+	=dev-rust/proc-macro2-1*
+	=dev-rust/quote-1*
+	>=dev-rust/syn-1.0.3 <dev-rust/syn-2
 "
 src_unpack() {
 	cros-rust_src_unpack

@@ -16,11 +16,11 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/proc-macro2-1*:=
-	~dev-rust/proc-macro-error-attr-1.0.4:=
-	=dev-rust/quote-1*:=
-	=dev-rust/syn-1*:=
-	=dev-rust/version_check-0.9*:=
+	=dev-rust/proc-macro2-1*
+	~dev-rust/proc-macro-error-attr-1.0.4
+	=dev-rust/quote-1*
+	=dev-rust/syn-1*
+	=dev-rust/version_check-0.9*
 "
 
 # compile failed

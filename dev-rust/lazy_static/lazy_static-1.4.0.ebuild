@@ -16,7 +16,7 @@ KEYWORDS="*"
 CROS_RUST_REMOVE_DEV_DEPS=1
 
 DEPEND="
-	=dev-rust/spin-0.5*:=
+	=dev-rust/spin-0.5*
 "
 RDEPEND="${DEPEND}"
 

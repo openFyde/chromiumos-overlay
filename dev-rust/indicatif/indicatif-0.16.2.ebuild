@@ -16,13 +16,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/console-0.9.1 <dev-rust/console-1.0.0_alpha:=
-	=dev-rust/lazy_static-1*:=
-	=dev-rust/number_prefix-0.4*:=
-	=dev-rust/rayon-1*:=
-	>=dev-rust/regex-1.3.1 <dev-rust/regex-2.0.0_alpha:=
-	>=dev-rust/unicode-segmentation-1.6.0 <dev-rust/unicode-segmentation-2.0.0_alpha:=
-	>=dev-rust/unicode-width-0.1.7 <dev-rust/unicode-width-0.2.0_alpha:=
+	>=dev-rust/console-0.9.1 <dev-rust/console-1.0.0_alpha
+	=dev-rust/lazy_static-1*
+	=dev-rust/number_prefix-0.4*
+	=dev-rust/rayon-1*
+	>=dev-rust/regex-1.3.1 <dev-rust/regex-2.0.0_alpha
+	>=dev-rust/unicode-segmentation-1.6.0 <dev-rust/unicode-segmentation-2.0.0_alpha
+	>=dev-rust/unicode-width-0.1.7 <dev-rust/unicode-width-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

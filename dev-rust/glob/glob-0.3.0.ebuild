@@ -15,7 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="=dev-rust/nom-5*:="
+DEPEND="=dev-rust/nom-5*"
 
 # error: could not compile `glob`
 RESTRICT="test"

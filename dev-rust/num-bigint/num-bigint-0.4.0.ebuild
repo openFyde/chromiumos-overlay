@@ -16,13 +16,13 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/arbitrary-1*:=
-	>=dev-rust/num-integer-0.1.42:= <dev-rust/num-integer-0.2.0
-	>=dev-rust/num-traits-0.2.11:= <dev-rust/num-traits-0.3.0
-	=dev-rust/quickcheck-1*:=
-	=dev-rust/rand-0.8*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/autocfg-1*:=
+	=dev-rust/arbitrary-1*
+	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0
+	>=dev-rust/num-traits-0.2.11 <dev-rust/num-traits-0.3.0
+	=dev-rust/quickcheck-1*
+	=dev-rust/rand-0.8*
+	=dev-rust/serde-1*
+	=dev-rust/autocfg-1*
 "
 RDEPEND="${DEPEND}"
 

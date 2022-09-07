@@ -21,10 +21,10 @@ KEYWORDS="~*"
 IUSE="dlc test"
 
 DEPEND="
-	>=dev-rust/anyhow-1.0.55:= <dev-rust/anyhow-2.0.0
-	=dev-rust/dbus-0.9*:=
-	dev-rust/libc:=
-	>=dev-rust/protobuf-2.16.2:= <dev-rust/protobuf-3
+	>=dev-rust/anyhow-1.0.55 <dev-rust/anyhow-2.0.0
+	=dev-rust/dbus-0.9*
+	dev-rust/libc
+	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	dev-rust/system_api:=
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0
 "

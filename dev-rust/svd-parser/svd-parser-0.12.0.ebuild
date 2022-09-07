@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/anyhow-1.0.45 <dev-rust/anyhow-2.0.0_alpha:=
-	>=dev-rust/roxmltree-0.14.1 <dev-rust/roxmltree-0.15.0_alpha:=
-	=dev-rust/svd-rs-0.12*:=
-	>=dev-rust/thiserror-1.0.30 <dev-rust/thiserror-2.0.0_alpha:=
+	>=dev-rust/anyhow-1.0.45 <dev-rust/anyhow-2.0.0_alpha
+	>=dev-rust/roxmltree-0.14.1 <dev-rust/roxmltree-0.15.0_alpha
+	=dev-rust/svd-rs-0.12*
+	>=dev-rust/thiserror-1.0.30 <dev-rust/thiserror-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

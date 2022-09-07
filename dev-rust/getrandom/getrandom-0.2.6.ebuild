@@ -17,12 +17,12 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cfg-if-1*:=
-	=dev-rust/compiler_builtins-0.1*:=
-	=dev-rust/rustc-std-workspace-core-1*:=
-	>=dev-rust/libc-0.2.120 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/wasi-0.10.0:=
-	>=dev-rust/wasm-bindgen-0.2.62:= <dev-rust/wasm-bindgen-0.3.0
+	=dev-rust/cfg-if-1*
+	=dev-rust/compiler_builtins-0.1*
+	=dev-rust/rustc-std-workspace-core-1*
+	>=dev-rust/libc-0.2.120 <dev-rust/libc-0.3.0_alpha
+	>=dev-rust/wasi-0.10.0
+	>=dev-rust/wasm-bindgen-0.2.62 <dev-rust/wasm-bindgen-0.3.0
 "
 RDEPEND="${DEPEND}"
 

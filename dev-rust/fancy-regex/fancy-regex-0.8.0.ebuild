@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/bit-set-0.5*:=
-	>=dev-rust/regex-1.3.8 <dev-rust/regex-2.0.0_alpha:=
+	=dev-rust/bit-set-0.5*
+	>=dev-rust/regex-1.3.8 <dev-rust/regex-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

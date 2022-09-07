@@ -43,78 +43,78 @@ RDEPEND="${COMMON_DEPEND}
 
 DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
-	=dev-rust/android_log-sys-0.2*:=
-	>=dev-rust/anyhow-1.0.32:= <dev-rust/anyhow-2.0
-	>=dev-rust/argh-0.1.7:= <dev-rust/argh-0.2.0
-	=dev-rust/async-task-4*:=
-	=dev-rust/async-trait-0.1*:=
-	=dev-rust/bitflags-1*:=
-	>=dev-rust/bytes-1.1.0:= <dev-rust/bytes-2.0.0
-	dev-rust/cbindgen:=
-	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha:=
-	=dev-rust/cfg-if-1*:=
-	dev-rust/chrono:=
-	>=dev-rust/crc32fast-1.2.1:= <dev-rust/crc32fast-2
+	=dev-rust/android_log-sys-0.2*
+	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
+	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
+	=dev-rust/async-task-4*
+	=dev-rust/async-trait-0.1*
+	=dev-rust/bitflags-1*
+	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
+	dev-rust/cbindgen
+	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha
+	=dev-rust/cfg-if-1*
+	dev-rust/chrono
+	>=dev-rust/crc32fast-1.2.1 <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
-	=dev-rust/crossbeam-utils-0.8*:=
-	=dev-rust/ctrlc-3.2*:=
-	=dev-rust/dbus-0.8*:=
-	>=dev-rust/downcast-rs-1.2.0:= <dev-rust/downcast-rs-2.0
-	=dev-rust/enumn-0.1*:=
-	=dev-rust/env_logger-0.9*:=
-	=dev-rust/futures-0.3*:=
-	=dev-rust/fnv-1*:=
-	>=dev-rust/gdbstub-0.6.1:= <dev-rust/gdbstub-0.7
-	>=dev-rust/gdbstub_arch-0.2.2:= <dev-rust/gdbstub_arch-0.3
-	~dev-rust/getopts-0.2.18:=
-	dev-rust/intrusive-collections:=
-	>=dev-rust/libc-0.2.93:= <dev-rust/libc-0.3.0
-	dev-rust/libslirp-sys:=
-	>=dev-rust/libudev-0.2.0:= <dev-rust/libudev-0.3.0
-	>=dev-rust/memoffset-0.6:= <dev-rust/memoffset-1
+	=dev-rust/crossbeam-utils-0.8*
+	=dev-rust/ctrlc-3.2*
+	=dev-rust/dbus-0.8*
+	>=dev-rust/downcast-rs-1.2.0 <dev-rust/downcast-rs-2.0
+	=dev-rust/enumn-0.1*
+	=dev-rust/env_logger-0.9*
+	=dev-rust/futures-0.3*
+	=dev-rust/fnv-1*
+	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
+	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
+	~dev-rust/getopts-0.2.18
+	dev-rust/intrusive-collections
+	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3.0
+	dev-rust/libslirp-sys
+	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
+	>=dev-rust/memoffset-0.6 <dev-rust/memoffset-1
 	dev-rust/minijail:=
-	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha:=
-	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha:=
-	~dev-rust/num_cpus-1.9.0:=
-	=dev-rust/num-traits-0.2*:=
-	>=dev-rust/once_cell-1.7.2:= <dev-rust/once_cell-2
+	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
+	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
+	~dev-rust/num_cpus-1.9.0
+	=dev-rust/num-traits-0.2*
+	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
-	=dev-rust/paste-1*:=
-	dev-rust/pcap-file:=
-	=dev-rust/pin-utils-0.1*:=
-	~dev-rust/pkg-config-0.3.11:=
-	=dev-rust/proc-macro2-1*:=
-	>=dev-rust/protobuf-2.8:=
+	=dev-rust/paste-1*
+	dev-rust/pcap-file
+	=dev-rust/pin-utils-0.1*
+	~dev-rust/pkg-config-0.3.11
+	=dev-rust/proc-macro2-1*
+	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.8:=
+	>=dev-rust/protoc-rust-2.8
 	!>=dev-rust/protoc-rust-3
-	=dev-rust/quote-1*:=
-	=dev-rust/rand-0.8*:=
-	dev-rust/regex:=
-	dev-rust/remain:=
-	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha:=
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_json-1*:=
-	>=dev-rust/smallvec-1.6.1:= <dev-rust/smallvec-2
-	=dev-rust/syn-1*:=
+	=dev-rust/quote-1*
+	=dev-rust/rand-0.8*
+	dev-rust/regex
+	dev-rust/remain
+	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha
+	=dev-rust/serde-1*
+	=dev-rust/serde_json-1*
+	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2
+	=dev-rust/syn-1*
 	dev-rust/system_api:=
-	=dev-rust/tempfile-3*:=
-	>=dev-rust/terminal_size-0.1.17:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
-	>=dev-rust/uuid-0.8.2:= <dev-rust/uuid-0.9
-	dev-rust/winapi:=
-	>=dev-rust/windows-0.10.0:= <dev-rust/windows-0.11
-	dev-rust/wio:=
-	dev-rust/wmi:=
+	=dev-rust/tempfile-3*
+	>=dev-rust/terminal_size-0.1.17
+	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
+	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9
+	dev-rust/winapi
+	>=dev-rust/windows-0.10.0 <dev-rust/windows-0.11
+	dev-rust/wio
+	dev-rust/wmi
 	media-sound/libcras:=
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
-		=dev-rust/dbus-0.6*:=
+		=dev-rust/dbus-0.6*
 	)
 	crosvm-power-monitor-powerd? (
 		chromeos-base/system_api
-		=dev-rust/dbus-0.6*:=
+		=dev-rust/dbus-0.6*
 	)
 "
 

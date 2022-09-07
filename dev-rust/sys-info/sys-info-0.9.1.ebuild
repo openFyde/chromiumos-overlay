@@ -13,6 +13,6 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/libc-0.2:=
-	=dev-rust/cc-1*:=
+DEPEND=">=dev-rust/libc-0.2
+	=dev-rust/cc-1*
 "

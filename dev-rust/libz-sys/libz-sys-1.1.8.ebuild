@@ -17,10 +17,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/libc-0.2.43 <dev-rust/libc-0.3.0_alpha:=
-	>=dev-rust/cc-1.0.18 <dev-rust/cc-2.0.0_alpha:=
-	>=dev-rust/cmake-0.1.44 <dev-rust/cmake-0.2.0_alpha:=
-	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4.0_alpha:=
+	>=dev-rust/libc-0.2.43 <dev-rust/libc-0.3.0_alpha
+	>=dev-rust/cc-1.0.18 <dev-rust/cc-2.0.0_alpha
+	>=dev-rust/cmake-0.1.44 <dev-rust/cmake-0.2.0_alpha
+	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

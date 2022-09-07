@@ -14,9 +14,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/matches-0.1*:=
-	=dev-rust/flame-0.1*:=
-	=dev-rust/flamer-0.1*:=
-	=dev-rust/serde-1*:=
-	=dev-rust/serde_test-1*:=
+	=dev-rust/matches-0.1*
+	=dev-rust/flame-0.1*
+	=dev-rust/flamer-0.1*
+	=dev-rust/serde-1*
+	=dev-rust/serde_test-1*
 "

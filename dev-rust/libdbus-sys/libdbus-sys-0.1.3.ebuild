@@ -16,7 +16,7 @@ KEYWORDS="*"
 # Any ebuild that installs binaries and pulls this ebuild into the depgraph
 # needs to RDEPEND on sys-apps/dbus.
 
-DEPEND=">=dev-rust/pkg-config-0.3:=
+DEPEND=">=dev-rust/pkg-config-0.3
 	sys-apps/dbus
 "
 RDEPEND="${DEPEND}"
