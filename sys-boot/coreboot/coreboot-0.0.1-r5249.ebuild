@@ -60,7 +60,7 @@ DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
-IUSE="em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma intel_debug"
+IUSE="private_fsp_headers em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma intel_debug"
 IUSE="${IUSE} +bmpblk quiet unibuild verbose ti50_onboard"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} chipset_cezanne"
@@ -213,6 +213,10 @@ EOF
 		echo "CONFIG_ACPI_SUBSYSTEM_ID=\"${SYSTEM_OEM_ACPI_ID}\"" >> "${CONFIG}"
 	fi
 
+	if use private_fsp_headers; then
+		local fspsocname=$(cat ${CONFIG} | grep "CONFIG_FSP_M_FILE" | cut -d '"' -f2 | cut -d '/' -f4)
+		echo "CONFIG_FSP_HEADER_PATH=\"3rdparty/blobs/intel/"${fspsocname}"/fsp/PartialHeader/Include\"" >> "${CONFIG}"
+	fi
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
 	file="${FILESDIR}/configs/fwserial.${board}"
 	if [[ ! -f "${file}" && -n "${base_board}" ]]; then
