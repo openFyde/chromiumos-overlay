@@ -20,7 +20,7 @@ HOMEPAGE="http://mesa3d.org/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 
-IUSE="debug libglvnd tools vulkan zstd"
+IUSE="borealis_host debug libglvnd tools vulkan zstd"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
@@ -45,6 +45,14 @@ BDEPEND="
 src_configure() {
 	sanitizers-setup-env
 
+	if use borealis_host; then
+		tools=intel,drm-shim
+	elif use tools; then
+		tools=intel
+	else
+		tools=''
+	fi
+
 	emesonargs+=(
 		-Dexecmem=false
 		-Dglvnd=$(usex libglvnd true false)
@@ -66,9 +74,9 @@ src_configure() {
 		# Set platforms empty to avoid the default "auto" setting. If
 		# platforms is empty meson.build will add surfaceless.
 		-Dplatforms=''
-		-Dtools=$(usex tools intel '')
+		-Dtools="${tools}"
 		--buildtype $(usex debug debug release)
- 		-Dvulkan-drivers=$(usex vulkan intel '')
+		-Dvulkan-drivers=$(usex vulkan intel '')
 	)
 
 	meson_src_configure
