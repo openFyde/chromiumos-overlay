@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("3b111282f1324ec462d705372b441e28f6caefb9" "0cad9d66d3e17ca86ffb8effd065af6b86ad05b3")
-CROS_WORKON_TREE=("589372b673eac2125688c94181c9b91cb1a50f06" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "bf03aea0f861ec5a30ee63b5814057ceee176ad9")
+CROS_WORKON_COMMIT=("8c8dae29ac5af5d381cd7ac1e7b920c93011230d" "e429cb5e29423411c66dd4461aeecd100f2e3e79")
+CROS_WORKON_TREE=("589372b673eac2125688c94181c9b91cb1a50f06" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "a66f29c7efb711f07dd8dbbb55f9fbb3d19f3fe1")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/tast-tests")
 CROS_WORKON_LOCALNAME=("platform2" "platform/tast-tests")
 CROS_WORKON_DESTDIR=("${S}/platform2" "${S}/platform2/tast-tests")
@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE=("common-mk .gn" "helpers")
 
 PLATFORM_SUBDIR="tast-tests/helpers/local"
 
-inherit cros-workon platform
+inherit cros-workon cros-rust platform
 
 DESCRIPTION="Compiled executables used by local Tast tests in the cros bundle"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast-tests/+/master/helpers"
@@ -32,12 +32,39 @@ RDEPEND="
 	chromeos-base/goldctl
 	media-video/ffmpeg
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	dev-rust/libchromeos:=
+"
+
+src_unpack() {
+	platform_src_unpack
+	cros-rust_src_unpack
+}
+
+src_configure() {
+	platform_src_configure
+	cros-rust_src_configure
+}
+
+src_compile() {
+	platform_src_compile
+	cros-rust_src_compile
+}
+
+src_test() {
+	platform_src_test
+	cros-rust_src_test
+}
+
 
 src_install() {
 	# Executable files' names take the form <category>.<TestName>.<bin_name>.
 	exeinto /usr/libexec/tast/helpers/local/cros
 	doexe "${OUT}"/*.[A-Z]*.*
+
+	local build_dir="$(cros-rust_get_build_dir)"
+	newexe "${build_dir}/crash_rust_panic" crash.Rust.panic
+
 	# Install symbol list file to the location required by minidump_stackwalk.
 	# See https://www.chromium.org/developers/decoding-crash-dumps for details.
 	local crasher_exec="${OUT}/platform.UserCrash.crasher"
