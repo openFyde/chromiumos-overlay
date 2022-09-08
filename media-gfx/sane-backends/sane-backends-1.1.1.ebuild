@@ -176,6 +176,9 @@ src_prepare() {
 	epkowa
 	EOF
 
+	# Accepted upstream.  Drop once 1.1.2 is release.
+	eapply "${FILESDIR}/${PN}-1.1.1-xp2200.patch"
+
 	eapply "${FILESDIR}"/${PN}-1.0.24-saned_pidfile_location.patch
 	eapply "${FILESDIR}"/${PN}-1.0.29-genesys-test-headers.patch
 
