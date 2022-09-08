@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f76957fa469f8af582649807981fb592f0ba1d10"
+CROS_WORKON_COMMIT="e7e4e6825a0edcb20fda4e68156cbe730d30dd10"
 CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "56ebaba2bbb985bdfae612ea5533ddf02fdf1548" "835ea099c8643676eca960bb95a9349559008807" "db382a13f6e22c79a09ffb69ca5a504dcf6c9bd5")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -44,7 +44,7 @@ REQUIRED_USE="
 "
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
-PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.08.10.tbz2"
+PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.09.06.tbz2"
 PACKAGE_DOCUMENT_SCANNING="chromeos-document-scanning-lib-2022.08.05.tar.bz2"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2022.02.24.tar.bz2"
