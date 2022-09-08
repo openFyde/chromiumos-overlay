@@ -64,7 +64,7 @@ IUSE="private_fsp_headers em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma in
 IUSE="${IUSE} +bmpblk quiet unibuild verbose ti50_onboard"
 IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
 IUSE="${IUSE} chipset_cezanne"
-IUSE="${IUSE} fw_debug"
+IUSE="${IUSE} fw_debug intel-compliance-test-mode"
 # virtual/coreboot-private-files is deprecated. When adding a new board you
 # should add the coreboot-private-files-{board/chipset} ebuilds into the private
 # overlays, and avoid creating virtual packages.
@@ -160,6 +160,9 @@ EOF
 	fi
 	if use fw_debug; then
 		echo "CONFIG_BUILDING_WITH_DEBUG_FSP=y" >> "${CONFIG}"
+	fi
+	if use intel-compliance-test-mode; then
+		echo "CONFIG_SOC_INTEL_COMPLIANCE_TEST_MODE=y" >> "${CONFIG}"
 	fi
 	local version=$("${CHROOT_SOURCE_ROOT}"/src/third_party/chromiumos-overlay/chromeos/config/chromeos_version.sh |grep "^[[:space:]]*CHROMEOS_VERSION_STRING=" |cut -d= -f2 | tr - _)
 	{

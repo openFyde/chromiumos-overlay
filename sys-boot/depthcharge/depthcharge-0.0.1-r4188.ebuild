@@ -15,7 +15,8 @@ HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
 IUSE="detachable fwconsole mocktpm pd_sync unibuild verbose debug
-	physical_presence_power physical_presence_recovery test"
+	physical_presence_power physical_presence_recovery test
+	intel-compliance-test-mode"
 
 # No pre-unibuild boards build firmware on ToT anymore.  Assume
 # unibuild to keep ebuild clean.
@@ -138,7 +139,7 @@ make_depthcharge() {
 	if use mocktpm ; then
 		echo "CONFIG_MOCK_TPM=y" >> "${defconfig}"
 	fi
-	if use fwconsole ; then
+	if use fwconsole || use intel-compliance-test-mode; then
 		echo "CONFIG_CLI=y" >> "${defconfig}"
 		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> "${defconfig}"
 	fi
