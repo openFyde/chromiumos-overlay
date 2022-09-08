@@ -45,6 +45,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_FastPair
 	+tests_bluetooth_PeerUpdate
 	+tests_bluetooth_PeerVerify
+	+tests_bluetooth_WiFiCoexHealth
 "
 
 IUSE_TESTS="${IUSE_TESTS}
