@@ -97,8 +97,13 @@ src_install() {
 	)
 
 	for dir in "${dirs[@]}"; do
-		insinto /usr/include/"${dir}"/proto_bindings
-		doins "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
+		if [[ -d "${OUT}/gen/include/${dir}/proto_bindings" ]]; then
+			insinto /usr/include/"${dir}"/proto_bindings
+			doins "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
+		else
+			insinto /usr/include/"${dir}"
+			doins "${OUT}"/gen/include/"${dir}"/*.h
+		fi
 
 		if [[ "${dir}" == "system_api" ]]; then
 			dolib.a "${OUT}/libsystem_api-protos.a"
