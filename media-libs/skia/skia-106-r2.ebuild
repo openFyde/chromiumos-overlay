@@ -82,10 +82,14 @@ src_configure() {
 		skia_use_zlib=false
 	)
 
-	if use amd64; then
+	if use x86; then
+		gn_flags+=( target_cpu=\"x86\" )
+	elif use amd64; then
 		gn_flags+=( target_cpu=\"x64\" )
 	elif use arm; then
 		gn_flags+=( target_cpu=\"arm\")
+	elif use arm64; then
+		gn_flags+=( target_cpu=\"arm64\" )
 	else
 		die "Unknown arch ${ARCH}"
 	fi
