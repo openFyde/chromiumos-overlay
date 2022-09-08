@@ -22,6 +22,7 @@ SLOT="0"
 KEYWORDS="*"
 
 RDEPEND="
+	virtual/opengles:=
 	media-libs/freetype:2=
 "
 DEPEND="
