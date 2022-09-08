@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("95e6fc60096e208e9c3f38cab8e41066fbb65bde" "808a2b871de8c8a082f7d1c051182cc5127dd801" "181f7c798017c00372848000f4ba38b04936e5ab")
+CROS_WORKON_COMMIT=("8d28220e0d3314f37618aa07295399e83fa3ae1e" "808a2b871de8c8a082f7d1c051182cc5127dd801" "181f7c798017c00372848000f4ba38b04936e5ab")
 CROS_WORKON_TREE=("cfee39c602b1e7245b488e40b8e6c51a32658e5f" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "1a52be0cbd6df1bcf5da8e6af1aa236f23572c9d" "3ef88da49eee33eaeed09c00a9d40169450b7f5a")
 inherit cros-constants
 
@@ -216,6 +216,8 @@ src_install() {
 	insinto /usr/include/aosp/frameworks/ml/nn/driver/cache
 	doins "${S}"/driver/cache/nnCache/nnCache.h
 	doins "${S}"/driver/cache/BlobCache/BlobCache.h
+	insinto /usr/include/aosp/hardware/interfaces
+	doins -r "${S}"/../../hardware/interfaces/neuralnetworks
 
 	einfo "Installing libs."
 	dolib.so "${OUT}/lib/libneuralnetworks.so"
