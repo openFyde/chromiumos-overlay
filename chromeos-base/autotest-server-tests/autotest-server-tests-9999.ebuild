@@ -112,7 +112,6 @@ SERVER_IUSE_TESTS="
 	+tests_display_ServerChameleonConnection
 	+tests_display_SwitchMode
 	+tests_factory_Basic
-	+tests_firmware_Bmpblk
 	+tests_firmware_CgptStress
 	+tests_firmware_ClearTPMOwnerAndReset
 	+tests_firmware_ConsecutiveBoot
