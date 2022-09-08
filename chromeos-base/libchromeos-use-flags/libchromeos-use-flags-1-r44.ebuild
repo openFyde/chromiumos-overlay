@@ -68,6 +68,7 @@ IUSE="
 	lacros
 	legacy_keyboard
 	legacy_power_button
+	lvm_application_containers
 	ml_service
 	moblab
 	mojo_service_manager
