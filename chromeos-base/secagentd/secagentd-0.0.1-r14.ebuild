@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="c7155fb24a44895f4b829a79e8f94e95393076a6"
-CROS_WORKON_TREE=("e96c7b05f7b481bedb62e65f6e9a177306f1b5b2" "10283190f405d2c23f29da68f32bc2931e47a6d6" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
+CROS_WORKON_COMMIT="31824e99fd57d8b318c6e8327976d981d5f25484"
+CROS_WORKON_TREE=("e96c7b05f7b481bedb62e65f6e9a177306f1b5b2" "c8517f5e175ca661a88f8040532136996150492d" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,21 +19,26 @@ DESCRIPTION="Enterprise security event reporting."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secagentd/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
 COMMON_DEPEND="
 	chromeos-base/missive:=
 	>=dev-libs/libbpf-0.8.1
 "
+
 RDEPEND="${COMMON_DEPEND}
 	>=sys-process/audit-3.0
 "
+
+# Depending on linux-sources makes it so vmlinux is available on the board
+# build root. This is needed so bpftool can generate vmlinux.h at build time.
 DEPEND="${COMMON_DEPEND}
-	dev-util/bpftool:=
 	virtual/linux-sources:=
 	virtual/pkgconfig:=
 "
 
-BDEPEND="${COMMON_DEPEND}
-	>=sys-devel/llvm-15.0_pre458507_p20220602-r13
+# bpftool is needed in the SDK to generate C code skeletons from compiled BPF applications.
+BDEPEND="
+	dev-util/bpftool:=
 "
 
 pkg_setup() {

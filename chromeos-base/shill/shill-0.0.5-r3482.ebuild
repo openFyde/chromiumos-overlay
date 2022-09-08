@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c7155fb24a44895f4b829a79e8f94e95393076a6"
+CROS_WORKON_COMMIT="31824e99fd57d8b318c6e8327976d981d5f25484"
 CROS_WORKON_TREE=("e96c7b05f7b481bedb62e65f6e9a177306f1b5b2" "98a2d89f871182ca4558a8d37777bdc2385405fa" "fb8e41991af9e4c6c88768b137a9b48e4e5e47da" "19f36342be7994842e12ce8eadbb21be2e51ae97" "f30b94430d66d7ce2f39f730e1c2090e23007812" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -161,7 +161,8 @@ src_install() {
 		systemd_dounit init/shill-start-user-session.service
 		systemd_dounit init/shill-stop-user-session.service
 
-		local dependent_services=$(get_dependent_services)
+		local dependent_services
+		dependent_services=$(get_dependent_services) # ShellCheck gets confused if these lines are merged as local dependent_services=$(get_dependent_services)
 		systemd_dounit "${T}/shill.service"
 		for dependent_service in ${dependent_services}; do
 			systemd_enable_service "${dependent_service}" shill.service
