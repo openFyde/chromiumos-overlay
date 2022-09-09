@@ -301,7 +301,7 @@ src_test() {
 	# Plugin tests all require /dev/kvm, but we want to make sure they build
 	# at least.
 	if use crosvm-plugin; then
-		ecargo_test --no-run --features plugin --profile release-test ||
+		ecargo_test --no-run --features plugin,chromeos --profile release-test ||
 			die "cargo build with plugin feature failed"
 	fi
 }
