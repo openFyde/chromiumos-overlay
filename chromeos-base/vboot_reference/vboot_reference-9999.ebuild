@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/vboot_reference"
 CROS_WORKON_LOCALNAME="platform/vboot_reference"
 
-inherit cros-debug cros-fuzzer cros-sanitizers cros-workon
+inherit cros-debug cros-fuzzer cros-sanitizers cros-workon cros-constants
 
 DESCRIPTION="Chrome OS verified boot tools"
 
@@ -98,6 +98,17 @@ src_install() {
 	vemake \
 		DESTDIR="${D}" \
 		install install_dev
+
+	# Copy futility and all of its dependencies to separate directory
+	# so it can be used to update src/platform/signing/signer-*
+	if use cros_host; then
+		"${CHROMITE_DIR}/bin/lddtree" \
+			"${D}/usr/bin/futility" \
+			--bindir "/" \
+			--libdir "/lib/" \
+			--generate-wrappers \
+			--copy-to-tree "${D}/usr/share/signer-bundle/" || die
+	fi
 
 	if use tpmtests; then
 		into /usr
