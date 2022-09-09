@@ -81,3 +81,5 @@ timerfd_settime: 1
 pread64: 1
 # Need to get directory entries.
 getdents64: 1
+
+uname: 1
