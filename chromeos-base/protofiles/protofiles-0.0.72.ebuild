@@ -1,4 +1,4 @@
-# Copyright (c) 2009 The Chromium OS Authors. All rights reserved.
+# Copyright 2009 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # This project checks out the proto files from the read only repositories

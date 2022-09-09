@@ -77,7 +77,7 @@ index 000000000000..7605589e606f
 +++ b/src/helpers/mdns.c
 @@ -0,0 +1,89 @@
 +/*
-+ * Copyright (C) 2016 Google Inc.
++ * Copyright 2016 Google LLC
 + * Author: Kevin Cernekee <cernekee@chromium.org>
 + *
 + * This helper pokes a hole in the firewall for unicast mDNS replies

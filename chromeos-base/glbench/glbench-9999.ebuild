@@ -1,4 +1,4 @@
-# Copyright 2019 The Chromium OS Authros. All rights reserved.
+# Copyright 2019 The Chromium OS Authros.
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7

@@ -1,4 +1,4 @@
-# Copyright 2020 The Chromium OS Authors. All rights reserved.
+# Copyright 2020 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # This lives separately from the main minijail ebuild since we don't have Rust

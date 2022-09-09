@@ -29,7 +29,7 @@ index 0000000..3efc67a
 +++ b/src/gl-headers-waffle.h
 @@ -0,0 +1,131 @@
 +/*
-+ * Copyright 2015 Google Inc.
++ * Copyright 2015 Google LLC
 + *
 + * This program is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU General Public License
@@ -182,7 +182,7 @@ index 0000000..1b2cf40
 +++ b/src/gl-state-waffle.cpp
 @@ -0,0 +1,259 @@
 +/*
-+ * Copyright 2015 Google Inc.
++ * Copyright 2015 Google LLC
 + *
 + * This program is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU General Public License
@@ -447,7 +447,7 @@ index 0000000..e66c079
 +++ b/src/gl-state-waffle.h
 @@ -0,0 +1,62 @@
 +/*
-+ * Copyright 2015 Google Inc.
++ * Copyright 2015 Google LLC
 + *
 + * This program is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU General Public License
@@ -553,7 +553,7 @@ index 0000000..90e6c9e
 +++ b/src/native-state-waffle.cpp
 @@ -0,0 +1,157 @@
 +/*
-+ * Copyright 2015 Google Inc.
++ * Copyright 2015 Google LLC
 + *
 + * This program is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU General Public License
@@ -716,7 +716,7 @@ index 0000000..1ea2f1b
 +++ b/src/native-state-waffle.h
 @@ -0,0 +1,47 @@
 +/*
-+ * Copyright 2015 Google Inc.
++ * Copyright 2015 Google LLC
 + *
 + * This program is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU General Public License

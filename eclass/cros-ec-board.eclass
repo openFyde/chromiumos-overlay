@@ -1,8 +1,8 @@
-# Copyright 2014 The Chromium OS Authors. All rights reserved.
+# Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 #
-# Original Author: The Chromium OS Authors <chromium-os-dev@chromium.org>
+# Original Author: The ChromiumOS Authors <chromium-os-dev@chromium.org>
 # Purpose: Library for handling building of ChromiumOS packages
 #
 #

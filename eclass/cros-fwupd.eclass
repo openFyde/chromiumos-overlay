@@ -1,9 +1,9 @@
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: cros-fwupd.eclass
 # @MAINTAINER:
-# The Chromium OS Authors
+# The ChromiumOS Authors
 # @BLURB: Unifies logic for installing fwupd firmware files.
 
 if [[ -z ${_CROS_FWUPD_ECLASS} ]]; then
@@ -58,7 +58,7 @@ EOF
 	gzip ${PN}.metainfo.xml
 
 	cat << EOF > ${PN}.conf
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The ChromiumOS Authors
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 

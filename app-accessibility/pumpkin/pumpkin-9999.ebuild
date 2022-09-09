@@ -1,4 +1,4 @@
-# Copyright 2022 The Chromium OS Authors. All rights reserved.
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v3
 #
 # JavaScript/Web assembly port of the Pumpkin semantic parser.

@@ -1,5 +1,5 @@
 # Copyright 1999-2009 Gentoo Foundation
-# Copyright 2014 The Chromium OS Authors
+# Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5

@@ -1,10 +1,10 @@
-# Copyright 2016 The Chromium OS Authors. All rights reserved.
+# Copyright 2016 The ChromiumOS Authors
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
 # @ECLASS: cros-factory.eclass
 # @MAINTAINER:
-# The Chromium OS Authors <chromium-os-dev@chromium.org>
+# The ChromiumOS Authors <chromium-os-dev@chromium.org>
 # @BUGREPORTS:
 # Please report bugs via http://crbug.com/new (with label Build)
 # @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@

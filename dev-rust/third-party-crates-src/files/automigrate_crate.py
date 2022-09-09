@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 2022 The ChromiumOS Authors.
+# Copyright 2022 The ChromiumOS Authors
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 """Automigrates a single crate to dev-rust/third-party-crates.
@@ -17,7 +17,7 @@ import migration_utils
 
 
 EMPTY_CRATE_REPLACEMENT = """\
-# Copyright 2022 The ChromiumOS Authors.
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"

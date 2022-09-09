@@ -1,4 +1,4 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # NOTE: If you make changes to this file that require Rust code to
@@ -7,7 +7,7 @@
 
 # @ECLASS: cros-rust.eclass
 # @MAINTAINER:
-# The Chromium OS Authors <chromium-os-dev@chromium.org>
+# The ChromiumOS Authors <chromium-os-dev@chromium.org>
 # @BUGREPORTS:
 # Please report bugs via https://crbug.com/new (with component "Tools>ChromeOS-Toolchain")
 # @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@
@@ -233,7 +233,7 @@ cros-rust_src_unpack() {
 		[package]
 		name = "${CROS_RUST_CRATE_NAME}"
 		version = "${CROS_RUST_CRATE_VERSION}"
-		authors = ["The Chromium OS Authors"]
+		authors = ["The ChromiumOS Authors"]
 
 		[features]
 		EOF

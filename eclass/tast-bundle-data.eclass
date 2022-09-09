@@ -1,9 +1,9 @@
-# Copyright 2021 The Chromium OS Authors. All rights reserved.
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: tast-bundle.eclass
 # @MAINTAINER:
-# The Chromium OS Authors <chromium-os-dev@chromium.org>
+# The ChromiumOS Authors <chromium-os-dev@chromium.org>
 # @BUGREPORTS:
 # Please report bugs via https://issuetracker.google.com/ (with component
 # "ChromeOS > Test > Harness > Tast > Framework").

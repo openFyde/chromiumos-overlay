@@ -1,9 +1,9 @@
-# Copyright 2015-2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2015-2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: cros-go.eclass
 # @MAINTAINER:
-# The Chromium OS Authors <chromium-os-dev@chromium.org>
+# The ChromiumOS Authors <chromium-os-dev@chromium.org>
 # @BUGREPORTS:
 # Please report bugs via https://crbug.com/new (with component "Tools>ChromeOS-Toolchain")
 # @VCSURL: https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/eclass/@ECLASS@

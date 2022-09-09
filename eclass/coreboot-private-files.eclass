@@ -1,9 +1,9 @@
-# Copyright (c) 2014 The Chromium OS Authors. All rights reserved.
+# Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @ECLASS: coreboot-private-files.eclass
 # @MAINTAINER:
-# The Chromium OS Authors
+# The ChromiumOS Authors
 # @BLURB: Unifies logic for installing private coreboot files.
 
 # Check for EAPI 4+

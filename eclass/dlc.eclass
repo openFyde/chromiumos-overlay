@@ -1,10 +1,10 @@
-# Copyright 2018 The Chromium OS Authors. All rights reserved.
+# Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 # @MAINTAINER:
 # Chromium OS System Services Team
 # @AUTHOR
-# The Chromium OS Authors <chromium-os-dev@chromium.org>
+# The ChromiumOS Authors <chromium-os-dev@chromium.org>
 # @BUGREPORTS:
 # Please report bugs via http://crbug.com/new
 # @BLURB: Helper eclass for building DLC packages.

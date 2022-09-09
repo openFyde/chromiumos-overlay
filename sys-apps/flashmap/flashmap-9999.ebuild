@@ -1,4 +1,4 @@
-# Copyright 2011 The Chromium OS Authors
+# Copyright 2011 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 # $Header:
 

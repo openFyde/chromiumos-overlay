@@ -70,7 +70,7 @@ index bc410875c2b8..0354e9f71b1a 100644
   * Based on the SSDP conntrack helper (nf_conntrack_ssdp.c),
   * :http://marc.info/?t=132945775100001&r=1&w=2
   *  (C) 2012 Ian Pilcher <arequipeno@gmail.com>
-+ * Copyright (C) 2017 Google Inc.
++ * Copyright 2017 Google LLC
 + *
 + * This requires Linux 3.12 or higher.  Basic usage:
 + *
