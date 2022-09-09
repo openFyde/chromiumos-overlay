@@ -51,6 +51,7 @@ IUSE="
 	chrome_internal
 	chrome_media
 	chromeless_tty
+	clvk
 	containers
 	coresched
 	cr50_onboard
