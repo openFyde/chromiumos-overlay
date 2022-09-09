@@ -115,7 +115,7 @@ fi
 
 inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizers
 
-IUSE="amd64 asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan x86"
+IUSE="asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm
