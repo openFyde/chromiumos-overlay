@@ -84,6 +84,9 @@ src_install() {
 		dosbin "${OUT}"/crash_sender
 	fi
 
+	into /usr/local
+	dobin "${OUT}"/bluetooth_devcd_parser
+
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.AnomalyEventService.conf
 
@@ -164,6 +167,11 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/missed_crash_collector_fuzzer \
+		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/bluetooth_devcd_parser_fuzzer \
+		--dict "${S}"/bluetooth_devcd_parser_util_fuzzer.dict \
 		--comp "${fuzzer_component_id}"
 
 	# Install crash_serializer into /usr/local/sbin, which is only present
