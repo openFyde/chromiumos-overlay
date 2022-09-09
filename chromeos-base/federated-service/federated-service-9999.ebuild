@@ -23,6 +23,7 @@ RDEPEND="
 	dev-db/sqlite:=
 	chromeos-base/dlcservice-client:=
 	chromeos-base/session_manager-client:=
+	chromeos-base/shill-dbus-client:=
 	chromeos-base/system_api:=
 	sys-cluster/fcp:=
 "
