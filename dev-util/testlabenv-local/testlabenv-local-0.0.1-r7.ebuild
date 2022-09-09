@@ -2,16 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="baaf20c371bfceccbfc498c958966f060593c14c"
-CROS_WORKON_TREE="b8f5749c382d48c6ab6034c64bd98b17bccb24d2"
+CROS_WORKON_COMMIT="8b0fc37c66d7260fab6f2e8f1b57bedb4b6cc253"
+CROS_WORKON_TREE="678298adc81f3b2d2ab230b033664089c21d3251"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test/publish"
+CROS_WORKON_SUBTREE="src/chromiumos/test/lab/local"
 
 inherit cros-go cros-workon
 
-DESCRIPTION="Publish server implementation for uploading test result artifacts to GCS bucket"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/publish"
+DESCRIPTION="Local test lab environment support (local DUT setup/wiring support for test execution)"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/lab/local"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -22,11 +22,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/publish/cmd/cros-publish"
+	"chromiumos/test/lab/local/cmd/inventoryserver"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/publish/cmd/..."
+	"chromiumos/test/lab/local/cmd/inventoryserver/..."
 )
 
 CROS_GO_VET=(
@@ -34,10 +34,7 @@ CROS_GO_VET=(
 )
 
 DEPEND="
-	dev-util/lro-server
-	dev-go/crypto
-	dev-go/gcp-storage
-	dev-go/grpc
+	dev-go/genproto
 	dev-go/mock
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api

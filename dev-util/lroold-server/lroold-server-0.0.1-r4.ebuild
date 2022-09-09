@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="10baf177154b696c83d88350a4d5b81d1d5f0735"
-CROS_WORKON_TREE="c3f73cc3c4bc36a0d9ff17ee8deb577d8eceea1f"
+CROS_WORKON_COMMIT="8b0fc37c66d7260fab6f2e8f1b57bedb4b6cc253"
+CROS_WORKON_TREE="caedadd23f942bf70b7c5ddc2bb2bad77de4c970"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
 CROS_WORKON_SUBTREE="src/chromiumos/lroold"
