@@ -16,7 +16,7 @@ from typing import List, Optional
 import migration_utils
 
 
-EMPTY_CRATE_REPLACEMENT = """\
+EMPTY_CRATE_REPLACEMENT = f"""\
 # Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
@@ -26,11 +26,12 @@ DESCRIPTION="Empty crate"
 HOMEPAGE=""
 
 LICENSE="metapackage"
-SLOT="${PV}"
+SLOT="${{PV}}"
 KEYWORDS="*"
 
+{migration_utils.MIGRATED_CRATE_MARKER}
 DEPEND="dev-rust/third-party-crates-src:="
-RDEPEND="${DEPEND}"
+RDEPEND="${{DEPEND}}"
 """
 
 
