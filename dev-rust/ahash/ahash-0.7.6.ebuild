@@ -22,7 +22,7 @@ PATCHES=(
 )
 
 DEPEND="
-	=dev-rust/version_check-0.9*
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/const-random-0.1.12 <dev-rust/const-random-0.2.0_alpha
 	>=dev-rust/getrandom-0.2.3 <dev-rust/getrandom-0.3.0_alpha
 	>=dev-rust/serde-1.0.117 <dev-rust/serde-2.0.0_alpha

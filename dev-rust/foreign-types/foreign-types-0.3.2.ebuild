@@ -14,7 +14,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/foreign-types-shared-0.1
+	dev-rust/third-party-crates-src:=
 "
 
 RDEPEND="${DEPEND}"

@@ -14,6 +14,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/autocfg-0.1*
 	>=dev-rust/average-0.9.2
 	=dev-rust/libc-0.2*
@@ -27,7 +28,6 @@ DEPEND="
 	~dev-rust/rand_xorshift-0.1.1
 	~dev-rust/rand_xoshiro-0.1.0
 	=dev-rust/rand_os-0.1*
-	=dev-rust/winapi-0.3*
 "
 RDEPEND="${DEPEND}"
 

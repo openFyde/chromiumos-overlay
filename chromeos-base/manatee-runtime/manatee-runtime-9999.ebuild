@@ -20,9 +20,9 @@ KEYWORDS="~*"
 IUSE="cros_host manatee"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
-	=dev-rust/assert_matches-1*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/once_cell-1*

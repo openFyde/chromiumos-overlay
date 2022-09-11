@@ -20,11 +20,11 @@ KEYWORDS="~*"
 IUSE="cros_host"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*
-	=dev-rust/assert_matches-1*
 	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=

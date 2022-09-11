@@ -16,6 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/futures-channel-0.3.13 <dev-rust/futures-channel-0.4
 	>=dev-rust/futures-core-0.3.13 <dev-rust/futures-core-0.4
 	>=dev-rust/futures-io-0.3.13 <dev-rust/futures-io-0.4
@@ -24,7 +25,6 @@ DEPEND="
 	>=dev-rust/futures-task-0.3.13 <dev-rust/futures-task-0.4
 	>=dev-rust/memchr-2.2 <dev-rust/memchr-3.0
 	>=dev-rust/pin-utils-0.1.0_alpha4 <dev-rust/pin-utils-0.2
-	>=dev-rust/pin-project-lite-0.2.4_alpha4 <dev-rust/pin-project-lite-0.3
 	>=dev-rust/proc-macro-hack-0.5.19 <dev-rust/proc-macro-hack-0.6
 	>=dev-rust/proc-macro-nested-0.1.2 <dev-rust/proc-macro-nested-0.2
 	>=dev-rust/slab-0.4.2 <dev-rust/slab-1.0

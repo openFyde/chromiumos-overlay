@@ -36,6 +36,31 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/wio-0.2.2
+	!=dev-rust/winapi-0.3.9
+	!=dev-rust/version_check-0.9.3
+	!=dev-rust/utf8parse-0.2.0
+	!=dev-rust/tinyvec_macros-0.1.0
+	!=dev-rust/scopeguard-1.1.0
+	!=dev-rust/same-file-1.0.6
+	!=dev-rust/rustc-hash-1.1.0
+	!=dev-rust/regex-syntax-0.6.25
+	!=dev-rust/ppv-lite86-0.2.10
+	!=dev-rust/pin-project-lite-0.2.4
+	!=dev-rust/peeking_take_while-0.1.2
+	!=dev-rust/pcap-file-1.1.1
+	!=dev-rust/minimal-lexical-0.2.1
+	!=dev-rust/match_cfg-0.1.0
+	!=dev-rust/managed-0.8.0
+	!=dev-rust/libslirp-sys-4.2.1
+	!=dev-rust/humantime-2.1.0
+	!=dev-rust/foreign-types-shared-0.1.1
+	!=dev-rust/fnv-1.0.7
+	!=dev-rust/endian-type-0.1.2
+	!=dev-rust/downcast-rs-1.2.0
+	!=dev-rust/byteorder-1.4.3
+	!=dev-rust/bit_field-0.10.1
+	!=dev-rust/assert_matches-1.5.0
 	!=dev-rust/memchr-2.4.0
 	!=dev-rust/regex-1.5.4
 	!=dev-rust/termcolor-1.1.2
@@ -54,8 +79,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"addr2line-0.14.1"
 	"adler-0.2.3"
 	"android_system_properties-0.1.5"
+	"assert_matches-1.5.0"
+	"bit_field-0.10.1"
 	"bitvec-0.19.5"
 	"bytemuck-1.12.1"
+	"byteorder-1.4.3"
 	"clipboard-win-4.2.1"
 	"com_logger-0.1.1"
 	"configparser-3.0.0"
@@ -64,46 +92,67 @@ ALLOWED_CRATE_VERSIONS=(
 	"cxxbridge-flags-1.0.42"
 	"cxxbridge-macro-1.0.42"
 	"derive-into-owned-0.1.0"
+	"downcast-rs-1.2.0"
 	"encode_unicode-0.3.6"
+	"endian-type-0.1.2"
 	"errno-0.2.8"
 	"errno-dragonfly-0.1.2"
 	"error-code-2.3.0"
 	"euclid-0.22.7"
 	"failure-0.1.8"
+	"fnv-1.0.7"
+	"foreign-types-shared-0.1.1"
 	"funty-1.1.0"
 	"gimli-0.23.0"
 	"grpcio-compiler-0.6.0"
+	"humantime-2.1.0"
 	"iana-time-zone-0.1.47"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
 	"io-lifetimes-0.7.3"
 	"io-uring-0.5.4"
 	"js-sys-0.3.59"
+	"libslirp-sys-4.2.1"
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"
+	"managed-0.8.0"
+	"match_cfg-0.1.0"
+	"minimal-lexical-0.2.1"
 	"miow-0.3.6"
 	"ntapi-0.3.6"
 	"object-0.23.0"
+	"pcap-file-1.1.1"
+	"peeking_take_while-0.1.2"
+	"pin-project-lite-0.2.4"
+	"ppv-lite86-0.2.10"
 	"protoc-grpcio-2.0.0"
 	"quote-0.3.15"
 	"radium-0.5.3"
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
+	"regex-syntax-0.6.25"
+	"rustc-hash-1.1.0"
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
+	"same-file-1.0.6"
+	"scopeguard-1.1.0"
 	"str-buf-1.0.5"
 	"syn-0.11.11"
 	"synom-0.11.3"
 	"tap-1.0.1"
 	"termcolor-1.1.2"
+	"tinyvec_macros-0.1.0"
 	"tokio-stream-0.1.3"
 	"uart_16550-0.2.18"
 	"unicode-xid-0.0.4"
+	"utf8parse-0.2.0"
+	"version_check-0.9.3"
 	"volatile-0.4.5"
 	"wasm-bindgen-backend-0.2.82"
 	"wasm-bindgen-macro-0.2.82"
 	"wasm-bindgen-macro-support-0.2.82"
 	"wasm-bindgen-shared-0.2.82"
+	"winapi-0.3.9"
 	"winapi-i686-pc-windows-gnu-0.4.0"
 	"winapi-util-0.1.5"
 	"winapi-x86_64-pc-windows-gnu-0.4.0"
@@ -113,6 +162,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"windows_i686_msvc-0.36.1"
 	"windows_x86_64_gnu-0.36.1"
 	"windows_x86_64_msvc-0.36.1"
+	"wio-0.2.2"
 	"wyz-0.2.0"
 	"x86_64-0.14.10"
 )

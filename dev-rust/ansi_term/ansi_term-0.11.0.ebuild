@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/winapi-0.3.4 <dev-rust/winapi-0.4.0
+	dev-rust/third-party-crates-src:=
 "
 RDEPEND="${DEPEND}"
 

@@ -25,6 +25,8 @@ CUSTOMIZATION_IGNORE_CRATES = {
     # The patch for 0.3.11 is obsolete, and 0.3.11 can probably be deleted
     # entirely.
     "pkg-config",
+    # This just uses sed to delete useless deps.
+    "syn",
 }
 
 # Line written into ebuilds which are automigrated.

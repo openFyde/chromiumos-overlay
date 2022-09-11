@@ -20,10 +20,10 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/anyhow-1*
-	=dev-rust/assert_matches-1*
 	=dev-rust/base64-0.13*
 	=dev-rust/chrono-0.4*
 	=dev-rust/flexbuffers-2*

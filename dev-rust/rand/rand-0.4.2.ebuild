@@ -13,8 +13,9 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/fuchsia-zircon-0.3.2
-	>=dev-rust/winapi-0.3.0
+DEPEND="
+	dev-rust/third-party-crates-src:=
+	>=dev-rust/fuchsia-zircon-0.3.2
 	>=dev-rust/libc-0.2.0
 "
 RDEPEND="${DEPEND}"

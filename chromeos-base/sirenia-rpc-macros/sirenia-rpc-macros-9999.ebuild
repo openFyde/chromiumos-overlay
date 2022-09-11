@@ -21,8 +21,8 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	>=dev-rust/assert_matches-1.5.0 <dev-rust/assert_matches-2.0.0_alpha
 	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/syn-1*
