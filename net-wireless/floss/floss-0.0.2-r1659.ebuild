@@ -40,7 +40,7 @@ PLATFORM_SUBDIR="bt"
 
 IUSE="bt_dynlib floss_upstream"
 
-inherit cros-workon toolchain-funcs cros-rust platform tmpfiles
+inherit cros-workon toolchain-funcs cros-rust platform tmpfiles udev
 
 DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="https://android.googlesource.com/platform/packages/modules/Bluetooth"
@@ -203,6 +203,9 @@ src_install() {
 	# Install config files
 	insinto /etc/bluetooth/
 	doins "${FILESDIR}/config/bt_did.conf"
+
+	# Install udev rules
+	udev_dorules "${FILESDIR}/udev/99-floss-chown-properties.rules"
 }
 
 platform_pkg_test() {
