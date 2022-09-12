@@ -108,7 +108,6 @@ src_configure() {
 		$(meson_use atavia config_atavia)
 		$(meson_use buspirate_spi config_buspirate_spi)
 		$(meson_use ch341a_spi config_ch341a_spi)
-		$(meson_feature cli classic_cli)
 		$(meson_use dediprog config_dediprog)
 		$(meson_use developerbox_spi config_developerbox_spi)
 		$(meson_use digilent_spi config_digilent_spi)
@@ -141,7 +140,8 @@ src_configure() {
 		$(meson_use serprog config_serprog)
 		$(meson_use stlinkv3_spi config_stlinkv3_spi)
 		$(meson_use usbblaster_spi config_usbblaster_spi)
-		$(meson_use wiki print_wiki)
+		$(meson_feature cli classic_cli)
+		$(meson_feature wiki classic_cli_print_wiki)
 	)
 	sanitizers-setup-env
 	meson_src_configure
