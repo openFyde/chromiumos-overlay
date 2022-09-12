@@ -61,9 +61,6 @@ USE="${USE} -arc-camera3"
 # Disable document scanning.
 USE="${USE} -ondevice_document_scanner"
 
-# Disable Camera Frame Annotator
-USE="${USE} -camera_feature_frame_annotator"
-
 # Disable oobe config.
 USE="${USE} -oobe_config"
 
