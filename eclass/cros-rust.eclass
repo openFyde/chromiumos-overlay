@@ -985,7 +985,7 @@ _cleanup_registry_link() {
 		# Acquire a exclusive lock since this modifies the registry.
 		_cros-rust_prepare_lock "$(cros-rust_get_reg_lock)"
 		(
-			local owner="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}/${link}"
+			local owner="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}/${crate}"
 			local removed
 			flock --exclusive 100 || die
 			if [[ -n ${force} ]] || [[ $(< "${owner}") == "${PF}" ]]; then
