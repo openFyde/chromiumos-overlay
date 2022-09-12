@@ -5,7 +5,7 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 3
+# eclass bug workaround count: 4
 
 EAPI=7
 
@@ -50,10 +50,8 @@ src_compile() {
 	local target
 	einfo "Building FPMCU unittest binary for targets: ${EC_BOARDS[*]}"
 	for target in "${EC_BOARDS[@]}"; do
-		emake CROSS_COMPILE="${COREBOOT_SDK_PREFIX_arm}" BOARD="${target}" \
-			"${EC_OPTS[@]}" clean
-		emake CROSS_COMPILE="${COREBOOT_SDK_PREFIX_arm}" BOARD="${target}" \
-			"${EC_OPTS[@]}" tests
+		emake BOARD="${target}" "${EC_OPTS[@]}" clean
+		emake BOARD="${target}" "${EC_OPTS[@]}" tests
 	done
 }
 

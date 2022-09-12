@@ -88,27 +88,25 @@ cros-ec_src_prepare() {
 # @DESCRIPTION:
 # Set toolchain and build options.
 cros-ec_set_build_env() {
-	cros_use_gcc
-
-	if ! use coreboot-sdk; then
-		export CROSS_COMPILE_arm=arm-none-eabi-
-		export CROSS_COMPILE_i386=i686-pc-linux-gnu-
-	else
-		export CROSS_COMPILE_arm=${COREBOOT_SDK_PREFIX_arm}
-		export CROSS_COMPILE_i386=${COREBOOT_SDK_PREFIX_x86_32}
-	fi
-
-	export CROSS_COMPILE_coreboot_sdk_arm=${COREBOOT_SDK_PREFIX_arm}
-	export CROSS_COMPILE_coreboot_sdk_i386=${COREBOOT_SDK_PREFIX_x86_32}
-
-	# nds32 always uses coreboot-sdk
-	export CROSS_COMPILE_nds32=${COREBOOT_SDK_PREFIX_nds32}
-
-	tc-export CC BUILD_CC
-	export HOSTCC=${CC}
-	export BUILDCC=${BUILD_CC}
-
 	get_ec_boards
+
+	cros_allow_gnu_build_tools
+
+	# Let the EC Makefiles set the compiler. It already has logic for choosing
+	# between gcc and clang for the different architectures that EC builds.
+	unset CC
+
+	# Setting SYSROOT to the board's sysroot (e.g., /build/hatch) causes
+	# compilation failures when cross-compiling for other targets (e.g., ARM).
+	# HOST_SYSROOT is used by the EC Makefiles to set the sysroot when building
+	# for the host.
+	export HOST_SYSROOT=${SYSROOT}
+	unset SYSROOT
+
+	# Let the EC Makefiles determine architecture flags. For example, using
+	# "-march=goldmont" fails when using "armv7m-cros-eabi-clang" with the
+	# error: the clang compiler does not support '-march=goldmont'
+	filter-flags "-march=*"
 
 	# TODO(b/247791129): Remove this when $(CHOST)-pkg-config is fixed.
 	export HOST_PKG_CONFIG
@@ -168,7 +166,7 @@ cros-ec_src_compile() {
 		# Always pass TOUCHPAD_FW parameter: boards that do not require
 		# it will simply ignore the parameter, even if the touchpad FW
 		# file does not exist.
-		local touchpad_fw="${SYSROOT}/firmware/${target}/touchpad.bin"
+		local touchpad_fw="${HOST_SYSROOT}/firmware/${target}/touchpad.bin"
 
 		# In certain devices, the only root-of-trust available is EC-RO.
 		# Thus the AP bootblock needs to be installed in this write-protected
@@ -176,7 +174,7 @@ cros-ec_src_compile() {
 		local bootblock
 		local bootblock_serial
 		local target_root
-		target_root="${SYSROOT}/firmware/${target}"
+		target_root="${HOST_SYSROOT}/firmware/${target}"
 
 		if use bootblock_in_ec; then
 			bootblock="${target_root}/coreboot/bootblock.bin"
