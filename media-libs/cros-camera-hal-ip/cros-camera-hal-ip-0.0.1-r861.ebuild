@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="fe1fbf1427b050611a486c9afa1d32d4cf48bb66"
-CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5fc34f384cd5fc6a13144a7f836f2371938bb8a6" "f386c5ad3b69b5be8dd06422610d7f81853224be" "9ff7c0ea2761e1863475bcd96a983e5e18089f57" "97ca209b764b6cdb426dc3a755cf8b812ecadde0" "c457b08fd133fa46cd7a5cd2f8b4c1a783ceca8a" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "c3739ac61ca9366b1b532a4ed75cb2896ec83c11" "bfb6ecc4da4dc2d7aafa35ed314e5d2fb8f2f8a6")
+CROS_WORKON_COMMIT="cc6c9af6ba9c780864ced7e7e50d81916f87b515"
+CROS_WORKON_TREE=("e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "5fc34f384cd5fc6a13144a7f836f2371938bb8a6" "f386c5ad3b69b5be8dd06422610d7f81853224be" "9ff7c0ea2761e1863475bcd96a983e5e18089f57" "97ca209b764b6cdb426dc3a755cf8b812ecadde0" "c457b08fd133fa46cd7a5cd2f8b4c1a783ceca8a" "8821bec7557652f636e7eed8ee7944b23b50b4b8" "905de1b1a650f3a518fda231b371365a4954e6f5" "bfb6ecc4da4dc2d7aafa35ed314e5d2fb8f2f8a6")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/ip camera/hal/usb camera/include camera/mojo chromeos-config common-mk"
