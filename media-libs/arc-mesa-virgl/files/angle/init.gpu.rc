@@ -6,9 +6,8 @@ on early-init
     # Advertise opengles version 3.1.
     setprop ro.opengles.version 196609
     setprop ro.hardware.egl angle
-    # TODO remove emulateAdvancedBlendEquations after b/234173199 gets fixed
-    # TODO remove supportsShaderFramebufferFetch after b/234186318 gets fixed
-    setprop debug.angle.feature_overrides_disabled preferSubmitAtFBOBoundary:emulateAdvancedBlendEquations:supportsShaderFramebufferFetch
-    # TODO remove forceContinuousRefreshOnSharedPresent after b/229267970 gets fixed
-    # TODO remove perFrameWindowSizeQuery after b/236026298 gets fixed
-    setprop debug.angle.feature_overrides_enabled forceContinuousRefreshOnSharedPresent:perFrameWindowSizeQuery:preferLinearFilterForYUV
+    # TODO b/238934525: remove emulateAdvancedBlendEquations
+    setprop debug.angle.feature_overrides_disabled emulateAdvancedBlendEquations
+    # TODO b/246378938: remove preferLinearFilterForYUV
+    # TODO b/246218584: remove mapUnspecifiedColorSpaceToPassThrough
+    setprop debug.angle.feature_overrides_enabled preferLinearFilterForYUV:mapUnspecifiedColorSpaceToPassThrough
