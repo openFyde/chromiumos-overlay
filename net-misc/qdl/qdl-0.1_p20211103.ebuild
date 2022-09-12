@@ -33,7 +33,7 @@ src_configure() {
 
 	sed -i \
 		-e '/^prefix/s:=.*:=/usr:' \
-		-e "/^LDFLAGS/s/.*/LDFLAGS+=$($(tc-getPKG_CONFIG) libxml-2.0 libudev --libs)/" \
+		-e "/^LDFLAGS/s:.*:LDFLAGS+=$($(tc-getPKG_CONFIG) libxml-2.0 libudev --libs):" \
 		-e "/^CFLAGS/s:.*:CPPFLAGS+=$($(tc-getPKG_CONFIG) libxml-2.0 --cflags-only-I):" \
 		Makefile || die
 }
