@@ -25,6 +25,5 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
-	dolib.so "${OUT}/lib/libiioservice_ipc.so"
-	dolib.a "${OUT}/libiioservice_ipc_mojom.a"
+	platform_install
 }
