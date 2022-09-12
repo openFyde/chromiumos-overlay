@@ -26,7 +26,7 @@ IUSE="+device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_application_containers lvm_stateful_partition mount_oop pinweaver
-	selinux slow_mount systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2
+	profiling selinux slow_mount systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2
 	tpm2_simulator uprev-4-to-5 user_session_isolation uss_migration
 	+vault_legacy_mount vtpm_proxy"
 
