@@ -111,7 +111,6 @@ pkg_preinst() {
 	# The user that all user-facing processes will run as.
 	local system_user="${SHARED_USER_NAME}"
 	local system_id="1000"
-	local system_home="/home/${system_user}/user"
 	# Add a chronos-access group to provide non-chronos users,
 	# mostly system daemons running as a non-chronos user, group permissions
 	# to access files/directories owned by chronos.
