@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="63f953f3f1b9573ebcdbae9c1dd27322654b94a5"
+CROS_WORKON_COMMIT="459b0cf40ee0ef47ed0b55270cdba9f656a29bca"
 CROS_WORKON_TREE=("b9732f2bc7bbc922b1abb9212879b987c70537a8" "fb8e41991af9e4c6c88768b137a9b48e4e5e47da" "60202851347b4e3ef995c44791bf40b9bc7796e0" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -45,9 +45,6 @@ pkg_setup() {
 
 src_install() {
 	dosbin "${OUT}"/smbfs
-
-	insinto /usr/share/policy
-	newins seccomp_filters/smbfs-seccomp-"${ARCH}".policy smbfs-seccomp.policy
 
 	local daemon_store="/etc/daemon-store/smbfs"
 	dodir "${daemon_store}"

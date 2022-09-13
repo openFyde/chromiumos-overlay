@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="63f953f3f1b9573ebcdbae9c1dd27322654b94a5"
+CROS_WORKON_COMMIT="459b0cf40ee0ef47ed0b55270cdba9f656a29bca"
 CROS_WORKON_TREE=("b9732f2bc7bbc922b1abb9212879b987c70537a8" "62ee6cd5149db5c84c832a7216553ae6a5b149e3" "19f36342be7994842e12ce8eadbb21be2e51ae97" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -100,6 +100,7 @@ src_install() {
 	use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
 	use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
 	use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
+	use seccomp && newins "seccomp_policy/smbfs-seccomp-${ARCH}.policy"        smbfs-seccomp.policy
 
 	# Install upstart config file.
 	insinto /etc/init
