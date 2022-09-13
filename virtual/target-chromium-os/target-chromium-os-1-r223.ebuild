@@ -32,6 +32,7 @@ IUSE="
 	cellular
 	chargesplash
 	chrome_internal
+	clvk
 	compupdates
 	containers
 	cr50_onboard
@@ -287,6 +288,7 @@ RDEPEND="
 	spaced? ( chromeos-base/spaced )
 	usb_bouncer? ( chromeos-base/usb_bouncer )
 	chromeos-base/update_engine
+	clvk? ( media-libs/clvk )
 	cras? (
 		media-sound/adhd
 		media-sound/cras_tests

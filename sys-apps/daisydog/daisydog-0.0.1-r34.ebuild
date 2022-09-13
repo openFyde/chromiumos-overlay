@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b2ed21f4a47168d2680223c4b9feaad002cf5f99"
-CROS_WORKON_TREE="78d1013c189bd8dfacf9edacb2f3daae9e5c4fd3"
+CROS_WORKON_COMMIT="b594ef86d1f28d5b60167267866da5a44e580f2f"
+CROS_WORKON_TREE="8daf7d617590409f0a9c2834e145fae58ef12ccc"
 CROS_WORKON_PROJECT="chromiumos/third_party/daisydog"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 
