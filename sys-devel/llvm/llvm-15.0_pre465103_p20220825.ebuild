@@ -490,6 +490,10 @@ multilib_src_install() {
 		dosym "sysroot_wrapper.ccache" "/usr/bin/${target}-clang++"
 	done
 
+	# Install a symlink bpf-clang which point to clang.
+	# Running through symlink will make clang default to bpf target.
+	dosym "clang" "/usr/bin/bpf-clang"
+
 	# Remove this file, if it exists, to avoid installation file collision,
 	# as this file is also generated/installed by the dev-python/six package.
 	find "${D}"/usr -name 'six.py' -delete
