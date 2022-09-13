@@ -60,11 +60,24 @@ DESCRIPTION="coreboot firmware"
 HOMEPAGE="http://www.coreboot.org"
 LICENSE="GPL-2"
 KEYWORDS="*"
-IUSE="private_fsp_headers em100-mode fsp memmaps mocktpm quiet-cb rmt vmx mma intel_debug"
-IUSE="${IUSE} +bmpblk quiet unibuild verbose ti50_onboard"
-IUSE="${IUSE} amd_cpu coreboot-sdk chipset_stoneyridge chipset_picasso"
-IUSE="${IUSE} chipset_cezanne"
-IUSE="${IUSE} fw_debug intel-compliance-test-mode"
+
+# SOC
+IUSE="amd_cpu intel_cpu"
+# GSC
+IUSE="${IUSE} mocktpm ti50_onboard"
+# AMD chipsets
+IUSE="${IUSE} chipset_cezanne chipset_stoneyridge"
+# Debug
+IUSE="${IUSE} fw_debug intel_debug intel-compliance-test-mode"
+# Logging
+IUSE="${IUSE} quiet quiet-cb verbose"
+# Flashrom Emulator
+IUSE="${IUSE} em100-mode"
+# Common libraries
+IUSE="${IUSE} coreboot-sdk"
+IUSE="${IUSE} fsp memmaps mma private_fsp_headers rmt vmx"
+IUSE="${IUSE} +bmpblk unibuild"
+
 # virtual/coreboot-private-files is deprecated. When adding a new board you
 # should add the coreboot-private-files-{board/chipset} ebuilds into the private
 # overlays, and avoid creating virtual packages.
@@ -322,9 +335,7 @@ make_coreboot() {
 
 	# Modify firmware descriptor if building for the EM100 emulator on
 	# Intel platforms.
-	# TODO(crbug.com/863396): Should we have an 'intel' USE flag? Do we
-	# still have any Intel platforms that don't use ifdtool?
-	if ! use amd_cpu && use em100-mode; then
+	if use intel_cpu && use em100-mode; then
 		einfo "Enabling em100 mode via ifdttool (slower SPI flash)"
 		ifdtool --em100 "${builddir}/coreboot.rom" || die
 		mv "${builddir}/coreboot.rom"{.new,} || die
