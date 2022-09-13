@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk dlcservice metrics .gn"
 
 PLATFORM_SUBDIR="dlcservice"
 
-inherit cros-workon platform tmpfiles user
+inherit cros-workon platform tmpfiles udev user
 
 DESCRIPTION="A D-Bus service for Downloadable Content (DLC)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservice/"
@@ -42,6 +42,9 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
+	# Install all the udev rules.
+	udev_dorules "${FILESDIR}"/udev/*.rules
+
 	dosbin "${OUT}/dlcservice"
 	# Technically we don't need the dlcservice_util in rootfs, but the QA team
 	# will need this to test with sample-dlc.
