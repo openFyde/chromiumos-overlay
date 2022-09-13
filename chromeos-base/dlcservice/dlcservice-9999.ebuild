@@ -83,4 +83,5 @@ platform_pkg_test() {
 pkg_preinst() {
 	enewuser "dlcservice"
 	enewgroup "dlcservice"
+	enewgroup "disk-dlc" # For DLC logical volume management.
 }
