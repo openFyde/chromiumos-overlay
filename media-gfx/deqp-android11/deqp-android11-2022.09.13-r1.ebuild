@@ -12,7 +12,7 @@ HOMEPAGE="https://github.com/KhronosGroup/VK-GL-CTS"
 
 # This corresponds to a commit for the chosen tag/branch.
 # We follow the deqp android11-tests-dev branch, see README for details.
-MY_DEQP_COMMIT='45fbecdfac49bb38572cca17f5211b1ce0d5b23d'
+MY_DEQP_COMMIT='328686eef3ba8fbbefaaae93b1e366316529a0d4'
 
 # When building the Vulkan CTS, dEQP requires that certain external
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
