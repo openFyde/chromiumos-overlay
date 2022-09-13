@@ -115,7 +115,7 @@ fi
 
 inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizers
 
-IUSE="asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan"
+IUSE="asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan"
 REQUIRED_USE="?? ( asan lsan msan tsan )"
 
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile src_test src_install pkg_preinst pkg_postinst pkg_prerm
@@ -491,8 +491,8 @@ cros-rust_configure_cargo() {
 
 	use cros-debug && rustflags+=( -Cdebug-assertions=on )
 
-	# TODO(b/230127632) disable Rust coverage until it works-as-intended.
-	# use coverage && rustflags+=( -Cinstrument-coverage )
+	# TODO(b/215596245) Use rust-coverage use flag for rust packages.
+	use rust-coverage && rustflags+=( -Cinstrument-coverage )
 
 	# Rust compiler is not exporting the __asan_* symbols needed in
 	# asan builds. Force export-dynamic linker flag to export __asan_* symbols

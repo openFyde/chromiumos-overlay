@@ -109,8 +109,8 @@ cros_pre_src_install_tidy_setup() {
 		if [[ ${WITH_TIDY} -eq 1 ]] ; then
 			clang_tidy_logs_dir="/tmp/clang-tidy-logs/${BOARD}"
 			mkdir -p ${clang_tidy_logs_dir}
-			cp ${PORTAGE_LOG_FILE} ${clang_tidy_logs_dir}
-			sudo chmod 644 ${clang_tidy_logs_dir}/*
+			cp "${PORTAGE_LOG_FILE}" "${clang_tidy_logs_dir}"
+			sudo chmod 644 "${clang_tidy_logs_dir}"/*
 		fi
 	fi
 }
@@ -487,7 +487,7 @@ cros_post_src_unpack_asan_init() {
 		export LSAN_OPTIONS+=" suppressions=${lsan_suppression_ebuild}"
 	fi
 
-	has asan_death_hook ${EBUILD_DEATH_HOOKS} || EBUILD_DEATH_HOOKS+=" asan_death_hook"
+	has asan_death_hook "${EBUILD_DEATH_HOOKS}" || EBUILD_DEATH_HOOKS+=" asan_death_hook"
 }
 
 # Check for & show ASAN failures when dying.
@@ -532,26 +532,43 @@ cros_post_src_install_coverage_logs() {
 		local cov_files=( "${coverage_path}"/*.profraw )
 
 		# Create the indexed profile file from raw profiles.
+		# TODO(b/215596245): Remove rust-specific cmd once clang and rust converge on same llvm version.
+		local cov_fail=false
+		local rust_fail=false
 		llvm-profdata merge -sparse "${cov_files[@]}" \
-			-output="${cov_dir}/${PN}.profdata" || die
+			-output="${cov_dir}/${PN}.profdata" || cov_fail=true
 
+		if [[ "${cov_fail}" == true ]]; then
+			/usr/libexec/rust/llvm-profdata merge -sparse -failure-mode=all "${cov_files[@]}" \
+				-output="${cov_dir}/${PN}.profdata" || die "Failed to merge profraw files."
+		fi
+
+		local cov_args
 		# Find all elf binaries built in this package that have
 		# coverage instrumentation enabled and add "-object option" to
 		# be used later in llvm-cov.
 		# TODO: Find more directories other than ${OUT} and ${WORKDIR}
 		# that the package may use for producing binaries.
-		local cov_args
 		readarray -t cov_args < <(scanelf -qRy -k__llvm_covmap \
 			-F$'-object\n#k%F' "${OUT}" "${WORKDIR}")
-		# Return if there are no elf files with coverage data.
-		[[ "${#cov_args[@]}" -eq 0 ]] && return
+
+		if [[ "${#cov_args[@]}" -eq 0 ]]; then
+			# Look for object files in rust deps instead.
+			local obj_file
+			obj_file=$(find "${CARGO_TARGET_DIR}/ecargo-test/${CHOST}/release/deps/" -maxdepth 1 -type f -executable)
+			if [[ -n "${obj_file}" ]]; then
+				cov_args+=(-object "${obj_file}")
+			else
+				die "No object files found."
+			fi
+		fi
 
 		# Generate json format coverage report.
 		llvm-cov export "${cov_args[@]}" \
 			-instr-profile="${cov_dir}/${PN}.profdata" \
 			-skip-expansions \
 			-skip-functions \
-			> ${cov_dir}/coverage.json || die
+			> "${cov_dir}"/coverage.json || die
 
 		# Generate html format coverage report.
 		llvm-cov show "${cov_args[@]}" -format=html \
