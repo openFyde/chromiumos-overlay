@@ -14,7 +14,7 @@ import logging
 from pathlib import Path
 import pprint
 import sys
-from typing import Iterable, List
+from typing import Dict, Iterable, List
 
 import migration_utils
 
@@ -61,6 +61,27 @@ def ebuilds_have_customization(ebuilds: Iterable[str]) -> bool:
     )
 
 
+def find_available_rust_crates(rust_crates_path: Path) -> Dict[str, List[str]]:
+    """Returns a mapping of crate name -> versions in `rust_crates_path`."""
+    result = collections.defaultdict(list)
+    for file in (rust_crates_path / "vendor").iterdir():
+        if not file.is_dir():
+            continue
+
+        # dev-rust has clap-3.0.0_beta2, which shows up in `cargo`'s vendor
+        # registry as `clap-3.0.0.beta-2`. Actual version parsing is somewhat
+        # complicated, and we only have one instance of this, so handle it in a
+        # targeted way.
+        crate_name_and_ver = file.name.replace(".beta-", "_beta")
+        name, ver = crate_name_and_ver.rsplit("-", 1)
+        result[name].append(ver)
+
+    for vers in result.values():
+        vers.sort()
+
+    return result
+
+
 def main(argv: List[str]):
     logging.basicConfig(
         format=">> %(asctime)s: %(levelname)s: %(filename)s:%(lineno)d: "
@@ -71,11 +92,7 @@ def main(argv: List[str]):
     opts = get_parser().parse_args(argv)
     third_party_crates_ebuild = opts.third_party_crates_ebuild.resolve()
     third_party_crates = third_party_crates_ebuild.parent
-    available_rust_crates = set(
-        x.name
-        for x in (opts.rust_crates_path / "vendor").iterdir()
-        if x.is_dir()
-    )
+    available_rust_crates = find_available_rust_crates(opts.rust_crates_path)
 
     logging.info("Available crates: %s", available_rust_crates)
 
@@ -103,6 +120,12 @@ def main(argv: List[str]):
                 logging.info("Skipping %s; it has customization", subdir.name)
                 continue
 
+        available_versions = available_rust_crates.get(subdir.name)
+        if not available_versions:
+            logging.info("Skipping %s; it is not available", subdir.name)
+            skip_reasons["unavailable in rust_crates"] += len(files)
+            continue
+
         package_candidates = []
         skipped_any = False
         for ebuild in sorted(files):
@@ -113,14 +136,21 @@ def main(argv: List[str]):
                 skip_reasons["symlinks"] += 1
                 continue
 
-            stem_no_rev = ebuild.stem
-            maybe_stem_no_rev, maybe_rev = stem_no_rev.rsplit("-", 1)
-            if maybe_rev.startswith("r"):
-                stem_no_rev = maybe_stem_no_rev
+            stem_no_rev, _ = migration_utils.parse_crate_from_ebuild_stem(
+                ebuild.stem
+            )
+            ebuild_ver = stem_no_rev.rsplit("-", 1)[1]
 
-            if stem_no_rev not in available_rust_crates:
-                logging.info("Skipping %s; it is not available", ebuild.stem)
-                skip_reasons["unavailable in rust_crates"] += 1
+            has_compatible_ver = any(
+                migration_utils.is_semver_compatible_upgrade(ebuild_ver, x)
+                for x in available_versions
+            )
+            if not has_compatible_ver:
+                logging.info(
+                    "Skipping %s; it has no semver-compatible versions",
+                    ebuild.stem,
+                )
+                skip_reasons["no semver-compatible version"] += 1
                 skipped_any = True
                 continue
 
