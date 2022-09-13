@@ -35,6 +35,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/memchr-2.4.0
+	!=dev-rust/regex-1.5.4
 	!=dev-rust/termcolor-1.1.2
 "
 
