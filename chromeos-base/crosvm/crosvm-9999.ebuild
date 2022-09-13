@@ -43,6 +43,7 @@ RDEPEND="${COMMON_DEPEND}
 
 DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
+	dev-rust/third-party-crates-src:=
 	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
