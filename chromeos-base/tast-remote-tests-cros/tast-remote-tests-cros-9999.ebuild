@@ -42,7 +42,10 @@ KEYWORDS="~*"
 IUSE=""
 
 # Build-time dependencies should be added to tast-build-deps, not here.
-DEPEND="chromeos-base/tast-build-deps:="
+DEPEND="
+	chromeos-base/tast-build-deps:=
+	chromeos-base/cros-config-api
+"
 
 RDEPEND="
 	chromeos-base/tast-tests-remote-data
