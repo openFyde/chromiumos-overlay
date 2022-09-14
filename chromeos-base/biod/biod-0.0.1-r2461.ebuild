@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8802cd0d2aea92301143b2758ed76f8f21bc0808"
-CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "9241953a405d822a852cdaa83f5be2c3c83a52f0" "8b5023c53609c87da39394377b66ee4898b6a4eb" "20eb7c52ccd227193336f7d1df005bb2bdca1a57" "e62146994a05b9efea89b0e552f15189de3f8dfd" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="a9176c1444fd0a4f225e31b5c680326ee499d3e3"
+CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "57b7e7bd72617ba1bfb394b8de479b74c51a0cd7" "8b5023c53609c87da39394377b66ee4898b6a4eb" "20eb7c52ccd227193336f7d1df005bb2bdca1a57" "e62146994a05b9efea89b0e552f15189de3f8dfd" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -12,7 +12,8 @@ CROS_WORKON_SUBTREE="common-mk biod chromeos-config libec metrics .gn"
 
 PLATFORM_SUBDIR="biod"
 
-inherit cros-fuzzer cros-sanitizers cros-workon cros-unibuild platform udev user
+inherit cros-fuzzer cros-sanitizers cros-workon cros-unibuild platform \
+	tmpfiles udev user
 
 DESCRIPTION="Biometrics Daemon for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/biod/README.md"
@@ -78,6 +79,8 @@ src_install() {
 	platform_install
 
 	udev_dorules udev/99-biod.rules
+
+	dotmpfiles tmpfiles.d/*.conf
 
 	# Set up cryptohome daemon mount store in daemon's mount
 	# namespace.
