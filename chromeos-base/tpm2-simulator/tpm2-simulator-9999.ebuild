@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
-IUSE="biometrics_dev selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
+IUSE="+biometrics_dev selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
 
 COMMON_DEPEND="
 	tpm? ( !test? ( dev-libs/libtpms:= ) )
