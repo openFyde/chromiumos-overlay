@@ -20,14 +20,17 @@ EAPI=7
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
+	"external/gitlab.com/libeigen/eigen"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/ec"
 	"third_party/cryptoc"
+	"third_party/eigen3"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/third_party/cryptoc"
+	"${S}/third_party/eigen3"
 )
 
 inherit cros-ec cros-workon
