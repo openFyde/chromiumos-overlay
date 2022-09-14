@@ -8,8 +8,8 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/cros_async"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
-CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
+CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
+CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
 
 # The version of this crate is pinned. See b/229016539 for details.
 CROS_WORKON_MANUAL_UPREV="1"
@@ -58,8 +58,9 @@ src_test() {
 			timer::tests::one_shot
 		)
 
-		local args=($(printf -- "--skip %s\n" "${skip_tests[@]}"))
-		cros-rust_src_test -- "${args[@]}"
+		# We want word splitting here.
+		# shellcheck disable=SC2046
+		cros-rust_src_test -- $(printf -- "--skip %s\n" "${skip_tests[@]}")
 	else
 		cros-rust_src_test
 	fi
