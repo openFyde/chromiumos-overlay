@@ -1,8 +1,7 @@
-# Copyright 2019 The ChromiumOS Authors
+# Copyright 2019 The Chromium OS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-
 
 # Migrated crate. See b/240953811 for more about this migration.
 DESCRIPTION="Replaced by third-party-crates-src."
@@ -10,5 +9,7 @@ DESCRIPTION="Replaced by third-party-crates-src."
 LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+RESTRICT="test" # requires libm crate
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

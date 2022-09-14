@@ -16,9 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	~dev-rust/ahash-0.7.0
 	=dev-rust/rustc-std-workspace-alloc-1*
-	>=dev-rust/bumpalo-3.5.0 <dev-rust/bumpalo-4.0.0
 	>=dev-rust/compiler_builtins-0.1.2 <dev-rust/compiler_builtins-0.2.0
 	=dev-rust/rustc-std-workspace-core-1*
 	=dev-rust/rayon-1*

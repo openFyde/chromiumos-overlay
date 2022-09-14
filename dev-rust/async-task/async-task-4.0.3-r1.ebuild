@@ -1,7 +1,8 @@
-# Copyright 2019 The ChromiumOS Authors
-# Distributed under the terms of the GNU General Public License v2
+# Copyright 2021 The Chromium OS Authors
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
-EAPI="7"
+EAPI=7
 
 
 # Migrated crate. See b/240953811 for more about this migration.

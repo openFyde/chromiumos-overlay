@@ -47,7 +47,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
-	=dev-rust/async-task-4*
 	=dev-rust/async-trait-0.1*
 	=dev-rust/bitflags-1*
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
@@ -74,10 +73,8 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
 	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
 	~dev-rust/num_cpus-1.9.0
-	=dev-rust/num-traits-0.2*
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
-	=dev-rust/paste-1*
 	=dev-rust/pin-utils-0.1*
 	~dev-rust/pkg-config-0.3.11
 	=dev-rust/proc-macro2-1*

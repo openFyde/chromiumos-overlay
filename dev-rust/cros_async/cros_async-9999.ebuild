@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND="
-	=dev-rust/async-task-4*
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/async-trait-0.1.36 <dev-rust/async-trait-0.2
 	dev-rust/data_model:=
 	=dev-rust/futures-0.3*
@@ -30,7 +30,6 @@ DEPEND="
 	dev-rust/io_uring:=
 	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
-	=dev-rust/paste-1*
 	=dev-rust/pin-utils-0.1*
 	=dev-rust/remain-0.2*
 	=dev-rust/slab-0.4*

@@ -1,4 +1,4 @@
-# Copyright 2019 The ChromiumOS Authors
+# Copyright 2022 The Chromium OS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -10,5 +10,7 @@ DESCRIPTION="Replaced by third-party-crates-src."
 LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

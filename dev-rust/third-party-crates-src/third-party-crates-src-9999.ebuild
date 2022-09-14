@@ -36,6 +36,21 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/wasm-bindgen-0.2.68
+	!=dev-rust/shell-words-1.0.0
+	!=dev-rust/proc-macro-nested-0.1.3
+	!=dev-rust/paste-1.0.2
+	!=dev-rust/num_threads-0.1.5
+	!=dev-rust/num-traits-0.2.12
+	!=dev-rust/itoa-1.0.1
+	!=dev-rust/itoa-0.4.7
+	!=dev-rust/httparse-1.3.4
+	!=dev-rust/httparse-1.3.4-r1
+	!=dev-rust/hermit-abi-0.1.3
+	!=dev-rust/chunked_transfer-1.2.0
+	!=dev-rust/bumpalo-3.5.0
+	!=dev-rust/async-task-4.0.3
+	!=dev-rust/argh_shared-0.1.7
 	!=dev-rust/wio-0.2.2
 	!=dev-rust/winapi-0.3.9
 	!=dev-rust/version_check-0.9.3
@@ -79,11 +94,15 @@ ALLOWED_CRATE_VERSIONS=(
 	"addr2line-0.14.1"
 	"adler-0.2.3"
 	"android_system_properties-0.1.5"
+	"argh_shared-0.1.8"
 	"assert_matches-1.5.0"
+	"async-task-4.3.0"
 	"bit_field-0.10.1"
 	"bitvec-0.19.5"
+	"bumpalo-3.11.0"
 	"bytemuck-1.12.1"
 	"byteorder-1.4.3"
+	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
 	"com_logger-0.1.1"
 	"configparser-3.0.0"
@@ -105,12 +124,16 @@ ALLOWED_CRATE_VERSIONS=(
 	"funty-1.1.0"
 	"gimli-0.23.0"
 	"grpcio-compiler-0.6.0"
+	"hermit-abi-0.1.18"
+	"httparse-1.7.1"
 	"humantime-2.1.0"
 	"iana-time-zone-0.1.47"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
 	"io-lifetimes-0.7.3"
 	"io-uring-0.5.4"
+	"itoa-0.4.7"
+	"itoa-1.0.3"
 	"js-sys-0.3.59"
 	"libslirp-sys-4.2.1"
 	"link-cplusplus-1.0.5"
@@ -120,11 +143,15 @@ ALLOWED_CRATE_VERSIONS=(
 	"minimal-lexical-0.2.1"
 	"miow-0.3.6"
 	"ntapi-0.3.6"
+	"num-traits-0.2.14"
+	"num_threads-0.1.6"
 	"object-0.23.0"
+	"paste-1.0.4"
 	"pcap-file-1.1.1"
 	"peeking_take_while-0.1.2"
 	"pin-project-lite-0.2.4"
 	"ppv-lite86-0.2.10"
+	"proc-macro-nested-0.1.7"
 	"protoc-grpcio-2.0.0"
 	"quote-0.3.15"
 	"radium-0.5.3"
@@ -136,6 +163,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustversion-1.0.9"
 	"same-file-1.0.6"
 	"scopeguard-1.1.0"
+	"shell-words-1.1.0"
 	"str-buf-1.0.5"
 	"syn-0.11.11"
 	"synom-0.11.3"
@@ -148,6 +176,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"utf8parse-0.2.0"
 	"version_check-0.9.3"
 	"volatile-0.4.5"
+	"wasm-bindgen-0.2.82"
 	"wasm-bindgen-backend-0.2.82"
 	"wasm-bindgen-macro-0.2.82"
 	"wasm-bindgen-macro-support-0.2.82"

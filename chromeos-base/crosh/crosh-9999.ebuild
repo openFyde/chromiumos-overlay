@@ -23,6 +23,7 @@ COMMON_DEPEND="
 "
 
 DEPEND="${COMMON_DEPEND}
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0_alpha
 	=dev-rust/chrono-0.4*
 	=dev-rust/dbus-0.9*
@@ -32,7 +33,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha
 	dev-rust/remain
 	=dev-rust/rustyline-9*
-	dev-rust/shell-words
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	dev-rust/tempfile
