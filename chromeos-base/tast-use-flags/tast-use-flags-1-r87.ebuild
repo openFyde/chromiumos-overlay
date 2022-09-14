@@ -41,6 +41,7 @@ IUSE="
 	biod
 	borealis_host
 	camera_feature_auto_framing
+	camera_feature_effects
 	camera_feature_hdrnet
 	camera_feature_portrait_mode
 	cdm_factory_daemon
