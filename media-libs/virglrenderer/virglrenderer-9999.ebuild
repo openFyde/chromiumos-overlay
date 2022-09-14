@@ -51,6 +51,12 @@ src_prepare() {
 src_configure() {
 	sanitizers-setup-env
 
+	# flto flag added under condition due to llvm open issue
+	# https://github.com/llvm/llvm-project/issues/57944
+	if ! use fuzzer; then
+		append-flags -flto
+	fi
+
 	if use profiling; then
 		append-flags -fprofile-instr-generate -fcoverage-mapping
 		append-ldflags -fprofile-instr-generate -fcoverage-mapping
