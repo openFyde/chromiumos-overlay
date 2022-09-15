@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # Based on gentoo's modemmanager ebuild
 
-EAPI=6
+EAPI=7
 CROS_WORKON_COMMIT="f1eb5d9ea80c41ed018727ab16db5e6dcb101261"
 CROS_WORKON_TREE="9296dfe3a7d2b29f0b07908b8f2b8be244332bd5"
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
@@ -10,11 +10,8 @@ CROS_WORKON_EGIT_BRANCH="master"
 
 inherit eutils autotools cros-sanitizers cros-workon flag-o-matic systemd udev user
 
-# ModemManager likes itself with capital letters
-MY_P=${P/modemmanager/ModemManager}
-
 DESCRIPTION="Modem and mobile broadband management libraries"
-HOMEPAGE="http://mail.gnome.org/archives/networkmanager-list/2008-July/msg00274.html"
+HOMEPAGE="https://www.freedesktop.org/wiki/Software/ModemManager/"
 #SRC_URI not defined because we get our source locally
 
 LICENSE="GPL-2"
@@ -33,10 +30,15 @@ RDEPEND=">=dev-libs/glib-2.36
 
 DEPEND="${RDEPEND}
 	virtual/libgudev
-	dev-util/intltool
-	>=dev-util/gtk-doc-1.13
 	!net-misc/modemmanager-next-interfaces
 	!net-misc/modemmanager"
+
+BDEPEND="
+	dev-util/gdbus-codegen
+	dev-util/glib-utils
+	dev-util/intltool
+	>=dev-util/gtk-doc-am-1.13
+	>=sys-devel/gettext-0.19.8"
 
 DOCS="AUTHORS NEWS README"
 
