@@ -237,5 +237,19 @@
             "from": 465103,
             "until": 466067
         }
+    },
+    {
+	"metadata": {
+		"info": [],
+		"title": "[libcxx] makes it possible to strip debug info from libc++"
+	},
+	"platforms": [
+		"chromiumos"
+	],
+	"rel_patch_path": "0001-libcxx-makes-it-possible-to-strip-debug-info-from-li.patch",
+	"version_range": {
+		"from": 458507,
+		"until": null
+	}
     }
 ]
