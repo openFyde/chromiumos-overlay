@@ -9,7 +9,8 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} common-mk"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_OUTOFTREE_BUILD=1
+# We don't use CROS_WORKON_OUTOFTREE_BUILD here since project's Cargo.toml is
+# using "provided by ebuild" macro which supported by cros-rust.
 
 inherit cros-workon cros-rust
 
@@ -26,6 +27,7 @@ DEPEND="chromeos-base/system_api:=
 	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
 	=dev-rust/env_logger-0.9*
 	>=dev-rust/libc-0.2.44 <dev-rust/libc-0.3.0
+	dev-rust/libchromeos:=
 	>=dev-rust/log-0.4.5 <dev-rust/log-0.5.0
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
 	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
