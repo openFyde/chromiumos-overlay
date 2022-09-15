@@ -127,7 +127,6 @@ IUSE_TESTS=(
 IUSE_TESTS_CELLULAR="
 	cellular? (
 		+tests_cellular_ModemControl
-		+tests_cellular_SuspendResume
 		+tests_network_ChromeCellularEndToEnd
 		+tests_network_ChromeCellularNetworkPresent
 		+tests_network_ChromeCellularNetworkProperties
