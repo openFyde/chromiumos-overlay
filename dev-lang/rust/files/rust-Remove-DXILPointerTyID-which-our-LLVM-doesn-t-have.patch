@@ -1,0 +1,25 @@
+From bb289c22258720b58e340f1b9cd02b72059761b5 Mon Sep 17 00:00:00 2001
+From: Michael Benfield <mbenfield@google.com>
+Date: Thu, 15 Sep 2022 23:06:49 +0000
+Subject: [PATCH] Remove DXILPointerTyID, which our LLVM doesn't have
+
+---
+ compiler/rustc_llvm/llvm-wrapper/RustWrapper.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/compiler/rustc_llvm/llvm-wrapper/RustWrapper.cpp b/compiler/rustc_llvm/llvm-wrapper/RustWrapper.cpp
+index 6d79e662a42..429dbf659bb 100644
+--- a/compiler/rustc_llvm/llvm-wrapper/RustWrapper.cpp
++++ b/compiler/rustc_llvm/llvm-wrapper/RustWrapper.cpp
+@@ -1217,7 +1217,7 @@ extern "C" LLVMTypeKind LLVMRustGetTypeKind(LLVMTypeRef Ty) {
+     return LLVMBFloatTypeKind;
+   case Type::X86_AMXTyID:
+     return LLVMX86_AMXTypeKind;
+-#if LLVM_VERSION_GE(15, 0)
++#if 0
+   case Type::DXILPointerTyID:
+     report_fatal_error("Rust does not support DirectX typed pointers.");
+     break;
+-- 
+2.37.3.968.ga6b4b080e4-goog
+

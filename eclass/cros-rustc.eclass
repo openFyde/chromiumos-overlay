@@ -43,7 +43,7 @@ esac
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile
 
 PYTHON_COMPAT=( python3_{6..9} )
-inherit python-any-r1 toolchain-funcs
+inherit python-any-r1 toolchain-funcs cros-rustc-directories
 
 # It's intended that only a person upgrading the Rust version used in ChromeOS
 # needs to worry about these flags.
@@ -79,7 +79,7 @@ inherit python-any-r1 toolchain-funcs
 #
 # rust_profile_llvm_use_local will instead use a llvm profdata file at
 # ${FILESDIR}/llvm.profdata
-IUSE='rust_profile_frontend_generate rust_profile_llvm_generate rust_profile_frontend_use_local rust_profile_llvm_use_local +rust_profile_frontend_use +rust_profile_llvm_use'
+IUSE='rust_profile_frontend_generate rust_profile_llvm_generate rust_profile_frontend_use_local rust_profile_llvm_use_local +rust_profile_frontend_use +rust_profile_llvm_use +rust_cros_llvm'
 
 REQUIRED_USE="
 	rust_profile_frontend_generate? (
@@ -138,6 +138,11 @@ REQUIRED_USE="
 # `dev-lang/rust/files/bisect-scripts/prepare_rust_for_offline_build.sh`.
 CROS_RUSTC_BUILD_RAW_SOURCES=
 
+# We identify the .profdata file we want by ${PV}. Sometimes we may want to
+# upload and use a newer profdata file even if we haven't bumped PV; these can
+# be distinguished with this suffix.
+PROFDATA_SUFFIX='-1'
+
 # There's a fair amount of direct commonality between dev-lang/rust and
 # dev-lang/rust-host. Capture that here.
 ABI_VER="$(ver_cut 1-2)"
@@ -158,13 +163,13 @@ HOMEPAGE="https://www.rust-lang.org/"
 
 if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 	SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz
-		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend.profdata.xz )
-		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm.profdata.xz )
+		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend${PROFDATA_SUFFIX}.profdata.xz )
+		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm${PROFDATA_SUFFIX}.profdata.xz )
 	"
 else
 	SRC_URI="
-		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend.profdata.xz )
-		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm.profdata.xz )
+		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend${PROFDATA_SUFFIX}.profdata.xz )
+		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm${PROFDATA_SUFFIX}.profdata.xz )
 	"
 	# If a bisection is happening, we use the bootstrap compiler that upstream prefers.
 	# Clear this so we don't accidentally use it below.
@@ -178,13 +183,17 @@ RESTRICT="binchecks strip"
 DEPEND="${PYTHON_DEPS}
 	>=dev-libs/libxml2-2.9.6
 	>=dev-lang/perl-5.0
+	rust_cros_llvm? (
+		~dev-lang/rust-llvm-sources-${PV}:=
+	)
 "
 
 if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
-	BDEPEND="dev-lang/rust-bootstrap:${BOOTSTRAP_VERSION}"
+	DEPEND+="dev-lang/rust-bootstrap:${BOOTSTRAP_VERSION}"
 fi
 
 PATCHES=(
+	"${FILESDIR}/rust-Remove-DXILPointerTyID-which-our-LLVM-doesn-t-have.patch"
 	"${FILESDIR}/rust-add-cros-targets.patch"
 	"${FILESDIR}/rust-fix-rpath.patch"
 	"${FILESDIR}/rust-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
@@ -200,11 +209,6 @@ PATCHES=(
 	"${FILESDIR}/rust-Don-t-build-std-for-uefi-targets.patch"
 	"${FILESDIR}/rust-Bump-cc-version-in-bootstrap-to-fix-build-of-uefi-ta.patch"
 )
-
-# Locations where we cache our build/src dirs.
-CROS_RUSTC_DIR="${SYSROOT}/var/cache/portage/${CATEGORY}/rust-artifacts"
-CROS_RUSTC_BUILD_DIR="${CROS_RUSTC_DIR}/build"
-CROS_RUSTC_SRC_DIR="${CROS_RUSTC_DIR}/src"
 
 S="${CROS_RUSTC_SRC_DIR}/${MY_P}-src"
 
@@ -305,10 +309,27 @@ cros-rustc_src_unpack() {
 	cros-rustc_setup_portage_dirs
 }
 
+cros-rustc_llvm-description() {
+	if use rust_cros_llvm; then
+		git -C "${CROS_RUSTC_LLVM_SRC_DIR}" rev-parse HEAD || die
+	else
+		echo "default"
+	fi
+}
+
 cros-rustc_src_prepare() {
 	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 		einfo "Synchronizing bootstrap compiler caches ..."
 		cp -avu "${_CROS_RUSTC_RAW_SOURCES_ROOT}/build/cache" "${CROS_RUSTC_BUILD_DIR}" || die
+	fi
+
+	if use rust_cros_llvm; then
+		einfo "Copying CrOS LLVM"
+		local rust_llvm="src/llvm-project"
+		rm -rf "${rust_llvm}"
+		mkdir -p -m 755 "${rust_llvm}"
+		# Avoid copying the hidden .git directory.
+		rsync -rl --exclude=.git "${CROS_RUSTC_LLVM_SRC_DIR}"/* "${rust_llvm}" || die
 	fi
 
 	einfo "Applying Rust patches..."
@@ -377,7 +398,7 @@ cros-rustc_src_configure() {
 	local llvm_options
 	local rust_options
 	local tools
-	local description
+	local llvm_version=$(cros-rustc_llvm-description)
 
 	if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 		read -r -d '' bootstrap_compiler_info <<- EOF
@@ -396,14 +417,10 @@ cros-rustc_src_configure() {
 			# This is an instrumented build, only meant to generate profiles, so we don't need the other tools.
 			tools = ["cargo"]
 		EOF
-
-		read -r -d '' description <<- EOF
-			description = "${PF} (instrumented build; don't use except to generate profiles)"
-		EOF
 	fi
 
-	local llvm_use_pgo_file="${CROS_RUSTC_SRC_DIR}/rust-pgo-${PV}-llvm.profdata"
-	local frontend_use_pgo_file="${CROS_RUSTC_SRC_DIR}/rust-pgo-${PV}-frontend.profdata"
+	local llvm_use_pgo_file="${CROS_RUSTC_SRC_DIR}/rust-pgo-${PV}-llvm${PROFDATA_SUFFIX}.profdata"
+	local frontend_use_pgo_file="${CROS_RUSTC_SRC_DIR}/rust-pgo-${PV}-frontend${PROFDATA_SUFFIX}.profdata"
 	if use rust_profile_llvm_use_local; then
 		llvm_use_pgo_file="${FILESDIR}/llvm.profdata"
 	fi
@@ -416,23 +433,23 @@ cros-rustc_src_configure() {
 	# stage 1 compiler, and then use it to build an instrumented stage 2 compiler.
 	if use rust_profile_llvm_generate; then
 		read -r -d '' llvm_options <<- EOF
-			# Without the -vp-counters-per-site option, we get
+			# Without the -vp-static-alloc=false option, we get
 			# LLVM Profile Warning: Unable to track new values: Running out of static counters.
-			# Alternatively we could use -vp-static-alloc=false.
+			# Alternatively we could use -vp-counters-per-site=2
 			# The advantage of using one over the other is unclear.
-			cflags = "-fprofile-generate=${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw -mllvm -vp-counters-per-site=2"
-			cxxflags = "-fprofile-generate=${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw -mllvm -vp-counters-per-site=2"
+			cflags = "-fprofile-generate=${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw -mllvm -vp-static-alloc=false"
+			cxxflags = "-fprofile-generate=${CROS_RUSTC_PGO_LOCAL_BASE}/llvm-profraw -mllvm -vp-static-alloc=false"
 			link-shared = true
 		EOF
 	fi
 
 	if use rust_profile_frontend_generate; then
 		read -r -d '' llvm_options <<- EOF
-			# Without the -vp-counters-per-site option, we get
+			# Without the -vp-static-alloc=false option, we get
 			# LLVM Profile Warning: Unable to track new values: Running out of static counters.
 			# Alternatively we could use -vp-static-alloc=false.
-			cflags = "-mllvm -vp-counters-per-site=2"
-			cxxflags = "-mllvm -vp-counters-per-site=2"
+			cflags = "-mllvm -vp-static-alloc=false"
+			cxxflags = "-mllvm -vp-static-alloc=false"
 		EOF
 		read -r -d '' rust_options <<- EOF
 			profile-generate = "${CROS_RUSTC_PGO_LOCAL_BASE}/frontend-profraw"
@@ -483,7 +500,7 @@ cros-rustc_src_configure() {
 
 		[rust]
 		default-linker = "${CBUILD}-clang"
-		${description}
+		description = "Run /usr/bin/rust-toolchain-version for more detail"
 		channel = "nightly"
 		codegen-units = 0
 		llvm-libunwind = 'in-tree'
@@ -499,7 +516,6 @@ cros-rustc_src_configure() {
 			cc = "${tt}-clang"
 			cxx = "${tt}-clang++"
 			linker = "${tt}-clang++"
-
 		EOF
 	done
 }
@@ -507,6 +523,17 @@ cros-rustc_src_configure() {
 cros-rustc_src_compile() {
 	${EPYTHON} x.py build --stage 2 --config cros-config.toml "$@" || die
 
+	local llvm_version=$(cros-rustc_llvm-description)
+	local version_filename="${CROS_RUSTC_BUILD_DIR}/x86_64-unknown-linux-gnu/stage2/bin/rust-toolchain-version"
+	local extra_text=
+	if use rust_profile_llvm_generate || use rust_profile_frontend_generate; then
+		extra_text=' (instrumented build; please only use to generate profiles)'
+	fi
+	cat > "${version_filename}" <<- EOF
+		#!/usr/bin/env bash
+		echo "${PVR} (with LLVM ${llvm_version})${extra_text}"
+	EOF
+	chmod +x "${version_filename}"
 	# Remove the src/rust symlink which will be dangling after sources are
 	# removed, and the containing src directory.
 	rm "${CROS_RUSTC_BUILD_DIR}/x86_64-unknown-linux-gnu/stage2/lib/rustlib/src/rust" || die

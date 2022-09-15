@@ -1,0 +1,15 @@
+[
+    {
+        "metadata": {
+            "info": [],
+            "title": "[rust] Add accessors for MCSubtargetInfo CPU and Feature tables"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "Add-accessors-for-MCSubtargetInfo-CPU-and-Featu.patch",
+        "version_range": {
+            "from": 458507
+        }
+    }
+]
