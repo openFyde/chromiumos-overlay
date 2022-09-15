@@ -11,6 +11,8 @@
 
 inherit multilib
 
+IUSE="continue-on-patch-failure"
+
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND="
 		${CATEGORY}/binutils
@@ -46,6 +48,16 @@ setup_cross_toolchain() {
 	fi
 	unset ABI MULTILIB_ABIS DEFAULT_ABI
 	multilib_env ${CTARGET}
+}
+
+prepare_patches() {
+	local failure_mode
+	failure_mode="$(usex continue-on-patch-failure continue fail)"
+	"${FILESDIR}"/patch_manager/patch_manager.py \
+		--svn_version "$(get_most_recent_revision)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--failure_mode "${failure_mode}" \
+		--src_path "${S}" || die
 }
 
 get_most_recent_revision() {
