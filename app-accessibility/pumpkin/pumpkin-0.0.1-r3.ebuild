@@ -14,7 +14,7 @@ JavaScript API. This DLC downloads the web assembly, JavaScript wrapper, and
 locale-specific binary files, which are all built in google3. Pumpkin is
 currently used by accessibility services on Chrome OS.'
 HOMEPAGE=""
-SRC_URI="gs://chromeos-localmirror/distfiles/${PN}-1.0.tar.xz"
+SRC_URI="gs://chromeos-localmirror/distfiles/${PN}-2.0.tar.xz"
 
 LICENSE="BSD-Google"
 SLOT="0"
