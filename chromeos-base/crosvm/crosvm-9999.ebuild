@@ -202,7 +202,7 @@ src_compile() {
 
 	if use crosvm-direct; then
 		ecargo_build -v \
-			--no-default-features --features="direct" \
+			--no-default-features --features="direct,chromeos" \
 			-p "crosvm" --bin crosvm-direct ||
 			die "cargo build failed"
 	fi
