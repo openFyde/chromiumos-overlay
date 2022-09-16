@@ -164,17 +164,9 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-	cros-rust_create_vendor_registry_links \
-		"${S}/vendor" \
-		"${ALLOWED_CRATE_VERSIONS[@]}"
+	cros-rust_create_vendor_registry_links "${ALLOWED_CRATE_VERSIONS[@]}"
 }
 
 pkg_prerm() {
 	cros-rust_cleanup_vendor_registry_links "${ALLOWED_CRATE_VERSIONS[@]}"
-}
-
-pkg_postrm() {
-	cros-rust_create_vendor_registry_links \
-		"${S}/vendor" \
-		"${ALLOWED_CRATE_VERSIONS[@]}"
 }

@@ -1025,7 +1025,7 @@ _create_registry_link() {
 
 	# Only install the link if there is a library crates to register. This
 	# avoids dangling symlinks in the case that this only installs
-	# executables, or the ebuild is being removed.
+	# executables.
 	if [[ -e "${crate_dir}" ]]; then
 		local owners_dir="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}"
 		einfo "Linking ${crate} into Cargo registry at ${registry_dir}"
@@ -1102,6 +1102,11 @@ cros-rust_cleanup_vendor_registry_links() {
 cros-rust_create_vendor_registry_links() {
 	local dirs=( "$@" )
 
+	# If the registry itself doesn't exist, portage has masked
+	# installations to it (e.g., we're in `build_image`, and installing
+	# registry symlinks is useless). Skip it.
+	[[ -e "${ROOT}${CROS_RUST_REGISTRY_DIR}" ]] || return 0
+
 	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
 	local owner_dir="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}"
 	mkdir -p "${registry_dir}" "${owner_dir}" || die
@@ -1110,18 +1115,23 @@ cros-rust_create_vendor_registry_links() {
 	(
 		local crate_srcs="${ROOT}${CROS_RUST_REGISTRY_DIR}"
 		local crate crate_src
+		local crates_dne=()
 		flock --exclusive 100 || die
 		for crate in "${dirs[@]}"; do
 			crate_src="${crate_srcs}/${crate}"
-			# We unconditionally remove crate links from the registry in prerm and
-			# preinst stages. Since we can call this from postrm (to readd any links in
-			# case another package now provides a crate), ensure the source exists;
-			# exit cleanly otherwise.
+			# Ensure crates exist prior to creating links. These
+			# should always exist.
 			if [[ -e "${crate_src}" ]]; then
 				ln -srTf "${crate_src}" "${registry_dir}/${crate}" || die
 				echo "${PF}" > "${owner_dir}/${crate}" || die
+			else
+				crates_dne+=( "${crate_src}" )
 			fi
 		done
+
+		if [[ "${#crates_dne[@]}" -ne 0 ]]; then
+			die "Created links with crates that DNE: ${crates_dne[*]}"
+		fi
 	) 100>"$(cros-rust_get_reg_lock)"
 }
 
