@@ -432,6 +432,7 @@ multilib_src_install() {
 
 	newbin "${D}/usr/bin/clang-tidy" "clang-tidy"
 	dobin "${FILESDIR}/bisect_driver.py"
+	dobin "${FILESDIR}/clang_cc_wrapper"
 	exeinto "/usr/bin"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang"
 	dosym "${wrapper_script}" "/usr/bin/${CHOST}-clang++"

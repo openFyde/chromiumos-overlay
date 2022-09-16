@@ -453,6 +453,11 @@ EOF
 
 pkg_postinst() {
 	gcc-config "$(get_gcc_config_file)"
+	if [[ "${CTARGET}" == "${CHOST}" ]]; then
+		# Point cc and cpp to clang based tools instead of gcc.
+		ln -sf "clang_cc_wrapper" "/usr/bin/cc"
+		ln -sf "clang-cpp" "/usr/bin/cpp"
+	fi
 }
 
 pkg_postrm() {
