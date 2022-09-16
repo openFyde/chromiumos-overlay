@@ -210,7 +210,8 @@ src_compile() {
 
 		_copy_fwconfig "${libpayload}" "${builddir}"
 
-		recovery_input="$(cros_config_host get-firmware-recovery-input depthcharge "${depthcharge}")"
+		recovery_input="$(cros_config_host get-firmware-recovery-input depthcharge "${depthcharge}")" || \
+			die "Unable to determine recovery input for ${depthcharge}"
 
 		make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}" "${recovery_input}"
 	done < <(cros_config_host get-firmware-build-combinations depthcharge)

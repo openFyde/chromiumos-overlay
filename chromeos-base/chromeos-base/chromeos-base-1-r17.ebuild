@@ -18,7 +18,7 @@ HOMEPAGE="https://dev.chromium.org/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="ac_only chromeless_tty cros_embedded cros_host pam vtconsole kernel-4_4"
+IUSE="chromeless_tty cros_embedded cros_host pam vtconsole kernel-4_4"
 
 # We need to make sure timezone-data is merged before us.
 # See pkg_setup below as well as http://crosbug.com/27413
@@ -138,11 +138,7 @@ src_install() {
 	doins "${FILESDIR}"/issue
 
 	insinto /etc/sysctl.d
-	doins "${FILESDIR}"/00-sysctl.conf
-
-	if use ac_only ; then
-		doins "${FILESDIR}"/10-ac-only.conf
-	fi
+	doins "${FILESDIR}"/00-sysctl.conf "${FILESDIR}"/10-fs-flush.conf.ac_only
 
 	insinto /etc/profile.d
 	doins "${FILESDIR}"/xauthority.sh

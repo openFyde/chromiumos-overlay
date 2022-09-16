@@ -72,7 +72,8 @@ compile_bmpblk() {
 		export DETACHABLE=1
 	fi
 
-	recovery_input="$(cros_config_host get-firmware-recovery-input bmpblk "${build_target}")"
+	recovery_input="$(cros_config_host get-firmware-recovery-input bmpblk "${build_target}")" || \
+		die "Unable to determine recovery input for ${build_target}"
 	if [[ -n "${recovery_input}" ]] ; then
 		einfo "Using cros_config_host to configure recovery"
 		if [[ "${recovery_input}" == "POWER_BUTTON" ]] ; then
