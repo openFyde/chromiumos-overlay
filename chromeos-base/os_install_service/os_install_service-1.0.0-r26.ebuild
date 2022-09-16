@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1dffef3b5fa35642ed3ad2b54aa7554bf0d3ed60"
-CROS_WORKON_TREE="f442b9d4aca6e138100206349d6ac3aff34774d3"
+CROS_WORKON_COMMIT="35c6f7da52311db0168c3608fa576da3c1cd81be"
+CROS_WORKON_TREE="3153082243c3a6780a60957b4be217f68c945842"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,6 +24,7 @@ DEPEND="
 	=dev-rust/crossbeam-channel-0.5*
 	=dev-rust/dbus-0.8*
 	=dev-rust/lazy_static-1.4*
+	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/nix-0.23*
 	=dev-rust/serde-1.0*
