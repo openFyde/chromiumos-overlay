@@ -93,6 +93,11 @@ src_configure() {
 		--enable-compile-warnings=yes \
 		--enable-introspection=no \
 		--with-powerd-suspend-resume \
+		--disable-all-plugins   \
+		--enable-plugin-fibocom \
+		--enable-plugin-generic \
+		--enable-plugin-huawei \
+		--enable-plugin-intel \
 		"$(use_enable {,gtk-}doc)" \
 		"$(use_with mbim)" \
 		"$(use_enable qrtr plugin-qcom-soc)" \
@@ -118,36 +123,6 @@ src_install() {
 	# to launch the ModemManager process when a DBus call for the ModemManager
 	# service is received. We do not want this behaviour.
 	find "${D}" -name 'org.freedesktop.ModemManager1.service' -delete
-
-	# Only install the following plugins for supported modems to conserve
-	# space on the root filesystem.
-	local plugins=(
-		altair-lte
-		fibocom
-		generic
-		huawei
-		intel
-		longcheer
-		novatel-lte
-		samsung
-		telit
-		zte
-	)
-	if use qrtr; then
-		plugins+=(qcom-soc)
-	fi
-
-	local plugins_regex=".*/libmm-plugin-($(IFS='|'; echo "${plugins[*]}")).so"
-
-	find "${D}" -regextype posix-extended \
-		-name 'libmm-plugin-*.so' \
-		! -regex "${plugins_regex}" \
-		-delete
-
-	local found_plugins="$(find "${D}" -regextype posix-extended \
-		-regex "${plugins_regex}" | wc -l)"
-	[[ "${found_plugins}" == "${#plugins[@]}" ]] || \
-		die "Expects ${#plugins[@]} plugins, but ${found_plugins} found."
 
 	# Seccomp policy file.
 	insinto /usr/share/policy
