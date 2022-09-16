@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="80235a58a55769b3a75e826a983e51422af841fb"
-CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "8b5023c53609c87da39394377b66ee4898b6a4eb" "b1ab8d5e0cbf1909acf800393286fa4f8da02b1d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="4fb466da18445e9fee01b88540cbabd00f43567b"
+CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "8b5023c53609c87da39394377b66ee4898b6a4eb" "5daa30770607f32b9654d1c59f2c196b36f9289a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -21,10 +21,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnost
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer wilco mesa_reven diagnostics mojo_service_manager"
+IUSE="fuzzer wilco mesa_reven diagnostics mojo_service_manager iioservice"
 
 REQUIRED_USE="
-	diagnostics? ( mojo_service_manager )
+	diagnostics? ( mojo_service_manager iioservice )
 "
 
 # TODO(204734015): Remove app-arch/zstd:=.
@@ -48,6 +48,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
 	chromeos-base/debugd-client:=
+	chromeos-base/libiioservice_ipc:=
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
@@ -59,6 +60,7 @@ DEPEND="
 # currently the only client.
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/iioservice
 	dev-util/stressapptest
 	wilco? (
 		sys-block/fio
