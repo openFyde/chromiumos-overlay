@@ -1,29 +1,28 @@
-# Copyright 2014 The ChromiumOS Authors
+# Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="2af41d70e6d71716c2b45b16c772d4499aa0b310"
-CROS_WORKON_TREE="8dbe89b2e6cb7488da42523416bca6a89c55311b"
+CROS_WORKON_COMMIT="5e26437d807128a21e5a2e991ba0385d523fdce2"
+CROS_WORKON_TREE="7e30de01130194529296bfd4d3463c98fff1dc3a"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest
 
-DESCRIPTION="debugd autotests"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
+DESCRIPTION="Autotest server tests for running Tast-based tests"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 SRC_URI=""
-
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-# Enable autotest by default.
+
 IUSE="+autotest"
 
-RDEPEND="
-	!<chromeos-base/autotest-tests-0.0.3
-"
+RDEPEND=""
+DEPEND=""
 
 IUSE_TESTS="
+	+tests_tast
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
