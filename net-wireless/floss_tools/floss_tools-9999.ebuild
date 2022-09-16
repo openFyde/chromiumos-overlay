@@ -51,6 +51,8 @@ KEYWORDS="~*"
 DEPEND=""
 BDEPEND="
 	dev-libs/tinyxml2
+	chromeos-base/libchrome
+	dev-libs/flatbuffers
 "
 RDEPEND="${DEPEND}"
 
