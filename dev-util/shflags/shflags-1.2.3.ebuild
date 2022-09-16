@@ -12,6 +12,12 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="examples"
 
+PATCHES=(
+	"${FILESDIR}/0001-Remove-export-of-FLAGS_ARGC.patch"
+	"${FILESDIR}/0002-Removed-FLAGS_ARGC-harder.patch"
+	"${FILESDIR}/0003-Removed-FLAGS_ARGC-harder.patch"
+)
+
 src_test() {
 	sh test_runner || die
 }
