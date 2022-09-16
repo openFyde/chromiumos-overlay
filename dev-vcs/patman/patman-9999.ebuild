@@ -7,6 +7,7 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/u-boot"
 CROS_WORKON_LOCALNAME="u-boot/files"
 CROS_WORKON_SUBTREE="tools/patman"
+CROS_WORKON_EGIT_BRANCH="chromeos-v2020.01"
 
 PYTHON_COMPAT=( python3_{6..9} )
 
