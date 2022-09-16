@@ -1063,7 +1063,7 @@ cros-rust_cleanup_vendor_registry_links() {
 	# Check the owner dir rather than the registry dir, since the registry
 	# dir is created before the owner dir, and both are needed for the logic
 	# below.
-	[[ -e "${inst_dir}" ]] || return 0
+	[[ -e "${owner_dir}" ]] || return 0
 
 	local dir remove_paths=()
 	for dir in "${dirs[@]}"; do
@@ -1071,11 +1071,10 @@ cros-rust_cleanup_vendor_registry_links() {
 	done
 
 	(
-		local inst_dir=""
 		local owned_files=()
 
 		cd "${owner_dir}" || die
-		flock --exclusive 100
+		flock --exclusive 100 || die
 		if [[ -n "${force}" ]]; then
 			owned_files=( "${remove_paths[@]}" )
 		else

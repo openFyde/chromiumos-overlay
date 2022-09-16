@@ -14,9 +14,17 @@ import argparse
 import logging
 from pathlib import Path
 import sys
-from typing import List, Tuple
+from typing import List
 
 import migration_utils
+
+
+# Crates which are allowlisted because they don't exist in dev-rust, and
+# because their users all depend directly on dev-rust/third-party-crates-src:=
+# (see b/247596883#comment3 for why this is important).
+EXPLICITLY_ALLOWLISTED_CRATES = {
+    "bytemuck-1.12.1",
+}
 
 
 def is_unmigrated_third_party_crate(ebuild_contents: str):
@@ -24,10 +32,9 @@ def is_unmigrated_third_party_crate(ebuild_contents: str):
     return migration_utils.MIGRATED_CRATE_MARKER not in ebuild_contents
 
 
-def categorize_dev_rust_crates(dev_rust: Path) -> Tuple[List[str], List[str]]:
-    """Returns customized crate names, and all other versions in dev_rust."""
-    customized_crates = []
-    present_crate_versions = []
+def find_dev_rust_crates(dev_rust: Path) -> List[str]:
+    """Returns all dev-rust crate names which haven't been migrated yet."""
+    results = []
     for subdir in dev_rust.iterdir():
         if not subdir.is_dir():
             continue
@@ -38,46 +45,21 @@ def categorize_dev_rust_crates(dev_rust: Path) -> Tuple[List[str], List[str]]:
             logging.info("Skipping %s; it is a workon crate", crate_name)
             continue
 
-        blocklistable = (
-            crate_name not in migration_utils.CUSTOMIZATION_IGNORE_CRATES
-        )
-        is_crate_customized = False
-        versions = []
+        has_unmigrated_ebuild = False
         for maybe_ebuild in dirents:
             if maybe_ebuild.suffix != ".ebuild" or maybe_ebuild.is_symlink():
                 continue
 
             ebuild_contents = maybe_ebuild.read_text(encoding="utf-8")
-            if migration_utils.crate_has_customization(ebuild_contents):
-                if not blocklistable:
-                    logging.info(
-                        "Found custom crate on blocklist_ignore: %s; skipping",
-                        maybe_ebuild,
-                    )
-                    continue
-                logging.info(
-                    "Found customization in %s; marking as blocklisted crate.",
-                    crate_name,
-                )
-                is_crate_customized = True
+            if is_unmigrated_third_party_crate(ebuild_contents):
+                has_unmigrated_ebuild = True
                 break
 
-            if not is_unmigrated_third_party_crate(ebuild_contents):
-                continue
+        if has_unmigrated_ebuild:
+            results.append(subdir.name)
 
-            crate_and_ver, _ = migration_utils.parse_crate_from_ebuild_stem(
-                maybe_ebuild.stem
-            )
-            versions.append(crate_and_ver)
-
-        if is_crate_customized:
-            customized_crates.append(crate_name)
-        else:
-            present_crate_versions += versions
-
-    customized_crates.sort()
-    present_crate_versions.sort()
-    return customized_crates, present_crate_versions
+    results.sort()
+    return results
 
 
 def update_allowlist(ebuild: Path, new_allowlist: List[str]):
@@ -102,24 +84,13 @@ def update_allowlist(ebuild: Path, new_allowlist: List[str]):
     start = new_ebuild_lines.index("ALLOWED_CRATE_VERSIONS=(")
     end = new_ebuild_lines.index(")", start)
 
-    new_ebuild_lines = (
-        new_ebuild_lines[: start + 1]
-        + disclaimer_lines
-        + allowlist_lines
-        + new_ebuild_lines[end:]
-    )
+    new_ebuild_lines = (new_ebuild_lines[:start + 1] + disclaimer_lines +
+                        allowlist_lines + new_ebuild_lines[end:])
 
     # Ensure there's exactly one newline at the end of this ebuild, to keep
     # presubmits happy.
     ebuild_text = "\n".join(new_ebuild_lines).rstrip() + "\n"
     ebuild.write_text(ebuild_text, encoding="utf-8")
-
-
-def crate_to_portage_ver(crate_and_ver: str) -> Tuple[str, str]:
-    """Converts a crate dirname to a portage package name + version."""
-    crate_and_ver = crate_and_ver.replace(".beta-", "_beta")
-    crate, ver = crate_and_ver.rsplit("-", 1)
-    return crate, ver
 
 
 def get_parser():
@@ -149,6 +120,12 @@ def get_parser():
     return parser
 
 
+def crate_name_from_vendor_dir(dir_name: str) -> str:
+    """Returns the name of the crate designated by dir_name."""
+    no_beta = dir_name.replace("-beta.", "")
+    return no_beta.rsplit("-", 1)[0]
+
+
 def main(argv: List[str]):
     """Main function."""
     opts = get_parser().parse_args(argv)
@@ -158,13 +135,7 @@ def main(argv: List[str]):
         level=logging.DEBUG if opts.debug else logging.INFO,
     )
 
-    customized_crate_names, nonmigrated = categorize_dev_rust_crates(
-        opts.dev_rust
-    )
-
-    customized_crate_names = set(customized_crate_names)
-    nonmigrated = set(nonmigrated)
-
+    non_migrated_crates = set(find_dev_rust_crates(opts.dev_rust))
     vendor_dir = opts.rust_crates_path / "vendor"
     new_allowlist = []
     for crate_dir in vendor_dir.iterdir():
@@ -172,18 +143,11 @@ def main(argv: List[str]):
             continue
 
         crate_dir_name = crate_dir.name
-        portage_name, portage_ver = crate_to_portage_ver(crate_dir_name)
-        if portage_name in customized_crate_names:
-            logging.debug(
-                "Skipping %s; portage package has customizations",
-                crate_dir_name,
-            )
-            continue
-
-        if f"{portage_name}-{portage_ver}" in nonmigrated:
-            logging.debug(
-                "Skipping %s, since it is not yet migrated", crate_dir_name
-            )
+        crate_name = crate_name_from_vendor_dir(crate_dir_name)
+        if (crate_name in non_migrated_crates
+                and crate_dir_name not in EXPLICITLY_ALLOWLISTED_CRATES):
+            logging.debug("Skipping %s, since it is not yet migrated",
+                          crate_dir_name)
             continue
         new_allowlist.append(crate_dir_name)
 
