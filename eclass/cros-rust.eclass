@@ -1104,13 +1104,14 @@ cros-rust_create_vendor_registry_links() {
 	local dirs=( "$@" )
 
 	local registry_dir="${ROOT}${CROS_RUST_REGISTRY_INST_DIR}"
-	mkdir -p "${registry_dir}" || die
+	local owner_dir="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}"
+	mkdir -p "${registry_dir}" "${owner_dir}" || die
 
 	# Use a subshell so we can conveniently lock the registry lock only once.
 	(
-		flock --exclusive 100 || die
 		local crate_srcs="${ROOT}${CROS_RUST_REGISTRY_DIR}"
 		local crate crate_src
+		flock --exclusive 100 || die
 		for crate in "${dirs[@]}"; do
 			crate_src="${crate_srcs}/${crate}"
 			# We unconditionally remove crate links from the registry in prerm and
@@ -1119,6 +1120,7 @@ cros-rust_create_vendor_registry_links() {
 			# exit cleanly otherwise.
 			if [[ -e "${crate_src}" ]]; then
 				ln -srTf "${crate_src}" "${registry_dir}/${crate}" || die
+				echo "${PF}" > "${owner_dir}/${crate}" || die
 			fi
 		done
 	) 100>"$(cros-rust_get_reg_lock)"
