@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ace465d37ab6c224a41ddcad5f5c3201d38d69ac"
+CROS_WORKON_COMMIT="e4be43f0c046aa67c8b786b0bed48b5bd880c496"
 CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "7ace7f951bf714e73e072d3f537ccaf7a9aa84e1" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_SUBTREE="common-mk dlcservice metrics .gn"
 
 PLATFORM_SUBDIR="dlcservice"
 
-inherit cros-workon platform tmpfiles user
+inherit cros-workon platform tmpfiles udev user
 
 DESCRIPTION="A D-Bus service for Downloadable Content (DLC)"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/dlcservice/"
@@ -44,6 +44,9 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
+	# Install all the udev rules.
+	udev_dorules "${FILESDIR}"/udev/*.rules
+
 	dosbin "${OUT}/dlcservice"
 	# Technically we don't need the dlcservice_util in rootfs, but the QA team
 	# will need this to test with sample-dlc.
@@ -85,4 +88,5 @@ platform_pkg_test() {
 pkg_preinst() {
 	enewuser "dlcservice"
 	enewgroup "dlcservice"
+	enewgroup "disk-dlc" # For DLC logical volume management.
 }
