@@ -6,4 +6,4 @@ KEYWORDS=*
 LICENSE=metapackage
 RDEPEND=dev-util/shellcheck dev-python/pypy3
 SLOT=0
-_md5_=f3d4cd23adaaa20f9350d53c9d741b27
+_md5_=55082a190a968f2deb9ac029e40f3ab8

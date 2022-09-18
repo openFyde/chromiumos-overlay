@@ -11,5 +11,5 @@ RDEPEND=>=sys-libs/zlib-1.1.4 >=sys-devel/gcc-config-1.6 virtual/libiconv >=dev-
 RESTRICT=strip
 SLOT=x86_64-pc-linux-gnu
 SRC_URI=mirror://gnu/gcc/gcc-10.2.0/gcc-10.2.0.tar.xz https://dev.gentoo.org/~slyfox/distfiles/gcc-10.2.0-patches-6.tar.bz2
-_eclasses_=binutils-funcs	6207477a739f6f25d13da27b9cc00160	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=binutils-funcs	8a78951d3d64239c136ad8ea85e8ab5c	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=1593151a0862fe7a15f6ae1fdb2c5470

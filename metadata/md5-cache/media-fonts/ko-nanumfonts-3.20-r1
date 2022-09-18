@@ -10,4 +10,4 @@ RESTRICT=strip binchecks
 SLOT=0
 SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/ko-nanumfonts-3.20.tar.bz2
 _eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	font	bc3df4ed373e09f86a90e8fad39034d6
-_md5_=f8422f17b56882098e64c0c35d687247
+_md5_=3ad227e7fee38ef7f489ef21908b6f27

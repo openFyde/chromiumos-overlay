@@ -6,4 +6,4 @@ LICENSE=BSD-Logitech
 RDEPEND=sys-apps/logitech-updater
 SLOT=0
 SRC_URI=https://s3.amazonaws.com/chromiumos/rally-bin/rally-firmware-1.2.0.tar.gz
-_md5_=1cd4efd4b4237a47f0ed6f6a490838e0
+_md5_=62f56e3c479386c1f8574ab7819fe316

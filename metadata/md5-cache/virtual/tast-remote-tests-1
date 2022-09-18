@@ -5,4 +5,4 @@ HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast/
 KEYWORDS=*
 LICENSE=metapackage
 SLOT=0
-_md5_=8780f1e2f13866186375b577cc6743ce
+_md5_=2c71178cbdec4e360a429e7e1111130b

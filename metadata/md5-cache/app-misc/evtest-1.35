@@ -10,4 +10,4 @@ LICENSE=GPL-2
 SLOT=0
 SRC_URI=https://gitlab.freedesktop.org/libevdev/evtest/-/archive/evtest-1.35/evtest-evtest-1.35.tar.gz -> evtest-1.35.tar.gz
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=3319b1bc4fd9c102c34833aef07c5719
+_md5_=effd2c5c8866cc1334d665fd64f06dd5

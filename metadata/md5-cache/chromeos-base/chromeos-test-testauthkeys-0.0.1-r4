@@ -6,4 +6,4 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=chromeos-base/chromeos-ssh-testkeys
 SLOT=0
-_md5_=3c75ab486b79281ed85252501aa9a611
+_md5_=5ed9842f142a368546c3d032f4532409

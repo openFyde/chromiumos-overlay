@@ -8,4 +8,4 @@ KEYWORDS=*
 LICENSE=Apache-2.0
 RDEPEND=!internal? ( app-i18n/nacl-mozc )
 SLOT=0
-_md5_=c756ff1df5a1678d450a0333c25e658f
+_md5_=ea6685549b62a1bb543fce2228f06864

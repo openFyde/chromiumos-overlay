@@ -1,0 +1,9 @@
+DEFINED_PHASES=configure
+DESCRIPTION=Op-Tee non-secure side client library and tee-supplicant
+EAPI=7
+HOMEPAGE=https://github.com/OP-TEE/optee_client
+KEYWORDS=*
+LICENSE=BSD
+SLOT=0
+SRC_URI=https://github.com/OP-TEE/optee_client/archive/refs/tags/3.18.0.zip -> optee_client-3.18.0.zip
+_md5_=119c0851c0d95377b607ba028dc373e6

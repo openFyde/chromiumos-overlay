@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
+DEPEND=dev-rust/third-party-crates-src:= =dev-rust/atty-0.2* >=dev-rust/bitflags-1.2.0 <dev-rust/bitflags-2.0.0 ~dev-rust/clap_derive-3.0.0_beta2 =dev-rust/indexmap-1* =dev-rust/lazy_static-1* >=dev-rust/os_str_bytes-2.3.0 <dev-rust/os_str_bytes-3.0.0 =dev-rust/regex-1* =dev-rust/strsim-0.10* >=dev-rust/terminal_size-0.1.12 <dev-rust/terminal_size-0.2.0 =dev-rust/textwrap-0.12* =dev-rust/unicode-width-0.1* =dev-rust/vec_map-0.8* >=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0 test? ( ~dev-rust/criterion-0.3.2 =dev-rust/version-sync-0.8*:= ) >=virtual/rust-1.60.0:= virtual/rust-binaries:=
+DESCRIPTION=A simple to use, efficient, and full-featured Command Line Argument Parser
+EAPI=7
+HOMEPAGE=https://clap.rs/
+IUSE=test cros-debug asan coverage fuzzer msan tsan ubsan asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+RDEPEND=dev-rust/third-party-crates-src:= =dev-rust/atty-0.2* >=dev-rust/bitflags-1.2.0 <dev-rust/bitflags-2.0.0 ~dev-rust/clap_derive-3.0.0_beta2 =dev-rust/indexmap-1* =dev-rust/lazy_static-1* >=dev-rust/os_str_bytes-2.3.0 <dev-rust/os_str_bytes-3.0.0 =dev-rust/regex-1* =dev-rust/strsim-0.10* >=dev-rust/terminal_size-0.1.12 <dev-rust/terminal_size-0.2.0 =dev-rust/textwrap-0.12* =dev-rust/unicode-width-0.1* =dev-rust/vec_map-0.8* >=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0 test? ( ~dev-rust/criterion-0.3.2 =dev-rust/version-sync-0.8*:= ) virtual/rust-binaries:=
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=3.0.0_beta2/r3
+SRC_URI=https://crates.io/api/v1/crates/clap/3.0.0-beta.2/download -> clap-3.0.0_beta2.crate
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	cf8201e6d484bff8749a2c716aae2933	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=098daff8ad46453ddd8149377b5ff001

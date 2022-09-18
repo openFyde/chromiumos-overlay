@@ -7,4 +7,4 @@ LICENSE=BSD-Google
 RDEPEND=chromeos-base/chromeos-cr50-dev !cros_host? ( chromeos-base/chromeos-cr50-scripts )
 SLOT=0
 SRC_URI=gs://chromeos-localmirror/distfiles//cr50.r0.0.11.w0.5.120.tbz2 gs://chromeos-localmirror/distfiles//cr50.r0.0.11.w0.6.120_FFFF_00000000_00000010.tbz2
-_md5_=cd114fd6c246d22e0cd2ffc15dc0a744
+_md5_=03320fc7f715c9dca2d0db503e963b48

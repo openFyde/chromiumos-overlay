@@ -8,4 +8,4 @@ KEYWORDS=*
 LICENSE=metapackage
 RDEPEND=!bootimage? ( chromeos-base/chromeos-firmware-null ) bootimage? ( sys-boot/chromeos-bootimage ) cros_ec? ( chromeos-base/chromeos-ec ) zephyr_ec? ( chromeos-base/chromeos-zephyr ) cros_ish? ( chromeos-base/chromeos-ish )
 SLOT=0
-_md5_=57b122995080a4b7b405e777bf4cd37e
+_md5_=067ff49e9d91ce9105c911b64604c930

@@ -7,4 +7,4 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=bootchart? ( app-benchmarks/bootchart ) chromeos-base/chromeos-test-init chromeos-base/update-utils dlc? ( chromeos-base/test-dlc ) virtual/chromeos-test-testauthkeys virtual/chromeos-bsp-test-root
 SLOT=0
-_md5_=c0361afec6b0d0e8adba88d0bcb3ab69
+_md5_=08a1a3c095f6f4bc6c01c4458855c6f2

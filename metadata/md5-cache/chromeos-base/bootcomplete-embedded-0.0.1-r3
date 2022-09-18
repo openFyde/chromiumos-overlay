@@ -6,4 +6,4 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=!chromeos-base/bootcomplete-login
 SLOT=0
-_md5_=dcd8563353ed46116d3a6377f84627d2
+_md5_=35243579acee869482e7ef772c17bc3d

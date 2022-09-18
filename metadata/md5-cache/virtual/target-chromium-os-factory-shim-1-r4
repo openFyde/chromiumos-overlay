@@ -7,4 +7,4 @@ KEYWORDS=*
 LICENSE=metapackage
 RDEPEND=!no_factory_flow? ( chromeos-base/chromeos-installshim )
 SLOT=0
-_md5_=204c5d418e8a870e0976daa5cbdddecb
+_md5_=71d06f01a2d93fc737edb602031bb11a

@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=cheets? ( || ( arcpp arcvm ) arcpp? ( ^^ ( android-container-pi ) ) arcvm? ( ^^ ( android-vm-rvc android-vm-sc android-vm-tm android-vm-master ) ) ) !cheets? ( !arcpp !arcvm ) !arcpp? ( !android-container-pi ) !arcvm? ( !android-vm-rvc !android-vm-sc !android-vm-tm !android-vm-master )
 SLOT=0
-_eclasses_=arc-build-constants	d7b5a0fbf96c98c1d8f5fb7855019615
-_md5_=011cd10f6e7454dcc655e5557be790bd
+_eclasses_=arc-build-constants	deb100e331b0546b8802c179fb4d3888
+_md5_=2c235bfc032174110a0027339c68205f

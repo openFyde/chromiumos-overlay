@@ -6,5 +6,5 @@ IUSE=chrome_internal
 KEYWORDS=~*
 LICENSE=BSD-Google chrome_internal? ( Google-TOS )
 SLOT=0
-_eclasses_=chromium-source	b257d954237d37ce41ae6245c0c5a5c9	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	288b684bd94cec7d9efbbee007296194
-_md5_=bef178d3fd767cf3ba1477609fef309e
+_eclasses_=chromium-source	8ac831c25404a02e71650a8b320ac232	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e
+_md5_=268d55d5b581fd4638128a4dcbaa6a16

@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install setup unpack
+DEPEND=sys-libs/libcap:=
+DESCRIPTION=Intel processor C-state and P-state reporting tool
+EAPI=7
+HOMEPAGE=https://www.kernel.org/
+IUSE=-asan asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_aa18bb8fe2bd09d00e1874e2dfcaac0a75d8b4dd_ca527bf7a9e03d6ec4b8e92b470bc1ff0efa185a_942fe56bd753858b9e64595b2fcf2a7b12dfdb27
+KEYWORDS=*
+LICENSE=GPL-2
+PROPERTIES=live
+RDEPEND=sys-libs/libcap:=
+SLOT=0/0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=04963b9b8457b53f3ecc9335f4c02f84

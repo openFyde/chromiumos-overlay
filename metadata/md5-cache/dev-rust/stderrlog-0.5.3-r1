@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
+DEPEND=dev-rust/third-party-crates-src:= >=dev-rust/atty-0.2.6 <dev-rust/atty-0.3.0_alpha >=dev-rust/chrono-0.4.10 <dev-rust/chrono-0.5.0_alpha >=dev-rust/log-0.4.11 <dev-rust/log-0.5.0_alpha =dev-rust/thread_local-1.1* >=virtual/rust-1.60.0:= virtual/rust-binaries:=
+DESCRIPTION=Logger that logs to stderr based on verbosity specified
+EAPI=7
+HOMEPAGE=https://github.com/cardoe/stderrlog-rs
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+RDEPEND=dev-rust/third-party-crates-src:= >=dev-rust/atty-0.2.6 <dev-rust/atty-0.3.0_alpha >=dev-rust/chrono-0.4.10 <dev-rust/chrono-0.5.0_alpha >=dev-rust/log-0.4.11 <dev-rust/log-0.5.0_alpha =dev-rust/thread_local-1.1* virtual/rust-binaries:=
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0.5.3/r1
+SRC_URI=https://crates.io/api/v1/crates/stderrlog/0.5.3/download -> stderrlog-0.5.3.crate
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	cf8201e6d484bff8749a2c716aae2933	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=d7d294c399a17956700df0474f3e885a

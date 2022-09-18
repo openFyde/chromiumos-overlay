@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 REQUIRED_USE=dlc
 SLOT=0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	980ce13d2129fa5614d43ffa9d1bb90f
-_md5_=4838893931913f5770cd4f08d2c5f676
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	43a2fa303c94a91a951330280a180de1
+_md5_=e2b9c91619d1baa5026fc687294ddd98

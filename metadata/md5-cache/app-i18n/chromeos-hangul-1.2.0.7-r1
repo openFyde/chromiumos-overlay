@@ -6,4 +6,4 @@ KEYWORDS=*
 LICENSE=Apache-2.0
 SLOT=0
 SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/chromeos-hangul-1.2.0.7.tar.gz
-_md5_=1be90db180d4d81cefaecacb894d8c33
+_md5_=351cd8398e4ae250bc0cecf96f3472fc

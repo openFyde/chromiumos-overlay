@@ -8,4 +8,4 @@ KEYWORDS=*
 LICENSE=metapackage
 RDEPEND=!no_factory_flow? ( chromeos-base/factory !chromeos-base/chromeos-factory )
 SLOT=0
-_md5_=148375897159711adc051f2082fe55cc
+_md5_=d3aec642a509f8fca01f0da077e3680c

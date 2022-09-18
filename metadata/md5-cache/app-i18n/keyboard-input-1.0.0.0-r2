@@ -8,4 +8,4 @@ KEYWORDS=*
 LICENSE=Apache-2.0
 RDEPEND=!internal? ( app-i18n/chromeos-keyboards app-i18n/chromeos-xkb )
 SLOT=0
-_md5_=8fca293467c5a19b6c84085172a2630c
+_md5_=75f499317158324efe2933f2eb97a748

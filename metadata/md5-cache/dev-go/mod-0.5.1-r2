@@ -9,5 +9,5 @@ RDEPEND=dev-go/crypto dev-go/xerrors dev-go/yaml:0
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://go.googlesource.com/mod/+archive/v0.5.1.tar.gz -> go.googlesource.com-mod-v0.5.1.tar.gz
-_eclasses_=cros-go	9e4f3d4e15241da364684ed8b906b8d9	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=01f856aca9ffbc9532f74456555cccea
+_eclasses_=cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=aaca925839a3569f0a085ff6ce8840c9

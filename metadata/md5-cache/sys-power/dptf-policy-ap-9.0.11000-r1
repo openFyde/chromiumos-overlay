@@ -6,5 +6,5 @@ LICENSE=LICENSE.intel-dptf-private
 RESTRICT=mirror
 SLOT=0
 SRC_URI=gs://chromeos-binaries/HOME/bcs-chipset-kbl-private/chipset-kbl-private/dptf/DptfPolicyAdaptivePerformance-9.0.11000.tbz2
-_eclasses_=cros-binary	1c6eaa4fc56e7f712aa6c195e2ce5b73
-_md5_=dfe8b2e589a2412bf1194d171aa10134
+_eclasses_=cros-binary	422135e5ff6fe0d6ab1fb06906ebe1ba
+_md5_=de0bd4726ee3f7b915a4952970c9d3df

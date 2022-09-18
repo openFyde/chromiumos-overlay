@@ -1,0 +1,14 @@
+BDEPEND=virtual/pkgconfig dev-vcs/git
+DEFINED_PHASES=compile configure info prepare setup test unpack
+DEPEND=media-libs/libpng:0= sys-apps/libtsm:= media-sound/adhd:= x11-libs/libdrm:=
+DESCRIPTION=Chrome OS KMS console (without DBUS/UDEV support)
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/frecon
+IUSE=-asan asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_cd492a2722078527b7f6c555435a6d2a6880cf80
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=media-libs/libpng:0= sys-apps/libtsm:=
+SLOT=0/0.0.1-r77
+_eclasses_=cros-common.mk	905552c9167aa53d18767d47d757462e	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=af188564d2502d4ad349fadade433823

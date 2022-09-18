@@ -7,4 +7,4 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=!<chromeos-base/shill-0.0.3 zeroconf? ( sys-auth/nss-mdns )
 SLOT=0
-_md5_=c68701c7ef3d5b5f1c132607458361ca
+_md5_=e47f8c24f51ee91a1c84d183ef9327ed

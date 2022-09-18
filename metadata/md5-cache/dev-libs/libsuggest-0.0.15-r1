@@ -7,4 +7,4 @@ KEYWORDS=*
 LICENSE=BSD-Google
 SLOT=0
 SRC_URI=gs://chromeos-localmirror/distfiles/libsuggest-0.0.15.tar.gz
-_md5_=ac1bc6903dedfb3f38eba2abae9011fe
+_md5_=cd60582e70d35d1a0e6ad493f6839338

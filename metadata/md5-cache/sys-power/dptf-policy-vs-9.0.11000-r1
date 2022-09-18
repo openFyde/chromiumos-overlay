@@ -6,5 +6,5 @@ LICENSE=LICENSE.intel-dptf-private
 RESTRICT=mirror
 SLOT=0
 SRC_URI=gs://chromeos-binaries/HOME/bcs-chipset-kbl-private/chipset-kbl-private/dptf/DptfPolicyVirtualSensor-9.0.11000.tbz2
-_eclasses_=cros-binary	1c6eaa4fc56e7f712aa6c195e2ce5b73
-_md5_=c42878251902d94220fc105884a738b4
+_eclasses_=cros-binary	422135e5ff6fe0d6ab1fb06906ebe1ba
+_md5_=0b3677127274484b915dc2a94d2f2841
