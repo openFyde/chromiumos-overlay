@@ -89,7 +89,6 @@ PATCHES=(
 	"${FILESDIR}/${PV}-Check-vmlinux-kallsyms-arguments.patch"
 	"${FILESDIR}/${PV}-Add-vmlinux-in-perf-inject.patch"
 	"${FILESDIR}/${PV}-Fix-proc-kcore-32b-access.patch"
-	"${FILESDIR}/${PV}-Remap-buf-if-there-is-no-space.patch"
 )
 
 QA_FLAGS_IGNORED=(
@@ -189,7 +188,7 @@ perf_make() {
 	local arch=$(tc-arch-kernel)
 	local java_dir
 	use java && java_dir="${EPREFIX}/etc/java-config-2/current-system-vm"
-	use coresight && append-ldflags "-lc++" # opencsd requires linking with C++ libraries.
+	use coresight && append-ldflags "-lc++ -lopencsd" # opencsd requires linking with C++ libraries.
 
 	MAKEOPTS="${MAKEOPTS} -j1" # crbug.com/1173859
 
