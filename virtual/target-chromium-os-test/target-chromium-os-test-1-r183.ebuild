@@ -294,6 +294,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	opengl? ( media-libs/waffle )
 	media-sound/sox
 	net-analyzer/netperf
+	net-analyzer/netdata
 	net-dialup/minicom
 	net-dns/dnsmasq
 	net-misc/dhcp
