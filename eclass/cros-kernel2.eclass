@@ -688,16 +688,22 @@ CONFIG_INITRAMFS_SOURCE="%ROOT%/var/lib/initramfs/recovery_ramfs.cpio"
 CONFIG_INITRAMFS_COMPRESSION_NONE=y
 '
 
+# TODO(b/251448197): remove CONFIG_SECURITY_CHROMIUMOS=n when the long-term
+# solution is landed.
 factory_netboot_ramfs_desc="Initramfs for factory netboot installer"
 factory_netboot_ramfs_config='
 CONFIG_INITRAMFS_SOURCE="%ROOT%/var/lib/initramfs/factory_netboot_ramfs.cpio"
 CONFIG_INITRAMFS_COMPRESSION_NONE=y
+CONFIG_SECURITY_CHROMIUMOS=n
 '
 
+# TODO(b/251448197): remove CONFIG_SECURITY_CHROMIUMOS=n when the long-term
+# solution is landed.
 factory_shim_ramfs_desc="Initramfs for factory installer shim"
 factory_shim_ramfs_config='
 CONFIG_INITRAMFS_SOURCE="%ROOT%/var/lib/initramfs/factory_shim_ramfs.cpio"
 CONFIG_INITRAMFS_COMPRESSION_NONE=y
+CONFIG_SECURITY_CHROMIUMOS=n
 '
 
 minios_ramfs_desc="Initramfs for minios image"
