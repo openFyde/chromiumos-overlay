@@ -17,7 +17,9 @@ KEYWORDS="~*"
 IUSE="static -updater_utils"
 IUSE="${IUSE} cros_host +cros_ec_utils"
 
-COMMON_DEPEND="dev-embedded/libftdi:=
+COMMON_DEPEND="
+	chromeos-base/libec:=
+	dev-embedded/libftdi:=
 	dev-libs/openssl:0=
 	sys-libs/zlib:=
 	virtual/libusb:1="
