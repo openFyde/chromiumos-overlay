@@ -26,6 +26,3 @@ CONFIG_SPL_TABLE_FILE="3rdparty/amd_blobs/sabrina/PSP/TypeId0x55_SplTableBl_SBR.
 
 CONFIG_HAVE_PSP_WHITELIST_FILE=y
 CONFIG_PSP_WHITELIST_FILE="3rdparty/amd_blobs/sabrina/PSP/mdn-whitelist.sbin"
-
-# TODO(b/246813941): Disable EC Software Sync until flash write failure is resolved.
-CONFIG_GBB_FLAG_DISABLE_EC_SOFTWARE_SYNC=y
