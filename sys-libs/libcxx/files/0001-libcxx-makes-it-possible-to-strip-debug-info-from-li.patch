@@ -1,4 +1,4 @@
-From 333cb356e4389b2bdbe98915f315fcab88f5cf68 Mon Sep 17 00:00:00 2001
+From 45dc3b0ca2182f4677bd628c0a283d1237a239f3 Mon Sep 17 00:00:00 2001
 From: Christopher Di Bella <cjdb@google.com>
 Date: Wed, 14 Sep 2022 23:27:15 +0000
 Subject: [PATCH] [libcxx] makes it possible to strip debug info from libc++
@@ -6589,7 +6589,7 @@ index 3c8527dfc2de..e6783a09cd8f 100644
  
  #endif // _LIBCPP_NUMBERS
 diff --git a/libcxx/include/optional b/libcxx/include/optional
-index 8dc1a136fdaf..17ea86ad9b5c 100644
+index 8dc1a136fdaf..1ae862780581 100644
 --- a/libcxx/include/optional
 +++ b/libcxx/include/optional
 @@ -181,6 +181,8 @@ template<class T>
@@ -6601,14 +6601,13 @@ index 8dc1a136fdaf..17ea86ad9b5c 100644
  namespace std  // purposefully not using versioning namespace
  {
  
-@@ -1566,6 +1568,7 @@ struct _LIBCPP_TEMPLATE_VIS hash<
- };
- 
+@@ -1568,5 +1570,6 @@ struct _LIBCPP_TEMPLATE_VIS hash<
  _LIBCPP_END_NAMESPACE_STD
-+_LIBCPP_ENABLE_DEBUG_INFO
  
  #endif // _LIBCPP_STD_VER > 14
++_LIBCPP_ENABLE_DEBUG_INFO
  
+ #endif // _LIBCPP_OPTIONAL
 diff --git a/libcxx/include/ostream b/libcxx/include/ostream
 index 702f505d4f34..43af40777a1f 100644
 --- a/libcxx/include/ostream
@@ -7125,5 +7124,5 @@ index 064a99d2f5de..d7db75e7b7c3 100644
  
  #endif // _LIBCPP_VECTOR
 -- 
-2.37.2.789.g6183377224-goog
+2.37.3.968.ga6b4b080e4-goog
 
