@@ -22,6 +22,7 @@ IUSE="
 	atavia
 	buspirate_spi
 	ch341a_spi
+	+cli
 	dediprog
 	developerbox_spi
 	digilent_spi
@@ -107,6 +108,7 @@ src_configure() {
 		$(meson_use atavia config_atavia)
 		$(meson_use buspirate_spi config_buspirate_spi)
 		$(meson_use ch341a_spi config_ch341a_spi)
+		$(meson_feature cli classic_cli)
 		$(meson_use dediprog config_dediprog)
 		$(meson_use developerbox_spi config_developerbox_spi)
 		$(meson_use digilent_spi config_digilent_spi)
