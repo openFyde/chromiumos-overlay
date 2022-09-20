@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f70e931b5e85d0ab2beb4609ff85747f469f99b5"
-CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "8b5023c53609c87da39394377b66ee4898b6a4eb" "de35e2d22547164369f61eb2335463a5d138b250" "7402c84081e3dd3e438da94bb6a06fae98a41863" "284f3602420093498b1e01984a0db1190bd55812" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="0e01b0643516319778af0ca559ccb23cafc822a6"
+CROS_WORKON_TREE=("52639708fb7bf1a26ac114df488dc561a7ca9f3c" "8b5023c53609c87da39394377b66ee4898b6a4eb" "de35e2d22547164369f61eb2335463a5d138b250" "e8e8570dc152644fc5713d1a486e621b60e35da1" "284f3602420093498b1e01984a0db1190bd55812" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -36,10 +36,7 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	udev_dorules 99-mems_setup.rules
-	dosbin "${OUT}"/mems_setup
-	if use iioservice; then
-		dosbin "${OUT}"/mems_remove
-	fi
+	platform_install
 
 	# Install fuzzers
 	local fuzzer_component_id="811602"
@@ -51,12 +48,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		mems_setup_testrunner
-	)
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
