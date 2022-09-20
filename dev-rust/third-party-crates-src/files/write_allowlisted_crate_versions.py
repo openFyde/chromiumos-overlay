@@ -122,7 +122,9 @@ def get_parser():
 
 def crate_name_from_vendor_dir(dir_name: str) -> str:
     """Returns the name of the crate designated by dir_name."""
-    no_beta = dir_name.replace("-beta.", "")
+    # See https://semver.org/ for a specification of these versions.
+    no_meta = dir_name.split("+", 1)[0]
+    no_beta = no_meta.replace("-beta.", "")
     return no_beta.rsplit("-", 1)[0]
 
 

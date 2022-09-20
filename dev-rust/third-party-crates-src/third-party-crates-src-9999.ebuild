@@ -92,8 +92,6 @@ ALLOWED_CRATE_VERSIONS=(
 	"tokio-stream-0.1.3"
 	"uart_16550-0.2.18"
 	"volatile-0.4.5"
-	"wasi-0.10.2+wasi-snapshot-preview1"
-	"wasi-0.9.0+wasi-snapshot-preview1"
 	"wasm-bindgen-backend-0.2.82"
 	"wasm-bindgen-macro-0.2.82"
 	"wasm-bindgen-macro-support-0.2.82"
