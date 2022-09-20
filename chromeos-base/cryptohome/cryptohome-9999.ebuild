@@ -22,7 +22,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
+IUSE="+device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_application_containers lvm_stateful_partition mount_oop pinweaver
@@ -100,10 +100,7 @@ src_install() {
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
 	dosbin bootlockboxd bootlockboxtool
-	if use cert_provision; then
-		dolib.so lib/libcert_provision.so
-		dosbin cert_provision_client
-	fi
+
 	popd >/dev/null || die
 
 	insinto /etc/dbus-1/system.d
@@ -178,10 +175,6 @@ src_install() {
 		newexe init/lockbox-cache.sh.tpm_dynamic lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
-	fi
-	if use cert_provision; then
-		insinto /usr/include/cryptohome
-		doins cert_provision.h
 	fi
 
 	# Install udev rules for cryptohome.
