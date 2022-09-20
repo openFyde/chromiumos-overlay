@@ -380,7 +380,7 @@ RDEPEND="
 #
 # Comments on individual packages:
 # --------------------------------
-# app-editors/vim:
+# app-editors/nano:
 # Specifically include the editor we want to appear in chromeos images, so that
 # it is deterministic which editor is chosen by 'virtual/editor' dependencies
 # (such as in the 'sudo' package).  See crosbug.com/5777.
@@ -405,7 +405,7 @@ CROS_RDEPEND="
 # New packages usually should be behind a USE flag.
 CROS_RDEPEND="${CROS_RDEPEND}
 	app-arch/tar
-	app-editors/vim
+	app-editors/nano
 	app-shells/bash
 	chromeos-base/common-assets
 	chromeos-base/chromeos-imageburner
