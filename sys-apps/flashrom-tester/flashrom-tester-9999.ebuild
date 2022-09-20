@@ -18,18 +18,29 @@ HOMEPAGE="https://www.flashrom.org/Flashrom"
 
 LICENSE="GPL-2"
 KEYWORDS="~*"
-DEPEND="=dev-rust/rand-0.6*
+DEPEND="
+	=dev-rust/bindgen-0.59*
+	=dev-rust/built-0.5*
 	=dev-rust/chrono-0.4*
 	=dev-rust/clap-2.33*
 	=dev-rust/libc-0.2*
 	=dev-rust/log-0.4*
-	=dev-rust/built-0.5*
-	~dev-rust/sys-info-0.9.1
+	=dev-rust/once_cell-1.7.2*
+	=dev-rust/rand-0.6*
+	=dev-rust/regex-1*
 	=dev-rust/serde_json-1*
+	=dev-rust/sys-info-0.9*
+	=dev-rust/pkg-config-0.3*
+	sys-apps/flashrom
 "
 
 RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41
 	sys-apps/flashrom
+"
+
+BDEPEND="
+	=dev-rust/pkg-config-0.3*
+	=dev-rust/built-0.5*
 "
 
 src_compile() {
