@@ -1,0 +1,15 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=>=chromeos-base/metrics-0.0.1-r3152:= chromeos-base/minijail:= chromeos-base/power_manager-client:= ftdi_tpm? ( dev-embedded/libftdi:= ) test? ( chromeos-base/tpm2:=[test] ) tpm2_simulator? ( chromeos-base/tpm2-simulator:= ) dev-libs/protobuf:= fuzzer? ( dev-cpp/gtest:= ) chromeos-base/pinweaver:= chromeos-base/chromeos-ec-headers:= >=chromeos-base/libchrome-0.0.1-r461:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2056:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:= sys-apps/baselayout
+DESCRIPTION=Trunks service for Chromium OS
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/trunks/
+IUSE=cr50_onboard csme_emulator fuzzer ftdi_tpm generic_tpm2 pinweaver_csme test ti50_onboard tpm_dynamic tpm2_simulator cros_host cros_workon_tree_c70c24e7eeb0c8aad6108bedde29b6984f63cd54_d1d7e3ee195fa8851737c7be406928e3da6fedd0_eb510d666a66e6125e281499b649651b849a25f7_ba156cb5c59df9e2fb6e3a6bfd5105ab1264fe5a_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_c70c24e7eeb0c8aad6108bedde29b6984f63cd54_d1d7e3ee195fa8851737c7be406928e3da6fedd0_eb510d666a66e6125e281499b649651b849a25f7_ba156cb5c59df9e2fb6e3a6bfd5105ab1264fe5a_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=Apache-2.0
+PROPERTIES=live live
+RDEPEND=>=chromeos-base/metrics-0.0.1-r3152:= chromeos-base/minijail:= chromeos-base/power_manager-client:= ftdi_tpm? ( dev-embedded/libftdi:= ) test? ( chromeos-base/tpm2:=[test] ) tpm2_simulator? ( chromeos-base/tpm2-simulator:= ) dev-libs/protobuf:= fuzzer? ( dev-cpp/gtest:= ) chromeos-base/pinweaver:= cr50_onboard? ( chromeos-base/chromeos-cr50 ) ti50_onboard? ( chromeos-base/chromeos-ti50 ) generic_tpm2? ( chromeos-base/chromeos-cr50-scripts ) !tpm_dynamic? ( !app-crypt/tpm-tools ) chromeos-base/libhwsec-foundation >=chromeos-base/libchrome-0.0.1-r461:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2056:= sys-apps/baselayout
+REQUIRED_USE=?? ( cr50_onboard pinweaver_csme )
+SLOT=0/0.0.1-r3324
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	4e37ad752eacd31584dbba8f4fe3005f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	0750d5372bdb9c882e6e4805bcf78e57	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	7c566af8c48023219fd63246e88d6621
+_md5_=294b82e2053a4cb7c29ac83441815857
