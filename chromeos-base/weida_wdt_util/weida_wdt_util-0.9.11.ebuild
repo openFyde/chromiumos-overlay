@@ -19,6 +19,7 @@ IUSE=""
 
 src_configure() {
 	tc-export CC
+	append-lfs-flags
 }
 
 src_install() {
