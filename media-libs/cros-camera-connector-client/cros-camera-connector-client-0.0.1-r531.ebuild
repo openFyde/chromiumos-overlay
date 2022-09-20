@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="81c85c7ca40e9e50f90d05d741f3bd385c3f8448"
-CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "3acfc95dd3569b0195030d53f6df21df011e12cd" "b868cca7cc5356483b728a9aee627924f06b23bc" "5e8560c89bcac5254c9e466e8542a6cba8729d31" "2bbd437fade0a66ecdaa82c7cf22f71cb870df3b" "c70c24e7eeb0c8aad6108bedde29b6984f63cd54")
+CROS_WORKON_COMMIT="66cd4460f10ad0bdbcb7027709570af3dc91adee"
+CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "3acfc95dd3569b0195030d53f6df21df011e12cd" "b868cca7cc5356483b728a9aee627924f06b23bc" "3b4d9dcd2b55775db0a92fd0c6b32f371bec0f19" "2bbd437fade0a66ecdaa82c7cf22f71cb870df3b" "c70c24e7eeb0c8aad6108bedde29b6984f63cd54")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_SUBTREE=".gn camera/build camera/tools/connector_client camera/common camera/include common-mk"

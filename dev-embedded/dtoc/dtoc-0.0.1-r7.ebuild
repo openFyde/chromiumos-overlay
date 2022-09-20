@@ -9,6 +9,7 @@ CROS_WORKON_TREE="5ea09cc328ef299f1d252026d4ea9982e53dd496"
 CROS_WORKON_PROJECT="chromiumos/third_party/u-boot"
 CROS_WORKON_LOCALNAME="u-boot/files"
 CROS_WORKON_SUBTREE="tools/dtoc"
+CROS_WORKON_EGIT_BRANCH="chromeos-v2020.01"
 
 PYTHON_COMPAT=( python3_{6..9} )
 
