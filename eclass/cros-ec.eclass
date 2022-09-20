@@ -110,6 +110,10 @@ cros-ec_set_build_env() {
 
 	get_ec_boards
 
+	# TODO(b/247791129): Remove this when $(CHOST)-pkg-config is fixed.
+	export HOST_PKG_CONFIG
+	HOST_PKG_CONFIG=$(tc-getPKG_CONFIG)
+
 	EC_OPTS=()
 	use quiet && EC_OPTS+=( "-s V=0" )
 	use verbose && EC_OPTS+=( "V=1" )
