@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("81c85c7ca40e9e50f90d05d741f3bd385c3f8448" "268a62fc6e8253aa5e79a9500504ded4d59458ba")
+CROS_WORKON_COMMIT=("140627d1b4bebc982733606c939f3c1a77b24137" "268a62fc6e8253aa5e79a9500504ded4d59458ba")
 CROS_WORKON_TREE=("c70c24e7eeb0c8aad6108bedde29b6984f63cd54" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "61bfc2c1d215152f5df1cf9571d70e5ab9e8a26a")
 inherit cros-constants
 
@@ -39,7 +39,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/pinweaver/+/main
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="biometrics_dev"
+IUSE="+biometrics_dev"
 
 RDEPEND=""
 

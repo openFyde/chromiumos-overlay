@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="81c85c7ca40e9e50f90d05d741f3bd385c3f8448"
-CROS_WORKON_TREE=("c70c24e7eeb0c8aad6108bedde29b6984f63cd54" "be797c41623850844833ba6002346e39f1117615" "d1d7e3ee195fa8851737c7be406928e3da6fedd0" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="140627d1b4bebc982733606c939f3c1a77b24137"
+CROS_WORKON_TREE=("c70c24e7eeb0c8aad6108bedde29b6984f63cd54" "68018baddc5c233cc66ed952b38c268a4db7b136" "d1d7e3ee195fa8851737c7be406928e3da6fedd0" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -21,7 +21,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 
-IUSE="biometrics_dev selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
+IUSE="+biometrics_dev selinux ti50_onboard tpm tpm2 test tpm2_simulator tpm2_simulator_manufacturer"
 
 COMMON_DEPEND="
 	tpm? ( !test? ( dev-libs/libtpms:= ) )
