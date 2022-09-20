@@ -23,7 +23,3 @@ RDEPEND=""
 DEPEND="${RDEPEND}
 	virtual/pkgconfig
 "
-
-src_install() {
-	platform_install
-}

@@ -44,7 +44,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	if use fuzzer; then
 		local fuzzer_component_id="156085"

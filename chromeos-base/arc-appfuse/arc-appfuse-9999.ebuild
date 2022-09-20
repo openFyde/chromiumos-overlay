@@ -32,10 +32,6 @@ BDEPEND="
 	virtual/pkgconfig
 "
 
-src_install() {
-	platform_install
-}
-
 pkg_preinst() {
 	enewuser "arc-appfuse-provider"
 	enewgroup "arc-appfuse-provider"

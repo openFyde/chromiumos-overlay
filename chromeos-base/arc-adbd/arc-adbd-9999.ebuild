@@ -25,7 +25,7 @@ RDEPEND="
 "
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Install fuzzers.
 	# fuzzer_component_id is unknown/unlisted

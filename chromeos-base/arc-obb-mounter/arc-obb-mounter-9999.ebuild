@@ -34,7 +34,7 @@ BDEPEND="
 CONTAINER_DIR="/opt/google/containers/arc-obb-mounter"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Keep the parent directory of mountpoints inaccessible from non-root
 	# users because mountpoints themselves are often world-readable but we

@@ -19,7 +19,3 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE=""
-
-src_install() {
-	platform_install
-}

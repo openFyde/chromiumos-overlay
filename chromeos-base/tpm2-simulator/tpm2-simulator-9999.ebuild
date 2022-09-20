@@ -45,10 +45,6 @@ RDEPEND="
 "
 DEPEND="${COMMON_DEPEND}"
 
-src_install() {
-	platform_install
-}
-
 pkg_preinst() {
 	enewuser tpm2-simulator
 	enewgroup tpm2-simulator

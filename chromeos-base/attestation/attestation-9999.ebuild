@@ -62,7 +62,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	insinto /usr/include/attestation/common
 	doins common/attestation_interface.h

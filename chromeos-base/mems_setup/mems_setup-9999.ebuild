@@ -35,7 +35,7 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	udev_dorules 99-mems_setup.rules
-	platform_install
+	platform_src_install
 
 	# Install fuzzers
 	local fuzzer_component_id="811602"

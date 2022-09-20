@@ -37,7 +37,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Create tmpfiles for testing.
 	dotmpfiles tmpfiles.d/rgbkbd.conf

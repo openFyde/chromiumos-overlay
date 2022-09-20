@@ -79,7 +79,7 @@ src_compile() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Install init scripts for systemd the ones for upstart are installd via
 	# BUILD.gn.

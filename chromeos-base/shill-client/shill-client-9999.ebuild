@@ -31,6 +31,8 @@ BDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Install DBus client library.
 	platform_install_dbus_client_lib "shill"
 }

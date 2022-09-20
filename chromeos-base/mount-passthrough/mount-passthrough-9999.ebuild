@@ -25,7 +25,3 @@ COMMON_DEPEND="=sys-fs/fuse-2*
 	sys-libs/libcap:="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
-
-src_install() {
-	platform_install
-}

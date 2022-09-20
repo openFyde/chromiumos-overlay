@@ -26,7 +26,7 @@ RDEPEND=">=chromeos-base/croslog-0.0.1-r45"
 DEPEND="${RDEPEND}"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	insinto /etc/init
 	doins log-bootid-on-boot.conf

@@ -46,10 +46,6 @@ DEPEND="${RDEPEND}
 	dev-libs/protobuf:=
 "
 
-src_install() {
-	platform_install
-}
-
 platform_pkg_test() {
 	platform test_all
 }

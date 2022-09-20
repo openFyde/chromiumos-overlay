@@ -35,7 +35,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# TODO(crbug/766130): Remove the following sed block when non-root mount
 	# namespace is by default enabled.

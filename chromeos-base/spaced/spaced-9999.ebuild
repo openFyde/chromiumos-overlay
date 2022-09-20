@@ -30,7 +30,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 	platform_install_dbus_client_lib
 
 	if use seccomp; then

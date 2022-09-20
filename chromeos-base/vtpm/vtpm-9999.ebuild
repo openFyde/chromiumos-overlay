@@ -40,7 +40,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	dotmpfiles tmpflies.d/vtpm.conf
 }

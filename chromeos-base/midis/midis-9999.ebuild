@@ -41,7 +41,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/midis_seq_handler_fuzzer

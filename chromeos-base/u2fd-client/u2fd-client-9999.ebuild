@@ -40,7 +40,3 @@ DEPEND="${COMMON_DEPEND}
 	>=chromeos-base/protofiles-0.0.43:=
 	chromeos-base/system_api:=
 "
-
-src_install() {
-	platform_install
-}

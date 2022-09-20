@@ -145,7 +145,7 @@ platform() {
 		cmd+=( --disable_incremental )
 	fi
 	"${cmd[@]}" || die
-	# The stdout from this function used in platform_install
+	# The stdout from this function used in platform_src_install
 }
 
 platform_is_native() {
@@ -160,14 +160,6 @@ platform_src_unpack() {
 	PLATFORM_TOOLDIR="${S}/common-mk"
 	S+="/${PLATFORM_SUBDIR}"
 	export OUT="$(cros-workon_get_build_dir)/out/Default"
-}
-
-platform_install() {
-	local line
-	while read -ra line; do
-		echo "${line[@]}"
-		eval "${line[@]}"
-	done < <(platform install || die "platform install was failed.")
 }
 
 platform_test() {
@@ -267,6 +259,12 @@ platform_src_test() {
 }
 
 platform_src_install() {
+	local line
+	while read -ra line; do
+		echo "${line[@]}"
+		eval "${line[@]}"
+	done < <(platform install || die "platform install was failed.")
+
 	use compilation_database && platform_install_compilation_database
 }
 

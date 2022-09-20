@@ -22,10 +22,6 @@ DEPEND="
 	chromeos-base/diagnostics:=
 "
 
-src_install() {
-	platform_install
-}
-
 platform_pkg_test() {
 	platform test_all
 }

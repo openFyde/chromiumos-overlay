@@ -105,7 +105,7 @@ src_test() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	dolib.so "${OUT}"/lib/libbase*.so
 	dolib.a "${OUT}"/libbase*.a

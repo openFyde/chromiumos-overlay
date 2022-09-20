@@ -74,7 +74,7 @@ pkg_setup() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	udev_dorules udev/99-biod.rules
 

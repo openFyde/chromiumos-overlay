@@ -31,7 +31,7 @@ DEPEND="
 "
 
 src_install() {
-	platform_install
+	platform_src_install
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/apk_cache_database_fuzzer \
 		--comp 157100
 }

@@ -41,7 +41,7 @@ pkg_setup() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Storage path for examples, will be mounted as
 	# /run/daemon-store/federated/<user_hash> after user logs in.

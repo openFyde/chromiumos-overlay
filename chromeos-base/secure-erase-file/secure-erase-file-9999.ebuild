@@ -25,7 +25,3 @@ DEPEND="
 
 RDEPEND="
 "
-
-src_install() {
-	platform_install
-}

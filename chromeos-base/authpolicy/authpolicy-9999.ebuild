@@ -52,7 +52,7 @@ pkg_setup() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Create daemon store folder prototype, see
 	# https://chromium.googlesource.com/chromiumos/docs/+/HEAD/sandboxing.md#securely-mounting-cryptohome-daemon-store-folders

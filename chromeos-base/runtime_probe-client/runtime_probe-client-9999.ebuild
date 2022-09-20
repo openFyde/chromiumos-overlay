@@ -31,6 +31,6 @@ BDEPEND="
 "
 
 src_install() {
-	platform_install
+	platform_src_install
 	platform_install_dbus_client_lib "runtime_probe"
 }

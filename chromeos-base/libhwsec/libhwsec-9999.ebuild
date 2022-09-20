@@ -45,11 +45,6 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
-src_install() {
-	platform_install
-}
-
-
 platform_pkg_test() {
 	platform test_all
 }

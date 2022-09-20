@@ -48,7 +48,6 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-	platform_install
 	udev_dorules udev/*.rules
 }
 

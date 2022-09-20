@@ -28,7 +28,3 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	chromeos-base/system_api:=
 "
-
-src_install() {
-	platform_install
-}

@@ -34,7 +34,7 @@ DEPEND="${RDEPEND}
 	x11-drivers/opengles-headers"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Component: ARC++ > Eng Velocity.
 	local fuzzer_component_id="515942"

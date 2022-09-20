@@ -29,10 +29,6 @@ pkg_preinst() {
 	enewgroup mojo-service-manager
 }
 
-src_install() {
-	platform_install
-}
-
 platform_pkg_test() {
 	platform test_all
 }

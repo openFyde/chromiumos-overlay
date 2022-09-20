@@ -30,7 +30,3 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 "
-
-src_install() {
-	platform_install
-}

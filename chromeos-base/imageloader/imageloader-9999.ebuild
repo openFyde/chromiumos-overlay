@@ -32,7 +32,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	local fuzzer_component_id="188251"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/imageloader_helper_process_receiver_fuzzer \

@@ -46,7 +46,7 @@ pkg_setup() {
 }
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# fuzzer_component_id is unknown/unlisted
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/netbios_packet_fuzzer

@@ -60,7 +60,3 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/vboot_reference:=
 "
-
-src_install() {
-	platform_install
-}

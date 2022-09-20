@@ -37,10 +37,6 @@ pkg_preinst() {
 	enewgroup easy-unlock
 }
 
-src_install() {
-	platform_install
-}
-
 platform_pkg_test() {
 	platform test_all
 }

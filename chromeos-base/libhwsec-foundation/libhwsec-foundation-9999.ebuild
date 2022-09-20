@@ -28,7 +28,7 @@ RDEPEND="
 	"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Install tmpfiles.d for creating dir for profiling data.
 	if use profiling; then

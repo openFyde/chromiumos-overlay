@@ -30,7 +30,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
 src_install() {
-	platform_install
+	platform_src_install
 	# Component maps to ChromeOS>Software>ARC++>Core
 	local fuzzer_component_id="488493"
 	platform_fuzzer_install "${S}/OWNERS" "${OUT}/run_oci_utils_fuzzer" \

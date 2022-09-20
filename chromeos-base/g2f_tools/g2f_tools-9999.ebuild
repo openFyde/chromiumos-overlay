@@ -34,10 +34,6 @@ DEPEND="
 	chromeos-base/u2fd:=
 	"
 
-src_install() {
-	platform_install
-}
-
 platform_pkg_test() {
 	platform test_all
 }

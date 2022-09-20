@@ -20,7 +20,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 src_install() {
-	platform_install
+	platform_src_install
 
 	# Install fuzzer
 	local fuzzer_component_id="167231"
