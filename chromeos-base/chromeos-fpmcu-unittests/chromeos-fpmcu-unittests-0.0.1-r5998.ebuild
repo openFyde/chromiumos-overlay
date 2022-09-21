@@ -5,12 +5,12 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 2
+# eclass bug workaround count: 3
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("3608bfa9759933cedb420483c0a7674c887be3ec" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
-CROS_WORKON_TREE=("a9c11ef4ec540b10fbaee03bf05309a7e5e7fd80" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
+CROS_WORKON_COMMIT=("e530e9dc1385994afa342b7d877de582c4fb5bb6" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
+CROS_WORKON_TREE=("1d107dd7f90b8259e58bb9e75d42ee1aa8159f0b" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
