@@ -11,8 +11,12 @@ FIXME(b/240953811): Remove this once our migration is done.
 """
 
 import argparse
+import collections
+import json
 import logging
 from pathlib import Path
+import re
+import subprocess
 import sys
 from typing import List
 
@@ -23,7 +27,15 @@ import migration_utils
 # because their users all depend directly on dev-rust/third-party-crates-src:=
 # (see b/247596883#comment3 for why this is important).
 EXPLICITLY_ALLOWLISTED_CRATES = {
+    "addr2line-0.14.1",
+    "adler-0.2.3",
     "bytemuck-1.12.1",
+    "gimli-0.23.0",
+    "object-0.23.0",
+    "quote-0.3.15",
+    "redox_syscall-0.2.4",
+    "syn-0.11.11",
+    "unicode-xid-0.0.4",
 }
 
 
@@ -33,8 +45,9 @@ def is_unmigrated_third_party_crate(ebuild_contents: str):
 
 
 def find_dev_rust_crates(dev_rust: Path) -> List[str]:
-    """Returns all dev-rust crate names which haven't been migrated yet."""
-    results = []
+    """Returns all dev-rust crates which haven't been migrated yet."""
+    results = set()
+    rev = re.compile(r"-r\d+$")
     for subdir in dev_rust.iterdir():
         if not subdir.is_dir():
             continue
@@ -45,21 +58,15 @@ def find_dev_rust_crates(dev_rust: Path) -> List[str]:
             logging.info("Skipping %s; it is a workon crate", crate_name)
             continue
 
-        has_unmigrated_ebuild = False
         for maybe_ebuild in dirents:
             if maybe_ebuild.suffix != ".ebuild" or maybe_ebuild.is_symlink():
                 continue
 
             ebuild_contents = maybe_ebuild.read_text(encoding="utf-8")
             if is_unmigrated_third_party_crate(ebuild_contents):
-                has_unmigrated_ebuild = True
-                break
+                results.add(rev.sub("", maybe_ebuild.stem))
 
-        if has_unmigrated_ebuild:
-            results.append(subdir.name)
-
-    results.sort()
-    return results
+    return sorted(results)
 
 
 def update_allowlist(ebuild: Path, new_allowlist: List[str]):
@@ -84,8 +91,12 @@ def update_allowlist(ebuild: Path, new_allowlist: List[str]):
     start = new_ebuild_lines.index("ALLOWED_CRATE_VERSIONS=(")
     end = new_ebuild_lines.index(")", start)
 
-    new_ebuild_lines = (new_ebuild_lines[:start + 1] + disclaimer_lines +
-                        allowlist_lines + new_ebuild_lines[end:])
+    new_ebuild_lines = (
+        new_ebuild_lines[: start + 1]
+        + disclaimer_lines
+        + allowlist_lines
+        + new_ebuild_lines[end:]
+    )
 
     # Ensure there's exactly one newline at the end of this ebuild, to keep
     # presubmits happy.
@@ -128,6 +139,99 @@ def crate_name_from_vendor_dir(dir_name: str) -> str:
     return no_beta.rsplit("-", 1)[0]
 
 
+def allowlist_entry_to_cargo_id_prefix(entry: str) -> str:
+    """Converts an allowlist entry into the prefix for a cargo metadata ID."""
+    i = entry.find("+")
+    if i == -1:
+        i = len(entry)
+    last_dash = entry.rindex("-", 0, i)
+    return entry[:last_dash] + " " + entry[last_dash + 1 :]
+
+
+def cargo_id_to_vendored_crate_name(cargo_id: str) -> str:
+    """Converts a cargo ID to an allowlist-like str."""
+    assert "https://github.com/rust-lang/crates.io-index" in cargo_id, cargo_id
+    return cargo_id.split(" (", 1)[0].replace(" ", "-")
+
+
+def verify_dependencies(
+    rust_crates_path: Path,
+    new_allowlist: List[str],
+    dev_rust_crate_versions: List[str],
+):
+    """Verifies that our rust_crates exports have dependencies exported."""
+    assert new_allowlist, "Expected allowlist to have any entries at all."
+
+    logging.info("Running `cargo metadata`...")
+    output = subprocess.run(
+        ["cargo", "metadata", "--format-version=1"],
+        cwd=rust_crates_path / "projects",
+        capture_output=True,
+        check=True,
+        encoding="utf-8",
+    ).stdout
+
+    logging.info("Resolving metadata")
+    resolved_metadata = json.loads(output)["resolve"]
+    dependencies = {
+        cargo_id_to_vendored_crate_name(pkg["id"]): [
+            cargo_id_to_vendored_crate_name(x) for x in pkg["dependencies"]
+        ]
+        for pkg in resolved_metadata["nodes"]
+        # This metadata will have entries for the pseudo-crates in
+        # rust_crates/projects. Filter those out.
+        if "src/third_party/rust_crates/projects" not in pkg["id"]
+    }
+
+    transitive_deps = set()
+    dependency_stack = list(new_allowlist)
+    while dependency_stack:
+        item = dependency_stack.pop()
+        if item not in transitive_deps:
+            transitive_deps.add(item)
+            dependency_stack += dependencies[item]
+
+    immediately_missing_deps = sorted(transitive_deps - set(new_allowlist))
+
+    dev_rust_crate_versions_set = set(dev_rust_crate_versions)
+    dev_rust_version_map = collections.defaultdict(list)
+    for crate in dev_rust_crate_versions:
+        crate_name, version = crate.rsplit("-", 1)
+        dev_rust_version_map[crate_name].append(version)
+
+    missing_deps = []
+    for dep in immediately_missing_deps:
+        if dep in dev_rust_crate_versions_set:
+            logging.info("Found transitive dep %s in dev-rust", dep)
+            continue
+
+        crate_name = crate_name_from_vendor_dir(dep)
+        version = dep.split("+", 1)[0].rsplit("-", 1)[1]
+        for opt in dev_rust_version_map[crate_name]:
+            if migration_utils.is_semver_compatible_upgrade(
+                version, opt
+            ) or migration_utils.is_semver_compatible_upgrade(opt, version):
+                logging.info(
+                    "Found semver-compatible dep %s-%s in dev-rust for %s",
+                    crate_name,
+                    opt,
+                    dep,
+                )
+                break
+        else:
+            missing_deps.append(dep)
+
+    if not missing_deps:
+        logging.info("Transitive dependencies are OK")
+        return
+
+    logging.error(
+        "Missing dependencies; please verify and add to the allowlist: %s",
+        missing_deps,
+    )
+    raise ValueError("Depgraph is incorrect. See above logs.")
+
+
 def main(argv: List[str]):
     """Main function."""
     opts = get_parser().parse_args(argv)
@@ -137,7 +241,10 @@ def main(argv: List[str]):
         level=logging.DEBUG if opts.debug else logging.INFO,
     )
 
-    non_migrated_crates = set(find_dev_rust_crates(opts.dev_rust))
+    non_migrated_crates = find_dev_rust_crates(opts.dev_rust)
+    non_migrated_crate_names = set(
+        x.rsplit("-", 1)[0] for x in non_migrated_crates
+    )
     vendor_dir = opts.rust_crates_path / "vendor"
     new_allowlist = []
     for crate_dir in vendor_dir.iterdir():
@@ -146,14 +253,22 @@ def main(argv: List[str]):
 
         crate_dir_name = crate_dir.name
         crate_name = crate_name_from_vendor_dir(crate_dir_name)
-        if (crate_name in non_migrated_crates
-                and crate_dir_name not in EXPLICITLY_ALLOWLISTED_CRATES):
-            logging.debug("Skipping %s, since it is not yet migrated",
-                          crate_dir_name)
+        if (
+            crate_name in non_migrated_crate_names
+            and crate_dir_name not in EXPLICITLY_ALLOWLISTED_CRATES
+        ):
+            logging.debug(
+                "Skipping %s, since it is not yet migrated", crate_dir_name
+            )
             continue
         new_allowlist.append(crate_dir_name)
 
     new_allowlist.sort()
+
+    logging.info("Allowlist generated successfully. Verifying dependencies...")
+    verify_dependencies(
+        opts.rust_crates_path, new_allowlist, non_migrated_crates
+    )
     update_allowlist(opts.third_party_crates_ebuild, new_allowlist)
 
 

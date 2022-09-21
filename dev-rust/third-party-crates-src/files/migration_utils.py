@@ -119,8 +119,8 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
     return not before_comment.strip()
 
 
-def is_symver_compatible_upgrade(old: str, new: str) -> bool:
-    """Returns true if `new` is symver compatible with `old`."""
+def is_semver_compatible_upgrade(old: str, new: str) -> bool:
+    """Returns true if `new` is semver compatible with `old`."""
     if old == new:
         return True
 
