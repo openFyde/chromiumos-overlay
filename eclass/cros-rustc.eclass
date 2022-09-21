@@ -264,6 +264,14 @@ linker = "${CHOST}-clang"
 EOF
 }
 
+_mirror_licenses() {
+	local targ="${WORKDIR}/licenses"
+	mkdir -p "${targ}" || die
+	einfo "Mirroring licenses from ${CROS_RUSTC_SRC_DIR} into ${targ}..."
+	rsync -r --include='*/' --include='LICENSE*' --exclude='*' \
+		--prune-empty-dirs "${CROS_RUSTC_SRC_DIR}" "${targ}" || die
+}
+
 cros-rustc_src_unpack() {
 	cros-rustc_setup_cargo_home
 
@@ -291,6 +299,8 @@ cros-rustc_src_unpack() {
 	# shellcheck disable=SC2174
 	mkdir -p -m 755 "${dirs[@]}"
 	(cd "${CROS_RUSTC_SRC_DIR}" && default)
+
+	_mirror_licenses
 }
 
 cros-rustc_src_prepare() {
