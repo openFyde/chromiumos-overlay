@@ -21,7 +21,7 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2 fuzzer"
+IUSE="profiling systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2 fuzzer"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
