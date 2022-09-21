@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=4
-CROS_WORKON_COMMIT="b6e427f65b501f41a5b74e0b102c7359f25f9af1"
-CROS_WORKON_TREE="cb522ed08cecb9cff8b4b4e678deb21dfcc4a8e7"
+CROS_WORKON_COMMIT="e932ac634ab5f4433c2eeafc4b103b31a4499f30"
+CROS_WORKON_TREE="366b476d30577f793d3d79c1759e0051e7d79633"
 CROS_WORKON_PROJECT="chromiumos/platform/chameleon"
 
 inherit cros-workon cros-sanitizers
