@@ -201,6 +201,7 @@ src_install() {
 	# Install config files
 	insinto /etc/bluetooth/
 	doins "${FILESDIR}/config/bt_did.conf"
+	doins "${FILESDIR}/config/admin_policy.json"
 
 	# Install udev rules
 	udev_dorules "${FILESDIR}/udev/99-floss-chown-properties.rules"
