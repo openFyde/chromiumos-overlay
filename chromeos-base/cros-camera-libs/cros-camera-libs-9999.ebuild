@@ -5,7 +5,7 @@ EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
-CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo ml_core"
+CROS_WORKON_SUBTREE=".gn common-mk metrics camera/build camera/common camera/features camera/gpu camera/include camera/mojo chromeos-config iioservice/libiioservice_ipc iioservice/mojo ml_core ml_core/mojo"
 CROS_WORKON_OUTOFTREE_BUILD="1"
 CROS_WORKON_INCREMENTAL_BUILD="1"
 
@@ -99,6 +99,9 @@ src_install() {
 	einfo "${camera_mojo_files}"
 	insinto /usr/include/cros-camera/mojo/camera
 	doins -r "${OUT}"/gen/include/camera/mojo
+
+	insinto /usr/include/cros-camera/mojo/ml_core
+	doins -r "${OUT}"/gen/include/ml_core/mojo
 
 	insinto /usr/include/cros-camera/mojo/iioservice
 	doins -r "${OUT}"/gen/include/iioservice/mojo
