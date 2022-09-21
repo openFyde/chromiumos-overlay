@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="679167829367b461d65386124911a8d6721756d0"
-CROS_WORKON_TREE="d5838a0f8b4e6024a16a865588bc61d5f96d1502"
+CROS_WORKON_COMMIT="e6af2ab246391ed8651250e23f3028b3e36af084"
+CROS_WORKON_TREE="f59031f1c32220d616075489c18cfe6ba247d535"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -47,6 +47,7 @@ SERVER_IUSE_TESTS="
 	+tests_bluetooth_FastPair
 	+tests_bluetooth_PeerUpdate
 	+tests_bluetooth_PeerVerify
+	+tests_bluetooth_WiFiCoexHealth
 "
 
 IUSE_TESTS="${IUSE_TESTS}
