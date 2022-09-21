@@ -1,10 +1,8 @@
-# ChromeOS bot
-per-file make.conf.amd64-host=3su6n15k.default@developer.gserviceaccount.com
-# TODO(b/217208150): it's unclear that we want to keep the following owner, but
-# adding it lets us unblock the SDK builder.
-per-file make.conf.amd64-host=chromeos-ci-prod@chromeos-bot.iam.gserviceaccount.com
-# ChromeOS release bot
-per-file chromeos_version.sh=chromeos-ci-release@chromeos-bot.iam.gserviceaccount.com
+# ChromeOS version updates.
+per-file chromeos_version.sh=file:/OWNERS.chromeos_version
+
+# FULL_BINHOST updates in make.conf.amd64-host.
+per-file make.conf.amd64-host=file:/OWNERS.binhosts
 # Allow the toolchain team to make changes to this file, since we sometimes need
 # to do manual updates for e.g., Rust rolls.
 per-file make.conf.amd64-host=file:/chromiumos/third_party/toolchain-utils:/OWNERS.toolchain
