@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="b3b61b7dd86585cb28f5dd900fd13850995c4af5"
-CROS_WORKON_TREE="c88448db701da41584ee9e6e1b4992ab9fdda70c"
+CROS_WORKON_COMMIT="f5764e91e7ac4f7956286cf5d540534abd696cd6"
+CROS_WORKON_TREE="3e6222149f4b50e0d71f3f0552afaf47fcf44658"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -129,7 +129,6 @@ IUSE_TESTS=(
 IUSE_TESTS_CELLULAR="
 	cellular? (
 		+tests_cellular_ModemControl
-		+tests_cellular_SuspendResume
 		+tests_network_ChromeCellularEndToEnd
 		+tests_network_ChromeCellularNetworkPresent
 		+tests_network_ChromeCellularNetworkProperties
