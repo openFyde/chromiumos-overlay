@@ -825,6 +825,17 @@ setup_compile_flags() {
 	# Add "-faddrsig" flag required to efficiently support "--icf=all".
 	append-flags -faddrsig
 	append-flags -Wno-unknown-warning-option
+
+	if use arm && use debug_fission; then
+		# FIXME(b/243982712)
+		# ChromeOS has reached the 4GB ceiling when compiling Chrome in debug
+		# mode on 32-bit systems. After some investigation, we learnt that we
+		# can remove 1.5GB of debug info by disabling debug info from libc++
+		# symbols. This is a workaround to disable those symbols until we can
+		# get dwp compression.
+		append-flags -D_LIBCPP_NO_DEBUG_INFO -Wno-backend-plugin
+	fi
+
 	export CXXFLAGS_host+=" -Wno-unknown-warning-option"
 	export CFLAGS_host+=" -Wno-unknown-warning-option"
 	export LDFLAGS_host+=" --unwindlib=libgcc"
