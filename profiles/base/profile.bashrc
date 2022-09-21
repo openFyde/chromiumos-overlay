@@ -395,8 +395,8 @@ cros_pre_src_prepare_build_toolchain_catch() {
 $(type -P eerror) "\$(
 err() { echo "${tool}: ERROR: \$*"; }
 err "Do not call unprefixed tools directly."
-err "For board tools, use \\\`tc-export ${tcvar}\\\` (or \\\${CHOST}-${tool})."
-err "For build-time-only tools, \\\`tc-export BUILD_${tcvar}\\\` (or \\\${CBUILD}-${tool})."
+err "For board tools, use \\\`tc-export ${tcvar}\\\`."
+err "For build-time-only tools, \\\`tc-export BUILD_${tcvar}\\\`."
 pstree -a -A -s -l \$\$
 )"
 $(type -P die) "Bad ${tool} [\$*] invocation"
