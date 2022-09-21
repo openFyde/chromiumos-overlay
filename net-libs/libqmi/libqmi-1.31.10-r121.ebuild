@@ -1,27 +1,26 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2012 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="765e2558e73a69742cd05efb1a3a2168f20a9a79"
-CROS_WORKON_TREE="f1d1c0aed6f5e7b1dc21749181ce000b0d1729f6"
-CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
-CROS_WORKON_EGIT_BRANCH="master"
+CROS_WORKON_COMMIT="dab13a97a55908286d0720263d636cb20ef1f43a"
+CROS_WORKON_TREE="e73511767fe8a1adcbc48ab0b5cef7ee970dc8a7"
+CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
 
 inherit meson cros-sanitizers cros-workon udev
 
-DESCRIPTION="MBIM modem protocol helper library"
-HOMEPAGE="http://cgit.freedesktop.org/libmbim/"
+DESCRIPTION="QMI modem protocol helper library"
+HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-asan doc static-libs"
+IUSE="-asan mbim qrtr"
 
 RDEPEND=">=dev-libs/glib-2.36
-	virtual/libgudev"
+	>=net-libs/libmbim-1.18.0
+	net-libs/libqrtr-glib"
 
 DEPEND="${RDEPEND}
-	doc? ( dev-util/gtk-doc )
 	virtual/pkgconfig"
 
 src_configure() {
@@ -29,7 +28,7 @@ src_configure() {
 
 	local emesonargs=(
 		--prefix='/usr'
-		-Dmbim_username='modem'
+		-Dqmi_username='modem'
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
 		-Dintrospection=false
