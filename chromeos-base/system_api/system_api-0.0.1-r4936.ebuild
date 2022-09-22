@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6549ea0eb91e124c3b9b75f77edc8e064b48813b"
-CROS_WORKON_TREE=("7af090f4e3d17daa9e628424e4d774e246757618" "6e82c25ab3dcc565a54c817afba86b7d836ff656" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="aa459365c71c831a61ea76c05e56dba7101185f9"
+CROS_WORKON_TREE=("7af090f4e3d17daa9e628424e4d774e246757618" "70cbd4f2b2f48001727ebf46d528eefef9d7584e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -99,8 +99,13 @@ src_install() {
 	)
 
 	for dir in "${dirs[@]}"; do
-		insinto /usr/include/"${dir}"/proto_bindings
-		doins "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
+		if [[ -d "${OUT}/gen/include/${dir}/proto_bindings" ]]; then
+			insinto /usr/include/"${dir}"/proto_bindings
+			doins "${OUT}"/gen/include/"${dir}"/proto_bindings/*.h
+		else
+			insinto /usr/include/"${dir}"
+			doins "${OUT}"/gen/include/"${dir}"/*.h
+		fi
 
 		if [[ "${dir}" == "system_api" ]]; then
 			dolib.a "${OUT}/libsystem_api-protos.a"
