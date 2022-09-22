@@ -71,6 +71,7 @@ DEPEND="
 pkg_setup() {
 	enewuser biod
 	enewgroup biod
+	enewgroup fpdev
 }
 
 src_install() {
