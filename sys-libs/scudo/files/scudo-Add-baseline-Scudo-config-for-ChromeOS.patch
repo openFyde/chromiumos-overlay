@@ -1,0 +1,85 @@
+From a04f304bb3470bf3a63cbbd84a3944afea04994f Mon Sep 17 00:00:00 2001
+From: Jordan R Abrahams-Whitehead <ajordanr@google.com>
+Date: Thu, 22 Sep 2022 21:31:29 +0000
+Subject: [PATCH] [scudo] Add baseline Scudo config for ChromeOS
+
+ChromeOS is intending to switch to Scudo as its default platform
+allocator. This commit introduces the ChromeOS Config and appropriate
+platform setup.
+
+The config can be enabled by defining the macro "USE_CHROMEOS_CONFIG".
+---
+ .../lib/scudo/standalone/allocator_config.h   | 32 +++++++++++++++++++
+ compiler-rt/lib/scudo/standalone/platform.h   |  6 ++++
+ 2 files changed, 38 insertions(+)
+
+diff --git a/compiler-rt/lib/scudo/standalone/allocator_config.h b/compiler-rt/lib/scudo/standalone/allocator_config.h
+index e6f46b511dbf..72250d67847a 100644
+--- a/compiler-rt/lib/scudo/standalone/allocator_config.h
++++ b/compiler-rt/lib/scudo/standalone/allocator_config.h
+@@ -149,6 +149,36 @@ struct AndroidSvelteConfig {
+   using TSDRegistryT = TSDRegistrySharedT<A, 2U, 1U>; // Shared, max 2 TSDs.
+ };
+ 
++struct ChromeOSConfig {
++  using SizeClassMap = DefaultSizeClassMap;
++  static const bool MaySupportMemoryTagging = false;
++
++#if SCUDO_CAN_USE_PRIMARY64
++  typedef SizeClassAllocator64<ChromeOSConfig> Primary;
++  static const uptr PrimaryRegionSizeLog = 24U;
++  typedef uptr PrimaryCompactPtrT;
++  static const uptr PrimaryCompactPtrScale = 0;
++  static const bool PrimaryEnableRandomOffset = true;
++  static const uptr PrimaryMapSizeIncrement = 1UL << 18;
++#else
++  typedef SizeClassAllocator32<ChromeOSConfig> Primary;
++  static const uptr PrimaryRegionSizeLog = 19U;
++  typedef uptr PrimaryCompactPtrT;
++#endif
++  static const s32 PrimaryMinReleaseToOsIntervalMs = INT32_MIN;
++  static const s32 PrimaryMaxReleaseToOsIntervalMs = INT32_MAX;
++
++  typedef MapAllocatorCache<ChromeOSConfig> SecondaryCache;
++  static const u32 SecondaryCacheEntriesArraySize = 32U;
++  static const u32 SecondaryCacheQuarantineSize = 0U;
++  static const u32 SecondaryCacheDefaultMaxEntriesCount = 32U;
++  static const uptr SecondaryCacheDefaultMaxEntrySize = 1UL << 19;
++  static const s32 SecondaryCacheMinReleaseToOsIntervalMs = INT32_MIN;
++  static const s32 SecondaryCacheMaxReleaseToOsIntervalMs = INT32_MAX;
++
++  template <class A> using TSDRegistryT = TSDRegistryExT<A>; // Exclusive
++};
++
+ #if SCUDO_CAN_USE_PRIMARY64
+ struct FuchsiaConfig {
+   using SizeClassMap = FuchsiaSizeClassMap;
+@@ -191,6 +221,8 @@ struct TrustyConfig {
+ 
+ #if SCUDO_ANDROID
+ typedef AndroidConfig Config;
++#elif SCUDO_CHROMEOS
++typedef ChromeOSConfig Config;
+ #elif SCUDO_FUCHSIA
+ typedef FuchsiaConfig Config;
+ #elif SCUDO_TRUSTY
+diff --git a/compiler-rt/lib/scudo/standalone/platform.h b/compiler-rt/lib/scudo/standalone/platform.h
+index db4217ddab9f..ce2dd3b645c2 100644
+--- a/compiler-rt/lib/scudo/standalone/platform.h
++++ b/compiler-rt/lib/scudo/standalone/platform.h
+@@ -25,6 +25,12 @@
+ #define SCUDO_ANDROID 0
+ #endif
+ 
++#if defined(USE_CHROMEOS_CONFIG)
++#define SCUDO_CHROMEOS 1
++#else
++#define SCUDO_CHROMEOS 0
++#endif
++
+ #if defined(__Fuchsia__)
+ #define SCUDO_FUCHSIA 1
+ #else
+-- 
+2.37.3.998.g577e59143f-goog
+

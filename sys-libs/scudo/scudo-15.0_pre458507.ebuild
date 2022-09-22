@@ -62,6 +62,8 @@ src_prepare() {
 src_configure() {
 	BUILD_DIR="${WORKDIR}/${P}_build"
 
+	append-flags -DUSE_CHROMEOS_CONFIG
+
 	local mycmakeargs=(
 		"-DCOMPILER_RT_BUILD_CRT=no"
 		"-DCOMPILER_RT_USE_LIBCXX=yes"
