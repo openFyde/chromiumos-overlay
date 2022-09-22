@@ -1,0 +1,13 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=info install setup unpack
+DESCRIPTION=ARC++ common scripts.
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/container/scripts
+IUSE=arcpp iioservice cros_host cros_workon_tree_c1fccf769cca034a27f9f4ad245e2b09a5d66ba6_462cc7aa5d2176b17f45bbb37e7c6d23e160cf55_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=!<=chromeos-base/arc-base-0.0.1-r349 !<chromeos-base/arc-setup-0.0.1-r1084 app-misc/jq
+SLOT=0/0
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=acf5a06fc78a4d7c403db8210b1796ea
