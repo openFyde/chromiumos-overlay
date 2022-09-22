@@ -5,12 +5,12 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 3
+# eclass bug workaround count: 4
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("2e07bb2896cdc4b905fb8b1463fffe1749bfb025" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
-CROS_WORKON_TREE=("a46a06a77a413e391a1efe693b4141710c9b4e1c" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
+CROS_WORKON_COMMIT=("817dd4c8891503e3fb24ddf2d4ade49630eaf56d" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
+CROS_WORKON_TREE=("cd44e093891573be7574ed431fafc01a0355c82a" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
@@ -52,10 +52,8 @@ src_compile() {
 	local target
 	einfo "Building FPMCU unittest binary for targets: ${EC_BOARDS[*]}"
 	for target in "${EC_BOARDS[@]}"; do
-		emake CROSS_COMPILE="${COREBOOT_SDK_PREFIX_arm}" BOARD="${target}" \
-			"${EC_OPTS[@]}" clean
-		emake CROSS_COMPILE="${COREBOOT_SDK_PREFIX_arm}" BOARD="${target}" \
-			"${EC_OPTS[@]}" tests
+		emake BOARD="${target}" "${EC_OPTS[@]}" clean
+		emake BOARD="${target}" "${EC_OPTS[@]}" tests
 	done
 }
 

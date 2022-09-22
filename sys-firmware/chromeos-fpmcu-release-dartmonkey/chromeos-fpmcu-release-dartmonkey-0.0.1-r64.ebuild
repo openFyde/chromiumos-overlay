@@ -4,13 +4,13 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec-release.eclass" to work around http://crbug.com/220902.
 #
-# eclass bug workaround count: 6
+# eclass bug workaround count: 7
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("6c1587ca70f558b4f96b3f0b18ad8b027d3ba99d" "2de0a64491451f72c7ffe5eb92301f4da509d0ad" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
-CROS_WORKON_TREE=("9a15b4a98d7987870a1805a33883d0cf9123fc05" "f6cadf087425f2c77af8879a7f83e722ab613a36" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
-FIRMWARE_EC_BOARD="nocturne_fp"
+CROS_WORKON_COMMIT=("c453fd704268ef72de871b0c5ac7a989de662334" "2de0a64491451f72c7ffe5eb92301f4da509d0ad" "11a97df4133f905bbdf9ddb48b5d56d617ec949b")
+CROS_WORKON_TREE=("fcf6ce5810f9ff9e3c8cce434812dd75492269ed" "f6cadf087425f2c77af8879a7f83e722ab613a36" "cafc71cae4ef6b3e7e64648b257b3f0ca2300e1d")
+FIRMWARE_EC_BOARD="dartmonkey"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-nocturne"
+	"../platform/release-firmware/fpmcu-dartmonkey"
 	"tpm2"
 	"cryptoc"
 )
@@ -37,8 +37,13 @@ CROS_WORKON_EGIT_BRANCH=(
 	"master"
 )
 
-inherit cros-workon cros-ec-release
+inherit cros-workon cros-ec-release cros-sanitizers
 
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
