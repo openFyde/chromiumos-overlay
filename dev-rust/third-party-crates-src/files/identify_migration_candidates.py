@@ -155,6 +155,14 @@ def main(argv: List[str]):
                 continue
 
             contents = ebuild.read_text(encoding="utf-8")
+            if migration_utils.MIGRATED_CRATE_MARKER in contents:
+                logging.info("Skipping %s; it is already migrated", ebuild)
+                skip_reasons["already migrated"] += 1
+                # Don't set skipped_any here: that's used with
+                # --full-packages-only, and we don't want an already-migrated
+                # package to interfere with that.
+                continue
+
             if not migration_utils.is_leaf_crate(contents):
                 logging.info("Skipping %s; it is not a leaf", ebuild)
                 skip_reasons["not a leaf"] += 1

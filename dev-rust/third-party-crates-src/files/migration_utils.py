@@ -102,7 +102,7 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
     depend_contents = ebuild_contents[
         depend_quote_start + 1 : end_quote
     ].strip()
-    if depend_contents not in ("", "dev-rust/third-party-crates-src"):
+    if depend_contents not in ("", "dev-rust/third-party-crates-src:="):
         return False
 
     # As a last resort, ensure that no funny business was happening with
@@ -115,10 +115,10 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
     i = ebuild_contents.find("\n", end_quote)
     if i == -1:
         i = len(ebuild_contents)
-    line_after_end = ebuild_contents[end_quote:i]
-    before_comment = line_after_end.split("#", 1)[0].strip()
+    line_after_end = ebuild_contents[end_quote+1:i]
     # The only thing after the line should be whitespace.
-    return not before_comment.strip()
+    before_comment = line_after_end.split("#", 1)[0].strip()
+    return not before_comment
 
 
 def is_semver_compatible_upgrade(old: str, new: str) -> bool:
