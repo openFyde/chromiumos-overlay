@@ -47,12 +47,14 @@ def main(argv: List[str]):
     )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("-C", "--git-dir", type=Path, default=Path("."))
+    parser.add_argument("additional_files", nargs="*")
     opts = parser.parse_args(argv)
 
     os.chdir(opts.git_dir)
     dry_run = opts.dry_run
     renamed_anything = False
-    for file in determine_modified_files():
+
+    for file in (Path(x) for x in opts.additional_files):
         if file.suffix != ".ebuild" or file.is_symlink():
             continue
 

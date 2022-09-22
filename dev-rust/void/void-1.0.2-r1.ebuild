@@ -10,5 +10,7 @@ DESCRIPTION="Replaced by third-party-crates-src."
 LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
+
+RESTRICT="test"
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/atty-0.2.2 <dev-rust/atty-0.3.0
 	=dev-rust/bitflags-1*
 	~dev-rust/clippy-0.0.166
-	=dev-rust/strsim-0.8*
 	=dev-rust/term_size-0.3*
 	=dev-rust/textwrap-0.11*
 	>=dev-rust/unicode-width-0.1.4 <dev-rust/unicode-width-0.2.0

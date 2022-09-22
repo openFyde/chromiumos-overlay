@@ -37,6 +37,7 @@ python_check_deps() {
 
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/anyhow-1.0.38 <dev-rust/anyhow-2.0.0
 	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha
 	=dev-rust/bindgen-0.59*
@@ -60,7 +61,6 @@ DEPEND="
 	>=dev-rust/log-0.4.14 <dev-rust/log-0.5
 	>=dev-rust/num_enum-0.5.1 <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*
-	=dev-rust/panic-halt-0.2*
 	=dev-rust/panic-reset-0.1*
 	=dev-rust/riscv-0.7*
 	=dev-rust/riscv-rt-0.8*
@@ -70,7 +70,6 @@ DEPEND="
 	>=dev-rust/spi-memory-0.2.0 <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*
 	=dev-rust/ufmt-0.1*
-	=dev-rust/ufmt-write-0.1*
 	>=dev-rust/panic-rtt-target-0.1.2 <dev-rust/panic-rtt-target-0.2.0
 	>=dev-rust/rtt-target-0.3.1 <dev-rust/rtt-target-0.4.0
 "

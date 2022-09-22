@@ -36,6 +36,26 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/void-1.0.2
+	!=dev-rust/vcell-0.1.3
+	!=dev-rust/ufmt-write-0.1.0
+	!=dev-rust/strsim-0.8.0
+	!=dev-rust/strsim-0.8.0-r1
+	!=dev-rust/strsim-0.10.0
+	!=dev-rust/stable_deref_trait-1.2.0
+	!=dev-rust/rtic-monotonic-1.0.0
+	!=dev-rust/rtic-core-1.0.0
+	!=dev-rust/r0-1.0.0
+	!=dev-rust/r0-0.2.2
+	!=dev-rust/quick-error-1.2.1
+	!=dev-rust/panic-halt-0.2.0
+	!=dev-rust/number_prefix-0.4.0
+	!=dev-rust/defmt-parser-0.2.2
+	!=dev-rust/ct-codecs-1.1.1
+	!=dev-rust/crc-catalog-1.1.1
+	!=dev-rust/color_quant-1.1.0
+	!=dev-rust/cast-0.3.0
+	!=dev-rust/bitfield-0.13.2
 	!=dev-rust/wasm-bindgen-0.2.68
 	!=dev-rust/shell-words-1.0.0
 	!=dev-rust/proc-macro-nested-0.1.3
@@ -102,18 +122,24 @@ ALLOWED_CRATE_VERSIONS=(
 	"axum-0.5.16"
 	"axum-core-0.2.8"
 	"bit_field-0.10.1"
+	"bitfield-0.13.2"
 	"bitvec-0.19.5"
 	"bumpalo-3.11.0"
 	"bytemuck-1.12.1"
 	"byteorder-1.4.3"
+	"cast-0.3.0"
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
+	"color_quant-1.1.0"
 	"com_logger-0.1.1"
 	"configparser-3.0.0"
 	"core-foundation-sys-0.8.3"
+	"crc-catalog-1.1.1"
+	"ct-codecs-1.1.1"
 	"cxx-1.0.42"
 	"cxxbridge-flags-1.0.42"
 	"cxxbridge-macro-1.0.42"
+	"defmt-parser-0.2.2"
 	"derive-into-owned-0.1.0"
 	"downcast-rs-1.2.0"
 	"encode_unicode-0.3.6"
@@ -162,7 +188,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"ntapi-0.3.6"
 	"num-traits-0.2.14"
 	"num_threads-0.1.6"
+	"number_prefix-0.4.0"
 	"object-0.23.0"
+	"panic-halt-0.2.0"
 	"paste-1.0.4"
 	"pcap-file-1.1.1"
 	"peeking_take_while-0.1.2"
@@ -174,19 +202,27 @@ ALLOWED_CRATE_VERSIONS=(
 	"prost-0.11.0"
 	"prost-derive-0.11.0"
 	"protoc-grpcio-2.0.0"
+	"quick-error-1.2.3"
 	"quote-0.3.15"
+	"r0-0.2.2"
+	"r0-1.0.0"
 	"radium-0.5.3"
 	"rdrand-0.4.0"
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
 	"regex-syntax-0.6.25"
+	"rtic-core-1.0.0"
+	"rtic-monotonic-1.0.0"
 	"rustc-hash-1.1.0"
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
 	"same-file-1.0.6"
 	"scopeguard-1.1.0"
 	"shell-words-1.1.0"
+	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
+	"strsim-0.10.0"
+	"strsim-0.8.0"
 	"syn-0.11.11"
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
@@ -207,9 +243,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"tracing-futures-0.2.5"
 	"try-lock-0.2.3"
 	"uart_16550-0.2.18"
+	"ufmt-write-0.1.0"
 	"unicode-xid-0.0.4"
 	"utf8parse-0.2.0"
+	"vcell-0.1.3"
 	"version_check-0.9.3"
+	"void-1.0.2"
 	"volatile-0.4.5"
 	"want-0.3.0"
 	"wasi-0.11.0+wasi-snapshot-preview1"

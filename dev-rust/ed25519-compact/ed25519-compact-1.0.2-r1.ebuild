@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,19 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='"AsSlice" and "AsMutSlice" traits'
-HOMEPAGE='https://crates.io/crates/as-slice'
+DESCRIPTION='A small, self-contained, wasm-friendly Ed25519 implementation'
+HOMEPAGE='https://github.com/jedisct1/rust-ed25519-compact'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="ISC"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/generic-array-0.13.3:0.13.3=
-	~dev-rust/generic-array-0.14.4:0.14.4=
-	~dev-rust/generic-array-0.12.4:0.12.4=
+	>=dev-rust/ed25519-1.2.0 <dev-rust/ed25519-2.0.0_alpha
+	=dev-rust/getrandom-0.2*
 "
 RDEPEND="${DEPEND}"
 

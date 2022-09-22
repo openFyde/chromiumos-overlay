@@ -3,7 +3,6 @@
 
 EAPI="7"
 
-
 # Migrated crate. See b/240953811 for more about this migration.
 DESCRIPTION="Replaced by third-party-crates-src."
 

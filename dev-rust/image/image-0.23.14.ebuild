@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bytemuck-1*
-	>=dev-rust/color_quant-1.1.0 <dev-rust/color_quant-2.0.0_alpha
 	=dev-rust/dav1d-0.6*
 	>=dev-rust/dcv-color-primitives-0.1.16 <dev-rust/dcv-color-primitives-0.2.0_alpha
 	>=dev-rust/gif-0.11.1 <dev-rust/gif-0.12.0_alpha

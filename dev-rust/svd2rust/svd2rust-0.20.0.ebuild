@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	=dev-rust/cast-0.3*
 	>=dev-rust/clap-2.33.0 <dev-rust/clap-3.0.0_alpha
 	>=dev-rust/clap_conf-0.1.5 <dev-rust/clap_conf-0.2.0_alpha
 	=dev-rust/env_logger-0.9*
