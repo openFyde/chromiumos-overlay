@@ -68,8 +68,11 @@ pkg_preinst() {
 	enewgroup cros_ec-access
 	enewuser cros_healthd
 	enewgroup cros_healthd
+	enewgroup fpdev
 	enewuser healthd_ec
 	enewgroup healthd_ec
+	enewuser healthd_fp
+	enewgroup healthd_fp
 
 	if use wilco; then
 		enewuser wilco_dtc
