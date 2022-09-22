@@ -149,6 +149,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"itoa-0.4.7"
 	"itoa-1.0.3"
 	"js-sys-0.3.59"
+	"libfuzzer-sys-0.4.4"
 	"libslirp-sys-4.2.1"
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"

@@ -35,7 +35,6 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "itertools-0.10.5",
     "object-0.23.0",
     "prost-0.11.0",
-    "rand_core-0.3.1",
     "quote-0.3.15",
     "redox_syscall-0.2.4",
     "syn-0.11.11",
