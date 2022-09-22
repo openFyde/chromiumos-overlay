@@ -18,6 +18,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	dev-embedded/coreboot-sdk
 	dev-lang/go
 	dev-lang/rust
 	dev-libs/elfutils
