@@ -55,3 +55,7 @@ src_install() {
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.CupsProxyDaemon.service
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/cups_proxy_unittest"
+}
