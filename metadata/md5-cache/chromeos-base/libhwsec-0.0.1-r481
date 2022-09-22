@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/libhwsec-foundation chromeos-base/tpm_manager-client dev-libs/openssl:0= dev-libs/flatbuffers tpm2? ( chromeos-base/pinweaver:= chromeos-base/trunks:=[test?] ) tpm? ( app-crypt/trousers:= ) fuzzer? ( app-crypt/trousers:= chromeos-base/trunks:= ) test? ( chromeos-base/pinweaver:= chromeos-base/trunks:=[test] chromeos-base/tpm2-simulator:=[test] ) >=chromeos-base/libchrome-0.0.1-r465:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2058:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=Crypto and utility functions used in TPM related daemons.
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libhwsec/
+IUSE=test fuzzer tpm tpm2 tpm_dynamic cros_host cros_workon_tree_7af090f4e3d17daa9e628424e4d774e246757618_0aaa9dd065714d684a9e8a78f6df947048683283_53484d9a746662594836a32e203068e89c9eae63_44b533b9e904bd46af6027adeb73b2256de03173_68018baddc5c233cc66ed952b38c268a4db7b136_dd83ff1c803209bfd296845ace6f8e9a7aab4ece_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_7af090f4e3d17daa9e628424e4d774e246757618_0aaa9dd065714d684a9e8a78f6df947048683283_53484d9a746662594836a32e203068e89c9eae63_44b533b9e904bd46af6027adeb73b2256de03173_68018baddc5c233cc66ed952b38c268a4db7b136_dd83ff1c803209bfd296845ace6f8e9a7aab4ece_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=chromeos-base/libhwsec-foundation chromeos-base/tpm_manager-client dev-libs/openssl:0= dev-libs/flatbuffers tpm2? ( chromeos-base/pinweaver:= chromeos-base/trunks:=[test?] ) tpm? ( app-crypt/trousers:= ) fuzzer? ( app-crypt/trousers:= chromeos-base/trunks:= ) test? ( chromeos-base/pinweaver:= chromeos-base/trunks:=[test] chromeos-base/tpm2-simulator:=[test] ) >=chromeos-base/libchrome-0.0.1-r465:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2058:=
+SLOT=0/0.0.1-r481
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	740eaa5e07eac490bc43a5870819e28e	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	0750d5372bdb9c882e6e4805bcf78e57	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=0b1293992375a883cffa056b806b7ee8
