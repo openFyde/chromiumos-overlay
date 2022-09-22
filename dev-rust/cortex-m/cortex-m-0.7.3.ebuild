@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bare-metal-0.2*
 	>=dev-rust/embedded-hal-0.2.4 <dev-rust/embedded-hal-0.3.0
-	=dev-rust/volatile-register-0.2*
 "
 RDEPEND="${DEPEND}"
 

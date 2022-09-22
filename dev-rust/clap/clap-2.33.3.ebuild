@@ -25,7 +25,6 @@ DEPEND="
 	>=dev-rust/unicode-width-0.1.4 <dev-rust/unicode-width-0.2.0
 	=dev-rust/vec_map-0.8*
 	=dev-rust/yaml-rust-0.3*
-	=dev-rust/ansi_term-0.11*
 "
 RDEPEND="${DEPEND}"
 

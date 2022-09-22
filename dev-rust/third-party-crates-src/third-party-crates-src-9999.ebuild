@@ -36,6 +36,23 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/xml-rs-0.8.3
+	!=dev-rust/volatile-register-0.2.0
+	!=dev-rust/volatile-register-0.2.0-r1
+	!=dev-rust/semver-parser-0.7.0
+	!=dev-rust/scoped-tls-1.0.0
+	!=dev-rust/remove_dir_all-0.5.1
+	!=dev-rust/remove_dir_all-0.5.1-r1
+	!=dev-rust/matches-0.1.8
+	!=dev-rust/foreign-types-0.3.2
+	!=dev-rust/foreign-types-0.3.2-r1
+	!=dev-rust/foreign-types-0.3.2-r2
+	!=dev-rust/crc-2.0.0
+	!=dev-rust/crc-2.0.0-r1
+	!=dev-rust/ansi_term-0.11.0
+	!=dev-rust/ansi_term-0.11.0-r1
+	!=dev-rust/ansi_term-0.11.0-r2
+	!=dev-rust/ansi_term-0.11.0-r3
 	!=dev-rust/void-1.0.2
 	!=dev-rust/vcell-0.1.3
 	!=dev-rust/ufmt-write-0.1.0
@@ -114,6 +131,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"addr2line-0.14.1"
 	"adler-0.2.3"
 	"android_system_properties-0.1.5"
+	"ansi_term-0.11.0"
 	"argh_shared-0.1.8"
 	"assert_matches-1.5.0"
 	"async-stream-0.3.3"
@@ -134,6 +152,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"com_logger-0.1.1"
 	"configparser-3.0.0"
 	"core-foundation-sys-0.8.3"
+	"crc-2.1.0"
 	"crc-catalog-1.1.1"
 	"ct-codecs-1.1.1"
 	"cxx-1.0.42"
@@ -150,6 +169,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"euclid-0.22.7"
 	"failure-0.1.8"
 	"fnv-1.0.7"
+	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
 	"fuchsia-cprng-0.1.1"
 	"funty-1.1.0"
@@ -181,6 +201,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"linux-raw-sys-0.0.46"
 	"managed-0.8.0"
 	"match_cfg-0.1.0"
+	"matches-0.1.9"
 	"matchit-0.5.0"
 	"mime-0.3.16"
 	"minimal-lexical-0.2.1"
@@ -211,13 +232,16 @@ ALLOWED_CRATE_VERSIONS=(
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
 	"regex-syntax-0.6.25"
+	"remove_dir_all-0.5.3"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
 	"rustc-hash-1.1.0"
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
 	"same-file-1.0.6"
+	"scoped-tls-1.0.0"
 	"scopeguard-1.1.0"
+	"semver-parser-0.7.0"
 	"shell-words-1.1.0"
 	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
@@ -250,6 +274,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"version_check-0.9.3"
 	"void-1.0.2"
 	"volatile-0.4.5"
+	"volatile-register-0.2.1"
 	"want-0.3.0"
 	"wasi-0.11.0+wasi-snapshot-preview1"
 	"wasm-bindgen-0.2.82"
@@ -270,6 +295,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"wio-0.2.2"
 	"wyz-0.2.0"
 	"x86_64-0.14.10"
+	"xml-rs-0.8.4"
 )
 
 src_unpack() {

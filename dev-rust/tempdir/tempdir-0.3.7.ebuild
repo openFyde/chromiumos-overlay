@@ -14,7 +14,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/rand-0.4*
-	=dev-rust/remove_dir_all-0.5*
 "
 RDEPEND="${DEPEND}"

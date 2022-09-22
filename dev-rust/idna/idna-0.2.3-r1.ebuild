@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Parser and serializer for the application/x-www-form-urlencoded syntax, as used by HTML forms.'
-HOMEPAGE='https://crates.io/crates/form_urlencoded'
+DESCRIPTION='IDNA (Internationalizing Domain Names in Applications) and Punycode.'
+HOMEPAGE='https://crates.io/crates/idna'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -16,8 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/matches-0.1*
-	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha
+	dev-rust/third-party-crates-src:=
+	=dev-rust/unicode-bidi-0.3*
+	>=dev-rust/unicode-normalization-0.1.17 <dev-rust/unicode-normalization-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 
