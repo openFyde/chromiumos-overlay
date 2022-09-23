@@ -20,6 +20,10 @@ DEPEND="${RDEPEND}
 	test? ( dev-util/cunit )
 "
 
+PATCHES=(
+	"${FILESDIR}/0001-libtracefs-Make-sure-32-bit-works-on-64-bit-file-sys.patch"
+)
+
 src_configure() {
 	export pkgconfig_dir=/usr/$(get_libdir)/pkgconfig
 	export prefix=/usr
