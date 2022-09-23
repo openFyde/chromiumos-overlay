@@ -53,6 +53,7 @@ IUSE="
 	chrome_internal
 	chrome_media
 	chromeless_tty
+	chromeos_kernelci_builder
 	clvk
 	containers
 	cr50_onboard
