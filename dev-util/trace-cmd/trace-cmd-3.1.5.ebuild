@@ -38,6 +38,10 @@ BDEPEND="
 	doc? ( app-text/asciidoc )
 "
 
+PATCHES=(
+	"${FILESDIR}/0001-trace-cmd-Make-sure-32-bit-works-on-64-bit-file-syst.patch"
+)
+
 # having trouble getting tests to compile
 RESTRICT+=" test"
 
