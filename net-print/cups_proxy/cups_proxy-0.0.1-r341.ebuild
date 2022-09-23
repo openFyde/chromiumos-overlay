@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="f28dda79faa5355fd2e4d245a7ccdfda1a9d94a2"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "79b1ca9ad0d01d1df4c9593b854ab1f60a6dc5d3" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="501f836db014f1978a5fdeee69c51645cc2e5e1e"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "f5e7a0c1cc60c1e92a512c2d2a6ab1556124e0ff" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -56,4 +56,8 @@ src_install() {
 	# Install D-Bus service activation configuration.
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.CupsProxyDaemon.service
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/cups_proxy_unittest"
 }
