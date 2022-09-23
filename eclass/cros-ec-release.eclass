@@ -19,7 +19,7 @@
 #
 # NOTE: When making changes to this class, make sure to modify all the -9999
 # ebuilds that inherit it (e.g., chromeos-fpmcu-release*) to work around
-# http://crbug.com/220902.
+# https://issuetracker.google.com/201299127.
 
 if [[ -z "${_ECLASS_CROS_EC_RELEASE}" ]]; then
 _ECLASS_CROS_EC_RELEASE="1"

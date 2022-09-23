@@ -14,7 +14,7 @@
 #
 # NOTE: When making changes to this class, make sure to modify all the -9999
 # ebuilds that inherit it (e.g., chromeos-ish) to work around
-# http://crbug.com/220902.
+# https://issuetracker.google.com/201299127.
 
 # @ECLASS-VARIABLE: ISH_TARGETS
 # @DESCRIPTION:

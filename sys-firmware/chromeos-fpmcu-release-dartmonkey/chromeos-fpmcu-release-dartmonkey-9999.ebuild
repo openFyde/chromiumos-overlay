@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # Increment the "eclass bug workaround count" below when you change
-# "cros-ec-release.eclass" to work around http://crbug.com/220902.
+# "cros-ec-release.eclass" to work around https://issuetracker.google.com/201299127.
 #
 # eclass bug workaround count: 8
 
