@@ -29,6 +29,8 @@ DEPEND="${COMMON_DEPEND}
 	sys-apps/dbus:="
 
 src_install() {
+	platform_src_install
+
 	into /
 	dosbin "${OUT}"/featured
 

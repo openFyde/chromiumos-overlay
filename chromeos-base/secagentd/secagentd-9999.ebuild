@@ -51,6 +51,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/secagentd
 	if use secagentd_min_core_btf; then
 		insinto /usr/share/btf/secagentd

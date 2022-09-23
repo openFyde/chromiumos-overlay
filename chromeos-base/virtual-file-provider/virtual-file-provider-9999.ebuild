@@ -30,6 +30,8 @@ DEPEND="${RDEPEND}
 
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/virtual-file-provider
 	if use arcvm; then
 		newbin virtual-file-provider-jailed-arcvm.sh virtual-file-provider-jailed

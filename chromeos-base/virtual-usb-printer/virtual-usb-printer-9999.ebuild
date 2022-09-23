@@ -45,6 +45,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Install main files into /usr/local even though the ebuild is being
 	# installed on the rootfs.
 	into /usr/local

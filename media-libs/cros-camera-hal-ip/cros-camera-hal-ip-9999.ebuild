@@ -28,6 +28,8 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
+
 	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" ip.so
 }
 

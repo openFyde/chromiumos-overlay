@@ -37,6 +37,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	if use cros_host; then
 		dobin "${OUT}"/bsdiff
 		dobin "${OUT}"/bspatch

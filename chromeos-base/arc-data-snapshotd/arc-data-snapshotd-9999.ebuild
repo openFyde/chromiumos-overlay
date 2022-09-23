@@ -37,6 +37,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	insinto /etc/init
 	doins init/arc-data-snapshotd.conf
 	doins init/arc-data-snapshotd-worker.conf

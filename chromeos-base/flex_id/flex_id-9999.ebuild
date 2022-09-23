@@ -21,6 +21,8 @@ IUSE=""
 RDEPEND="!chromeos-base/client_id"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/flex_id_tool
 }
 

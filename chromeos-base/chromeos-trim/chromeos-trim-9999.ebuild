@@ -35,6 +35,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	insinto "/etc/init"
 	doins "init/trim.conf"
 

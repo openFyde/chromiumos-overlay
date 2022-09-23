@@ -34,6 +34,8 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/session_manager-client:="
 
 src_install() {
+	platform_src_install
+
 	insinto /lib/udev/rules.d
 	doins "${S}/40-usb-bouncer.rules"
 

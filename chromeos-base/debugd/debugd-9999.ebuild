@@ -69,6 +69,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/generate_logs
 
 	into /

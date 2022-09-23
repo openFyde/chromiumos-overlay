@@ -42,6 +42,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/smbfs
 
 	local daemon_store="/etc/daemon-store/smbfs"

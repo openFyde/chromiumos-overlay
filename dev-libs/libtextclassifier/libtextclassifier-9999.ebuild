@@ -49,6 +49,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Installs the model files.
 	insinto /opt/google/chrome/ml_models
 	local model_files=( "${MODEL_URI[@]##*/}" )

@@ -49,6 +49,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/kerberosd
 
 	insinto /etc/dbus-1/system.d

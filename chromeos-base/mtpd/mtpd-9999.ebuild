@@ -31,6 +31,8 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:="
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/mtpd
 
 	# Install seccomp policy file.

@@ -43,6 +43,8 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
+	platform_src_install
+
 	# Installs the utilities executable.
 	insinto /usr/local/bin
 	doins "${OUT}/tpm_softclear"

@@ -30,6 +30,8 @@ RDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/diagnostics_dpsl_test_listener"
 	dobin "${OUT}/diagnostics_dpsl_test_requester"
 }

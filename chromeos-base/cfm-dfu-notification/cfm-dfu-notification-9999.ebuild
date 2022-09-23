@@ -23,6 +23,8 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}"/lib/libcfm_dfu_notification.so
 
 	"${S}"/platform2_preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"

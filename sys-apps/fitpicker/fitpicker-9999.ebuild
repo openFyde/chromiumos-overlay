@@ -25,5 +25,7 @@ RDEPEND=">=sys-apps/dtc-1.4.1"
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/fitpicker
 }

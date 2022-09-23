@@ -51,6 +51,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	insinto "/usr/$(get_libdir)/pkgconfig"
 
 	dolib.so "${OUT}"/lib/lib{brillo,installattributes,policy}*.so

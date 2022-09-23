@@ -32,6 +32,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	exeinto /usr/libexec/cups/filter
 	doexe "${OUT}"/fax-pnh-filter
 }

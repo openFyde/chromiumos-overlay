@@ -29,6 +29,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	newbin "${OUT}"/server_proxy arcvm_server_proxy
 
 	insinto /etc/init

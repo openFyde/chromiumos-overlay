@@ -44,6 +44,8 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	dolib.a "${OUT}"/libpinweaver.a
 
 	insinto /usr/include/pinweaver

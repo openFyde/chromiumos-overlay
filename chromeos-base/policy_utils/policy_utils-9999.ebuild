@@ -33,6 +33,8 @@ RDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}/policy"
 }
 

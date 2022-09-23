@@ -34,6 +34,8 @@ SLOT="0"
 KEYWORDS="~*"
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}"/lib/libcbor.so
 	insinto /usr/include/chromeos/cbor/
 	doins ./*.h

@@ -22,6 +22,8 @@ IUSE=""
 KEYWORDS="~*"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/userspace_touchpad"
 
 	insinto "/etc/init"

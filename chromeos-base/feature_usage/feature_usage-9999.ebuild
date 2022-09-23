@@ -28,6 +28,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Install the static library
 	dolib.a "${OUT}"/libfeature_usage_static.a
 

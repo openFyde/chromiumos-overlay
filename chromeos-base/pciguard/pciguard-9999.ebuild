@@ -26,6 +26,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Install the binary
 	dosbin "${OUT}"/pciguard
 

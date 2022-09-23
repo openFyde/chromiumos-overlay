@@ -41,6 +41,9 @@ src_compile() {
 }
 
 src_install() {
+	# platform_src_install omitted, to avoid conflicts with
+	# chromeos-base/hammerd.
+
 	# Install exposed API.
 	dolib.so "${OUT}"/lib/libhammerd-api.so
 	insinto /usr/include/hammerd/

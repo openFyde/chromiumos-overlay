@@ -57,6 +57,8 @@ src_test() {
 
 
 src_install() {
+	platform_src_install
+
 	# Executable files' names take the form <category>.<TestName>.<bin_name>.
 	exeinto /usr/libexec/tast/helpers/local/cros
 	doexe "${OUT}"/*.[A-Z]*.*

@@ -37,6 +37,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/secanomalyd
 
 	# Install Upstart configuration.

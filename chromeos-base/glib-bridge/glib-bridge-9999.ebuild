@@ -27,6 +27,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}"/lib/libglib_bridge.so
 
 	# Install headers.

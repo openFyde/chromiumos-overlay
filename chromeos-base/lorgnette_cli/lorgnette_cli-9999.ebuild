@@ -23,5 +23,8 @@ RDEPEND="
 "
 
 src_install() {
+	# platform_src_install omitted, to avoid conflicts with
+	# chromeos-base/lorgnette.
+
 	dobin "${OUT}"/lorgnette_cli
 }

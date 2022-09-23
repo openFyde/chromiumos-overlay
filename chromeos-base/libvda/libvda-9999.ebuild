@@ -32,6 +32,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}"/lib/libvda.so
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/arc/vm/libvda/libvda.pc

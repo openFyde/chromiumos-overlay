@@ -69,6 +69,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	into /
 	dosbin "${OUT}/keygen"
 	dosbin "${OUT}/session_manager"

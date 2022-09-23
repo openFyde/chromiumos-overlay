@@ -36,6 +36,8 @@ src_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin secure-wipe.sh
 	dosbin wipe_disk
 }

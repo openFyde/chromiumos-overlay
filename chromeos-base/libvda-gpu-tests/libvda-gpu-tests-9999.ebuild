@@ -36,6 +36,8 @@ src_compile() {
 }
 
 src_install() {
+	platform_src_install
+
 	exeinto /usr/libexec/libvda-gpu-tests
 	doexe "${OUT}/libvda_gpu_unittest"
 }

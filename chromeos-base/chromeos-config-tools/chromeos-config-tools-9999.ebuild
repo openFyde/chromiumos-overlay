@@ -44,6 +44,8 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}/lib/libcros_config.so"
 
 	insinto "/usr/include/chromeos/chromeos-config/libcros_config"

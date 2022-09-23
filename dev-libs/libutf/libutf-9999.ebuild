@@ -25,6 +25,8 @@ RDEPEND=""
 DEPEND=""
 
 src_install() {
+	platform_src_install
+
 	insinto "/usr/include/android/"
 	doins "${S}/utf.h"
 

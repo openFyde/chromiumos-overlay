@@ -61,6 +61,8 @@ src_prepare() {
 }
 
 src_install() {
+	platform_src_install
+
 	if use vendor-nnhal ; then
 		einfo "Installing Intel GNA vendor hal."
 		dolib.so "${OUT}/lib/libvendor-nn-hal.so"

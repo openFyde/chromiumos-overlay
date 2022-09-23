@@ -26,6 +26,8 @@ KEYWORDS="~*"
 IUSE="fuzzer"
 
 src_install() {
+	platform_src_install
+
 	dolib.a "${OUT}"/libmodp_b64.a
 
 	insinto /usr/include

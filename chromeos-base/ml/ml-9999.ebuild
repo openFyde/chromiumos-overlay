@@ -100,6 +100,11 @@ DEPEND="
 REQUIRED_USE="ondevice_speech? ( dlc )"
 
 src_install() {
+	# platform_src_install omitted, to avoid conflict with
+	# chromeos-base/ml-cmdline.
+	# TODO(b/261604868): Resolve this conflict, where two ebuilds point at
+	# the same BUILD.gn file.
+
 	dobin "${OUT}"/ml_service
 
 	# Install upstart configuration.

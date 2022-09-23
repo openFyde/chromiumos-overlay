@@ -41,6 +41,8 @@ DEPEND="${RDEPEND}
 "
 
 src_install() {
+	platform_src_install
+
 	# Install all the udev rules.
 	udev_dorules "${FILESDIR}"/udev/*.rules
 

@@ -55,6 +55,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	insinto /etc/init/
 	doins "${FILESDIR}"/rtanalytics.conf
 

@@ -40,6 +40,8 @@ src_prepare() {
 }
 
 src_install() {
+	platform_src_install
+
 	if use cros_host; then
 		dobin "${OUT}"/puffin
 	fi

@@ -29,6 +29,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Install a tool to override max pressure.
 	exeinto "$(get_udevdir)"
 	doexe "${OUT}/override-max-pressure"

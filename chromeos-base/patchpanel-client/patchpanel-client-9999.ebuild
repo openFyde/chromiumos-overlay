@@ -45,6 +45,8 @@ patchpanel_client_header() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Libraries.
 	dolib.so "${OUT}"/lib/libpatchpanel-client.so
 

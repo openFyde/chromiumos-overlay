@@ -26,6 +26,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	dolib.so "${OUT}/lib/libpasswordprovider.so"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"

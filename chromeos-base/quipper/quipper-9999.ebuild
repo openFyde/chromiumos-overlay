@@ -67,6 +67,8 @@ src_compile() {
 }
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/quipper
 }
 

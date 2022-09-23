@@ -28,6 +28,8 @@ DEPEND="${RDEPEND}"
 FIBOCOM_DIR="/opt/fibocom"
 
 src_install() {
+	platform_src_install
+
 	exeinto "${FIBOCOM_DIR}"
 	cellular_dohelper "${OUT}/qc-modemfwd-helper"
 }

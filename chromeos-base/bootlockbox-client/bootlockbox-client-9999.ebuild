@@ -28,6 +28,8 @@ BDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Export neccessary header files:
 	insinto /usr/include/bootlockbox-client/bootlockbox
 	doins ../boot_lockbox_client.h

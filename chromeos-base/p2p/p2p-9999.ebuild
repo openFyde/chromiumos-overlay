@@ -53,6 +53,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/p2p-client
 	dosbin "${OUT}"/p2p-server
 	dosbin "${OUT}"/p2p-http-server

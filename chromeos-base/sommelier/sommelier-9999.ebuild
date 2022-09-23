@@ -52,6 +52,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/sommelier
 
 	# TODO(sidereal) This fuzzer isn't useful without a re-design

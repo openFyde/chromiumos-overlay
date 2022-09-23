@@ -29,6 +29,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	cros-go_src_install
 }
 

@@ -21,6 +21,8 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 src_install() {
+	platform_src_install
+
 	# Install package config.
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins cros_healthd-client.pc

@@ -24,5 +24,7 @@ KEYWORDS="~*"
 DEPEND="x11-libs/libdrm:="
 
 src_install() {
+	platform_src_install
+
 	dolib.a "${OUT}"/librendernodehost.a
 }

@@ -29,6 +29,8 @@ RDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}/atrusd"
 
 	insinto /etc/rsyslog.d

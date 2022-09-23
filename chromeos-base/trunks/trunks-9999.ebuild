@@ -69,6 +69,8 @@ DEPEND="
 	"
 
 src_install() {
+	platform_src_install
+
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.Trunks.conf
 

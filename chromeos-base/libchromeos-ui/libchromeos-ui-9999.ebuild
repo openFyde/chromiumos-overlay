@@ -24,6 +24,8 @@ RDEPEND="chromeos-base/bootstat"
 DEPEND=""
 
 src_install() {
+	platform_src_install
+
 	local v="$(libchrome_ver)"
 
 	insinto "/usr/$(get_libdir)/pkgconfig"

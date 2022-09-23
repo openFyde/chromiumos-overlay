@@ -26,6 +26,8 @@ RDEPEND="chromeos-base/minijail:=
 DEPEND="${RDEPEND}"
 
 src_install() {
+	platform_src_install
+
 	into /
 	dolib.so "${OUT}"/lib/libcontainer.so
 

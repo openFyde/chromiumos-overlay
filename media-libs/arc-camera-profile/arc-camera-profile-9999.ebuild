@@ -26,5 +26,7 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/generate_camera_profile"
 }

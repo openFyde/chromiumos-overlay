@@ -29,6 +29,8 @@ RDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Install libshill-net library.
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"

@@ -65,6 +65,8 @@ src_compile() {
 }
 
 src_install() {
+	platform_src_install
+
 	local bin_dir="$(cros-workon_get_build_dir)/out/Default/"
 	dobin "${bin_dir}/bluetooth_packetgen"
 	dobin "${bin_dir}/bluetooth_flatbuffer_bundler"

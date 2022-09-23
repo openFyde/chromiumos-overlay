@@ -31,6 +31,8 @@ DEPEND="
 	chromeos-base/system_api:=[fuzzer?]"
 
 src_install() {
+	platform_src_install
+
 	# Install our binary.
 	dosbin "${OUT}"/crosdns
 

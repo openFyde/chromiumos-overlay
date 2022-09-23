@@ -106,6 +106,8 @@ install_lib() {
 }
 
 src_install() {
+	platform_src_install
+
 	insinto /etc/init
 	doins init/cros-camera-libfs.conf
 

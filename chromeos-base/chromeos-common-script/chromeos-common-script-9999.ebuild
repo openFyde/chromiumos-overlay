@@ -24,6 +24,8 @@ IUSE="direncryption fsverity kernel-4_4 prjquota"
 REQUIRED_USE="prjquota? ( !kernel-4_4 )"
 
 src_install() {
+	platform_src_install
+
 	insinto /usr/share/misc
 	doins share/chromeos-common.sh
 	doins share/lvm-utils.sh

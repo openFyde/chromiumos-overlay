@@ -64,6 +64,8 @@ DEPEND="${COMMON_DEPEND}
 
 
 src_install() {
+	platform_src_install
+
 	# Used for both ARCVM and ARC.
 	dosbin "${OUT}"/arc-prepare-host-generated-dir
 	dosbin "${OUT}"/arc-remove-data

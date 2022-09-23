@@ -57,6 +57,8 @@ src_prepare() {
 }
 
 src_install() {
+	platform_src_install
+
 	mv "${OUT}/libmarisa.a" "${OUT}/libmarisa${POSTFIX}.a"
 	dolib.a "${OUT}/libmarisa${POSTFIX}.a"
 

@@ -111,6 +111,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	dosbin "${OUT}"/update_engine
 	dobin "${OUT}"/update_engine_client
 

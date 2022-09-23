@@ -20,6 +20,8 @@ LICENSE="BSD-Google GPL-2"
 KEYWORDS="~*"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/verity
 
 	dolib.so "${OUT}"/lib/libdm-bht.so

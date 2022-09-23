@@ -144,6 +144,8 @@ src_install_upstart() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Install helper to run periodic tasks.
 	dobin "${OUT}"/periodic_scheduler
 	dobin "${OUT}"/process_killer

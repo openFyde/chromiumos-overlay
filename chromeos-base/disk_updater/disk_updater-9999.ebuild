@@ -44,6 +44,8 @@ platform_pkg_test() {
 }
 
 src_install() {
+	platform_src_install
+
 	insinto "/etc/init"
 	doins "scripts/chromeos-disk-firmware-update.conf"
 

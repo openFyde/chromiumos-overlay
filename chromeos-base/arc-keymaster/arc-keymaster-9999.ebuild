@@ -116,6 +116,8 @@ src_compile() {
 }
 
 src_install() {
+	platform_src_install
+
 	insinto /etc/init
 	doins init/arc-keymasterd.conf
 

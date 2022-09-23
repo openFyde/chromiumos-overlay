@@ -23,6 +23,8 @@ SLOT="0/0"
 IUSE="+seccomp"
 
 src_install() {
+	platform_src_install
+
 	newsbin "${OUT}/boot_notification_server" arcvm_boot_notification_server
 
 	insinto /etc/init

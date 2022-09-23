@@ -121,6 +121,8 @@ src_prepare() {
 }
 
 src_install() {
+	platform_src_install
+
 	einfo "Installing Android headers."
 	insinto /usr/include/aosp
 	doins -r includes/*

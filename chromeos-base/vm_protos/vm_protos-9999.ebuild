@@ -41,6 +41,8 @@ src_unpack() {
 }
 
 src_install() {
+	platform_src_install
+
 	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins vm_protos.pc
 

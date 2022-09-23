@@ -21,6 +21,8 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/ureadahead-diff
 }
 

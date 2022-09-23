@@ -40,6 +40,8 @@ pkg_preinst() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Installs the client libraries
 	dolib.a "${OUT}/libmissiveclientlib.a"
 	dolib.a "${OUT}/libmissiveprotohealth.a"

@@ -20,6 +20,8 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}/foomatic_shell"
 
 	# Install fuzzer

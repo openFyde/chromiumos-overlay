@@ -63,6 +63,8 @@ pkg_setup() {
 }
 
 src_install() {
+	platform_src_install
+
 	# Binaries for production
 	dobin "${OUT}"/backlight_tool  # boot-splash, chromeos-boot-alert
 	dobin "${OUT}"/cpufreq_config

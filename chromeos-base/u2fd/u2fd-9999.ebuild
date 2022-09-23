@@ -52,6 +52,11 @@ pkg_setup() {
 }
 
 src_install() {
+	# platform_src_install omitted, to avoid conflicts with
+	# chromeos-base/g2f_tools.
+	# TODO(b/261604696): Resolve this conflict, where two ebuilds point at
+	# the same BUILD.gn file.
+
 	dobin "${OUT}"/u2fd
 
 	insinto /etc/init

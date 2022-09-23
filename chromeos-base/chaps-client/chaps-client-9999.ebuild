@@ -37,6 +37,8 @@ RDEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	# Install D-Bus client library.
 	platform_install_dbus_client_lib "chaps"
 }

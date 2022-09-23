@@ -31,6 +31,8 @@ DEPEND="
 "
 
 src_install() {
+	platform_src_install
+
 	dobin "${OUT}"/typecd
 	dobin "${OUT}"/typecd_tool
 
