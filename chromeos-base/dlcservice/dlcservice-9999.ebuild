@@ -36,7 +36,6 @@ DEPEND="${RDEPEND}
 	chromeos-base/imageloader-client:=
 	lvm_stateful_partition? ( chromeos-base/lvmd-client:= )
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/session_manager-client:=
 	chromeos-base/update_engine-client:=
 	chromeos-base/vboot_reference:=
 "
