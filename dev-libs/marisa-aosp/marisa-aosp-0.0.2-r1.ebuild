@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("3c06e4ece0ae7a53fdbb9e48fe6aae9de8bd34a8" "54417d28a5273a8d759b28882a0c96335e192756")
-CROS_WORKON_TREE=("9d87849894323414dd9afca425cb349d84a71f6b" "e7dba8c91c1f3257c34d4a7ffff0ea2537aeb6bb" "f68e9f2c95cfb02b54d9697d8b4a2ae0be2d546c")
+CROS_WORKON_COMMIT=("1047347e73cbb85e8c8ce9926acac81eceb37d29" "54417d28a5273a8d759b28882a0c96335e192756")
+CROS_WORKON_TREE=("c70c24e7eeb0c8aad6108bedde29b6984f63cd54" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "f68e9f2c95cfb02b54d9697d8b4a2ae0be2d546c")
 DESCRIPTION="MARISA: Matching Algorithm with Recursively Implemented StorAge (AOSP fork)"
 HOMEPAGE="https://android.googlesource.com/platform/external/marisa-trie/"
 
