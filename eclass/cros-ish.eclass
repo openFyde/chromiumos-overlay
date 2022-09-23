@@ -70,6 +70,18 @@ cros-ish_set_build_env() {
 	tc-export CC BUILD_CC
 	export BUILDCC="${BUILD_CC}"
 
+	# b/247791129: EC expects HOST_PKG_CONFIG to be the pkg-config targeting the
+	# platform that the EC is running on top of (e.g., the Chromebook's AP).
+	# That platform corresponds to the ChromeOS "$BOARD" and the pkg-config for
+	# the "$BOARD" being built is specified by tc-getPKG_CONFIG.
+	export HOST_PKG_CONFIG
+	HOST_PKG_CONFIG=$(tc-getPKG_CONFIG)
+
+	# EC expects BUILD_PKG_CONFIG to be the pkg-config targeting the build
+	# machine (the machine doing the compilation).
+	export BUILD_PKG_CONFIG
+	BUILD_PKG_CONFIG=$(tc-getBUILD_PKG_CONFIG)
+
 	ISH_TARGETS=($(cros_config_host get-firmware-build-targets ish))
 
 	EC_OPTS=()

@@ -45,6 +45,18 @@ src_compile() {
 	# host (BUILDCC, amd64). So we need to override HOSTCC by target "CC".
 	export HOSTCC="${CC} $(usex static '-static' '')"
 
+	# b/247791129: EC expects HOST_PKG_CONFIG to be the pkg-config targeting the
+	# platform that the EC is running on top of (e.g., the Chromebook's AP).
+	# That platform corresponds to the ChromeOS "$BOARD" and the pkg-config for
+	# the "$BOARD" being built is specified by tc-getPKG_CONFIG.
+	export HOST_PKG_CONFIG
+	HOST_PKG_CONFIG=$(tc-getPKG_CONFIG)
+
+	# EC expects BUILD_PKG_CONFIG to be the pkg-config targeting the build
+	# machine (the machine doing the compilation).
+	export BUILD_PKG_CONFIG
+	BUILD_PKG_CONFIG=$(tc-getBUILD_PKG_CONFIG)
+
 	# Build Chromium EC utilities.
 	use cros_ec_utils && src_compile_cros_ec_utils
 }
