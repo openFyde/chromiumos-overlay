@@ -97,9 +97,7 @@ src_configure() {
 }
 
 src_install() {
-	emake "${EMAKE_FLAGS[@]}" NO_PYTHON=1 \
-		DESTDIR="${D}" \
-		install install_libs
+	emake "${EMAKE_FLAGS[@]}" NO_PYTHON=1 DESTDIR="${D}" install
 
 	newbashcomp tracecmd/trace-cmd.bash "${PN}"
 
