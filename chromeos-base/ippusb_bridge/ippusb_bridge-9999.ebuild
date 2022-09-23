@@ -29,6 +29,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	>=dev-rust/ascii-1.0.0 <dev-rust/ascii-1.1
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	>=dev-rust/getopts-0.2.18 <dev-rust/getopts-0.3
 	>=dev-rust/httparse-1.3.4 <dev-rust/httparse-1.4
