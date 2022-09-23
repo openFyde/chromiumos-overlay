@@ -38,6 +38,7 @@ IUSE="
 	iioservice
 	ml_service
 	hps
+	mojo_service_manager
 	nnapi
 	no_factory_flow
 	ondevice_document_scanner
@@ -293,6 +294,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	opengles? ( media-libs/waffle )
 	opengl? ( media-libs/waffle )
 	media-sound/sox
+	mojo_service_manager? ( chromeos-base/mojo_service_manager-test )
 	net-analyzer/netperf
 	net-analyzer/netdata
 	net-dialup/minicom
