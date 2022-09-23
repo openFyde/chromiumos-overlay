@@ -16,6 +16,8 @@ openat: 1
 recv: 1
 close: 1
 fstat64: 1
+fstatfs: 1
+newfstatat: 1
 setsockopt: 1
 socket: arg0 == AF_UNIX
 connect: 1
