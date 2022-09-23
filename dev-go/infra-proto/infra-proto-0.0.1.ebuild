@@ -3,10 +3,11 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="chromium.googlesource.com/chromiumos/infra/proto:go.chromium.org/chromiumos/infra/proto 3b9d473de0fec93ded28a89eaf1776ebcf200ccf"
+CROS_GO_SOURCE="chromium.googlesource.com/chromiumos/infra/proto:go.chromium.org/chromiumos/infra/proto 2947ea1a4ac9f1f50f2cac6d49cc86bbe6720ba8"
 
 CROS_GO_PACKAGES=(
 	"go.chromium.org/chromiumos/infra/proto/go/chromite/api"
+	"go.chromium.org/chromiumos/infra/proto/go/chromite/observability"
 	"go.chromium.org/chromiumos/infra/proto/go/chromiumos"
 	"go.chromium.org/chromiumos/infra/proto/go/device"
 	"go.chromium.org/chromiumos/infra/proto/go/lab"
