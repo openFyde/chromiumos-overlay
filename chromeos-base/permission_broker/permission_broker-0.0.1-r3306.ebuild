@@ -3,12 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a855bb228d4c90a155e7e55b59ee2deea2092f0a"
-CROS_WORKON_TREE=("c1fccf769cca034a27f9f4ad245e2b09a5d66ba6" "36e9bd245b56cb97f885851d67061f3336527808" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="e9a17d658b5908d033eff5214905c321306b23cf"
+CROS_WORKON_TREE=("c1fccf769cca034a27f9f4ad245e2b09a5d66ba6" "029ee20c4132aa27853e71154278269aa4d672e3" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_SUBTREE="common-mk permission_broker .gn"
 
 PLATFORM_NATIVE_TEST="yes"
@@ -16,7 +17,7 @@ PLATFORM_SUBDIR="permission_broker"
 
 inherit cros-workon platform udev user
 
-DESCRIPTION="Permission Broker for Chromium OS"
+DESCRIPTION="Permission Broker for ChromiumOS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/permission_broker/"
 
 LICENSE="BSD-Google"
@@ -40,6 +41,10 @@ src_install() {
 	platform_src_install
 
 	dobin "${OUT}"/permission_broker
+
+	# Install the Minijail configuration file.
+	insinto /usr/share/minijail
+	newins "${S}/minijail/permission_broker.conf" permission_broker.conf
 
 	# Install upstart configuration
 	insinto /etc/init
