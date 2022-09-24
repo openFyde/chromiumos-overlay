@@ -20,7 +20,9 @@ dev-perl/GD             png
 # This requires deps we haven't imported (zeromq) and doesn't seem worth the
 # effort at this time.
 dev-python/ipython -smp
-dev-vcs/git		bash-completion curl cvs -gpg subversion webdav
+# We don't need integration with cvs or subversion in git, so we can
+# disable these for faster builds.
+dev-vcs/git		bash-completion curl -cvs -gpg -subversion webdav
 dev-vcs/subversion	-dso webdav-serf
 games-emulation/zsnes	ao -debug
 media-libs/libao	alsa
