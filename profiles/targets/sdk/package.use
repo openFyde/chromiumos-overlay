@@ -158,3 +158,6 @@ dev-rust/cbindgen -panic-abort
 
 # Enable selinux feature in tar to allow stateful payload store context.
 app-arch/tar selinux
+
+# We don't need translated man pages.  b/248739853
+sys-apps/man-db -nls
