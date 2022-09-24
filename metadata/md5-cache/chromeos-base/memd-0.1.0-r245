@@ -4,12 +4,12 @@ DEPEND=chromeos-base/system_api:= sys-apps/dbus:= >=dev-rust/chrono-0.4.2 <dev-r
 DESCRIPTION=Fine-grain memory metrics collector
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/metrics/memd/
-IUSE=+seccomp cros_host cros_workon_tree_7286f60f39ca7e7dd78e67c7b50fc4bda7c4d5a2_9706471f3befaf4968d37632c5fd733272ed2ec9 cros-debug asan coverage fuzzer msan tsan ubsan asan coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
+IUSE=+seccomp cros_host cros_workon_tree_7286f60f39ca7e7dd78e67c7b50fc4bda7c4d5a2_9706471f3befaf4968d37632c5fd733272ed2ec9 cros-debug asan coverage fuzzer msan tsan ubsan asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=sys-apps/dbus virtual/rust-binaries:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0/0.1.0-r245
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	fb1a1c9f1e83b5bdb3736f336e5aedad	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	a81a55f52a65a7c956ba5eb177556059	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=4bf88fa34a0424e0f00d1a64b83c59b7
