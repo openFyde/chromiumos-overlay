@@ -28,8 +28,7 @@ KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/capnp-0.14*
-	~dev-rust/clap-3.0.0_beta2
-	~dev-rust/clap_derive-3.0.0_beta2
+	=dev-rust/clap-3.1*
 	=dev-rust/flate2-1*
 	=dev-rust/include_dir-0.6*
 	>=dev-rust/itertools-0.8.2 <dev-rust/itertools-0.9.0
@@ -51,6 +50,10 @@ RDEPEND="
 
 PRJOXIDE_ROOT_DIR="${WORKDIR}/${PN}-${GIT_REV}"
 S="${PRJOXIDE_ROOT_DIR}/libprjoxide/prjoxide"
+
+PATCHES=(
+	"${FILESDIR}/prjoxide-update-clap.patch"
+)
 
 src_unpack() {
 	cros-rust_src_unpack
