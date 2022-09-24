@@ -214,7 +214,6 @@ RDEPEND="${RDEPEND}
 	dev-util/gob
 	dev-util/gdbus-codegen
 	dev-util/gperf
-	dev-util/gtk-doc
 	dev-util/hdctools
 	>=dev-util/gtk-doc-am-1.13
 	>=dev-util/intltool-0.30
