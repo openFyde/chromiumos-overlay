@@ -1,3 +1,1 @@
-set noparent
 include chromiumos/platform/graphics:/OWNERS.vulkan_loader
-include chromiumos/overlays/portage-stable:/OWNERS.general
