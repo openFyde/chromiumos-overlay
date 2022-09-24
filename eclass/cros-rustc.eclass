@@ -245,13 +245,16 @@ cros-rustc_pkg_setup() {
 	fi
 }
 
-# Sets up a cargo config.toml that instructs our bootstrap rustc to use
-# the correct linker. `rust-bootstrap` can be made to work around this since
-# we have local patches, but bootstrap compilers downloaded from upstream
-# (e.g., during bisection) cannot. This should be called during src_unpack
-# if you opt out of calling `cros-rustc_src_unpack`. Otherwise,
-# `cros-rustc_src_unpack` will take care of this.
-cros-rustc_setup_cargo_home() {
+# Sets up portage directories for a build. Expects that ${CROS_RUSTC_SRC_DIR}
+# exists and is properly set up.
+# This should be called during src_unpack if you opt out of calling
+# `cros-rustc_src_unpack`. Otherwise, `cros-rustc_src_unpack` will take care of
+# this.
+cros-rustc_setup_portage_dirs() {
+	# Sets up a cargo config.toml that instructs our bootstrap rustc to use
+	# the correct linker. `rust-bootstrap` can be made to work around this
+	# since we have local patches, but bootstrap compilers downloaded from
+	# upstream (e.g., during bisection) cannot.
 	export CARGO_HOME="${T}/cargo_home"
 	mkdir -p "${CARGO_HOME}" || die
 	cat >> "${CARGO_HOME}/config.toml" <<EOF || die
@@ -262,9 +265,8 @@ linker = "${CHOST}-clang"
 [target.${CHOST}]
 linker = "${CHOST}-clang"
 EOF
-}
 
-_mirror_licenses() {
+	# Mirror licenses, so Portage license tooling can find them easily.
 	local targ="${WORKDIR}/licenses"
 	mkdir -p "${targ}" || die
 	einfo "Mirroring licenses from ${CROS_RUSTC_SRC_DIR} into ${targ}..."
@@ -273,8 +275,6 @@ _mirror_licenses() {
 }
 
 cros-rustc_src_unpack() {
-	cros-rustc_setup_cargo_home
-
 	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 		if [[ ! -d "${_CROS_RUSTC_RAW_SOURCES_ROOT}" ]]; then
 			eerror "You must have a full Rust checkout in _CROS_RUSTC_RAW_SOURCES_ROOT."
@@ -300,7 +300,7 @@ cros-rustc_src_unpack() {
 	mkdir -p -m 755 "${dirs[@]}"
 	(cd "${CROS_RUSTC_SRC_DIR}" && default)
 
-	_mirror_licenses
+	cros-rustc_setup_portage_dirs
 }
 
 cros-rustc_src_prepare() {

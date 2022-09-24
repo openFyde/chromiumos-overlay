@@ -55,7 +55,7 @@ src_unpack() {
 		cros-rustc_src_unpack
 	elif cros-rustc_has_existing_checkout; then
 		einfo "Skipping unpack; checkout already exists"
-		cros-rustc_setup_cargo_home
+		cros-rustc_setup_portage_dirs
 	else
 		ewarn "No existing cros-rustc checkout found. Did you" \
 			"remember to emerge dev-lang/rust-host?"
