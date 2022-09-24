@@ -315,7 +315,6 @@ RDEPEND="${RDEPEND}
 	dev-go/go-tools
 	dev-go/golint
 	dev-lang/go
-	dev-python/ipython
 	dev-util/codespell
 	dev-util/patchutils
 	dev-util/perf
