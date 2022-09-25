@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/libc-0.2*
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/libz-sys-1.1.3 <dev-rust/libz-sys-2.0.0_alpha
 	=dev-rust/openssl-sys-0.9*
 	=dev-rust/bindgen-0.59*

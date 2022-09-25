@@ -30,7 +30,6 @@ DEPEND="
 	=dev-rust/dbus-crossroads-0.5*
 	=dev-rust/flexbuffers-2*
 	=dev-rust/getopts-0.2*
-	=dev-rust/libc-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/serde-1*

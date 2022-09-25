@@ -20,7 +20,7 @@ PATCHES=(
 )
 
 DEPEND="
-	=dev-rust/libc-0.2*
+	dev-rust/third-party-crates-src:=
 	=dev-rust/pkg-config-0.3*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

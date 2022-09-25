@@ -22,7 +22,6 @@ DEPEND="
 	>=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0_alpha
 	=dev-rust/glob-0.3*
 	>=dev-rust/hmac-sha256-0.1.7 <dev-rust/hmac-sha256-0.2.0_alpha
-	=dev-rust/libc-0.2*
 	=dev-rust/nix-0.23*
 	=dev-rust/num-derive-0.3*
 	=dev-rust/regex-1*

@@ -22,8 +22,8 @@ KEYWORDS="~*"
 # ebuilds that install executables and depend on vboot_reference-sys need to
 # RDEPEND on chromeos-base/vboot_reference
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/vboot_reference:=
-	>=dev-rust/libc-0.2.44 <dev-rust/libc-0.3.0
 	>=dev-rust/pkg-config-0.3.0 <dev-rust/pkg-config-0.4.0
 	=dev-rust/which-4*
 	>=virtual/bindgen-0.59:=

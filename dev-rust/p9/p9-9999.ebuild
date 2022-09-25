@@ -21,7 +21,7 @@ KEYWORDS="~*"
 IUSE="fuzzer test"
 
 DEPEND="
-	dev-rust/libc
+	dev-rust/third-party-crates-src:=
 	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/syn-1*

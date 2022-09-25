@@ -20,10 +20,10 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	=dev-rust/dbus-0.9*
 	=dev-rust/lazy_static-1*
-	=dev-rust/libc-0.2*
 	=dev-rust/log-0.4*
 	=dev-rust/multi_log-0.1*
 	=dev-rust/serde-1*

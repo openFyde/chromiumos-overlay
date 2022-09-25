@@ -14,9 +14,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/autocfg-1*
 	=dev-rust/cc-1*
-	=dev-rust/libc-0.2*
 	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4
 	>=dev-rust/vcpkg-0.2.8 <dev-rust/vcpkg-0.3
 	>=dev-rust/openssl-src-111.0.1 <dev-rust/openssl-src-112

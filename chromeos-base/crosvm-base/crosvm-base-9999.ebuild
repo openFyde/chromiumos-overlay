@@ -31,6 +31,7 @@ IUSE="test"
 #
 # The first group of DEPENDs is for base_event_token_derive.
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/syn-1*
@@ -39,7 +40,6 @@ DEPEND="
 	dev-rust/chrono
 	=dev-rust/env_logger-0.9*
 	dev-rust/data_model:=
-	=dev-rust/libc-0.2*
 	=dev-rust/log-0.4*
 	=dev-rust/once_cell-1*
 	=dev-rust/remain-0.2*

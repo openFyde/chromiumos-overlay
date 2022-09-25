@@ -20,9 +20,8 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/alsa-sys-0.2.0 <dev-rust/alsa-sys-0.3.0
-	>=dev-rust/libc-0.2.65
-	<dev-rust/libc-0.3
 	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/syn-1*

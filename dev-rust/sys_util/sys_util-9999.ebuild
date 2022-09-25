@@ -26,11 +26,11 @@ IUSE="test"
 # ebuilds that install executables, import sys_util, and use the libcap
 # functionality need to RDEPEND on libcap
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/android_log-sys-0.2*
 	dev-rust/assertions:=
 	dev-rust/sys_util_core:=
 	dev-rust/data_model:=
-	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3.0
 	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/remain-0.2*

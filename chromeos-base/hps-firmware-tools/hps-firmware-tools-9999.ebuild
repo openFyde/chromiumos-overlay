@@ -41,7 +41,6 @@ DEPEND="
 	>=dev-rust/anyhow-1.0.38 <dev-rust/anyhow-2.0.0
 	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha
 	=dev-rust/bindgen-0.59*
-	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0
 	~dev-rust/clap-3.0.0_beta2
 	=dev-rust/colored-2*
 	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0

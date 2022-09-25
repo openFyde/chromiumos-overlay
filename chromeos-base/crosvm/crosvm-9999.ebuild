@@ -48,7 +48,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
 	=dev-rust/async-trait-0.1*
-	=dev-rust/bitflags-1*
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
 	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha
@@ -66,7 +65,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
 	~dev-rust/getopts-0.2.18
 	dev-rust/intrusive-collections
-	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3.0
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	>=dev-rust/memoffset-0.6 <dev-rust/memoffset-1
 	dev-rust/minijail:=

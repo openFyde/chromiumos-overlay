@@ -27,7 +27,6 @@ DEPEND="
 	=dev-rust/chrono-0.4*
 	=dev-rust/flexbuffers-2*
 	=dev-rust/getopts-0.2*
-	=dev-rust/libc-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	>=dev-rust/minijail-0.2.3:=

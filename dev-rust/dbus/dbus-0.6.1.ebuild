@@ -13,7 +13,8 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/libc-0.2.7
+DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/libdbus-sys-0.1.2 <dev-rust/libdbus-sys-0.2
 	>=dev-rust/tempdir-0.3.0
 "

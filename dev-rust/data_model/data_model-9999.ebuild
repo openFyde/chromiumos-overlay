@@ -24,8 +24,8 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	dev-rust/assertions:=
-	dev-rust/libc
 	=dev-rust/remain-0.2*
 	=dev-rust/serde-1*
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0

@@ -25,8 +25,8 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	>=dev-rust/libc-0.2.93
 	=dev-rust/remain-0.2*
 	dev-rust/sync:=
 	dev-rust/sys_util:=

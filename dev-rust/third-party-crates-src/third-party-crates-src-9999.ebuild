@@ -36,6 +36,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libc-0.2.124
+	!=dev-rust/libc-0.2.124-r1
+	!=dev-rust/libc-0.2.106
+	!=dev-rust/libc-0.2.106-r1
+	!=dev-rust/bitflags-1.3.2
+	!=dev-rust/bitflags-1.3.2-r1
+	!=dev-rust/adler32-1.2.0
+	!=dev-rust/adler32-1.2.0-r1
 	!=dev-rust/rustc-std-workspace-std-1.0.0
 	!=dev-rust/rustc-std-workspace-core-1.0.0
 	!=dev-rust/rustc-std-workspace-alloc-1.0.0
@@ -144,6 +152,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"addr2line-0.14.1"
 	"adler-0.2.3"
 	"adler-1.0.2"
+	"adler32-1.2.0"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
 	"argh_shared-0.1.8"
@@ -157,6 +166,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"base64-0.13.0"
 	"bit_field-0.10.1"
 	"bitfield-0.13.2"
+	"bitflags-1.3.2"
 	"bumpalo-3.11.0"
 	"bytemuck-1.12.1"
 	"byteorder-1.4.3"
@@ -221,6 +231,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"itoa-0.4.7"
 	"itoa-1.0.3"
 	"js-sys-0.3.59"
+	"libc-0.2.132"
 	"libfuzzer-sys-0.4.4"
 	"libslirp-sys-4.2.1"
 	"link-cplusplus-1.0.5"
