@@ -13,6 +13,4 @@ LICENSE="|| ( MIT ZLIB Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	>=dev-rust/adler-1.0 <dev-rust/adler-2
-"
+DEPEND="dev-rust/third-party-crates-src:="

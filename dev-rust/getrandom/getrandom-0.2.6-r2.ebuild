@@ -4,11 +4,12 @@
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
+#CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='Raw FFI bindings to platform libraries like libc.'
-HOMEPAGE='https://github.com/rust-lang/libc'
+DESCRIPTION='A small cross-platform library for retrieving random data from system source'
+HOMEPAGE='https://crates.io/crates/getrandom'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -16,7 +17,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/rustc-std-workspace-core-1*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/cfg-if-1*
+	>=dev-rust/libc-0.2.120 <dev-rust/libc-0.3.0_alpha
+	>=dev-rust/wasi-0.10.0
 "
 RDEPEND="${DEPEND}"
 

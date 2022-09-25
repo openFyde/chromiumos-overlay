@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/ahash-0.7.6 <dev-rust/ahash-0.8.0_alpha
 	>=dev-rust/anyhow-1.0.55 <dev-rust/anyhow-2.0.0_alpha
-	=dev-rust/base64-0.13*
 	>=dev-rust/bytecount-0.6.2 <dev-rust/bytecount-0.7.0_alpha
 	=dev-rust/fancy-regex-0.8*
 	=dev-rust/fraction-0.10*

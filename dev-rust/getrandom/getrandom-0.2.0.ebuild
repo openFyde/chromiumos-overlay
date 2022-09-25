@@ -20,8 +20,6 @@ DEPEND="
 	>=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0
 	>=dev-rust/libc-0.2.64 <dev-rust/libc-0.3.0
 	>=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0
-	>=dev-rust/compiler_builtins-0.1.0 <dev-rust/compiler_builtins-0.2.0
-	=dev-rust/rustc-std-workspace-core-1*
 	>=dev-rust/stdweb-0.4.18 <dev-rust/stdweb-0.5.0
 "
 

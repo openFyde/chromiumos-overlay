@@ -7,19 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Determine displayed width of 'char' and 'str' types
-according to Unicode Standard Annex #11 rules."
-HOMEPAGE="https://github.com/unicode-rs/unicode-width"
+DESCRIPTION='A library for reading and writing the DWARF debugging format.'
+HOMEPAGE='https://crates.io/crates/gimli'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/compiler_builtins-0.1*
-	=dev-rust/rustc-std-workspace-core-1*
-	=dev-rust/rustc-std-workspace-std-1*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/fallible-iterator-0.2*
+	>=dev-rust/indexmap-1.0.2 <dev-rust/indexmap-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

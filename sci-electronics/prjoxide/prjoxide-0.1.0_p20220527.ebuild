@@ -27,6 +27,7 @@ SLOT="0"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/capnp-0.14*
 	=dev-rust/clap-3.1*
 	=dev-rust/flate2-1*
@@ -41,7 +42,6 @@ DEPEND="
 	>=dev-rust/ron-0.5.1 <dev-rust/ron-0.6.0
 	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/capnpc-0.14*
 "
 RDEPEND="
 	${DEPEND}

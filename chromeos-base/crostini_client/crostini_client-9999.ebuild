@@ -17,7 +17,6 @@ SLOT="0"
 KEYWORDS="~*"
 
 DEPEND="chromeos-base/system_api
-	=dev-rust/base64-0.13*
 	=dev-rust/dbus-0.8*
 	=dev-rust/getopts-0.2*
 	=dev-rust/lazy_static-1*

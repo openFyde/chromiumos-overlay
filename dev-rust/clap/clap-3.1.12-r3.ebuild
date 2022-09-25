@@ -27,7 +27,6 @@ DEPEND="
 	=dev-rust/regex-1*
 	>=dev-rust/terminal_size-0.1.12 <dev-rust/terminal_size-0.2.0_alpha
 	=dev-rust/textwrap-0.15*
-	>=dev-rust/unicase-2.6.0 <dev-rust/unicase-3.0.0_alpha
 	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0_alpha
 "
 RDEPEND="${DEPEND}"
