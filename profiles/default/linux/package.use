@@ -22,7 +22,7 @@ dev-perl/GD             png
 dev-python/ipython -smp
 # We don't need integration with cvs, subversion, or perl in git, so we can
 # disable these for faster builds.
-dev-vcs/git		bash-completion curl -cvs -gpg -perl -subversion webdav
+dev-vcs/git		bash-completion curl -cvs -gpg -perl -subversion -webdav
 dev-vcs/subversion	-dso webdav-serf
 games-emulation/zsnes	ao -debug
 media-libs/libao	alsa
