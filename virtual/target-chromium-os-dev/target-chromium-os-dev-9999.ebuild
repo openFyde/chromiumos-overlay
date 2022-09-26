@@ -178,6 +178,7 @@ RDEPEND="${RDEPEND}
 	sys-apps/gawk
 	sys-apps/i2c-tools
 	sys-apps/iotools
+	sys-apps/kexec-lite
 	sys-apps/less
 	sys-apps/mmc-utils
 	nvme? ( sys-apps/nvme-cli )
