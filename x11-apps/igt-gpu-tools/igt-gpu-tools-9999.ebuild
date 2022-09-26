@@ -8,8 +8,8 @@ if [[ ${PV} = *9999* ]]; then
 fi
 
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT=c8edfca649da71b296d882bb0319181d94e619eb
-	CROS_WORKON_TREE=e5453aeda2ea51cd8917402b35bd84aa603928cb
+	CROS_WORKON_COMMIT=5e232c77cd762147e0882c337a984121fabb1c75
+	CROS_WORKON_TREE=fe039f0c1cd586a1081a54ccca1f827323e759f8
 	CROS_WORKON_EGIT_BRANCH=master
 fi
 
@@ -107,8 +107,8 @@ src_configure() {
 		$(meson_feature tests)
 		$(meson_feature valgrind)
 		$(meson_feature unwind libunwind)
-		-Doverlay_backends=${overlay_backends%?}
-		-Dlibdrm_drivers=${gpus%?}
+		-Doverlay_backends="${overlay_backends%?}"
+		-Dlibdrm_drivers="${gpus%?}"
 	)
 	meson_src_configure
 }
