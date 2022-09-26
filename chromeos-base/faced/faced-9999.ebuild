@@ -41,6 +41,17 @@ pkg_setup() {
 	cros-workon_pkg_setup
 }
 
+src_install() {
+	platform_src_install
+
+	# Set up cryptohome daemon mount store in daemon's mount
+	# namespace.
+	local daemon_store="/etc/daemon-store/faced"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners faced:faced "${daemon_store}"
+}
+
 platform_pkg_test() {
 	platform test_all
 }
