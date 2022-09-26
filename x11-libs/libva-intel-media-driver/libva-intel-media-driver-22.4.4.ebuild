@@ -32,6 +32,10 @@ PATCHES=(
 	"${FILESDIR}"/0005-Revert-Media-Common-Optimization-getimage.patch
 	"${FILESDIR}"/0006-FROMGIT-iHD-VP-Force-set-m_EngineCaps-to-0-in-constr.patch
 	"${FILESDIR}"/0007-FROMGIT-iHD-Enable-VP8-for-SKL.patch
+	"${FILESDIR}"/0008-FROMGIT-iHD-Encode-vp9-add-numpasses-to-driverlog.patch
+	"${FILESDIR}"/0009-FROMGIT-iHD-VP9-Encode-Unaligned-height-corruption-w.patch
+	"${FILESDIR}"/0010-FROMGIT-iHD-Encode-VP9-Enc-more-secure-code-for-unal.patch
+	"${FILESDIR}"/0011-FROMGIT-iHD-VP9-Encode-Unaligned-height-corruption-w.patch
 )
 
 src_configure() {
