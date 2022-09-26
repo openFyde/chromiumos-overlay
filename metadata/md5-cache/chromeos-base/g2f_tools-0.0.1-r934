@@ -1,6 +1,6 @@
 BDEPEND=dev-vcs/git dev-vcs/git
 DEFINED_PHASES=compile configure info install setup test unpack
-DEPEND=chromeos-base/libhwsec:= dev-libs/hidapi:= chromeos-base/chromeos-ec-headers:= chromeos-base/u2fd:= >=chromeos-base/libchrome-0.0.1-r465:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2058:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DEPEND=chromeos-base/libhwsec:= dev-libs/hidapi:= chromeos-base/chromeos-ec-headers:= chromeos-base/u2fd:= >=chromeos-base/libchrome-0.0.1-r471:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2062:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
 DESCRIPTION=G2F gnubby (U2F+GCSE) development and testing tools
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd
@@ -8,7 +8,7 @@ IUSE=cr50_onboard ti50_onboard cros_host cros_workon_tree_9706471f3befaf4968d376
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live live
-RDEPEND=chromeos-base/libhwsec:= dev-libs/hidapi:= >=chromeos-base/libchrome-0.0.1-r465:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2058:=
+RDEPEND=chromeos-base/libhwsec:= dev-libs/hidapi:= >=chromeos-base/libchrome-0.0.1-r471:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2062:=
 SLOT=0/0
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	740eaa5e07eac490bc43a5870819e28e	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	0750d5372bdb9c882e6e4805bcf78e57	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	8e6af0c0aed3e33d5c98ddb7d6e8ce8a	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	0750d5372bdb9c882e6e4805bcf78e57	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=7b6d9e4e1767a184678b17ecd343b3d8
