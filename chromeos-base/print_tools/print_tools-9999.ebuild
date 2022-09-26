@@ -28,3 +28,7 @@ DEPEND="${COMMON_DEPEND}"
 src_install() {
 	dobin "${OUT}"/printer_diag
 }
+
+platform_pkg_test() {
+	platform test_all
+}
