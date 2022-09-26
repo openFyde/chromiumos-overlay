@@ -3,12 +3,12 @@ DEFINED_PHASES=compile info install setup unpack
 DEPEND=chromeos-base/chromeos-config has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
 DESCRIPTION=Zephyr based Embedded Controller firmware
 EAPI=7
-IUSE=unibuild cros_host cros_workon_tree_b4168e63625150daef768916b987dba5a6c11c9e_3e12f640d18b79a983eaf2a2a4bdf1b9ff128f15_a5b73080d51fa378d4dc63fd5d0d922a45233800_b7cd5b19f195084b4849c677b63f4e4288042998_fa3fad11512a84199cc247e70b30db4cd77f1c5b has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
+IUSE=unibuild cros_host cros_workon_tree_b4168e63625150daef768916b987dba5a6c11c9e_3e12f640d18b79a983eaf2a2a4bdf1b9ff128f15_a5b73080d51fa378d4dc63fd5d0d922a45233800_b7cd5b19f195084b4849c677b63f4e4288042998_4d30fc69135e1f058629b24635c95cb53394888a has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild
 KEYWORDS=*
 LICENSE=Apache-2.0 BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/chromeos-config has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
 REQUIRED_USE=unibuild
-SLOT=0/0.0.1-r4917
+SLOT=0/0.0.1-r4918
 _eclasses_=coreboot-sdk	846880d65f92a6a00ceed0aa24aeecac	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-unibuild	b261de439eed1d0fcfbf854064a6ae53	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=9389a7a9ba3f26fee63522ee09f7eb56
+_md5_=5933d1c136c2f3bde77d28158ee4c396
