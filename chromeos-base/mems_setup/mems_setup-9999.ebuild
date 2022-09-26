@@ -22,6 +22,7 @@ KEYWORDS="~*"
 IUSE="fuzzer iioservice"
 
 COMMON_DEPEND="
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libmems:=
 	net-libs/libiio:=
 	dev-libs/re2:=
