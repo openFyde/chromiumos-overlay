@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ace465d37ab6c224a41ddcad5f5c3201d38d69ac"
-CROS_WORKON_TREE="4840a16dea025054393888cc9baf769f45123b9b"
+CROS_WORKON_COMMIT="8453b454b3807e4f94b7631d7192458075a9f776"
+CROS_WORKON_TREE="16a9972902c9314f181ada6e42152932a982e924"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -31,6 +31,7 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
+	>=dev-rust/ascii-1.0.0 <dev-rust/ascii-1.1
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	>=dev-rust/getopts-0.2.18 <dev-rust/getopts-0.3
 	>=dev-rust/httparse-1.3.4 <dev-rust/httparse-1.4
