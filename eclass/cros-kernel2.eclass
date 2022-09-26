@@ -1623,8 +1623,6 @@ builtin_fw_x86_intel_ucode_files=(
 	intel-ucode/06-7a-01
 	intel-ucode/06-7a-08
 	intel-ucode/06-7e-05
-	intel-ucode/06-86-04
-	intel-ucode/06-86-05
 	intel-ucode/06-8a-01
 	intel-ucode/06-8c-01
 	intel-ucode/06-8c-02
@@ -1634,6 +1632,10 @@ builtin_fw_x86_intel_ucode_files=(
 	intel-ucode/06-8e-0b
 	intel-ucode/06-8e-0c
 	intel-ucode/06-96-01
+	intel-ucode/06-97-02
+	intel-ucode/06-97-05
+	intel-ucode/06-9a-03
+	intel-ucode/06-9a-04
 	intel-ucode/06-9c-00
 	intel-ucode/06-9e-09
 	intel-ucode/06-9e-0a
@@ -1646,6 +1648,8 @@ builtin_fw_x86_intel_ucode_files=(
 	intel-ucode/06-a6-00
 	intel-ucode/06-a6-01
 	intel-ucode/06-a7-01
+	intel-ucode/06-bf-02
+	intel-ucode/06-bf-05
 	intel-ucode/0f-00-07
 	intel-ucode/0f-00-0a
 	intel-ucode/0f-01-02
