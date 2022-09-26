@@ -27,13 +27,10 @@ IUSE="
 	cheets_user_64
 	debug
 	selinux
-	vulkan
-	android_vulkan_compute_0
 "
 
 REQUIRED_USE="
 	cheets
-	android_vulkan_compute_0? ( vulkan )
 "
 
 DEPEND="cheets? (
@@ -77,10 +74,6 @@ src_configure() {
 multilib_src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
-	if use vulkan; then
-		VULKAN_DRIVERS=virtio-experimental
-	fi
-
 	# The AOSP build system defines the Make variable
 	# PLATFORM_SDK_VERSION, and Mesa's Android.mk files use it to
 	# define the macro ANDROID_API_LEVEL. Arc emulates that here.
@@ -113,7 +106,7 @@ multilib_src_configure() {
 		$(meson_use selinux)
 		-Ddri-drivers=
 		-Dgallium-drivers="virgl,freedreno"
-		-Dvulkan-drivers="${VULKAN_DRIVERS}"
+		-Dvulkan-drivers=
 		--buildtype $(usex debug debug release)
 		--cross-file="${ARC_CROSS_FILE}"
 		-Dplatform-sdk-version="${ARC_PLATFORM_SDK_VERSION}"
@@ -129,11 +122,6 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	if use vulkan; then
-		exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)/hw"
-		newexe "${BUILD_DIR}"/src/virtio/vulkan/libvulkan_virtio.so vulkan.cheets.so
-	fi
-
 	exeinto "${ARC_VM_PREFIX}/vendor/$(get_libdir)"
 	newexe "${BUILD_DIR}/src/mapi/shared-glapi/libglapi.so.0" libglapi.so.0
 
@@ -156,23 +144,6 @@ multilib_src_install_all() {
 	# Install init files to advertise supported API versions.
 	insinto "${ARC_VM_PREFIX}/vendor/etc/init"
 	doins "${FILESDIR}/gles32.rc"
-
-	# Install vulkan related files.
-	if use vulkan; then
-		einfo "Using android vulkan."
-		insinto "${ARC_VM_PREFIX}/vendor/etc/init"
-		doins "${FILESDIR}/vulkan.rc"
-
-		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
-		doins "${FILESDIR}/android.hardware.vulkan.version-1_1.xml"
-		doins "${FILESDIR}/android.hardware.vulkan.level-1.xml"
-	fi
-
-	if use android_vulkan_compute_0; then
-		einfo "Using android vulkan_compute_0."
-		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
-		doins "${FILESDIR}/android.hardware.vulkan.compute-0.xml"
-	fi
 
 	# Install permission file to declare opengles aep support.
 	insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"

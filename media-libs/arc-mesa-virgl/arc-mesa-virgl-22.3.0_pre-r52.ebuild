@@ -261,14 +261,16 @@ multilib_src_install_all() {
 	if use angle; then
 		einfo "Using angle."
 		doins "${FILESDIR}/angle/init.gpu.rc"
-	elif use android_gles32; then
-		doins "${FILESDIR}/gles32/init.gpu.rc"
-	elif use android_gles31; then
-		doins "${FILESDIR}/gles31/init.gpu.rc"
-	elif use android_gles30; then
-		doins "${FILESDIR}/gles30/init.gpu.rc"
-	elif use android_gles2; then
-		doins "${FILESDIR}/gles2/init.gpu.rc"
+	elif use egl; then
+		if use android_gles32; then
+			doins "${FILESDIR}/gles32/init.gpu.rc"
+		elif use android_gles31; then
+			doins "${FILESDIR}/gles31/init.gpu.rc"
+		elif use android_gles30; then
+			doins "${FILESDIR}/gles30/init.gpu.rc"
+		elif use android_gles2; then
+			doins "${FILESDIR}/gles2/init.gpu.rc"
+		fi
 	fi
 
 	# Install vulkan related files.
@@ -304,6 +306,8 @@ multilib_src_install_all() {
 	fi
 
 	# Install the dri header for arc-cros-gralloc
-	insinto "${ARC_VM_PREFIX}/vendor/include/GL"
-	doins -r "${S}/include/GL/internal"
+	if use egl; then
+		insinto "${ARC_VM_PREFIX}/vendor/include/GL"
+		doins -r "${S}/include/GL/internal"
+	fi
 }
