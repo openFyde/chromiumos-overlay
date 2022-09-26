@@ -1,6 +1,8 @@
 # Copyright 2019-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# TODO(b/251286004): Upstream local fixes made to this ebuild.
+
 EAPI=7
 
 inherit flag-o-matic toolchain-funcs
@@ -33,19 +35,20 @@ PATCHES=(
 
 src_configure() {
 	append-cflags -fPIC
-	tc-export CC AR
+	tc-export CC AR PKG_CONFIG
 	export LIBSUBDIR="$(get_libdir)" V=1
 }
 
 src_install() {
 	emake \
 		DESTDIR="${D}" \
+		LIBSUBDIR="$(get_libdir)" \
 		install install_uapi_headers
 
 	if ! use static-libs; then
 		find "${ED}" -name '*.a' -delete || die
 	fi
 
-	insinto /usr/$(get_libdir)/pkgconfig
+	insinto /usr/"$(get_libdir)"/pkgconfig
 	doins ${PN}.pc
 }
