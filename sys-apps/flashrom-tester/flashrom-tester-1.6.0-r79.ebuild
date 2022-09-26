@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bf82e6be443883de436a54f49ace638782314b5f"
+CROS_WORKON_COMMIT="91196e64ff4b2651d57e0f0d523a38e01cab8166"
 CROS_WORKON_TREE=("0fcda7dc7c435c43cdc7f1a9be1a0b7d9ed03bfe" "56c8acb0cc6d8a4d0cab33551a283a6ee495620c" "b33bb3b65dfb8b92a68e103fbccedc8f27cfabdf" "7252f2b53eb47c584b4cb25b9bdf932d9d2dec5e")
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
@@ -20,18 +20,29 @@ HOMEPAGE="https://www.flashrom.org/Flashrom"
 
 LICENSE="GPL-2"
 KEYWORDS="*"
-DEPEND="=dev-rust/rand-0.6*
+DEPEND="
+	=dev-rust/bindgen-0.59*
+	=dev-rust/built-0.5*
 	=dev-rust/chrono-0.4*
 	=dev-rust/clap-2.33*
 	=dev-rust/libc-0.2*
 	=dev-rust/log-0.4*
-	=dev-rust/built-0.5*
-	~dev-rust/sys-info-0.9.1
+	=dev-rust/once_cell-1.7.2*
+	=dev-rust/rand-0.6*
+	=dev-rust/regex-1*
 	=dev-rust/serde_json-1*
+	=dev-rust/sys-info-0.9*
+	=dev-rust/pkg-config-0.3*
+	sys-apps/flashrom
 "
 
 RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41
 	sys-apps/flashrom
+"
+
+BDEPEND="
+	=dev-rust/pkg-config-0.3*
+	=dev-rust/built-0.5*
 "
 
 src_compile() {
