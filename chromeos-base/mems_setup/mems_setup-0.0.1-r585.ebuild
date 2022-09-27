@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="489f98c8f63bed6749ae85cb1a6b057d02643918"
+CROS_WORKON_COMMIT="5bcaaf0fee91331851a0fa508d8f8ab60c804721"
 CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "1ab6ce97d9eda19e26a20b996ecb2ed90361e01d" "69d18dd7a6c603373686bea04bf49bb64da3a9c3" "343621e60eecbc7762eba741f25725aebb64afec" "284f3602420093498b1e01984a0db1190bd55812" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,6 +24,7 @@ KEYWORDS="*"
 IUSE="fuzzer iioservice"
 
 COMMON_DEPEND="
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libmems:=
 	net-libs/libiio:=
 	dev-libs/re2:=
