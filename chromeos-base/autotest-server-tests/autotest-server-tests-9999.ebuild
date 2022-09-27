@@ -179,7 +179,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECCharging
 	+tests_firmware_ECChargingState
 	+tests_firmware_ECHash
-	+tests_firmware_ECKeyboard
 	+tests_firmware_ECKeyboardReboot
 	+tests_firmware_ECLidShutdown
 	+tests_firmware_ECLidSwitch
