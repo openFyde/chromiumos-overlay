@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f28dda79faa5355fd2e4d245a7ccdfda1a9d94a2"
+CROS_WORKON_COMMIT="ba33977d528517f79f06f544df793f59c901822d"
 CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "53484d9a746662594836a32e203068e89c9eae63" "eb510d666a66e6125e281499b649651b849a25f7" "a2122b55de11d49160e03d7819c077d85cd32942" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ IUSE="
 	fuzzer
 	ftdi_tpm
 	generic_tpm2
+	hibernate
 	pinweaver_csme
 	test
 	ti50_onboard
@@ -83,6 +84,14 @@ src_install() {
 		sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
 			"${D}/etc/init/trunksd.conf" ||
 			die "Can't activate tpm_dynamic in trunksd.conf"
+	fi
+
+	if use hibernate; then
+		# Replace the start on line with waiting on hiberman to either
+		# signal all clear or exit (eg crash).
+		sed -i 's/^start on .*/start on hibernate-tpm-done or stopped hiberman/' \
+			"${D}/etc/init/trunksd.conf" ||
+			die "Can't depend on hibernate in trunksd.conf"
 	fi
 
 	if use pinweaver_csme && use generic_tpm2; then
