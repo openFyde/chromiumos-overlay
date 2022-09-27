@@ -133,7 +133,6 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.8.0-0007-protobuff-cc-toolchain.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0008-remove-llvm-repo.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0009-resolve-overflow.patch"
-	"${FILESDIR}/tensorflow-2.8.0-0010-resolve-tflite-c-asan.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0012-cl_khr_subgroups.patch"
 )
 
@@ -283,7 +282,6 @@ src_compile() {
 
 	local bazel_args=()
 	bazel_args+=("tensorflow/lite:libtensorflowlite.so")
-	bazel_args+=("tensorflow/lite/c:libtensorflowlite_c.so")
 	bazel_args+=("//tensorflow/lite/kernels/internal:install_nnapi_extra_headers")
 	if ! use ubsan; then
 		bazel_args+=("//tensorflow/lite/tools/benchmark:benchmark_model")
@@ -364,7 +362,6 @@ src_install() {
 
 	einfo "Installing TF lite libraries"
 	dolib.so bazel-bin/tensorflow/lite/lib${PN}lite.so
-	dolib.so bazel-bin/tensorflow/lite/c/lib${PN}lite_c.so
 
 	if ! use ubsan; then
 		into /usr/local
