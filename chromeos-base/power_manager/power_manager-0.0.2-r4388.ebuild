@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c606f5b9c2476df9800b1d6d57b5b59e7f59df31"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "b064107434b409c0a50134b025fa653243a71eeb" "69d18dd7a6c603373686bea04bf49bb64da3a9c3" "3b12d0f1919f8d6038c77895e1b94347b67a7a0d" "eb510d666a66e6125e281499b649651b849a25f7" "3af1bc45edadc4721e9475c1dd467dc18ab601f9" "89c6bc5c3505754b3f56925b13f25e8b33274aa4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="1e2f09ab97baaf13b820868d68d504aeba46aad0"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "b064107434b409c0a50134b025fa653243a71eeb" "77cc0ad6e3c6963ea161d98f76bd163ea1274596" "3b12d0f1919f8d6038c77895e1b94347b67a7a0d" "eb510d666a66e6125e281499b649651b849a25f7" "b75e8b545211d01778fef62d9a59d686e758bdc5" "a58d31f8ca40d5aeb1b5f30646207f37844b874e" "89c6bc5c3505754b3f56925b13f25e8b33274aa4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice libec metrics power_manager shill/dbus/client .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config iioservice libec metrics mojo_service_manager power_manager shill/dbus/client .gn"
 
 PLATFORM_NATIVE_TEST="yes"
 PLATFORM_SUBDIR="power_manager"
@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	chromeos-base/libec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/ml-client:=
+	chromeos-base/mojo_service_manager:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=
