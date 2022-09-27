@@ -26,6 +26,7 @@ RDEPEND="
 	media-libs/freetype:2=
 "
 DEPEND="
+	x11-drivers/opengles-headers:=
 	${RDEPEND}
 	${PYTHON_DEPS}
 "
