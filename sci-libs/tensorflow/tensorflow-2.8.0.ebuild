@@ -134,6 +134,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.8.0-0008-remove-llvm-repo.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0009-resolve-overflow.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0010-resolve-tflite-c-asan.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0012-cl_khr_subgroups.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
