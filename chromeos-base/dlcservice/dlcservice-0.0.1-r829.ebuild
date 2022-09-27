@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e8c71fcbe04dd501bafe3defde694a31017b942e"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "84ae445cfb111c8e9bea9fd803c0936d2e810ac0" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="6728aaacdc5ad28b63ae67c224b430a8192b81db"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "9a923c784c6147b9de3ac75e4e4d42b5a2e774a4" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,7 +38,6 @@ DEPEND="${RDEPEND}
 	chromeos-base/imageloader-client:=
 	lvm_stateful_partition? ( chromeos-base/lvmd-client:= )
 	chromeos-base/system_api:=[fuzzer?]
-	chromeos-base/session_manager-client:=
 	chromeos-base/update_engine-client:=
 	chromeos-base/vboot_reference:=
 "
