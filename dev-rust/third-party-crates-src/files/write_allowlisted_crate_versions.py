@@ -31,11 +31,16 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "adler-0.2.3",
     "bytemuck-1.12.1",
     "gimli-0.23.0",
+    "hashbrown-0.12.3",
+    "itertools-0.10.5",
     "object-0.23.0",
+    "prost-0.11.0",
+    "rand_core-0.3.1",
     "quote-0.3.15",
     "redox_syscall-0.2.4",
     "syn-0.11.11",
     "unicode-xid-0.0.4",
+    "wasi-0.11.0+wasi-snapshot-preview1",
 }
 
 
