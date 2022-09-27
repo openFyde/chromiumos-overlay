@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f28dda79faa5355fd2e4d245a7ccdfda1a9d94a2"
+CROS_WORKON_COMMIT="7b1f5160bf42b3bd614da225c734c9aec819b861"
 CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "2517f9f8f4fbe6b937f1954e01f9afa2d42e5e6c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,4 +29,8 @@ DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	dobin "${OUT}"/printer_diag
+}
+
+platform_pkg_test() {
+	platform test_all
 }
