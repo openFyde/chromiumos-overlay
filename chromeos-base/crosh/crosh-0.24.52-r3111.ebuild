@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8143fbea9ceb2c211a410cf04c3c34411a247811"
+CROS_WORKON_COMMIT="ba33977d528517f79f06f544df793f59c901822d"
 CROS_WORKON_TREE="cfe4b50c1a08f238780cade3736f648511057c91"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ COMMON_DEPEND="
 "
 
 DEPEND="${COMMON_DEPEND}
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/bitflags-1.3.2 <dev-rust/bitflags-2.0.0_alpha
 	=dev-rust/chrono-0.4*
 	=dev-rust/dbus-0.9*
@@ -34,7 +35,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha
 	dev-rust/remain
 	=dev-rust/rustyline-9*
-	dev-rust/shell-words
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	dev-rust/tempfile
