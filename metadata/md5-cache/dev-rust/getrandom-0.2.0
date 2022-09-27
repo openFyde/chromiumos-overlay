@@ -1,14 +1,14 @@
 DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
-DEPEND=>=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0 >=dev-rust/libc-0.2.64 <dev-rust/libc-0.3.0 >=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0 >=dev-rust/compiler_builtins-0.1.0 <dev-rust/compiler_builtins-0.2.0 =dev-rust/rustc-std-workspace-core-1* >=dev-rust/stdweb-0.4.18 <dev-rust/stdweb-0.5.0 >=dev-rust/wasm-bindgen-0.2.62 <dev-rust/wasm-bindgen-0.3.0 >=virtual/rust-1.60.0:= virtual/rust-binaries:=
+DEPEND=dev-rust/third-party-crates-src:= >=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0 >=dev-rust/libc-0.2.64 <dev-rust/libc-0.3.0 >=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0 >=dev-rust/compiler_builtins-0.1.0 <dev-rust/compiler_builtins-0.2.0 =dev-rust/rustc-std-workspace-core-1* >=dev-rust/stdweb-0.4.18 <dev-rust/stdweb-0.5.0 >=virtual/rust-1.60.0:= virtual/rust-binaries:=
 DESCRIPTION=A Rust library for retrieving random data from (operating) system source
 EAPI=7
 HOMEPAGE=https://github.com/rust-random/getrandom
 IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 )
-RDEPEND=>=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0 >=dev-rust/libc-0.2.64 <dev-rust/libc-0.3.0 >=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0 >=dev-rust/compiler_builtins-0.1.0 <dev-rust/compiler_builtins-0.2.0 =dev-rust/rustc-std-workspace-core-1* >=dev-rust/stdweb-0.4.18 <dev-rust/stdweb-0.5.0 >=dev-rust/wasm-bindgen-0.2.62 <dev-rust/wasm-bindgen-0.3.0 virtual/rust-binaries:=
+RDEPEND=dev-rust/third-party-crates-src:= >=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0 >=dev-rust/libc-0.2.64 <dev-rust/libc-0.3.0 >=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0 >=dev-rust/compiler_builtins-0.1.0 <dev-rust/compiler_builtins-0.2.0 =dev-rust/rustc-std-workspace-core-1* >=dev-rust/stdweb-0.4.18 <dev-rust/stdweb-0.5.0 virtual/rust-binaries:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
 SLOT=0.2.0/r0
 SRC_URI=https://crates.io/api/v1/crates/getrandom/0.2.0/download -> getrandom-0.2.0.crate
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	a81a55f52a65a7c956ba5eb177556059	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=883952d00207a4cdcef2f2aaed9c413b
+_md5_=c010021b95ffd3ca5d20e71134d600f1
