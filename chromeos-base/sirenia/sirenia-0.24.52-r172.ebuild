@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="641756ee83305b4e049a732f073dc3552bba4049"
+CROS_WORKON_COMMIT="a16d1ccd7788a7d0a65479cecf7f99e3ad1dcf48"
 CROS_WORKON_TREE="ea7ad5ed0c85f47c25ed4d112344f7e251e36eb6"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,11 +20,11 @@ KEYWORDS="*"
 IUSE="cros_host manatee sirenia"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-libs/openssl:0=
 	=dev-rust/anyhow-1*
-	=dev-rust/assert_matches-1*
 	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=

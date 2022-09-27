@@ -44,8 +44,8 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
-	dev-libs/wayland-protocols:=
 	dev-rust/third-party-crates-src:=
+	dev-libs/wayland-protocols:=
 	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
@@ -62,17 +62,14 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/crossbeam-utils-0.8*
 	=dev-rust/ctrlc-3.2*
 	=dev-rust/dbus-0.8*
-	>=dev-rust/downcast-rs-1.2.0 <dev-rust/downcast-rs-2.0
 	=dev-rust/enumn-0.1*
 	=dev-rust/env_logger-0.9*
 	=dev-rust/futures-0.3*
-	=dev-rust/fnv-1*
 	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
 	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
 	~dev-rust/getopts-0.2.18
 	dev-rust/intrusive-collections
 	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3.0
-	dev-rust/libslirp-sys
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	>=dev-rust/memoffset-0.6 <dev-rust/memoffset-1
 	dev-rust/minijail:=
@@ -83,7 +80,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
 	=dev-rust/paste-1*
-	dev-rust/pcap-file
 	=dev-rust/pin-utils-0.1*
 	~dev-rust/pkg-config-0.3.11
 	=dev-rust/proc-macro2-1*
@@ -105,9 +101,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/terminal_size-0.1.17
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9
-	dev-rust/winapi
 	>=dev-rust/windows-0.10.0 <dev-rust/windows-0.11
-	dev-rust/wio
 	dev-rust/wmi
 	media-sound/libcras:=
 	tpm2? (

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1dffef3b5fa35642ed3ad2b54aa7554bf0d3ed60"
+CROS_WORKON_COMMIT="a16d1ccd7788a7d0a65479cecf7f99e3ad1dcf48"
 CROS_WORKON_TREE="e733f7a6b19ddc3c095bc4261a7b09ede44b73b2"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -22,10 +22,10 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/sirenia-rpc-macros:=
 	=dev-rust/anyhow-1*
-	=dev-rust/assert_matches-1*
 	=dev-rust/base64-0.13*
 	=dev-rust/chrono-0.4*
 	=dev-rust/flexbuffers-2*

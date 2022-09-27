@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1dffef3b5fa35642ed3ad2b54aa7554bf0d3ed60"
+CROS_WORKON_COMMIT="a16d1ccd7788a7d0a65479cecf7f99e3ad1dcf48"
 CROS_WORKON_TREE="540348b363ed0c8e6c52788d97aa273179aedfff"
 CROS_RUST_SUBDIR="sirenia/manatee-runtime"
 
@@ -22,9 +22,9 @@ KEYWORDS="*"
 IUSE="cros_host manatee"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
-	=dev-rust/assert_matches-1*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/once_cell-1*

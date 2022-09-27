@@ -18,9 +18,9 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
 	>=dev-rust/bincode-1.0.1 <dev-rust/bincode-1.1.0_alpha
-	>=dev-rust/byteorder-1.4.3 <dev-rust/byteorder-2.0.0_alpha
 	>=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0_alpha
 	=dev-rust/glob-0.3*
 	>=dev-rust/hmac-sha256-0.1.7 <dev-rust/hmac-sha256-0.2.0_alpha

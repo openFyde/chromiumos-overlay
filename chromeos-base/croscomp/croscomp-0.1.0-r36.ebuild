@@ -65,8 +65,8 @@ wayland_sys_DEPEND="
 "
 
 wayland_server_DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/bitflags-1*
-	>=dev-rust/downcast-rs-1.0.4 <dev-rust/downcast-rs-2.0.0_alpha
 	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
 	=dev-rust/libc-0.2*
 	=dev-rust/nix-0.23*
