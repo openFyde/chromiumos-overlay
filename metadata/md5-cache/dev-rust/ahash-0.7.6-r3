@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst preinst prepare prerm setup test unpack
+DEPEND=dev-rust/third-party-crates-src:= >=dev-rust/const-random-0.1.12 <dev-rust/const-random-0.2.0_alpha >=dev-rust/getrandom-0.2.3 <dev-rust/getrandom-0.3.0_alpha >=dev-rust/serde-1.0.117 <dev-rust/serde-2.0.0_alpha >=dev-rust/once_cell-1.8.0 <dev-rust/once_cell-2.0.0_alpha >=virtual/rust-1.60.0:= virtual/rust-binaries:=
+DESCRIPTION=A non-cryptographic hash function using AES-NI for high performance
+EAPI=7
+HOMEPAGE=https://crates.io/crates/ahash
+IUSE=cros-debug asan coverage fuzzer msan tsan ubsan asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
+KEYWORDS=*
+LICENSE=|| ( MIT Apache-2.0 )
+RDEPEND=dev-rust/third-party-crates-src:= >=dev-rust/const-random-0.1.12 <dev-rust/const-random-0.2.0_alpha >=dev-rust/getrandom-0.2.3 <dev-rust/getrandom-0.3.0_alpha >=dev-rust/serde-1.0.117 <dev-rust/serde-2.0.0_alpha >=dev-rust/once_cell-1.8.0 <dev-rust/once_cell-2.0.0_alpha virtual/rust-binaries:=
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0.7.6/r3
+SRC_URI=https://crates.io/api/v1/crates/ahash/0.7.6/download -> ahash-0.7.6.crate
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	a81a55f52a65a7c956ba5eb177556059	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=fa0389ba2c10ead3ecaa56237bc71153
