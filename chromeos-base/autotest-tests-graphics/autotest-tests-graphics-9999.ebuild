@@ -25,7 +25,6 @@ RDEPEND="
 	chromeos-base/autotest-deps-graphics
 	tests_graphics_Gbm? ( media-libs/minigbm )
 	tests_graphics_GLBench? ( chromeos-base/glbench )
-	tests_graphics_SanAngeles? ( media-libs/waffle )
 "
 DEPEND="${RDEPEND}"
 
@@ -37,9 +36,6 @@ IUSE_TESTS="
 	+tests_graphics_KernelConfig
 	+tests_graphics_KernelMemory
 	+tests_graphics_LibDRM
-	+tests_graphics_PerfControl
-	+tests_graphics_SanAngeles
-	+tests_graphics_SyncControlTest
 	+tests_graphics_parallel_dEQP
 	+tests_graphics_Power
 "

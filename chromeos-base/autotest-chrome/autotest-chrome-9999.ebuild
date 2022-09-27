@@ -68,7 +68,6 @@ IUSE_TESTS=(
 	+tests_desktopui_SimpleLogin
 	+tests_display_DisplayContainEdid
 	+tests_graphics_Chrome
-	+tests_graphics_Stress
 	+tests_graphics_VideoRenderingPower
 	+tests_graphics_WebGLAquarium
 	+tests_graphics_WebGLManyPlanetsDeep
