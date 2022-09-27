@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="1592ae8347f4ed65b7ed4dd1c4805178062cedb7"
-CROS_WORKON_TREE="25d44087554068ad9245a75c0e80f65828c9ea41"
+CROS_WORKON_COMMIT="76a77d6ed81c7223e0e1a7bfa80d34fc996cd341"
+CROS_WORKON_TREE="9f77e276a98e936b83bea632410c1ab3f1fd4ffa"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -24,6 +24,7 @@ IUSE="
 	atavia
 	buspirate_spi
 	ch341a_spi
+	+cli
 	dediprog
 	developerbox_spi
 	digilent_spi
@@ -141,7 +142,8 @@ src_configure() {
 		$(meson_use serprog config_serprog)
 		$(meson_use stlinkv3_spi config_stlinkv3_spi)
 		$(meson_use usbblaster_spi config_usbblaster_spi)
-		$(meson_use wiki print_wiki)
+		$(meson_feature cli classic_cli)
+		$(meson_feature wiki classic_cli_print_wiki)
 	)
 	sanitizers-setup-env
 	meson_src_configure
