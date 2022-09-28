@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="54bd2890c1c69697b4320e1b62459190ec912c58"
-CROS_WORKON_TREE="c063c8ff22bf4847dac14037662ebefa3ea64e5f"
+CROS_WORKON_COMMIT="4f6651cf8427116df8262be8c8a3566dd6cb691a"
+CROS_WORKON_TREE="8869c515c0587621be3f9b92fdbf832286f07391"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -70,7 +70,6 @@ IUSE_TESTS=(
 	+tests_desktopui_SimpleLogin
 	+tests_display_DisplayContainEdid
 	+tests_graphics_Chrome
-	+tests_graphics_Stress
 	+tests_graphics_VideoRenderingPower
 	+tests_graphics_WebGLAquarium
 	+tests_graphics_WebGLManyPlanetsDeep

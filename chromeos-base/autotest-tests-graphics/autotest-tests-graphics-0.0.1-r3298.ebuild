@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="d03e41bae76e58bd05a46e386112cd1d5fee357c"
-CROS_WORKON_TREE="6916f9da008dcc62fcad3af54ab1165a491178a6"
+CROS_WORKON_COMMIT="4f6651cf8427116df8262be8c8a3566dd6cb691a"
+CROS_WORKON_TREE="8869c515c0587621be3f9b92fdbf832286f07391"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -27,7 +27,6 @@ RDEPEND="
 	chromeos-base/autotest-deps-graphics
 	tests_graphics_Gbm? ( media-libs/minigbm )
 	tests_graphics_GLBench? ( chromeos-base/glbench )
-	tests_graphics_SanAngeles? ( media-libs/waffle )
 "
 DEPEND="${RDEPEND}"
 
@@ -39,9 +38,6 @@ IUSE_TESTS="
 	+tests_graphics_KernelConfig
 	+tests_graphics_KernelMemory
 	+tests_graphics_LibDRM
-	+tests_graphics_PerfControl
-	+tests_graphics_SanAngeles
-	+tests_graphics_SyncControlTest
 	+tests_graphics_parallel_dEQP
 	+tests_graphics_Power
 "
