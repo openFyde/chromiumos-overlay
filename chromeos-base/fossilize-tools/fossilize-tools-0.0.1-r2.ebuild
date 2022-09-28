@@ -40,9 +40,17 @@ src_install() {
 		"/usr/bin/vulkaninfo"
 		"/usr/bin/fossilize-replay"
 	)
+	local wrapper_args=()
+	if use video_cards_intel; then
+		wrapper_args+=(
+			"--wrapper-preload"
+			"/lib/libintel_noop_drm_shim.so"
+		)
+	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \
 		--libdir=/lib --generate-wrappers \
 		--copy-non-elfs \
+		"${wrapper_args[@]}" \
 		--copy-to-tree="${WORKDIR}"/pkg/ \
 		"${tools[@]}" || die
 
