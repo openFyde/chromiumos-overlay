@@ -26,15 +26,15 @@ if [[ ${PV} != 9999 ]]; then
 	ORIG_URI="gs://chrome-unsigned/desktop-5c0tCh"
 	SRC_URI="
 		amd64? (
-			${ORIG_URI}/${PV}/lacros64/lacros_compressed.squash -> ${PN}-amd64-squash-${PV}
+			${ORIG_URI}/${PV}/lacros64/lacros_compressed_zstd.squash -> ${PN}-amd64-squash-zstd-${PV}
 			${ORIG_URI}/${PV}/lacros64/metadata.json -> ${PN}-amd64-metadata-${PV}
 		)
 		arm? (
-			${ORIG_URI}/${PV}/lacros-arm32/lacros_compressed.squash -> ${PN}-arm-squash-${PV}
+			${ORIG_URI}/${PV}/lacros-arm32/lacros_compressed_zstd.squash -> ${PN}-arm-squash-zstd-${PV}
 			${ORIG_URI}/${PV}/lacros-arm32/metadata.json -> ${PN}-arm-metadata-${PV}
 		)
 		arm64? (
-			${ORIG_URI}/${PV}/lacros-arm64/lacros_compressed.squash -> ${PN}-arm64-squash-${PV}
+			${ORIG_URI}/${PV}/lacros-arm64/lacros_compressed_zstd.squash -> ${PN}-arm64-squash-zstd-${PV}
 			${ORIG_URI}/${PV}/lacros-arm64/metadata.json -> ${PN}-arm64-metadata-${PV}
 		)
 	"
@@ -48,7 +48,7 @@ src_unpack() {
 
 src_install() {
 	insinto /opt/google/lacros
-	newins "${DISTDIR}/${PN}-${ARCH}-squash-${PV}" lacros.squash
+	newins "${DISTDIR}/${PN}-${ARCH}-squash-zstd-${PV}" lacros.squash
 	newins "${DISTDIR}/${PN}-${ARCH}-metadata-${PV}" metadata.json
 
 	# Upstart configuration
