@@ -71,7 +71,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/p9:=
 	=dev-rust/pin-utils-0.1*
 	~dev-rust/pkg-config-0.3.11
-	=dev-rust/proc-macro2-1*
 	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8

@@ -23,7 +23,6 @@ IUSE=""
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/syn-1*
 "

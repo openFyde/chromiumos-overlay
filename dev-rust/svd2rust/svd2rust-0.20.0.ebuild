@@ -23,7 +23,6 @@ DEPEND="
 	=dev-rust/env_logger-0.9*
 	>=dev-rust/inflections-1.1.0 <dev-rust/inflections-2.0.0_alpha
 	=dev-rust/log-0.4*
-	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
 	=dev-rust/svd-parser-0.12*
 	=dev-rust/syn-1*

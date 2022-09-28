@@ -1,25 +1,24 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
+CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='Custom derive support for zeroize'
-HOMEPAGE='https://github.com/iqlusioninc/crates/'
+DESCRIPTION='Low-level bindings to the system libz library (also known as zlib).'
+HOMEPAGE='https://crates.io/crates/libz-sys'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/quote-1*
-	=dev-rust/syn-1*
-	=dev-rust/synstructure-0.12*
+	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

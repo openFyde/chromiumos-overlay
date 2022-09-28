@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Derives for the failure crate"
-HOMEPAGE="https://rust-lang-nursery.github.io/failure/"
+DESCRIPTION="Compile-time checks that an enum or match is written in sorted order"
+HOMEPAGE="https://github.com/dtolnay/remain"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,7 +17,9 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/quote-0.6*
-	=dev-rust/syn-0.15*
-	=dev-rust/synstructure-0.10*
+	=dev-rust/quote-1*
+	=dev-rust/syn-1*
 "
+
+# error: could not compile `remain`
+RESTRICT="test"

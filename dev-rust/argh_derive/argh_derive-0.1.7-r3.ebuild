@@ -7,11 +7,11 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Custom derive support for zeroize'
-HOMEPAGE='https://github.com/iqlusioninc/crates/'
+DESCRIPTION='Derive-based argument parsing optimized for code size'
+HOMEPAGE='https://crates.io/crates/argh_derive'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="BSD"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/quote-1*
 	=dev-rust/syn-1*
-	=dev-rust/synstructure-0.12*
 "
 RDEPEND="${DEPEND}"
 

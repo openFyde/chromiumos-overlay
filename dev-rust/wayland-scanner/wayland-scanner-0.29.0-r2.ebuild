@@ -7,25 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A tool for generating C bindings to Rust code.'
-HOMEPAGE='https://crates.io/crates/cbindgen'
+DESCRIPTION='Wayland Scanner for generating rust APIs from XML wayland protocol files. Intended for use with wayland-sys. You should only need this crate if you are working on custom wayland protocol extensions. Look at the crate wayland-client for usable bindings.'
+HOMEPAGE='https://crates.io/crates/wayland-scanner'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MPL-2.0"
-SLOT="0/${PVR}"
+LICENSE="MIT"
+SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/clap-2*
-	=dev-rust/indexmap-1*
-	=dev-rust/log-0.4*
 	=dev-rust/quote-1*
-	>=dev-rust/serde-1.0.103 <dev-rust/serde-2.0.0_alpha
-	=dev-rust/serde_json-1*
-	>=dev-rust/syn-1.0.3 <dev-rust/syn-2.0.0_alpha
-	=dev-rust/tempfile-3*
-	=dev-rust/toml-0.5*
 "
 RDEPEND="${DEPEND}"
 

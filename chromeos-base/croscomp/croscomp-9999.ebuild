@@ -43,7 +43,6 @@ dlib_DEPEND="
 "
 
 wayland_scanner_DEPEND="
-	>=dev-rust/proc-macro2-1.0.11 <dev-rust/proc-macro2-2.0.0_alpha
 	=dev-rust/quote-1*
 "
 

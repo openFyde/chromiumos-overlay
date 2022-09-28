@@ -36,6 +36,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/proc-macro2-1.0.37
+	!=dev-rust/proc-macro2-1.0.37-r1
+	!=dev-rust/proc-macro2-1.0.36
+	!=dev-rust/proc-macro2-1.0.36-r1
+	!=dev-rust/proc-macro2-1.0.29
+	!=dev-rust/proc-macro2-1.0.29-r1
+	!=dev-rust/proc-macro2-0.4.21
+	!=dev-rust/proc-macro2-0.4.21-r1
+	!=dev-rust/cmake-0.1.48
+	!=dev-rust/cmake-0.1.48-r1
 	!=dev-rust/regex-1.5.5
 	!=dev-rust/regex-1.5.5-r1
 	!=dev-rust/regex-1.5.5-r2
@@ -267,6 +277,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
 	"cloudabi-0.0.3"
+	"cmake-0.1.48"
 	"color_quant-1.1.0"
 	"com_logger-0.1.1"
 	"compiler_builtins-0.1.80"
@@ -366,6 +377,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-lite-0.2.9"
 	"ppv-lite86-0.2.10"
 	"proc-macro-nested-0.1.7"
+	"proc-macro2-0.4.30"
+	"proc-macro2-1.0.44"
 	"prost-0.11.0"
 	"prost-derive-0.11.0"
 	"protoc-grpcio-2.0.0"
@@ -432,6 +445,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"uart_16550-0.2.18"
 	"ufmt-write-0.1.0"
 	"unicase-2.6.0"
+	"unicode-ident-1.0.4"
 	"unicode-segmentation-1.10.0"
 	"unicode-width-0.1.10"
 	"unicode-xid-0.0.4"
