@@ -4,10 +4,10 @@ DEPEND=media-libs/fossilize:=
 DESCRIPTION=Fossilize in a hermetic environment.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/graphics/
-IUSE=video_cards_intel video_cards_radeon cros_host cros_workon_tree_
-KEYWORDS=~*
+IUSE=video_cards_intel video_cards_radeon cros_host cros_workon_tree_a6b9eba4a61580a4d52c13a0af1e13f20b02d221
+KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=692b33f5ce5b767ad03739872f134b39
+_md5_=3c163e850236c87c630f9bd74a5a1258
