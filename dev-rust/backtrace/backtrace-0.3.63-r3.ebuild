@@ -25,7 +25,6 @@ DEPEND="
 	>=dev-rust/rustc-demangle-0.1.4 <dev-rust/rustc-demangle-0.2.0_alpha
 	=dev-rust/rustc-serialize-0.3*
 	=dev-rust/serde-1*
-	>=dev-rust/cc-1.0.67 <dev-rust/cc-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -50,7 +50,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/async-trait-0.1*
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
-	>=dev-rust/cc-1.0.25 <dev-rust/cc-2_alpha
 	=dev-rust/cfg-if-1*
 	dev-rust/chrono
 	>=dev-rust/crc32fast-1.2.1 <dev-rust/crc32fast-2

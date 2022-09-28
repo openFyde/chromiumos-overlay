@@ -21,7 +21,6 @@ DEPEND="
 	=dev-rust/openssl-sys-0.9*
 	=dev-rust/bindgen-0.59*
 	=dev-rust/boringssl-src-0.3*
-	=dev-rust/cc-1*
 	=dev-rust/cmake-0.1*
 	=dev-rust/pkg-config-0.3*
 	>=dev-rust/walkdir-2.2.9 <dev-rust/walkdir-3.0.0_alpha

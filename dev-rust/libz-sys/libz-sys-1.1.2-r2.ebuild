@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/cc-1.0.18 <dev-rust/cc-2
 	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4
 	>=dev-rust/vcpkg-0.2 <dev-rust/vcpkg-0.3
 "

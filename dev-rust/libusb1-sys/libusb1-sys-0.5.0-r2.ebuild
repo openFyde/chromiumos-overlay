@@ -18,7 +18,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cc-1*
 	=dev-rust/pkg-config-0.3*
 	virtual/libusb:1
 "

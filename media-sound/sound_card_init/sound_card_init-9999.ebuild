@@ -19,7 +19,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 DEPEND="
-	dev-rust/cc
+	dev-rust/third-party-crates-src:=
 	dev-rust/getopts
 	dev-rust/sys_util:=
 	dev-rust/serde_json

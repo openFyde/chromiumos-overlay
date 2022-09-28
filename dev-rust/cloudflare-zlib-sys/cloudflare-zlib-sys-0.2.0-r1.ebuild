@@ -13,4 +13,4 @@ LICENSE="|| ( MIT Apache-2.0 ) ZLIB"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND=">=dev-rust/cc-1.0.25"
+DEPEND="dev-rust/third-party-crates-src:="

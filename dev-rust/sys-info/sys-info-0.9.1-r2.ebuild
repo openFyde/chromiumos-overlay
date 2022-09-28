@@ -13,7 +13,4 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/cc-1*
-"
+DEPEND="dev-rust/third-party-crates-src:="

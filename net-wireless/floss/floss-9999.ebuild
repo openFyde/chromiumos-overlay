@@ -59,13 +59,13 @@ KEYWORDS="~*"
 #  - Bluetooth user + group are added in bluez's postinst
 #
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/metrics:=
 	chromeos-base/system_api:=
 	dev-libs/flatbuffers:=
 	dev-libs/modp_b64:=
 	dev-libs/tinyxml2:=
 	dev-libs/openssl:=
-	=dev-rust/cc-1*
 	net-wireless/bluez
 "
 

@@ -7,13 +7,11 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A build-time dependency for Cargo build scripts to assist in invoking the native
-C compiler to compile native C code into a static archive to be linked into Rust
-code.'
-HOMEPAGE='https://github.com/alexcrichton/cc-rs'
+DESCRIPTION='C/FFI Bindings for the Scudo Hardened Allocator'
+HOMEPAGE='https://llvm.org/docs/ScudoHardenedAllocator.html'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="Apache-2.0"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 

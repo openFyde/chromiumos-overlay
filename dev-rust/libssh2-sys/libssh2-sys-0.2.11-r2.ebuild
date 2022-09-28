@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/cc-1.0.25
 	>=dev-rust/libz-sys-1.0.21
 	>=dev-rust/openssl-sys-0.9.35
 	>=dev-rust/pkg-config-0.3.11
