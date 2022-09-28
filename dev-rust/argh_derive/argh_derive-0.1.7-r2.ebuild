@@ -7,17 +7,19 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='External iterators for generic mathematics'
-HOMEPAGE='https://github.com/rust-num/num-iter'
+DESCRIPTION='Derive-based argument parsing optimized for code size'
+HOMEPAGE='https://crates.io/crates/argh_derive'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="BSD"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0_alpha
+	=dev-rust/proc-macro2-1*
+	=dev-rust/quote-1*
+	=dev-rust/syn-1*
 "
 RDEPEND="${DEPEND}"
 

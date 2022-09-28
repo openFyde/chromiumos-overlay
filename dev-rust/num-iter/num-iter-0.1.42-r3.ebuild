@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Integer traits and functions'
-HOMEPAGE='https://github.com/rust-num/num-integer'
+DESCRIPTION='External iterators for generic mathematics'
+HOMEPAGE='https://github.com/rust-num/num-iter'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"

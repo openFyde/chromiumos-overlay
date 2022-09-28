@@ -20,7 +20,6 @@ DEPEND="
 	=dev-rust/cfg-if-0.1*
 	=dev-rust/const_fn-0.4*
 	=dev-rust/crossbeam-utils-0.8*
-	>=dev-rust/memoffset-0.5.4 <dev-rust/memoffset-0.6.0
 	=dev-rust/lazy_static-1*
 "
 

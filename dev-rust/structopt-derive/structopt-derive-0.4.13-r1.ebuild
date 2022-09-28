@@ -14,7 +14,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/heck-0.3*
+	dev-rust/third-party-crates-src:=
 	=dev-rust/proc-macro2-1*
 	=dev-rust/proc-macro-error-1*
 	=dev-rust/quote-1*

@@ -16,8 +16,8 @@ SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/clap-2*
-	=dev-rust/heck-0.3*
 	=dev-rust/indexmap-1*
 	=dev-rust/log-0.4*
 	=dev-rust/proc-macro2-1*

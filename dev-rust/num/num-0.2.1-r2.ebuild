@@ -20,7 +20,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/num-bigint-0.2.5 <dev-rust/num-bigint-0.3.0_alpha
 	>=dev-rust/num-complex-0.2.4 <dev-rust/num-complex-0.3.0_alpha
-	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0_alpha
 	>=dev-rust/num-iter-0.1.40 <dev-rust/num-iter-0.2.0_alpha
 	>=dev-rust/num-rational-0.2.3 <dev-rust/num-rational-0.3.0_alpha
 "

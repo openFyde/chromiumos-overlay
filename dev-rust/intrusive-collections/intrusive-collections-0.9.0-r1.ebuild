@@ -6,13 +6,15 @@ EAPI="7"
 CROS_RUST_REMOVE_DEV_DEPS=1
 inherit cros-rust
 
-DESCRIPTION="C-Like offset_of functionality for Rust structs"
-HOMEPAGE="https://github.com/Gilnaa/memoffset"
+DESCRIPTION="A Rust library for creating intrusive collections"
+HOMEPAGE="https://github.com/Amanieu/intrusive-rs"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
-RDEPEND="${DEPEND}"
+
+# error: could not compile `intrusive-collections`
+RESTRICT="test"

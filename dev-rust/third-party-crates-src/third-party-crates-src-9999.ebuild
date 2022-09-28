@@ -36,6 +36,24 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/scudo-0.1.2
+	!=dev-rust/scudo-0.1.2-r1
+	!=dev-rust/scudo-0.1.2-r2
+	!=dev-rust/num-integer-0.1.44
+	!=dev-rust/num-integer-0.1.44-r1
+	!=dev-rust/num-integer-0.1.44-r2
+	!=dev-rust/memoffset-0.6.5
+	!=dev-rust/memoffset-0.6.5-r1
+	!=dev-rust/memoffset-0.6.4
+	!=dev-rust/memoffset-0.6.4-r1
+	!=dev-rust/memoffset-0.5.6
+	!=dev-rust/memoffset-0.5.6-r1
+	!=dev-rust/heck-0.4.0
+	!=dev-rust/heck-0.4.0-r1
+	!=dev-rust/heck-0.3.3
+	!=dev-rust/heck-0.3.3-r1
+	!=dev-rust/aho-corasick-0.7.18
+	!=dev-rust/aho-corasick-0.7.18-r1
 	!=dev-rust/walkdir-2.3.2
 	!=dev-rust/walkdir-2.3.2-r1
 	!=dev-rust/unicode-xid-0.2.2
@@ -210,6 +228,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"addr2line-0.14.1"
 	"adler-1.0.2"
 	"adler32-1.2.0"
+	"aho-corasick-0.7.18"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
 	"argh_shared-0.1.8"
@@ -271,6 +290,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"grpcio-compiler-0.6.0"
 	"h2-0.3.14"
 	"hashbrown-0.12.3"
+	"heck-0.3.3"
+	"heck-0.4.0"
 	"hermit-abi-0.1.18"
 	"hostname-0.3.1"
 	"http-0.2.8"
@@ -306,6 +327,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"matches-0.1.9"
 	"matchit-0.5.0"
 	"memchr-2.5.0"
+	"memoffset-0.5.6"
+	"memoffset-0.6.5"
 	"mime-0.3.16"
 	"minimal-lexical-0.2.1"
 	"miniz_oxide-0.3.7"
@@ -313,6 +336,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.5.4"
 	"miow-0.3.6"
 	"ntapi-0.3.6"
+	"num-integer-0.1.45"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"
 	"num_threads-0.1.6"
@@ -357,6 +381,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"same-file-1.0.6"
 	"scoped-tls-1.0.0"
 	"scopeguard-1.1.0"
+	"scudo-0.1.2"
 	"scudo-sys-0.2.1"
 	"semver-parser-0.7.0"
 	"serial-core-0.4.0"

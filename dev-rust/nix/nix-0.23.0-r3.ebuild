@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/cfg-if-1*
-	>=dev-rust/memoffset-0.6.3 <dev-rust/memoffset-0.7.0_alpha
 "
 RDEPEND="${DEPEND}"
 

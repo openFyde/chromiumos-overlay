@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/num-bigint-0.2.5 <dev-rust/num-bigint-0.3.0_alpha
-	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0_alpha
 	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
