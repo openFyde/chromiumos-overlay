@@ -57,8 +57,10 @@ src_install() {
 	insinto /etc/init
 	doins etc/init/oobe_config_restore.conf
 	doins etc/init/oobe_config_save.conf
+	doins etc/init/shill_stop_waiter.conf
+	doins etc/init/ui_stop_waiter.conf
 	if use tpm2; then
-		sed -i 's/and started tcsd//' \
+		sed -i 's/ and started tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
 			die "Can't remove upstart dependency on tcsd"
 
