@@ -156,6 +156,8 @@ src_configure() {
 }
 
 src_compile() {
+	export CROSVM_BUILD_VARIANT="chromeos"
+
 	local features=(
 		$(usex crosvm-gpu virgl_renderer "")
 		$(usex crosvm-gpu virgl_renderer_next "")
@@ -209,6 +211,8 @@ src_compile() {
 }
 
 src_test() {
+	export CROSVM_BUILD_VARIANT="chromeos"
+
 	local test_opts=(
 		# TODO(b/211023371): Re-enable libvda tests.
 		--exclude libvda
