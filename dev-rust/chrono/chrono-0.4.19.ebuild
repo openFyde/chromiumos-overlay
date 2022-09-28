@@ -16,7 +16,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bincode-0.8*
-	>=dev-rust/num-iter-0.1.35 <dev-rust/num-iter-0.2.0
 	>=dev-rust/rustc-serialize-0.3.20 <dev-rust/rustc-serialize-0.4.0
 	=dev-rust/serde-1*
 	=dev-rust/serde_derive-1*

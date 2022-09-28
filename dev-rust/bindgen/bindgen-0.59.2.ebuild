@@ -26,7 +26,6 @@ DEPEND="
 	=dev-rust/log-0.4*
 	=dev-rust/proc-macro2-1*
 	=dev-rust/quote-1*
-	=dev-rust/regex-1*
 	>=dev-rust/which-4.2.1 <dev-rust/which-5.0.0_alpha
 "
 RDEPEND="${DEPEND}"

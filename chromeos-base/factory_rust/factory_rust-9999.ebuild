@@ -24,7 +24,6 @@ DEPEND="
 	>=dev-rust/hmac-sha256-0.1.7 <dev-rust/hmac-sha256-0.2.0_alpha
 	=dev-rust/nix-0.23*
 	=dev-rust/num-derive-0.3*
-	=dev-rust/regex-1*
 	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*
 	>=dev-rust/tempdir-0.3.7 <dev-rust/tempdir-0.4.0_alpha

@@ -36,6 +36,17 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/regex-1.5.5
+	!=dev-rust/regex-1.5.5-r1
+	!=dev-rust/regex-1.5.5-r2
+	!=dev-rust/regex-1.5.5-r3
+	!=dev-rust/num-iter-0.1.42
+	!=dev-rust/num-iter-0.1.42-r1
+	!=dev-rust/num-iter-0.1.42-r2
+	!=dev-rust/num-iter-0.1.42-r3
+	!=dev-rust/num-iter-0.1.37
+	!=dev-rust/intrusive-collections-0.9.0
+	!=dev-rust/intrusive-collections-0.9.0-r1
 	!=dev-rust/scudo-0.1.2
 	!=dev-rust/scudo-0.1.2-r1
 	!=dev-rust/scudo-0.1.2-r2
@@ -307,6 +318,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"indoc-impl-0.3.6"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
+	"intrusive-collections-0.9.4"
 	"inventory-0.1.11"
 	"inventory-impl-0.1.11"
 	"io-lifetimes-0.7.3"
@@ -337,6 +349,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miow-0.3.6"
 	"ntapi-0.3.6"
 	"num-integer-0.1.45"
+	"num-iter-0.1.43"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"
 	"num_threads-0.1.6"
@@ -366,6 +379,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rdrand-0.4.0"
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
+	"regex-1.6.0"
 	"regex-syntax-0.6.27"
 	"remove_dir_all-0.5.3"
 	"rtic-core-1.0.0"

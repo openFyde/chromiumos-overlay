@@ -27,7 +27,6 @@ DEPEND="
 	=dev-rust/num-cmp-0.1*
 	=dev-rust/parking_lot-0.12*
 	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha
-	>=dev-rust/regex-1.5.4 <dev-rust/regex-2.0.0_alpha
 	>=dev-rust/reqwest-0.11.9 <dev-rust/reqwest-0.12.0_alpha
 	>=dev-rust/serde-1.0.136 <dev-rust/serde-2.0.0_alpha
 	>=dev-rust/serde_json-1.0.79 <dev-rust/serde_json-2.0.0_alpha

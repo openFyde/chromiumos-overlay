@@ -26,7 +26,6 @@ DEPEND="
 	>=dev-rust/async-trait-0.1.36 <dev-rust/async-trait-0.2
 	dev-rust/data_model:=
 	=dev-rust/futures-0.3*
-	dev-rust/intrusive-collections
 	dev-rust/io_uring:=
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	=dev-rust/pin-utils-0.1*

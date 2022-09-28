@@ -7,8 +7,9 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
-HOMEPAGE='https://crates.io/crates/clap'
+DESCRIPTION='A collection of numeric types and traits for Rust, including bigint,
+complex, rational, range iterators, generic integers, and more!'
+HOMEPAGE='https://github.com/rust-num/num'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,14 +18,9 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/backtrace-0.3*
-	~dev-rust/clap_derive-3.1.7
-	=dev-rust/clap_lex-0.1*
-	=dev-rust/indexmap-1*
-	=dev-rust/lazy_static-1*
-	=dev-rust/regex-1*
-	=dev-rust/textwrap-0.15*
-	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0_alpha
+	>=dev-rust/num-bigint-0.2.5 <dev-rust/num-bigint-0.3.0_alpha
+	>=dev-rust/num-complex-0.2.4 <dev-rust/num-complex-0.3.0_alpha
+	>=dev-rust/num-rational-0.2.3 <dev-rust/num-rational-0.3.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -21,7 +21,6 @@ DEPEND="
 	=dev-rust/indexmap-1*
 	=dev-rust/lazy_static-1*
 	>=dev-rust/os_str_bytes-2.3.0 <dev-rust/os_str_bytes-3.0.0
-	=dev-rust/regex-1*
 	=dev-rust/textwrap-0.12*
 	=dev-rust/vec_map-0.8*
 	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0

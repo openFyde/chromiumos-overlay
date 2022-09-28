@@ -21,6 +21,7 @@ KEYWORDS="~*"
 IUSE="+seccomp"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
@@ -28,7 +29,6 @@ DEPEND="
 	=dev-rust/glob-0.3*
 	dev-rust/libchromeos:=
 	=dev-rust/once_cell-1.7*
-	=dev-rust/regex-1.5*
 	=dev-rust/futures-0.3*
 	=dev-rust/grpcio-0.9*
 	dev-rust/sys_util:=

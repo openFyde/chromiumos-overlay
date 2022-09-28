@@ -23,7 +23,6 @@ DEPEND="
 	=dev-rust/fd-lock-3*
 	=dev-rust/log-0.4*
 	=dev-rust/radix_trie-0.2*
-	>=dev-rust/regex-1.5.4 <dev-rust/regex-2.0.0_alpha
 	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha
 	=dev-rust/nix-0.23*
 	=dev-rust/skim-0.9*

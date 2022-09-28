@@ -19,7 +19,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/log-0.4.8 <dev-rust/log-0.5.0
-	>=dev-rust/regex-1.0.3 <dev-rust/regex-2.0.0
 "
 RDEPEND="${DEPEND}"
 

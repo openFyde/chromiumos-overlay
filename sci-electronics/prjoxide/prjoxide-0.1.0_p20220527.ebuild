@@ -38,7 +38,6 @@ DEPEND="
 	=dev-rust/multimap-0.8*
 	=dev-rust/num-bigint-0.4*
 	>=dev-rust/pulldown-cmark-0.6.1 <dev-rust/pulldown-cmark-0.7.0
-	=dev-rust/regex-1*
 	>=dev-rust/ron-0.5.1 <dev-rust/ron-0.6.0
 	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*
