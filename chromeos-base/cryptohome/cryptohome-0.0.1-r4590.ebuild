@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0c6652a96e24862012d7d94bd2bd0a4d0d49e7b4"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "c1c3b98c17f20500b19cd02dc1d8cce0d6428f3e" "0aaa9dd065714d684a9e8a78f6df947048683283" "53484d9a746662594836a32e203068e89c9eae63" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="402e714d6249e39f97129f4b0aac6279ed59d798"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "d2ea393d5a6c1fa52a1b4efdbe18b063c2900e2f" "0aaa9dd065714d684a9e8a78f6df947048683283" "53484d9a746662594836a32e203068e89c9eae63" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -24,7 +24,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="-cert_provision +device_mapper -direncription_allow_v2 -direncryption
+IUSE="+device_mapper -direncription_allow_v2 -direncryption
 	double_extend_pcr_issue +downloads_bind_mount fuzzer
 	generic_tpm2 kernel-5_15 kernel-5_10 kernel-5_4 kernel-upstream
 	lvm_application_containers lvm_stateful_partition mount_oop pinweaver
@@ -102,10 +102,7 @@ src_install() {
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
 	dosbin bootlockboxd bootlockboxtool
-	if use cert_provision; then
-		dolib.so lib/libcert_provision.so
-		dosbin cert_provision_client
-	fi
+
 	popd >/dev/null || die
 
 	insinto /etc/dbus-1/system.d
@@ -180,10 +177,6 @@ src_install() {
 		newexe init/lockbox-cache.sh.tpm_dynamic lockbox-cache.sh
 	else
 		doexe init/lockbox-cache.sh
-	fi
-	if use cert_provision; then
-		insinto /usr/include/cryptohome
-		doins cert_provision.h
 	fi
 
 	# Install udev rules for cryptohome.
