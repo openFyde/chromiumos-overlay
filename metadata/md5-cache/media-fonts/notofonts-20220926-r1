@@ -7,6 +7,6 @@ KEYWORDS=*
 LICENSE=OFL-1.1
 RESTRICT=strip binchecks
 SLOT=0
-SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/notofonts-20211103.tar.xz
+SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/notofonts-20220926.tar.xz
 _eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	font	bc3df4ed373e09f86a90e8fad39034d6
 _md5_=c228327fb0362bc039a3b7a52bce2785
