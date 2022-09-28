@@ -141,19 +141,6 @@ def main(argv: List[str]):
             )
             ebuild_ver = stem_no_rev.rsplit("-", 1)[1]
 
-            has_compatible_ver = any(
-                migration_utils.is_semver_compatible_upgrade(ebuild_ver, x)
-                for x in available_versions
-            )
-            if not has_compatible_ver:
-                logging.info(
-                    "Skipping %s; it has no semver-compatible versions",
-                    ebuild.stem,
-                )
-                skip_reasons["no semver-compatible version"] += 1
-                skipped_any = True
-                continue
-
             contents = ebuild.read_text(encoding="utf-8")
             if migration_utils.MIGRATED_CRATE_MARKER in contents:
                 logging.info("Skipping %s; it is already migrated", ebuild)
@@ -166,6 +153,33 @@ def main(argv: List[str]):
             if not migration_utils.is_leaf_crate(contents):
                 logging.info("Skipping %s; it is not a leaf", ebuild)
                 skip_reasons["not a leaf"] += 1
+                skipped_any = True
+                continue
+
+            # Check this last, since it can easily identify low-hanging fruit
+            # that can be picked with a simple `cargo update -p`
+            has_compatible_ver = any(
+                migration_utils.is_semver_compatible_upgrade(ebuild_ver, x)
+                for x in available_versions
+            )
+            if not has_compatible_ver:
+                needs_upgrade_in_rust_crates = any(
+                    migration_utils.is_semver_compatible_upgrade(x, ebuild_ver)
+                    for x in available_versions
+                )
+                if needs_upgrade_in_rust_crates:
+                    logging.info(
+                        "Skipping %s; rust_crates needs an upgrade",
+                        ebuild.stem,
+                    )
+                    skip_reasons["rust_crates needs an upgrade"] += 1
+                    skipped_any = True
+                    continue
+                logging.info(
+                    "Skipping %s; it has no semver-compatible versions",
+                    ebuild.stem,
+                )
+                skip_reasons["no semver-compatible version"] += 1
                 skipped_any = True
                 continue
 
