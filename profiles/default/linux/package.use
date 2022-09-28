@@ -79,12 +79,13 @@ sys-kernel/chromeos-kernel-5_4 kernel_afdo
 sys-kernel/chromeos-kernel-5_10 kernel_afdo
 
 # start using coreboot-sdk across firmware packages
-sys-boot/coreboot		coreboot-sdk
-sys-boot/libpayload		coreboot-sdk
-sys-boot/depthcharge		coreboot-sdk
-sys-boot/chromeos-seabios	coreboot-sdk
-chromeos-base/chromeos-ec	coreboot-sdk
-chromeos-base/optee_os		coreboot-sdk
+sys-boot/coreboot			coreboot-sdk
+sys-boot/libpayload			coreboot-sdk
+sys-boot/depthcharge			coreboot-sdk
+sys-boot/chromeos-seabios		coreboot-sdk
+chromeos-base/chromeos-ec		coreboot-sdk
+chromeos-base/optee_os			coreboot-sdk
+chromeos-base/optee-oemcrypto-ta	coreboot-sdk
 
 # clang doesn't recognize gcc pragmas, so libgcrypt needs to turn off -O flags.
 dev-libs/libgcrypt	o-flag-munging
