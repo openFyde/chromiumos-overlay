@@ -42,9 +42,7 @@ dlib_DEPEND="
 	=dev-rust/libloading-0.7*
 "
 
-wayland_scanner_DEPEND="
-	=dev-rust/quote-1*
-"
+wayland_scanner_DEPEND=""
 
 wayland_commons_DEPEND="
 	=dev-rust/nix-0.23*

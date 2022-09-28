@@ -3,12 +3,10 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION="Derives for the failure crate"
-HOMEPAGE="https://rust-lang-nursery.github.io/failure/"
+DESCRIPTION="A Rust attribute macro to require that the compiler prove a function can't ever panic."
+HOMEPAGE="https://github.com/dtolnay/no-panic"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -18,5 +16,8 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/syn-0.15*
-	=dev-rust/synstructure-0.10*
+	=dev-rust/tempfile-3*
 "
+
+# could not compile
+RESTRICT="test"

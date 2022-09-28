@@ -24,7 +24,6 @@ DEPEND="
 	=dev-rust/lazy_static-1*
 	=dev-rust/lazycell-1*
 	=dev-rust/log-0.4*
-	=dev-rust/quote-1*
 	>=dev-rust/which-4.2.1 <dev-rust/which-5.0.0_alpha
 "
 RDEPEND="${DEPEND}"

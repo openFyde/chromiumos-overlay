@@ -31,7 +31,6 @@ DEPEND="
 	dev-rust/assertions:=
 	dev-rust/sys_util_core:=
 	dev-rust/data_model:=
-	=dev-rust/quote-1*
 	=dev-rust/remain-0.2*
 	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*

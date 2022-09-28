@@ -7,24 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A tool for generating C bindings to Rust code.'
-HOMEPAGE='https://crates.io/crates/cbindgen'
+DESCRIPTION='Numeric syntax extensions'
+HOMEPAGE='https://github.com/rust-num/num-derive'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MPL-2.0"
-SLOT="0/${PVR}"
+LICENSE="|| ( MIT Apache-2.0 )"
+SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/clap-2*
-	=dev-rust/indexmap-1*
-	=dev-rust/log-0.4*
-	>=dev-rust/serde-1.0.103 <dev-rust/serde-2.0.0_alpha
-	=dev-rust/serde_json-1*
-	>=dev-rust/syn-1.0.3 <dev-rust/syn-2.0.0_alpha
-	=dev-rust/tempfile-3*
-	=dev-rust/toml-0.5*
+	=dev-rust/syn-1*
 "
 RDEPEND="${DEPEND}"
 

@@ -36,6 +36,10 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/quote-1.0.9
+	!=dev-rust/quote-1.0.9-r1
+	!=dev-rust/quote-0.6.10
+	!=dev-rust/quote-0.6.10-r1
 	!=dev-rust/proc-macro2-1.0.37
 	!=dev-rust/proc-macro2-1.0.37-r1
 	!=dev-rust/proc-macro2-1.0.36
@@ -387,6 +391,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"pyo3-macros-backend-0.13.2"
 	"quick-error-1.2.3"
 	"quote-0.3.15"
+	"quote-0.6.13"
+	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
 	"rdrand-0.4.0"

@@ -23,7 +23,6 @@ IUSE=""
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	=dev-rust/quote-1*
 	=dev-rust/syn-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

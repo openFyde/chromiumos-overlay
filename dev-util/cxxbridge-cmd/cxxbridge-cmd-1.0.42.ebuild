@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/clap-2*
 	=dev-rust/codespan-reporting-0.11*
-	=dev-rust/quote-1*
 	=dev-rust/syn-1*
 "
 
