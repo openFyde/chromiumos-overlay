@@ -15,6 +15,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
+	>=dev-rust/bindgen-0.59.2 <dev-rust/bindgen-1
 	>=dev-rust/pkg-config-0.3.9 <dev-rust/pkg-config-0.4
 	>=dev-rust/vcpkg-0.2.8 <dev-rust/vcpkg-0.3
 	>=dev-rust/openssl-src-111.0.1 <dev-rust/openssl-src-112
@@ -25,5 +26,3 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!=dev-rust/openssl-sys-0.9*
 "
-
-PATCHES=( "${FILESDIR}/${P}-include-hdkf.patch" )

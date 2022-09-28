@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/autocfg-0.1*
 	>=dev-rust/average-0.9.2
 	=dev-rust/log-0.4*
 	~dev-rust/rand_chacha-0.1.1

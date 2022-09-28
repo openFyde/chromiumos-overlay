@@ -7,21 +7,22 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="A simple to use, efficient, and full-featured Command Line Argument Parser"
-HOMEPAGE="https://clap.rs/"
+DESCRIPTION='A library to acquire a stack trace (backtrace) at runtime in a Rust program.'
+HOMEPAGE='https://github.com/rust-lang/backtrace-rs'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/clippy-0.0.166
-	=dev-rust/term_size-0.3*
-	=dev-rust/textwrap-0.11*
-	=dev-rust/vec_map-0.8*
-	=dev-rust/yaml-rust-0.3*
+	=dev-rust/addr2line-0.17*
+	=dev-rust/cfg-if-1*
+	=dev-rust/cpp_demangle-0.3*
+	=dev-rust/object-0.27*
+	=dev-rust/rustc-serialize-0.3*
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
 

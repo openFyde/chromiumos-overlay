@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,21 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="A simple to use, efficient, and full-featured Command Line Argument Parser"
-HOMEPAGE="https://clap.rs/"
+DESCRIPTION='Complex numbers implementation for Rust'
+HOMEPAGE='https://github.com/rust-num/num-complex'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/clippy-0.0.166
-	=dev-rust/term_size-0.3*
-	=dev-rust/textwrap-0.11*
-	=dev-rust/vec_map-0.8*
-	=dev-rust/yaml-rust-0.3*
+	=dev-rust/rand-0.6*
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
 

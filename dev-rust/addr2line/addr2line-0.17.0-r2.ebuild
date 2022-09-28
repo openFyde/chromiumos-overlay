@@ -7,21 +7,21 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="A simple to use, efficient, and full-featured Command Line Argument Parser"
-HOMEPAGE="https://clap.rs/"
+DESCRIPTION='A cross-platform symbolication library written in Rust, using "gimli"'
+HOMEPAGE='https://crates.io/crates/addr2line'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/clippy-0.0.166
-	=dev-rust/term_size-0.3*
-	=dev-rust/textwrap-0.11*
-	=dev-rust/vec_map-0.8*
-	=dev-rust/yaml-rust-0.3*
+	=dev-rust/cpp_demangle-0.3*
+	=dev-rust/fallible-iterator-0.2*
+	=dev-rust/gimli-0.26*
+	>=dev-rust/object-0.27.1 <dev-rust/object-0.28.0_alpha
+	=dev-rust/smallvec-1*
 "
 RDEPEND="${DEPEND}"
 

@@ -17,7 +17,7 @@ KEYWORDS="*"
 IUSE="cros_host"
 
 DEPEND="
-	=dev-rust/autocfg-1*
+	dev-rust/third-party-crates-src:=
 	=dev-rust/crossbeam-deque-0.8*
 	=dev-rust/either-1*
 	>=dev-rust/rayon-core-1.9 <dev-rust/rayon-core-2.0

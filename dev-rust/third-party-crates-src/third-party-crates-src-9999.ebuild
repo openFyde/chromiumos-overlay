@@ -36,6 +36,33 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/walkdir-2.3.2
+	!=dev-rust/walkdir-2.3.2-r1
+	!=dev-rust/unicode-xid-0.2.2
+	!=dev-rust/unicode-xid-0.1.0
+	!=dev-rust/unicode-width-0.1.9
+	!=dev-rust/unicode-width-0.1.9-r1
+	!=dev-rust/unicode-width-0.1.8
+	!=dev-rust/unicode-width-0.1.8-r1
+	!=dev-rust/unicode-segmentation-1.8.0
+	!=dev-rust/sys-info-0.9.1
+	!=dev-rust/sys-info-0.9.1-r1
+	!=dev-rust/sys-info-0.9.1-r2
+	!=dev-rust/shlex-1.1.0
+	!=dev-rust/shlex-0.1.1
+	!=dev-rust/scudo-sys-0.2.1
+	!=dev-rust/scudo-sys-0.2.1-r1
+	!=dev-rust/scudo-sys-0.2.1-r2
+	!=dev-rust/rustc-demangle-0.1.21
+	!=dev-rust/rustc-demangle-0.1.21-r1
+	!=dev-rust/miniz_oxide-0.4.4
+	!=dev-rust/miniz_oxide-0.4.4-r1
+	!=dev-rust/memchr-2.4.1
+	!=dev-rust/memchr-2.4.1-r1
+	!=dev-rust/memchr-2.4.1-r2
+	!=dev-rust/autocfg-1.1.0
+	!=dev-rust/autocfg-1.0.1
+	!=dev-rust/autocfg-0.1.2
 	!=dev-rust/serial-unix-0.4.0
 	!=dev-rust/serial-unix-0.4.0-r1
 	!=dev-rust/serial-unix-0.4.0-r2
@@ -181,7 +208,6 @@ ALLOWED_CRATE_VERSIONS=(
 	# ${FILESDIR}/write_allowlisted_crate_versions.py. Any
 	# modifications may be overwritten.
 	"addr2line-0.14.1"
-	"adler-0.2.3"
 	"adler-1.0.2"
 	"adler32-1.2.0"
 	"android_system_properties-0.1.5"
@@ -192,6 +218,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"async-stream-impl-0.3.3"
 	"async-task-4.3.0"
 	"atty-0.2.14"
+	"autocfg-0.1.7"
+	"autocfg-1.1.0"
 	"axum-0.5.16"
 	"axum-core-0.2.8"
 	"base64-0.10.1"
@@ -277,8 +305,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"match_cfg-0.1.0"
 	"matches-0.1.9"
 	"matchit-0.5.0"
+	"memchr-2.5.0"
 	"mime-0.3.16"
 	"minimal-lexical-0.2.1"
+	"miniz_oxide-0.3.7"
+	"miniz_oxide-0.4.4"
+	"miniz_oxide-0.5.4"
 	"miow-0.3.6"
 	"ntapi-0.3.6"
 	"num-traits-0.2.14"
@@ -314,6 +346,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"remove_dir_all-0.5.3"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
+	"rustc-demangle-0.1.21"
 	"rustc-hash-1.1.0"
 	"rustc-std-workspace-alloc-1.0.0"
 	"rustc-std-workspace-core-1.0.0"
@@ -324,10 +357,13 @@ ALLOWED_CRATE_VERSIONS=(
 	"same-file-1.0.6"
 	"scoped-tls-1.0.0"
 	"scopeguard-1.1.0"
+	"scudo-sys-0.2.1"
 	"semver-parser-0.7.0"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
 	"shell-words-1.1.0"
+	"shlex-0.1.1"
+	"shlex-1.1.0"
 	"signal-hook-registry-1.4.0"
 	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
@@ -336,6 +372,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"syn-0.11.11"
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
+	"sys-info-0.9.1"
 	"termcolor-1.1.2"
 	"terminal_size-0.1.17"
 	"termios-0.2.2"
@@ -356,7 +393,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"uart_16550-0.2.18"
 	"ufmt-write-0.1.0"
 	"unicase-2.6.0"
+	"unicode-segmentation-1.10.0"
+	"unicode-width-0.1.10"
 	"unicode-xid-0.0.4"
+	"unicode-xid-0.1.0"
+	"unicode-xid-0.2.4"
 	"unindent-0.1.10"
 	"utf8parse-0.2.0"
 	"vcell-0.1.3"
@@ -365,6 +406,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"volatile-0.4.5"
 	"volatile-register-0.2.1"
 	"wait-timeout-0.2.0"
+	"walkdir-2.3.2"
 	"want-0.3.0"
 	"wasi-0.11.0+wasi-snapshot-preview1"
 	"wasm-bindgen-0.2.82"

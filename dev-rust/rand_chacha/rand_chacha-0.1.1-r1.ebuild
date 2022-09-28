@@ -5,21 +5,15 @@ EAPI="7"
 
 inherit cros-rust
 
-DESCRIPTION="Word wrapping text"
-HOMEPAGE="https://github.com/mgeisler/textwrap"
+DESCRIPTION="A cryptographically secure random number generator that uses the ChaCha algorithm"
+HOMEPAGE="https://github.com/rust-random/rand"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/hyphenation-0.7*
-	=dev-rust/term_size-0.3*
+	<dev-rust/rand_core_transitional-0.4.0
 "
-
-# error: could not compile `textwrap`
-RESTRICT="test"

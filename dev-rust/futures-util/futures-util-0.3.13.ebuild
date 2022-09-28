@@ -23,7 +23,6 @@ DEPEND="
 	>=dev-rust/futures-macro-0.3.13 <dev-rust/futures-macro-0.4
 	>=dev-rust/futures-sink-0.3.13 <dev-rust/futures-sink-0.4
 	>=dev-rust/futures-task-0.3.13 <dev-rust/futures-task-0.4
-	>=dev-rust/memchr-2.2 <dev-rust/memchr-3.0
 	>=dev-rust/pin-utils-0.1.0_alpha4 <dev-rust/pin-utils-0.2
 	>=dev-rust/proc-macro-hack-0.5.19 <dev-rust/proc-macro-hack-0.6
 	>=dev-rust/slab-0.4.2 <dev-rust/slab-1.0

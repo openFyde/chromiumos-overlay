@@ -7,21 +7,19 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="A simple to use, efficient, and full-featured Command Line Argument Parser"
-HOMEPAGE="https://clap.rs/"
+DESCRIPTION='Rational numbers implementation for Rust'
+HOMEPAGE='https://github.com/rust-num/num-rational'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/clippy-0.0.166
-	=dev-rust/term_size-0.3*
-	=dev-rust/textwrap-0.11*
-	=dev-rust/vec_map-0.8*
-	=dev-rust/yaml-rust-0.3*
+	=dev-rust/num-bigint-0.3*
+	>=dev-rust/num-integer-0.1.42 <dev-rust/num-integer-0.2.0_alpha
+	=dev-rust/serde-1*
 "
 RDEPEND="${DEPEND}"
 

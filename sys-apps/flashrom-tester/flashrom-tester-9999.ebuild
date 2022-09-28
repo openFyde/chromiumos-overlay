@@ -30,7 +30,6 @@ DEPEND="
 	=dev-rust/rand-0.6*
 	=dev-rust/regex-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/sys-info-0.9*
 	=dev-rust/pkg-config-0.3*
 	sys-apps/flashrom
 "
