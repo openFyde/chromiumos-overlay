@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/atty-0.2.2 <dev-rust/atty-0.3.0
 	~dev-rust/clippy-0.0.166
 	=dev-rust/term_size-0.3*
 	=dev-rust/textwrap-0.11*

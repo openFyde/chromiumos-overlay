@@ -70,7 +70,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/minijail:=
 	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
 	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
-	~dev-rust/num_cpus-1.9.0
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
 	=dev-rust/pin-utils-0.1*
@@ -91,7 +90,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/syn-1*
 	dev-rust/system_api:=
 	=dev-rust/tempfile-3*
-	>=dev-rust/terminal_size-0.1.17
 	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9
 	>=dev-rust/windows-0.10.0 <dev-rust/windows-0.11

@@ -36,6 +36,32 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/termios-0.2.2
+	!=dev-rust/termios-0.2.2-r1
+	!=dev-rust/terminal_size-0.1.17
+	!=dev-rust/terminal_size-0.1.17-r1
+	!=dev-rust/terminal_size-0.1.12
+	!=dev-rust/signal-hook-registry-1.4.0
+	!=dev-rust/signal-hook-registry-1.4.0-r1
+	!=dev-rust/serial-core-0.4.0
+	!=dev-rust/serial-core-0.4.0-r1
+	!=dev-rust/num_cpus-1.9.0
+	!=dev-rust/num_cpus-1.9.0-r1
+	!=dev-rust/num_cpus-1.13.0
+	!=dev-rust/num_cpus-1.13.0-r1
+	!=dev-rust/num_cpus-1.13.0-r2
+	!=dev-rust/jobserver-0.1.24
+	!=dev-rust/jobserver-0.1.24-r1
+	!=dev-rust/jobserver-0.1.16
+	!=dev-rust/ioctl-rs-0.1.6
+	!=dev-rust/ioctl-rs-0.1.6-r1
+	!=dev-rust/hostname-0.3.1
+	!=dev-rust/hostname-0.3.1-r1
+	!=dev-rust/hostname-0.3.1-r2
+	!=dev-rust/dirs-sys-next-0.1.2
+	!=dev-rust/dirs-sys-next-0.1.2-r1
+	!=dev-rust/atty-0.2.14
+	!=dev-rust/atty-0.2.14-r1
 	!=dev-rust/libc-0.2.124
 	!=dev-rust/libc-0.2.124-r1
 	!=dev-rust/libc-0.2.106
@@ -160,6 +186,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"async-stream-0.3.3"
 	"async-stream-impl-0.3.3"
 	"async-task-4.3.0"
+	"atty-0.2.14"
 	"axum-0.5.16"
 	"axum-core-0.2.8"
 	"base64-0.10.1"
@@ -190,6 +217,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cxxbridge-macro-1.0.42"
 	"defmt-parser-0.2.2"
 	"derive-into-owned-0.1.0"
+	"dirs-sys-next-0.1.2"
 	"downcast-rs-1.2.0"
 	"encode_unicode-0.3.6"
 	"endian-type-0.1.2"
@@ -210,6 +238,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"h2-0.3.14"
 	"hashbrown-0.12.3"
 	"hermit-abi-0.1.18"
+	"hostname-0.3.1"
 	"http-0.2.8"
 	"http-body-0.4.5"
 	"http-range-header-0.3.0"
@@ -227,9 +256,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"inventory-impl-0.1.11"
 	"io-lifetimes-0.7.3"
 	"io-uring-0.5.4"
+	"ioctl-rs-0.1.6"
 	"itertools-0.10.5"
 	"itoa-0.4.7"
 	"itoa-1.0.3"
+	"jobserver-0.1.24"
 	"js-sys-0.3.59"
 	"libc-0.2.132"
 	"libfuzzer-sys-0.4.4"
@@ -245,6 +276,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miow-0.3.6"
 	"ntapi-0.3.6"
 	"num-traits-0.2.14"
+	"num_cpus-1.13.0"
 	"num_threads-0.1.6"
 	"number_prefix-0.4.0"
 	"object-0.23.0"
@@ -287,7 +319,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"scoped-tls-1.0.0"
 	"scopeguard-1.1.0"
 	"semver-parser-0.7.0"
+	"serial-core-0.4.0"
 	"shell-words-1.1.0"
+	"signal-hook-registry-1.4.0"
 	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
 	"strsim-0.10.0"
@@ -296,6 +330,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
 	"termcolor-1.1.2"
+	"terminal_size-0.1.17"
+	"termios-0.2.2"
 	"tinyvec_macros-0.1.0"
 	"tokio-io-timeout-1.2.0"
 	"tokio-stream-0.1.3"

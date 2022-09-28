@@ -7,20 +7,24 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Send log messages to syslog'
-HOMEPAGE='https://crates.io/crates/syslog'
+DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
+HOMEPAGE='https://crates.io/crates/clap'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/error-chain-0.12.2 <dev-rust/error-chain-0.13.0_alpha
-	>=dev-rust/hostname-0.3.1 <dev-rust/hostname-0.4.0_alpha
-	>=dev-rust/log-0.4.8 <dev-rust/log-0.5.0_alpha
-	>=dev-rust/time-0.3.5 <dev-rust/time-0.4.0_alpha
+	=dev-rust/backtrace-0.3*
+	~dev-rust/clap_derive-3.1.7
+	=dev-rust/clap_lex-0.1*
+	=dev-rust/indexmap-1*
+	=dev-rust/lazy_static-1*
+	=dev-rust/regex-1*
+	=dev-rust/textwrap-0.15*
+	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0_alpha
 "
 RDEPEND="${DEPEND}"
 

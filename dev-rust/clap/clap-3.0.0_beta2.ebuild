@@ -17,13 +17,11 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/atty-0.2*
 	~dev-rust/clap_derive-3.0.0_beta2
 	=dev-rust/indexmap-1*
 	=dev-rust/lazy_static-1*
 	>=dev-rust/os_str_bytes-2.3.0 <dev-rust/os_str_bytes-3.0.0
 	=dev-rust/regex-1*
-	>=dev-rust/terminal_size-0.1.12 <dev-rust/terminal_size-0.2.0
 	=dev-rust/textwrap-0.12*
 	=dev-rust/unicode-width-0.1*
 	=dev-rust/vec_map-0.8*

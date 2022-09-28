@@ -20,8 +20,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/cfg-if-1*
-	=dev-rust/dirs-sys-next-0.1*
 "
 RDEPEND="${DEPEND}"
 

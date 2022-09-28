@@ -21,8 +21,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/hyphenation-0.8*
-	=dev-rust/terminal_size-0.1*
 	=dev-rust/unicode-width-0.1*
 "
 RDEPEND="${DEPEND}"
