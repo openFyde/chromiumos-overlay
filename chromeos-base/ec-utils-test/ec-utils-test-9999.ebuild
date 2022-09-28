@@ -17,7 +17,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="biod -cr50_onboard"
+IUSE="biod cr50_onboard ti50_onboard"
 
 # flash_fp_mcu depends on stm32mon (ec-devutils)
 RDEPEND="
@@ -32,7 +32,7 @@ RDEPEND="
 src_compile() {
 	tc-export CC
 
-	if use cr50_onboard; then
+	if use cr50_onboard || use ti50_onboard; then
 		emake -C extra/rma_reset
 	fi
 }
@@ -41,7 +41,7 @@ src_install() {
 	dobin "util/battery_temp"
 	dosbin "util/inject-keys.py"
 
-	if use cr50_onboard; then
+	if use cr50_onboard || use ti50_onboard; then
 		dobin "extra/rma_reset/rma_reset"
 	fi
 
