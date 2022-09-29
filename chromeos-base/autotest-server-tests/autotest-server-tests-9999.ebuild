@@ -186,7 +186,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_ECSharedMem
 	+tests_firmware_ECSystemLocked
 	+tests_firmware_ECThermal
-	+tests_firmware_ECUpdateId
 	+tests_firmware_ECUsbPorts
 	+tests_firmware_ECWakeFromULP
 	+tests_firmware_ECWakeSource
