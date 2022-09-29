@@ -26,15 +26,17 @@ SLOT="0"
 KEYWORDS="*"
 S="${WORKDIR}"
 
-# libassistant.so is ~13MB == 13368808 bytes
+# libassistant.so is ~13MB.
+# libassistant_v2.so is ~21MB.
 # Account for growth:
-# 20MB / 4KB block size = 5120 blocks.
-DLC_PREALLOC_BLOCKS="5120"
+# 40MB / 4KB block size = 10240 blocks.
+DLC_PREALLOC_BLOCKS="10240"
 DLC_NAME="Assistant DLC"
 # Tast tests run against libassistant.so
 DLC_PRELOAD=true
 
 CHROME_DIR=/opt/google/chrome
+LIBASSISTANT_DIR="${SYSROOT}/build/share/libassistant"
 
 # Don't need to unpack anything.
 # Also suppresses messages related to unpacking unrecognized formats.
@@ -43,8 +45,8 @@ src_unpack() {
 }
 
 src_install() {
-	cp "${SYSROOT}${CHROME_DIR}/libassistant.so" "${T}/"
 	exeinto "$(dlc_add_path ${CHROME_DIR})"
-	doexe "${T}/libassistant.so"
+	doexe "${LIBASSISTANT_DIR}/libassistant.so"
+	doexe "${LIBASSISTANT_DIR}/libassistant_v2.so"
 	dlc_src_install
 }
