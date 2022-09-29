@@ -26,7 +26,9 @@ BDEPEND="virtual/pkgconfig"
 RDEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
+	chromeos-base/metrics:=
 	dev-cpp/gtest:=
+	media-libs/libyuv:=
 "
 
 DEPEND="
