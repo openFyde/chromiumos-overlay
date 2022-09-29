@@ -211,7 +211,6 @@ RDEPEND="${RDEPEND}
 	dev-python/ws4py
 	dev-util/cmake
 	dev-util/cmocka
-	dev-util/dwarves
 	dev-util/gob
 	dev-util/gdbus-codegen
 	dev-util/gperf
@@ -219,6 +218,7 @@ RDEPEND="${RDEPEND}
 	dev-util/hdctools
 	>=dev-util/gtk-doc-am-1.13
 	>=dev-util/intltool-0.30
+	dev-util/pahole
 	dev-util/scons
 	dev-util/test-services
 	dev-util/vulkan-headers
