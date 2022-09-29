@@ -3,10 +3,11 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci fbf085364d0e2db2aa35e78f526ca0d7468201a8"
+CROS_GO_SOURCE="chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci f21543fed307ddf4ed3c9ceb09afbfb52b680d54"
 
 CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/buildbucket/proto"
+	"go.chromium.org/luci/common/bq/pb"
 	"go.chromium.org/luci/common/clock"
 	"go.chromium.org/luci/common/data/cmpbin"
 	"go.chromium.org/luci/common/data/stringset"
@@ -18,6 +19,8 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/logging"
 	"go.chromium.org/luci/common/logging/memlogger"
 	"go.chromium.org/luci/common/proto"
+	"go.chromium.org/luci/common/proto/structmask"
+	"go.chromium.org/luci/common/proto/textpb"
 	"go.chromium.org/luci/common/retry"
 	"go.chromium.org/luci/common/retry/transient"
 	"go.chromium.org/luci/common/runtime/goroutine"
