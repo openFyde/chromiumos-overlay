@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="169fe169444569a720daff9826d5af347967a435"
-CROS_WORKON_TREE="31e1081dbafaa627b69417ffb024dbc3ee3ea22a"
+CROS_WORKON_COMMIT="8c7da08a03c5eda1be6768a949625c1dfa30e2ca"
+CROS_WORKON_TREE="f307d6d3ba143764a35792d09fb3f19bffa08693"
 inherit cros-constants
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
@@ -93,34 +93,37 @@ enable_perfetto_x64_cpu_opt=false
 "
 	einfo "GN_ARGS = ${GN_ARGS}"
 	gn gen "${BUILD_OUTPUT}" --args="${GN_ARGS}" || die
+
+	# Add extra GN args in generating the SDK source:
+	# * Disable runloop watchdog.
+	# * Re-enable RTTI: RTTI is disabled in the build config. The SDK needs
+	#   to enable RTTI since ChromeOS packages are built with RTTI.
+	local sdk_gn_args="${GN_ARGS}
+enable_perfetto_watchdog=false
+extra_target_cflags=\"${CFLAGS} ${warn_flags[*]} -frtti\"
+extra_target_cxxflags=\"${CXXFLAGS} ${warn_flags[*]} -frtti\"
+"
+	# Prepare the SDK source.
+	# --system_buildtools: use gn, ninja and clang++ of the system. Do not
+	#   rely on ${S}/tools/install-build-deps to install build tools. Note
+	#   that unprefixed clang++ is used in this script to generate the
+	#   source, not to build the SDK static library.
+	# --output: where to write the SDK source to.
+	# --gn_args: the extra GN args to pass to the script.
+	# --out: the temporary build output is stored in ${S}/out/sdk_gen
+	# --keep: keep the temporary build output for eninja to build the SDK
+	#   library.
+	"${S}/tools/gen_amalgamated" --system_buildtools \
+		--output "${BUILD_OUTPUT}/sdk/perfetto" \
+		--gn_args "${sdk_gn_args}" --out sdk_gen --keep || \
+		die "Failed to generate the amalgamated SDK"
 }
 
 src_compile() {
-	eninja -C  "${BUILD_OUTPUT}" traced traced_probes perfetto
+	eninja -C "${BUILD_OUTPUT}" traced traced_probes perfetto
 
-	# Check the existence of the sdk/ directory before building the sdk static
-	# library, as only the release branches contains the sdk sources to be used.
-	if [[ -d "${S}/sdk" ]]; then
-		# If not building with cros-debug, the SDK should be built with NDEBUG as
-		# well.
-		use cros-debug || append-cxxflags -DNDEBUG
-
-		(set -x; $(tc-getCXX) ${CXXFLAGS} -Wall -Werror -c -pthread -fPIC \
-			"${S}/sdk/perfetto.cc" -o sdk/perfetto.o) || die
-		(set -x; ${AR} rvsc sdk/libperfetto_sdk.a sdk/perfetto.o) || die
-
-		# Extract build flags used to buld libperfetto_sdk.a.
-		# This is different from `gn gen` above in src_configure.
-		local buildflag="GEN_BUILD_CONFIG_PERFETTO_BUILD_FLAGS_H_"
-		(set -x; sed -n "/#ifndef ${buildflag}/,/#endif.*${buildflag}/p" \
-			"${S}/sdk/perfetto.h" > sdk/perfetto_build_flags.h) || die
-	else
-		if [[ ${PV} == 9999 ]]; then
-			ewarn "Skip the sdk library as directory perfetto/sdk doesn't exist."
-		else
-			die "The Perfetto SDK doesn't exist."
-		fi
-	fi
+	# The SDK build folder is generated under ${S}/out/sdk_gen.
+	eninja -C "${S}/out/sdk_gen" libperfetto_client_experimental
 }
 
 src_install() {
@@ -138,29 +141,34 @@ src_install() {
 	newins "${FILESDIR}/seccomp/traced-${ARCH}.policy" traced.policy
 	newins "${FILESDIR}/seccomp/traced_probes-${ARCH}.policy" traced_probes.policy
 
-	if [[ -d "${S}/sdk" ]]; then
-		insinto /usr/include/perfetto
-		# Both source and lib are provided for convenience.
-		doins "${S}/sdk/perfetto.cc"
-		doins "${S}/sdk/perfetto.h"
-		dolib.a "${S}/sdk/libperfetto_sdk.a"
+	sdk_install
+}
 
-		insinto "/usr/$(get_libdir)/pkgconfig"
-		local v=$("${S}/tools/write_version_header.py" --stdout)
-		sed \
-			-e "s/@version@/${v}/g" \
-			-e "s/@lib@/$(get_libdir)/g" \
-			"${FILESDIR}/pkg-configs/perfetto.pc.in" > "${S}/sdk/perfetto.pc" \
-			|| die
-		doins "${S}/sdk/perfetto.pc"
+sdk_install() {
+	local sdk_root="${BUILD_OUTPUT}/sdk"
+	[[ -d "${sdk_root}" ]] || die "SDK root not found"
 
-		insinto /usr/include/perfetto
-		doins -r include/perfetto
-		insinto /usr/include/perfetto/protos
-		doins -r "${BUILD_OUTPUT}/gen/protos/perfetto"
-		insinto /usr/include/perfetto/perfetto/base
-		doins "${S}/sdk/perfetto_build_flags.h"
-	fi
+	insinto /usr/include/perfetto
+	# Both source and lib are provided for convenience.
+	doins "${sdk_root}/perfetto.cc"
+	doins "${sdk_root}/perfetto.h"
+	newlib.a "${S}/out/sdk_gen/libperfetto_client_experimental.a" libperfetto_sdk.a
+	doins "${S}/out/sdk_gen/gen/build_config/perfetto_build_flags.h"
+
+	insinto "/usr/$(get_libdir)/pkgconfig"
+	local v=$("${S}/tools/write_version_header.py" --stdout)
+	sed \
+		-e "s/@version@/${v}/g" \
+		-e "s/@lib@/$(get_libdir)/g" \
+		"${FILESDIR}/pkg-configs/perfetto.pc.in" > "${sdk_root}/perfetto.pc" \
+		|| die
+	doins "${sdk_root}/perfetto.pc"
+
+	insinto /usr/include/perfetto
+	doins -r include/perfetto
+	insinto /usr/include/perfetto/protos
+	doins -r "${BUILD_OUTPUT}/gen/protos/perfetto"
+	insinto /usr/include/perfetto/perfetto/base
 }
 
 pkg_preinst() {
