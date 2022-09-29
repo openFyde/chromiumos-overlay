@@ -64,7 +64,11 @@ def find_dev_rust_crates(dev_rust: Path) -> List[str]:
 
             ebuild_contents = maybe_ebuild.read_text(encoding="utf-8")
             if is_unmigrated_third_party_crate(ebuild_contents):
-                results.add(rev.sub("", maybe_ebuild.stem))
+                name = rev.sub("", maybe_ebuild.stem)
+                # We have rand_core_transitional in dev-rust/, which actually
+                # just installs rand_core. Account for that here.
+                name = name.replace("rand_core_transitional", "rand_core")
+                results.add(name)
 
     return sorted(results)
 
