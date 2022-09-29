@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="b757215f750749ef8c38d1511282aa96474596ef"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "9846ddcf92bbecb6fd3e2cd9efd35cc1519003f2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="fcc9017a6e009576c32fbecb53813e9b3a271832"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "edf55e6bbe9c171df718094337cfa9797dc3a31c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -41,6 +41,17 @@ pkg_setup() {
 	enewuser "faced"
 	enewgroup "faced"
 	cros-workon_pkg_setup
+}
+
+src_install() {
+	platform_src_install
+
+	# Set up cryptohome daemon mount store in daemon's mount
+	# namespace.
+	local daemon_store="/etc/daemon-store/faced"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners faced:faced "${daemon_store}"
 }
 
 platform_pkg_test() {
