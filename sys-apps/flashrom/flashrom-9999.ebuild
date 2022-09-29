@@ -30,6 +30,7 @@ IUSE="
 	+dummy
 	+ft2232_spi
 	gfxnvidia
+	ich_descriptors
 	+internal
 	+it8212
 	jlink_spi
@@ -141,6 +142,7 @@ src_configure() {
 		$(meson_use stlinkv3_spi config_stlinkv3_spi)
 		$(meson_use usbblaster_spi config_usbblaster_spi)
 		$(meson_feature cli classic_cli)
+		$(meson_feature ich_descriptors ich_descriptors_tool)
 		$(meson_feature wiki classic_cli_print_wiki)
 	)
 	sanitizers-setup-env
