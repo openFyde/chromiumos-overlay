@@ -144,7 +144,7 @@ src_install() {
 	insinto /etc/avahi
 	doins "${FILESDIR}"/avahi-daemon.conf
 
-	# 01editor is currently using /usr/bin/vi, which is available on both
+	# 01editor is currently using /bin/nano, which is available on both
 	# cros_host and DUT. Please update this when default editor is changed.
 	insinto /etc/env.d
 	doins "${FILESDIR}/01editor"
