@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="2116bcb023ce61186eb5899c5641a24be51d4b48"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "3828969eba37b28aa25669c1f46daa118a8369ed" "ac99811b8d5ce0ddbb6ef3ce8dc36a0e3153ffae" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="5e129889c811af63593b10a6c6e9d20258d7fe4e"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "d321d25c9d08d4f99fb44cee7f41a53e768ba406" "ac99811b8d5ce0ddbb6ef3ce8dc36a0e3153ffae" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -29,9 +29,6 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	platform_src_install
-
-	insinto /etc/init
-	doins log-bootid-on-boot.conf
 
 	local fuzzer_component_id="1029735"
 	platform_fuzzer_install "${S}"/../croslog/OWNERS "${OUT}"/bootid_logger_fuzzer \
