@@ -14,7 +14,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/initramfs/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
+IUSE="+cros_ec_utils device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
 IUSE="${IUSE} manatee_performance_tools nvme ufs"
@@ -33,6 +33,7 @@ REQUIRED_USE="|| ( test ${TARGETS_IUSE} )"
 
 # Packages required for building recovery initramfs.
 RECOVERY_DEPENDS="
+	chromeos-base/chromeos-config
 	chromeos-base/chromeos-installer
 	chromeos-base/common-assets
 	chromeos-base/vboot_reference
@@ -173,7 +174,6 @@ src_compile() {
 	if [[ ${#targets[@]} -gt 0 ]]; then
 		emake SYSROOT="${SYSROOT}" \
 			BOARD="$(get_current_board_with_variant)" \
-			DETACHABLE="$(usex detachable 1 0)" \
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
