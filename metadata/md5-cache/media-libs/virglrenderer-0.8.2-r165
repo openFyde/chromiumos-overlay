@@ -3,11 +3,11 @@ DEPEND=chromeos-base/percetto >=x11-libs/libdrm-2.4.50 media-libs/libepoxy media
 DESCRIPTION=library used implement a virtual 3D GPU used by qemu
 EAPI=6
 HOMEPAGE=https://virgil3d.github.io/
-IUSE=debug fuzzer profiling test virtgpu_native_context vulkan fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_d0cfb54f0b70b1850841f61049cce457986a8fa7
+IUSE=debug fuzzer profiling test virtgpu_native_context vulkan fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_166c9616299a846c0fa8d1b8e2607da2dd69256e
 KEYWORDS=*
 LICENSE=MIT
 PROPERTIES=live
 RDEPEND=chromeos-base/percetto >=x11-libs/libdrm-2.4.50 media-libs/libepoxy media-libs/minigbm fuzzer? ( virtual/opengles vulkan? ( virtual/vulkan-icd ) ) vulkan? ( media-libs/vulkan-loader )
 SLOT=0
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	desktop	b1d22ac8bdd4679ab79c71aca235009d	eapi7-ver	756b3f27d8e46131d5cf3c51bd876446	epatch	ed88001f77c6dd0d5f09e45c1a5b480e	estack	686eaab303305a908fd57b2fd7617800	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	ltprune	2729691420b6deeda2a90b1f1183fb55	meson	1cac59cd2074f59abbe00de88e93af9f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	ninja-utils	132cbb376048d079b5a012f5467c4e7f	preserve-libs	ef207dc62baddfddfd39a164d9797648	python-utils-r1	157a6a7a3e99c7dbdf81acc9dd4f57cd	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	vcs-clean	2a0f74a496fa2b1552c4f3398258b7bf
-_md5_=e1a28e7070296bbce08f3317e77f2535
+_md5_=a07cf8d88aa953d11dcbf7ca49a6aef5
