@@ -17,6 +17,7 @@ DESCRIPTION="Enterprise security event reporting."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secagentd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="+secagentd_min_core_btf"
 
 COMMON_DEPEND="
 	chromeos-base/missive:=
@@ -35,8 +36,10 @@ DEPEND="${COMMON_DEPEND}
 "
 
 # bpftool is needed in the SDK to generate C code skeletons from compiled BPF applications.
+# pahole is needed in the SDK to generate vmlinux.h and detached BTFs.
 BDEPEND="
 	dev-util/bpftool:=
+	dev-util/pahole:=
 "
 
 pkg_setup() {
@@ -47,6 +50,10 @@ pkg_setup() {
 
 src_install() {
 	dosbin "${OUT}"/secagentd
+	if use secagentd_min_core_btf; then
+		insinto /usr/share/btf/secagentd
+		doins "${OUT}"/gen/btf/*.min.btf
+	fi
 }
 
 platform_pkg_test() {
