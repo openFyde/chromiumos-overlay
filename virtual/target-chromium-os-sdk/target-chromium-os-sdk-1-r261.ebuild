@@ -383,7 +383,6 @@ RDEPEND="${RDEPEND}
 	dev-cpp/gflags
 	dev-go/mock
 	dev-go/test
-	dev-python/mock
 	"
 # Host dependencies to run autotest's unit tests within the chroot.
 RDEPEND="${RDEPEND}
