@@ -59,6 +59,7 @@ src_configure() {
 		-Dgallium-drivers=freedreno
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
+		-Dperfetto=true
 		$(meson_feature zstd)
 		-Dplatforms=
 		-Dtools=freedreno
