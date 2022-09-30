@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/OP-TEE/optee_os"
-CROS_WORKON_LOCALNAME="third_party/optee_os"
+CROS_WORKON_LOCALNAME="optee_os"
 CROS_WORKON_DESTDIR="${S}"
 
 inherit cros-workon coreboot-sdk
