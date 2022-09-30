@@ -9,7 +9,7 @@ EAPI=7
 inherit dlc
 
 DESCRIPTION="Super resolution for Bluetooth microphone model dlc."
-SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-audio-sr-bt-${PV}.tar.bz2"
+SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-audio-sr-bt-${PV}.tar.xz"
 
 LICENSE="BSD-Google"
 SLOT="0"
