@@ -9,6 +9,7 @@ CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/
 
 CROS_GO_PACKAGES=(
 	"cloud.google.com/go/bigquery"
+	"cloud.google.com/go/internal/detect"
 )
 
 CROS_GO_TEST=(
