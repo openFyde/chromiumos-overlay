@@ -56,7 +56,6 @@ IUSE="
 	chromeless_tty
 	clvk
 	containers
-	coresched
 	cr50_onboard
 	+cras
 	crosvm-gpu
