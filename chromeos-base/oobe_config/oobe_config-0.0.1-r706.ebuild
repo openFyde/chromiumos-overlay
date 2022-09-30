@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="61ec7b6c83df3c40e70beef2582357189061f820"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "7a7e53b179b969582b029827b8a7936a872a678c" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="ba14760e2c65d52179024c27e4fd260ac2d44ac1"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "30653c84ca5ec405b15058b448071f0bee46251d" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -59,8 +59,10 @@ src_install() {
 	insinto /etc/init
 	doins etc/init/oobe_config_restore.conf
 	doins etc/init/oobe_config_save.conf
+	doins etc/init/shill_stop_waiter.conf
+	doins etc/init/ui_stop_waiter.conf
 	if use tpm2; then
-		sed -i 's/and started tcsd//' \
+		sed -i 's/ and started tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
 			die "Can't remove upstart dependency on tcsd"
 
