@@ -47,7 +47,6 @@ dlib_DEPEND="
 wayland_scanner_DEPEND="
 	>=dev-rust/proc-macro2-1.0.11 <dev-rust/proc-macro2-2.0.0_alpha
 	=dev-rust/quote-1*
-	>=dev-rust/xml-rs-0.7.0 <dev-rust/xml-rs-0.9.0_alpha
 "
 
 wayland_commons_DEPEND="
@@ -65,16 +64,15 @@ wayland_sys_DEPEND="
 "
 
 wayland_server_DEPEND="
-	dev-rust/third-party-crates-src:=
 	=dev-rust/bitflags-1*
 	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
 	=dev-rust/libc-0.2*
 	=dev-rust/nix-0.23*
 	=dev-rust/parking_lot-0.11*
-	=dev-rust/scoped-tls-1*
 "
 
 DEPEND="${COMMON_DEPEND}
+	dev-rust/third-party-crates-src:=
 	${wayland_scanner_DEPEND}
 	${wayland_commons_DEPEND}
 	${wayland_sys_DEPEND}
