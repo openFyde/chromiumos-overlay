@@ -3,12 +3,12 @@
 
 EAPI="7"
 
-inherit cmake-utils
+inherit cmake-utils flag-o-matic
 
 DESCRIPTION="YUV library"
 LIBRARY_NAME="libyuv"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv"
-GIT_SHA1="fc61dde1eb4b7807201fa20cd0a7d023363558b2"
+GIT_SHA1="b9adaef1133ee835efc8970d1dcdcf23a5b68eba"
 SRC_URI="${HOMEPAGE}/+archive/${GIT_SHA1}.tar.gz -> ${LIBRARY_NAME}-${PV}.tar.gz"
 
 LICENSE="BSD-Google"
@@ -24,6 +24,8 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}"
 
 src_configure() {
+	append-lfs-flags
+
 	local mycmakeargs=(
 		-DCMAKE_INSTALL_PREFIX="/usr/lib"
 		-DCMAKE_BUILD_TYPE="Release"

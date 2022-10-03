@@ -3,11 +3,11 @@
 
 EAPI="7"
 
-inherit cros-common.mk cros-debug
+inherit cros-common.mk cros-debug flag-o-matic
 
 DESCRIPTION="YUV library"
 HOMEPAGE="https://chromium.googlesource.com/libyuv/libyuv"
-GIT_SHA1="fc61dde1eb4b7807201fa20cd0a7d023363558b2"
+GIT_SHA1="b9adaef1133ee835efc8970d1dcdcf23a5b68eba"
 SRC_URI="https://chromium.googlesource.com/libyuv/libyuv/+archive/${GIT_SHA1}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="BSD-Google"
@@ -21,6 +21,8 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}"
 
 src_unpack() {
+	append-lfs-flags
+
 	default
 	cp -a "${FILESDIR}"/* "${S}"/ || die
 }
@@ -31,6 +33,6 @@ src_install() {
 
 	dolib.a libyuv.pic.a
 
-	insinto /usr/$(get_libdir)/pkgconfig
+	insinto "/usr/$(get_libdir)/pkgconfig"
 	sed -e "s:@LIB@:$(get_libdir):g" libyuv.pc.in | newins - libyuv.pc
 }
