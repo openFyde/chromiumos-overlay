@@ -70,6 +70,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.7-fuzzer.patch"
 	"${FILESDIR}/${PN}-0.7-log-address-resolution.patch"
 	"${FILESDIR}/${PN}-0.7-cache-host-name-record-A.patch"
+	"${FILESDIR}/${PN}-0.8-fix-timeouts-leak.patch"
 )
 
 pkg_preinst() {
