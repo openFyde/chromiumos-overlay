@@ -1,3 +1,8 @@
+From 3e4bbe76669fb3ed5d963e6fd0f00fffd1d0a2cb Mon Sep 17 00:00:00 2001
+From: Caroline Tice <cmtice@google.com>
+Date: Wed, 09 Mar 2021 00:00:00 +0000
+Subject: [PATCH] gdb: add linux struct $_siginfo decoding support
+
 This patch adds information about _sigsys structure from newer kernels, so that
 $_siginfo decoding can show information about _sigsys, making it easier for
 developers to debug seccomp failures.
@@ -7,13 +12,16 @@ https://sourceware.org/bugzilla/show_bug.cgi?id=24283.
 
 This fixes crosbug/937009.
 
-Author: cmtice@google.com
-Date: 09-Mar-2021
+[Adrian: converted diff to proper patch & rebased on 11.2]
+---
+ gdb/linux-tdep.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
 diff --git a/gdb/linux-tdep.c b/gdb/linux-tdep.c
-index 59d04c4..c52d425 100644
+index d06fbc12520..2284c99f5d1 100644
 --- a/gdb/linux-tdep.c
 +++ b/gdb/linux-tdep.c
-@@ -350,6 +350,13 @@ linux_get_siginfo_type_with_fields (struct gdbarch *gdbarch,
+@@ -379,6 +379,13 @@ linux_get_siginfo_type_with_fields (struct gdbarch *gdbarch,
    append_composite_type_field (type, "si_fd", int_type);
    append_composite_type_field (sifields_type, "_sigpoll", type);
  
@@ -26,4 +34,7 @@ index 59d04c4..c52d425 100644
 +
    /* struct siginfo */
    siginfo_type = arch_composite_type (gdbarch, NULL, TYPE_CODE_STRUCT);
-   TYPE_NAME (siginfo_type) = xstrdup ("siginfo");
+   siginfo_type->set_name (xstrdup ("siginfo"));
+-- 
+2.37.2
+

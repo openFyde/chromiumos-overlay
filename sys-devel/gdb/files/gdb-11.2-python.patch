@@ -1,3 +1,8 @@
+From 73647b13e60c058d47e0f65bca6740711530093c Mon Sep 17 00:00:00 2001
+From: Yunlian Jiang <yunlian@google.com>
+Date: Sat, 30 Sep 2017 00:00:00 +0000
+Subject: [PATCH] gdb: fix python chroot breakage
+
 This patch makes sure gdb compiled inside chroot works outside where python
 environment is different.
 
@@ -7,11 +12,20 @@ https://android-review.googlesource.com/c/toolchain/gdb/+/515189
 
 BUG: crbug.com/1051736
 
+[Adrian: converted diff to proper patch and rebased on gdb 11.2]
+---
+ gdb/defs.h                  |  4 +++
+ gdb/python/py-auto-load.c   |  2 ++
+ gdb/python/py-prettyprint.c |  2 +-
+ gdb/python/python.c         | 53 ++++++++++++++++++++++++++++++++++++-
+ gdb/varobj.c                | 10 +++----
+ 5 files changed, 64 insertions(+), 7 deletions(-)
+
 diff --git a/gdb/defs.h b/gdb/defs.h
-index a44e18690..392126c36 100644
+index 826e2a9f237..5366d40c1a3 100644
 --- a/gdb/defs.h
 +++ b/gdb/defs.h
-@@ -669,4 +669,8 @@ DEF_ENUM_FLAGS_TYPE (enum user_selected_what_flag, user_selected_what);
+@@ -629,4 +629,8 @@ DEF_ENUM_FLAGS_TYPE (enum user_selected_what_flag, user_selected_what);
  
  #include "utils.h"
  
@@ -21,11 +35,11 @@ index a44e18690..392126c36 100644
 +
  #endif /* #ifndef DEFS_H */
 diff --git a/gdb/python/py-auto-load.c b/gdb/python/py-auto-load.c
-index c7b9afdb1..db53acae9 100644
+index bdd116d58b3..1f88af2fec0 100644
 --- a/gdb/python/py-auto-load.c
 +++ b/gdb/python/py-auto-load.c
-@@ -46,6 +46,8 @@ show_auto_load_python_scripts (struct ui_file *file, int from_tty,
- int
+@@ -45,6 +45,8 @@ show_auto_load_python_scripts (struct ui_file *file, int from_tty,
+ bool
  gdbpy_auto_load_enabled (const struct extension_language_defn *extlang)
  {
 +  if (!python_available ())
@@ -34,11 +48,11 @@ index c7b9afdb1..db53acae9 100644
  }
  
 diff --git a/gdb/python/py-prettyprint.c b/gdb/python/py-prettyprint.c
-index 8effa81d5..62b3e08a4 100644
+index df4857fef11..e3338ce6aa2 100644
 --- a/gdb/python/py-prettyprint.c
 +++ b/gdb/python/py-prettyprint.c
-@@ -664,7 +664,7 @@ gdbpy_apply_val_pretty_printer (const struct extension_language_defn *extlang,
-   if (!value_bytes_available (val, embedded_offset, TYPE_LENGTH (type)))
+@@ -581,7 +581,7 @@ gdbpy_apply_val_pretty_printer (const struct extension_language_defn *extlang,
+   if (!value_bytes_available (value, 0, TYPE_LENGTH (type)))
      return EXT_LANG_RC_NOP;
  
 -  if (!gdb_python_initialized)
@@ -47,10 +61,10 @@ index 8effa81d5..62b3e08a4 100644
  
    gdbpy_enter enter_py (gdbarch, language);
 diff --git a/gdb/python/python.c b/gdb/python/python.c
-index c23db2c12..6bf492dd5 100644
+index ca457e597b1..c890bf58624 100644
 --- a/gdb/python/python.c
 +++ b/gdb/python/python.c
-@@ -33,6 +33,13 @@
+@@ -32,6 +32,13 @@
  #include "python.h"
  #include "extension-priv.h"
  #include "cli/cli-utils.h"
@@ -63,8 +77,8 @@ index c23db2c12..6bf492dd5 100644
 +#include <sys/wait.h>
  #include <ctype.h>
  #include "location.h"
- #include "ser-event.h"
-@@ -1635,6 +1642,9 @@ do_start_initialization ()
+ #include "run-on-main-thread.h"
+@@ -1763,6 +1770,9 @@ do_start_initialization ()
  #endif
  #endif
  
@@ -72,15 +86,15 @@ index c23db2c12..6bf492dd5 100644
 +    return true;
 +
    Py_Initialize ();
-   PyEval_InitThreads ();
- 
-@@ -1751,6 +1761,44 @@ do_start_initialization ()
- /* See python.h.  */
+ #if PY_VERSION_HEX < 0x03090000
+   /* PyEval_InitThreads became deprecated in Python 3.9 and will
+@@ -1883,6 +1893,44 @@ do_start_initialization ()
  cmd_list_element *python_cmd_element = nullptr;
  
+ void _initialize_python ();
++
 +#ifdef HAVE_PYTHON
 +/* Check whether python is available at runtime. */
-+
 +int
 +python_available(void)
 +{
@@ -114,35 +128,30 @@ index c23db2c12..6bf492dd5 100644
 +
 +  return python_status;
 +}
-+#endif
++#endif /* HAVE_PYTHON */
 +
  void
- _initialize_python (void)
+ _initialize_python ()
  {
-@@ -1825,7 +1873,7 @@ message == an error message without a stack will be printed."),
- 			&user_show_python_list);
- 
- #ifdef HAVE_PYTHON
+@@ -2051,9 +2099,12 @@ do_initialize (const struct extension_language_defn *extlang)
+ static void
+ gdbpy_initialize (const struct extension_language_defn *extlang)
+ {
 -  if (!do_start_initialization () && PyErr_Occurred ())
 +  if (!do_start_initialization () && python_available () && PyErr_Occurred ())
      gdbpy_print_stack ();
- #endif /* HAVE_PYTHON */
- }
-@@ -1904,6 +1952,9 @@ do_finish_initialization (const struct extension_language_defn *extlang)
- static void
- gdbpy_finish_initialization (const struct extension_language_defn *extlang)
- {
+ 
 +  if (!python_available())
 +    return;
 +
    gdbpy_enter enter_py (get_current_arch (), current_language);
  
-   if (!do_finish_initialization (extlang))
+   if (!do_initialize (extlang))
 diff --git a/gdb/varobj.c b/gdb/varobj.c
-index b03307068..13a6fa3bf 100644
+index 0c50b0b677f..5af31483206 100644
 --- a/gdb/varobj.c
 +++ b/gdb/varobj.c
-@@ -542,7 +542,7 @@ varobj_get_display_hint (const struct varobj *var)
+@@ -508,7 +508,7 @@ varobj_get_display_hint (const struct varobj *var)
    gdb::unique_xmalloc_ptr<char> result;
  
  #if HAVE_PYTHON
@@ -151,7 +160,7 @@ index b03307068..13a6fa3bf 100644
      return NULL;
  
    gdbpy_enter_varobj enter_py (var);
-@@ -676,7 +676,7 @@ dynamic_varobj_has_child_method (const struct varobj *var)
+@@ -642,7 +642,7 @@ dynamic_varobj_has_child_method (const struct varobj *var)
  {
    PyObject *printer = var->dynamic->pretty_printer;
  
@@ -160,7 +169,7 @@ index b03307068..13a6fa3bf 100644
      return false;
  
    gdbpy_enter_varobj enter_py (var);
-@@ -1181,7 +1181,7 @@ install_new_value_visualizer (struct varobj *var)
+@@ -1117,7 +1117,7 @@ install_new_value_visualizer (struct varobj *var)
  #if HAVE_PYTHON
    /* If the constructor is None, then we want the raw value.  If VAR
       does not have a value, just skip this.  */
@@ -169,7 +178,7 @@ index b03307068..13a6fa3bf 100644
      return;
  
    if (var->dynamic->constructor != Py_None && var->value != NULL)
-@@ -1450,7 +1450,7 @@ varobj_set_visualizer (struct varobj *var, const char *visualizer)
+@@ -1385,7 +1385,7 @@ varobj_set_visualizer (struct varobj *var, const char *visualizer)
  #if HAVE_PYTHON
    PyObject *mainmod;
  
@@ -178,7 +187,7 @@ index b03307068..13a6fa3bf 100644
      return;
  
    gdbpy_enter_varobj enter_py (var);
-@@ -2298,7 +2298,7 @@ varobj_value_get_print_value (struct value *value,
+@@ -2151,7 +2151,7 @@ varobj_value_get_print_value (struct value *value,
    std::string thevalue;
  
  #if HAVE_PYTHON
@@ -187,3 +196,6 @@ index b03307068..13a6fa3bf 100644
      {
        PyObject *value_formatter =  var->dynamic->pretty_printer;
  
+-- 
+2.37.2
+

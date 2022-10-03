@@ -1,3 +1,8 @@
+From 20b4442ecb38c2495dc35a1f7c78cceb265fe4de Mon Sep 17 00:00:00 2001
+From: Caroline Tice <cmtice@google.com>
+Date: Thu, 27 May 2021 00:00:00 +0000
+Subject: [PATCH] gdb: fix stack unwinding error
+
 The inlined frame unwinder has a built-in assumption that it can
 always unwind to a good non-inlined frame. If this assumption is
 violated GDB dies with an internal error. Sometimes, when there are
@@ -6,33 +11,37 @@ frame is considered 'bad' and gets thrown out.  This patch updates GDB
 so that, in that case, GDB will stop the backtrace giving the user an
 error message, rather than crash with an internal error.
 
-Author: cmtice@google.com
-Date: 27-May-2021
+[Adrian: converted diff to proper patch and rebased on gdb 11.2]
+---
+ gdb/frame.c        | 14 +++++++++++---
+ gdb/inline-frame.c |  8 +++++++-
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+
 diff --git a/gdb/frame.c b/gdb/frame.c
-index c746a6a..9cbf88d 100644
+index 0e9d040b133..f39fc504233 100644
 --- a/gdb/frame.c
 +++ b/gdb/frame.c
-@@ -262,7 +262,7 @@ frame_stash_add (struct frame_info *frame)
+@@ -285,7 +285,7 @@ frame_stash_add (frame_info *frame)
       either have a stack cycle (corrupted stack?), or some bug
       elsewhere in GDB.  In any case, ignore the duplicate and return
       an indication to the caller.  */
--  if (*slot != NULL)
-+  if ((*slot != NULL) || (frame->stop_reason == UNWIND_SAME_ID))
-     return 0;
-
+-  if (*slot != nullptr)
++  if ((*slot != nullptr) || (frame->stop_reason == UNWIND_SAME_ID))
+     return false;
+ 
    *slot = frame;
-@@ -584,7 +584,6 @@ get_frame_id (struct frame_info *fi)
+@@ -628,7 +628,6 @@ get_frame_id (struct frame_info *fi)
        /* Since this is the first frame in the chain, this should
  	 always succeed.  */
-       stashed = frame_stash_add (fi);
+       bool stashed = frame_stash_add (fi);
 -      gdb_assert (stashed);
      }
-
+ 
    return fi->this_id.value;
-@@ -1935,7 +1935,16 @@ get_prev_frame_if_no_cycle (struct frame_info *this_frame)
- 	      fprint_frame (gdb_stdlog, NULL);
- 	      fprintf_unfiltered (gdb_stdlog, " // this frame has same ID }\n");
- 	    }
+@@ -2076,7 +2075,16 @@ get_prev_frame_if_no_cycle (struct frame_info *this_frame)
+ 	     detected a cycle.  */
+ 	  frame_debug_printf ("  -> nullptr // this frame has same ID");
+ 
 -	  this_frame->stop_reason = UNWIND_SAME_ID;
 +	  if ((get_frame_type (prev_frame) == INLINE_FRAME)
 +	      && (prev_frame->stop_reason == UNWIND_SAME_ID))
@@ -48,21 +57,21 @@ index c746a6a..9cbf88d 100644
  	  prev_frame->next = NULL;
  	  this_frame->prev = NULL;
 diff --git a/gdb/inline-frame.c b/gdb/inline-frame.c
-index 9982046..814c4e4 100644
+index 9d8d1f02c32..ace835747ae 100644
 --- a/gdb/inline-frame.c
 +++ b/gdb/inline-frame.c
-@@ -138,6 +138,7 @@ inline_frame_this_id (struct frame_info *this_frame,
+@@ -155,6 +155,7 @@ inline_frame_this_id (struct frame_info *this_frame,
  		      struct frame_id *this_id)
  {
    struct symbol *func;
 +  struct frame_info *prev_frame;
-
+ 
    /* In order to have a stable frame ID for a given inline function,
       we must get the stack / special addresses from the underlying
-@@ -145,7 +146,12 @@ inline_frame_this_id (struct frame_info *this_frame,
-      get_prev_frame_always.  Because we are inlined into some
+@@ -163,7 +164,12 @@ inline_frame_this_id (struct frame_info *this_frame,
       function, there must be previous frames, so this is safe - as
-      long as we're careful not to create any cycles.  */
+      long as we're careful not to create any cycles.  See related
+      comments in get_prev_frame_always_1.  */
 -  *this_id = get_frame_id (get_prev_frame_always (this_frame));
 +  prev_frame = get_prev_frame_always (this_frame);
 +  if ((prev_frame != NULL)
@@ -70,6 +79,9 @@ index 9982046..814c4e4 100644
 +    *this_id = get_frame_id (prev_frame);
 +  else
 +    return;
-
+ 
    /* We need a valid frame ID, so we need to be based on a valid
       frame.  FSF submission NOTE: this would be a good assertion to
+-- 
+2.37.2
+
