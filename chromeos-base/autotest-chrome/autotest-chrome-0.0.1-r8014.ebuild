@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="4f6651cf8427116df8262be8c8a3566dd6cb691a"
-CROS_WORKON_TREE="8869c515c0587621be3f9b92fdbf832286f07391"
+CROS_WORKON_COMMIT="34a417ed1f8a98285e6ba310b4b988915edc3632"
+CROS_WORKON_TREE="6ec2b916306b2fb23e14079d459bccbdfc9691e7"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -34,6 +34,7 @@ RDEPEND="
 	chromeos-base/autotest-deps-webgl-mpd
 	chromeos-base/chromeos-chrome
 	chromeos-base/policy-testserver
+	dev-python/grpcio
 	dev-python/mkvparse
 	shill? ( chromeos-base/shill-test-scripts )
 	chromeos-base/telemetry
