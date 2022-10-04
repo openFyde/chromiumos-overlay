@@ -44,10 +44,7 @@ dlib_DEPEND="
 	=dev-rust/libloading-0.7*
 "
 
-wayland_scanner_DEPEND="
-	>=dev-rust/proc-macro2-1.0.11 <dev-rust/proc-macro2-2.0.0_alpha
-	=dev-rust/quote-1*
-"
+wayland_scanner_DEPEND=""
 
 wayland_commons_DEPEND="
 	=dev-rust/nix-0.23*
@@ -58,7 +55,6 @@ wayland_commons_DEPEND="
 wayland_sys_DEPEND="
 	${dlib_DEPEND}
 	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
-	>=dev-rust/memoffset-0.6.4 <dev-rust/memoffset-0.7.0_alpha
 	>=dev-rust/pkg-config-0.3.7 <dev-rust/pkg-config-0.4.0_alpha
 "
 

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5bc62a17d70c8f9409f68083b1f73732beb44e4d"
+CROS_WORKON_COMMIT="72d50ec3c95b9bfe4bdc0cd7d239d7fb4196826f"
 CROS_WORKON_TREE="cfe4b50c1a08f238780cade3736f648511057c91"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,7 +31,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/rand-0.7*
-	>=dev-rust/regex-1.0.6 <dev-rust/regex-2.0.0_alpha
 	dev-rust/remain
 	=dev-rust/rustyline-9*
 	dev-rust/sys_util:=

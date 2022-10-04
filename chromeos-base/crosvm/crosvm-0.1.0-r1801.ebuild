@@ -65,9 +65,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
 	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
 	~dev-rust/getopts-0.2.18
-	dev-rust/intrusive-collections
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
-	>=dev-rust/memoffset-0.6 <dev-rust/memoffset-1
 	dev-rust/minijail:=
 	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
 	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
@@ -75,16 +73,12 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/p9:=
 	=dev-rust/pin-utils-0.1*
 	~dev-rust/pkg-config-0.3.11
-	=dev-rust/proc-macro2-1*
 	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8
 	!>=dev-rust/protoc-rust-3
-	=dev-rust/quote-1*
 	=dev-rust/rand-0.8*
-	dev-rust/regex
 	dev-rust/remain
-	>=dev-rust/scudo-0.1.2 <dev-rust/scudo-0.2_alpha
 	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*
 	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2

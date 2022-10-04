@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="497005f2671ef6546d856a28672ade66d327c695"
+CROS_WORKON_COMMIT="72d50ec3c95b9bfe4bdc0cd7d239d7fb4196826f"
 CROS_WORKON_TREE="bb2c5331cc508eb602fd905a95f36208a80f8686"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,6 +23,7 @@ KEYWORDS="*"
 IUSE="+seccomp"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
@@ -30,7 +31,6 @@ DEPEND="
 	=dev-rust/glob-0.3*
 	dev-rust/libchromeos:=
 	=dev-rust/once_cell-1.7*
-	=dev-rust/regex-1.5*
 	=dev-rust/futures-0.3*
 	=dev-rust/grpcio-0.9*
 	dev-rust/sys_util:=

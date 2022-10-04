@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="08664ba5f44b0450700e797ea1ed38f07a233455"
-CROS_WORKON_TREE="5691f81b8a3a6aa29832155d6fc41ff4854ba911"
+CROS_WORKON_COMMIT="392bab99a4c809abc7407b5b5f64727a5ea6a551"
+CROS_WORKON_TREE="8b0af9e3bc595e293ba472bedab58957c53c1924"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -31,6 +31,7 @@ EXPECTED_LICENSES=(
 	MIT
 	MPL-2.0
 	ZLIB
+	unicode
 )
 
 LICENSE="${EXPECTED_LICENSES[*]}"
@@ -38,6 +39,76 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/quote-1.0.9
+	!=dev-rust/quote-1.0.9-r1
+	!=dev-rust/quote-0.6.10
+	!=dev-rust/quote-0.6.10-r1
+	!=dev-rust/proc-macro2-1.0.37
+	!=dev-rust/proc-macro2-1.0.37-r1
+	!=dev-rust/proc-macro2-1.0.36
+	!=dev-rust/proc-macro2-1.0.36-r1
+	!=dev-rust/proc-macro2-1.0.29
+	!=dev-rust/proc-macro2-1.0.29-r1
+	!=dev-rust/proc-macro2-0.4.21
+	!=dev-rust/proc-macro2-0.4.21-r1
+	!=dev-rust/cmake-0.1.48
+	!=dev-rust/cmake-0.1.48-r1
+	!=dev-rust/regex-1.5.5
+	!=dev-rust/regex-1.5.5-r1
+	!=dev-rust/regex-1.5.5-r2
+	!=dev-rust/regex-1.5.5-r3
+	!=dev-rust/num-iter-0.1.42
+	!=dev-rust/num-iter-0.1.42-r1
+	!=dev-rust/num-iter-0.1.42-r2
+	!=dev-rust/num-iter-0.1.42-r3
+	!=dev-rust/num-iter-0.1.37
+	!=dev-rust/intrusive-collections-0.9.0
+	!=dev-rust/intrusive-collections-0.9.0-r1
+	!=dev-rust/scudo-0.1.2
+	!=dev-rust/scudo-0.1.2-r1
+	!=dev-rust/scudo-0.1.2-r2
+	!=dev-rust/num-integer-0.1.44
+	!=dev-rust/num-integer-0.1.44-r1
+	!=dev-rust/num-integer-0.1.44-r2
+	!=dev-rust/memoffset-0.6.5
+	!=dev-rust/memoffset-0.6.5-r1
+	!=dev-rust/memoffset-0.6.4
+	!=dev-rust/memoffset-0.6.4-r1
+	!=dev-rust/memoffset-0.5.6
+	!=dev-rust/memoffset-0.5.6-r1
+	!=dev-rust/heck-0.4.0
+	!=dev-rust/heck-0.4.0-r1
+	!=dev-rust/heck-0.3.3
+	!=dev-rust/heck-0.3.3-r1
+	!=dev-rust/aho-corasick-0.7.18
+	!=dev-rust/aho-corasick-0.7.18-r1
+	!=dev-rust/walkdir-2.3.2
+	!=dev-rust/walkdir-2.3.2-r1
+	!=dev-rust/unicode-xid-0.2.2
+	!=dev-rust/unicode-xid-0.1.0
+	!=dev-rust/unicode-width-0.1.9
+	!=dev-rust/unicode-width-0.1.9-r1
+	!=dev-rust/unicode-width-0.1.8
+	!=dev-rust/unicode-width-0.1.8-r1
+	!=dev-rust/unicode-segmentation-1.8.0
+	!=dev-rust/sys-info-0.9.1
+	!=dev-rust/sys-info-0.9.1-r1
+	!=dev-rust/sys-info-0.9.1-r2
+	!=dev-rust/shlex-1.1.0
+	!=dev-rust/shlex-0.1.1
+	!=dev-rust/scudo-sys-0.2.1
+	!=dev-rust/scudo-sys-0.2.1-r1
+	!=dev-rust/scudo-sys-0.2.1-r2
+	!=dev-rust/rustc-demangle-0.1.21
+	!=dev-rust/rustc-demangle-0.1.21-r1
+	!=dev-rust/miniz_oxide-0.4.4
+	!=dev-rust/miniz_oxide-0.4.4-r1
+	!=dev-rust/memchr-2.4.1
+	!=dev-rust/memchr-2.4.1-r1
+	!=dev-rust/memchr-2.4.1-r2
+	!=dev-rust/autocfg-1.1.0
+	!=dev-rust/autocfg-1.0.1
+	!=dev-rust/autocfg-0.1.2
 	!=dev-rust/serial-unix-0.4.0
 	!=dev-rust/serial-unix-0.4.0-r1
 	!=dev-rust/serial-unix-0.4.0-r2
@@ -183,9 +254,9 @@ ALLOWED_CRATE_VERSIONS=(
 	# ${FILESDIR}/write_allowlisted_crate_versions.py. Any
 	# modifications may be overwritten.
 	"addr2line-0.14.1"
-	"adler-0.2.3"
 	"adler-1.0.2"
 	"adler32-1.2.0"
+	"aho-corasick-0.7.18"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
 	"argh_shared-0.1.8"
@@ -194,6 +265,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"async-stream-impl-0.3.3"
 	"async-task-4.3.0"
 	"atty-0.2.14"
+	"autocfg-0.1.7"
+	"autocfg-1.1.0"
 	"axum-0.5.16"
 	"axum-core-0.2.8"
 	"base64-0.10.1"
@@ -211,6 +284,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
 	"cloudabi-0.0.3"
+	"cmake-0.1.48"
 	"color_quant-1.1.0"
 	"com_logger-0.1.1"
 	"compiler_builtins-0.1.80"
@@ -245,6 +319,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"grpcio-compiler-0.6.0"
 	"h2-0.3.14"
 	"hashbrown-0.12.3"
+	"heck-0.3.3"
+	"heck-0.4.0"
 	"hermit-abi-0.1.18"
 	"hostname-0.3.1"
 	"http-0.2.8"
@@ -260,6 +336,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"indoc-impl-0.3.6"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
+	"intrusive-collections-0.9.4"
 	"inventory-0.1.11"
 	"inventory-impl-0.1.11"
 	"io-lifetimes-0.7.3"
@@ -279,10 +356,18 @@ ALLOWED_CRATE_VERSIONS=(
 	"match_cfg-0.1.0"
 	"matches-0.1.9"
 	"matchit-0.5.0"
+	"memchr-2.5.0"
+	"memoffset-0.5.6"
+	"memoffset-0.6.5"
 	"mime-0.3.16"
 	"minimal-lexical-0.2.1"
+	"miniz_oxide-0.3.7"
+	"miniz_oxide-0.4.4"
+	"miniz_oxide-0.5.4"
 	"miow-0.3.6"
 	"ntapi-0.3.6"
+	"num-integer-0.1.45"
+	"num-iter-0.1.43"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"
 	"num_threads-0.1.6"
@@ -299,6 +384,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-lite-0.2.9"
 	"ppv-lite86-0.2.10"
 	"proc-macro-nested-0.1.7"
+	"proc-macro2-0.4.30"
+	"proc-macro2-1.0.44"
 	"prost-0.11.0"
 	"prost-derive-0.11.0"
 	"protoc-grpcio-2.0.0"
@@ -307,15 +394,19 @@ ALLOWED_CRATE_VERSIONS=(
 	"pyo3-macros-backend-0.13.2"
 	"quick-error-1.2.3"
 	"quote-0.3.15"
+	"quote-0.6.13"
+	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
 	"rdrand-0.4.0"
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
+	"regex-1.6.0"
 	"regex-syntax-0.6.27"
 	"remove_dir_all-0.5.3"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
+	"rustc-demangle-0.1.21"
 	"rustc-hash-1.1.0"
 	"rustc-std-workspace-alloc-1.0.0"
 	"rustc-std-workspace-core-1.0.0"
@@ -326,10 +417,14 @@ ALLOWED_CRATE_VERSIONS=(
 	"same-file-1.0.6"
 	"scoped-tls-1.0.0"
 	"scopeguard-1.1.0"
+	"scudo-0.1.2"
+	"scudo-sys-0.2.1"
 	"semver-parser-0.7.0"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
 	"shell-words-1.1.0"
+	"shlex-0.1.1"
+	"shlex-1.1.0"
 	"signal-hook-registry-1.4.0"
 	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
@@ -338,6 +433,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"syn-0.11.11"
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
+	"sys-info-0.9.1"
 	"termcolor-1.1.2"
 	"terminal_size-0.1.17"
 	"termios-0.2.2"
@@ -358,7 +454,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"uart_16550-0.2.18"
 	"ufmt-write-0.1.0"
 	"unicase-2.6.0"
+	"unicode-ident-1.0.4"
+	"unicode-segmentation-1.10.0"
+	"unicode-width-0.1.10"
 	"unicode-xid-0.0.4"
+	"unicode-xid-0.1.0"
+	"unicode-xid-0.2.4"
 	"unindent-0.1.10"
 	"utf8parse-0.2.0"
 	"vcell-0.1.3"
@@ -367,6 +468,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"volatile-0.4.5"
 	"volatile-register-0.2.1"
 	"wait-timeout-0.2.0"
+	"walkdir-2.3.2"
 	"want-0.3.0"
 	"wasi-0.11.0+wasi-snapshot-preview1"
 	"wasm-bindgen-0.2.82"

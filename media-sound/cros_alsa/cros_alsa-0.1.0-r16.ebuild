@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7020d3d34cbc31c7bc7c41524c5cd1f80b49cc82"
+CROS_WORKON_COMMIT="8961dc26b2fea9742ede30471d10353054740187"
 CROS_WORKON_TREE="1aba9e6a756785b4a060e73d15e40a95055d0eee"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -24,8 +24,6 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/alsa-sys-0.2.0 <dev-rust/alsa-sys-0.3.0
-	=dev-rust/proc-macro2-1*
-	=dev-rust/quote-1*
 	=dev-rust/syn-1*
 	dev-rust/sys_util:=
 	dev-rust/remain
