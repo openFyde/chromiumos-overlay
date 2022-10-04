@@ -34,6 +34,7 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "hashbrown-0.12.3",
     "itertools-0.10.5",
     "object-0.23.0",
+    "object-0.29.0",
     "prost-0.11.0",
     "quote-0.3.15",
     "redox_syscall-0.2.4",
