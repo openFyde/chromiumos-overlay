@@ -31,11 +31,8 @@ DEPEND="
 	=dev-rust/log-0.4*
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*
-	=dev-rust/serde-1*
 	=dev-rust/serde_bytes-0.10*
-	=dev-rust/serde_derive-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/thiserror-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

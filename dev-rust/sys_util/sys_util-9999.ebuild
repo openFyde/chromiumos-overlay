@@ -31,12 +31,9 @@ DEPEND="
 	dev-rust/assertions:=
 	dev-rust/sys_util_core:=
 	dev-rust/data_model:=
-	=dev-rust/remain-0.2*
-	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	dev-rust/tempfile
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	sys-libs/libcap:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

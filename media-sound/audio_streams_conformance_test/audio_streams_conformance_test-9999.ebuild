@@ -21,14 +21,13 @@ KEYWORDS="~*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/argh-0.1.7:= <dev-rust/argh-0.2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 	dev-rust/cros_async:=
 	dev-rust/num:=
 	dev-rust/serde_json:=
-	=dev-rust/remain-0.2*:=
-	=dev-rust/thiserror-1*:=
 "
 
 src_compile() {

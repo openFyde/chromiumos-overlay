@@ -32,12 +32,9 @@ DEPEND="
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
-	=dev-rust/serde-1*
 	=dev-rust/serde_bytes-0.10*
-	=dev-rust/serde_derive-1*
 	=dev-rust/serde_json-1*
 	=dev-rust/stderrlog-0.5*
-	=dev-rust/thiserror-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

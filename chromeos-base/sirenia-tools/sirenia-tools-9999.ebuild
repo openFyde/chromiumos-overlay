@@ -35,11 +35,8 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/multi_log-0.1*
-	=dev-rust/serde-1*
-	=dev-rust/serde_derive-1*
 	=dev-rust/serde_json-1*
 	=dev-rust/stderrlog-0.5*
-	=dev-rust/thiserror-1*
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="

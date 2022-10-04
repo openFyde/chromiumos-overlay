@@ -77,7 +77,6 @@ DEPEND="${COMMON_DEPEND}
 	x11-drivers/opengles-headers:=
 	~dev-rust/cfg-if-1.0.0
 	=dev-rust/tokio-1*
-	=dev-rust/tokio-macros-1*
 "
 
 BDEPEND="

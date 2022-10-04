@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	~dev-rust/ahash-0.7.0
 	=dev-rust/rayon-1*
-	>=dev-rust/serde-1.0.25 <dev-rust/serde-2.0.0
 "
 RDEPEND="${DEPEND}"
 

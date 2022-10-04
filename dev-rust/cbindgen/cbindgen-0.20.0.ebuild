@@ -20,7 +20,6 @@ DEPEND="
 	=dev-rust/clap-2*
 	=dev-rust/indexmap-1*
 	=dev-rust/log-0.4*
-	>=dev-rust/serde-1.0.103 <dev-rust/serde-2.0.0_alpha
 	=dev-rust/serde_json-1*
 	=dev-rust/tempfile-3*
 	=dev-rust/toml-0.5*

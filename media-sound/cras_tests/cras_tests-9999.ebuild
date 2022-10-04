@@ -27,7 +27,6 @@ DEPEND="
 	dev-rust/hound
 	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "

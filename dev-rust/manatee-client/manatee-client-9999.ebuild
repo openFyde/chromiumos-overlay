@@ -30,7 +30,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/stderrlog-0.5*
-	=dev-rust/thiserror-1*
 	=dev-rust/which-4*
 "
 RDEPEND="${DEPEND}

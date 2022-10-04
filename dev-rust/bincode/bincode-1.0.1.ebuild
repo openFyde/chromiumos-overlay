@@ -15,8 +15,4 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/serde-1.0.63 <dev-rust/serde-2.0.0
-	>=dev-rust/serde_derive-1.0.27 <dev-rust/serde_derive-2.0.0
-"
+DEPEND="dev-rust/third-party-crates-src:="

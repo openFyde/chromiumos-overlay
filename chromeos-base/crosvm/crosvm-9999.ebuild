@@ -47,7 +47,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
-	=dev-rust/async-trait-0.1*
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
 	=dev-rust/cfg-if-1*
@@ -57,7 +56,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/crossbeam-utils-0.8*
 	=dev-rust/ctrlc-3.2*
 	=dev-rust/dbus-0.8*
-	=dev-rust/enumn-0.1*
 	=dev-rust/env_logger-0.9*
 	=dev-rust/futures-0.3*
 	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
@@ -75,13 +73,10 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protoc-rust-2.8
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/rand-0.8*
-	dev-rust/remain
-	=dev-rust/serde-1*
 	=dev-rust/serde_json-1*
 	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2
 	dev-rust/system_api:=
 	=dev-rust/tempfile-3*
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9
 	>=dev-rust/windows-0.10.0 <dev-rust/windows-0.11
 	dev-rust/wmi

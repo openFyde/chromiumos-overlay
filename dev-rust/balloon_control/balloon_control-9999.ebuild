@@ -20,7 +20,5 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-DEPEND="
-	=dev-rust/serde-1*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

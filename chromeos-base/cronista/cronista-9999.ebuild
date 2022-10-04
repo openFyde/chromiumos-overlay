@@ -19,6 +19,7 @@ IUSE="manatee"
 RDEPEND="sys-apps/dbus"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
@@ -28,9 +29,6 @@ DEPEND="
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
 	=dev-rust/protoc-rust-2*
-	=dev-rust/serde-1*
-	=dev-rust/serde_derive-1*
-	=dev-rust/thiserror-1*
 "
 
 pkg_setup() {

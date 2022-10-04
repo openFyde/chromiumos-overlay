@@ -32,13 +32,10 @@ DEPEND="
 	=dev-rust/syslog-6*
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
-	=dev-rust/serde-1*
-	dev-rust/serde_derive
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha
 	>=dev-rust/zeroize-1.5.1 <dev-rust/zeroize-2.0.0_alpha
 "
 RDEPEND="${DEPEND}

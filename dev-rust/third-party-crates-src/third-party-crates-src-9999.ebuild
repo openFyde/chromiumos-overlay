@@ -37,6 +37,66 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/thiserror-1.0.30
+	!=dev-rust/thiserror-1.0.30-r1
+	!=dev-rust/serde-1.0.136
+	!=dev-rust/serde-1.0.125
+	!=dev-rust/tokio-macros-1.8.0
+	!=dev-rust/tokio-macros-1.8.0-r1
+	!=dev-rust/tokio-macros-1.8.0-r2
+	!=dev-rust/tokio-macros-1.8.0-r3
+	!=dev-rust/thiserror-impl-1.0.30
+	!=dev-rust/thiserror-impl-1.0.30-r1
+	!=dev-rust/thiserror-impl-1.0.30-r2
+	!=dev-rust/thiserror-impl-1.0.30-r3
+	!=dev-rust/synstructure-0.12.4
+	!=dev-rust/synstructure-0.12.4-r1
+	!=dev-rust/synstructure-0.12.4-r2
+	!=dev-rust/synstructure-0.12.4-r3
+	!=dev-rust/synstructure-0.12.4-r4
+	!=dev-rust/serde_derive-1.0.136
+	!=dev-rust/serde_derive-1.0.136-r1
+	!=dev-rust/serde_derive-1.0.136-r2
+	!=dev-rust/serde_derive-1.0.136-r3
+	!=dev-rust/serde_derive-1.0.125
+	!=dev-rust/serde_derive-1.0.125-r1
+	!=dev-rust/serde_derive-1.0.125-r2
+	!=dev-rust/serde_derive-1.0.125-r3
+	!=dev-rust/rustyline-derive-0.6.0
+	!=dev-rust/rustyline-derive-0.6.0-r1
+	!=dev-rust/rustyline-derive-0.6.0-r2
+	!=dev-rust/remain-0.2.1
+	!=dev-rust/remain-0.2.1-r1
+	!=dev-rust/remain-0.2.1-r2
+	!=dev-rust/remain-0.2.1-r3
+	!=dev-rust/proc-macro-error-1.0.4
+	!=dev-rust/proc-macro-error-1.0.4-r1
+	!=dev-rust/proc-macro-error-1.0.4-r2
+	!=dev-rust/proc-macro-error-1.0.4-r3
+	!=dev-rust/proc-macro-error-1.0.4-r4
+	!=dev-rust/num-derive-0.3.3
+	!=dev-rust/num-derive-0.3.3-r1
+	!=dev-rust/num-derive-0.3.3-r2
+	!=dev-rust/num-derive-0.3.3-r3
+	!=dev-rust/enumn-0.1.3
+	!=dev-rust/enumn-0.1.3-r1
+	!=dev-rust/enumn-0.1.3-r2
+	!=dev-rust/enumn-0.1.3-r3
+	!=dev-rust/defmt-macros-0.2.3
+	!=dev-rust/defmt-macros-0.2.3-r1
+	!=dev-rust/defmt-macros-0.2.3-r2
+	!=dev-rust/defmt-macros-0.2.3-r3
+	!=dev-rust/defmt-macros-0.2.3-r4
+	!=dev-rust/async-trait-0.1.36
+	!=dev-rust/async-trait-0.1.36-r1
+	!=dev-rust/async-trait-0.1.36-r2
+	!=dev-rust/async-trait-0.1.36-r3
+	!=dev-rust/argh_derive-0.1.7
+	!=dev-rust/argh_derive-0.1.7-r1
+	!=dev-rust/argh_derive-0.1.7-r2
+	!=dev-rust/argh_derive-0.1.7-r3
+	!=dev-rust/argh_derive-0.1.7-r4
+	!=dev-rust/argh_derive-0.1.7-r5
 	!=dev-rust/syn-1.0.91
 	!=dev-rust/syn-1.0.91-r1
 	!=dev-rust/syn-1.0.91-r2
@@ -273,11 +333,13 @@ ALLOWED_CRATE_VERSIONS=(
 	"aho-corasick-0.7.18"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
+	"argh_derive-0.1.8"
 	"argh_shared-0.1.8"
 	"assert_matches-1.5.0"
 	"async-stream-0.3.3"
 	"async-stream-impl-0.3.3"
 	"async-task-4.3.0"
+	"async-trait-0.1.48"
 	"atty-0.2.14"
 	"autocfg-0.1.7"
 	"autocfg-1.1.0"
@@ -311,12 +373,14 @@ ALLOWED_CRATE_VERSIONS=(
 	"cxx-1.0.42"
 	"cxxbridge-flags-1.0.42"
 	"cxxbridge-macro-1.0.42"
+	"defmt-macros-0.2.3"
 	"defmt-parser-0.2.2"
 	"derive-into-owned-0.1.0"
 	"dirs-sys-next-0.1.2"
 	"downcast-rs-1.2.0"
 	"encode_unicode-0.3.6"
 	"endian-type-0.1.2"
+	"enumn-0.1.5"
 	"errno-0.2.8"
 	"errno-dragonfly-0.1.2"
 	"error-code-2.3.0"
@@ -378,6 +442,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.5.4"
 	"miow-0.3.6"
 	"ntapi-0.3.6"
+	"num-derive-0.3.3"
 	"num-integer-0.1.45"
 	"num-iter-0.1.43"
 	"num-traits-0.2.14"
@@ -395,6 +460,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-internal-1.0.12"
 	"pin-project-lite-0.2.9"
 	"ppv-lite86-0.2.10"
+	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
 	"proc-macro-nested-0.1.7"
 	"proc-macro2-0.4.30"
@@ -416,6 +482,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"redox_users-0.4.0"
 	"regex-1.6.0"
 	"regex-syntax-0.6.27"
+	"remain-0.2.4"
 	"remove_dir_all-0.5.3"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
@@ -427,12 +494,16 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
 	"rusty-fork-0.3.0"
+	"rustyline-derive-0.4.0"
+	"rustyline-derive-0.6.0"
 	"same-file-1.0.6"
 	"scoped-tls-1.0.0"
 	"scopeguard-1.1.0"
 	"scudo-0.1.2"
 	"scudo-sys-0.2.1"
 	"semver-parser-0.7.0"
+	"serde-1.0.145"
+	"serde_derive-1.0.145"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
 	"shell-words-1.1.0"
@@ -448,12 +519,16 @@ ALLOWED_CRATE_VERSIONS=(
 	"syn-1.0.101"
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
+	"synstructure-0.12.4"
 	"sys-info-0.9.1"
 	"termcolor-1.1.2"
 	"terminal_size-0.1.17"
 	"termios-0.2.2"
+	"thiserror-1.0.32"
+	"thiserror-impl-1.0.32"
 	"tinyvec_macros-0.1.0"
 	"tokio-io-timeout-1.2.0"
+	"tokio-macros-1.8.0"
 	"tokio-stream-0.1.3"
 	"tokio-util-0.7.3"
 	"tonic-0.8.1"

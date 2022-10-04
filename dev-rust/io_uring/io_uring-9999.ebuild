@@ -27,11 +27,9 @@ KEYWORDS="~*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	=dev-rust/remain-0.2*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/tempfile
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 "
 RDEPEND="${DEPEND}"
 
