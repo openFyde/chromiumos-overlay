@@ -18,8 +18,11 @@ SLOT="0"
 # Include bootchart in the test image unless explicitly disabled. Bootchart is
 # disabled by default and enabled by the "cros_bootchart" kernel arg.
 IUSE="
+	asan
 	+bootchart
 	dlc
+	hps
+	ubsan
 "
 
 RDEPEND="
@@ -27,6 +30,11 @@ RDEPEND="
 	chromeos-base/chromeos-test-init
 	chromeos-base/update-utils
 	dlc? ( chromeos-base/test-dlc )
+	hps? (
+		!asan? (
+			!ubsan? ( chromeos-base/hps-firmware-images-latest )
+		)
+	)
 	virtual/chromeos-test-testauthkeys
 	virtual/chromeos-bsp-test-root
 "
