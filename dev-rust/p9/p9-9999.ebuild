@@ -22,7 +22,6 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/syn-1*
 	dev-rust/sys_util:=
 	fuzzer? ( dev-rust/cros_fuzz:= )
 "

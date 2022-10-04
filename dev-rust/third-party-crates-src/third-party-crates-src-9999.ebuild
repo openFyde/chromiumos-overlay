@@ -37,6 +37,23 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/syn-1.0.91
+	!=dev-rust/syn-1.0.91-r1
+	!=dev-rust/syn-1.0.91-r2
+	!=dev-rust/syn-1.0.91-r3
+	!=dev-rust/syn-1.0.72
+	!=dev-rust/syn-1.0.72-r1
+	!=dev-rust/syn-1.0.72-r2
+	!=dev-rust/syn-1.0.72-r3
+	!=dev-rust/syn-0.15.26
+	!=dev-rust/syn-0.15.26-r1
+	!=dev-rust/syn-0.15.26-r2
+	!=dev-rust/syn-0.15.26-r3
+	!=dev-rust/syn-0.15.26-r4
+	!=dev-rust/proc-macro-error-attr-1.0.4
+	!=dev-rust/proc-macro-error-attr-1.0.4-r1
+	!=dev-rust/proc-macro-error-attr-1.0.4-r2
+	!=dev-rust/proc-macro-error-attr-1.0.4-r3
 	!=dev-rust/quote-1.0.9
 	!=dev-rust/quote-1.0.9-r1
 	!=dev-rust/quote-0.6.10
@@ -378,6 +395,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-internal-1.0.12"
 	"pin-project-lite-0.2.9"
 	"ppv-lite86-0.2.10"
+	"proc-macro-error-attr-1.0.4"
 	"proc-macro-nested-0.1.7"
 	"proc-macro2-0.4.30"
 	"proc-macro2-1.0.44"
@@ -426,6 +444,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"strsim-0.10.0"
 	"strsim-0.8.0"
 	"syn-0.11.11"
+	"syn-0.15.44"
+	"syn-1.0.101"
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
 	"sys-info-0.9.1"

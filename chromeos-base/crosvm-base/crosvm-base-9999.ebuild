@@ -32,7 +32,6 @@ IUSE="test"
 # The first group of DEPENDs is for base_event_token_derive.
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/syn-1*
 
 	dev-rust/cfg-if
 	dev-rust/chrono

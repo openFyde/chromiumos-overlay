@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/clap-2*
 	=dev-rust/codespan-reporting-0.11*
-	=dev-rust/syn-1*
 "
 
 # Package was briefly installed at slot 1.0.42. We don't want that.

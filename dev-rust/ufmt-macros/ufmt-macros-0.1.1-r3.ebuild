@@ -7,17 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Custom derive support for zeroize'
-HOMEPAGE='https://github.com/iqlusioninc/crates/'
+DESCRIPTION='"μfmt" macros'
+HOMEPAGE='https://crates.io/crates/ufmt-macros'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/synstructure-0.12*
+	>=dev-rust/proc-macro-hack-0.5.11 <dev-rust/proc-macro-hack-0.6.0
 "
 RDEPEND="${DEPEND}"
 

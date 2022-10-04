@@ -24,7 +24,6 @@ DEPEND="
 	>=dev-rust/inflections-1.1.0 <dev-rust/inflections-2.0.0_alpha
 	=dev-rust/log-0.4*
 	=dev-rust/svd-parser-0.12*
-	=dev-rust/syn-1*
 	=dev-rust/thiserror-1*
 "
 RDEPEND="${DEPEND}"
