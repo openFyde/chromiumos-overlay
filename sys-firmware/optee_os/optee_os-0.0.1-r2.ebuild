@@ -6,7 +6,7 @@ EAPI=7
 CROS_WORKON_COMMIT="c209031dffbbd13ae7d8b9b9b9184ffcf040a14d"
 CROS_WORKON_TREE="5ca4d9788a61f9cd88f9ace820254df8e92b9bed"
 CROS_WORKON_PROJECT="chromiumos/third_party/OP-TEE/optee_os"
-CROS_WORKON_LOCALNAME="third_party/optee_os"
+CROS_WORKON_LOCALNAME="optee_os"
 CROS_WORKON_DESTDIR="${S}"
 
 inherit cros-workon coreboot-sdk
