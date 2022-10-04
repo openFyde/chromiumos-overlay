@@ -23,6 +23,7 @@ KEYWORDS="*"
 # NB: Flags listed here are off by default unless prefixed with a '+'.
 IUSE="
 	amd64
+	amd_cpu
 	android-container-pi
 	android-vm-pi
 	android-vm-rvc
