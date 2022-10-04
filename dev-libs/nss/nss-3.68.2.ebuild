@@ -47,6 +47,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.44-prefer-writable-tokens-for-trust.patch"
 	# local fix for https://bugs.gentoo.org/834846
 	"${FILESDIR}/${PN}-3.68.2-nss-ld-fixup.patch"
+	# Temporary patch for debugging crbug.com/1163303
+	"${FILESDIR}/${PN}-3.68.2-debug-openuserdb.patch"
 )
 
 src_prepare() {
