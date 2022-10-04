@@ -18,7 +18,7 @@ HOMEPAGE="http://mesa3d.org/"
 # GLES[2]/gl[2]{,ext,platform}.h are SGI-B-2.0
 LICENSE="MIT SGI-B-2.0"
 
-IUSE="debug vulkan libglvnd zstd"
+IUSE="debug vulkan libglvnd perfetto zstd"
 
 COMMON_DEPEND="
 	dev-libs/expat:=
@@ -32,6 +32,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	perfetto? ( >=chromeos-base/perfetto-29.0 )
 "
 
 BDEPEND="
@@ -57,7 +58,7 @@ src_configure() {
 		-Dgallium-drivers=freedreno
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled
-		-Dperfetto=true
+		-Dperfetto=$(usex perfetto true false)
 		$(meson_feature zstd)
 		-Dplatforms=
 		-Dtools=freedreno

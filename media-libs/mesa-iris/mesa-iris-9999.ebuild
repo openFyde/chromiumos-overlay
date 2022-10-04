@@ -32,6 +32,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	perfetto? ( >=chromeos-base/perfetto-29.0 )
 "
 
 BDEPEND="
