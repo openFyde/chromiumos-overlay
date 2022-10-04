@@ -110,39 +110,12 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		chaps_test
-		chaps_service_test
-		slot_manager_test
-		session_test
-		object_test
-		object_policy_test
-		object_pool_test
-		object_store_test
-		isolate_login_client_test
-	)
-	use tpm2 && tests+=(
-		tpm2_utility_test
-	)
-
-	local gtest_filter_qemu=""
-	gtest_filter_qemu+="-*DeathTest*"
-	gtest_filter_qemu+=":*ImportSample*"
-	gtest_filter_qemu+=":TestSession.RSA*"
-	gtest_filter_qemu+=":TestSession.KeyTypeMismatch"
-	gtest_filter_qemu+=":TestSession.KeyFunctionPermission"
-	gtest_filter_qemu+=":TestSession.BadKeySize"
-	gtest_filter_qemu+=":TestSession.BadSignature.*"
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}" "" "" "${gtest_filter_qemu}"
-	done
+	platform test_all
 }
 
 pkg_preinst() {
 	local ug
-	for ug in attestation pkcs11 chaps; do
+	for ug in pkcs11 chaps; do
 		enewuser "${ug}"
 		enewgroup "${ug}"
 	done
