@@ -94,6 +94,8 @@ def main(argv: List[str]):
     third_party_crates = third_party_crates_ebuild.parent
     available_rust_crates = find_available_rust_crates(opts.rust_crates_path)
 
+    blocklisted_migration_crates = ('clap_derive',)
+
     logging.info("Available crates: %s", available_rust_crates)
 
     skip_reasons = collections.defaultdict(int)
@@ -119,6 +121,11 @@ def main(argv: List[str]):
             ):
                 logging.info("Skipping %s; it has customization", subdir.name)
                 continue
+
+        if subdir.name in blocklisted_migration_crates:
+            logging.info("Skipping %s; it is not available", subdir.name)
+            skip_reasons["blocklisted"] += len(files)
+            continue
 
         available_versions = available_rust_crates.get(subdir.name)
         if not available_versions:
