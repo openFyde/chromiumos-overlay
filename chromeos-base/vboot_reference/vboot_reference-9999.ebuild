@@ -32,7 +32,21 @@ COMMON_DEPEND="
 	sys-apps/flashrom:=
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
-DEPEND="${COMMON_DEPEND}"
+# vboot_reference tests are shell scripts using all these utilities
+DEPEND="
+	${COMMON_DEPEND}
+	test? (
+		app-editors/vim-core
+		app-shells/bash
+		dev-libs/openssl
+		sys-apps/coreutils
+		sys-apps/diffutils
+		sys-apps/grep
+		sys-apps/sed
+		sys-devel/bc
+		virtual/awk
+	)
+"
 
 get_build_dir() {
 	echo "${S}/build-main"
