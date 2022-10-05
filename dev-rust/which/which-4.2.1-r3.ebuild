@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/either-1.6.0 <dev-rust/either-2.0.0
 	=dev-rust/lazy_static-1*
 "
 RDEPEND="${DEPEND}"

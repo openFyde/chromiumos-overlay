@@ -37,6 +37,50 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/zeroize_derive-1.3.1
+	!=dev-rust/zeroize_derive-1.3.1-r1
+	!=dev-rust/zeroize_derive-1.3.1-r2
+	!=dev-rust/zeroize_derive-1.3.1-r3
+	!=dev-rust/zeroize_derive-1.3.1-r4
+	!=dev-rust/zeroize_derive-1.3.1-r5
+	!=dev-rust/zeroize_derive-1.2.0
+	!=dev-rust/zeroize_derive-1.2.0-r1
+	!=dev-rust/zeroize_derive-1.2.0-r2
+	!=dev-rust/zeroize_derive-1.2.0-r3
+	!=dev-rust/zeroize_derive-1.2.0-r4
+	!=dev-rust/vec_map-0.8.2
+	!=dev-rust/vec_map-0.8.2-r1
+	!=dev-rust/structopt-derive-0.4.18
+	!=dev-rust/structopt-derive-0.4.18-r1
+	!=dev-rust/structopt-derive-0.4.18-r2
+	!=dev-rust/structopt-derive-0.4.18-r3
+	!=dev-rust/structopt-derive-0.4.18-r4
+	!=dev-rust/structopt-derive-0.4.18-r5
+	!=dev-rust/structopt-derive-0.4.13
+	!=dev-rust/structopt-derive-0.4.13-r1
+	!=dev-rust/structopt-derive-0.4.13-r2
+	!=dev-rust/structopt-derive-0.4.13-r3
+	!=dev-rust/structopt-derive-0.4.13-r4
+	!=dev-rust/structopt-derive-0.4.13-r5
+	!=dev-rust/slab-0.4.3
+	!=dev-rust/slab-0.4.3-r1
+	!=dev-rust/ron-0.5.1
+	!=dev-rust/ron-0.5.1-r1
+	!=dev-rust/ron-0.5.1-r2
+	!=dev-rust/ron-0.5.1-r3
+	!=dev-rust/multimap-0.8.3
+	!=dev-rust/multimap-0.8.3-r1
+	!=dev-rust/failure_derive-0.1.5
+	!=dev-rust/failure_derive-0.1.5-r1
+	!=dev-rust/failure_derive-0.1.5-r2
+	!=dev-rust/failure_derive-0.1.5-r3
+	!=dev-rust/failure_derive-0.1.5-r4
+	!=dev-rust/failure_derive-0.1.5-r5
+	!=dev-rust/either-1.6.1
+	!=dev-rust/either-1.6.1-r1
+	!=dev-rust/argh-0.1.7
+	!=dev-rust/argh-0.1.7-r1
+	!=dev-rust/argh-0.1.7-r2
 	!=dev-rust/thiserror-1.0.30
 	!=dev-rust/thiserror-1.0.30-r1
 	!=dev-rust/serde-1.0.136
@@ -333,6 +377,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"aho-corasick-0.7.18"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
+	"argh-0.1.8"
 	"argh_derive-0.1.8"
 	"argh_shared-0.1.8"
 	"assert_matches-1.5.0"
@@ -378,6 +423,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"derive-into-owned-0.1.0"
 	"dirs-sys-next-0.1.2"
 	"downcast-rs-1.2.0"
+	"either-1.8.0"
 	"encode_unicode-0.3.6"
 	"endian-type-0.1.2"
 	"enumn-0.1.5"
@@ -386,6 +432,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"error-code-2.3.0"
 	"euclid-0.22.7"
 	"failure-0.1.8"
+	"failure_derive-0.1.8"
 	"filedescriptor-0.8.2"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
@@ -441,6 +488,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.4.4"
 	"miniz_oxide-0.5.4"
 	"miow-0.3.6"
+	"multimap-0.8.3"
 	"ntapi-0.3.6"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
@@ -484,6 +532,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"regex-syntax-0.6.27"
 	"remain-0.2.4"
 	"remove_dir_all-0.5.3"
+	"ron-0.5.1"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
 	"rustc-demangle-0.1.21"
@@ -510,10 +559,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"shlex-0.1.1"
 	"shlex-1.1.0"
 	"signal-hook-registry-1.4.0"
+	"slab-0.4.7"
 	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
 	"strsim-0.10.0"
 	"strsim-0.8.0"
+	"structopt-derive-0.4.18"
 	"syn-0.11.11"
 	"syn-0.15.44"
 	"syn-1.0.101"
@@ -553,6 +604,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"unindent-0.1.10"
 	"utf8parse-0.2.0"
 	"vcell-0.1.3"
+	"vec_map-0.8.2"
 	"version_check-0.9.3"
 	"void-1.0.2"
 	"volatile-0.4.5"
@@ -579,6 +631,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"wio-0.2.2"
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"
+	"zeroize_derive-1.3.2"
 )
 
 src_unpack() {

@@ -15,7 +15,5 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	>=dev-rust/zeroize_derive-1.3.0 <dev-rust/zeroize_derive-2.0.0_alpha
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

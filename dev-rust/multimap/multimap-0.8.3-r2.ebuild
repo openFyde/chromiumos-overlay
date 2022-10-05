@@ -1,4 +1,4 @@
-# Copyright 2019 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -13,3 +13,18 @@ KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
+
+
+IUSE="test"
+TEST_DEPS="
+	test? ( =dev-rust/serde_test-1.0* )
+"
+DEPEND+="${TEST_DEPS}"
+RDEPEND+="${TEST_DEPS}"
+
+src_prepare() {
+	if use test; then
+		CROS_RUST_REMOVE_DEV_DEPS=0
+	fi
+	cros-rust_src_prepare
+}

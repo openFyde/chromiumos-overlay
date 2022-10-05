@@ -35,10 +35,8 @@ DEPEND="
 	>=dev-rust/itertools-0.8.2 <dev-rust/itertools-0.9.0
 	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0
 	>=dev-rust/log-0.4.11 <dev-rust/log-0.5.0
-	=dev-rust/multimap-0.8*
 	=dev-rust/num-bigint-0.4*
 	>=dev-rust/pulldown-cmark-0.6.1 <dev-rust/pulldown-cmark-0.7.0
-	>=dev-rust/ron-0.5.1 <dev-rust/ron-0.6.0
 	=dev-rust/serde_json-1*
 "
 RDEPEND="

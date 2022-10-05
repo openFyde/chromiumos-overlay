@@ -46,7 +46,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
 	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
-	>=dev-rust/argh-0.1.7 <dev-rust/argh-0.2.0
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
 	=dev-rust/cfg-if-1*

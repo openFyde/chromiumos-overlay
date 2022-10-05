@@ -16,10 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/clap-2.33.0 <dev-rust/clap-3.0.0_alpha
 	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0_alpha
 	=dev-rust/paw-1*
-	~dev-rust/structopt-derive-0.4.18
 "
 RDEPEND="${DEPEND}"
 

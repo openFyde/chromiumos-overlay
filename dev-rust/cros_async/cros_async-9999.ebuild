@@ -28,7 +28,6 @@ DEPEND="
 	dev-rust/io_uring:=
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	=dev-rust/pin-utils-0.1*
-	=dev-rust/slab-0.4*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/tempfile

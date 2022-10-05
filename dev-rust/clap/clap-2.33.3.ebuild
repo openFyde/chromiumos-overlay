@@ -20,7 +20,6 @@ DEPEND="
 	~dev-rust/clippy-0.0.166
 	=dev-rust/term_size-0.3*
 	=dev-rust/textwrap-0.11*
-	=dev-rust/vec_map-0.8*
 	=dev-rust/yaml-rust-0.3*
 "
 RDEPEND="${DEPEND}"

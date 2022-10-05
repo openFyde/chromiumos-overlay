@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A multimap implementation.'
-HOMEPAGE='https://crates.io/crates/multimap'
+DESCRIPTION='Extra iterator adaptors, iterator methods, free functions, and macros.'
+HOMEPAGE='https://crates.io/crates/itertools'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -22,7 +22,11 @@ RDEPEND="${DEPEND}"
 
 IUSE="test"
 TEST_DEPS="
-	test? ( =dev-rust/serde_test-1.0* )
+	test? (
+		=dev-rust/permutohedron-0.2*:=
+		=dev-rust/quickcheck-0.7*
+		=dev-rust/rand-0.6*
+	)
 "
 DEPEND+="${TEST_DEPS}"
 RDEPEND+="${TEST_DEPS}"
