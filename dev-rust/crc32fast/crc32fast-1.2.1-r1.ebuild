@@ -7,19 +7,15 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="This crate provides miscellaneous tools for concurrent programming"
-HOMEPAGE="https://github.com/crossbeam-rs/crossbeam/tree/master/crossbeam-utils"
+DESCRIPTION="Fast, SIMD-accelerated CRC32 (IEEE) checksum computation"
+HOMEPAGE="https://github.com/srijs/rust-crc32fast"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/cfg-if-1*
-	=dev-rust/once_cell-1.7*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
-# error: no matching package named `loom` found
+# could not compile
 RESTRICT="test"

@@ -4,12 +4,12 @@
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
-#CROS_RUST_REMOVE_TARGET_CFG=1
+CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='A small cross-platform library for retrieving random data from system source'
-HOMEPAGE='https://crates.io/crates/getrandom'
+DESCRIPTION='An advanced API for creating custom synchronization primitives.'
+HOMEPAGE='https://crates.io/crates/parking_lot_core'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -18,8 +18,10 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cfg-if-1*
-	>=dev-rust/wasi-0.10.0
+	>=dev-rust/backtrace-0.3.60 <dev-rust/backtrace-0.4.0_alpha
+	=dev-rust/petgraph-0.6*
+	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha
+	=dev-rust/thread-id-4*
 "
 RDEPEND="${DEPEND}"
 

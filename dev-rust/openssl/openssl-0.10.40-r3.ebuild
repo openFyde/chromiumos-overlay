@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cfg-if-1*
 	>=dev-rust/once_cell-1.5.2 <dev-rust/once_cell-2.0.0
 	>=dev-rust/openssl-macros-0.1.0 <dev-rust/openssl-macros-0.2.0
 	>=dev-rust/openssl-sys-0.9.73 <dev-rust/openssl-sys-0.10.0

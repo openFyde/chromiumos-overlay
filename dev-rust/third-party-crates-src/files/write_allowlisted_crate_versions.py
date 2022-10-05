@@ -30,6 +30,7 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "addr2line-0.14.1",
     "adler-0.2.3",
     "bytemuck-1.12.1",
+    "cfg-if-1.0.0",
     "gimli-0.23.0",
     "hashbrown-0.12.3",
     "itertools-0.10.5",

@@ -16,7 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cfg-if-1*
+	dev-rust/third-party-crates-src:=
 	>=dev-rust/crossbeam-utils-0.8.0 <dev-rust/crossbeam-utils-0.9.0
 	=dev-rust/rand-0.7*
 "

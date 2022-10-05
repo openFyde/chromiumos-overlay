@@ -18,9 +18,7 @@ LICENSE="BSD-Google"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	=dev-rust/cfg-if-1.0*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 RDEPEND="${DEPEND}"
 

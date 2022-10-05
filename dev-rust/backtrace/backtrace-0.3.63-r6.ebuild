@@ -7,12 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A tiny low-level library that provides platform-specific standard locations
-of directories for config, cache and other data on Linux, Windows, macOS
-and Redox by leveraging the mechanisms defined by the XDG base/user
-directory specifications on Linux, the Known Folder API on Windows,
-and the Standard Directory guidelines on macOS.'
-HOMEPAGE='https://crates.io/crates/dirs-next'
+DESCRIPTION='A library to acquire a stack trace (backtrace) at runtime in a Rust program.'
+HOMEPAGE='https://github.com/rust-lang/backtrace-rs'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -21,7 +17,10 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cfg-if-1*
+	=dev-rust/addr2line-0.17*
+	=dev-rust/cpp_demangle-0.3*
+	=dev-rust/object-0.27*
+	=dev-rust/rustc-serialize-0.3*
 "
 RDEPEND="${DEPEND}"
 

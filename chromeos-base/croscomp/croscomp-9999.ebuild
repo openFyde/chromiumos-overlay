@@ -70,7 +70,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha
 	dev-rust/cbindgen
 	x11-drivers/opengles-headers:=
-	~dev-rust/cfg-if-1.0.0
 	=dev-rust/tokio-1*
 "
 

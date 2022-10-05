@@ -8,16 +8,17 @@ CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION="A safer binding to platform’s dynamic library loading utilities"
-HOMEPAGE="https://crates.io/crates/libloading"
+DESCRIPTION='A library for managing temporary files and directories.'
+HOMEPAGE='http://stebalien.com/projects/tempfile-rs'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="ISC"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cfg-if-1*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/rand-0.8*
 "
 RDEPEND="${DEPEND}"
 

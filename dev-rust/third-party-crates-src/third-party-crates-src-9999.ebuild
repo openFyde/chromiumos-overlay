@@ -37,6 +37,7 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/cfg-if-1.0.0
 	!=dev-rust/xmlparser-0.13.3
 	!=dev-rust/inflections-1.1.1
 	!=dev-rust/which-4.2.1
@@ -436,6 +437,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"capnpc-0.14.9"
 	"cast-0.3.0"
 	"cc-1.0.73"
+	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
 	"cloudabi-0.0.3"

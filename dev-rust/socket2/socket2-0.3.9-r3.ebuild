@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cfg-if-0.1*
 	=dev-rust/redox_syscall-0.1*
 	=dev-rust/tempdir-0.3*
 "
