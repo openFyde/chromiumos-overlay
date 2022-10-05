@@ -3,13 +3,10 @@
 
 EAPI="7"
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="Internal macros used by the openssl crate."
-HOMEPAGE="https://github.com/sfackler/rust-openssl"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="MIT"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 

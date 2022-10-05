@@ -7,7 +7,7 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="The 'AsyncRead' and 'AsyncWrite' traits for the futures-rs library."
+DESCRIPTION="This library is an implementation of zero-cost futures in Rust"
 HOMEPAGE="https://github.com/rust-lang-nursery/futures-rs"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
@@ -15,4 +15,10 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-RDEPEND="!~dev-rust/${PN}-0.3.1"
+DEPEND="dev-rust/third-party-crates-src:="
+RDEPEND="${DEPEND}
+	!~dev-rust/${PN}-0.3.1
+"
+
+# error: could not compile `futures`
+RESTRICT="test"

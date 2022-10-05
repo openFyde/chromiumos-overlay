@@ -3,32 +3,20 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="Common utilities and extension traits for the futures-rs library."
-HOMEPAGE="https://github.com/rust-lang-nursery/futures-rs"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/futures-channel-0.3.13 <dev-rust/futures-channel-0.4
-	>=dev-rust/futures-core-0.3.13 <dev-rust/futures-core-0.4
-	>=dev-rust/futures-io-0.3.13 <dev-rust/futures-io-0.4
-	>=dev-rust/futures-sink-0.3.13 <dev-rust/futures-sink-0.4
-	>=dev-rust/futures-task-0.3.13 <dev-rust/futures-task-0.4
-	>=dev-rust/pin-utils-0.1.0_alpha4 <dev-rust/pin-utils-0.2
-"
+DEPEND="dev-rust/third-party-crates-src:="
 # This DEPEND was removed to break a circular dependency.
 #   ">=dev-rust/tokio-io-0.1.9 <dev-rust/tokio-io-0.2"
 # It is needed if the io-compat feature is set, an empty crate is substituted to
 # avoid breaking ebuilds that depend on futures-util but do not set io-compat.
-DEPEND+="~dev-rust/tokio-io-0.1.9"
+DEPEND+=" ~dev-rust/tokio-io-0.1.9"
 RDEPEND="
 	${DEPEND}
 	!~dev-rust/${PN}-0.3.1

@@ -11,8 +11,10 @@ LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-RDEPEND="!=dev-rust/vcpkg-0.2*"
-
-# fails to compile
-RESTRICT="test"
 DEPEND="dev-rust/third-party-crates-src:="
+RDEPEND="${DEPEND}
+	!~dev-rust/${PN}-0.3.1
+"
+
+# error: could not compile `futures-executor`
+RESTRICT="test"

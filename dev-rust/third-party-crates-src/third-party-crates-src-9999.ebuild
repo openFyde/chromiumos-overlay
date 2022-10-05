@@ -37,6 +37,33 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/futures-executor-0.3.13
+	!=dev-rust/futures-executor-0.3.13-r1
+	!=dev-rust/futures-executor-0.3.13-r2
+	!=dev-rust/futures-executor-0.3.13-r3
+	!=dev-rust/futures-util-0.3.13
+	!=dev-rust/futures-util-0.3.13-r1
+	!=dev-rust/futures-util-0.3.13-r2
+	!=dev-rust/futures-util-0.3.13-r3
+	!=dev-rust/futures-util-0.3.13-r4
+	!=dev-rust/futures-util-0.3.13-r5
+	!=dev-rust/futures-util-0.3.13-r6
+	!=dev-rust/futures-util-0.3.13-r7
+	!=dev-rust/futures-util-0.3.13-r8
+	!=dev-rust/futures-util-0.3.13-r9
+	!=dev-rust/futures-channel-0.3.13
+	!=dev-rust/futures-channel-0.3.13-r1
+	!=dev-rust/vcpkg-0.2.11
+	!=dev-rust/vcpkg-0.2.11-r1
+	!=dev-rust/pin-utils-0.1.0
+	!=dev-rust/openssl-macros-0.1.0
+	!=dev-rust/openssl-macros-0.1.0-r1
+	!=dev-rust/openssl-macros-0.1.0-r2
+	!=dev-rust/openssl-macros-0.1.0-r3
+	!=dev-rust/futures-task-0.3.13
+	!=dev-rust/futures-sink-0.3.13
+	!=dev-rust/futures-io-0.3.13
+	!=dev-rust/futures-core-0.3.13
 	!=dev-rust/futures-macro-0.3.13
 	!=dev-rust/futures-macro-0.3.13-r1
 	!=dev-rust/futures-macro-0.3.13-r2
@@ -509,6 +536,14 @@ ALLOWED_CRATE_VERSIONS=(
 	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
 	"fuchsia-cprng-0.1.1"
+	"futures-channel-0.3.14"
+	"futures-core-0.3.14"
+	"futures-executor-0.3.14"
+	"futures-io-0.3.14"
+	"futures-macro-0.3.14"
+	"futures-sink-0.3.14"
+	"futures-task-0.3.14"
+	"futures-util-0.3.14"
 	"gag-1.0.0"
 	"ghost-0.1.6"
 	"grpcio-compiler-0.6.0"
@@ -580,6 +615,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"num_threads-0.1.6"
 	"number_prefix-0.4.0"
 	"object-0.29.0"
+	"openssl-macros-0.1.0"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
 	"paste-1.0.4"
@@ -589,6 +625,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-1.0.12"
 	"pin-project-internal-1.0.12"
 	"pin-project-lite-0.2.9"
+	"pin-utils-0.1.0"
 	"pkg-config-0.3.19"
 	"ppv-lite86-0.2.10"
 	"proc-macro-error-1.0.4"
@@ -690,6 +727,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"unindent-0.1.10"
 	"utf8parse-0.2.0"
 	"vcell-0.1.3"
+	"vcpkg-0.2.11"
 	"vec_map-0.8.2"
 	"version_check-0.9.3"
 	"void-1.0.2"

@@ -63,7 +63,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
-	=dev-rust/pin-utils-0.1*
 	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8

@@ -18,9 +18,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/futures-channel-0.3*
-	=dev-rust/futures-executor-0.3*
-	=dev-rust/futures-util-0.3*
 	=dev-rust/libdbus-sys-0.2*
 "
 RDEPEND="${DEPEND}"

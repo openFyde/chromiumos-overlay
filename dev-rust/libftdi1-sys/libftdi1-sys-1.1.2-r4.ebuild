@@ -21,7 +21,6 @@ DEPEND="
 	>=dev-rust/libusb1-sys-0.3.7 <dev-rust/libusb1-sys-0.7.0_alpha
 	=dev-rust/bindgen-0.59*
 	=dev-rust/cfg-if-1*
-	=dev-rust/vcpkg-0.2*
 "
 RDEPEND="${DEPEND}"
 
