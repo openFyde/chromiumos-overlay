@@ -71,6 +71,7 @@ IUSE="
 	+drivefs
 	drm_atomic
 	elm
+	faceauth
 	fizz
 	flex_id
 	force_breakpad
