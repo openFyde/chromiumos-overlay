@@ -32,7 +32,6 @@ DEPEND="
 	=dev-rust/clap-3.1*
 	=dev-rust/flate2-1*
 	=dev-rust/include_dir-0.6*
-	>=dev-rust/log-0.4.11 <dev-rust/log-0.5.0
 	=dev-rust/num-bigint-0.4*
 	>=dev-rust/pulldown-cmark-0.6.1 <dev-rust/pulldown-cmark-0.7.0
 	=dev-rust/serde_json-1*

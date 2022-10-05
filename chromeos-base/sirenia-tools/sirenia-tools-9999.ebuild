@@ -33,7 +33,6 @@ DEPEND="
 	=dev-rust/flexbuffers-2*
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
 	=dev-rust/multi_log-0.1*
 	=dev-rust/serde_json-1*
 	=dev-rust/stderrlog-0.5*

@@ -29,7 +29,6 @@ DEPEND="
 	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
 	=dev-rust/env_logger-0.9*
 	dev-rust/libchromeos:=
-	>=dev-rust/log-0.4.5 <dev-rust/log-0.5.0
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
 	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
 	=dev-rust/syslog-6*

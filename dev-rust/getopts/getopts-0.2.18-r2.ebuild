@@ -13,7 +13,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	dev-rust/log
-"
+DEPEND="dev-rust/third-party-crates-src:="

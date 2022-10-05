@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Logger which passes messages on to any number of other loggers.'
-HOMEPAGE='https://crates.io/crates/multi_log'
+DESCRIPTION='Send log messages to syslog'
+HOMEPAGE='https://crates.io/crates/syslog'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -16,7 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/log-0.4*
+	dev-rust/third-party-crates-src:=
+	>=dev-rust/error-chain-0.12.2 <dev-rust/error-chain-0.13.0_alpha
+	>=dev-rust/time-0.3.5 <dev-rust/time-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

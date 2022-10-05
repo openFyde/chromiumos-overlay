@@ -25,7 +25,6 @@ DEPEND="
 	=dev-rust/anyhow-1*
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
 	=dev-rust/protoc-rust-2*

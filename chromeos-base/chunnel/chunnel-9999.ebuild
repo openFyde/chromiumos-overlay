@@ -27,7 +27,6 @@ DEPEND="
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
 	=dev-rust/getopts-0.2*
-	=dev-rust/log-0.4*
 	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3
 	dev-rust/sys_util:=

@@ -24,7 +24,6 @@ DEPEND="
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
 	=dev-rust/once_cell-1*
 	=dev-rust/serde_bytes-0.10*
 	=dev-rust/stderrlog-0.5*

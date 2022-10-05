@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/log-0.4.0
 	>=dev-rust/redox_syscall-0.1.0
 	>=dev-rust/wasi-0.10.0
 	>=dev-rust/rustc-serialize-0.3.0

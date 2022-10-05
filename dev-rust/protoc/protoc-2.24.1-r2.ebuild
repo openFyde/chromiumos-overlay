@@ -16,7 +16,4 @@ KEYWORDS="*"
 # This is required for the actual protoc binary.
 BDEPEND="dev-libs/protobuf"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/log-0*
-"
+DEPEND="dev-rust/third-party-crates-src:="

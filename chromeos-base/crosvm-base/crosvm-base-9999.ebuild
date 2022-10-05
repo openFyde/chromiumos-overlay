@@ -35,7 +35,6 @@ DEPEND="
 	dev-rust/chrono
 	=dev-rust/env_logger-0.9*
 	dev-rust/data_model:=
-	=dev-rust/log-0.4*
 	=dev-rust/once_cell-1*
 	=dev-rust/serde_json-1*
 	=dev-rust/smallvec-1*

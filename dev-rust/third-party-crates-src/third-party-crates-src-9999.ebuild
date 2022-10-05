@@ -37,6 +37,9 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/log-0.4.14
+	!=dev-rust/log-0.4.14-r1
+	!=dev-rust/log-0.4.14-r2
 	!=dev-rust/futures-executor-0.3.13
 	!=dev-rust/futures-executor-0.3.13-r1
 	!=dev-rust/futures-executor-0.3.13-r2
@@ -588,6 +591,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libudev-sys-0.1.4"
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"
+	"log-0.4.14"
 	"managed-0.8.0"
 	"match_cfg-0.1.0"
 	"matches-0.1.9"

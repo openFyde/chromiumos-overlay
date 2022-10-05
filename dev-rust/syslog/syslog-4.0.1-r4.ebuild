@@ -16,7 +16,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/error-chain-0.11*
-	=dev-rust/log-0.4*
 	=dev-rust/time-0.1*
 	=dev-rust/unix_socket-0.5*
 "

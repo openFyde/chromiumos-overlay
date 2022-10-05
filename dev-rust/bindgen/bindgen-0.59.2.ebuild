@@ -22,7 +22,6 @@ DEPEND="
 	=dev-rust/clap-2*
 	=dev-rust/env_logger-0.9*
 	=dev-rust/lazycell-1*
-	=dev-rust/log-0.4*
 "
 RDEPEND="${DEPEND}"
 

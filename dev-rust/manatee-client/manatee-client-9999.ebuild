@@ -21,6 +21,7 @@ KEYWORDS="~*"
 IUSE="sirenia"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
@@ -28,7 +29,6 @@ DEPEND="
 	=dev-rust/dbus-0.9*
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
 	=dev-rust/stderrlog-0.5*
 "
 RDEPEND="${DEPEND}
