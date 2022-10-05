@@ -1,4 +1,4 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,19 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Provides access to GPIOs using the Linux sysfs interface.'
-HOMEPAGE='https://github.com/rust-embedded/rust-sysfs-gpio'
+DESCRIPTION="Rust bindings for libclang."
+HOMEPAGE="https://crates.io/crates/clang-sys"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="Apache-2.0"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/futures-0.3*
-	=dev-rust/mio-0.8*
-	=dev-rust/nix-0.23*
-	=dev-rust/tokio-1*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/glob-0.3*
 "
 RDEPEND="${DEPEND}"
 

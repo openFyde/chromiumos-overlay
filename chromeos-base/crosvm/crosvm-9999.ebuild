@@ -49,7 +49,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
 	dev-rust/chrono
-	>=dev-rust/crc32fast-1.2.1 <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	=dev-rust/crossbeam-utils-0.8*
 	=dev-rust/ctrlc-3.2*

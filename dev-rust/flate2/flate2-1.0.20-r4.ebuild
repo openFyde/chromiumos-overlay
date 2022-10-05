@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/crc32fast-1.2 <dev-rust/crc32fast-2
 	>=dev-rust/cloudflare-zlib-sys-0.2.0 <dev-rust/cloudflare-zlib-sys-0.3
 	>=dev-rust/futures-0.1.25 <dev-rust/futures-0.2
 	>=dev-rust/libz-sys-1.1.0 <dev-rust/libz-sys-2

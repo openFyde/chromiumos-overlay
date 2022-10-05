@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Provides API for safe access to Linux i2c device interface.'
-HOMEPAGE='https://github.com/rust-embedded/rust-i2cdev'
+DESCRIPTION='Implementation of the "embedded-hal" traits for Linux devices'
+HOMEPAGE='https://crates.io/crates/linux-embedded-hal'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,7 +17,10 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/nix-0.23*
+	>=dev-rust/embedded-hal-0.2.6 <dev-rust/embedded-hal-0.3.0_alpha
+	=dev-rust/gpio-cdev-0.5*
+	>=dev-rust/nb-0.1.3 <dev-rust/nb-0.2.0_alpha
+	=dev-rust/sysfs_gpio-0.6*
 "
 RDEPEND="${DEPEND}"
 

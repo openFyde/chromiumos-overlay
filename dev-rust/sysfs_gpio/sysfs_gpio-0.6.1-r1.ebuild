@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Adds timeout capabilities to Readers and Writers'
-HOMEPAGE='https://github.com/jcreekmore/timeout-readwrite-rs'
+DESCRIPTION='Provides access to GPIOs using the Linux sysfs interface.'
+HOMEPAGE='https://github.com/rust-embedded/rust-sysfs-gpio'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -16,7 +16,10 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/nix-0.23*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/futures-0.3*
+	=dev-rust/mio-0.8*
+	=dev-rust/tokio-1*
 "
 RDEPEND="${DEPEND}"
 
