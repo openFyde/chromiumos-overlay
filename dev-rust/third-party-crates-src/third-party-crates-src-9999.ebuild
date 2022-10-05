@@ -37,6 +37,13 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/futures-macro-0.3.13
+	!=dev-rust/futures-macro-0.3.13-r1
+	!=dev-rust/futures-macro-0.3.13-r2
+	!=dev-rust/futures-macro-0.3.13-r3
+	!=dev-rust/futures-macro-0.3.13-r4
+	!=dev-rust/proc-macro-hack-0.5.19
+	!~dev-rust/proc-macro-hack-0.5.11
 	!=dev-rust/spidev-0.5.1
 	!=dev-rust/spidev-0.5.1-r1
 	!=dev-rust/spidev-0.5.1-r2
@@ -586,6 +593,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ppv-lite86-0.2.10"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
+	"proc-macro-hack-0.5.19"
 	"proc-macro-nested-0.1.7"
 	"proc-macro2-0.4.30"
 	"proc-macro2-1.0.44"

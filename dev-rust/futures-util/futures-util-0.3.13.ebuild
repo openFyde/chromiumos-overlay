@@ -20,11 +20,9 @@ DEPEND="
 	>=dev-rust/futures-channel-0.3.13 <dev-rust/futures-channel-0.4
 	>=dev-rust/futures-core-0.3.13 <dev-rust/futures-core-0.4
 	>=dev-rust/futures-io-0.3.13 <dev-rust/futures-io-0.4
-	>=dev-rust/futures-macro-0.3.13 <dev-rust/futures-macro-0.4
 	>=dev-rust/futures-sink-0.3.13 <dev-rust/futures-sink-0.4
 	>=dev-rust/futures-task-0.3.13 <dev-rust/futures-task-0.4
 	>=dev-rust/pin-utils-0.1.0_alpha4 <dev-rust/pin-utils-0.2
-	>=dev-rust/proc-macro-hack-0.5.19 <dev-rust/proc-macro-hack-0.6
 "
 # This DEPEND was removed to break a circular dependency.
 #   ">=dev-rust/tokio-io-0.1.9 <dev-rust/tokio-io-0.2"
