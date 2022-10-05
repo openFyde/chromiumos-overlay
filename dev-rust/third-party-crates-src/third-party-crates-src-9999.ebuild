@@ -37,6 +37,11 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/zeroize-1.5.1
+	!=dev-rust/zeroize-1.5.1-r1
+	!=dev-rust/zeroize-1.5.1-r2
+	!=dev-rust/itertools-0.8.2
+	!=dev-rust/itertools-0.8.2-r1
 	!=dev-rust/zeroize_derive-1.3.1
 	!=dev-rust/zeroize_derive-1.3.1-r1
 	!=dev-rust/zeroize_derive-1.3.1-r2
@@ -470,6 +475,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ioctl-rs-0.1.6"
 	"itertools-0.9.0"
 	"itertools-0.10.5"
+	"itertools-0.8.2"
 	"itoa-1.0.3"
 	"jobserver-0.1.24"
 	"js-sys-0.3.59"
@@ -640,6 +646,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"wio-0.2.2"
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"
+	"zeroize-1.5.7"
 	"zeroize_derive-1.3.2"
 )
 

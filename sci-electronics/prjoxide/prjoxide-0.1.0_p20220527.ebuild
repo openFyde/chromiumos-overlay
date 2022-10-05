@@ -32,7 +32,6 @@ DEPEND="
 	=dev-rust/clap-3.1*
 	=dev-rust/flate2-1*
 	=dev-rust/include_dir-0.6*
-	>=dev-rust/itertools-0.8.2 <dev-rust/itertools-0.9.0
 	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0
 	>=dev-rust/log-0.4.11 <dev-rust/log-0.5.0
 	=dev-rust/num-bigint-0.4*

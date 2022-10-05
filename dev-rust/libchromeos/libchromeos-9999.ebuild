@@ -31,7 +31,6 @@ DEPEND="
 	=dev-rust/syslog-6*
 	dev-rust/system_api:=
 	dev-rust/vboot_reference-sys:=
-	=dev-rust/zeroize-1*
 "
 
 RDEPEND="${DEPEND}

@@ -36,7 +36,6 @@ DEPEND="
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
-	>=dev-rust/zeroize-1.5.1 <dev-rust/zeroize-2.0.0_alpha
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus
