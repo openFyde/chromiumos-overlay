@@ -66,7 +66,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
 	=dev-rust/pin-utils-0.1*
-	~dev-rust/pkg-config-0.3.11
+	=dev-rust/pkg-config-0.3*
 	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8
