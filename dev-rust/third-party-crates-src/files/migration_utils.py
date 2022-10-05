@@ -70,6 +70,42 @@ def parse_crate_from_ebuild_stem(ebuild_stem: str) -> Tuple[str, Optional[str]]:
     return ebuild_stem, None
 
 
+def _read_quoted_shell_contents(
+    contents: str, quote_start: int
+) -> Optional[str]:
+    """Returns the contents of the quoted data starting at quote_start.
+
+    If this isn't possible, returns None.
+    """
+    quote_type = contents[quote_start]
+    if quote_type not in "\"'":
+        return None
+
+    end_quote = contents.find(quote_type, quote_start + 1)
+    if end_quote == -1:
+        # Broken syntax probably?
+        return False
+
+    quoted_contents = contents[quote_start + 1 : end_quote]
+    # As a last resort, ensure that no funny business was happening with
+    # what we think is the end quote. All of these are lossy heuristics since
+    # we're not actually parsing the file. Should work in most cases; ebuilds
+    # are often written without many tricks.
+    if contents[end_quote - 1] == "\\":
+        return None
+
+    # ...And be sure there's nothing tricky after the last quote.
+    i = contents.find("\n", end_quote)
+    if i == -1:
+        i = len(contents)
+
+    end_of_line = contents[end_quote + 1 : i].split("#")[0]
+    if end_of_line.strip():
+        return None
+
+    return quoted_contents
+
+
 def is_leaf_crate(ebuild_contents: str) -> bool:
     """Returns True if the ebuild_contents DEPEND on nothing.
 
@@ -79,46 +115,35 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
         # This is weird. Ignore it.
         return False
 
-    if '\nRDEPEND="${DEPEND}"' not in ebuild_contents:
-        if "\nRDEPEND=" in ebuild_contents:
-            # This is also weird. Ignore it.
+    rdepend_prefix = "\nRDEPEND="
+    rdepend_index = ebuild_contents.find(rdepend_prefix)
+    if rdepend_index != -1:
+        rdepend = _read_quoted_shell_contents(
+            ebuild_contents, rdepend_index + len(rdepend_prefix)
+        )
+        if rdepend is None:
             return False
+
+        for piece in rdepend.strip().split():
+            # Ignore blockers and DEPEND
+            is_safe = piece.startswith("!") or piece in ("${DEPEND}", "$DEPEND")
+            if not is_safe:
+                return False
 
     depend_prefix = "\nDEPEND="
     i = ebuild_contents.find(depend_prefix)
     if i == -1:
         return True
 
-    depend_quote_start = i + len(depend_prefix)
-    quote_type = ebuild_contents[depend_quote_start]
-    if quote_type not in "\"'":
+    depend = _read_quoted_shell_contents(
+        ebuild_contents, i + len(depend_prefix)
+    )
+    if depend is None:
         return False
 
-    end_quote = ebuild_contents.find(quote_type, depend_quote_start + 1)
-    if end_quote == -1:
-        # Broken syntax probably?
-        return False
-
-    depend_contents = ebuild_contents[
-        depend_quote_start + 1 : end_quote
-    ].strip()
-    if depend_contents not in ("", "dev-rust/third-party-crates-src:="):
-        return False
-
-    # As a last resort, ensure that no funny business was happening with
-    # what we think is the end quote. All of these are lossy heuristics since
-    # we're not actually parsing the file. Should work in most cases; ebuilds
-    # are often written without many tricks.
-    if ebuild_contents[end_quote - 1] == "\\":
-        return False
-
-    i = ebuild_contents.find("\n", end_quote)
-    if i == -1:
-        i = len(ebuild_contents)
-    line_after_end = ebuild_contents[end_quote+1:i]
-    # The only thing after the line should be whitespace.
-    before_comment = line_after_end.split("#", 1)[0].strip()
-    return not before_comment
+    # Some ebuilds might list this multiple times. Handle that.
+    depend_pieces = depend.strip().split()
+    return all(x == "dev-rust/third-party-crates-src:=" for x in depend_pieces)
 
 
 def is_semver_compatible_upgrade(old: str, new: str) -> bool:
