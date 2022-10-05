@@ -16,6 +16,8 @@
 - hw_dec_h264_1080_60
 - hw_dec_h264_2160_30
 - hw_dec_h264_2160_60
+- hw_dec_h264_4320_30
+- hw_dec_h264_4320_60
 
 ## VP8
 - hw_dec_vp8_1080_30
@@ -28,32 +30,44 @@
 - hw_dec_vp9_1080_60
 - hw_dec_vp9_2160_30
 - hw_dec_vp9_2160_60
+- hw_dec_vp9_4320_30
+- hw_dec_vp9_4320_60
 
 ## VP9-2
 - hw_dec_vp9-2_1080_30
 - hw_dec_vp9-2_1080_60
 - hw_dec_vp9-2_2160_30
 - hw_dec_vp9-2_2160_60
+- hw_dec_vp9-2_4320_30
+- hw_dec_vp9-2_4320_60
 
 ## AV1 (Profile Main)
 - hw_dec_av1_1080_30
 - hw_dec_av1_1080_60
 - hw_dec_av1_2160_30
 - hw_dec_av1_2160_60
+- hw_dec_av1_4320_30
+- hw_dec_av1_4320_60
 - hw_dec_av1_1080_30_10bpp
 - hw_dec_av1_1080_60_10bpp
 - hw_dec_av1_2160_30_10bpp
 - hw_dec_av1_2160_60_10bpp
+- hw_dec_av1_4320_30_10bpp
+- hw_dec_av1_4320_60_10bpp
 
 ## HEVC (Profile Main)
 - hw_dec_hevc_1080_30
 - hw_dec_hevc_1080_60
 - hw_dec_hevc_2160_30
 - hw_dec_hevc_2160_60
+- hw_dec_hevc_4320_30
+- hw_dec_hevc_4320_60
 - hw_dec_hevc_1080_30_10bpp
 - hw_dec_hevc_1080_60_10bpp
 - hw_dec_hevc_2160_30_10bpp
 - hw_dec_hevc_2160_60_10bpp
+- hw_dec_hevc_4320_30_10bpp
+- hw_dec_hevc_4320_60_10bpp
 
 ## JPEG
 ## hw_dec_jpeg is marked if a device supports JPEG HW decoding.
