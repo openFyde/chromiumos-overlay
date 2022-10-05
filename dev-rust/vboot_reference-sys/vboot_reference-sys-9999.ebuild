@@ -24,7 +24,6 @@ KEYWORDS="~*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/vboot_reference:=
-	=dev-rust/which-4*
 	>=virtual/bindgen-0.59:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

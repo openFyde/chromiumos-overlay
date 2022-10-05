@@ -3,16 +3,20 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION="Locate installed executable in cross platforms."
-HOMEPAGE="https://github.com/harryfei/which-rs.git"
+DESCRIPTION="Protobuf protoc command as API"
+HOMEPAGE="https://github.com/stepancheg/rust-protobuf/protoc/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="dev-rust/third-party-crates-src:="
+# This is required for the actual protoc binary.
+BDEPEND="dev-libs/protobuf"
+
+DEPEND="
+	dev-rust/third-party-crates-src:=
+	=dev-rust/log-0*
+"

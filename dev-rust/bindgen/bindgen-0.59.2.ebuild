@@ -23,7 +23,6 @@ DEPEND="
 	=dev-rust/env_logger-0.9*
 	=dev-rust/lazycell-1*
 	=dev-rust/log-0.4*
-	>=dev-rust/which-4.2.1 <dev-rust/which-5.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

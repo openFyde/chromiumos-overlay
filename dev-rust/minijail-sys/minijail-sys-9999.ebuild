@@ -30,7 +30,6 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/minijail:=
-	=dev-rust/which-4*
 	sys-libs/libcap:=
 	virtual/bindgen:=
 "

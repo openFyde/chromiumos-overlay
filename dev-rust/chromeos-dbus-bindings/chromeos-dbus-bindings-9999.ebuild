@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 SLOT="0/${PVR}"
 KEYWORDS="~*"
 
-DEPEND="=dev-rust/which-4*"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="!chromeos-base/chromeos-dbus-bindings-rust
 	${DEPEND}"
 

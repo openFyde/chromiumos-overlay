@@ -20,7 +20,6 @@ DEPEND="
 	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha
 	=dev-rust/bindgen-0.59*
 	=dev-rust/clap-3*
-	=dev-rust/colored-2*
 	>=dev-rust/cortex-m-0.6.2 <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rt-0.6.13 <dev-rust/cortex-m-rt-0.7.0
 	>=dev-rust/cortex-m-rtic-1.1.3 <dev-rust/cortex-m-rtic-2.0.0

@@ -37,6 +37,20 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/which-4.2.1
+	!=dev-rust/which-4.2.1-r1
+	!=dev-rust/which-4.2.1-r2
+	!=dev-rust/which-4.2.1-r3
+	!=dev-rust/which-4.2.1-r4
+	!=dev-rust/which-3.1.1
+	!=dev-rust/which-3.1.1-r1
+	!=dev-rust/which-3.1.1-r2
+	!=dev-rust/riscv-target-0.1.2
+	!=dev-rust/riscv-target-0.1.2-r1
+	!=dev-rust/riscv-target-0.1.2-r2
+	!=dev-rust/colored-2.0.0
+	!=dev-rust/colored-2.0.0-r1
+	!=dev-rust/colored-2.0.0-r2
 	!=dev-rust/lazy_static-1.4.0
 	!=dev-rust/lazy_static-1.4.0-r1
 	!=dev-rust/lazy_static-1.4.0-r2
@@ -425,6 +439,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cloudabi-0.0.3"
 	"cmake-0.1.48"
 	"color_quant-1.1.0"
+	"colored-2.0.0"
 	"com_logger-0.1.1"
 	"compiler_builtins-0.1.80"
 	"configparser-3.0.0"
@@ -560,6 +575,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"regex-syntax-0.6.27"
 	"remain-0.2.4"
 	"remove_dir_all-0.5.3"
+	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
@@ -651,6 +667,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"wasm-bindgen-macro-0.2.82"
 	"wasm-bindgen-macro-support-0.2.82"
 	"wasm-bindgen-shared-0.2.82"
+	"which-3.1.1"
+	"which-4.3.0"
 	"winapi-0.3.9"
 	"winapi-i686-pc-windows-gnu-0.4.0"
 	"winapi-util-0.1.5"

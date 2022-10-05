@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bare-metal-1*
-	>=dev-rust/riscv-target-0.1.2 <dev-rust/riscv-target-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 
