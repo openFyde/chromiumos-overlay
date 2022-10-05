@@ -45,6 +45,7 @@ src_install() {
 	insinto /usr/share/arcvm/fsverity-certs
 	doins arc/vm/scripts/init/certs/fsverity-release.x509.der
 	doins arc/vm/scripts/init/certs/play_store_fsi_cert.der
+	doins arc/vm/scripts/init/certs/gms_fsverity_cert.der
 
 	# Redirect ARCVM logs to arc.log.
 	insinto /etc/rsyslog.d
