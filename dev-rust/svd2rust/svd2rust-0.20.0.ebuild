@@ -21,7 +21,6 @@ DEPEND="
 	>=dev-rust/clap-2.33.0 <dev-rust/clap-3.0.0_alpha
 	>=dev-rust/clap_conf-0.1.5 <dev-rust/clap_conf-0.2.0_alpha
 	=dev-rust/env_logger-0.9*
-	>=dev-rust/inflections-1.1.0 <dev-rust/inflections-2.0.0_alpha
 	=dev-rust/log-0.4*
 	=dev-rust/svd-parser-0.12*
 "

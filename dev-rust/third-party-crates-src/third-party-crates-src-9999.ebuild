@@ -37,6 +37,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/xmlparser-0.13.3
+	!=dev-rust/inflections-1.1.1
 	!=dev-rust/which-4.2.1
 	!=dev-rust/which-4.2.1-r1
 	!=dev-rust/which-4.2.1-r2
@@ -494,6 +496,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"iana-time-zone-0.1.47"
 	"indoc-0.3.6"
 	"indoc-impl-0.3.6"
+	"inflections-1.1.1"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
 	"intrusive-collections-0.9.4"
@@ -682,6 +685,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"wio-0.2.2"
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"
+	"xmlparser-0.13.3"
 	"zeroize-1.5.7"
 	"zeroize_derive-1.3.2"
 )

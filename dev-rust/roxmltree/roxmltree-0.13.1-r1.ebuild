@@ -15,6 +15,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	>=dev-rust/xmlparser-0.13.3 <dev-rust/xmlparser-0.14
-"
+DEPEND="dev-rust/third-party-crates-src:="
