@@ -21,7 +21,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override minios +power_management report_requisition systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override lvm_stateful_partition minios +power_management report_requisition systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
