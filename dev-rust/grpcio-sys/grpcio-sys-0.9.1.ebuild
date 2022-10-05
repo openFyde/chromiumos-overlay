@@ -21,7 +21,6 @@ DEPEND="
 	=dev-rust/openssl-sys-0.9*
 	=dev-rust/bindgen-0.59*
 	=dev-rust/boringssl-src-0.3*
-	=dev-rust/pkg-config-0.3*
 "
 RDEPEND="${DEPEND}"
 

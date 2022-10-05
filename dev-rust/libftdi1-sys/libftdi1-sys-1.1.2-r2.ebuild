@@ -23,7 +23,6 @@ DEPEND="
 	=dev-rust/bindgen-0.59*
 	=dev-rust/cfg-if-1*
 	=dev-rust/vcpkg-0.2*
-	>=dev-rust/pkg-config-0.3.7 <dev-rust/pkg-config-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

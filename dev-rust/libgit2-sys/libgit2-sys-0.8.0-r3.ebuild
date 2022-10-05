@@ -5,9 +5,8 @@ EAPI="7"
 
 inherit cros-rust
 
-DESCRIPTION="A library to run the pkg-config system tool at build time in order to be used in
-Cargo build scripts"
-HOMEPAGE="https://github.com/alexcrichton/pkg-config-rs"
+DESCRIPTION="Native bindings to the libgit2 library"
+HOMEPAGE="https://github.com/rust-lang/git2-rs"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -15,9 +14,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/lazy_static-1*
+	dev-rust/third-party-crates-src:=
+	>=dev-rust/libssh2-sys-0.2.11
+	>=dev-rust/libz-sys-1.0.22
+	>=dev-rust/openssl-sys-0.9.47
 "
-
-PATCHES=(
-	"${FILESDIR}/${P}-0001-Allow-overriding-system-root.patch"
-)

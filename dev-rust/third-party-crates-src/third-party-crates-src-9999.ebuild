@@ -37,6 +37,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libudev-0.2.0
+	!=dev-rust/libudev-0.2.0-r1
+	!=dev-rust/libudev-sys-0.1.4
+	!=dev-rust/libudev-sys-0.1.4-r1
+	!=dev-rust/libudev-sys-0.1.4-r2
+	!=dev-rust/pkg-config-0.3.19
+	!=dev-rust/cortex-m-rt-macros-0.6.15
+	!=dev-rust/cortex-m-rt-macros-0.6.15-r1
+	!=dev-rust/cortex-m-rt-macros-0.6.15-r2
+	!=dev-rust/cortex-m-rt-macros-0.6.15-r3
 	!=dev-rust/zeroize-1.5.1
 	!=dev-rust/zeroize-1.5.1-r1
 	!=dev-rust/zeroize-1.5.1-r2
@@ -416,6 +426,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"compiler_builtins-0.1.80"
 	"configparser-3.0.0"
 	"core-foundation-sys-0.8.3"
+	"cortex-m-rt-macros-0.6.15"
 	"crc-2.1.0"
 	"crc-catalog-1.1.1"
 	"cstr_core-0.2.6"
@@ -482,6 +493,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"libc-0.2.132"
 	"libfuzzer-sys-0.4.4"
 	"libslirp-sys-4.2.1"
+	"libudev-0.2.0"
+	"libudev-sys-0.1.4"
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"
 	"managed-0.8.0"
@@ -516,6 +529,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-1.0.12"
 	"pin-project-internal-1.0.12"
 	"pin-project-lite-0.2.9"
+	"pkg-config-0.3.19"
 	"ppv-lite86-0.2.10"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"

@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/dlib
 	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
-	>=dev-rust/pkg-config-0.3.7 <dev-rust/pkg-config-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

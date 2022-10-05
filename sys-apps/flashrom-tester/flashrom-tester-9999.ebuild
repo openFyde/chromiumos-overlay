@@ -29,7 +29,6 @@ DEPEND="
 	=dev-rust/once_cell-1.7.2*
 	=dev-rust/rand-0.6*
 	=dev-rust/serde_json-1*
-	=dev-rust/pkg-config-0.3*
 	sys-apps/flashrom
 "
 
@@ -38,7 +37,6 @@ RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41
 "
 
 BDEPEND="
-	=dev-rust/pkg-config-0.3*
 	=dev-rust/built-0.5*
 "
 
