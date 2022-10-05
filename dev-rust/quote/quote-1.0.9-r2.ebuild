@@ -11,10 +11,7 @@ LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	dev-rust/third-party-crates-src:=
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 
