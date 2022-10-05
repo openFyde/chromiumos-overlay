@@ -393,6 +393,7 @@ RDEPEND="${RDEPEND}
 # Host dependencies to scp binaries from the binary component server
 RDEPEND="${RDEPEND}
 	net-misc/openssh
+	net-misc/socat
 	net-misc/wget
 	"
 
