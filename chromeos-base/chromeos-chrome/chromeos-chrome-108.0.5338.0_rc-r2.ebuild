@@ -44,6 +44,7 @@ IUSE="
 	+chrome_remoting
 	clang_tidy
 	component_build
+	compressed_ash
 	cros-debug
 	debug_fission
 	+dwarf5
@@ -1254,6 +1255,9 @@ src_install() {
 	LS=$(ls -alhS "${FROM}")
 	einfo "CHROME_DIR after build\n${LS}"
 
+	insinto /etc/init
+	doins "${FILESDIR}"/mount-ash-chrome.conf
+
 	# Copy a D-Bus config file that includes other configs that are installed to
 	# /opt/google/chrome/dbus by deploy_chrome.
 	insinto /etc/dbus-1/system.d
@@ -1381,6 +1385,9 @@ src_install() {
 		"--strip-flags=${PORTAGE_STRIP_FLAGS}"
 		--verbose
 	)
+	if use compressed_ash; then
+		cmd+=(--compressed-ash)
+	fi
 	einfo "${cmd[*]}"
 	"${cmd[@]}" || die
 	LS=$(ls -alhS "${D}/${CHROME_DIR}")
