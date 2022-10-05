@@ -26,6 +26,7 @@ DEPEND="
 	=dev-rust/lazy_static-1*
 	=dev-rust/log-0.4*
 	=dev-rust/multi_log-0.1*
+	>=dev-rust/poll_token_derive-0.1.1:=
 	=dev-rust/stderrlog-0.5*
 	=dev-rust/syslog-6*
 	dev-rust/system_api:=
