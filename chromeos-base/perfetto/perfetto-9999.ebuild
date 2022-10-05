@@ -93,10 +93,14 @@ enable_perfetto_x64_cpu_opt=false
 	gn gen "${BUILD_OUTPUT}" --args="${GN_ARGS}" || die
 
 	# Add extra GN args in generating the SDK source:
+	# * Force disable PERFETTO_DCHECK() in the SDK to avoid inconsistency
+	#   of PERFETTO_DCHECK_IS_ON() in the header and the static library
+	#   caused by cros-debug.
 	# * Disable runloop watchdog.
 	# * Re-enable RTTI: RTTI is disabled in the build config. The SDK needs
 	#   to enable RTTI since ChromeOS packages are built with RTTI.
 	local sdk_gn_args="${GN_ARGS}
+perfetto_force_dcheck=\"off\"
 enable_perfetto_watchdog=false
 extra_target_cflags=\"${CFLAGS} ${warn_flags[*]} -frtti\"
 extra_target_cxxflags=\"${CXXFLAGS} ${warn_flags[*]} -frtti\"
