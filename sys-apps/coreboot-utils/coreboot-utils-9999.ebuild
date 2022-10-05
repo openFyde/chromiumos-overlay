@@ -74,8 +74,8 @@ src_compile() {
 		_emake -C util/cbmem
 	fi
 	if is_x86; then
+		_emake -C util/ifdtool
 		if use cros_host; then
-			_emake -C util/ifdtool
 			_emake -C util/amdfwtool
 		else
 			_emake -C util/superiotool \
@@ -97,8 +97,8 @@ src_install() {
 		dobin util/cbmem/cbmem
 	fi
 	if is_x86; then
+		dobin util/ifdtool/ifdtool
 		if use cros_host; then
-			dobin util/ifdtool/ifdtool
 			dobin util/amdfwtool/amdfwread
 		else
 			dobin util/superiotool/superiotool
