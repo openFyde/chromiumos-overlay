@@ -54,6 +54,9 @@ src_install() {
 	doins init/cros-camera.conf
 	doins init/cros-camera-failsafe.conf
 
+	insinto /etc/dbus-1/system.d
+	doins dbus/CrosCamera.conf
+
 	udev_dorules udev/99-camera.rules
 
 	# Install seccomp policy file.
