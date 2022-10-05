@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="66a3369e6dccf6f0f7b6d86b2d4a2d4fb2153a68"
+CROS_WORKON_COMMIT="817c721cf886f6a8e3a8ae3fa5374f7ae1aa64e3"
 CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "3f1db0b3933a32de4aef0415f982fcc7f6cf43a3" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
@@ -78,6 +78,7 @@ src_install() {
 		power_manager
 		rgbkbd
 		rmad
+		shadercached
 		shill
 		smbprovider
 		tpm_manager
