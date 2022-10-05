@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	~dev-rust/clap_derive-3.0.0_beta2
 	=dev-rust/indexmap-1*
-	=dev-rust/lazy_static-1*
 	>=dev-rust/os_str_bytes-2.3.0 <dev-rust/os_str_bytes-3.0.0
 	=dev-rust/textwrap-0.12*
 	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0

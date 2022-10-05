@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Lossless fractions and decimals; drop-in float replacement'
-HOMEPAGE='https://github.com/dnsl48/fraction.git'
+DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
+HOMEPAGE='https://crates.io/crates/clap'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,11 +17,12 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bytes-1*
-	=dev-rust/juniper-0.15*
-	>=dev-rust/lazy_static-1.1.0 <dev-rust/lazy_static-2.0.0_alpha
-	=dev-rust/num-0.2*
-	=dev-rust/postgres-types-0.2*
+	=dev-rust/backtrace-0.3*
+	~dev-rust/clap_derive-3.1.7
+	=dev-rust/clap_lex-0.1*
+	=dev-rust/indexmap-1*
+	=dev-rust/textwrap-0.15*
+	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0_alpha
 "
 RDEPEND="${DEPEND}"
 

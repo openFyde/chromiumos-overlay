@@ -22,7 +22,6 @@ DEPEND="
 	=dev-rust/chrono-0.4*
 	=dev-rust/crossbeam-channel-0.5*
 	=dev-rust/dbus-0.8*
-	=dev-rust/lazy_static-1.4*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/nix-0.23*

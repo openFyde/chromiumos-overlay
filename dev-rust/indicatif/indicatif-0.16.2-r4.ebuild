@@ -1,24 +1,24 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
-CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='The most simple way to add colors in your terminal'
-HOMEPAGE='https://github.com/mackwic/colored'
+DESCRIPTION='A progress bar and cli reporting library for Rust'
+HOMEPAGE='https://crates.io/crates/indicatif'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MPL-2.0"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/lazy_static-1*
+	>=dev-rust/console-0.9.1 <dev-rust/console-1.0.0_alpha
+	=dev-rust/rayon-1*
 "
 RDEPEND="${DEPEND}"
 

@@ -15,10 +15,7 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/lazy_static-1*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 # error: could not compile `which`

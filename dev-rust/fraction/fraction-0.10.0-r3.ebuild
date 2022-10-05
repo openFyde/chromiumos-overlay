@@ -7,18 +7,20 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='FFI bindings to the various libwayland-*.so libraries. You should only need this crate if you are working on custom wayland protocol extensions. Look at the crate wayland-client for usable bindings.'
-HOMEPAGE='https://crates.io/crates/wayland-sys'
+DESCRIPTION='Lossless fractions and decimals; drop-in float replacement'
+HOMEPAGE='https://github.com/dnsl48/fraction.git'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	dev-rust/dlib
-	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
+	=dev-rust/bytes-1*
+	=dev-rust/juniper-0.15*
+	=dev-rust/num-0.2*
+	=dev-rust/postgres-types-0.2*
 "
 RDEPEND="${DEPEND}"
 

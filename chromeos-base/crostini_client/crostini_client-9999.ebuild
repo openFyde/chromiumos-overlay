@@ -21,7 +21,6 @@ DEPEND="
 	chromeos-base/system_api
 	=dev-rust/dbus-0.8*
 	=dev-rust/getopts-0.2*
-	=dev-rust/lazy_static-1*
 	dev-rust/libchromeos:=
 	>=dev-rust/protobuf-2.16 <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16 <dev-rust/protoc-rust-3

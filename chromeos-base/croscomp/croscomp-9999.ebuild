@@ -50,13 +50,9 @@ wayland_commons_DEPEND="
 	=dev-rust/smallvec-1*
 "
 
-wayland_sys_DEPEND="
-	${dlib_DEPEND}
-	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
-"
+wayland_sys_DEPEND="${dlib_DEPEND}"
 
 wayland_server_DEPEND="
-	>=dev-rust/lazy_static-1.0.2 <dev-rust/lazy_static-2.0.0_alpha
 	=dev-rust/nix-0.23*
 	=dev-rust/parking_lot-0.11*
 "

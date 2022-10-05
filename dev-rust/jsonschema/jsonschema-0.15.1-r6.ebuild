@@ -23,7 +23,6 @@ DEPEND="
 	=dev-rust/fancy-regex-0.8*
 	=dev-rust/fraction-0.10*
 	>=dev-rust/iso8601-0.4.1 <dev-rust/iso8601-0.5.0_alpha
-	>=dev-rust/lazy_static-1.4.0 <dev-rust/lazy_static-2.0.0_alpha
 	=dev-rust/num-cmp-0.1*
 	=dev-rust/parking_lot-0.12*
 	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha

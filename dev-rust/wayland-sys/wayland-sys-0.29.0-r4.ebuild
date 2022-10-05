@@ -7,23 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
-HOMEPAGE='https://crates.io/crates/clap'
+DESCRIPTION='FFI bindings to the various libwayland-*.so libraries. You should only need this crate if you are working on custom wayland protocol extensions. Look at the crate wayland-client for usable bindings.'
+HOMEPAGE='https://crates.io/crates/wayland-sys'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/backtrace-0.3*
-	~dev-rust/clap_derive-3.1.7
-	=dev-rust/clap_lex-0.1*
-	=dev-rust/indexmap-1*
-	=dev-rust/lazy_static-1*
-	=dev-rust/textwrap-0.15*
-	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0_alpha
+	dev-rust/dlib
 "
 RDEPEND="${DEPEND}"
 

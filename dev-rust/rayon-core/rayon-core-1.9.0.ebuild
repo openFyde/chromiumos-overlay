@@ -20,7 +20,6 @@ DEPEND="
 	=dev-rust/crossbeam-channel-0.5*
 	=dev-rust/crossbeam-deque-0.8*
 	=dev-rust/crossbeam-utils-0.8*
-	=dev-rust/lazy_static-1*
 "
 RDEPEND="${DEPEND}"
 

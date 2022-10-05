@@ -3,21 +3,15 @@
 
 EAPI="7"
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="A macro for declaring lazily evaluated statics in Rust."
-HOMEPAGE="https://github.com/rust-lang-nursery/lazy-static.rs"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
 
-DEPEND="
-	=dev-rust/spin-0.5*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 # error: could not compile `lazy_static`

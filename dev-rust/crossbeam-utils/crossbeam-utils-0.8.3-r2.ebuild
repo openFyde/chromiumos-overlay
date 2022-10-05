@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/cfg-if-1*
-	=dev-rust/lazy_static-1*
 	=dev-rust/once_cell-1.7*
 "
 

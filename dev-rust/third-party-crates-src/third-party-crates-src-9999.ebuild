@@ -37,6 +37,9 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/lazy_static-1.4.0
+	!=dev-rust/lazy_static-1.4.0-r1
+	!=dev-rust/lazy_static-1.4.0-r2
 	!=dev-rust/libudev-0.2.0
 	!=dev-rust/libudev-0.2.0-r1
 	!=dev-rust/libudev-sys-0.1.4
@@ -490,6 +493,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"itoa-1.0.3"
 	"jobserver-0.1.24"
 	"js-sys-0.3.59"
+	"lazy_static-1.4.0"
 	"libc-0.2.132"
 	"libfuzzer-sys-0.4.4"
 	"libslirp-sys-4.2.1"
