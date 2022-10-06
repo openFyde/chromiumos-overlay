@@ -149,6 +149,7 @@ RDEPEND="${RDEPEND}
 	~chromeos-base/chrome-icu-${PV}
 	chromeos-base/gestures
 	chromeos-base/libevdev:=
+	chromeos-base/mojo_service_manager
 	fonts? ( chromeos-base/chromeos-fonts )
 	chrome_internal? ( chromeos-base/quickoffice )
 	dev-libs/nspr

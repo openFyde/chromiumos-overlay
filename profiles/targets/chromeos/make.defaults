@@ -140,9 +140,6 @@ USE="${USE} mosys_platform_generic"
 # Enable cras-ml
 USE="${USE} cras-ml"
 
-# Enable mojo service manager by default.
-USE="${USE} mojo_service_manager"
-
 # Enable ondevice speech by default.
 USE="${USE} ondevice_speech"
 

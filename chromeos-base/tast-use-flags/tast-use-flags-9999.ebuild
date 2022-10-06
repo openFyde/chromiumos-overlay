@@ -106,7 +106,6 @@ IUSE="
 	moblab
 	mocktpm
 	modemfwd
-	mojo_service_manager
 	msan
 	+nacl
 	ndk_translation
