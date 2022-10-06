@@ -18,9 +18,6 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 RESTRICT="binchecks strip"
-PATCHES=(
-	"${FILESDIR}/${P}-e66f895-dw-tag-variable-fix.patch"
-)
 
 is_cross() {
 	[[ "${CATEGORY}" == cross-* ]]
