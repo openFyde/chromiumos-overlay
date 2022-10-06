@@ -48,3 +48,7 @@ pkg_setup() {
 src_install() {
 	dosbin "${OUT}"/secagentd
 }
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/secagentd_testrunner"
+}
