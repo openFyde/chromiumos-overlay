@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="0891a96d6a6a9c2bc4b2eefd75c9e234ccdda047"
-CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "b4e4f9239cca1ca25c009a96c042411d9c7a97b2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="e62bc0d573a5e1f8308649032dc663781b0009bf"
+CROS_WORKON_TREE=("9706471f3befaf4968d37632c5fd733272ed2ec9" "11d44cba794c78010075ab3e3467dcf208371c8d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -49,4 +49,8 @@ pkg_setup() {
 
 src_install() {
 	dosbin "${OUT}"/secagentd
+}
+
+platform_pkg_test() {
+	platform_test "run" "${OUT}/secagentd_testrunner"
 }
