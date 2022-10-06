@@ -560,7 +560,8 @@ cros-rust_configure_cargo() {
 # @FUNCTION: cros-rust_update_cargo_lock
 # @DESCRIPTION:
 # Regenerates/removes the Cargo.lock file to ensure cargo uses the dependency
-# versions from our local registry.
+# versions from our local registry, and checks the rustc version to make sure
+# intermediates aren't mixed across rustc versions.
 cros-rust_update_cargo_lock() {
 	debug-print-function "${FUNCNAME[0]}"
 
@@ -572,13 +573,18 @@ cros-rust_update_cargo_lock() {
 		# shellcheck disable=SC2154
 		if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" == "1" ]]; then
 			local previous_lockfile="${CARGO_TARGET_DIR}/Cargo.lock.prev"
+			local previous_rustc="${CARGO_TARGET_DIR}/rustc.ver"
+			local rustc_ver="$(rustc --version)"
 			# If any of the dependencies have changed, clear the incremental results.
 			if [[ ! -f "${previous_lockfile}" ]] ||
+					[[ ! -f "${previous_rustc}" ]] ||
+					[[ "$(< "${previous_rustc}")" != "${rustc_ver}" ]] ||
 					! cmp Cargo.lock "${previous_lockfile}" ; then
 				# This will print errors for the .crate files, but that is OK.
 				rm -rf "${CARGO_TARGET_DIR}"
 				mkdir -p "${CARGO_TARGET_DIR}"
 				cp Cargo.lock "${previous_lockfile}" || die
+				echo "${rustc_ver}" > "${previous_rustc}" || die
 			fi
 		fi
 	else
