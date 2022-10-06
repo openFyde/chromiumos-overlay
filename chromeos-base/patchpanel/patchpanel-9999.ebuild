@@ -33,6 +33,7 @@ RDEPEND="
 	chromeos-base/shill
 	net-firewall/iptables
 	net-misc/bridge-utils
+	net-misc/radvd
 	sys-apps/iproute2
 "
 
