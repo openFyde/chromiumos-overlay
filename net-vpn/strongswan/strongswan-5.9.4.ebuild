@@ -13,7 +13,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="+caps curl +constraints debug dhcp eap farp gcrypt +gmp ldap mysql networkmanager +non-root +openssl selinux sqlite systemd pam pkcs11"
 
-STRONGSWAN_PLUGINS_STD="led lookip systime-fix unity vici"
+STRONGSWAN_PLUGINS_STD="lookip systime-fix unity vici"
 STRONGSWAN_PLUGINS_OPT="aesni blowfish bypass-lan ccm chapoly ctr forecast gcm
 ha ipseckey newhope ntru padlock rdrand save-keys unbound whitelist
 xauth-noauth"
@@ -144,15 +144,16 @@ src_configure() {
 		fi
 	done
 
-	# Some of the unneeded EAP-related options are removed.
-	# See https://crrev.com/c/3418633
+	# Some of the unneeded options are disabled or removed.
+	# See https://crrev.com/c/3418633 and https://crrev.com/c/3934003
 	econf \
 		--disable-static \
 		--enable-ikev1 \
 		--enable-ikev2 \
 		--enable-swanctl \
 		--enable-socket-dynamic \
-		--enable-cmd \
+		--disable-stroke \
+		--disable-updown \
 		$(use_enable curl) \
 		$(use_enable constraints) \
 		$(use_enable ldap) \
@@ -188,7 +189,6 @@ src_install() {
 	local dir_ugid
 	if use non-root; then
 		fowners ${UGID}:${UGID} \
-			/etc/ipsec.conf \
 			/etc/strongswan.conf
 
 		dir_ugid="${UGID}"
@@ -211,7 +211,6 @@ src_install() {
 	# files (by l2tpipsec_vpn) in /run on Chromium OS.
 	local link_path=/run/l2tpipsec_vpn/current
 	for cfg_file in \
-		/etc/ipsec.conf \
 		/etc/ipsec.secrets \
 		/etc/ipsec.d/cacerts/cacert.der \
 		/etc/strongswan.conf; do
