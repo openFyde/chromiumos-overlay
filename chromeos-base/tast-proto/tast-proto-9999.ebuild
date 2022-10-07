@@ -26,6 +26,7 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/cros-config-api
 	dev-go/protobuf-legacy-api
 	dev-go/text
 "
