@@ -35,6 +35,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/gcp-storage
 	dev-go/grpc
+	dev-go/infra-proto
 	dev-go/luci-go-common
 	dev-go/mock
 	dev-go/protobuf
