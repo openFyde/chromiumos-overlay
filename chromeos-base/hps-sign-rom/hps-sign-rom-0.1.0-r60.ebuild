@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="aa0596b7f0efdbc2dfc676f1fa63b561e9519f1c"
-CROS_WORKON_TREE="23bbe4437955957cad60eae8b75cc7244d55c201"
+CROS_WORKON_COMMIT="ff5e044704d658f0a416859b6e01207cb4b5635c"
+CROS_WORKON_TREE="9e3dac7306aba10634b88eee4b47512138c8ee2e"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 CROS_RUST_SUBDIR="rust/sign-rom"
@@ -21,7 +21,7 @@ DEPEND="
 	>=dev-rust/anyhow-1.0.38 <dev-rust/anyhow-2.0.0
 	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha
 	=dev-rust/bindgen-0.59*
-	~dev-rust/clap-3.0.0_beta2
+	=dev-rust/clap-3*
 	=dev-rust/colored-2*
 	>=dev-rust/cortex-m-0.6.2 <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rt-0.6.13 <dev-rust/cortex-m-rt-0.7.0
