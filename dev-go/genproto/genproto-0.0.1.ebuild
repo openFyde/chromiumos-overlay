@@ -27,6 +27,7 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/type/date"
 	"google.golang.org/genproto/googleapis/type/expr"
 	"google.golang.org/genproto/protobuf/field_mask"
+	"google.golang.org/genproto/googleapis/chromeos/moblab/v1beta1"
 )
 
 CROS_GO_TEST=(

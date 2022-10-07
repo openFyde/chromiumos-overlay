@@ -14,6 +14,7 @@ CROS_GO_PACKAGES=(
 	"gonum.org/v1/plot/font/liberation"
 	"gonum.org/v1/plot/palette"
 	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/plotutil"
 	"gonum.org/v1/plot/text"
 	"gonum.org/v1/plot/tools/..."
 	"gonum.org/v1/plot/vg/..."
