@@ -54,6 +54,10 @@ src_install() {
 		insinto /usr/share/btf/secagentd
 		doins "${OUT}"/gen/btf/*.min.btf
 	fi
+
+	# Install Upstart configuration.
+	insinto /etc/init
+	doins secagentd.conf
 }
 
 platform_pkg_test() {
