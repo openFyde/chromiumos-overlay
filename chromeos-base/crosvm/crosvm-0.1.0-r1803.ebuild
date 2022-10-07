@@ -64,7 +64,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/futures-0.3*
 	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
 	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
-	~dev-rust/getopts-0.2.18
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=
 	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
