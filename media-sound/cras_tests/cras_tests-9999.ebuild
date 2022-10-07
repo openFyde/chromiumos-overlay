@@ -25,8 +25,8 @@ DEPEND="
 	>=dev-rust/clap-3.1.12 <dev-rust/clap-4.0
 	=dev-rust/dbus-0.9*
 	dev-rust/hound
+	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1*
-	dev-rust/sys_util:=
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "

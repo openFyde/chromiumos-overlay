@@ -22,7 +22,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/alsa-sys-0.2.0 <dev-rust/alsa-sys-0.3.0
-	dev-rust/sys_util:=
+	=dev-rust/log-0.4*:=
 	media-sound/cros_alsa_derive:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
