@@ -1,14 +1,18 @@
-# Copyright 2017 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
-# The dev-go/gcp* packages are all built from this repo.  They should
-# be updated together.
+# The dev-go/gcp* packages are all built from this repo. They should be updated
+# together.
 CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/go v${PV}"
 
 CROS_GO_PACKAGES=(
-	"cloud.google.com/go/trace/apiv2"
+	"cloud.google.com/go/storage"
+	"cloud.google.com/go/storage/internal"
+	"cloud.google.com/go/storage/internal/apiv2"
+	"cloud.google.com/go/storage/internal/apiv2/stubs"
+	"cloud.google.com/go/storage/internal/test/conformance"
 )
 
 CROS_GO_TEST=(
@@ -25,15 +29,14 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-RESTRICT="binchecks strip"
+RESTRICT="binchecks"
 
 DEPEND="
-	dev-go/cmp
 	dev-go/gapi
-	dev-go/gax:1
+	dev-go/gcp
+	dev-go/gcp-iam
+	dev-go/gcp-trace
 	dev-go/genproto
-	dev-go/grpc
-	dev-go/net
-	dev-go/opencensus
+	dev-go/gax
 "
 RDEPEND="${DEPEND}"

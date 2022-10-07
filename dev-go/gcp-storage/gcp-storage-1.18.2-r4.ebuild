@@ -1,1 +1,0 @@
-gcp-storage-1.18.2.ebuild

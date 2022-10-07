@@ -1,4 +1,4 @@
-# Copyright 2018 The ChromiumOS Authors
+# Copyright 2017 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
 EAPI=5
@@ -8,8 +8,8 @@ EAPI=5
 CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/go v${PV}"
 
 CROS_GO_PACKAGES=(
-	"cloud.google.com/go/bigquery"
-	"cloud.google.com/go/internal/detect"
+	"cloud.google.com/go/trace/apiv2"
+	"cloud.google.com/go/trace/internal"
 )
 
 CROS_GO_TEST=(
@@ -29,8 +29,12 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/cmp
 	dev-go/gapi
-	dev-go/gcp
+	dev-go/gax:1
 	dev-go/genproto
+	dev-go/grpc
+	dev-go/net
+	dev-go/opencensus
 "
 RDEPEND="${DEPEND}"

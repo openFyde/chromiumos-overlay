@@ -10,6 +10,7 @@ CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/
 CROS_GO_PACKAGES=(
 	"cloud.google.com/go/civil"
 	"cloud.google.com/go/internal"
+	"cloud.google.com/go/internal/detect"
 	"cloud.google.com/go/internal/fields"
 	"cloud.google.com/go/internal/optional"
 	"cloud.google.com/go/internal/trace"
@@ -17,6 +18,8 @@ CROS_GO_PACKAGES=(
 	"cloud.google.com/go/internal/uid"
 	"cloud.google.com/go/internal/version"
 	"cloud.google.com/go/httpreplay/..."
+	"cloud.google.com/go/longrunning"
+	"cloud.google.com/go/longrunning/autogen"
 )
 
 CROS_GO_TEST=(
@@ -44,6 +47,8 @@ DEPEND="
 	dev-go/genproto
 	dev-go/net
 	dev-go/protoc-gen-go-grpc
+	dev-go/martian
+	dev-go/gax
 "
 RDEPEND="
 	${DEPEND}

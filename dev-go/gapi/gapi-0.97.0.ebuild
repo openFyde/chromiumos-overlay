@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/google/google-api-go-client:google.golang.org/api ccca5aa6d9d9aba8ad11c879ccea89c94663ea39"
+CROS_GO_SOURCE="github.com/google/google-api-go-client:google.golang.org/api v${PV}"
 
 # temporary cyclic dep workaround until we switch to modules mode
 # which can correctly handle for eg gapi -> opencensus -> gapi
@@ -56,6 +56,7 @@ DEPEND="
 	dev-go/golang-groupcache
 	dev-go/cmp
 	dev-go/net
+	dev-go/enterprise-certificate-proxy
 "
 RDEPEND="
 	!dev-go/gapi-bigquery

@@ -7,6 +7,7 @@ CROS_GO_SOURCE="github.com/googleapis/gax-go v${PV}"
 
 CROS_GO_PACKAGES=(
 	"github.com/googleapis/gax-go/v2"
+	"github.com/googleapis/gax-go/v2/internal"
 	"github.com/googleapis/gax-go/v2/apierror"
 	"github.com/googleapis/gax-go/v2/apierror/internal/proto"
 )

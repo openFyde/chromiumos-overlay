@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="go.googlesource.com/oauth2:golang.org/x/oauth2 d3ed0bb246c8d3c75b63937d9a5eecff9c74d7fe"
+CROS_GO_SOURCE="go.googlesource.com/oauth2:golang.org/x/oauth2 b44042a4b9c12aec471902e0287a912bcb3ac1db"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/oauth2"
@@ -20,8 +20,7 @@ CROS_GO_TEST=(
 	#Flaky: "golang.org/x/oauth2/internal"
 	"golang.org/x/oauth2/jws"
 	"golang.org/x/oauth2/jwt"
-	# Needs to import "google.golang.org/appengine", which we don't have.
-	# "golang.org/x/oauth2/google"
+	"golang.org/x/oauth2/google"
 )
 
 inherit cros-go
@@ -37,9 +36,9 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
-	dev-go/gcp
 	dev-go/gcp-compute
+	dev-go/cmp
 	dev-go/net
-	dev-go/yaml:0
+	dev-go/appengine
 "
 RDEPEND="${DEPEND}"
