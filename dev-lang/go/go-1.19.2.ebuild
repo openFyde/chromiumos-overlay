@@ -17,7 +17,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 IUSE=""
-RESTRICT="binchecks strip"
+RESTRICT="binchecks"
 
 is_cross() {
 	[[ "${CATEGORY}" == cross-* ]]
