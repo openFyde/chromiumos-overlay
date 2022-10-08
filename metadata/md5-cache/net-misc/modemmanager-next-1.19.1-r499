@@ -4,11 +4,11 @@ DEPEND=>=dev-libs/glib-2.36 >=sys-apps/dbus-1.2 dev-libs/dbus-glib net-dialup/pp
 DESCRIPTION=Modem and mobile broadband management libraries
 EAPI=7
 HOMEPAGE=https://www.freedesktop.org/wiki/Software/ModemManager/
-IUSE=doc mbim systemd qmi qrtr asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_09b3a1bb6a5b1d318401f5450a8e8eddab783c01
+IUSE=doc mbim systemd qmi qrtr asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_a90f59a2e56bf674152f2ed7799bd490fd2d4782
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=>=dev-libs/glib-2.36 >=sys-apps/dbus-1.2 dev-libs/dbus-glib net-dialup/ppp mbim? ( net-libs/libmbim ) qmi? ( net-libs/libqmi ) qrtr? ( net-libs/libqrtr-glib ) !net-misc/modemmanager sys-apps/baselayout
 SLOT=0
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	71fd8d2065d102753fb9e4d20eaf3e9f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	udev	452708c3f55cf6e918b045adb949a9e6	user	7c566af8c48023219fd63246e88d6621
-_md5_=512a1ad3b950aba674e7d41bfb555742
+_md5_=01055ee4b5d0741a8461584470fcc9ad
