@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="ebc25a1beb1c486db1d4bacaaeb005602364c0ec"
+CROS_WORKON_COMMIT="89de36df2a5bc41b7cd7e07dc1b43571dad320f5"
 CROS_WORKON_TREE=("ed6069240da89300da1d05f8c1a32abb66c53a1f" "d3965c033fc496b2cf17272383bc20d6d0ad4721")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
@@ -29,7 +29,6 @@ DEPEND="
 	dev-rust/hound
 	=dev-rust/serde_json-1*
 	dev-rust/sys_util:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "

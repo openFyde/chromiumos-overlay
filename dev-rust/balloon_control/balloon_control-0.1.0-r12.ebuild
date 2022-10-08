@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2357c0678fc7b8c4f8a69112e886f6c9e0b77f9"
+CROS_WORKON_COMMIT="306edb5a3e9b84e22b2b1e19b56330f87f05480f"
 CROS_WORKON_TREE="8575bca0d1552392004e380023f4220582ec516f"
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -22,7 +22,5 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="test"
 
-DEPEND="
-	=dev-rust/serde-1*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

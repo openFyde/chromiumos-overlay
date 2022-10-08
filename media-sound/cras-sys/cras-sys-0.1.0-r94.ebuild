@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="db6a97f43d20a74e5b7ef57d9d49c2c3e6032cf4"
+CROS_WORKON_COMMIT="89de36df2a5bc41b7cd7e07dc1b43571dad320f5"
 CROS_WORKON_TREE=("b45458de5614e88d05a355b689aeb84178ca777c" "ce1cb9469c1e12cc7affeaf71594ae7c785237ec")
 CROS_RUST_SUBDIR="cras/client/cras-sys"
 # TODO(b/175640259) Fix tests for ARM.
@@ -26,8 +26,8 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	=dev-rust/serde-1*
 	media-sound/audio_streams:=
 	virtual/bindgen:=
 "

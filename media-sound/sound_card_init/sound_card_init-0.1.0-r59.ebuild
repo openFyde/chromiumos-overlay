@@ -26,8 +26,6 @@ DEPEND="
 	dev-rust/sys_util:=
 	dev-rust/serde_json
 	dev-rust/serde_yaml
-	dev-rust/thiserror
-	dev-rust/remain
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
 	media-sound/libcras:=

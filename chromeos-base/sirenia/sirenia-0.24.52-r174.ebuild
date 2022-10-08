@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bc62a17d70c8f9409f68083b1f73732beb44e4d"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="ea7ad5ed0c85f47c25ed4d112344f7e251e36eb6"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,12 +34,9 @@ DEPEND="
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
-	=dev-rust/serde-1*
 	=dev-rust/serde_bytes-0.10*
-	=dev-rust/serde_derive-1*
 	=dev-rust/serde_json-1*
 	=dev-rust/stderrlog-0.5*
-	=dev-rust/thiserror-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

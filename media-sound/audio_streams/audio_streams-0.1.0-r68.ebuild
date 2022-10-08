@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="f2357c0678fc7b8c4f8a69112e886f6c9e0b77f9"
+CROS_WORKON_COMMIT="306edb5a3e9b84e22b2b1e19b56330f87f05480f"
 CROS_WORKON_TREE=("c2fd84c17b3e04fb619cf909299c377c0df4f6ad" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -25,13 +25,11 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
-	=dev-rust/async-trait-0.1*
+	dev-rust/third-party-crates-src:=
 	=dev-rust/futures-0.3*
-	=dev-rust/remain-0.2*
 	dev-rust/serde_json
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	=dev-rust/thiserror-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

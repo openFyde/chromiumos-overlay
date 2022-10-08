@@ -4,7 +4,7 @@
 EAPI=7
 
 # This is used to break a circular dependency caused by tests.
-CROS_WORKON_COMMIT="72d50ec3c95b9bfe4bdc0cd7d239d7fb4196826f"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="41919ac75e11e1cdf8e8bfa61fd6637c14baa3f9"
 CROS_RUST_REMOVE_DEV_DEPS=1
 CROS_RUST_SUBDIR="sirenia/libsirenia/sirenia-rpc-macros"
@@ -25,7 +25,6 @@ IUSE=""
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	=dev-rust/syn-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

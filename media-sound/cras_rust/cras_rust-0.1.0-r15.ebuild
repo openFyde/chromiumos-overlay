@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="7020d3d34cbc31c7bc7c41524c5cd1f80b49cc82"
+CROS_WORKON_COMMIT="89de36df2a5bc41b7cd7e07dc1b43571dad320f5"
 CROS_WORKON_TREE="5144cda3f9748955562ca6e9becc115a822d24ac"
 CROS_RUST_SUBDIR="cras/src/server/rust"
 
@@ -28,7 +28,6 @@ DEPEND="
 	=dev-rust/dbus-0.9*
 	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	dev-rust/system_api:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bc62a17d70c8f9409f68083b1f73732beb44e4d"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="e733f7a6b19ddc3c095bc4261a7b09ede44b73b2"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -33,11 +33,8 @@ DEPEND="
 	=dev-rust/log-0.4*
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*
-	=dev-rust/serde-1*
 	=dev-rust/serde_bytes-0.10*
-	=dev-rust/serde_derive-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/thiserror-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

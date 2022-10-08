@@ -25,14 +25,12 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/async-trait-0.1.36 <dev-rust/async-trait-0.2
 	dev-rust/cros_async:=
 	dev-rust/data_model:=
 	dev-rust/sys_util:=
 	media-sound/audio_streams:=
 	media-sound/cras-sys:=
 	=dev-rust/anyhow-1*
-	=dev-rust/serde-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1dffef3b5fa35642ed3ad2b54aa7554bf0d3ed60"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="350f4eb91cb8defa74f86974decd78a1e693cfb0"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,6 +21,7 @@ IUSE="manatee"
 RDEPEND="sys-apps/dbus"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
@@ -30,9 +31,6 @@ DEPEND="
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
 	=dev-rust/protoc-rust-2*
-	=dev-rust/serde-1*
-	=dev-rust/serde_derive-1*
-	=dev-rust/thiserror-1*
 "
 
 pkg_setup() {

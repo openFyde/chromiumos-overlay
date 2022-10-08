@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a16d1ccd7788a7d0a65479cecf7f99e3ad1dcf48"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="540348b363ed0c8e6c52788d97aa273179aedfff"
 CROS_RUST_SUBDIR="sirenia/manatee-runtime"
 
@@ -28,7 +28,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/once_cell-1*
-	=dev-rust/serde-1*
 	=dev-rust/serde_bytes-0.10*
 	=dev-rust/stderrlog-0.5*
 	dev-rust/sync:=

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bc62a17d70c8f9409f68083b1f73732beb44e4d"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="0b6b4bd93cca3b7f7f13bf0ba6e93c9a67b6f24c"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,13 +34,10 @@ DEPEND="
 	=dev-rust/syslog-6*
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
-	=dev-rust/serde-1*
-	dev-rust/serde_derive
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	dev-rust/system_api:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2.0.0_alpha
 	>=dev-rust/zeroize-1.5.1 <dev-rust/zeroize-2.0.0_alpha
 "
 RDEPEND="${DEPEND}

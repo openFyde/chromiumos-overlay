@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="35c6f7da52311db0168c3608fa576da3c1cd81be"
+CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
 CROS_WORKON_TREE="3153082243c3a6780a60957b4be217f68c945842"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,6 +18,7 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
 	=dev-rust/anyhow-1.0*
 	=dev-rust/chrono-0.4*
@@ -27,11 +28,9 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	=dev-rust/nix-0.23*
-	=dev-rust/serde-1.0*
 	=dev-rust/serde_json-1.0*
 	dev-rust/sys_util:=
 	=dev-rust/tempfile-3*
-	=dev-rust/thiserror-1.0*
 "
 
 RDEPEND="
