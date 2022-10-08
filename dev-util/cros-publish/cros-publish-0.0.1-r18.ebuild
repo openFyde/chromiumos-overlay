@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="dbad4ad5fba2395994f310f06974cd6de1f5dcaf"
+CROS_WORKON_COMMIT="a7d8a4e186c4dad896519c51bd8d724c7594bd9f"
 CROS_WORKON_TREE="9cde03f2fbff048472fb2966b9016b364d6b93cd"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
@@ -37,6 +37,7 @@ DEPEND="
 	dev-go/crypto
 	dev-go/gcp-storage
 	dev-go/grpc
+	dev-go/infra-proto
 	dev-go/luci-go-common
 	dev-go/mock
 	dev-go/protobuf
