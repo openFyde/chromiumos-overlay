@@ -4,12 +4,12 @@ DEPEND=sys-apps/util-linux >=sys-fs/e2fsprogs-1.41 sys-libs/libnih
 DESCRIPTION=Ureadahead - Read files in advance during boot
 EAPI=7
 HOMEPAGE=https://launchpad.net/ureadahead
-IUSE=arcvm arcpp arcvm cheets android-container-pi android-vm-rvc android-vm-sc android-vm-tm android-vm-master
+IUSE=arcvm arcpp arcvm cheets android-container-pi android-container-rvc android-vm-rvc android-vm-sc android-vm-tm android-vm-master
 KEYWORDS=*
 LICENSE=GPL-2
 RDEPEND=sys-apps/util-linux >=sys-fs/e2fsprogs-1.41 sys-libs/libnih
-REQUIRED_USE=cheets? ( || ( arcpp arcvm ) arcpp? ( ^^ ( android-container-pi ) ) arcvm? ( ^^ ( android-vm-rvc android-vm-sc android-vm-tm android-vm-master ) ) ) !cheets? ( !arcpp !arcvm ) !arcpp? ( !android-container-pi ) !arcvm? ( !android-vm-rvc !android-vm-sc !android-vm-tm !android-vm-master )
+REQUIRED_USE=cheets? ( || ( arcpp arcvm ) arcpp? ( ^^ ( android-container-pi android-container-rvc ) ) arcvm? ( ^^ ( android-vm-rvc android-vm-sc android-vm-tm android-vm-master ) ) ) !cheets? ( !arcpp !arcvm ) !arcpp? ( !android-container-pi !android-container-rvc ) !arcvm? ( !android-vm-rvc !android-vm-sc !android-vm-tm !android-vm-master )
 SLOT=0
 SRC_URI=https://launchpad.net/ureadahead/trunk/0.100.0/+download/ureadahead-0.100.0.tar.gz
-_eclasses_=arc-build-constants	deb100e331b0546b8802c179fb4d3888
+_eclasses_=arc-build-constants	9e14d85cd68e0a2017b5202fd8106ddb
 _md5_=ba84e8ab6f9d14b1d9ad572d156a245d
