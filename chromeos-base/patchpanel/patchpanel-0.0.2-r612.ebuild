@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="85b14a06205ad4309c718357829421bc4706d018"
+CROS_WORKON_COMMIT="3fdfdfc0cbad55c933a8e3f2aa665d58b79d3cfd"
 CROS_WORKON_TREE=("4b7854d72e018cacbb3455cf56f41cee31c70fc1" "eb510d666a66e6125e281499b649651b849a25f7" "f268ab0e13387770ab2fc8107b07dde67ca5ff12" "81890b4800562f35ff4adf0a98c7794bc86ba966" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,6 +35,7 @@ RDEPEND="
 	chromeos-base/shill
 	net-firewall/iptables
 	net-misc/bridge-utils
+	net-misc/radvd
 	sys-apps/iproute2
 "
 
