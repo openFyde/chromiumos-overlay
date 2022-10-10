@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="85b14a06205ad4309c718357829421bc4706d018"
-CROS_WORKON_TREE=("4b7854d72e018cacbb3455cf56f41cee31c70fc1" "5eab078bf6770f12690d9966d890c1d8b13a21ba" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="3fdfdfc0cbad55c933a8e3f2aa665d58b79d3cfd"
+CROS_WORKON_TREE=("4b7854d72e018cacbb3455cf56f41cee31c70fc1" "3a4edcd3e884446abccb22b4448dea473396cb1d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -47,6 +47,7 @@ src_install() {
 	insinto /usr/share/arcvm/fsverity-certs
 	doins arc/vm/scripts/init/certs/fsverity-release.x509.der
 	doins arc/vm/scripts/init/certs/play_store_fsi_cert.der
+	doins arc/vm/scripts/init/certs/gms_fsverity_cert.der
 
 	# Redirect ARCVM logs to arc.log.
 	insinto /etc/rsyslog.d
