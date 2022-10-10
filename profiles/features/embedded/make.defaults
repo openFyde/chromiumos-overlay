@@ -106,5 +106,8 @@ USE="${USE} -selinux"
 # Disable ondevice speech.
 USE="${USE} -ondevice_speech"
 
+# Disable security event reporting daemon.
+USE="${USE} -secagent"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"

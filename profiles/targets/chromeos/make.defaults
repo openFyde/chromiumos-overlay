@@ -143,6 +143,9 @@ USE="${USE} cras-ml"
 # Enable ondevice speech by default.
 USE="${USE} ondevice_speech"
 
+# Enable secagentd by default.
+USE="${USE} secagent"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
