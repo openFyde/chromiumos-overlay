@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="85b14a06205ad4309c718357829421bc4706d018"
-CROS_WORKON_TREE=("4b7854d72e018cacbb3455cf56f41cee31c70fc1" "ee864d107bd10c677ae222b1063677b620b3bc2b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="13e3fbc0c71cec336c7a06523fcc6721142f7dd1"
+CROS_WORKON_TREE=("4b7854d72e018cacbb3455cf56f41cee31c70fc1" "78fd7c4d3154940eb79b9719cdbae9f88fa0f5ac" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -50,8 +50,12 @@ src_install() {
 	doins share/org.chromium.featured.conf
 
 	insinto /etc/init
-	doins share/featured.conf share/featured-chrome-restart.conf\
-		share/platform-features.json
+	doins share/featured.conf share/featured-chrome-restart.conf
+
+	dodir /etc/featured
+	insinto /etc/featured
+	fperms 0544 /etc/featured
+	doins share/platform-features.json
 
 	local fuzzer_component_id="1096648"
 	platform_fuzzer_install "${S}"/OWNERS \
