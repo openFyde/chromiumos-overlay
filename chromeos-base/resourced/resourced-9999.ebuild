@@ -46,7 +46,7 @@ src_install() {
 	doins init/resourced.conf
 
 	# Install udev rules.
-	udev_dorules udev/99-resourced-permissions.rules
+	udev_dorules udev/99-resourced.rules
 
 	if [[ -d tmpfiles.d ]]; then
 		insinto /usr/lib/tmpfiles.d
