@@ -7,7 +7,7 @@ rseq: 1
 
 # common syscalls:
 recvfrom: 1
-mprotect: 1
+mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 close: 1
 read: 1
 sendto: 1
@@ -47,7 +47,7 @@ getpid: 1
 gettid: 1
 
 # architecture-dependent syscalls:
-mmap: 1
+mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 newfstatat: 1
 fstat: 1
 fstatfs: 1
