@@ -62,8 +62,8 @@ lstat: 1
 madvise: 1
 memfd_create: 1
 mkdir: 1
-mmap: 1
-mprotect: 1
+mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
+mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 mremap: 1
 munmap: 1
 name_to_handle_at: 1

@@ -60,8 +60,8 @@ madvise: 1
 memfd_create: 1
 mkdirat: 1
 # Don't allow mmap or mprotect with both PROT_WRITE and PROT_EXEC
-mmap: arg2 in 0xfffffffb || arg2 in 0xfffffffd
-mprotect: arg2 in 0xfffffffb || arg2 in 0xfffffffd
+mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
+mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 mremap: 1
 munmap: 1
 name_to_handle_at: 1

@@ -34,8 +34,8 @@ gettimeofday: 1
 getuid: 1
 ioctl: 1
 lseek: 1
-mmap: 1
-mprotect: 1
+mmap: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
+mprotect: arg2 in ~PROT_EXEC || arg2 in ~PROT_WRITE
 mremap: 1
 munmap: 1
 nanosleep: 1
