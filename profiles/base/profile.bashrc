@@ -550,18 +550,12 @@ cros_post_src_install_coverage_logs() {
 		# TODO: Find more directories other than ${OUT} and ${WORKDIR}
 		# that the package may use for producing binaries.
 		readarray -t cov_args < <(scanelf -qRy -k__llvm_covmap \
-			-F$'-object\n#k%F' "${OUT}" "${WORKDIR}")
+			-F$'-object\n#k%F' "${OUT}" "${WORKDIR}" \
+			"${CARGO_TARGET_DIR}/ecargo-test/${CHOST}")
 
 		if [[ "${#cov_args[@]}" -eq 0 ]]; then
-			# Look for object files in rust deps instead.
-			local obj_file
-			obj_file=$(find "${CARGO_TARGET_DIR}/ecargo-test/${CHOST}/release/deps/" -maxdepth 1 -type f -executable)
-			if [[ -n "${obj_file}" ]]; then
-				cov_args+=(-object "${obj_file}")
-			else
-				elog "No object files found with coverage data."
-				return
-			fi
+			elog "No object files found with coverage data."
+			return
 		fi
 
 		# Generate json format coverage report.
