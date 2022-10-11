@@ -6,10 +6,10 @@ EAPI=7
 
 XORG_DOC=doc
 XORG_EAUTORECONF="yes"
-inherit xorg-3
+inherit xorg-3 flag-o-matic
 
 MY_P="xorg-server-${PV}"
-SRC_URI="https://www.x.org/releases/individual/xserver/${MY_P}.tar.bz2"
+SRC_URI="https://www.x.org/releases/individual/xserver/${MY_P}.tar.xz"
 DESCRIPTION="XWayland"
 SLOT="0/${PV}"
 KEYWORDS="*"
@@ -47,6 +47,8 @@ PATCHES=(
 	"${FILESDIR}"/0001-Eliminate-conflict-with-X11-Xlib.h-with-khronos-eglp.patch
 	"${FILESDIR}"/0001-xwayland-sysmacros.patch
 	"${FILESDIR}"/0001-xwayland-Fall-back-to-gbm_bo_create-if-no-modifiers-.patch
+	"${FILESDIR}"/0001-Revert-xwayland-Use-a-fixed-DPI-value-for-core-proto.patch
+	"${FILESDIR}"/0001-Use-toolchain-pkg-config.patch
 )
 
 src_prepare() {
@@ -86,6 +88,8 @@ src_configure() {
 			--with-xkb-bin-directory="/opt/google/cros-containers/bin"
 		)
 	fi
+
+	append-lfs-flags
 
 	xorg-3_src_configure
 }
