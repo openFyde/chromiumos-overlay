@@ -559,7 +559,8 @@ cros_post_src_install_coverage_logs() {
 			if [[ -n "${obj_file}" ]]; then
 				cov_args+=(-object "${obj_file}")
 			else
-				die "No object files found."
+				elog "No object files found with coverage data."
+				return
 			fi
 		fi
 
