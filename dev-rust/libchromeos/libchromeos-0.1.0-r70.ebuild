@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5d88f037975efa6390891b9fa8be6ee4cc27bc8d"
-CROS_WORKON_TREE="007a65b055ce5d46aec9d03c82ecd66b7d8d76a2"
+CROS_WORKON_COMMIT="b933ffdecb3ee250c74c6c646b12ccac3330caff"
+CROS_WORKON_TREE="c4580a6b1f87a0d7fb2b22b1d3b5965f38f9e3fd"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -28,6 +28,7 @@ DEPEND="
 	=dev-rust/lazy_static-1*
 	=dev-rust/log-0.4*
 	=dev-rust/multi_log-0.1*
+	>=dev-rust/poll_token_derive-0.1.1:=
 	=dev-rust/stderrlog-0.5*
 	=dev-rust/syslog-6*
 	dev-rust/system_api:=
