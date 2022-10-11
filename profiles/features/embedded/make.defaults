@@ -29,6 +29,9 @@ USE="${USE} metrics_uploader"
 USE="${USE} -ml_service -ondevice_grammar -ondevice_text_suggestions"
 USE="${USE} -ondevice_handwriting"
 
+# Disable ime addons (requires ondevice_handwriting)
+USE="${USE} -ime_addons"
+
 # Disable usbguard and usb_bouncer on embedded CrOS because they currently only
 # protect the lockscreen.
 USE="${USE} -usb_bouncer -usbguard"
