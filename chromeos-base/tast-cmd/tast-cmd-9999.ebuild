@@ -30,7 +30,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE=""
+IUSE="coverage"
 
 # Build-time dependencies should be added to tast-build-deps, not here.
 DEPEND="chromeos-base/tast-build-deps:="
@@ -53,4 +53,21 @@ src_prepare() {
 	export GOPIE=0
 
 	default
+}
+
+src_test() {
+	# mapfile reads output from go_list into array
+	mapfile -t pkglist < <(go_list "${CROS_GO_TEST[@]}")
+	local coverage_path="${T}/coverage_logs"
+	if use coverage; then
+		mkdir -p "${coverage_path}"
+		local pkg_cover="${PN}_cover.out"
+		local pkg_report="${PN}.html"
+		GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) test -short \
+			-coverprofile="${coverage_path}/${pkg_cover}" "${pkglist[@]}" || die
+		GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) tool cover \
+			-html="${coverage_path}/${pkg_cover}" -o "${coverage_path}/${pkg_report}" || die
+	else
+		GO111MODULE=${GO111MODULE:-off} GOPATH="$(cros-go_gopath)" $(tc-getBUILD_GO) test -short "${pkglist[@]}" || die
+	fi
 }
