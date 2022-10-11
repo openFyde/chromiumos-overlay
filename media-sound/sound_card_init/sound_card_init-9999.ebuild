@@ -30,6 +30,12 @@ DEPEND="
 	media-sound/sof_sys:=
 "
 
+src_prepare() {
+	cros-rust_src_prepare
+	cros-rust-patch-cargo-toml "${S}/amp/Cargo.toml"
+	cros-rust-patch-cargo-toml "${S}/dsm/Cargo.toml"
+}
+
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/sound_card_init"
 

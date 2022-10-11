@@ -298,6 +298,56 @@ cros-rust_src_unpack() {
 	fi
 }
 
+# @FUNCTION: cros-rust-patch-cargo-toml
+# @USAGE: <path to Cargo.toml file>
+# @DESCRIPTION:
+# Patches the Cargo.toml at "${1}". This function supports
+# "# provided by ebuild" macro and "# ignored by ebuild" macro for replacing
+# and removing path dependencies.
+#
+# NOTE: the Cargo.toml will be modified in place. This is not compatible with
+# CROS_WORKON_OUTOFTREE_BUILD.
+cros-rust-patch-cargo-toml() {
+	local cargo_toml_path="${1}"
+	[[ -e "${cargo_toml_path}" ]] || die "Provided path doesn't exist"
+
+	# shellcheck disable=SC2154
+	if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
+		die "CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using" \
+			"\`provided by ebuild\`"
+	fi
+
+	# '# provided by ebuild'
+	# Replace path dependencies with ones provided by their ebuild.
+	#
+	# For local developer builds, we want Cargo.toml to contain path
+	# dependencies on sibling crates within the same repository or elsewhere
+	# in the Chrome OS source tree. This enables developers to run `cargo
+	# build` and have dependencies resolve correctly to their locally
+	# checked out code.
+	#
+	# At the same time, some crates contained within the crosvm repository
+	# have their own ebuild independent of the crosvm ebuild so that they
+	# are usable from outside of crosvm. Ebuilds of downstream crates won't
+	# be able to depend on these crates by path dependency because that
+	# violates the build sandbox. We perform a sed replacement to eliminate
+	# the path dependency during ebuild of the downstream crates.
+	#
+	# The sed command says: in any line containing `# provided by ebuild`,
+	# please replace `path = "..."` with `version = "*"`. The intended usage
+	# is like this:
+	#
+	#     [dependencies]
+	#     data_model = { path = "../data_model" }  # provided by ebuild
+	#
+	# '# ignored by ebuild'
+	# Emerge ignores "out-of-sandbox" [patch.crates-io] lines in Cargo.toml.
+	sed -i \
+		-e '/# provided by ebuild$/ s/path = "[^"]*"/version = "*"/' \
+		-e '/# ignored by ebuild/d' \
+		"${cargo_toml_path}" || die
+}
+
 # @FUNCTION: cros-rust_src_prepare
 # @DESCRIPTION:
 # Prepares the src. This function supports "# provided by ebuild" macro and
@@ -307,53 +357,8 @@ cros-rust_src_unpack() {
 # ${S}/Cargo.toml, CROS_WORKON_OUTOFTREE_BUILD can't be set to 1 in its ebuild.
 cros-rust_src_prepare() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
-	if grep -q "# provided by ebuild" "${S}/Cargo.toml"; then
-		# This triggers a linter error SC2154 which says:
-		#   "CROS_WORKON_OUTOFTREE_BUILD is used but not defined inside this file"
-		# Since CROS_WORKON_OUTOFTREE_BUILD comes from outside the file, that's ok
-		# shellcheck disable=SC2154
-		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
-			die "CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using" \
-				"\`provided by ebuild\`"
-		fi
-
-		# Replace path dependencies with ones provided by their ebuild.
-		#
-		# For local developer builds, we want Cargo.toml to contain path
-		# dependencies on sibling crates within the same repository or elsewhere
-		# in the Chrome OS source tree. This enables developers to run `cargo
-		# build` and have dependencies resolve correctly to their locally
-		# checked out code.
-		#
-		# At the same time, some crates contained within the crosvm repository
-		# have their own ebuild independent of the crosvm ebuild so that they
-		# are usable from outside of crosvm. Ebuilds of downstream crates won't
-		# be able to depend on these crates by path dependency because that
-		# violates the build sandbox. We perform a sed replacement to eliminate
-		# the path dependency during ebuild of the downstream crates.
-		#
-		# The sed command says: in any line containing `# provided by ebuild`,
-		# please replace `path = "..."` with `version = "*"`. The intended usage
-		# is like this:
-		#
-		#     [dependencies]
-		#     data_model = { path = "../data_model" }  # provided by ebuild
-		#
-		sed -i \
-			'/# provided by ebuild$/ s/path = "[^"]*"/version = "*"/' \
-			"${S}/Cargo.toml" || die
-	fi
-
-	if grep -q "# ignored by ebuild" "${S}/Cargo.toml"; then
-		if [[ "${CROS_WORKON_OUTOFTREE_BUILD}" == 1 ]]; then
-			die "CROS_WORKON_OUTOFTREE_BUILD=1 must not be set when using" \
-				"\`ignored by ebuild\`"
-		fi
-		# Emerge ignores "out-of-sandbox" [patch.crates-io] lines in
-		# Cargo.toml.
-		sed -i \
-			'/# ignored by ebuild/d' \
-			"${S}/Cargo.toml" || die
+	if grep -q "# provided by ebuild\|# ignored by ebuild" "${S}/Cargo.toml"; then
+		cros-rust-patch-cargo-toml "${S}/Cargo.toml"
 	fi
 
 	# Remove dev-dependencies and target.cfg sections within the Cargo.toml file
