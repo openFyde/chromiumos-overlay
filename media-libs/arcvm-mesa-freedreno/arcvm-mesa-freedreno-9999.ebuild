@@ -87,7 +87,6 @@ multilib_src_configure() {
 		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
 		-Dgallium-va=false
 		-Dgallium-vdpau=false
-		-Dgallium-xvmc=false
 		-Dgallium-omx=disabled
 		-Dglx=disabled
 		-Ddri3=false

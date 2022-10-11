@@ -294,7 +294,6 @@ multilib_src_configure() {
 		$(use cheets && echo "-Ddri-search-path=/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri")
 		-Dgallium-va=false
 		-Dgallium-vdpau=false
-		-Dgallium-xvmc=false
 		-Dgallium-omx=disabled
 		-Dgallium-xa=false
 		-Dasm=false
