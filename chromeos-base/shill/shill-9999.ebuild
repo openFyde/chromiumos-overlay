@@ -40,7 +40,6 @@ COMMON_DEPEND="
 	net-firewall/iptables:=
 	virtual/wpa_supplicant
 	sys-apps/rootdev:=
-	cellular? ( net-misc/modemmanager-next:= )
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -49,11 +48,13 @@ RDEPEND="${COMMON_DEPEND}
 	vpn? ( net-vpn/openvpn )
 	vpn? ( net-vpn/strongswan:= )
 	wireguard? ( net-vpn/wireguard-tools )
+	cellular? ( net-misc/modemmanager-next:= )
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	net-misc/modemmanager-next:=
 "
 PDEPEND="chromeos-base/patchpanel"
 
