@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f8bbb2ec08b581c11c8824d4a62e6190287ba85a"
+CROS_WORKON_COMMIT="374f9ab3d92aed2ea3458bf6e7a8cab40952d6b8"
 CROS_WORKON_TREE=("4b7854d72e018cacbb3455cf56f41cee31c70fc1" "eb510d666a66e6125e281499b649651b849a25f7" "c6a94df024f873d5d8f83ec62dec768b93362ea0" "a6d1c57db2ba8019e9200ff083cb84412d758b69" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -33,6 +33,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/shill
+	net-dns/dnsmasq
 	net-firewall/iptables
 	net-misc/bridge-utils
 	net-misc/radvd
