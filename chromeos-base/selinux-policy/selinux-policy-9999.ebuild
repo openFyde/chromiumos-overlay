@@ -17,6 +17,7 @@ KEYWORDS="~*"
 # Keep this in sync with has_arc().
 IUSE="
 	android-container-pi
+	android-container-rvc
 	android-vm-master
 	android-vm-rvc
 	android-vm-sc
@@ -28,6 +29,7 @@ IUSE="
 "
 DEPEND="
 	android-container-pi? ( chromeos-base/android-container-pi:0= )
+	android-container-rvc? ( chromeos-base/android-container-rvc:0= )
 	android-vm-master? ( chromeos-base/android-vm-master:0= )
 	android-vm-rvc? ( chromeos-base/android-vm-rvc:0= )
 	android-vm-sc? ( chromeos-base/android-vm-sc:0= )
@@ -127,6 +129,7 @@ version_cil() {
 # Keep this in sync with IUSE/DEPEND.
 has_arc() {
 	use android-container-pi ||
+	use android-container-rvc ||
 	use android-vm-rvc ||
 	use android-vm-sc ||
 	use android-vm-tm ||
@@ -138,7 +141,7 @@ gen_m4_flags() {
 	local arc_version="none"
 	if use android-container-pi; then
 		arc_version="p"
-	elif use android-vm-rvc; then
+	elif use android-vm-rvc || use android-container-rvc; then
 		arc_version="r"
 	elif use android-vm-sc; then
 		arc_version="s"
