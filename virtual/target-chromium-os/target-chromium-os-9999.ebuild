@@ -334,6 +334,7 @@ RDEPEND="
 		chromeos-base/u2fd
 	)
 	tpm? ( chromeos-base/u2fd )
+	chromeos-base/bootlockbox
 	ime? (
 		app-i18n/chinese-input
 		app-i18n/keyboard-input

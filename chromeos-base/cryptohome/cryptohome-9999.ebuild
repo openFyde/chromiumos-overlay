@@ -99,8 +99,6 @@ src_install() {
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
-	dosbin bootlockboxd bootlockboxtool
-
 	popd >/dev/null || die
 
 	insinto /etc/dbus-1/system.d
@@ -132,7 +130,6 @@ src_install() {
 		systemd_enable_service ui.target lockbox-cache.service
 	else
 		insinto /etc/init
-		doins bootlockbox/bootlockboxd.conf
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
 		doins init/init-homedirs.conf
@@ -180,11 +177,6 @@ src_install() {
 	# Install udev rules for cryptohome.
 	udev_dorules udev/50-dm-cryptohome.rules
 
-	# Install seccomp policy for bootlockboxd
-	insinto /usr/share/policy
-	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
-		bootlockboxd-seccomp.policy
-
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
 	local fuzzer_component_id="1188704"
@@ -208,14 +200,11 @@ src_install() {
 }
 
 pkg_preinst() {
-	enewuser "bootlockboxd"
-	enewgroup "bootlockboxd"
 	enewuser "cryptohome"
 	enewgroup "cryptohome"
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/boot_lockbox_unittests"
 	platform_test "run" "${OUT}/cryptohome_testrunner"
 	platform_test "run" "${OUT}/fake_platform_unittest"
 	platform_test "run" "${OUT}/mount_encrypted_unittests"
