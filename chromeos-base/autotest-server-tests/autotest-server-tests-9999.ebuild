@@ -16,7 +16,6 @@ KEYWORDS="~*"
 
 # Enable autotest by default.
 IUSE="
-	android-container
 	android-container-pi
 	android-vm-rvc
 	+autotest
