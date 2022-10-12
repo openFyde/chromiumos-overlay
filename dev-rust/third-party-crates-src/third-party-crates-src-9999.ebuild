@@ -686,6 +686,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"zeroize_derive-1.3.2"
 )
 
+pkg_setup() {
+	python-single-r1_pkg_setup
+	# This handles calling cros-workon_pkg_setup for us.
+	cros-rust_pkg_setup
+}
+
 src_unpack() {
 	# Do this first so "${S}" is set up as early as possible. This also
 	# prevents cros-rust_src_unpack from modifying ${S}.
