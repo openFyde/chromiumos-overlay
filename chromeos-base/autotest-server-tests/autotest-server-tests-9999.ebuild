@@ -17,6 +17,7 @@ KEYWORDS="~*"
 # Enable autotest by default.
 IUSE="
 	android-container-pi
+	android-container-rvc
 	android-vm-rvc
 	+autotest
 	biod
@@ -96,6 +97,9 @@ SERVER_IUSE_TESTS="
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
 		+tests_cheets_CTS_P
+	)
+	android-container-rvc? (
+		+tests_cheets_CTS_R
 	)
 	android-vm-rvc? (
 		+tests_cheets_CTS_R
