@@ -27,6 +27,7 @@ COMMON_DEPEND="
 "
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/featured
 	chromeos-base/goldctl
 	media-video/ffmpeg
 "
