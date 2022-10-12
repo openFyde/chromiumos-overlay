@@ -24,6 +24,7 @@ CONFIG_EC_BIN_PATH="3rdparty/blobs/mainboard/google/brya/ec-adlrvp_rpl.bin"
 CONFIG_BOARD_INTEL_ADLRVP_RPL_EXT_EC=y
 
 # FSP Blobs
+CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/rpl/fsp/Include"
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/rpl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/rpl/fsp/fsps.bin"
 

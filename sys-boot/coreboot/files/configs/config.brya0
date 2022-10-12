@@ -12,6 +12,7 @@ CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
 CONFIG_SOC_INTEL_CSE_RW_VERSION="16.1.25.1980"
 
 # FSP Blobs
+CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/rpl/fsp/Include"
 CONFIG_FSP_M_FILE="3rdparty/blobs/intel/rpl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/rpl/fsp/fsps.bin"
 
