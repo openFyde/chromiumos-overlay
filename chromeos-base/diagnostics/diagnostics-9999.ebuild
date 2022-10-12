@@ -43,6 +43,7 @@ DEPEND="
 	chromeos-base/attestation-client:=
 	chromeos-base/debugd-client:=
 	chromeos-base/libiioservice_ipc:=
+	chromeos-base/power_manager-client:=
 	chromeos-base/tpm_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	media-sound/adhd:=
