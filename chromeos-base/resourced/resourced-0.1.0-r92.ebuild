@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="db629ff74ed920a368a5d530ef577f33e8cb40cf"
-CROS_WORKON_TREE="690785edce7407562eeb3a1bd1773cfedea5e38b"
+CROS_WORKON_COMMIT="2cf63dad68637c3d942dfbad03904ad2438ccfa0"
+CROS_WORKON_TREE="ba0a43383063652c8288fca49d7620a766399532"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,7 +48,7 @@ src_install() {
 	doins init/resourced.conf
 
 	# Install udev rules.
-	udev_dorules udev/99-resourced-permissions.rules
+	udev_dorules udev/99-resourced.rules
 
 	if [[ -d tmpfiles.d ]]; then
 		insinto /usr/lib/tmpfiles.d
