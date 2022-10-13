@@ -40,7 +40,6 @@ IUSE_TESTS="
 	+tests_cellular_Hermes_SingleProfile
 	+tests_cellular_Identifiers
 	+tests_cellular_SIMLocking
-	+tests_cellular_SafetyDance
 	+tests_cellular_Smoke
 	+tests_cellular_StressEnable
 	+tests_cellular_ValidateTestEnvironment
