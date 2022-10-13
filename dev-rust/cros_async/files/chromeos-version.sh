@@ -6,4 +6,12 @@
 
 # Assumes the first 'version =' line in the Cargo.toml is the version for the
 # crate.
-awk '/^version = / { print $3 }' "$1/common/cros_async/Cargo.toml" | head -n1 | tr -d '"'
+#
+# 50 is added to the minor version number to avoid conflicting with a
+# different copy included by path with the same version number.
+awk '/^version = / {
+  gsub(/"/, "", $0);
+  split($3,ver,".");
+  print ver[1] "." ver[2] "." (50 + ver[3]);
+  exit
+}' "$1/cros_async/Cargo.toml"
