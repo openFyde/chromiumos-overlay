@@ -27,7 +27,6 @@ BDEPEND="virtual/pkgconfig"
 RDEPEND="
 	>=chromeos-base/cros-camera-libs-0.0.1-r34:=
 	chromeos-base/cros-camera-android-deps:=
-	chromeos-base/dlcservice-client:=
 	media-libs/cros-camera-hal-usb:=
 	media-libs/libsync:=
 	libcamera? ( media-libs/libcamera )
@@ -37,6 +36,7 @@ RDEPEND="
 	)"
 
 DEPEND="${RDEPEND}
+	chromeos-base/dlcservice-client:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/minigbm:=
 	x11-libs/libdrm:="
