@@ -8,7 +8,7 @@ inherit cmake cuda fortran-2
 
 DESCRIPTION="C++ template library for linear algebra"
 HOMEPAGE="https://eigen.tuxfamily.org/index.php?title=Main_Page"
-SRC_URI="https://gitlab.com/lib${PN}/${PN}/-/archive/${PV}/${P}.tar.gz"
+SRC_URI="https://chromium.googlesource.com/external/gitlab.com/libeigen/eigen/+archive/refs/heads/cros/${PV}.tar.gz -> eigen-4be6a458acc129b10faf88aeb2fc32f0444eefb1-3.4.0.tar.xz"
 
 LICENSE="MPL-2.0"
 SLOT="3"
@@ -50,12 +50,6 @@ DEPEND="
 # Missing:
 # METIS-5
 # GOOGLEHASH
-
-PATCHES=(
-	#"${FILESDIR}"/${PN}-3.3.7-gentoo-cmake.patch
-	"${FILESDIR}"/${PN}-3.3.9-max-macro.patch
-	"${FILESDIR}"/${P}-doc-nocompress.patch # bug 830064
-)
 
 src_prepare() {
 	cmake_src_prepare
