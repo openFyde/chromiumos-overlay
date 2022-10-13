@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/1044813): Remove chromeos-config once its public headers are fixed.
-CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics libec .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
@@ -24,6 +24,7 @@ IUSE="fuzzer wilco mesa_reven diagnostics iioservice"
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libec:=
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
 	chromeos-base/mojo_service_manager:=
