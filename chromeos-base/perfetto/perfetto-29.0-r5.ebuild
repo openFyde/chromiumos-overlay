@@ -51,6 +51,8 @@ src_configure() {
 		"-Wno-suggest-override"
 		"-Wno-reserved-identifier"
 	)
+	append-cflags "${warn_flags[*]}"
+	append-cxxflags "${warn_flags[*]}"
 	# Specify the linker to be used, this will be invoked by
 	# perfetto build as link argument "-fuse-ld=<>" so it needs to be
 	# the linker name bfd/gold/lld etc. that clang/gcc understand.
@@ -73,8 +75,8 @@ target_linker=\"${linker_name}\"
 target_strip=\"${STRIP}\"
 target_cpu=\"${target_cpu}\"
 target_triplet=\"${CHOST}\"
-extra_target_cflags=\"${CFLAGS} ${warn_flags[*]}\"
-extra_target_cxxflags=\"${CXXFLAGS} ${warn_flags[*]}\"
+extra_target_cflags=\"${CFLAGS}\"
+extra_target_cxxflags=\"${CXXFLAGS}\"
 extra_target_ldflags=\"${LDFLAGS}\"
 "
 
@@ -94,18 +96,24 @@ enable_perfetto_x64_cpu_opt=false
 	einfo "GN_ARGS = ${GN_ARGS}"
 	gn gen "${BUILD_OUTPUT}" --args="${GN_ARGS}" || die
 
+	# Extra build flags for building the SDK:
+	# * Override the -fvisibility=hidden setting in the build config so the
+	#   SDK can be linked into a shared library and then used by an
+	#   executable.
+	# * Re-enable RTTI: RTTI is disabled in the build config. The SDK needs
+	#   to enable RTTI since ChromeOS packages are built with RTTI.
+	append-cflags "-fvisibility=default -frtti"
+	append-cxxflags "-fvisibility=default -frtti"
 	# Add extra GN args in generating the SDK source:
 	# * Force disable PERFETTO_DCHECK() in the SDK to avoid inconsistency
 	#   of PERFETTO_DCHECK_IS_ON() in the header and the static library
 	#   caused by cros-debug.
 	# * Disable runloop watchdog.
-	# * Re-enable RTTI: RTTI is disabled in the build config. The SDK needs
-	#   to enable RTTI since ChromeOS packages are built with RTTI.
 	local sdk_gn_args="${GN_ARGS}
 perfetto_force_dcheck=\"off\"
 enable_perfetto_watchdog=false
-extra_target_cflags=\"${CFLAGS} ${warn_flags[*]} -frtti\"
-extra_target_cxxflags=\"${CXXFLAGS} ${warn_flags[*]} -frtti\"
+extra_target_cflags=\"${CFLAGS}\"
+extra_target_cxxflags=\"${CXXFLAGS}\"
 "
 	# Prepare the SDK source.
 	# --system_buildtools: use gn, ninja and clang++ of the system. Do not
