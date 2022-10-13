@@ -22,6 +22,8 @@ IUSE="
 "
 
 COMMON_DEPEND="
+	dev-cpp/abseil-cpp:=
+	chromeos-base/cros-camera-libs:=
 "
 
 RDEPEND="
