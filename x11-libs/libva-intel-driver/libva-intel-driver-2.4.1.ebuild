@@ -32,6 +32,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/0001-Remove-blitter-usage-from-driver.patch
 	eapply "${FILESDIR}"/Handle-the-odd-resolution.patch
 	eapply "${FILESDIR}"/0002-Fix-VP9.2-config-verification.patch
+	eapply "${FILESDIR}"/0003-FROMGIT-FROMLIST-i965_device_info.c-Add-missing-entr.patch
 	eapply_user
 	sed -e 's/intel-gen4asm/\0diSaBlEd/g' -i configure.ac || die
 	eautoreconf
