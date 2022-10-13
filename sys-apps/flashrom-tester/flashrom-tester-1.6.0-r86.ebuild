@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2c7ece8b222850c63c24a2331818c4580ec323d"
+CROS_WORKON_COMMIT="8079ac04dac962bcd515c3bcf145fd6726281d41"
 CROS_WORKON_TREE=("0fcda7dc7c435c43cdc7f1a9be1a0b7d9ed03bfe" "56c8acb0cc6d8a4d0cab33551a283a6ee495620c" "b33bb3b65dfb8b92a68e103fbccedc8f27cfabdf" "2fef5de7180c5a072197a29c243c727f4d88227a")
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
@@ -27,8 +27,7 @@ DEPEND="
 	=dev-rust/rand-0.6*
 	=dev-rust/chrono-0.4*
 	=dev-rust/clap-2.33*
-	=dev-rust/log-0.4*
-	=dev-rust/once_cell-1.7.2*
+	=dev-rust/once_cell-1.7*
 	=dev-rust/rand-0.6*
 	=dev-rust/serde_json-1*
 	sys-apps/flashrom

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b933ffdecb3ee250c74c6c646b12ccac3330caff"
+CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
 CROS_WORKON_TREE="eb8b407f9ffca37df0f362629f4e4da006447c8d"
 CROS_RUST_SUBDIR="vm_tools/chunnel"
 
@@ -29,7 +29,6 @@ DEPEND="
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
 	=dev-rust/getopts-0.2*
-	=dev-rust/log-0.4*
 	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3
 	dev-rust/sys_util:=

@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3e99e8d0c27d055e37b0fba0d57771e072410abf"
-CROS_WORKON_TREE="8b7dbb07ca723d41ef13ea0f317b89696466dc4f"
+CROS_WORKON_COMMIT="75f7a74af1a633dea6a9a640b72e51ef66a2ba1b"
+CROS_WORKON_TREE="17ed06c25fe49e66b5a3be68351c219ec75abcd3"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -39,6 +39,68 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/log-0.4.14
+	!=dev-rust/log-0.4.14-r1
+	!=dev-rust/log-0.4.14-r2
+	!=dev-rust/futures-executor-0.3.13
+	!=dev-rust/futures-executor-0.3.13-r1
+	!=dev-rust/futures-executor-0.3.13-r2
+	!=dev-rust/futures-executor-0.3.13-r3
+	!=dev-rust/futures-util-0.3.13
+	!=dev-rust/futures-util-0.3.13-r1
+	!=dev-rust/futures-util-0.3.13-r2
+	!=dev-rust/futures-util-0.3.13-r3
+	!=dev-rust/futures-util-0.3.13-r4
+	!=dev-rust/futures-util-0.3.13-r5
+	!=dev-rust/futures-util-0.3.13-r6
+	!=dev-rust/futures-util-0.3.13-r7
+	!=dev-rust/futures-util-0.3.13-r8
+	!=dev-rust/futures-util-0.3.13-r9
+	!=dev-rust/futures-channel-0.3.13
+	!=dev-rust/futures-channel-0.3.13-r1
+	!=dev-rust/vcpkg-0.2.11
+	!=dev-rust/vcpkg-0.2.11-r1
+	!=dev-rust/pin-utils-0.1.0
+	!=dev-rust/openssl-macros-0.1.0
+	!=dev-rust/openssl-macros-0.1.0-r1
+	!=dev-rust/openssl-macros-0.1.0-r2
+	!=dev-rust/openssl-macros-0.1.0-r3
+	!=dev-rust/futures-task-0.3.13
+	!=dev-rust/futures-sink-0.3.13
+	!=dev-rust/futures-io-0.3.13
+	!=dev-rust/futures-core-0.3.13
+	!=dev-rust/futures-macro-0.3.13
+	!=dev-rust/futures-macro-0.3.13-r1
+	!=dev-rust/futures-macro-0.3.13-r2
+	!=dev-rust/futures-macro-0.3.13-r3
+	!=dev-rust/futures-macro-0.3.13-r4
+	!=dev-rust/proc-macro-hack-0.5.19
+	!~dev-rust/proc-macro-hack-0.5.11
+	!=dev-rust/spidev-0.5.1
+	!=dev-rust/spidev-0.5.1-r1
+	!=dev-rust/spidev-0.5.1-r2
+	!=dev-rust/i2cdev-0.5.1
+	!=dev-rust/i2cdev-0.5.1-r1
+	!=dev-rust/i2cdev-0.5.1-r2
+	!=dev-rust/i2cdev-0.5.1-r3
+	!=dev-rust/nix-0.23.0
+	!=dev-rust/nix-0.23.0-r1
+	!=dev-rust/nix-0.23.0-r2
+	!=dev-rust/nix-0.23.0-r3
+	!=dev-rust/nix-0.23.0-r4
+	!=dev-rust/libloading-0.7.0
+	!=dev-rust/libloading-0.7.0-r1
+	!=dev-rust/fd-lock-3.0.2
+	!=dev-rust/fd-lock-3.0.2-r1
+	!=dev-rust/fd-lock-3.0.2-r2
+	!=dev-rust/dirs-next-2.0.0
+	!=dev-rust/dirs-next-2.0.0-r1
+	!=dev-rust/dirs-next-2.0.0-r2
+	!=dev-rust/crc32fast-1.2.1
+	!=dev-rust/crc32fast-1.2.1-r1
+	!=dev-rust/cfg-if-1.0.0
+	!=dev-rust/xmlparser-0.13.3
+	!=dev-rust/inflections-1.1.1
 	!=dev-rust/which-4.2.1
 	!=dev-rust/which-4.2.1-r1
 	!=dev-rust/which-4.2.1-r2
@@ -436,6 +498,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"capnpc-0.14.9"
 	"cast-0.3.0"
 	"cc-1.0.73"
+	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
 	"cloudabi-0.0.3"
@@ -449,16 +512,16 @@ ALLOWED_CRATE_VERSIONS=(
 	"cortex-m-rt-macros-0.6.15"
 	"crc-2.1.0"
 	"crc-catalog-1.1.1"
-	"cstr_core-0.2.6"
+	"crc32fast-1.3.2"
 	"ct-codecs-1.1.1"
 	"ctor-0.1.22"
-	"cty-0.2.2"
 	"cxx-1.0.42"
 	"cxxbridge-flags-1.0.42"
 	"cxxbridge-macro-1.0.42"
 	"defmt-macros-0.2.3"
 	"defmt-parser-0.2.2"
 	"derive-into-owned-0.1.0"
+	"dirs-next-2.0.0"
 	"dirs-sys-next-0.1.2"
 	"downcast-rs-1.2.0"
 	"either-1.8.0"
@@ -471,11 +534,21 @@ ALLOWED_CRATE_VERSIONS=(
 	"euclid-0.22.7"
 	"failure-0.1.8"
 	"failure_derive-0.1.8"
+	"fd-lock-2.0.0"
+	"fd-lock-3.0.6"
 	"filedescriptor-0.8.2"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
 	"fuchsia-cprng-0.1.1"
+	"futures-channel-0.3.14"
+	"futures-core-0.3.14"
+	"futures-executor-0.3.14"
+	"futures-io-0.3.14"
+	"futures-macro-0.3.14"
+	"futures-sink-0.3.14"
+	"futures-task-0.3.14"
+	"futures-util-0.3.14"
 	"gag-1.0.0"
 	"ghost-0.1.6"
 	"grpcio-compiler-0.6.0"
@@ -493,9 +566,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"humantime-2.1.0"
 	"hyper-0.14.20"
 	"hyper-timeout-0.4.1"
+	"i2cdev-0.5.1"
 	"iana-time-zone-0.1.47"
 	"indoc-0.3.6"
 	"indoc-impl-0.3.6"
+	"inflections-1.1.1"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
 	"intrusive-collections-0.9.4"
@@ -504,7 +579,6 @@ ALLOWED_CRATE_VERSIONS=(
 	"io-lifetimes-0.7.3"
 	"io-uring-0.5.4"
 	"ioctl-rs-0.1.6"
-	"itertools-0.9.0"
 	"itertools-0.10.5"
 	"itertools-0.8.2"
 	"itoa-1.0.3"
@@ -513,11 +587,13 @@ ALLOWED_CRATE_VERSIONS=(
 	"lazy_static-1.4.0"
 	"libc-0.2.132"
 	"libfuzzer-sys-0.4.4"
+	"libloading-0.7.0"
 	"libslirp-sys-4.2.1"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"
+	"log-0.4.14"
 	"managed-0.8.0"
 	"match_cfg-0.1.0"
 	"matches-0.1.9"
@@ -532,6 +608,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.5.4"
 	"miow-0.3.6"
 	"multimap-0.8.3"
+	"nix-0.19.1"
+	"nix-0.20.0"
+	"nix-0.23.1"
+	"nix-0.24.2"
 	"ntapi-0.3.6"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
@@ -541,6 +621,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"num_threads-0.1.6"
 	"number_prefix-0.4.0"
 	"object-0.29.0"
+	"openssl-macros-0.1.0"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
 	"paste-1.0.4"
@@ -550,11 +631,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"pin-project-1.0.12"
 	"pin-project-internal-1.0.12"
 	"pin-project-lite-0.2.9"
+	"pin-utils-0.1.0"
 	"pkg-config-0.3.19"
 	"ppv-lite86-0.2.10"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
-	"printf-compat-0.1.1"
+	"proc-macro-hack-0.5.19"
 	"proc-macro-nested-0.1.7"
 	"proc-macro2-0.4.30"
 	"proc-macro2-1.0.44"
@@ -606,6 +688,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"shlex-1.1.0"
 	"signal-hook-registry-1.4.0"
 	"slab-0.4.7"
+	"spidev-0.5.1"
 	"stable_deref_trait-1.2.0"
 	"str-buf-1.0.5"
 	"strsim-0.10.0"
@@ -639,12 +722,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"tracing-futures-0.2.5"
 	"try-lock-0.2.3"
 	"uart_16550-0.2.18"
-	"ucs2-0.3.2"
-	"uefi-0.17.0"
-	"uefi-macros-0.8.1"
-	"uefi-services-0.14.0"
 	"ufmt-write-0.1.0"
-	"uguid-1.2.1"
 	"unicase-2.6.0"
 	"unicode-ident-1.0.4"
 	"unicode-segmentation-1.10.0"
@@ -655,6 +733,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"unindent-0.1.10"
 	"utf8parse-0.2.0"
 	"vcell-0.1.3"
+	"vcpkg-0.2.11"
 	"vec_map-0.8.2"
 	"version_check-0.9.3"
 	"void-1.0.2"
@@ -684,6 +763,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"wio-0.2.2"
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"
+	"xmlparser-0.13.3"
 	"zeroize-1.5.7"
 	"zeroize_derive-1.3.2"
 )

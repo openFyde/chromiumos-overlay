@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f11b7e582b98c4305e0b9d8d23025be6d277259c"
+CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
 CROS_WORKON_TREE="c530c05d713e21640b126eeaec3601ebf442d0e6"
 CROS_RUST_SUBDIR="vm_tools/9s"
 
@@ -32,7 +32,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
 	dev-rust/p9:=
 	dev-rust/sys_util:=
 "

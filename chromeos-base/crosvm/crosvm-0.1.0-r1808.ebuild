@@ -50,9 +50,7 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
-	=dev-rust/cfg-if-1*
 	dev-rust/chrono
-	>=dev-rust/crc32fast-1.2.1 <dev-rust/crc32fast-2
 	dev-rust/cros_fuzz:=
 	=dev-rust/crossbeam-utils-0.8*
 	=dev-rust/ctrlc-3.2*
@@ -67,7 +65,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
-	=dev-rust/pin-utils-0.1*
 	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8

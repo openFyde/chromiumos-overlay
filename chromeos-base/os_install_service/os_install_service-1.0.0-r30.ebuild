@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="40e1bc26badfabd2aa35666b44da5642e05b2fb4"
+CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
 CROS_WORKON_TREE="f1e762792290e259d1c6e45a9a0e2593e12043a5"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,8 +25,6 @@ DEPEND="
 	=dev-rust/crossbeam-channel-0.5*
 	=dev-rust/dbus-0.8*
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
-	=dev-rust/nix-0.23*
 	=dev-rust/serde_json-1.0*
 	dev-rust/sys_util:=
 	=dev-rust/tempfile-3*
