@@ -40,6 +40,7 @@ IUSE="
 	asan
 	betty
 	biod
+	downloads_bind_mount
 	borealis_host
 	camera_feature_auto_framing
 	camera_feature_effects
