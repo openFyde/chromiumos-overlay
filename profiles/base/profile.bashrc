@@ -514,16 +514,21 @@ cros_post_src_test_asan_check() {
 }
 
 cros_post_src_install_coverage_logs() {
-	# Generate coverage reports for the package.
-	if [[ $(cros_target) != "board_sysroot" ]]; then
-		return
-	fi
+	# Generate coverage reports for board and host packages.
 	local coverage_path="${T}/coverage_logs"
-	if [[ ! -d "${coverage_path}" ]]; then
+	if [ ! -d "${coverage_path}" ] || [ -z "$(ls -A "${coverage_path}")" ]; then
 		return
 	fi
 
-	if [[ -n "$(ls -A "${coverage_path}")" ]]; then
+	local report_path
+	if [[ $(cros_target) == "cros_host" ]]; then
+		local cov_dir="${CROS_ARTIFACTS_TMP_DIR}/coverage_data/"
+		mkdir -p "${cov_dir}" || die
+		local pkg_cover="${PN}_cover.out"
+		local pkg_report="${PN}.html"
+		mv "${coverage_path}/${pkg_cover}" "${coverage_path}/${pkg_report}" "${cov_dir}" || die "Cannot move artifacts to ${coverage_path}"
+		report_path="${EXTERNAL_TRUNK_PATH}/chroot/${SYSROOT}/var/lib/chromeos/package-artifacts/${CATEGORY}/${PF}/coverage_data/${pkg_report}"
+	elif [[ $(cros_target) == "board_sysroot" ]]; then
 		local rel_cov_dir="build/coverage_data/${CATEGORY}/${PN}"
 		[[ "${SLOT:-0}" != "0" ]] && rel_cov_dir+="-${SLOT}"
 		local cov_dir="${D}/${rel_cov_dir}"
@@ -571,9 +576,9 @@ cros_post_src_install_coverage_logs() {
 			-output-dir="${cov_dir}" || die
 		# Make coverage data readable for all users.
 		chmod -R a+rX "${cov_dir}" || die "Could not make ${cov_dir} readable"
-		local report_path="${EXTERNAL_TRUNK_PATH}/chroot${SYSROOT}/${rel_cov_dir}/index.html"
-		elog "Coverage report for ${PN} generated at file://${report_path}"
+		report_path="${EXTERNAL_TRUNK_PATH}/chroot${SYSROOT}/${rel_cov_dir}/index.html"
 	fi
+	elog "Coverage report for ${PN} generated at file://${report_path}"
 }
 
 # Enables C++ exceptions. We normally disable these by default in
