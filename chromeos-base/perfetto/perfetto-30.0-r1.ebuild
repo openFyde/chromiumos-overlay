@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8c7da08a03c5eda1be6768a949625c1dfa30e2ca"
-CROS_WORKON_TREE="f307d6d3ba143764a35792d09fb3f19bffa08693"
+CROS_WORKON_COMMIT="280f0b23c5c8b98248cf0ccf3d011c4fd4bb74f5"
+CROS_WORKON_TREE="627b775addc24ed0b0f39d3c202b4ba08f61dad2"
 inherit cros-constants
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
