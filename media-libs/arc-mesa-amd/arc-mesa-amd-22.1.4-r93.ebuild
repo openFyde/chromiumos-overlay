@@ -25,7 +25,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android-container-pi -android_vulkan_compute_0 cheets debug
+	-android_vulkan_compute_0 cheets debug
 	vulkan cheets_user cheets_user_64"
 
 # Only allow one vulkan driver as they all write vulkan.cheets.so.
