@@ -31,7 +31,6 @@ DEPEND="
 	=dev-rust/once_cell-1.7*
 	=dev-rust/futures-0.3*
 	=dev-rust/grpcio-0.9*
-	dev-rust/sys_util:=
 "
 
 src_install() {

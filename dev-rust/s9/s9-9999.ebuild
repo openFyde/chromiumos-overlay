@@ -31,7 +31,6 @@ DEPEND="
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	dev-rust/p9:=
-	dev-rust/sys_util:=
 "
 
 src_install() {

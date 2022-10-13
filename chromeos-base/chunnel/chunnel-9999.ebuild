@@ -29,7 +29,6 @@ DEPEND="
 	=dev-rust/getopts-0.2*
 	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3
-	dev-rust/sys_util:=
 	=dev-rust/tempfile-3*
 "
 

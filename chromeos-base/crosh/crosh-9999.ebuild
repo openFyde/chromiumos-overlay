@@ -30,7 +30,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/libchromeos:=
 	=dev-rust/rand-0.7*
 	=dev-rust/rustyline-9*
-	dev-rust/sys_util:=
 	dev-rust/system_api:=
 	dev-rust/tempfile
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=

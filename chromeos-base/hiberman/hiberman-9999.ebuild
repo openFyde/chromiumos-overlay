@@ -33,7 +33,6 @@ DEPEND="
 	=dev-rust/protobuf-2*
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
-	dev-rust/sys_util:=
 	dev-rust/system_api:=
 "
 RDEPEND="${DEPEND}
