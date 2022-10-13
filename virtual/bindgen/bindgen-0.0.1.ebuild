@@ -16,4 +16,4 @@ SLOT="0/${PVR}"
 
 # The versions of this ebuild needs to closely match the versions of
 # dev-rust/bindgen.
-BDEPEND="=dev-rust/bindgen-${PVR}"
+BDEPEND="~dev-rust/bindgen-${PV}"
