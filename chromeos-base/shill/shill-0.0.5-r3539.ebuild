@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="95cba42c3e39999a02c3534e6924cdd5b8cdc775"
-CROS_WORKON_TREE=("79cdd007ff69259efcaad08803ef2d1498374ec4" "2613491929abce17080cbd7ad84a45dea916d77b" "083569b82e5bcbfefd8700a2cd52ea619e712f7a" "eb510d666a66e6125e281499b649651b849a25f7" "6c888aa901c26d8c3f089f875322953fcd8d6fee" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="c9b2de00324b43cca454225620cfb27469283010"
+CROS_WORKON_TREE=("79cdd007ff69259efcaad08803ef2d1498374ec4" "2613491929abce17080cbd7ad84a45dea916d77b" "083569b82e5bcbfefd8700a2cd52ea619e712f7a" "eb510d666a66e6125e281499b649651b849a25f7" "d163847dd4f551c75464a425c0c8d21c6477235f" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -42,7 +42,6 @@ COMMON_DEPEND="
 	net-firewall/iptables:=
 	virtual/wpa_supplicant
 	sys-apps/rootdev:=
-	cellular? ( net-misc/modemmanager-next:= )
 "
 
 RDEPEND="${COMMON_DEPEND}
@@ -51,11 +50,13 @@ RDEPEND="${COMMON_DEPEND}
 	vpn? ( net-vpn/openvpn )
 	vpn? ( net-vpn/strongswan:= )
 	wireguard? ( net-vpn/wireguard-tools )
+	cellular? ( net-misc/modemmanager-next:= )
 "
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=[fuzzer?]
+	net-misc/modemmanager-next:=
 "
 PDEPEND="chromeos-base/patchpanel"
 
