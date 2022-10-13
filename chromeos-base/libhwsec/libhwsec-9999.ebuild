@@ -36,6 +36,7 @@ COMMON_DEPEND="
 		chromeos-base/trunks:=
 	)
 	test? (
+		app-crypt/trousers:=
 		chromeos-base/pinweaver:=
 		chromeos-base/trunks:=[test]
 		chromeos-base/tpm2-simulator:=[test]
