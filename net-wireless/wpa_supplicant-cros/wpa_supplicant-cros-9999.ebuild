@@ -146,6 +146,9 @@ src_configure() {
 	sanitizers-setup-env
 	# Toolchain setup
 	append-flags -Werror
+	append-lfs-flags
+	# supplicant is using only CFLAGS so append CPPFLAGS (configured by lfs) to it
+	append-cflags "${CPPFLAGS}"
 	tc-export CC
 
 	cp defconfig .config || die
