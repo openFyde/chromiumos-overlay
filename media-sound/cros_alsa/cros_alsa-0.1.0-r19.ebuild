@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="89de36df2a5bc41b7cd7e07dc1b43571dad320f5"
-CROS_WORKON_TREE="a976ea0ba1d87c592cfaa27b84dbfe165bd4c1ec"
+CROS_WORKON_COMMIT="79fb319601211a530f6120884b64275aef704957"
+CROS_WORKON_TREE="7ba2205388254c5df295c56cbad11a6d55b5a5a1"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -24,55 +24,9 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/alsa-sys-0.2.0 <dev-rust/alsa-sys-0.3.0
-	dev-rust/sys_util:=
+	=dev-rust/log-0.4*:=
+	media-sound/cros_alsa_derive:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
-
-pkg_setup() {
-	cros-rust_pkg_setup cros_alsa_derive
-	cros-rust_pkg_setup cros_alsa
-}
-
-src_compile() {
-	(
-		cd cros_alsa_derive || die
-		cros-rust_src_compile
-	)
-
-	cros-rust_src_compile
-}
-
-src_test() {
-	(
-		cd cros_alsa_derive || die
-		cros-rust_src_test
-	)
-
-	cros-rust_src_test
-}
-
-src_install() {
-	(
-		cd cros_alsa_derive || die
-		cros-rust_publish cros_alsa_derive "$(cros-rust_get_crate_version .)"
-	)
-
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
-}
-
-pkg_preinst() {
-	cros-rust_pkg_preinst cros_alsa_derive
-	cros-rust_pkg_preinst cros_alsa
-}
-
-pkg_postinst() {
-	cros-rust_pkg_postinst cros_alsa_derive
-	cros-rust_pkg_postinst cros_alsa
-}
-
-pkg_prerm() {
-	cros-rust_pkg_prerm cros_alsa_derive
-	cros-rust_pkg_prerm cros_alsa
-}

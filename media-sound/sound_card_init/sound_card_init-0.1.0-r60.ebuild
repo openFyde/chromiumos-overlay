@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="89de36df2a5bc41b7cd7e07dc1b43571dad320f5"
-CROS_WORKON_TREE="69422108c9131eb7ce0d668ded415068b044100e"
+CROS_WORKON_COMMIT="79fb319601211a530f6120884b64275aef704957"
+CROS_WORKON_TREE="a819094c2ea652df794e8533f8398cd199242d9c"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since sound_card_init/Cargo.toml
@@ -23,7 +23,8 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/getopts
-	dev-rust/sys_util:=
+	dev-rust/libchromeos:=
+	=dev-rust/log-0.4*
 	dev-rust/serde_json
 	dev-rust/serde_yaml
 	media-sound/audio_streams:=
@@ -31,6 +32,12 @@ DEPEND="
 	media-sound/libcras:=
 	media-sound/sof_sys:=
 "
+
+src_prepare() {
+	cros-rust_src_prepare
+	cros-rust-patch-cargo-toml "${S}/amp/Cargo.toml"
+	cros-rust-patch-cargo-toml "${S}/dsm/Cargo.toml"
+}
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/sound_card_init"

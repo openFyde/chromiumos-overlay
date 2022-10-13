@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="89de36df2a5bc41b7cd7e07dc1b43571dad320f5"
-CROS_WORKON_TREE=("ed6069240da89300da1d05f8c1a32abb66c53a1f" "d3965c033fc496b2cf17272383bc20d6d0ad4721")
+CROS_WORKON_COMMIT="79fb319601211a530f6120884b64275aef704957"
+CROS_WORKON_TREE=("1b753285eaf79c0abd50a05b67f2c7375f8da76a" "d3965c033fc496b2cf17272383bc20d6d0ad4721")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
 CROS_WORKON_LOCALNAME="adhd"
@@ -27,8 +27,8 @@ DEPEND="
 	>=dev-rust/clap-3.1.12 <dev-rust/clap-4.0
 	=dev-rust/dbus-0.9*
 	dev-rust/hound
+	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1*
-	dev-rust/sys_util:=
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
