@@ -120,6 +120,10 @@ multilib_src_configure() {
 		ffi_ldflags=$($(tc-getPKG_CONFIG) --libs-only-L libffi)
 	fi
 
+	# Workaround for b/253514951
+	if [[ ${ABI} == x86 ]] && [[ ${ARC_LLVM_VERSION} == 11* ]]; then
+		replace-flags "-march=bdver4" "-march=bdver4 -mno-avx"
+	fi
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
 		# disable appending VCS revision to the version to improve
