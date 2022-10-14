@@ -25,6 +25,7 @@ IUSE="
 	amd64
 	amd_cpu
 	android-container-pi
+	android-container-rvc
 	android-vm-pi
 	android-vm-rvc
 	android-vm-tm
