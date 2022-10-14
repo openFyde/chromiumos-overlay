@@ -23,6 +23,7 @@ IUSE="fuzzer wilco mesa_reven diagnostics iioservice"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
+	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
 	chromeos-base/minijail:=
