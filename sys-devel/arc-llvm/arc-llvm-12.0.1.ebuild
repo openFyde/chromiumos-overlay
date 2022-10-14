@@ -122,7 +122,7 @@ multilib_src_configure() {
 
 	# Workaround for b/253514951
 	if [[ ${ABI} == x86 ]] && [[ ${ARC_LLVM_VERSION} == 11* ]]; then
-		replace-flags "-march=bdver4" "-march=bdver4 -mno-avx"
+		replace-flags "-march=bdver4" "-march=bdver4 -mno-xop"
 	fi
 	local libdir=$(get_libdir)
 	local mycmakeargs=(
