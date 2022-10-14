@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="49a2ec4706a27071ae233f71a185044c74043db3"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "2613491929abce17080cbd7ad84a45dea916d77b" "a0ec70968e002d4f0827b275155908678598322d" "2d0c9aaa309c4885b383afe9ed031409f3305555" "eb510d666a66e6125e281499b649651b849a25f7" "34261f5753edf6cebef258a148897af911297046" "509f705acf9ee31036f6e8936f78b44a5f76a995" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="546fc1cce9e07cfe7f1f9968ee4af41e7dad2797"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "562af1864573f6010cd7c005fce51b6f9cd587ab" "a0ec70968e002d4f0827b275155908678598322d" "2d0c9aaa309c4885b383afe9ed031409f3305555" "eb510d666a66e6125e281499b649651b849a25f7" "34261f5753edf6cebef258a148897af911297046" "509f705acf9ee31036f6e8936f78b44a5f76a995" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -112,39 +112,12 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		chaps_test
-		chaps_service_test
-		slot_manager_test
-		session_test
-		object_test
-		object_policy_test
-		object_pool_test
-		object_store_test
-		isolate_login_client_test
-	)
-	use tpm2 && tests+=(
-		tpm2_utility_test
-	)
-
-	local gtest_filter_qemu=""
-	gtest_filter_qemu+="-*DeathTest*"
-	gtest_filter_qemu+=":*ImportSample*"
-	gtest_filter_qemu+=":TestSession.RSA*"
-	gtest_filter_qemu+=":TestSession.KeyTypeMismatch"
-	gtest_filter_qemu+=":TestSession.KeyFunctionPermission"
-	gtest_filter_qemu+=":TestSession.BadKeySize"
-	gtest_filter_qemu+=":TestSession.BadSignature.*"
-
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}" "" "" "${gtest_filter_qemu}"
-	done
+	platform test_all
 }
 
 pkg_preinst() {
 	local ug
-	for ug in attestation pkcs11 chaps; do
+	for ug in pkcs11 chaps; do
 		enewuser "${ug}"
 		enewgroup "${ug}"
 	done
