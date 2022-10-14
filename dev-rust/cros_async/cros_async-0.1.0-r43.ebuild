@@ -10,8 +10,8 @@ CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/cros_async"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
-CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
+CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
+CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
 
 # The version of this crate is pinned. See b/229016539 for details.
 CROS_WORKON_MANUAL_UPREV="1"
@@ -24,22 +24,14 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/async-task-4*:=
-	>=dev-rust/async-trait-0.1.36 <dev-rust/async-trait-0.2:=
+	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	=dev-rust/futures-0.3*:=
-	dev-rust/intrusive-collections:=
+	=dev-rust/futures-0.3*
 	dev-rust/io_uring:=
-	>=dev-rust/libc-0.2.93 <dev-rust/libc-0.3:=
-	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2:=
-	=dev-rust/paste-1*:=
-	=dev-rust/pin-utils-0.1*:=
-	=dev-rust/remain-0.2*:=
-	=dev-rust/slab-0.4*:=
+	=dev-rust/once_cell-1*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	dev-rust/tempfile:=
-	>=dev-rust/thiserror-1.0.20 <dev-rust/thiserror-2:=
+	=dev-rust/tempfile-3*
 	media-sound/audio_streams:=
 "
 RDEPEND="${DEPEND}
@@ -60,8 +52,9 @@ src_test() {
 			timer::tests::one_shot
 		)
 
-		local args=($(printf -- "--skip %s\n" "${skip_tests[@]}"))
-		cros-rust_src_test -- "${args[@]}"
+		# We want word splitting here.
+		# shellcheck disable=SC2046
+		cros-rust_src_test -- $(printf -- "--skip %s\n" "${skip_tests[@]}")
 	else
 		cros-rust_src_test
 	fi

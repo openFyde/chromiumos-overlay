@@ -29,7 +29,7 @@ DEPEND="
 	dev-rust/data_model:=
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	dev-rust/tempfile
+	=dev-rust/tempfile-3*
 "
 RDEPEND="${DEPEND}"
 

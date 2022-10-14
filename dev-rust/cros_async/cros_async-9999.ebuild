@@ -26,10 +26,10 @@ DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/futures-0.3*
 	dev-rust/io_uring:=
-	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
+	=dev-rust/once_cell-1*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	dev-rust/tempfile
+	=dev-rust/tempfile-3*
 	media-sound/audio_streams:=
 "
 RDEPEND="${DEPEND}
