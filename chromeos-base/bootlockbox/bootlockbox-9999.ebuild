@@ -7,14 +7,14 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk bootlockbox libhwsec libhwsec-foundation .gn"
 
-PLATFORM_SUBDIR="cryptohome/bootlockbox"
+PLATFORM_SUBDIR="bootlockbox"
 
 inherit cros-workon platform user
 
 DESCRIPTION="BootLockbox service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome/bootlockbox/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/bootlockbox/"
 SRC_URI=""
 
 LICENSE="BSD-Google"
