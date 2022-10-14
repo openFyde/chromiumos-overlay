@@ -36,6 +36,7 @@ PATCHES=(
 	"${FILESDIR}"/0009-FROMGIT-iHD-VP9-Encode-Unaligned-height-corruption-w.patch
 	"${FILESDIR}"/0010-FROMGIT-iHD-Encode-VP9-Enc-more-secure-code-for-unal.patch
 	"${FILESDIR}"/0011-FROMGIT-iHD-VP9-Encode-Unaligned-height-corruption-w.patch
+	"${FILESDIR}"/0012-Decode-set-invalid-reference-surface-index.patch
 )
 
 src_configure() {
