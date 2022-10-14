@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
+CROS_WORKON_COMMIT="99e54b29dc9c4e6e56a90b17ac1a47e1ef1052ac"
 CROS_WORKON_TREE="c530c05d713e21640b126eeaec3601ebf442d0e6"
 CROS_RUST_SUBDIR="vm_tools/9s"
 
@@ -33,7 +33,6 @@ DEPEND="
 	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	dev-rust/p9:=
-	dev-rust/sys_util:=
 "
 
 src_install() {

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b933ffdecb3ee250c74c6c646b12ccac3330caff"
+CROS_WORKON_COMMIT="99e54b29dc9c4e6e56a90b17ac1a47e1ef1052ac"
 CROS_WORKON_TREE="955f33e0c32219cf280b20e45894ac95e9571870"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -38,7 +38,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	dev-rust/sync:=
-	dev-rust/sys_util:=
 	>=dev-rust/tiny_http-0.8 <dev-rust/tiny_http-0.9
 "
 

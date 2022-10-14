@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("01611cc312c9b3acec36920032731ee8be032d07" "893c32f1e622a630f1e78d97e2c2bd4e35762ea7")
+CROS_WORKON_COMMIT=("99e54b29dc9c4e6e56a90b17ac1a47e1ef1052ac" "cd8c7d0e499ab21a0db4dac4c0d2d5a567aba018")
 CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "a72a1f108fec0689146296d5ecac4dd12de839c5")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/tast-tests")
 CROS_WORKON_LOCALNAME=("platform2" "platform/tast-tests")
@@ -29,6 +29,7 @@ COMMON_DEPEND="
 "
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/featured
 	chromeos-base/goldctl
 	media-video/ffmpeg
 "

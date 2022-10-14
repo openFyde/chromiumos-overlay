@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
+CROS_WORKON_COMMIT="99e54b29dc9c4e6e56a90b17ac1a47e1ef1052ac"
 CROS_WORKON_TREE="e1531c519394f1e48e6f99d4faebd6ddf09d3854"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -35,7 +35,6 @@ DEPEND="
 	=dev-rust/protobuf-2*
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
-	dev-rust/sys_util:=
 	dev-rust/system_api:=
 "
 RDEPEND="${DEPEND}
