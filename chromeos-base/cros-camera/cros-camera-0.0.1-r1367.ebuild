@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="4b68ee6824f9d7bc05d394ec75a66e1193885d88"
+CROS_WORKON_COMMIT="a061cb5797dab9a6dc06811945c52b225f7eec7d"
 CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "4fc7c463ce102d1dff62e86baffad4a67ea2c940" "1232b5450992d3c45a88234d53a5afd4729a33fc" "44e72bbc38a5680e66be1b6c5862a62fd2a934f4" "4a86cdeef3d62cc86c76c7ec778bb1bff8949cae" "cc92446fd5584f3a227c32f0856ddc541e9bf5f6" "c1016ea8f4046234893bde04cb033fdd20ec71d5" "379618bb76af3b056fdbf5a781ea3bd4152ca237" "fefa46dc07b1045ed94377bd79f0ec4cac20f50a" "bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "d59e71ccef5d54ff0d0d3d41a69aa70d60282d7a")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,7 +29,6 @@ BDEPEND="virtual/pkgconfig"
 RDEPEND="
 	>=chromeos-base/cros-camera-libs-0.0.1-r34:=
 	chromeos-base/cros-camera-android-deps:=
-	chromeos-base/dlcservice-client:=
 	media-libs/cros-camera-hal-usb:=
 	media-libs/libsync:=
 	libcamera? ( media-libs/libcamera )
@@ -39,6 +38,7 @@ RDEPEND="
 	)"
 
 DEPEND="${RDEPEND}
+	chromeos-base/dlcservice-client:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/minigbm:=
 	x11-libs/libdrm:="
