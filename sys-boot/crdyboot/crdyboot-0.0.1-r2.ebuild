@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("64dee3ec0d27e8d7a2398f0df79b4adb31467030" "0ca7a9e4dad2e9780690524ced9273fa07052179")
-CROS_WORKON_TREE=("4c3ce044c09aeacd9a094fa30504111ffa370add" "9078489dc0f6e8e79aaf3ff80f2358b5dbc7e814")
+CROS_WORKON_COMMIT=("64dee3ec0d27e8d7a2398f0df79b4adb31467030" "2aa69d0c8afce9313c3f3fcab645c2ff02b2fca3")
+CROS_WORKON_TREE=("4c3ce044c09aeacd9a094fa30504111ffa370add" "e452bdf3d0e173a4dc8c04c4915982a1e1edf424")
 CROS_WORKON_PROJECT=("chromiumos/platform/crdyboot" "chromiumos/platform/vboot_reference")
 CROS_WORKON_LOCALNAME=("../platform/crdyboot" "../platform/vboot_reference")
 CROS_WORKON_DESTDIR=("${S}" "${S}/third_party/vboot_reference")
