@@ -261,6 +261,7 @@ CONFIG_FRAGMENTS=(
 	pageowner
 	pca954x
 	pcserial
+	pkvm
 	plan9
 	ppp
 	preempt_tracer
@@ -892,6 +893,14 @@ CONFIG_SERIAL_EARLYCON=y
 CONFIG_PARPORT=y
 CONFIG_PARPORT_PC=y
 CONFIG_PARPORT_SERIAL=y
+"
+
+pkvm_desc="pKVM support"
+pkvm_config="
+CONFIG_PKVM_INTEL=y
+CONFIG_PKVM_INTEL_DEBUG=y
+CONFIG_PCI_PASID=y
+CONFIG_IOMMU_DEFAULT_PASSTHROUGH=y
 "
 
 plan9_desc="Plan 9 protocol support"
