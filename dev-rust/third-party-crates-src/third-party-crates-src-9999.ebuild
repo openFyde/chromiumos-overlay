@@ -37,6 +37,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/once_cell-1.9.0
+	!=dev-rust/once_cell-1.7.2
 	!=dev-rust/petgraph-0.6.0
 	!=dev-rust/log-0.4.14
 	!=dev-rust/log-0.4.14-r1
@@ -628,6 +630,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"num_threads-0.1.6"
 	"number_prefix-0.4.0"
 	"object-0.29.0"
+	"once_cell-1.13.1"
 	"openssl-macros-0.1.0"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
