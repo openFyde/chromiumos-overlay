@@ -1,5 +1,6 @@
 CONFIG_VENDOR_GOOGLE=y
 CONFIG_BOARD_GOOGLE_JOXER=y
+CONFIG_MAINBOARD_PART_NUMBER="Joxer_Ufs"
 
 # SPI Descriptor
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/nissa/descriptor-joxer_ufs.bin"

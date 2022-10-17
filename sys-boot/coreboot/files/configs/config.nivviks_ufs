@@ -1,5 +1,6 @@
 CONFIG_VENDOR_GOOGLE=y
 CONFIG_BOARD_GOOGLE_NIVVIKS=y
+CONFIG_MAINBOARD_PART_NUMBER="Nivviks_Ufs"
 
 # SPI Descriptor
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/nissa/descriptor-nivviks_ufs.bin"
