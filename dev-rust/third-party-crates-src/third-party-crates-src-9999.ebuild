@@ -37,6 +37,7 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/petgraph-0.6.0
 	!=dev-rust/log-0.4.14
 	!=dev-rust/log-0.4.14-r1
 	!=dev-rust/log-0.4.14-r2
@@ -539,6 +540,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"fd-lock-2.0.0"
 	"fd-lock-3.0.6"
 	"filedescriptor-0.8.2"
+	"fixedbitset-0.4.2"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
@@ -633,12 +635,14 @@ ALLOWED_CRATE_VERSIONS=(
 	"paste-impl-0.1.18"
 	"pcap-file-1.1.1"
 	"peeking_take_while-0.1.2"
+	"petgraph-0.6.2"
 	"pin-project-1.0.12"
 	"pin-project-internal-1.0.12"
 	"pin-project-lite-0.2.9"
 	"pin-utils-0.1.0"
 	"pkg-config-0.3.19"
 	"ppv-lite86-0.2.10"
+	"prettyplease-0.1.20"
 	"printf-compat-0.1.1"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
@@ -647,7 +651,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"proc-macro2-0.4.30"
 	"proc-macro2-1.0.44"
 	"prost-0.11.0"
+	"prost-build-0.11.1"
 	"prost-derive-0.11.0"
+	"prost-types-0.11.1"
 	"protoc-grpcio-2.0.0"
 	"pyo3-0.13.2"
 	"pyo3-macros-0.13.2"
@@ -718,6 +724,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"tokio-stream-0.1.3"
 	"tokio-util-0.7.3"
 	"tonic-0.8.1"
+	"tonic-build-0.8.2"
 	"tower-0.4.13"
 	"tower-http-0.3.4"
 	"tower-layer-0.3.1"
