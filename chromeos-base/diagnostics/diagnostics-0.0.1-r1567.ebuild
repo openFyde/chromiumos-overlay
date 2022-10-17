@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="61ba294c2f897f8840f896b3e165c5b535702ad4"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "331d28f76843b8085e5362f0b74a1bbde85bdbe1" "f3feb816bc45e72deb7bca930dc1b5fd2dbd933d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="78121ecca9797f827d5685bb2af855d53cc6cdf9"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "331d28f76843b8085e5362f0b74a1bbde85bdbe1" "f3feb816bc45e72deb7bca930dc1b5fd2dbd933d" "519533f5905e311e1f93fd184a2a9140a19e7038" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/1044813): Remove chromeos-config once its public headers are fixed.
-CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics libec .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
@@ -26,6 +26,7 @@ IUSE="fuzzer wilco mesa_reven diagnostics iioservice"
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libec:=
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
 	chromeos-base/mojo_service_manager:=
@@ -70,8 +71,11 @@ pkg_preinst() {
 	enewgroup cros_ec-access
 	enewuser cros_healthd
 	enewgroup cros_healthd
+	enewgroup fpdev
 	enewuser healthd_ec
 	enewgroup healthd_ec
+	enewuser healthd_fp
+	enewgroup healthd_fp
 
 	if use wilco; then
 		enewuser wilco_dtc
