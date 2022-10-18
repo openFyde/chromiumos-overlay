@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Big integer implementation for Rust'
-HOMEPAGE='https://github.com/rust-num/num-bigint'
+DESCRIPTION='Date and time library. Fully interoperable with the standard library. Mostly compatible with #![no_std].'
+HOMEPAGE='https://time-rs.github.io'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,9 +17,8 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/arbitrary-1*
-	=dev-rust/quickcheck-1*
-	=dev-rust/rand-0.8*
+	>=dev-rust/rand-0.8.4 <dev-rust/rand-0.9.0_alpha
+	~dev-rust/time-macros-0.2.4
 "
 RDEPEND="${DEPEND}"
 

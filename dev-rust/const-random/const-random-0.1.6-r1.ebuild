@@ -3,13 +3,13 @@
 
 EAPI="7"
 
-CROS_RUST_EMPTY_CRATE=1
-
-inherit cros-rust
-
 DESCRIPTION="Empty crate"
 HOMEPAGE=""
 
 LICENSE="metapackage"
-SLOT="${PV}/${PR}"
+SLOT="${PV}"
 KEYWORDS="*"
+
+# Migrated crate. See b/240953811 for more about this migration.
+DEPEND="dev-rust/third-party-crates-src:="
+RDEPEND="${DEPEND}"

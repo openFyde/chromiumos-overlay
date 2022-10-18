@@ -18,7 +18,6 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/hyphenation-0.7*
-	=dev-rust/term_size-0.3*
 "
 
 # error: could not compile `textwrap`

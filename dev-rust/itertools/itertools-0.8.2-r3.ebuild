@@ -19,7 +19,6 @@ IUSE="test"
 TEST_DEPS="
 	test? (
 		=dev-rust/permutohedron-0.2*:=
-		=dev-rust/quickcheck-0.7*
 		=dev-rust/rand-0.6*
 	)
 "

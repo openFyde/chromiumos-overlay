@@ -37,6 +37,18 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/term_size-0.3.0
+	!=dev-rust/quickcheck-1.0.3
+	!=dev-rust/quickcheck-0.9.0
+	!=dev-rust/prost-0.7.0
+	!=dev-rust/petgraph-0.5.1
+	!=dev-rust/openssl-probe-0.1.2
+	!=dev-rust/form_urlencoded-1.0.1
+	!=dev-rust/form_urlencoded-1.0.1-r1
+	!=dev-rust/form_urlencoded-1.0.1-r2
+	!=dev-rust/encoding-0.2.33
+	!=dev-rust/const-random-0.1.6
+	!=dev-rust/const-random-0.1.12
 	!=dev-rust/rustc-test-0.3.0
 	!=dev-rust/portable-atomic-0.3.0
 	!=dev-rust/percent-encoding-2.1.0
@@ -538,6 +550,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"combine-3.8.1"
 	"compiler_builtins-0.1.80"
 	"configparser-3.0.0"
+	"const-random-0.1.13"
 	"const-random-macro-0.1.13"
 	"const-sha1-0.2.0"
 	"conv-0.3.3"
@@ -584,6 +597,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"dtoa-0.2.2"
 	"either-1.8.0"
 	"encode_unicode-0.3.6"
+	"encoding-0.2.33"
 	"encoding-index-japanese-1.20141219.5"
 	"encoding-index-korean-1.20141219.5"
 	"encoding-index-simpchinese-1.20141219.5"
@@ -610,6 +624,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
+	"form_urlencoded-1.0.1"
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
 	"fuchsia-zircon-sys-0.3.3"
@@ -729,6 +744,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"once_cell-1.13.1"
 	"oorandom-11.1.3"
 	"openssl-macros-0.1.0"
+	"openssl-probe-0.1.5"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
 	"paste-1.0.4"
@@ -741,6 +757,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"percent-encoding-1.0.1"
 	"percent-encoding-2.1.0"
 	"pest-2.4.0"
+	"petgraph-0.5.1"
 	"petgraph-0.6.2"
 	"pin-project-1.0.12"
 	"pin-project-internal-1.0.12"
@@ -762,6 +779,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"proc-macro2-0.4.30"
 	"proc-macro2-1.0.44"
 	"prost-0.11.0"
+	"prost-0.7.0"
 	"prost-build-0.11.1"
 	"prost-derive-0.11.0"
 	"prost-derive-0.7.0"
@@ -771,6 +789,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"pyo3-macros-0.13.2"
 	"pyo3-macros-backend-0.13.2"
 	"quick-error-1.2.3"
+	"quickcheck-0.9.2"
+	"quickcheck-1.0.3"
 	"quine-mc_cluskey-0.2.4"
 	"quote-0.3.15"
 	"quote-0.6.13"
@@ -855,6 +875,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"system-deps-6.0.2"
 	"term-0.4.6"
 	"term-0.7.0"
+	"term_size-0.3.2"
 	"termcolor-1.1.2"
 	"terminal_size-0.1.17"
 	"termios-0.2.2"
