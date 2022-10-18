@@ -1,0 +1,16 @@
+BDEPEND=dev-vcs/git chromeos-base/chromeos-config-host:=
+DEFINED_PHASES=compile configure info install prepare setup unpack
+DEPEND=coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= ) coreboot-private-files-chipset? ( sys-boot/coreboot-private-files-chipset:= ) virtual/coreboot-private-files bmpblk? ( sys-boot/chromeos-bmpblk:= ) chipset_stoneyridge? ( sys-boot/amd-firmware:= ) chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= ) chromeos-base/chromeos-config:= sys-apps/flashrom has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
+DESCRIPTION=coreboot firmware
+EAPI=7
+HOMEPAGE=http://www.coreboot.org
+IUSE=amd_cpu intel_cpu mocktpm ti50_onboard chipset_cezanne chipset_stoneyridge fw_debug intel_debug intel-compliance-test-mode quiet quiet-cb verbose em100-mode coreboot-sdk fsp memmaps mma private_fsp_headers rmt vmx +bmpblk unibuild coreboot-private-files-board coreboot-private-files-chipset +fsp_gop cros_host cros_workon_tree_6c9c70c782f8c51abd4fabbb8fdd8fe6b4f3ed0a_0e6ef00309364ac0d0605d1a95b82108b8db99f0_e7e5d8b66fb7e1b44f07e39e7dd5ce094a47ac3a_f6d0f4eacf5561ebe331334e8299b88f33e3842d_6b07f0f6775d7ed60cb835ecc328507cdc35b10b_45d22a8711f85c4310c0c2121d3dc8a72793d375_c0433b88f972fa26dded401be022c1c026cd644e_5efbaad0f8f8d0f25349cf75f97034795b60396e_125b812b6df9f99703e3a7bd1e837ca3913af7df has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild asan coverage fuzzer msan tsan ubsan
+KEYWORDS=*
+LICENSE=GPL-2
+PROPERTIES=live
+RDEPEND=coreboot-private-files-board? ( sys-boot/coreboot-private-files-board:= ) coreboot-private-files-chipset? ( sys-boot/coreboot-private-files-chipset:= ) virtual/coreboot-private-files bmpblk? ( sys-boot/chromeos-bmpblk:= ) chipset_stoneyridge? ( sys-boot/amd-firmware:= ) chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= ) chromeos-base/chromeos-config:= sys-apps/flashrom !sys-boot/amd-picasso-fsp has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
+REQUIRED_USE=unibuild coreboot-sdk
+RESTRICT=binchecks strip
+SLOT=0/0.0.1-r5340
+_eclasses_=coreboot-sdk	846880d65f92a6a00ceed0aa24aeecac	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-unibuild	b261de439eed1d0fcfbf854064a6ae53	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	09a8beb8e6a8e02dc1e1bd83ac353741	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=08de585f7689de82cb2fd05da7dda783
