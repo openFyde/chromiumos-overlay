@@ -14,7 +14,7 @@
 #############################################################################
 # Release Build number.
 # Increment by 1 for every release build.
-CHROMEOS_BUILD=15195
+CHROMEOS_BUILD=15196
 
 # Release Branch number.
 # Increment by 1 for every release build on a branch.
