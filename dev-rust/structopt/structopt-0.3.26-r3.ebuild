@@ -7,19 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='URL library for Rust, based on the WHATWG URL Standard'
-HOMEPAGE='https://crates.io/crates/url'
+DESCRIPTION='Parse command line argument by defining a struct.'
+HOMEPAGE='https://crates.io/crates/structopt'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/form_urlencoded-1*
-	=dev-rust/idna-0.2*
-	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha
+	>=dev-rust/clap-2.33.0 <dev-rust/clap-3.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

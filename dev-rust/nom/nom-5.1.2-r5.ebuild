@@ -15,10 +15,7 @@ LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/lexical-core-0.6.0 <dev-rust/lexical-core-0.8.0
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 # error: could not compile `nom`
 RESTRICT="test"

@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Spin-based synchronization primitives'
-HOMEPAGE='https://crates.io/crates/spin'
+DESCRIPTION='Powerful library for word wrapping, indenting, and dedenting strings'
+HOMEPAGE='https://crates.io/crates/textwrap'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -16,8 +16,9 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/lock_api-0.4*
-	=dev-rust/portable-atomic-0.3*
+	dev-rust/third-party-crates-src:=
+	>=dev-rust/hyphenation-0.8.4 <dev-rust/hyphenation-0.9.0_alpha
+	>=dev-rust/unicode-linebreak-0.1.2 <dev-rust/unicode-linebreak-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -7,17 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Parser and serializer for the application/x-www-form-urlencoded syntax, as used by HTML forms.'
-HOMEPAGE='https://crates.io/crates/form_urlencoded'
+DESCRIPTION='Spin-based synchronization primitives'
+HOMEPAGE='https://crates.io/crates/spin'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/percent-encoding-2.1.0 <dev-rust/percent-encoding-3.0.0_alpha
+	=dev-rust/lock_api-0.4*
 "
 RDEPEND="${DEPEND}"
 
