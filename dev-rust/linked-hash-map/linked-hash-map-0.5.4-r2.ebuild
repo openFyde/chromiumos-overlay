@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/clippy-0.0*
 	=dev-rust/heapsize-0.4*
 	=dev-rust/serde_test-1*
 "

@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/const_fn-0.4*
 	=dev-rust/crossbeam-utils-0.8*
 "
 

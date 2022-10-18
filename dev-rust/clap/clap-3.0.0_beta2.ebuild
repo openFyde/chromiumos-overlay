@@ -35,7 +35,6 @@ S="${WORKDIR}/${PN}-${CROS_RUST_CRATE_VERSION}"
 IUSE="test"
 TEST_DEPS="
 	test? (
-		~dev-rust/criterion-0.3.2
 		=dev-rust/version-sync-0.8*:=
 	)
 "

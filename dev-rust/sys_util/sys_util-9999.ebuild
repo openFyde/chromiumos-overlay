@@ -27,7 +27,6 @@ IUSE="test"
 # functionality need to RDEPEND on libcap
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/android_log-sys-0.2*
 	dev-rust/assertions:=
 	dev-rust/sys_util_core:=
 	dev-rust/data_model:=

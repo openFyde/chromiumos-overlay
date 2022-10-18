@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/clippy-0.0.166
 	=dev-rust/textwrap-0.11*
 	=dev-rust/yaml-rust-0.3*
 "

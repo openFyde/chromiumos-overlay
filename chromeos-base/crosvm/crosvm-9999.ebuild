@@ -44,7 +44,6 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
 	dev-libs/wayland-protocols:=
-	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
@@ -55,7 +54,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/dbus-0.8*
 	=dev-rust/env_logger-0.9*
 	=dev-rust/futures-0.3*
-	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
 	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=

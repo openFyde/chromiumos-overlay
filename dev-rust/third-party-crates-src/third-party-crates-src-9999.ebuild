@@ -37,6 +37,22 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/scoped_threadpool-0.1.0
+	!=dev-rust/hmac-sha256-0.1.7
+	!=dev-rust/hmac-sha256-0.1.7-r1
+	!=dev-rust/gzip-header-0.3.0
+	!=dev-rust/gif-0.11.1
+	!=dev-rust/gdbstub-0.6.3
+	!=dev-rust/gdbstub-0.6.3-r1
+	!=dev-rust/gdbstub-0.6.3-r2
+	!=dev-rust/gdbstub-0.6.3-r3
+	!=dev-rust/gdbstub-0.6.3-r4
+	!=dev-rust/gdbstub-0.6.3-r5
+	!=dev-rust/criterion-0.3.3
+	!=dev-rust/const_fn-0.4.3
+	!=dev-rust/clippy-0.0.166
+	!=dev-rust/bytemuck_derive-1.0.0
+	!=dev-rust/android_log-sys-0.2.0
 	!=dev-rust/wmi-0.9.0
 	!=dev-rust/uniquote-3.0.0
 	!=dev-rust/typenum-1.13.0
@@ -505,6 +521,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"adler-1.0.2"
 	"adler32-1.2.0"
 	"aho-corasick-0.7.18"
+	"android_log-sys-0.2.0"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
 	"arg_enum_proc_macro-0.3.2"
@@ -540,6 +557,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bstr-0.2.17"
 	"bumpalo-3.11.0"
 	"bytemuck-1.12.1"
+	"bytemuck_derive-1.2.1"
 	"byteorder-1.4.3"
 	"capnp-0.14.10"
 	"capnpc-0.14.9"
@@ -552,6 +570,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
+	"clippy-0.0.166"
 	"clippy_lints-0.0.166"
 	"cloudabi-0.0.3"
 	"cmake-0.1.48"
@@ -564,6 +583,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"const-random-0.1.13"
 	"const-random-macro-0.1.13"
 	"const-sha1-0.2.0"
+	"const_fn-0.4.9"
 	"conv-0.3.3"
 	"core-foundation-0.9.3"
 	"core-foundation-sys-0.6.2"
@@ -573,6 +593,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"crc-2.1.0"
 	"crc-catalog-1.1.1"
 	"crc32fast-1.3.2"
+	"criterion-0.3.5"
 	"criterion-plot-0.4.5"
 	"crossbeam-0.8.2"
 	"crunchy-0.2.2"
@@ -650,10 +671,13 @@ ALLOWED_CRATE_VERSIONS=(
 	"futures-util-0.3.14"
 	"fuzzy-matcher-0.3.7"
 	"gag-1.0.0"
+	"gdbstub-0.6.3"
 	"ghost-0.1.6"
+	"gif-0.11.4"
 	"graphql-parser-0.3.0"
 	"grpcio-compiler-0.6.0"
 	"gumdrop_derive-0.8.1"
+	"gzip-header-0.3.0"
 	"h2-0.3.14"
 	"half-1.8.2"
 	"hashbrown-0.12.3"
@@ -662,6 +686,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"hermit-abi-0.1.18"
 	"hex-0.4.3"
 	"hmac-0.12.1"
+	"hmac-sha256-0.1.7"
 	"hostname-0.3.1"
 	"http-0.2.8"
 	"http-body-0.4.5"
@@ -843,6 +868,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"same-file-1.0.6"
 	"schannel-0.1.20"
 	"scoped-tls-1.0.0"
+	"scoped_threadpool-0.1.9"
 	"scopeguard-1.1.0"
 	"scudo-0.1.2"
 	"scudo-sys-0.2.1"
