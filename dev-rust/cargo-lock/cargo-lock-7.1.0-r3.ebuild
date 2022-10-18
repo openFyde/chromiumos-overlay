@@ -7,16 +7,20 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Rust helpers for the MPSSE on FTDI chips.'
-HOMEPAGE='https://crates.io/crates/ftdi-mpsse'
+DESCRIPTION='Self-contained Cargo.lock parser with optional dependency graph analysis'
+HOMEPAGE='https://rustsec.org'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/static_assertions-1.1.0 <dev-rust/static_assertions-2.0.0_alpha
+	dev-rust/third-party-crates-src:=
+	=dev-rust/indexmap-1*
+	=dev-rust/semver-1*
+	=dev-rust/toml-0.5*
+	=dev-rust/url-2*
 "
 RDEPEND="${DEPEND}"
 

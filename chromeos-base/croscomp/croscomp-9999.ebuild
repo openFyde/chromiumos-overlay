@@ -57,7 +57,6 @@ DEPEND="${COMMON_DEPEND}
 	${wayland_server_DEPEND}
 
 	dev-libs/wayland-protocols:=
-	>=dev-rust/env_logger-0.8.3 <dev-rust/env_logger-0.9.0_alpha
 	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha
 	dev-rust/cbindgen
 	x11-drivers/opengles-headers:=

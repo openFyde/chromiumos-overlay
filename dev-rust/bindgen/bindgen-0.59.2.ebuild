@@ -20,8 +20,6 @@ DEPEND="
 	=dev-rust/cexpr-0.6*
 	=dev-rust/clang-sys-1*
 	=dev-rust/clap-2*
-	=dev-rust/env_logger-0.9*
-	=dev-rust/lazycell-1*
 "
 RDEPEND="${DEPEND}"
 

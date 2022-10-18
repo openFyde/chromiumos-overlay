@@ -24,7 +24,6 @@ KEYWORDS="~*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	=dev-rust/futures-0.3*
 	dev-rust/io_uring:=
 	=dev-rust/once_cell-1*
 	dev-rust/sync:=

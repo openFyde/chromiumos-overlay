@@ -24,7 +24,6 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/futures-0.3*
 	dev-rust/serde_json
 	dev-rust/sync:=
 	dev-rust/sys_util:=

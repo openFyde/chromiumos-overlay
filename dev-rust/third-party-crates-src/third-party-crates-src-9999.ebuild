@@ -37,6 +37,42 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/tiff-0.6.0
+	!=dev-rust/static_assertions-1.1.0
+	!=dev-rust/ravif-0.6.0
+	!=dev-rust/lazycell-1.3.0
+	!=dev-rust/lazycell-1.3.0-r1
+	!=dev-rust/lazycell-1.3.0-r2
+	!=dev-rust/iovec-0.1.4
+	!=dev-rust/iovec-0.1.4-r1
+	!=dev-rust/heapsize-0.4.2
+	!=dev-rust/gumdrop-0.8.0
+	!=dev-rust/git2-0.13.0
+	!=dev-rust/gdbstub_arch-0.2.4
+	!=dev-rust/gdbstub_arch-0.2.4-r1
+	!=dev-rust/gdbstub_arch-0.2.4-r2
+	!=dev-rust/futures-0.3.13
+	!=dev-rust/futures-0.3.13-r1
+	!=dev-rust/futures-0.3.13-r2
+	!=dev-rust/futures-0.3.13-r3
+	!=dev-rust/futures-0.3.13-r4
+	!=dev-rust/futures-0.1.31
+	!=dev-rust/env_logger-0.9.0
+	!=dev-rust/env_logger-0.9.0-r1
+	!=dev-rust/env_logger-0.9.0-r2
+	!=dev-rust/env_logger-0.9.0-r3
+	!=dev-rust/env_logger-0.9.0-r4
+	!=dev-rust/env_logger-0.9.0-r5
+	!=dev-rust/env_logger-0.8.3
+	!=dev-rust/env_logger-0.8.3-r1
+	!=dev-rust/env_logger-0.8.3-r2
+	!=dev-rust/env_logger-0.8.3-r3
+	!=dev-rust/env_logger-0.8.3-r4
+	!=dev-rust/env_logger-0.8.3-r5
+	!=dev-rust/deflate-0.8.6
+	!=dev-rust/deflate-0.8.6-r1
+	!=dev-rust/deflate-0.8.6-r2
+	!=dev-rust/deflate-0.8.6-r3
 	!=dev-rust/scoped_threadpool-0.1.0
 	!=dev-rust/hmac-sha256-0.1.7
 	!=dev-rust/hmac-sha256-0.1.7-r1
@@ -613,6 +649,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"darling_macro-0.10.2"
 	"dav1d-sys-0.3.5"
 	"defer-drop-1.2.0"
+	"deflate-0.8.6"
 	"defmt-macros-0.2.3"
 	"defmt-parser-0.2.2"
 	"derive-into-owned-0.1.0"
@@ -639,6 +676,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"encoding_rs-0.8.31"
 	"endian-type-0.1.2"
 	"enumn-0.1.5"
+	"env_logger-0.7.1"
+	"env_logger-0.8.3"
+	"env_logger-0.9.0"
 	"errno-0.2.8"
 	"errno-dragonfly-0.1.2"
 	"error-code-2.3.0"
@@ -660,6 +700,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
 	"fuchsia-zircon-sys-0.3.3"
+	"futures-0.1.31"
+	"futures-0.3.14"
 	"futures-channel-0.3.14"
 	"futures-core-0.3.14"
 	"futures-enum-0.1.17"
@@ -672,15 +714,19 @@ ALLOWED_CRATE_VERSIONS=(
 	"fuzzy-matcher-0.3.7"
 	"gag-1.0.0"
 	"gdbstub-0.6.3"
+	"gdbstub_arch-0.2.4"
 	"ghost-0.1.6"
 	"gif-0.11.4"
+	"git2-0.13.25"
 	"graphql-parser-0.3.0"
 	"grpcio-compiler-0.6.0"
+	"gumdrop-0.8.1"
 	"gumdrop_derive-0.8.1"
 	"gzip-header-0.3.0"
 	"h2-0.3.14"
 	"half-1.8.2"
 	"hashbrown-0.12.3"
+	"heapsize-0.4.2"
 	"heck-0.3.3"
 	"heck-0.4.0"
 	"hermit-abi-0.1.18"
@@ -714,6 +760,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"io-lifetimes-0.7.3"
 	"io-uring-0.5.4"
 	"ioctl-rs-0.1.6"
+	"iovec-0.1.4"
 	"ipnet-2.5.0"
 	"itertools-0.10.5"
 	"itertools-0.6.5"
@@ -729,6 +776,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"kernel32-sys-0.2.2"
 	"lazy_static-0.2.11"
 	"lazy_static-1.4.0"
+	"lazycell-1.3.0"
 	"lexical-core-0.6.8"
 	"libc-0.2.132"
 	"libfuzzer-sys-0.3.5"
@@ -837,6 +885,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"r0-0.2.2"
 	"r0-1.0.0"
 	"rav1e-0.4.1"
+	"ravif-0.6.4"
 	"rdrand-0.4.0"
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
@@ -897,6 +946,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"spidev-0.5.1"
 	"stable_deref_trait-1.2.0"
 	"standback-0.2.17"
+	"static_assertions-0.3.4"
+	"static_assertions-1.1.0"
 	"stdweb-0.4.20"
 	"stdweb-derive-0.5.3"
 	"stdweb-internal-macros-0.2.9"
@@ -924,6 +975,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"termios-0.2.2"
 	"thiserror-1.0.32"
 	"thiserror-impl-1.0.32"
+	"tiff-0.6.1"
 	"time-macros-impl-0.1.2"
 	"timer-0.2.0"
 	"tiny-keccak-2.0.2"

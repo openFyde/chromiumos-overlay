@@ -34,7 +34,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
 	dev-rust/chrono
-	=dev-rust/env_logger-0.9*
 	dev-rust/data_model:=
 	=dev-rust/once_cell-1*
 	=dev-rust/serde_json-1*

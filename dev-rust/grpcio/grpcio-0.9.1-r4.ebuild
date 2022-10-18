@@ -7,19 +7,20 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Provides a crate with information from the time it was built.'
-HOMEPAGE='https://crates.io/crates/built'
+DESCRIPTION='The rust language implementation of gRPC, base on the gRPC c core library.'
+HOMEPAGE='https://github.com/tikv/grpc-rs'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="Apache-2.0"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/cargo-lock-7*
-	=dev-rust/chrono-0.4*
-	=dev-rust/git2-0.13*
-	=dev-rust/semver-1*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/bytes-1*
+	=dev-rust/grpcio-sys-0.9*
+	=dev-rust/parking_lot-0.11*
+	=dev-rust/protobuf-2*
 "
 RDEPEND="${DEPEND}"
 
