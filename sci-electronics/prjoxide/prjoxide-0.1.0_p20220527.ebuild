@@ -33,7 +33,6 @@ DEPEND="
 	=dev-rust/flate2-1*
 	=dev-rust/include_dir-0.6*
 	=dev-rust/num-bigint-0.4*
-	>=dev-rust/pulldown-cmark-0.6.1 <dev-rust/pulldown-cmark-0.7.0
 	=dev-rust/serde_json-1*
 "
 RDEPEND="

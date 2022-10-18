@@ -37,6 +37,11 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/pulldown-cmark-0.6.1
+	!=dev-rust/pulldown-cmark-0.6.1-r1
+	!=dev-rust/pulldown-cmark-0.6.1-r2
+	!=dev-rust/pulldown-cmark-0.6.1-r3
+	!=dev-rust/pulldown-cmark-0.6.1-r4
 	!=dev-rust/tinyvec-1.5.1
 	!=dev-rust/tinyvec-1.5.1-r1
 	!=dev-rust/tinyvec-1.5.1-r2
@@ -961,6 +966,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"prost-derive-0.7.0"
 	"prost-types-0.11.1"
 	"protoc-grpcio-2.0.0"
+	"pulldown-cmark-0.0.15"
+	"pulldown-cmark-0.6.1"
 	"pyo3-0.13.2"
 	"pyo3-macros-0.13.2"
 	"pyo3-macros-backend-0.13.2"
