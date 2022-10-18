@@ -20,7 +20,6 @@ KEYWORDS="~*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	dev-rust/getopts
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	dev-rust/serde_json

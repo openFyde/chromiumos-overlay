@@ -15,6 +15,5 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/flamer-0.1*
 	=dev-rust/serde_test-1*
 "

@@ -28,7 +28,6 @@ RDEPEND="
 "
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	dev-rust/p9:=
 "

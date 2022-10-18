@@ -37,6 +37,27 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/tinyvec-1.5.1
+	!=dev-rust/tinyvec-1.5.1-r1
+	!=dev-rust/tinyvec-1.5.1-r2
+	!=dev-rust/tinyvec-1.5.1-r3
+	!=dev-rust/mp4parse-0.11.5
+	!=dev-rust/getopts-0.2.21
+	!=dev-rust/getopts-0.2.21-r1
+	!=dev-rust/getopts-0.2.21-r2
+	!=dev-rust/getopts-0.2.18
+	!=dev-rust/getopts-0.2.18-r1
+	!=dev-rust/getopts-0.2.18-r2
+	!=dev-rust/flamer-0.1.4
+	!=dev-rust/fallible-iterator-0.2.0
+	!=dev-rust/dav1d-0.6.0
+	!=dev-rust/clang-sys-1.2.0
+	!=dev-rust/clang-sys-1.2.0-r1
+	!=dev-rust/clang-sys-1.2.0-r2
+	!=dev-rust/clang-sys-1.2.0-r3
+	!=dev-rust/bytemuck-1.7.3
+	!=dev-rust/bytemuck-1.7.3-r1
+	!=dev-rust/average-0.9.3
 	!=dev-rust/windows-0.10.0
 	!=dev-rust/unicode-linebreak-0.1.2
 	!=dev-rust/thread-id-4.0.0
@@ -621,6 +642,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"atty-0.2.14"
 	"autocfg-0.1.7"
 	"autocfg-1.1.0"
+	"average-0.9.4"
 	"avif-serialize-0.6.5"
 	"axum-0.5.16"
 	"axum-core-0.2.8"
@@ -654,6 +676,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cfg-if-0.1.10"
 	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
+	"clang-sys-1.2.0"
 	"clipboard-win-4.2.1"
 	"clippy-0.0.166"
 	"clippy_lints-0.0.166"
@@ -697,6 +720,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"darling-0.10.2"
 	"darling_core-0.10.2"
 	"darling_macro-0.10.2"
+	"dav1d-0.6.1"
 	"dav1d-sys-0.3.5"
 	"dcv-color-primitives-0.1.16"
 	"defer-drop-1.2.0"
@@ -737,6 +761,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"euclid-0.22.7"
 	"failure-0.1.8"
 	"failure_derive-0.1.8"
+	"fallible-iterator-0.2.0"
 	"fallible_collections-0.3.1"
 	"fd-lock-2.0.0"
 	"fd-lock-3.0.6"
@@ -744,6 +769,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"fixedbitset-0.2.0"
 	"fixedbitset-0.4.2"
 	"flame-0.1.12"
+	"flamer-0.1.4"
 	"float-ord-0.2.0"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
@@ -767,6 +793,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"gag-1.0.0"
 	"gdbstub-0.6.3"
 	"gdbstub_arch-0.2.4"
+	"getopts-0.2.21"
 	"ghost-0.1.6"
 	"gif-0.11.4"
 	"git2-0.13.25"
@@ -863,6 +890,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"mio-extras-2.0.6"
 	"miow-0.2.2"
 	"miow-0.3.6"
+	"mp4parse-0.11.5"
 	"multi_log-0.1.2"
 	"multimap-0.8.3"
 	"nasm-rs-0.2.4"
@@ -1052,6 +1080,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"timer-0.2.0"
 	"tiny-keccak-2.0.2"
 	"tinytemplate-1.2.1"
+	"tinyvec-1.6.0"
 	"tinyvec_macros-0.1.0"
 	"tokio-io-timeout-1.2.0"
 	"tokio-macros-1.8.0"

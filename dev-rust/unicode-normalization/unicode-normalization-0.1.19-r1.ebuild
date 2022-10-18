@@ -3,13 +3,18 @@
 
 EAPI="7"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
-DESCRIPTION='"tinyvec" provides 100% safe vec-like data structures.'
-HOMEPAGE='https://crates.io/crates/tinyvec'
+DESCRIPTION='This crate provides functions for normalization of
+Unicode strings, including Canonical and Compatible
+Decomposition and Recomposition, as described in
+Unicode Standard Annex #15.'
+HOMEPAGE='https://github.com/unicode-rs/unicode-normalization'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 

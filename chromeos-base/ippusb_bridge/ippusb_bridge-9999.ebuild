@@ -32,7 +32,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/ascii-1.0.0 <dev-rust/ascii-1.1
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
-	>=dev-rust/getopts-0.2.18 <dev-rust/getopts-0.3
 	dev-rust/libchromeos:=
 	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	dev-rust/sync:=

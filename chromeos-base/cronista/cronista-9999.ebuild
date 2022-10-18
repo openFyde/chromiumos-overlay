@@ -23,7 +23,6 @@ DEPEND="
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*

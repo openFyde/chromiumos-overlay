@@ -26,7 +26,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
 	=dev-rust/chrono-0.4*
 	=dev-rust/dbus-0.9*
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/rand-0.7*
 	=dev-rust/rustyline-9*

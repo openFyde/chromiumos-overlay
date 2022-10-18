@@ -24,7 +24,6 @@ DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/once_cell-1*
 	=dev-rust/stderrlog-0.5*

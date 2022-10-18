@@ -26,7 +26,6 @@ DEPEND="
 	=dev-rust/anyhow-1*
 	=dev-rust/chrono-0.4*
 	=dev-rust/flexbuffers-2*
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*
