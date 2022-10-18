@@ -45,6 +45,11 @@ def get_parser():
         "all ebuilds can be migrated are printed.",
     )
     parser.add_argument(
+        "--max-ebuilds",
+        type=int,
+        help="The max number of ebuilds to output. Default is unlimited.",
+    )
+    parser.add_argument(
         "--output-file",
         default=Path("/dev/stdout"),
         type=Path,
@@ -101,6 +106,7 @@ def main(argv: List[str]):
     skip_reasons = collections.defaultdict(int)
     dev_rust = opts.dev_rust.resolve()
     candidates = []
+    hit_candidate_limit = False
     for subdir in dev_rust.iterdir():
         if subdir == third_party_crates or not subdir.is_dir():
             continue
@@ -195,8 +201,22 @@ def main(argv: List[str]):
         if skipped_any and opts.full_packages_only:
             continue
 
+        if hit_candidate_limit:
+            continue
+
+        if opts.max_ebuilds:
+            new_len = len(package_candidates) + len(candidates)
+            if new_len > opts.max_ebuilds:
+                hit_candidate_limit = True
+                if not opts.full_packages_only:
+                    can_add = opts.max_ebuilds - len(candidates)
+                    candidates += package_candidates[:can_add]
+                continue
+
         candidates += package_candidates
 
+    if hit_candidate_limit:
+        logging.info("NOTE: Hit candidate limit. Output may be incomplete.")
     logging.info("Skip reasons: %s", pprint.pformat(dict(skip_reasons)))
     candidates.sort()
     with opts.output_file.open("w", encoding="utf-8") as f:

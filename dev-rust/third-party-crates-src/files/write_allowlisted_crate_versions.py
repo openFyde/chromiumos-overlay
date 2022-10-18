@@ -46,6 +46,10 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "wasi-0.11.0+wasi-snapshot-preview1",
 }
 
+EMPTY_CRATE_LIB_RS = b"""
+compile_error!("This crate cannot be built for this configuration.");
+""".strip()
+
 
 def is_unmigrated_third_party_crate(ebuild_contents: str):
     """Returns True if this ebuild is an unmigrated third-party crate."""
@@ -166,6 +170,21 @@ def cargo_id_to_vendored_crate_name(cargo_id: str) -> str:
     return cargo_id.split(" (", 1)[0].replace(" ", "-")
 
 
+def is_empty_vendored_crate(vendored_crate_root: Path) -> bool:
+    """Returns True if the crate at the given root is empty."""
+    src = vendored_crate_root / "src"
+    try:
+        src_file_names = list(x.name for x in src.iterdir())
+    except FileNotFoundError:
+        return False
+
+    if src_file_names != ["lib.rs"]:
+        return False
+
+    lib_rs = src / "lib.rs"
+    file_bytes = lib_rs.read_bytes().strip()
+    return file_bytes == EMPTY_CRATE_LIB_RS
+
 def verify_dependencies(
     rust_crates_path: Path,
     new_allowlist: List[str],
@@ -195,8 +214,14 @@ def verify_dependencies(
         if "src/third_party/rust_crates/projects" not in pkg["id"]
     }
 
+    # Only analyze dependencies of non-empty crates.
+    vendor_path = rust_crates_path / "vendor"
+    new_allowlist_no_empty_crates = [
+        x for x in new_allowlist if not is_empty_vendored_crate(vendor_path / x)
+    ]
+
     transitive_deps = set()
-    dependency_stack = list(new_allowlist)
+    dependency_stack = list(new_allowlist_no_empty_crates)
     while dependency_stack:
         item = dependency_stack.pop()
         if item not in transitive_deps:
