@@ -21,7 +21,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override lvm_stateful_partition minios +power_management report_requisition systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer hibernate hw_details -hwid_override lvm_stateful_partition minios +power_management report_requisition systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -49,6 +49,7 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/update_engine-client:=
+	hibernate? ( chromeos-base/hiberman-client:= )
 	test? ( sys-fs/squashfs-tools )
 	${COMMON_DEPEND}"
 
