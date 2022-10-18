@@ -7,8 +7,7 @@ inherit cmake-utils
 
 DESCRIPTION="Library to randomly mutate protobuffers."
 HOMEPAGE="https://github.com/google/libprotobuf-mutator"
-GIT_REV="1c91e7253084730a3f6f85fca7ac39be4b91b09c"
-SRC_URI="https://github.com/google/${PN}/archive/${GIT_REV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/google/${PN}/archive/${P}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -19,8 +18,6 @@ RESTRICT="test"
 DEPEND="dev-libs/protobuf:="
 RDEPEND="${DEPEND}"
 BDEPEND="${DEPEND}"
-
-S="${WORKDIR}/${PN}-${GIT_REV}/"
 
 src_configure() {
 	local mycmakeargs=(
