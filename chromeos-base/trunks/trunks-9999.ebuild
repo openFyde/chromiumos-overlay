@@ -26,6 +26,7 @@ IUSE="
 	generic_tpm2
 	hibernate
 	pinweaver_csme
+	profiling
 	test
 	ti50_onboard
 	tpm_dynamic
@@ -156,6 +157,13 @@ src_install() {
 		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/trunks_tpm_pinweaver_fuzzer \
 		--comp "${fuzzer_component_id}"
+	# Allow specific syscalls for profiling.
+	# TODO (b/242806964): Need a better approach for fixing up the seccomp policy
+	# related issues (i.e. fix with a single function call)
+	if use profiling; then
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		"${D}/usr/share/policy/trunksd-seccomp.policy"
+	fi
 }
 
 platform_pkg_test() {
