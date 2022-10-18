@@ -37,6 +37,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/wmi-0.9.0
+	!=dev-rust/uniquote-3.0.0
+	!=dev-rust/typenum-1.13.0
+	!=dev-rust/stdweb-0.4.20
+	!=dev-rust/sha1-0.6.0
+	!=dev-rust/reqwest-0.11.10
+	!=dev-rust/quickcheck_macros-0.8.0
+	!=dev-rust/kernel32-sys-0.2.2
+	!=dev-rust/jpeg-decoder-0.1.22
+	!=dev-rust/cfg-if-0.1.10
 	!=dev-rust/term_size-0.3.0
 	!=dev-rust/quickcheck-1.0.3
 	!=dev-rust/quickcheck-0.9.0
@@ -538,6 +548,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cast-0.3.0"
 	"cc-1.0.73"
 	"cfg-expr-0.10.3"
+	"cfg-if-0.1.10"
 	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
 	"clipboard-win-4.2.1"
@@ -687,8 +698,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"itoa-0.4.8"
 	"itoa-1.0.3"
 	"jobserver-0.1.24"
+	"jpeg-decoder-0.1.22"
 	"js-sys-0.3.60"
 	"juniper_codegen-0.15.9"
+	"kernel32-sys-0.2.2"
 	"lazy_static-0.2.11"
 	"lazy_static-1.4.0"
 	"lexical-core-0.6.8"
@@ -791,6 +804,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"quick-error-1.2.3"
 	"quickcheck-0.9.2"
 	"quickcheck-1.0.3"
+	"quickcheck_macros-0.8.0"
 	"quine-mc_cluskey-0.2.4"
 	"quote-0.3.15"
 	"quote-0.6.13"
@@ -807,6 +821,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"regex-syntax-0.6.27"
 	"remain-0.2.4"
 	"remove_dir_all-0.5.3"
+	"reqwest-0.11.12"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"rtic-core-1.0.0"
@@ -841,6 +856,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"serde_urlencoded-0.7.1"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
+	"sha1-0.6.1"
 	"sha1_smol-1.0.0"
 	"sha2-0.10.6"
 	"shell-words-1.1.0"
@@ -855,6 +871,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"spidev-0.5.1"
 	"stable_deref_trait-1.2.0"
 	"standback-0.2.17"
+	"stdweb-0.4.20"
 	"stdweb-derive-0.5.3"
 	"stdweb-internal-macros-0.2.9"
 	"stdweb-internal-runtime-0.1.5"
@@ -903,6 +920,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"tracing-futures-0.2.5"
 	"try-lock-0.2.3"
 	"tuikit-0.4.6"
+	"typenum-1.15.0"
 	"uart_16550-0.2.18"
 	"ucd-trie-0.1.5"
 	"ucs2-0.3.2"
@@ -919,6 +937,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"unicode-xid-0.1.0"
 	"unicode-xid-0.2.4"
 	"unindent-0.1.10"
+	"uniquote-3.2.1"
 	"unreachable-1.0.0"
 	"utf8parse-0.2.0"
 	"v_frame-0.2.5"
@@ -964,6 +983,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"windows_x86_64_msvc-0.36.1"
 	"winreg-0.10.1"
 	"wio-0.2.2"
+	"wmi-0.9.3"
 	"ws2_32-sys-0.2.1"
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"

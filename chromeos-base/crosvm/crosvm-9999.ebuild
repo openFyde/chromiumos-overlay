@@ -74,7 +74,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/tempfile-3*
 	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9
 	>=dev-rust/windows-0.10.0 <dev-rust/windows-0.11
-	dev-rust/wmi
 	media-sound/libcras:=
 	tpm2? (
 		chromeos-base/tpm2:=

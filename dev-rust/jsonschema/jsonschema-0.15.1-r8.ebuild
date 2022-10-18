@@ -25,7 +25,6 @@ DEPEND="
 	>=dev-rust/iso8601-0.4.1 <dev-rust/iso8601-0.5.0_alpha
 	=dev-rust/num-cmp-0.1*
 	=dev-rust/parking_lot-0.12*
-	>=dev-rust/reqwest-0.11.9 <dev-rust/reqwest-0.12.0_alpha
 	>=dev-rust/serde_json-1.0.79 <dev-rust/serde_json-2.0.0_alpha
 	>=dev-rust/structopt-0.3.26 <dev-rust/structopt-0.4.0_alpha
 	>=dev-rust/time-0.3.7 <dev-rust/time-0.4.0_alpha

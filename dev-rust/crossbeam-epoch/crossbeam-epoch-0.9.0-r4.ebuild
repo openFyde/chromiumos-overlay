@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="A Rust library for retrieving random data from (operating) system source"
-HOMEPAGE="https://github.com/rust-random/getrandom"
+DESCRIPTION="This crate provides epoch-based garbage collection for building concurrent data structures"
+HOMEPAGE="https://github.com/crossbeam-rs/crossbeam/tree/master/crossbeam-epoch"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,10 +17,9 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/cfg-if-0.1.2 <dev-rust/cfg-if-0.2.0
-	>=dev-rust/stdweb-0.4.18 <dev-rust/stdweb-0.5.0
-	>=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0
+	=dev-rust/const_fn-0.4*
+	=dev-rust/crossbeam-utils-0.8*
 "
 
-# error: no matching package named `log` found
+# error: could not compile `crossbeam-epoch`
 RESTRICT="test"

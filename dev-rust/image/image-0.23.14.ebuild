@@ -21,7 +21,6 @@ DEPEND="
 	=dev-rust/dav1d-0.6*
 	>=dev-rust/dcv-color-primitives-0.1.16 <dev-rust/dcv-color-primitives-0.2.0_alpha
 	>=dev-rust/gif-0.11.1 <dev-rust/gif-0.12.0_alpha
-	>=dev-rust/jpeg-decoder-0.1.22 <dev-rust/jpeg-decoder-0.2.0_alpha
 	>=dev-rust/mp4parse-0.11.5 <dev-rust/mp4parse-0.12.0_alpha
 	=dev-rust/num-rational-0.3*
 	>=dev-rust/png-0.16.5 <dev-rust/png-0.17.0_alpha

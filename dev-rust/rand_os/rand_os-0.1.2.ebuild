@@ -18,6 +18,5 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	~dev-rust/rand_core-0.4.0
-	=dev-rust/stdweb-0.4*
 "
 RDEPEND="${DEPEND}"
