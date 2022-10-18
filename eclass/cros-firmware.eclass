@@ -407,11 +407,27 @@ cros-firmware_setup_source() {
 	# the ebuild filename.
 	local basedir="${EBUILD%/*}"
 	local files="${basedir}/files"
-	local i
+	local i srcf
 
-	if [[ -f "${files}/srcuris" ]]; then
-		local uris
-		mapfile -t uris < "${files}/srcuris"
+	# Get list of all srcuri files (if any).
+	# The filenames must include 'srcuris'.
+	# Builtin compgen is used since it returns an empty
+	# list (instead of the regexp) if there are no matches.
+	mapfile -t srcf <<< "$(compgen -G "${files}/*srcuris*")"
+	if [[ -n "${srcf[0]}" ]]; then
+		local uris=()
+		local u
+		# We can't use any external commands, so de-dup by
+		# checking for an entry before adding to the list.
+		for i in "${srcf[@]}"; do
+			mapfile -t onefile < "${i}"
+			for u in "${onefile[@]}"; do
+				# The extra quoting is to avoid the shellcheck warning.
+				if [[ ! " ${uris[*]} " =~ " ""${u}"" " ]]; then
+					uris+=("${u}")
+				fi
+			done
+		done
 		SRC_URI+=" ${uris[*]}"
 	else
 		local uris
