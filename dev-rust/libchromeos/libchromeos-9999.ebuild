@@ -23,7 +23,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	=dev-rust/dbus-0.9*
-	=dev-rust/multi_log-0.1*
 	>=dev-rust/poll_token_derive-0.1.1:=
 	=dev-rust/stderrlog-0.5*
 	=dev-rust/syslog-6*

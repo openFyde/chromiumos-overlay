@@ -37,6 +37,29 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/wasmparser-0.57.0
+	!=dev-rust/security-framework-sys-0.3.3
+	!=dev-rust/rgb-0.8.25
+	!=dev-rust/redox_syscall-0.1.51
+	!=dev-rust/print_bytes-0.5.0
+	!=dev-rust/postgres-types-0.2.0
+	!=dev-rust/packed_simd_2-0.3.4
+	!=dev-rust/nom-7.1.0
+	!=dev-rust/nom-7.1.0-r1
+	!=dev-rust/nom-7.1.0-r2
+	!=dev-rust/nom-5.1.2
+	!=dev-rust/nom-5.1.2-r1
+	!=dev-rust/nom-5.1.2-r2
+	!=dev-rust/nom-5.1.2-r3
+	!=dev-rust/nom-5.1.2-r4
+	!=dev-rust/nom-5.1.2-r5
+	!=dev-rust/multi_log-0.1.2
+	!=dev-rust/multi_log-0.1.2-r1
+	!=dev-rust/juniper-0.15.0
+	!=dev-rust/ed25519-1.2.0
+	!=dev-rust/cpp_demangle-0.3.0
+	!=dev-rust/arbitrary-1.0.0
+	!=dev-rust/arbitrary-0.4.0
 	!=dev-rust/tiff-0.6.0
 	!=dev-rust/static_assertions-1.1.0
 	!=dev-rust/ravif-0.6.0
@@ -560,6 +583,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"android_log-sys-0.2.0"
 	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
+	"arbitrary-0.4.7"
+	"arbitrary-1.1.6"
 	"arg_enum_proc_macro-0.3.2"
 	"argh-0.1.8"
 	"argh_derive-0.1.8"
@@ -625,6 +650,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-sys-0.6.2"
 	"core-foundation-sys-0.8.3"
 	"cortex-m-rt-macros-0.6.15"
+	"cpp_demangle-0.3.5"
 	"cpufeatures-0.2.5"
 	"crc-2.1.0"
 	"crc-catalog-1.1.1"
@@ -664,6 +690,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"document-features-0.2.6"
 	"downcast-rs-1.2.0"
 	"dtoa-0.2.2"
+	"ed25519-1.5.2"
 	"either-1.8.0"
 	"encode_unicode-0.3.6"
 	"encoding-0.2.33"
@@ -772,6 +799,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"jobserver-0.1.24"
 	"jpeg-decoder-0.1.22"
 	"js-sys-0.3.60"
+	"juniper-0.15.10"
 	"juniper_codegen-0.15.9"
 	"kernel32-sys-0.2.2"
 	"lazy_static-0.2.11"
@@ -807,6 +835,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.5.4"
 	"miow-0.2.2"
 	"miow-0.3.6"
+	"multi_log-0.1.2"
 	"multimap-0.8.3"
 	"nasm-rs-0.2.4"
 	"native-tls-0.2.10"
@@ -816,6 +845,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"nix-0.23.1"
 	"nix-0.24.2"
 	"nodrop-0.1.14"
+	"nom-5.1.2"
+	"nom-7.1.1"
 	"noop_proc_macro-0.3.0"
 	"ntapi-0.3.6"
 	"num-derive-0.3.3"
@@ -831,6 +862,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"oorandom-11.1.3"
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
+	"packed_simd_2-0.3.8"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
 	"paste-1.0.4"
@@ -855,8 +887,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"plotters-svg-0.3.3"
 	"portable-atomic-0.3.15"
 	"postgres-protocol-0.6.4"
+	"postgres-types-0.2.4"
 	"ppv-lite86-0.2.10"
 	"prettyplease-0.1.20"
+	"print_bytes-0.5.0"
 	"printf-compat-0.1.1"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
@@ -887,6 +921,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rav1e-0.4.1"
 	"ravif-0.6.4"
 	"rdrand-0.4.0"
+	"redox_syscall-0.1.57"
 	"redox_syscall-0.2.4"
 	"redox_users-0.4.0"
 	"regex-1.6.0"
@@ -896,6 +931,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"remain-0.2.4"
 	"remove_dir_all-0.5.3"
 	"reqwest-0.11.12"
+	"rgb-0.8.34"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"rtic-core-1.0.0"
@@ -922,6 +958,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"scudo-0.1.2"
 	"scudo-sys-0.2.1"
 	"security-framework-2.7.0"
+	"security-framework-sys-0.3.3"
+	"security-framework-sys-2.6.1"
 	"semver-parser-0.10.2"
 	"semver-parser-0.7.0"
 	"serde-0.8.23"
@@ -1040,6 +1078,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"wasm-bindgen-macro-0.2.83"
 	"wasm-bindgen-macro-support-0.2.83"
 	"wasm-bindgen-shared-0.2.83"
+	"wasmparser-0.57.0"
 	"web-sys-0.3.60"
 	"weezl-0.1.7"
 	"which-3.1.1"
