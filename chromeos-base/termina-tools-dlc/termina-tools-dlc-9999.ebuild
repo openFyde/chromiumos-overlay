@@ -22,9 +22,9 @@ if [[ ${PV} == 9999 ]]; then
 	SRC_URI=""
 else
 	SRC_URI="
-		amd64? ( gs://termina-component-testing/uprev-test/amd64/${PV}/guest-vm-base.tbz -> termina_amd64.tbz )
-		arm? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tbz -> termina_arm.tbz )
-		arm64? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tbz -> termina_arm.tbz )
+		amd64? ( gs://termina-component-testing/uprev-test/amd64/${PV}/guest-vm-base.tar.xz -> termina_amd64_${PV}.tar.xz )
+		arm? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tar.xz -> termina_arm_${PV}.tar.xz )
+		arm64? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tar.xz -> termina_arm_${PV}.tar.xz )
 	"
 fi
 
