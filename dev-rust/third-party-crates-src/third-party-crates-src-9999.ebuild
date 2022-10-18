@@ -37,6 +37,27 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/windows-0.10.0
+	!=dev-rust/unicode-linebreak-0.1.2
+	!=dev-rust/thread-id-4.0.0
+	!=dev-rust/thread-id-3.3.0
+	!=dev-rust/thread-id-3.3.0-r1
+	!=dev-rust/thread-id-3.3.0-r2
+	!=dev-rust/thread-id-3.3.0-r3
+	!=dev-rust/synstructure_test_traits-0.1.0
+	!=dev-rust/slog-2.0.0
+	!=dev-rust/skim-0.9.0
+	!=dev-rust/rand_xoshiro-0.1.0
+	!=dev-rust/mio-extras-2.0.5
+	!=dev-rust/maybe-uninit-2.0.0
+	!=dev-rust/glob-0.3.0
+	!=dev-rust/glob-0.3.0-r1
+	!=dev-rust/dcv-color-primitives-0.1.16
+	!=dev-rust/cexpr-0.6.0
+	!=dev-rust/cexpr-0.6.0-r1
+	!=dev-rust/cexpr-0.4.0
+	!=dev-rust/cexpr-0.4.0-r1
+	!=dev-rust/bencher-0.1.5
 	!=dev-rust/wasmparser-0.57.0
 	!=dev-rust/security-framework-sys-0.3.3
 	!=dev-rust/rgb-0.8.25
@@ -607,6 +628,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"base64-0.10.1"
 	"base64-0.13.0"
 	"beef-0.5.2"
+	"bencher-0.1.5"
 	"bit_field-0.10.1"
 	"bitfield-0.13.2"
 	"bitflags-0.9.1"
@@ -626,6 +648,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"cast-0.2.7"
 	"cast-0.3.0"
 	"cc-1.0.73"
+	"cexpr-0.4.0"
+	"cexpr-0.6.0"
 	"cfg-expr-0.10.3"
 	"cfg-if-0.1.10"
 	"cfg-if-1.0.0"
@@ -674,6 +698,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"darling_core-0.10.2"
 	"darling_macro-0.10.2"
 	"dav1d-sys-0.3.5"
+	"dcv-color-primitives-0.1.16"
 	"defer-drop-1.2.0"
 	"deflate-0.8.6"
 	"defmt-macros-0.2.3"
@@ -745,6 +770,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ghost-0.1.6"
 	"gif-0.11.4"
 	"git2-0.13.25"
+	"glob-0.3.0"
 	"graphql-parser-0.3.0"
 	"grpcio-compiler-0.6.0"
 	"gumdrop-0.8.1"
@@ -823,6 +849,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"match_cfg-0.1.0"
 	"matches-0.1.9"
 	"matchit-0.5.0"
+	"maybe-uninit-2.0.0"
 	"md-5-0.10.5"
 	"md5-0.7.0"
 	"memchr-2.5.0"
@@ -833,6 +860,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.3.7"
 	"miniz_oxide-0.4.4"
 	"miniz_oxide-0.5.4"
+	"mio-extras-2.0.6"
 	"miow-0.2.2"
 	"miow-0.3.6"
 	"multi_log-0.1.2"
@@ -918,6 +946,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
+	"rand_xoshiro-0.1.0"
 	"rav1e-0.4.1"
 	"ravif-0.6.4"
 	"rdrand-0.4.0"
@@ -978,7 +1007,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"signal-hook-registry-1.4.0"
 	"signature-1.6.4"
 	"simd_helpers-0.1.0"
+	"skim-0.9.4"
 	"slab-0.4.7"
+	"slog-2.7.0"
 	"smartstring-0.2.10"
 	"smawk-0.3.1"
 	"spidev-0.5.1"
@@ -1003,6 +1034,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"sync_wrapper-0.1.1"
 	"synom-0.11.3"
 	"synstructure-0.12.4"
+	"synstructure_test_traits-0.1.0"
 	"sys-info-0.9.1"
 	"system-deps-6.0.2"
 	"term-0.4.6"
@@ -1013,6 +1045,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"termios-0.2.2"
 	"thiserror-1.0.32"
 	"thiserror-impl-1.0.32"
+	"thread-id-3.3.0"
+	"thread-id-4.0.0"
 	"tiff-0.6.1"
 	"time-macros-impl-0.1.2"
 	"timer-0.2.0"
@@ -1047,6 +1081,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"uguid-1.2.1"
 	"unicase-2.6.0"
 	"unicode-ident-1.0.4"
+	"unicode-linebreak-0.1.4"
 	"unicode-segmentation-1.10.0"
 	"unicode-width-0.1.10"
 	"unicode-xid-0.0.4"
@@ -1090,6 +1125,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"winapi-i686-pc-windows-gnu-0.4.0"
 	"winapi-util-0.1.5"
 	"winapi-x86_64-pc-windows-gnu-0.4.0"
+	"windows-0.10.0"
 	"windows-sys-0.36.1"
 	"windows_aarch64_msvc-0.36.1"
 	"windows_gen-0.10.0"

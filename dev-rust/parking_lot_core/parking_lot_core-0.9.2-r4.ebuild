@@ -21,7 +21,6 @@ DEPEND="
 	>=dev-rust/backtrace-0.3.60 <dev-rust/backtrace-0.4.0_alpha
 	=dev-rust/indexmap-1*
 	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2.0.0_alpha
-	=dev-rust/thread-id-4*
 "
 RDEPEND="${DEPEND}"
 

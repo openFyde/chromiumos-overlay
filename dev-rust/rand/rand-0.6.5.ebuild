@@ -23,7 +23,6 @@ DEPEND="
 	~dev-rust/rand_jitter-0.1.3
 	~dev-rust/rand_pcg-0.1.2
 	~dev-rust/rand_xorshift-0.1.1
-	~dev-rust/rand_xoshiro-0.1.0
 	=dev-rust/rand_os-0.1*
 "
 RDEPEND="${DEPEND}"

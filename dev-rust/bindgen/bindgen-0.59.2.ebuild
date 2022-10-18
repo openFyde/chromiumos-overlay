@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cexpr-0.6*
 	=dev-rust/clang-sys-1*
 	=dev-rust/clap-2*
 "

@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/getrandom-0.2*
-	=dev-rust/slog-2*
 "
 RDEPEND="${DEPEND}"
 

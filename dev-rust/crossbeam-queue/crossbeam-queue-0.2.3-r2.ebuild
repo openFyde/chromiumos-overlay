@@ -1,4 +1,4 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Powerful library for word wrapping, indenting, and dedenting strings'
-HOMEPAGE='https://crates.io/crates/textwrap'
+DESCRIPTION="Concurrent queues"
+HOMEPAGE="https://github.com/crossbeam-rs/crossbeam/tree/master/crossbeam-utils"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -17,8 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/hyphenation-0.8.4 <dev-rust/hyphenation-0.9.0_alpha
-	>=dev-rust/unicode-linebreak-0.1.2 <dev-rust/unicode-linebreak-0.2.0_alpha
+	=dev-rust/crossbeam-utils-0.7*
 "
 RDEPEND="${DEPEND}"
 
