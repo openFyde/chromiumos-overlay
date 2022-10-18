@@ -12,5 +12,5 @@ cd "$1" || exit
 if [[ -f contrib/get-version.py ]]; then
   contrib/get-version.py | awk -F- '{print $1}'
 else
-  awk -F"[ ',]+" '/version :/{print $4; exit}' meson.build
+  awk -F"[',]+" '/version\s?:/{print $2; exit}' meson.build
 fi

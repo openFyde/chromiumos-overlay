@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.1"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.6"
 
 inherit cros-workon linux-info meson udev user xdg cros-sanitizers
 
@@ -31,6 +31,7 @@ REQUIRED_USE="
 	fastboot? ( gusb )
 	logitech? ( gusb )
 	minimal? ( !introspection )
+	modemmanager? ( gusb )
 	spi? ( lzma )
 	synaptics? ( gnutls )
 	uefi? ( gnutls )
