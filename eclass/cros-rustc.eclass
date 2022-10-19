@@ -283,8 +283,10 @@ cros-rustc_src_unpack() {
 		if [[ -e "${S}" && ! -L "${S}" ]]; then
 			rm -rf "${S}" || die
 		fi
+		mkdir -p -m 755 "${CROS_RUSTC_SRC_DIR}"
 		ln -sf "$(readlink -m "${_CROS_RUSTC_RAW_SOURCES_ROOT}")" "${S}" || die
 		default
+		cros-rustc_setup_portage_dirs
 		return
 	fi
 
