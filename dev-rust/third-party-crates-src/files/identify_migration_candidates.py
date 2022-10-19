@@ -73,11 +73,15 @@ def find_available_rust_crates(rust_crates_path: Path) -> Dict[str, List[str]]:
         if not file.is_dir():
             continue
 
+        # If there's a + in the name, that's separating build metadata. That's
+        # not relevant to us, so ignore it.
+        crate_name_and_ver = file.name.split("+", 1)[0]
+
         # dev-rust has clap-3.0.0_beta2, which shows up in `cargo`'s vendor
         # registry as `clap-3.0.0.beta-2`. Actual version parsing is somewhat
         # complicated, and we only have one instance of this, so handle it in a
         # targeted way.
-        crate_name_and_ver = file.name.replace(".beta-", "_beta")
+        crate_name_and_ver = crate_name_and_ver.replace(".beta-", "_beta")
         name, ver = crate_name_and_ver.rsplit("-", 1)
         result[name].append(ver)
 
