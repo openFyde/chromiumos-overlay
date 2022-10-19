@@ -37,6 +37,10 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/fancy-regex-0.8.0
+	!=dev-rust/fancy-regex-0.8.0-r1
+	!=dev-rust/bit-set-0.5.2
+	!=dev-rust/bit-set-0.5.2-r1
 	!=dev-rust/time-macros-0.2.4
 	!=dev-rust/num-cmp-0.1.0
 	!=dev-rust/iso8601-0.4.1
@@ -664,6 +668,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"base64-0.13.0"
 	"beef-0.5.2"
 	"bencher-0.1.5"
+	"bit-set-0.5.3"
 	"bit-vec-0.6.3"
 	"bit_field-0.10.1"
 	"bitfield-0.13.2"
@@ -778,6 +783,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"failure_derive-0.1.8"
 	"fallible-iterator-0.2.0"
 	"fallible_collections-0.3.1"
+	"fancy-regex-0.8.0"
 	"fd-lock-2.0.0"
 	"fd-lock-3.0.6"
 	"filedescriptor-0.8.2"
