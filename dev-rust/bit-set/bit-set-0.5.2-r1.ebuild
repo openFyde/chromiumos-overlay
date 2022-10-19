@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A vector of bits'
-HOMEPAGE='https://github.com/contain-rs/bit-vec'
+DESCRIPTION='A set of bits'
+HOMEPAGE='https://github.com/contain-rs/bit-set'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"

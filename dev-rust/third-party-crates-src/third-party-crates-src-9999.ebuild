@@ -37,6 +37,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/time-macros-0.2.4
+	!=dev-rust/num-cmp-0.1.0
+	!=dev-rust/iso8601-0.4.1
+	!=dev-rust/iso8601-0.4.1-r1
+	!=dev-rust/bytecount-0.6.2
+	!=dev-rust/bytecount-0.6.2-r1
+	!=dev-rust/bit-vec-0.6.3
+	!=dev-rust/bit-vec-0.6.3-r1
 	!=dev-rust/pulldown-cmark-0.6.1
 	!=dev-rust/pulldown-cmark-0.6.1-r1
 	!=dev-rust/pulldown-cmark-0.6.1-r2
@@ -656,6 +664,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"base64-0.13.0"
 	"beef-0.5.2"
 	"bencher-0.1.5"
+	"bit-vec-0.6.3"
 	"bit_field-0.10.1"
 	"bitfield-0.13.2"
 	"bitflags-0.9.1"
@@ -666,6 +675,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bson-1.2.4"
 	"bstr-0.2.17"
 	"bumpalo-3.11.0"
+	"bytecount-0.6.3"
 	"bytemuck-1.12.1"
 	"bytemuck_derive-1.2.1"
 	"byteorder-1.4.3"
@@ -847,6 +857,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ioctl-rs-0.1.6"
 	"iovec-0.1.4"
 	"ipnet-2.5.0"
+	"iso8601-0.4.2"
 	"itertools-0.10.5"
 	"itertools-0.6.5"
 	"itertools-0.8.2"
@@ -910,6 +921,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"nom-7.1.1"
 	"noop_proc_macro-0.3.0"
 	"ntapi-0.3.6"
+	"num-cmp-0.1.0"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
 	"num-iter-0.1.43"
@@ -986,7 +998,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ravif-0.6.4"
 	"rdrand-0.4.0"
 	"redox_syscall-0.1.57"
-	"redox_syscall-0.2.4"
+	"redox_syscall-0.2.16"
 	"redox_users-0.4.0"
 	"regex-1.6.0"
 	"regex-automata-0.1.10"
@@ -1083,6 +1095,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"thread-id-3.3.0"
 	"thread-id-4.0.0"
 	"tiff-0.6.1"
+	"time-macros-0.1.1"
+	"time-macros-0.2.4"
 	"time-macros-impl-0.1.2"
 	"timer-0.2.0"
 	"tiny-keccak-2.0.2"
@@ -1163,13 +1177,21 @@ ALLOWED_CRATE_VERSIONS=(
 	"winapi-x86_64-pc-windows-gnu-0.4.0"
 	"windows-0.10.0"
 	"windows-sys-0.36.1"
+	"windows-sys-0.42.0"
+	"windows_aarch64_gnullvm-0.42.0"
 	"windows_aarch64_msvc-0.36.1"
+	"windows_aarch64_msvc-0.42.0"
 	"windows_gen-0.10.0"
 	"windows_i686_gnu-0.36.1"
+	"windows_i686_gnu-0.42.0"
 	"windows_i686_msvc-0.36.1"
+	"windows_i686_msvc-0.42.0"
 	"windows_macros-0.10.0"
 	"windows_x86_64_gnu-0.36.1"
+	"windows_x86_64_gnu-0.42.0"
+	"windows_x86_64_gnullvm-0.42.0"
 	"windows_x86_64_msvc-0.36.1"
+	"windows_x86_64_msvc-0.42.0"
 	"winreg-0.10.1"
 	"wio-0.2.2"
 	"wmi-0.9.3"
