@@ -12,12 +12,14 @@ SRC_URI="https://github.com/google/${PN}/archive/${P}.tar.gz"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+static-libs"
+IUSE="msan +static-libs"
 RESTRICT="test"
 
 DEPEND="dev-libs/protobuf:="
 RDEPEND="${DEPEND}"
 BDEPEND="${DEPEND}"
+
+PATCHES=( "${FILESDIR}/fix-msan.patch" )
 
 src_configure() {
 	local mycmakeargs=(
