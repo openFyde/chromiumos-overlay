@@ -34,6 +34,7 @@ RDEPEND="
 
 # Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
+	chromeos-base/cros-camera-libs:=
 	chromeos-base/debugd-client:=
 	chromeos-base/libec:=
 	chromeos-base/shill-client:=
