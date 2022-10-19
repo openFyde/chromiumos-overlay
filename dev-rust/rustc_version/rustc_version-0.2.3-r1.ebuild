@@ -3,19 +3,14 @@
 
 EAPI="7"
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="A library for querying the version of a rustc compiler"
-HOMEPAGE="https://github.com/Kimundi/rustc-version-rs"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	=dev-rust/semver-0.9*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 # thread 'smoketest' panicked at 'called `Result::unwrap()` on an `Err` value: CouldNotExecuteCommand(Os { code: 2, kind: NotFound, message: "No such file or directory" })', src/lib.rs:202:23

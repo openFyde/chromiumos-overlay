@@ -1,4 +1,4 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A library for querying the version of a installed rustc compiler'
-HOMEPAGE='https://crates.io/crates/rustc_version'
+DESCRIPTION='Transmit defmt log messages over the RTT (Real-Time Transfer) protocol'
+HOMEPAGE='https://crates.io/crates/defmt-rtt'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -16,7 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/semver-1*
+	dev-rust/third-party-crates-src:=
+	>=dev-rust/cortex-m-0.6.3 <dev-rust/cortex-m-0.7.0
 "
 RDEPEND="${DEPEND}"
 

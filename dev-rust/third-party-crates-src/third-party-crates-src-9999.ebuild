@@ -37,6 +37,17 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rustc_version-0.4.0
+	!=dev-rust/rustc_version-0.2.3
+	!=dev-rust/defmt-0.2.3
+	!=dev-rust/defmt-0.2.3-r1
+	!=dev-rust/semver-1.0.3
+	!=dev-rust/semver-1.0.3-r1
+	!=dev-rust/semver-0.9.0
+	!=dev-rust/semver-0.9.0-r1
+	!=dev-rust/semver-0.9.0-r2
+	!=dev-rust/semver-0.9.0-r3
+	!=dev-rust/hound-3.4.0
 	!=dev-rust/timeout-readwrite-0.3.2
 	!=dev-rust/timeout-readwrite-0.3.2-r1
 	!=dev-rust/serde-tuple-vec-map-1.0.0
@@ -759,6 +770,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"dcv-color-primitives-0.1.16"
 	"defer-drop-1.2.0"
 	"deflate-0.8.6"
+	"defmt-0.2.3"
 	"defmt-macros-0.2.3"
 	"defmt-parser-0.2.2"
 	"deqp-runner-0.13.1"
@@ -851,6 +863,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"hmac-0.12.1"
 	"hmac-sha256-0.1.7"
 	"hostname-0.3.1"
+	"hound-3.5.0"
 	"http-0.2.8"
 	"http-body-0.4.5"
 	"http-range-header-0.3.0"
@@ -1045,6 +1058,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustc-std-workspace-core-1.0.0"
 	"rustc-std-workspace-std-1.0.1"
 	"rustc-test-0.3.1"
+	"rustc_version-0.2.3"
+	"rustc_version-0.3.3"
+	"rustc_version-0.4.0"
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
 	"rusty-fork-0.3.0"
@@ -1060,6 +1076,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"security-framework-2.7.0"
 	"security-framework-sys-0.3.3"
 	"security-framework-sys-2.6.1"
+	"semver-0.11.0"
+	"semver-0.6.0"
+	"semver-0.9.0"
+	"semver-1.0.13"
 	"semver-parser-0.10.2"
 	"semver-parser-0.7.0"
 	"serde-0.8.23"

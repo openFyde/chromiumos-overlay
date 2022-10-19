@@ -7,20 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Self-contained Cargo.lock parser with optional dependency graph analysis'
-HOMEPAGE='https://rustsec.org'
+DESCRIPTION='Provides a crate with information from the time it was built.'
+HOMEPAGE='https://crates.io/crates/built'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/indexmap-1*
-	=dev-rust/semver-1*
-	=dev-rust/toml-0.5*
-	=dev-rust/url-2*
+	=dev-rust/cargo-lock-7*
+	=dev-rust/chrono-0.4*
 "
 RDEPEND="${DEPEND}"
 

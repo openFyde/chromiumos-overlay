@@ -20,11 +20,9 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/defmt-0.2.0 <dev-rust/defmt-0.4.0_alpha
 	>=dev-rust/hash32-0.2.1 <dev-rust/hash32-0.3.0_alpha
 	>=dev-rust/atomic-polyfill-0.1.8 <dev-rust/atomic-polyfill-0.2.0
 	>=dev-rust/spin-0.9.2 <dev-rust/spin-0.10.0
-	=dev-rust/rustc_version-0.4*
 "
 RDEPEND="${DEPEND}"
 
