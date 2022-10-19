@@ -37,6 +37,19 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/timeout-readwrite-0.3.2
+	!=dev-rust/timeout-readwrite-0.3.2-r1
+	!=dev-rust/serde-tuple-vec-map-1.0.0
+	!=dev-rust/serde-tuple-vec-map-1.0.0-r1
+	!=dev-rust/roxmltree-0.14.1
+	!=dev-rust/roxmltree-0.14.1-r1
+	!=dev-rust/roxmltree-0.13.1
+	!=dev-rust/roxmltree-0.13.1-r1
+	!=dev-rust/derive-getters-0.1.1
+	!=dev-rust/derive-getters-0.1.1-r1
+	!=dev-rust/derive-getters-0.1.1-r2
+	!=dev-rust/derive-getters-0.1.1-r3
+	!=dev-rust/derive-getters-0.1.1-r4
 	!=dev-rust/fancy-regex-0.8.0
 	!=dev-rust/fancy-regex-0.8.0-r1
 	!=dev-rust/bit-set-0.5.2
@@ -740,6 +753,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"darling-0.10.2"
 	"darling_core-0.10.2"
 	"darling_macro-0.10.2"
+	"dasp_sample-0.11.0"
 	"dav1d-0.6.1"
 	"dav1d-sys-0.3.5"
 	"dcv-color-primitives-0.1.16"
@@ -747,6 +761,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"deflate-0.8.6"
 	"defmt-macros-0.2.3"
 	"defmt-parser-0.2.2"
+	"deqp-runner-0.13.1"
+	"derive-getters-0.1.1"
 	"derive-into-owned-0.1.0"
 	"derive_builder-0.9.0"
 	"derive_builder_core-0.9.0"
@@ -1016,6 +1032,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"rgb-0.8.34"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
+	"roxmltree-0.13.1"
+	"roxmltree-0.14.1"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
 	"rust_hawktracer-0.7.0"
@@ -1046,6 +1064,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"semver-parser-0.7.0"
 	"serde-0.8.23"
 	"serde-1.0.145"
+	"serde-tuple-vec-map-1.0.1"
 	"serde_cbor-0.11.2"
 	"serde_derive-1.0.145"
 	"serde_urlencoded-0.7.1"
@@ -1104,6 +1123,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"time-macros-0.1.1"
 	"time-macros-0.2.4"
 	"time-macros-impl-0.1.2"
+	"timeout-readwrite-0.3.2"
 	"timer-0.2.0"
 	"tiny-keccak-2.0.2"
 	"tinytemplate-1.2.1"
