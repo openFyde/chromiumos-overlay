@@ -37,6 +37,18 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/getrandom-0.2.6
+	!=dev-rust/getrandom-0.2.6-r1
+	!=dev-rust/getrandom-0.2.6-r2
+	!=dev-rust/getrandom-0.2.6-r3
+	!=dev-rust/getrandom-0.2.6-r4
+	!=dev-rust/getrandom-0.2.6-r5
+	!=dev-rust/getrandom-0.1.15
+	!=dev-rust/getrandom-0.1.15-r1
+	!=dev-rust/getrandom-0.1.15-r2
+	!=dev-rust/getrandom-0.1.15-r3
+	!=dev-rust/getrandom-0.1.15-r4
+	!=dev-rust/getrandom-0.1.15-r5
 	!=dev-rust/wasi-0.9.0
 	!=dev-rust/wasi-0.10.0
 	!=dev-rust/riscv-0.7.0
@@ -854,6 +866,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"gdbstub-0.6.3"
 	"gdbstub_arch-0.2.4"
 	"getopts-0.2.21"
+	"getrandom-0.1.16"
+	"getrandom-0.2.7"
 	"ghost-0.1.6"
 	"gif-0.11.4"
 	"git2-0.13.25"

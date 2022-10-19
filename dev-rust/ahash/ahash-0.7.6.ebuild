@@ -23,7 +23,6 @@ PATCHES=(
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/getrandom-0.2.3 <dev-rust/getrandom-0.3.0_alpha
 	>=dev-rust/once_cell-1.8.0 <dev-rust/once_cell-2.0.0_alpha
 "
 RDEPEND="${DEPEND}"
