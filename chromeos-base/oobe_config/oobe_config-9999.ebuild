@@ -49,7 +49,7 @@ src_install() {
 	dosbin "${OUT}"/rollback_prepare_save
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
-	dosbin "${OUT}"/rollback_finish_restore
+	dosbin "${OUT}"/rollback_cleanup
 
 	insinto /etc/dbus-1/system.d
 	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
