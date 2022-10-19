@@ -125,3 +125,9 @@ cross-aarch64-cros-linux-gnu/glibc		-llvm
 cross-x86_64-cros-linux-gnu/glibc		-llvm
 cross-i686-cros-linux-gnu/glibc			-llvm
 cross-armv7a-cros-linux-gnueabihf/glibc		-llvm
+
+# only the cross-*/libxcrypt headers are required to build compiler-rt
+cross-aarch64-cros-linux-gnu/libxcrypt		headers-only
+cross-x86_64-cros-linux-gnu/libxcrypt		headers-only
+cross-i686-cros-linux-gnu/libxcrypt		headers-only
+cross-armv7a-cros-linux-gnueabihf/libxcrypt	headers-only
