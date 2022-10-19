@@ -15,6 +15,5 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/wasi-0.10.0
 	>=dev-rust/rustc-serialize-0.3.0
 "

@@ -15,10 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/wasi-0.9.0 <dev-rust/wasi-0.10.0
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 # error: no matching package named `log` found
 RESTRICT="test"

@@ -37,6 +37,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/wasi-0.9.0
+	!=dev-rust/wasi-0.10.0
 	!=dev-rust/riscv-0.7.0
 	!=dev-rust/riscv-0.7.0-r1
 	!=dev-rust/riscv-0.7.0-r2
@@ -1213,7 +1215,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"wait-timeout-0.2.0"
 	"walkdir-2.3.2"
 	"want-0.3.0"
+	"wasi-0.10.2+wasi-snapshot-preview1"
 	"wasi-0.11.0+wasi-snapshot-preview1"
+	"wasi-0.9.0+wasi-snapshot-preview1"
 	"wasm-bindgen-0.2.83"
 	"wasm-bindgen-backend-0.2.83"
 	"wasm-bindgen-futures-0.4.33"
