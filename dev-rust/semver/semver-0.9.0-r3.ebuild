@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Semantic version parsing and comparison"
@@ -13,12 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/crates-index-0.5*
-	=dev-rust/serde_json-1*
-	=dev-rust/tempdir-0.3*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 # error: could not compile `semver`
 RESTRICT="test"
