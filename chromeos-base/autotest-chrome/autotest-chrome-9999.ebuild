@@ -153,6 +153,7 @@ IUSE_TESTS_ATOMIC="
 IUSE_TESTS_CHROMIUM="
 	+tests_chromium
 	+tests_chromium_Telemetry
+	+tests_chromium_GPU
 "
 
 IUSE_TESTS="
