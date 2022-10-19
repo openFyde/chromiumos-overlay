@@ -168,6 +168,7 @@ multilib_src_configure() {
 		# Compilation with newlib as C standard library fails unless
 		# -D_GNU_SOURCE is defined.
 		append-cppflags "-D_GNU_SOURCE"
+		append-flags -Oz # Optimize for smallest size.
 		mycmakeargs+=(
 			"-DCMAKE_POSITION_INDEPENDENT_CODE=OFF"
 			"-DLIBCXXABI_ENABLE_SHARED=OFF"
@@ -184,6 +185,7 @@ multilib_src_configure() {
 			"-DLIBCXX_ENABLE_THREADS=OFF"
 			"-DLIBCXX_ENABLE_MONOTONIC_CLOCK=OFF"
 			"-DLIBCXX_ENABLE_INCOMPLETE_FEATURES=OFF"
+			"-DLLVM_ENABLE_LTO=Full"
 		)
 	fi
 

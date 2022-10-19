@@ -114,10 +114,12 @@ multilib_src_configure() {
 
 	if is_baremetal_abi; then
 		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
+		append-flags -Oz # Optimize for smallest size.
 		mycmakeargs+=(
 			"-DCMAKE_POSITION_INDEPENDENT_CODE=OFF"
 			"-DLIBUNWIND_IS_BAREMETAL=ON"
 			"-DLIBUNWIND_REMEMBER_HEAP_ALLOC=ON"
+			"-DLLVM_ENABLE_LTO=Full"
 		)
 	fi
 
