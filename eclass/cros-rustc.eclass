@@ -270,7 +270,7 @@ EOF
 	local targ="${WORKDIR}/licenses"
 	mkdir -p "${targ}" || die
 	einfo "Mirroring licenses from ${CROS_RUSTC_SRC_DIR} into ${targ}..."
-	rsync -r --include='*/' --include='LICENSE*' --exclude='*' \
+	rsync -rl --include='*/' --include='LICENSE*' --exclude='*' \
 		--prune-empty-dirs "${CROS_RUSTC_SRC_DIR}" "${targ}" || die
 }
 
