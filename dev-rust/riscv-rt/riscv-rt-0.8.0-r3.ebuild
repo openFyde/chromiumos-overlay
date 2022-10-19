@@ -3,12 +3,10 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
-
 inherit cros-rust
 
-DESCRIPTION='Low level access to RISC-V processors'
-HOMEPAGE='https://crates.io/crates/riscv'
+DESCRIPTION='Minimal runtime / startup for RISC-V CPUs'
+HOMEPAGE='https://crates.io/crates/riscv-rt'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="ISC"
@@ -17,9 +15,19 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bare-metal-1*
+	>=dev-rust/riscv-rt-macros-0.1.6 <dev-rust/riscv-rt-macros-0.2.0_alpha
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	cros-rust_src_prepare
+	git apply "${FILESDIR}/riscv-rt-0.8.0-update-to-riscv-0.7.patch"
+}
+
+src_test() {
+	# This crate can only be compiled for RISC-V targets. There are no tests.
+	:
+}
 
 src_install() {
 	cros-rust_src_install

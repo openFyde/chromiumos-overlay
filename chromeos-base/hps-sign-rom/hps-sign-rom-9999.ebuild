@@ -32,7 +32,6 @@ DEPEND="
 	>=dev-rust/linux-embedded-hal-0.3.1 <dev-rust/linux-embedded-hal-0.4
 	>=dev-rust/num_enum-0.5.1 <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*
-	=dev-rust/riscv-0.7*
 	=dev-rust/riscv-rt-0.8*
 	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	=dev-rust/rustyline-9*

@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Critical section abstraction'
-HOMEPAGE='https://crates.io/crates/critical-section'
+DESCRIPTION='Peripheral access API for STM32G0 series microcontrollers'
+HOMEPAGE='https://crates.io/crates/stm32g0xx-hal'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,9 +17,10 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bare-metal-1*
-	>=dev-rust/riscv-0.7.0 <dev-rust/riscv-0.8.0
-	>=dev-rust/cortex-m-0.7.2 <dev-rust/riscv-0.8.0
+	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha
+	>=dev-rust/embedded-hal-0.2.6 <dev-rust/embedded-hal-0.3.0_alpha
+	=dev-rust/nb-1*
+	=dev-rust/stm32g0-0.13*
 "
 RDEPEND="${DEPEND}"
 

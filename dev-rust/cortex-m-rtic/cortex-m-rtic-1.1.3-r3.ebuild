@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bare-metal-1*
 	=dev-rust/cortex-m-0.7*
 	>=dev-rust/cortex-m-rtic-macros-1.1.5 <dev-rust/cortex-m-rtic-macros-2.0.0_alpha
 	>=dev-rust/heapless-0.7.7 <dev-rust/heapless-0.8.0_alpha

@@ -37,6 +37,13 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/riscv-0.7.0
+	!=dev-rust/riscv-0.7.0-r1
+	!=dev-rust/riscv-0.7.0-r2
+	!=dev-rust/riscv-0.6.0
+	!=dev-rust/bare-metal-1.0.0
+	!=dev-rust/bare-metal-0.2.5
+	!=dev-rust/bare-metal-0.2.5-r1
 	!=dev-rust/rustc_version-0.4.0
 	!=dev-rust/rustc_version-0.2.3
 	!=dev-rust/defmt-0.2.3
@@ -687,6 +694,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"avif-serialize-0.6.5"
 	"axum-0.5.16"
 	"axum-core-0.2.8"
+	"bare-metal-0.2.5"
+	"bare-metal-1.0.0"
 	"base-x-0.2.11"
 	"base64-0.10.1"
 	"base64-0.13.0"
@@ -1043,6 +1052,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"remove_dir_all-0.5.3"
 	"reqwest-0.11.12"
 	"rgb-0.8.34"
+	"riscv-0.6.0"
+	"riscv-0.7.0"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"roxmltree-0.13.1"
