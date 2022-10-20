@@ -37,6 +37,38 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rand-0.8.4
+	!=dev-rust/rand-0.8.4-r1
+	!=dev-rust/rand-0.8.4-r2
+	!=dev-rust/rand-0.8.4-r3
+	!=dev-rust/rand-0.8.4-r4
+	!=dev-rust/rand-0.8.4-r5
+	!=dev-rust/rand-0.7.3
+	!=dev-rust/rand-0.7.3-r1
+	!=dev-rust/rand-0.7.3-r2
+	!=dev-rust/rand-0.7.3-r3
+	!=dev-rust/rand-0.7.3-r4
+	!=dev-rust/rand-0.7.3-r5
+	!=dev-rust/rand-0.7.3-r6
+	!=dev-rust/rand-0.7.3-r7
+	!=dev-rust/rand-0.7.3-r8
+	!=dev-rust/rand-0.6.5
+	!=dev-rust/rand-0.6.5-r1
+	!=dev-rust/rand-0.6.5-r2
+	!=dev-rust/rand-0.6.5-r3
+	!=dev-rust/rand-0.6.5-r4
+	!=dev-rust/rand-0.6.5-r5
+	!=dev-rust/rand-0.6.5-r6
+	!=dev-rust/rand-0.6.5-r7
+	!=dev-rust/rand-0.6.5-r8
+	!=dev-rust/rand-0.6.5-r9
+	!=dev-rust/rand-0.6.5-r10
+	!=dev-rust/rand-0.4.2
+	!=dev-rust/rand-0.4.2-r1
+	!=dev-rust/rand-0.4.2-r2
+	!=dev-rust/rand-0.4.2-r3
+	!=dev-rust/rand-0.4.2-r4
+	!=dev-rust/rand-0.3.20
 	!=dev-rust/rand_pcg-0.2.1
 	!=dev-rust/rand_pcg-0.2.1-r1
 	!=dev-rust/rand_pcg-0.2.1-r2
@@ -1117,6 +1149,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
+	"rand-0.3.23"
+	"rand-0.4.6"
+	"rand-0.5.6"
+	"rand-0.6.5"
+	"rand-0.7.3"
+	"rand-0.8.5"
 	"rand_chacha-0.1.1"
 	"rand_chacha-0.2.2"
 	"rand_chacha-0.3.1"

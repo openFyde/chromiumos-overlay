@@ -3,30 +3,13 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="A Rust library for random number generation."
-HOMEPAGE="https://github.com/rust-random/rand"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
-
-src_prepare() {
-	cros-rust_src_prepare
-
-	# Delete the optional packed_simd dependency. This starts a deps chain
-	# down to bindgen and beyond.
-	sed -i '/\[dependencies.packed_simd\]/{N;N;N;d;}' "${S}/Cargo.toml"
-	sed -i '/simd_support/d' "${S}/Cargo.toml"
-
-	# Delete the wasm-only features.
-	sed -i '/stdweb = /d' "${S}/Cargo.toml"
-	sed -i '/wasm-bindgen = /d' "${S}/Cargo.toml"
-}

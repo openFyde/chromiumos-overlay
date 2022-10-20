@@ -61,7 +61,6 @@ DEPEND="${COMMON_DEPEND}
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8
 	!>=dev-rust/protoc-rust-3
-	=dev-rust/rand-0.8*
 	=dev-rust/serde_json-1*
 	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2
 	dev-rust/system_api:=

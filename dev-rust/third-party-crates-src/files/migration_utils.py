@@ -27,6 +27,8 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "pkg-config",
     # This just uses sed to delete useless deps.
     "syn",
+    # This just removes some pointless deps.
+    "rand",
 }
 
 # Line written into ebuilds which are automigrated.
