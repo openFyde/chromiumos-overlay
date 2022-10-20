@@ -3,19 +3,18 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="Implements a selection of PCG random number generators."
-HOMEPAGE="https://github.com/rust-random/rand"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="dev-rust/third-party-crates-src:="
+DEPEND="
+	dev-rust/third-party-crates-src:=
+	dev-rust/third-party-crates-src:=
+"
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
