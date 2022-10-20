@@ -32,7 +32,6 @@ DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
-	dev-rust/tempfile
 	sys-libs/libcap:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

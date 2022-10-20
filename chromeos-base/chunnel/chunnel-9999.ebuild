@@ -28,7 +28,6 @@ DEPEND="
 	=dev-rust/dbus-tree-0.9*
 	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3
-	=dev-rust/tempfile-3*
 "
 
 RDEPEND="sys-apps/dbus"

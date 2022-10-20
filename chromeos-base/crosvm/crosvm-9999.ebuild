@@ -64,7 +64,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/serde_json-1*
 	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2
 	dev-rust/system_api:=
-	=dev-rust/tempfile-3*
 	media-sound/libcras:=
 	tpm2? (
 		chromeos-base/tpm2:=

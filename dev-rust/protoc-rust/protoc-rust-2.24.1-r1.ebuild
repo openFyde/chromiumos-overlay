@@ -5,15 +5,19 @@ EAPI="7"
 
 inherit cros-rust
 
-DESCRIPTION="Utilities for working with time-related functions in Rust."
-HOMEPAGE="https://github.com/rust-lang/time"
+DESCRIPTION="protoc --rust_out=... available as API."
+HOMEPAGE="https://github.com/stepancheg/rust-protobuf/protoc-rust/"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
-SLOT="${PV}/${PR}"
+LICENSE="MIT"
+SLOT="0/${PVR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/rustc-serialize-0.3.0
+	~dev-rust/protobuf-${PV}
+	~dev-rust/protobuf-codegen-${PV}
+	~dev-rust/protoc-${PV}
 "
+
+RDEPEND=${DEPEND}

@@ -37,6 +37,33 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/socket2-0.4.4
+	!=dev-rust/socket2-0.4.4-r1
+	!=dev-rust/socket2-0.3.9
+	!=dev-rust/socket2-0.3.9-r1
+	!=dev-rust/socket2-0.3.9-r2
+	!=dev-rust/socket2-0.3.9-r3
+	!=dev-rust/socket2-0.3.9-r4
+	!=dev-rust/socket2-0.3.9-r5
+	!=dev-rust/tempfile-3.2.0
+	!=dev-rust/tempfile-3.2.0-r1
+	!=dev-rust/tempfile-3.2.0-r2
+	!=dev-rust/tempfile-3.2.0-r3
+	!=dev-rust/tempfile-3.2.0-r4
+	!=dev-rust/tempdir-0.3.7
+	!=dev-rust/tempdir-0.3.7-r1
+	!=dev-rust/tempdir-0.3.7-r2
+	!=dev-rust/tempdir-0.3.7-r3
+	!=dev-rust/tempdir-0.3.7-r4
+	!=dev-rust/tempdir-0.3.7-r5
+	!=dev-rust/rustc-serialize-0.3.24
+	!=dev-rust/rustc-serialize-0.3.24-r1
+	!=dev-rust/rustc-serialize-0.3.24-r2
+	!=dev-rust/num-complex-0.2.4
+	!=dev-rust/num-complex-0.2.4-r1
+	!=dev-rust/num-complex-0.2.4-r2
+	!=dev-rust/num-complex-0.2.4-r3
+	!=dev-rust/num-complex-0.2.4-r4
 	!=dev-rust/rand-0.8.4
 	!=dev-rust/rand-0.8.4-r1
 	!=dev-rust/rand-0.8.4-r2
@@ -1078,6 +1105,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"noop_proc_macro-0.3.0"
 	"ntapi-0.3.6"
 	"num-cmp-0.1.0"
+	"num-complex-0.2.4"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
 	"num-iter-0.1.43"
@@ -1198,6 +1226,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rust_hawktracer_proc_macro-0.4.1"
 	"rustc-demangle-0.1.21"
 	"rustc-hash-1.1.0"
+	"rustc-serialize-0.3.24"
 	"rustc-std-workspace-alloc-1.0.0"
 	"rustc-std-workspace-core-1.0.0"
 	"rustc-std-workspace-std-1.0.1"
@@ -1248,6 +1277,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"slog-2.7.0"
 	"smartstring-0.2.10"
 	"smawk-0.3.1"
+	"socket2-0.3.19"
+	"socket2-0.4.7"
 	"spidev-0.5.1"
 	"stable_deref_trait-1.2.0"
 	"standback-0.2.17"
@@ -1273,6 +1304,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"synstructure_test_traits-0.1.0"
 	"sys-info-0.9.1"
 	"system-deps-6.0.2"
+	"tempdir-0.3.7"
+	"tempfile-3.2.0"
 	"term-0.4.6"
 	"term-0.7.0"
 	"term_size-0.3.2"

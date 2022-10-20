@@ -39,7 +39,6 @@ DEPEND="
 	=dev-rust/serde_json-1*
 	=dev-rust/smallvec-1*
 	dev-rust/sync:=
-	=dev-rust/tempfile-3*
 	media-sound/audio_streams:=
 	sys-libs/libcap:=
 "

@@ -31,7 +31,6 @@ DEPEND="
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
 	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
 	=dev-rust/syslog-6*
-	=dev-rust/tempfile-3*
 	=dev-rust/time-0.3*
 	"
 RDEPEND="sys-apps/dbus"

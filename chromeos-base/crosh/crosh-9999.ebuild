@@ -29,7 +29,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/libchromeos:=
 	=dev-rust/rustyline-9*
 	dev-rust/system_api:=
-	dev-rust/tempfile
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
 	=dev-rust/textwrap-0.11*
 "

@@ -25,7 +25,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1.0*
 	dev-rust/sys_util:=
-	=dev-rust/tempfile-3*
 "
 
 RDEPEND="

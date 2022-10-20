@@ -23,7 +23,6 @@ DEPEND="
 	>=dev-rust/mio-0.8.1 <dev-rust/mio-0.9.0_alpha
 	>=dev-rust/once_cell-1.5.2 <dev-rust/once_cell-2.0.0_alpha
 	=dev-rust/parking_lot-0.12*
-	>=dev-rust/socket2-0.4.4 <dev-rust/socket2-0.5.0_alpha
 "
 RDEPEND="${DEPEND}"
 

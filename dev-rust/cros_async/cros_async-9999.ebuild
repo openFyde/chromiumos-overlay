@@ -28,7 +28,6 @@ DEPEND="
 	=dev-rust/once_cell-1*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
-	=dev-rust/tempfile-3*
 	media-sound/audio_streams:=
 "
 RDEPEND="${DEPEND}
