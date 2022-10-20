@@ -28,6 +28,7 @@ DEPEND="
 	=dev-rust/protobuf-2*
 	dev-rust/sync:=
 	dev-rust/system_api:=
+	dev-rust/update_engine_dbus:=
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus
