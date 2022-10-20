@@ -25,7 +25,6 @@ DEPEND="
 	>=dev-rust/structopt-0.3.26 <dev-rust/structopt-0.4.0_alpha
 	>=dev-rust/time-0.3.7 <dev-rust/time-0.4.0_alpha
 	>=dev-rust/url-2.2.2 <dev-rust/url-3.0.0_alpha
-	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9.0_alpha
 "
 RDEPEND="${DEPEND}"
 

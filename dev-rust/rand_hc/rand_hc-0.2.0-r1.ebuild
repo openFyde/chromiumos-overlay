@@ -7,7 +7,7 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Core traits and error types of the rand library, plus tools for implementing RNGs"
+DESCRIPTION="A cryptographically secure random number generator that uses the HC-128 algorithm"
 HOMEPAGE="https://github.com/rust-random/rand"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 

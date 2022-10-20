@@ -7,7 +7,7 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="Implements a selection of PCG random number generators."
+DESCRIPTION="Implements the ISAAC and ISAAC-64 random number generators"
 HOMEPAGE="https://github.com/rust-random/rand"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
@@ -15,10 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	~dev-rust/rand_core-0.4.0
-"
+DEPEND="dev-rust/third-party-crates-src:="
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"

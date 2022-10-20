@@ -7,7 +7,7 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION="A cryptographically secure random number generator that uses the HC-128 algorithm"
+DESCRIPTION="A cryptographically secure random number generator that uses the ChaCha algorithm"
 HOMEPAGE="https://github.com/rust-random/rand"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
@@ -15,6 +15,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	=dev-rust/rand_core-0.5*
-"
+DEPEND="dev-rust/third-party-crates-src:="

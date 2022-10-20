@@ -40,7 +40,6 @@ DEPEND="
 	=dev-rust/smallvec-1*
 	dev-rust/sync:=
 	=dev-rust/tempfile-3*
-	=dev-rust/uuid-0.8*
 	media-sound/audio_streams:=
 	sys-libs/libcap:=
 "

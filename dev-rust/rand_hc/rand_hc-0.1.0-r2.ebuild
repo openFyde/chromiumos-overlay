@@ -1,9 +1,7 @@
-# Copyright 2020 The ChromiumOS Authors
+# Copyright 2019 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-
-CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
@@ -15,7 +13,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/rand_core-0.5*
-"
+DEPEND="dev-rust/third-party-crates-src:="

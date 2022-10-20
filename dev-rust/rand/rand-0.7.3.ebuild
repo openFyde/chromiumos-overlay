@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/rand_chacha-0.2.1 <dev-rust/rand_chacha-0.3.0
-	>=dev-rust/rand_core-0.5.1 <dev-rust/rand_core-0.6.0
 	=dev-rust/rand_hc-0.2*
 	=dev-rust/rand_pcg-0.2*
 "

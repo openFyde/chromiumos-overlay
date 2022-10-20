@@ -5,7 +5,7 @@ EAPI="7"
 
 inherit cros-rust
 
-DESCRIPTION="A cryptographically secure random number generator that uses the ChaCha algorithm"
+DESCRIPTION="Non-physical true random number generator based on timing jitter"
 HOMEPAGE="https://github.com/rust-random/rand"
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
@@ -13,6 +13,4 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	~dev-rust/rand_core-0.3.1
-"
+DEPEND="dev-rust/third-party-crates-src:="
