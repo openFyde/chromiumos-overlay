@@ -856,10 +856,6 @@ src_prepare() {
 }
 
 glibc_do_configure() {
-	# CXX isnt handled by the multilib system, so if we dont unset here
-	# we accumulate crap across abis
-	unset CXX
-
 	local v
 	for v in ABI CBUILD CHOST CTARGET CBUILD_OPT CTARGET_OPT CC CXX LD {AS,C,CPP,CXX,LD}FLAGS MAKEINFO NM AR AS STRIP RANLIB OBJCOPY STRINGS OBJDUMP READELF; do
 		einfo " $(printf '%15s' ${v}:)   ${!v}"
@@ -878,13 +874,11 @@ glibc_do_configure() {
 	export CXX="${CXX} $(get_abi_CFLAGS) ${CFLAGS}"
 	einfo " $(printf '%15s' 'Manual CC:')   ${CC}"
 
-	if is_crosscompile; then
-		# Assume worst-case bootstrap: glibc is buil first time
-		# when ${CTARGET}-g++ is not available yet. We avoid
-		# building auxiliary programs that require C++: bug #683074
-		# It should not affect final result.
-		export libc_cv_cxx_link_ok=no
-	fi
+	# CrOS: disable C++ tools which are not needed in CrOS.
+	# they also create  ABI problems in GCC builds and are broken in LLVM builds,
+	# so just uniformly assume the C++ compiler is not available while bulding glibc.
+	export libc_cv_cxx_link_ok=no
+
 	einfo " $(printf '%15s' 'Manual CXX:')   ${CXX}"
 
 	# Always use tuple-prefixed toolchain. For non-native ABI glibc's configure
