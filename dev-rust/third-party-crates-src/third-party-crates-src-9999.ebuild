@@ -37,6 +37,46 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rand_xorshift-0.1.1
+	!=dev-rust/rand_xorshift-0.1.1-r1
+	!=dev-rust/rand_xorshift-0.1.1-r2
+	!=dev-rust/rand_xorshift-0.1.1-r3
+	!=dev-rust/rand_xorshift-0.1.1-r4
+	!=dev-rust/rand_os-0.1.2
+	!=dev-rust/rand_os-0.1.2-r1
+	!=dev-rust/rand_os-0.1.2-r2
+	!=dev-rust/rand_os-0.1.2-r3
+	!=dev-rust/rand_os-0.1.2-r4
+	!=dev-rust/rand_os-0.1.2-r5
+	!=dev-rust/rand_os-0.1.2-r6
+	!=dev-rust/rand_jitter-0.1.3
+	!=dev-rust/rand_jitter-0.1.3-r1
+	!=dev-rust/rand_jitter-0.1.3-r2
+	!=dev-rust/rand_jitter-0.1.3-r3
+	!=dev-rust/rand_jitter-0.1.3-r4
+	!=dev-rust/rand_isaac-0.1.1
+	!=dev-rust/rand_isaac-0.1.1-r1
+	!=dev-rust/rand_isaac-0.1.1-r2
+	!=dev-rust/rand_isaac-0.1.1-r3
+	!=dev-rust/rand_isaac-0.1.1-r4
+	!=dev-rust/rand_hc-0.3.1
+	!=dev-rust/rand_hc-0.3.1-r1
+	!=dev-rust/rand_hc-0.2.0
+	!=dev-rust/rand_hc-0.2.0-r1
+	!=dev-rust/rand_hc-0.1.0
+	!=dev-rust/rand_hc-0.1.0-r1
+	!=dev-rust/rand_hc-0.1.0-r2
+	!=dev-rust/rand_chacha-0.3.1
+	!=dev-rust/rand_chacha-0.3.1-r1
+	!=dev-rust/rand_chacha-0.3.1-r2
+	!=dev-rust/rand_chacha-0.3.1-r3
+	!=dev-rust/rand_chacha-0.2.2
+	!=dev-rust/rand_chacha-0.2.2-r1
+	!=dev-rust/rand_chacha-0.2.2-r2
+	!=dev-rust/rand_chacha-0.1.1
+	!=dev-rust/rand_chacha-0.1.1-r1
+	!=dev-rust/rand_chacha-0.1.1-r2
+	!=dev-rust/rand_chacha-0.1.1-r3
 	!=dev-rust/uuid-0.8.2
 	!=dev-rust/uuid-0.8.2-r1
 	!=dev-rust/uuid-0.8.2-r2
@@ -1069,10 +1109,20 @@ ALLOWED_CRATE_VERSIONS=(
 	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
+	"rand_chacha-0.1.1"
+	"rand_chacha-0.2.2"
+	"rand_chacha-0.3.1"
 	"rand_core-0.3.1"
 	"rand_core-0.4.2"
 	"rand_core-0.5.1"
 	"rand_core-0.6.4"
+	"rand_hc-0.1.0"
+	"rand_hc-0.2.0"
+	"rand_hc-0.3.1"
+	"rand_isaac-0.1.1"
+	"rand_jitter-0.1.4"
+	"rand_os-0.1.3"
+	"rand_xorshift-0.1.1"
 	"rand_xoshiro-0.1.0"
 	"rav1e-0.4.1"
 	"ravif-0.6.4"

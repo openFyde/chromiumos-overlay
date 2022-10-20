@@ -3,15 +3,11 @@
 
 EAPI="7"
 
-CROS_RUST_REMOVE_DEV_DEPS=1
 
-inherit cros-rust
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
-DESCRIPTION="Implements the ISAAC and ISAAC-64 random number generators"
-HOMEPAGE="https://github.com/rust-random/rand"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
-
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
