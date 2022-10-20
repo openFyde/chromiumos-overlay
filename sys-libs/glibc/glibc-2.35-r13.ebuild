@@ -522,6 +522,7 @@ setup_env() {
 
 		export CC="${CTARGET}-clang ${!VAR}"
 		export CXX=${CTARGET}-clang++
+		export LD=${CTARGET}-ld.lld
 	else
 		# For ChromiumOS, the default compiler is clang, we need to set it to gcc.
 		: ${__GLIBC_CC:=$(tc-getCC ${CTARGET})}
