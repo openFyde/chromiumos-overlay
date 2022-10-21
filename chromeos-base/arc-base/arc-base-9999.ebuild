@@ -18,6 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 IUSE="
+	android-container-rvc
 	arcpp
 	arcvm
 	"
@@ -32,7 +33,11 @@ CONTAINER_ROOTFS="/opt/google/containers/android/rootfs"
 src_install() {
 	if use arcpp; then
 		insinto /opt/google/containers/android
-		doins arc/container/bundle/pi/config.json
+		if use android-container-rvc; then
+			doins arc/container/bundle/rvc/config.json
+		else
+			doins arc/container/bundle/pi/config.json
+		fi
 
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions
