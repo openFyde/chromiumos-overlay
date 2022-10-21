@@ -7,18 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Device support crates for STM32G0 devices'
-HOMEPAGE='https://crates.io/crates/stm32g0'
+DESCRIPTION='More compact and efficient implementations of the standard synchronization primitives.'
+HOMEPAGE='https://crates.io/crates/parking_lot'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/cortex-m-0.5.8 <dev-rust/cortex-m-0.8.0
-	>=dev-rust/cortex-m-rt-0.6.10 <dev-rust/cortex-m-rt-0.7.0
+	=dev-rust/lock_api-0.4*
+	=dev-rust/parking_lot_core-0.8*
 "
 RDEPEND="${DEPEND}"
 

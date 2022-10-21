@@ -42,6 +42,7 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "quote-0.3.15",
     "redox_syscall-0.2.4",
     "syn-0.11.11",
+    "time-0.1.43",
     "unicode-xid-0.0.4",
     "wasi-0.11.0+wasi-snapshot-preview1",
 }

@@ -37,7 +37,6 @@ DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/once_cell-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/smallvec-1*
 	dev-rust/sync:=
 	media-sound/audio_streams:=
 	sys-libs/libcap:=

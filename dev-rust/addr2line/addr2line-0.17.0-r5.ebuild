@@ -1,4 +1,4 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,19 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Common types and structures used by wayland-client and wayland-server.'
-HOMEPAGE='https://crates.io/crates/wayland-commons'
+DESCRIPTION='A cross-platform symbolication library written in Rust, using "gimli"'
+HOMEPAGE='https://crates.io/crates/addr2line'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/once_cell-1.1.0 <dev-rust/once_cell-2.0.0_alpha
-	=dev-rust/smallvec-1*
-	=dev-rust/wayland-sys-0.29*
+	=dev-rust/gimli-0.26*
+	>=dev-rust/object-0.27.1 <dev-rust/object-0.28.0_alpha
 "
 RDEPEND="${DEPEND}"
 

@@ -37,6 +37,43 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rustyline-9.1.1
+	!=dev-rust/rustyline-9.1.1-r1
+	!=dev-rust/rustyline-9.1.1-r2
+	!=dev-rust/rustyline-9.1.1-r3
+	!=dev-rust/rustyline-9.1.1-r4
+	!=dev-rust/rustyline-9.1.1-r5
+	!=dev-rust/rustyline-9.1.1-r6
+	!=dev-rust/rustyline-9.1.1-r7
+	!=dev-rust/rustyline-9.1.1-r8
+	!=dev-rust/rustyline-9.1.1-r9
+	!=dev-rust/rustyline-9.1.1-r10
+	!=dev-rust/rustyline-9.1.1-r11
+	!=dev-rust/radix_trie-0.2.1
+	!=dev-rust/radix_trie-0.2.1-r1
+	!=dev-rust/radix_trie-0.2.1-r2
+	!=dev-rust/radix_trie-0.2.1-r3
+	!=dev-rust/nibble_vec-0.1.0
+	!=dev-rust/nibble_vec-0.1.0-r1
+	!=dev-rust/unicode-normalization-0.1.19
+	!=dev-rust/unicode-normalization-0.1.19-r1
+	!=dev-rust/smallvec-1.6.1
+	!=dev-rust/smallvec-1.6.1-r1
+	!=dev-rust/os_str_bytes-6.0.0
+	!=dev-rust/os_str_bytes-6.0.0-r1
+	!=dev-rust/os_str_bytes-6.0.0-r2
+	!=dev-rust/os_str_bytes-6.0.0-r3
+	!=dev-rust/instant-0.1.9
+	!=dev-rust/instant-0.1.9-r1
+	!=dev-rust/hash32-0.2.1
+	!=dev-rust/hash32-0.2.1-r1
+	!=dev-rust/ed25519-compact-1.0.2
+	!=dev-rust/ed25519-compact-1.0.2-r1
+	!=dev-rust/ed25519-compact-1.0.2-r2
+	!=dev-rust/ed25519-compact-1.0.2-r3
+	!=dev-rust/cortex-m-rt-0.6.15
+	!=dev-rust/cortex-m-rt-0.6.15-r1
+	!=dev-rust/cortex-m-rt-0.6.15-r2
 	!=dev-rust/socket2-0.4.4
 	!=dev-rust/socket2-0.4.4-r1
 	!=dev-rust/socket2-0.3.9
@@ -886,6 +923,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-0.9.3"
 	"core-foundation-sys-0.6.2"
 	"core-foundation-sys-0.8.3"
+	"cortex-m-rt-0.6.15"
 	"cortex-m-rt-macros-0.6.15"
 	"cpp_demangle-0.3.5"
 	"cpufeatures-0.2.5"
@@ -934,6 +972,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"downcast-rs-1.2.0"
 	"dtoa-0.2.2"
 	"ed25519-1.5.2"
+	"ed25519-compact-1.0.11"
 	"either-1.8.0"
 	"encode_unicode-0.3.6"
 	"encoding-0.2.33"
@@ -1002,6 +1041,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"gzip-header-0.3.0"
 	"h2-0.3.14"
 	"half-1.8.2"
+	"hash32-0.2.1"
 	"hashbrown-0.12.3"
 	"heapsize-0.4.2"
 	"heck-0.3.3"
@@ -1031,6 +1071,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"inflections-1.1.1"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
+	"instant-0.1.9"
 	"interpolate_name-0.2.3"
 	"intrusive-collections-0.9.4"
 	"inventory-0.1.11"
@@ -1095,6 +1136,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"nasm-rs-0.2.4"
 	"native-tls-0.2.10"
 	"net2-0.2.37"
+	"nibble_vec-0.1.0"
 	"nix-0.19.1"
 	"nix-0.20.0"
 	"nix-0.23.1"
@@ -1119,6 +1161,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"oorandom-11.1.3"
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
+	"os_str_bytes-6.3.0"
 	"packed_simd_2-0.3.8"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
@@ -1177,6 +1220,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
+	"radix_trie-0.2.1"
 	"rand-0.3.23"
 	"rand-0.4.6"
 	"rand-0.5.6"
@@ -1237,6 +1281,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
 	"rusty-fork-0.3.0"
+	"rustyline-10.0.0"
+	"rustyline-8.2.0"
+	"rustyline-9.1.2"
 	"rustyline-derive-0.4.0"
 	"rustyline-derive-0.6.0"
 	"same-file-1.0.6"
@@ -1275,6 +1322,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"skim-0.9.4"
 	"slab-0.4.7"
 	"slog-2.7.0"
+	"smallvec-1.10.0"
 	"smartstring-0.2.10"
 	"smawk-0.3.1"
 	"socket2-0.3.19"
@@ -1317,6 +1365,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"thread-id-3.3.0"
 	"thread-id-4.0.0"
 	"tiff-0.6.1"
+	"time-0.1.43"
 	"time-macros-0.1.1"
 	"time-macros-0.2.4"
 	"time-macros-impl-0.1.2"
@@ -1355,6 +1404,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"unicase-2.6.0"
 	"unicode-ident-1.0.4"
 	"unicode-linebreak-0.1.4"
+	"unicode-normalization-0.1.21"
 	"unicode-segmentation-1.10.0"
 	"unicode-width-0.1.10"
 	"unicode-xid-0.0.4"

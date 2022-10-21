@@ -62,7 +62,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/protoc-rust-2.8
 	!>=dev-rust/protoc-rust-3
 	=dev-rust/serde_json-1*
-	>=dev-rust/smallvec-1.6.1 <dev-rust/smallvec-2
 	dev-rust/system_api:=
 	media-sound/libcras:=
 	tpm2? (

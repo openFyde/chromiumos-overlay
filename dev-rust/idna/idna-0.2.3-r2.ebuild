@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,16 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Vector data-structure for half-byte values.'
-HOMEPAGE='https://crates.io/crates/nibble_vec'
+DESCRIPTION='IDNA (Internationalizing Domain Names in Applications) and Punycode.'
+HOMEPAGE='https://crates.io/crates/idna'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	=dev-rust/smallvec-1*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/unicode-bidi-0.3*
 "
 RDEPEND="${DEPEND}"
 

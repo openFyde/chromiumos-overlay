@@ -4,11 +4,12 @@
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
+CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='More compact and efficient implementations of the standard synchronization primitives.'
-HOMEPAGE='https://crates.io/crates/parking_lot'
+DESCRIPTION='An advanced API for creating custom synchronization primitives.'
+HOMEPAGE='https://crates.io/crates/parking_lot_core'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( Apache-2.0 MIT )"
@@ -16,9 +17,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/instant-0.1.4 <dev-rust/instant-0.2.0_alpha
-	=dev-rust/lock_api-0.4*
-	=dev-rust/parking_lot_core-0.8*
+	dev-rust/third-party-crates-src:=
+	>=dev-rust/backtrace-0.3.49 <dev-rust/backtrace-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 
