@@ -21,11 +21,13 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "multimap",
     # These just request that prebuilt `.a` files aren't stripped.
     "cortex-m",
+    "cortex-m-rt",
     "riscv",
     # The patch for 0.3.11 is obsolete, and 0.3.11 can probably be deleted
     # entirely.
     "pkg-config",
-    # This just uses sed to delete useless deps.
+    # These just use sed to delete useless deps.
+    "instant",
     "syn",
     # This just removes some pointless deps.
     "rand",
