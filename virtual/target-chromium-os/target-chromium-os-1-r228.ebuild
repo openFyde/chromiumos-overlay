@@ -279,7 +279,7 @@ RDEPEND="
 	!chromeos-base/platform2
 	profile? ( chromeos-base/quipper )
 	resourced? ( chromeos-base/resourced )
-	secagent? ( chromeos-base/secagentd )
+	secagent? ( virtual/secagentd )
 	selinux? ( chromeos-base/selinux-policy )
 	shill? ( >=chromeos-base/shill-0.0.1-r2205 )
 	manatee? ( chromeos-base/sirenia )
