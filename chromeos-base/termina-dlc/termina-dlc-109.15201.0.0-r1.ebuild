@@ -1,7 +1,7 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2020 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-# A DLC package for distributing vm tools for termina
+# A DLC package for distributing termina.
 
 EAPI=7
 
@@ -16,15 +16,15 @@ CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="platform/empty-project"
 
-DESCRIPTION="DLC package for vm tools for termina."
+DESCRIPTION="DLC package for termina."
 
 if [[ ${PV} == 9999 ]]; then
 	SRC_URI=""
 else
 	SRC_URI="
-		amd64? ( gs://termina-component-testing/uprev-test/amd64/${PV}/guest-vm-base.tbz -> termina_amd64.tbz )
-		arm? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tbz -> termina_arm.tbz )
-		arm64? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tbz -> termina_arm.tbz )
+		amd64? ( gs://termina-component-testing/uprev-test/amd64/${PV}/guest-vm-base.tar.xz -> termina_amd64_${PV}.tar.xz )
+		arm? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tar.xz -> termina_arm_${PV}.tar.xz )
+		arm64? ( gs://termina-component-testing/uprev-test/arm/${PV}/guest-vm-base.tar.xz -> termina_arm_${PV}.tar.xz )
 	"
 fi
 
@@ -35,20 +35,30 @@ SLOT="0"
 KEYWORDS="*"
 S="${WORKDIR}"
 
-IUSE="kvm_host dlc amd64 arm"
+IUSE="kvm_host dlc amd64 arm manatee"
 REQUIRED_USE="
 	dlc
 	kvm_host
 	^^ ( amd64 arm arm64 )
 "
 
-# VM tools image should be ~50MB, here we provide a generous buffer of 2x
-DLC_PREALLOC_BLOCKS="$((100 * 256))"
+# Termina now contains 2 copies of LXD, pulling the image size up to
+# ~135 MiB. Test builds need extra space for test utilities.
+#
+# To check the current size, run "file" on a deployed DLC image. The
+# output will tell you the size of the squashfs filesystem.
+#
+# 1MiB = 256 x 4KiB blocks
+if [[ ${PV} == 9999 ]]; then
+	DLC_PREALLOC_BLOCKS="$((200 * 256))"
+else
+	DLC_PREALLOC_BLOCKS="$((150 * 256))"
+fi
 
-DLC_PRELOAD=false
+DLC_PRELOAD=true
 
 # We need to inherit from cros-workon so people can do "cros-workon-${BOARD}
-# start termina-tools-dlc", but we don't want to actually run any of the cros-workon
+# start termina-dlc", but we don't want to actually run any of the cros-workon
 # steps, so we override pkg_setup and src_unpack with the default
 # implementations.
 pkg_setup() {
@@ -75,16 +85,31 @@ src_compile() {
 
 		/mnt/host/source/src/platform/container-guest-tools/termina/termina_build_image.py "${image_path}" "${S}/vm"
 	fi
+
+	if use manatee; then
+		local subdir=guest-vm-base
+		if [[ ${PV} == 9999 ]]; then
+			subdir=vm
+		fi
+		local digest
+		digest="$(sha256sum "${WORKDIR}/${subdir}/vm_kernel" | cut -f1 -d' ' | grep -o .. | \
+			awk 'BEGIN { printf "[" } NR!=1 { printf ", " } { printf("%d", strtonum("0x"$0)) } END { printf "]" }')"
+		sed -e "s/@kernel_digest@/${digest}/" "${FILESDIR}/termina.json.in" > termina.json
+	fi
 }
 
 src_install() {
+	if use manatee; then
+		insinto "/usr/share/manatee/templates"
+		doins termina.json
+	fi
+
 	# This is the subpath underneath the location that dlc mounts the image,
 	# so we dont need additional directories.
 	local install_dir="/"
 	into "$(dlc_add_path ${install_dir})"
 	insinto "$(dlc_add_path ${install_dir})"
 	exeinto "$(dlc_add_path ${install_dir})"
-	# Only install vm tools image
-	doins "${WORKDIR}"/*/vm_tools.img
+	doins "${WORKDIR}"/*/*
 	dlc_src_install
 }
