@@ -12,7 +12,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/libfs"
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon platform unpacker
 
 DESCRIPTION="Camera Libraries File System which installs the prebuilt libraries."
 
@@ -82,7 +82,7 @@ RDEPEND="
 "
 
 src_unpack() {
-	default_src_unpack
+	unpacker
 	platform_src_unpack
 	# Override unpacked data by files/* for local development.
 	if [[ "${PV}" == "9999" ]]; then
