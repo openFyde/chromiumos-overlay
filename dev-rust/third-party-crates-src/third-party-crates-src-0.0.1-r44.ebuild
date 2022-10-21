@@ -491,6 +491,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bit_field-0.10.1"
 	"bitfield-0.13.2"
 	"bitflags-1.3.2"
+	"bitreader-0.3.6"
 	"bumpalo-3.11.0"
 	"bytemuck-1.12.1"
 	"byteorder-1.4.3"
