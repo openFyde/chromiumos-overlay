@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("8b664eb8ebe22901ede2ce1d70b9b72b278be432" "143c9fcfa35a0ad7c7e4107137f4ab4cf3b21fff" "f8b7f3443489976c606fd0ccad5a0af1fb2b3d7b" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "f1302d8c2f66f04f242b3ac4cc690f6fe116622f")
+CROS_WORKON_COMMIT=("7ff3ed122ad4eb01b70cf24e68a529b1096281e4" "143c9fcfa35a0ad7c7e4107137f4ab4cf3b21fff" "f8b7f3443489976c606fd0ccad5a0af1fb2b3d7b" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "f1302d8c2f66f04f242b3ac4cc690f6fe116622f")
 CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "189f098313b9a20daa66503a0b4ca3842dbcfc82" "13f6291a3964e43c1622557d0b198e4dd7cabe48" "c3473ab29243f136628d4c8708ab647c15f6a411" "c88fff527b6b1db5f67440a54f94fec02da0ec18")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -203,6 +203,7 @@ src_install() {
 	# Install config files
 	insinto /etc/bluetooth/
 	doins "${FILESDIR}/config/bt_did.conf"
+	doins "${FILESDIR}/config/admin_policy.json"
 
 	# Install udev rules
 	udev_dorules "${FILESDIR}/udev/99-floss-chown-properties.rules"
