@@ -1,0 +1,10 @@
+DEFINED_PHASES=prepare
+DEPEND=dev-rust/third-party-crates-src:= test? ( =dev-rust/serde_bytes-0.10* =dev-rust/serde_json-1* )
+DESCRIPTION=Replaced by third-party-crates-src.
+EAPI=7
+IUSE=test
+KEYWORDS=*
+LICENSE=metapackage
+RDEPEND=dev-rust/third-party-crates-src:= test? ( =dev-rust/serde_bytes-0.10* =dev-rust/serde_json-1* )
+SLOT=0.5.1/r4
+_md5_=1765c95cc7d191b9ba545eaa673d51d8
