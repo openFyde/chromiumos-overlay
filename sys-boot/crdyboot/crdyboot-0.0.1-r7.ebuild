@@ -87,12 +87,24 @@ src_compile() {
 	done
 }
 
+# Get the standard suffix for a UEFI boot executable.
+uefi_arch_suffix() {
+	local uefi_target="$1"
+	if [[ "${uefi_target}" == "${UEFI_TARGET_I686}" ]]; then
+		echo "ia32.efi"
+	elif [[ "${uefi_target}" == "${UEFI_TARGET_X64_64}" ]]; then
+		echo "x64.efi"
+	else
+		die "unknown arch: ${uefi_target}"
+	fi
+}
+
 src_install() {
 	insinto /boot/efi/boot
 	for uefi_target in "${UEFI_TARGETS[@]}"; do
 		# CARGO_TARGET_DIR is defined in an eclass
 		# shellcheck disable=SC2154
 		newins "${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi" \
-			"crdyboot-${uefi_target}.efi"
+			"crdyboot$(uefi_arch_suffix "${uefi_target}")"
 	done
 }

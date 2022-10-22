@@ -27,7 +27,7 @@ if [[ ${PV} == "9998" ]] ; then
 	KEYWORDS="*"
 fi
 
-IUSE="agent amt +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test thunderbolt uefi"
+IUSE="agent +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test uefi"
 REQUIRED_USE="
 	dell? ( uefi )
 	fastboot? ( gusb )
@@ -120,7 +120,6 @@ src_configure() {
 		-Dplugin_pixart_rf="enabled"
 		-Dplugin_powerd="enabled"
 		-Dplugin_realtek_mst="enabled"
-		$(meson_feature amt plugin_amt)
 		$(meson_feature dell plugin_dell)
 		$(meson_feature fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
@@ -132,7 +131,6 @@ src_configure() {
 		$(meson_use spi plugin_intel_spi)
 		$(meson_feature synaptics plugin_synaptics_mst)
 		$(meson_feature synaptics plugin_synaptics_rmi)
-		$(meson_feature thunderbolt plugin_thunderbolt)
 		$(meson_feature uefi plugin_uefi_capsule)
 		$(meson_use uefi plugin_uefi_capsule_splash)
 		$(meson_feature uefi plugin_uefi_pk)
