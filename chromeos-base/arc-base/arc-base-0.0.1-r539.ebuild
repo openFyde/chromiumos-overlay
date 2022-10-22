@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="01611cc312c9b3acec36920032731ee8be032d07"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "9a9bed83b181f4d866dcbb6119ca83544032d96d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="c7975a14f78f43563d0368bf8f27cfd74fdb56f3"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "5eb9518f9e80acc76b0659753fee73b67b1ec4c9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -20,6 +20,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 IUSE="
+	android-container-rvc
 	arcpp
 	arcvm
 	"
@@ -34,7 +35,11 @@ CONTAINER_ROOTFS="/opt/google/containers/android/rootfs"
 src_install() {
 	if use arcpp; then
 		insinto /opt/google/containers/android
-		doins arc/container/bundle/pi/config.json
+		if use android-container-rvc; then
+			doins arc/container/bundle/rvc/config.json
+		else
+			doins arc/container/bundle/pi/config.json
+		fi
 
 		# Install exception file for FIFO blocking policy on stateful partition.
 		insinto /usr/share/cros/startup/fifo_exceptions
