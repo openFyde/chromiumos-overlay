@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics trunks tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="chaps"
 
@@ -21,20 +21,9 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="profiling systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2 fuzzer"
-
-REQUIRED_USE="
-	tpm_dynamic? ( tpm tpm2 )
-	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
-"
+IUSE="profiling systemd test tpm_insecure_fallback fuzzer"
 
 RDEPEND="
-	tpm? (
-		app-crypt/trousers:=
-	)
-	tpm2? (
-		chromeos-base/trunks:=
-	)
 	chromeos-base/chaps-client:=
 	chromeos-base/libhwsec:=[test?]
 	chromeos-base/minijail:=
@@ -55,7 +44,6 @@ DEPEND="${RDEPEND}
 	)
 	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
-	tpm2? ( chromeos-base/trunks:=[test?] )
 	dev-libs/nss:=
 	dev-libs/nspr:=
 	"
