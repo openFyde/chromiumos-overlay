@@ -6,6 +6,7 @@
 FIXME(b/240953811): Remove this once our migration is done.
 """
 
+import re
 from typing import Optional, Tuple
 
 
@@ -110,6 +111,12 @@ def _read_quoted_shell_contents(
     return quoted_contents
 
 
+def _make_unconditional_depend(depend: str) -> str:
+    """Turns `DEPEND="foo? ( bar ) baz"` into `"bar baz"`."""
+    conditional_re = re.compile(r'\S+\?\s+\(([^)]*)\)', re.MULTILINE)
+    return conditional_re.sub(lambda x: x.group(1).strip(), depend)
+
+
 def is_leaf_crate(ebuild_contents: str) -> bool:
     """Returns True if the ebuild_contents DEPEND on nothing.
 
@@ -128,6 +135,7 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
         if rdepend is None:
             return False
 
+        rdepend = _make_unconditional_depend(rdepend)
         for piece in rdepend.strip().split():
             # Ignore blockers and DEPEND
             is_safe = piece.startswith("!") or piece in ("${DEPEND}", "$DEPEND")
@@ -145,6 +153,7 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
     if depend is None:
         return False
 
+    depend = _make_unconditional_depend(depend)
     # Some ebuilds might list this multiple times. Handle that.
     depend_pieces = depend.strip().split()
     return all(x == "dev-rust/third-party-crates-src:=" for x in depend_pieces)
