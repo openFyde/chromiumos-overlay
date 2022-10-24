@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="306edb5a3e9b84e22b2b1e19b56330f87f05480f"
+CROS_WORKON_COMMIT="5e0b5089a827145720fbcdce9198a786db3d6ff4"
 CROS_WORKON_TREE=("c2fd84c17b3e04fb619cf909299c377c0df4f6ad" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -26,7 +26,6 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/futures-0.3*
 	dev-rust/serde_json
 	dev-rust/sync:=
 	dev-rust/sys_util:=

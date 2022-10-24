@@ -46,7 +46,6 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
 	dev-libs/wayland-protocols:=
-	=dev-rust/android_log-sys-0.2*
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	>=dev-rust/bytes-1.1.0 <dev-rust/bytes-2.0.0
 	dev-rust/cbindgen
@@ -55,14 +54,9 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/crossbeam-utils-0.8*
 	=dev-rust/ctrlc-3.2*
 	=dev-rust/dbus-0.8*
-	=dev-rust/env_logger-0.9*
-	=dev-rust/futures-0.3*
-	>=dev-rust/gdbstub-0.6.1 <dev-rust/gdbstub-0.7
-	>=dev-rust/gdbstub_arch-0.2.2 <dev-rust/gdbstub_arch-0.3
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=
 	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
-	>=dev-rust/nom-7.1.0 <dev-rust/nom-8.0.0_alpha
 	>=dev-rust/once_cell-1.7.2 <dev-rust/once_cell-2
 	dev-rust/p9:=
 	>=dev-rust/protobuf-2.8
@@ -75,8 +69,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/system_api:=
 	=dev-rust/tempfile-3*
 	>=dev-rust/uuid-0.8.2 <dev-rust/uuid-0.9
-	>=dev-rust/windows-0.10.0 <dev-rust/windows-0.11
-	dev-rust/wmi
 	media-sound/libcras:=
 	tpm2? (
 		chromeos-base/tpm2:=

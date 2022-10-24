@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
+CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
 CROS_WORKON_TREE=("71f0f13759a37c6ba4989f077ace54e02a506a2d" "2760d1ea048101782b134e43d5c1149e5e227ad2")
 CROS_RUST_SUBDIR="sirenia/manatee-client"
 
@@ -29,7 +29,6 @@ DEPEND="
 	=dev-rust/anyhow-1*
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/stderrlog-0.5*
 "

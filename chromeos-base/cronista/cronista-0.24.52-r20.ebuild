@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
+CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
 CROS_WORKON_TREE="350f4eb91cb8defa74f86974decd78a1e693cfb0"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,7 +25,6 @@ DEPEND="
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
-	=dev-rust/getopts-0.2*
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*

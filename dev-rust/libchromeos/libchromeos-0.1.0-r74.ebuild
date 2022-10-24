@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
+CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
 CROS_WORKON_TREE="e8c775e01100ecaba9aef813f9a1752668c79155"
 CROS_RUST_SUBDIR="libchromeos-rs"
 
@@ -25,7 +25,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	=dev-rust/dbus-0.9*
-	=dev-rust/multi_log-0.1*
 	>=dev-rust/poll_token_derive-0.1.1:=
 	=dev-rust/stderrlog-0.5*
 	=dev-rust/syslog-6*

@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8ec7af88940f8d6fdda90ca7bd3d4dd51a3cff33"
+CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
 CROS_WORKON_TREE="2437134c533a684131191126d8ca4221647232de"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,9 +22,7 @@ IUSE="cr50_onboard generic_tpm2 test ti50_onboard"
 REQUIRED_USE="^^ ( ti50_onboard cr50_onboard generic_tpm2 )"
 CANDIDATES=( "cr50_onboard" "generic_tpm2" "ti50_onboard" )
 
-DEPEND="
-	=dev-rust/hmac-sha256-0.1*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}

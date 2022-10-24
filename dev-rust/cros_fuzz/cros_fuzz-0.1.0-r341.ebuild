@@ -25,7 +25,6 @@ IUSE="fuzzer test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/arbitrary-1*
 	=dev-rust/once_cell-1*
 	=dev-rust/rand_core-0.4*
 	=dev-rust/rand_core-0.6*

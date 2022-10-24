@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="79fb319601211a530f6120884b64275aef704957"
+CROS_WORKON_COMMIT="5e3d3a4c0c5002bab328044455b9f6e7d2c825ca"
 CROS_WORKON_TREE="a819094c2ea652df794e8533f8398cd199242d9c"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -22,7 +22,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	dev-rust/getopts
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
 	dev-rust/serde_json

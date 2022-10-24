@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9b1cd748fd03639646116633c22eb49304d6c281"
+CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
 CROS_WORKON_TREE=("7286f60f39ca7e7dd78e67c7b50fc4bda7c4d5a2" "bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a")
 CROS_RUST_SUBDIR="metrics/memd"
 
@@ -29,7 +29,6 @@ DEPEND="
 	sys-apps/dbus:=
 	>=dev-rust/chrono-0.4.2 <dev-rust/chrono-0.5.0
 	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
-	=dev-rust/env_logger-0.9*
 	dev-rust/libchromeos:=
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
 	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
