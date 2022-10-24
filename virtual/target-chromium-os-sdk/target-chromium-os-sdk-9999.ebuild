@@ -612,3 +612,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	app-arch/snappy
 	media-libs/giflib"
+
+# Needed by starlark config generation
+RDEPEND="${RDEPEND}
+	dev-go/lucicfg"
