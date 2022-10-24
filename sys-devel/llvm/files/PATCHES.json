@@ -3678,8 +3678,278 @@
         ],
         "rel_patch_path": "cmake/llvm-90dcdc4b6e7d-allow_custom_cmake_build_types.patch",
         "version_range": {
-          "from": 471474,
-          "until": null
+            "from": 471474,
+            "until": null
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [clang-format] Fix the return code of git-clang-format"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/f9a2f6b6aecf0dd2b484d99458c99f799caee584.patch",
+        "version_range": {
+            "from": 458507,
+            "until": 469245
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [clang-tidy] Rename the make-confusable-table executable"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/18b4a8bcf3553174f770f09528c9bd01c8cebfe7.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 469268
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [clang-tidy] Add CLANG_TIDY_CONFUSABLE_CHARS_GEN cmake cache variable to avoid building when cross compiling"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/dc95d0c525636aed53a3b38258efa2dff4c83edf.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 469269
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [lld-macho] Support EH frame pointer encodings that use sdata4"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/6c9f6812523a706c11a12e6cb4119b0cf67bbb21.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 469558
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [Orc] Disable use of shared memory on Android"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/ac3cb4ecd0c6ed03c135945d27bbe197d80cba4e.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 469611
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [X86][FP16] Promote FP16->[U]INT to FP16->FP32->[U]INT"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/8b69549dc5c5fa0f5f8632cde1c740bb2c7d8957.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 469725
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] Fix std::fpos pretty printer on musl"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/13c6828bedeb815ee7748f82ca36073dbd55a9db.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 473968
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] Set HOME for tests that use module cache path"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/7fe475756b26080fe0bb02e8e317662ccc9a01f1.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 473971
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [libunwind] Handle G in personality string"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/a3153381af48b2e704750255a704748a13c4c4de.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 474537
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] Make MLIR model URLs cache variables"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/32994b7357a33de5a32c03a29691e93911dca4e3.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 474766
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [MC] Also sort on IsBKeyFrame"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/ab25678ca5aec3e106f87351eae20b57df5ee602.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 476601
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [MC] Consider IsMTETaggedFrame in CIEKey"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/42cdec1134cb85fef867e50bd66dac49338ab20d.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 476602
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[UPSTREAM] [MC] only run ELF/AArch64 if supported"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/2966acd1217afb26d7eafa92896d01cbd83ed63a.patch",
+        "version_range": {
+            "from": 468909,
+            "until": 476609
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Undef CS macro for Android x86_64"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "Undef-CS-macro-for-Android-x86_64.patch",
+        "version_range": {
+            "from": 460955,
+            "until": 470628
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Increase max allocation size to allow BOLTing clang and rustc"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "BOLT-Increase-max-allocation-size-to-allow-BOLTing-clang-and-rustc.patch",
+        "version_range": {
+            "from": 450784,
+            "until": null
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert Enable IAS In Backend"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "Revert-Enable-IAS-In-Backend.patch",
+        "version_range": {
+            "from": 463634,
+            "until": null
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Support dlclose as a noop in DynamicLibraryTest"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "Support-dlclose-as-a-noop-in-DynamicLibraryTest.patch",
+        "version_range": {
+            "from": 450784,
+            "until": 471972
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Disable vfork/fork events"
+        },
+        "platforms": [
+            "android",
+            "chromiumos"
+        ],
+        "rel_patch_path": "Disable-vfork-fork-events.patch",
+        "version_range": {
+            "from": 468909,
+            "until": null
         }
     }
 ]
