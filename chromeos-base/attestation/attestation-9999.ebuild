@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestat
 
 LICENSE="Apache-2.0"
 KEYWORDS="~*"
-IUSE="generic_tpm2 test ti50_onboard tpm tpm_dynamic tpm2 tpm2_simulator"
+IUSE="generic_tpm2 profiling test ti50_onboard tpm tpm_dynamic tpm2 tpm2_simulator"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
@@ -74,6 +74,14 @@ src_install() {
 	# It does no harm to install the header even for non-test image build.
 	insinto /usr/include/attestation/pca-agent/dbus_adaptors
 	doins "${OUT}"/gen/include/attestation/pca-agent/dbus_adaptors/org.chromium.PcaAgent.h
+
+	# Allow specific syscalls for profiling.
+	# TODO (b/242806964): Need a better approach for fixing up the seccomp policy
+	# related issues (i.e. fix with a single function call)
+	if use profiling; then
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		"${D}/usr/share/policy/attestationd-seccomp.policy"
+	fi
 }
 
 platform_pkg_test() {
