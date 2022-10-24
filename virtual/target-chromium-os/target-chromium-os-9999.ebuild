@@ -89,6 +89,7 @@ IUSE="
 	postscript
 	+power_management
 	+profile
+	private_computing
 	racc
 	+readahead
 	resourced
@@ -274,6 +275,7 @@ RDEPEND="
 	media_perception? ( chromeos-base/mri_package )
 	memd? ( chromeos-base/memd )
 	power_management? ( chromeos-base/power_manager )
+	private_computing? ( chromeos-base/private_computing )
 	!chromeos-base/platform2
 	profile? ( chromeos-base/quipper )
 	resourced? ( chromeos-base/resourced )
