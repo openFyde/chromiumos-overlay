@@ -56,6 +56,9 @@ pkg_preinst() {
 }
 
 src_install() {
+	# TODO: move installation & test configs from ebuild to GN
+	platform_src_install
+
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
 	doins server/org.chromium.TpmManager.conf
