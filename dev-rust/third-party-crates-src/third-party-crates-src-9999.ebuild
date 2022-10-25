@@ -37,6 +37,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/spin-0.9.4
+	!=dev-rust/spin-0.9.4-r1
+	!=dev-rust/spin-0.9.4-r2
+	!=dev-rust/lock_api-0.4.7
+	!=dev-rust/lock_api-0.4.7-r1
+	!=dev-rust/lock_api-0.4.7-r2
+	!=dev-rust/lock_api-0.4.7-r3
+	!=dev-rust/lock_api-0.4.7-r4
+	!=dev-rust/owning_ref-0.4.1
+	!=dev-rust/owning_ref-0.4.1-r1
 	!=dev-rust/indicatif-0.16.2
 	!=dev-rust/indicatif-0.16.2-r1
 	!=dev-rust/indicatif-0.16.2-r2
@@ -1200,6 +1210,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"
 	"litrs-0.2.3"
+	"lock_api-0.4.9"
 	"log-0.4.14"
 	"loop9-0.1.3"
 	"managed-0.8.0"
@@ -1252,6 +1263,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
 	"os_str_bytes-6.3.0"
+	"owning_ref-0.4.1"
 	"packed_simd_2-0.3.8"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
@@ -1421,6 +1433,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"socket2-0.3.19"
 	"socket2-0.4.7"
 	"spidev-0.5.1"
+	"spin-0.9.4"
 	"stable_deref_trait-1.2.0"
 	"standback-0.2.17"
 	"static_assertions-0.3.4"

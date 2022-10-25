@@ -5,19 +5,22 @@ EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
 
+# We don't set CROS_RUST_REMOVE_TARGET_CFG=1 because that would remove the
+# dependency on atomic-polyfill, which is needed.
+
 inherit cros-rust
 
-DESCRIPTION='Spin-based synchronization primitives'
-HOMEPAGE='https://crates.io/crates/spin'
+DESCRIPTION="\"static\" friendly data structures that don't require dynamic memory allocation"
+HOMEPAGE='https://crates.io/crates/heapless'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/lock_api-0.4*
+	>=dev-rust/atomic-polyfill-0.1.8 <dev-rust/atomic-polyfill-0.2.0
 "
 RDEPEND="${DEPEND}"
 

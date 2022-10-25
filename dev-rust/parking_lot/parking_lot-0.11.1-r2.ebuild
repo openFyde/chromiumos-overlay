@@ -1,4 +1,4 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -16,8 +16,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
-	>=dev-rust/lock_api-0.4.6 <dev-rust/lock_api-0.5.0_alpha
-	=dev-rust/parking_lot_core-0.9*
+	dev-rust/third-party-crates-src:=
+	=dev-rust/parking_lot_core-0.8*
 "
 RDEPEND="${DEPEND}"
 
