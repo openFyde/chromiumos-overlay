@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/libz-sys-1.1.3 <dev-rust/libz-sys-2.0.0_alpha
 	=dev-rust/openssl-sys-0.9*
 	=dev-rust/bindgen-0.59*
 	=dev-rust/boringssl-src-0.3*

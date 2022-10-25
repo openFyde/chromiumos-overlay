@@ -37,6 +37,11 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libz-sys-1.1.8
+	!=dev-rust/libz-sys-1.1.8-r1
+	!=dev-rust/libz-sys-1.1.8-r2
+	!=dev-rust/libz-sys-1.1.8-r3
+	!=dev-rust/libz-sys-1.1.8-r4
 	!=dev-rust/bincode-1.0.1
 	!=dev-rust/bincode-1.0.1-r1
 	!=dev-rust/bincode-1.0.1-r2
@@ -1286,6 +1291,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libslirp-sys-4.2.1"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
+	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
 	"linux-raw-sys-0.0.46"
 	"litrs-0.2.3"
