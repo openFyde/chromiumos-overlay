@@ -18,7 +18,6 @@ IUSE=""
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	>=dev-rust/bincode-1.0.1 <dev-rust/bincode-1.1.0_alpha
 	>=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0_alpha
 	=dev-rust/serde_json-1*
 "

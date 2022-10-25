@@ -37,6 +37,10 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/bincode-1.0.1
+	!=dev-rust/bincode-1.0.1-r1
+	!=dev-rust/bincode-1.0.1-r2
+	!=dev-rust/bincode-1.0.1-r3
 	!=dev-rust/fraction-0.10.0
 	!=dev-rust/fraction-0.10.0-r1
 	!=dev-rust/fraction-0.10.0-r2
@@ -1030,6 +1034,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bayer-0.1.5"
 	"beef-0.5.2"
 	"bencher-0.1.5"
+	"bincode-1.0.1"
 	"bit-set-0.5.3"
 	"bit-vec-0.6.3"
 	"bit_field-0.10.1"

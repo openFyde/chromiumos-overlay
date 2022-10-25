@@ -15,6 +15,5 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bincode-1.0*
 	=dev-rust/serde_test-1.0*
 "
