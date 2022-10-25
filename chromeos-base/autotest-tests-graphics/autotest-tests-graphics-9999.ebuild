@@ -30,7 +30,6 @@ DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
 	+tests_graphics_Gbm
-	+tests_graphics_GLAPICheck
 	+tests_graphics_GLBench
 	+tests_graphics_HardwareProbe
 	+tests_graphics_KernelConfig
