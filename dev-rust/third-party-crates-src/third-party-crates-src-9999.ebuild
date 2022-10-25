@@ -37,6 +37,20 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/tokio-io-0.1.13
+	!=dev-rust/tokio-io-0.1.13-r1
+	!=dev-rust/tokio-io-0.1.13-r2
+	!=dev-rust/tokio-io-0.1.13-r3
+	!=dev-rust/bytes-1.1.0
+	!=dev-rust/bytes-1.1.0-r1
+	!=dev-rust/bytes-1.1.0-r2
+	!=dev-rust/bytes-0.5.6
+	!=dev-rust/bytes-0.5.6-r1
+	!=dev-rust/bytes-0.4.12
+	!=dev-rust/bytes-0.4.12-r1
+	!=dev-rust/bytes-0.4.12-r2
+	!=dev-rust/bytes-0.4.12-r3
+	!=dev-rust/bytes-0.4.12-r4
 	!=dev-rust/rustyline-9.1.1
 	!=dev-rust/rustyline-9.1.1-r1
 	!=dev-rust/rustyline-9.1.1-r2
@@ -891,6 +905,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"bytemuck-1.12.1"
 	"bytemuck_derive-1.2.1"
 	"byteorder-1.4.3"
+	"bytes-0.4.12"
+	"bytes-0.5.6"
+	"bytes-1.2.1"
 	"capnp-0.14.10"
 	"capnpc-0.14.9"
 	"cargo_metadata-0.2.3"
@@ -1375,6 +1392,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"tinytemplate-1.2.1"
 	"tinyvec-1.6.0"
 	"tinyvec_macros-0.1.0"
+	"tokio-io-0.1.13"
 	"tokio-io-timeout-1.2.0"
 	"tokio-macros-1.8.0"
 	"tokio-native-tls-0.3.0"

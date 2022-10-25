@@ -7,18 +7,19 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Lossless fractions and decimals; drop-in float replacement'
-HOMEPAGE='https://github.com/dnsl48/fraction.git'
+DESCRIPTION='The rust language implementation of gRPC, base on the gRPC c core library.'
+HOMEPAGE='https://github.com/tikv/grpc-rs'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="Apache-2.0"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bytes-1*
-	=dev-rust/num-0.2*
+	=dev-rust/grpcio-sys-0.9*
+	=dev-rust/parking_lot-0.11*
+	=dev-rust/protobuf-2*
 "
 RDEPEND="${DEPEND}"
 

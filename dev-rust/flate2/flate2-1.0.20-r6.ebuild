@@ -20,7 +20,6 @@ DEPEND="
 	>=dev-rust/cloudflare-zlib-sys-0.2.0 <dev-rust/cloudflare-zlib-sys-0.3
 	>=dev-rust/libz-sys-1.1.0 <dev-rust/libz-sys-2
 	>=dev-rust/miniz-sys-0.1.11 <dev-rust/miniz-sys-0.2
-	>=dev-rust/tokio-io-0.1.11 <dev-rust/tokio-io-0.2
 "
 
 src_prepare() {

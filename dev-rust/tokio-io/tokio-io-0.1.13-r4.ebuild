@@ -12,10 +12,8 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
-RDEPEND="
-	${DEPEND}
-	!~dev-rust/${PN}-0.3.1
-"
+RDEPEND="${DEPEND}"
 
-# error: no matching package named `futures` found
+
+# error: could not compile `tokio-io`
 RESTRICT="test"

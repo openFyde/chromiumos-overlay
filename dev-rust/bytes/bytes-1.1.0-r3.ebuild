@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -12,10 +12,4 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
-RDEPEND="
-	${DEPEND}
-	!~dev-rust/${PN}-0.3.1
-"
-
-# error: no matching package named `futures` found
-RESTRICT="test"
+RDEPEND="${DEPEND}"
