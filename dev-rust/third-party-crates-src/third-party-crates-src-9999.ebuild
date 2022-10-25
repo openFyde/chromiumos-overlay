@@ -37,6 +37,15 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rayon-1.5.0
+	!=dev-rust/rayon-1.5.0-r1
+	!=dev-rust/rayon-1.5.0-r2
+	!=dev-rust/rayon-1.5.0-r3
+	!=dev-rust/rayon-1.5.0-r4
+	!=dev-rust/rayon-1.5.0-r5
+	!=dev-rust/rayon-1.5.0-r6
+	!=dev-rust/rayon-0.8.2
+	!=dev-rust/rayon-0.8.2-r1
 	!=dev-rust/rayon-core-1.9.0
 	!=dev-rust/rayon-core-1.9.0-r1
 	!=dev-rust/rayon-core-1.9.0-r2
@@ -1305,6 +1314,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"rand_xoshiro-0.1.0"
 	"rav1e-0.4.1"
 	"ravif-0.6.4"
+	"rayon-0.8.2"
+	"rayon-1.5.3"
 	"rayon-core-1.9.3"
 	"rdrand-0.4.0"
 	"redox_syscall-0.1.57"

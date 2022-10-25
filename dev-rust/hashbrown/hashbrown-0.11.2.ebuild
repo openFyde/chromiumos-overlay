@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	~dev-rust/ahash-0.7.0
-	=dev-rust/rayon-1*
 "
 RDEPEND="${DEPEND}"
 

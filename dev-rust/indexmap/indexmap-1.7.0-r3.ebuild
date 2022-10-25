@@ -27,7 +27,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/hashbrown-0.11*
-	>=dev-rust/rayon-1.2.0 <dev-rust/rayon-2.0.0
 "
 RDEPEND="${DEPEND}"
 
