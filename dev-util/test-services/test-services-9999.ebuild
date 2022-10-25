@@ -17,12 +17,14 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
-	dev-util/cros-provision
-	dev-util/testlabenv-local
-	dev-util/cros-test
 	dev-util/cros-dut
+	dev-util/cros-provision
 	dev-util/cros-publish
+	dev-util/cros-servod
+	dev-util/cros-test
 	dev-util/cros-test-finder
+	dev-util/fw-provision
+	dev-util/testlabenv-local
 	dev-util/test-plan
 "
 RDEPEND="
