@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+CROS_RUST_REMOVE_DEV_DEPS=1
+
 inherit cros-rust
 
 DESCRIPTION="Aims to be a feature-complete superset of the time library"
@@ -13,11 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/bincode-0.8*
-	=dev-rust/serde_json-1*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 PATCHES=(
