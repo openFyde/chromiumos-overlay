@@ -12,7 +12,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
-RDEPEND="${DEPEND}"
 
-# could not compile
+# missing dev deps (signal-hook)
 RESTRICT="test"
+RDEPEND="${DEPEND}"

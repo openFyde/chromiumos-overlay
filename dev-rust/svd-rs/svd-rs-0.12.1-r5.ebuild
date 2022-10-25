@@ -1,4 +1,4 @@
-# Copyright 2020 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -13,6 +13,3 @@ KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
-
-# could not compile
-RESTRICT="test"

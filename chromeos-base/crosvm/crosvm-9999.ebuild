@@ -48,7 +48,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/cbindgen
 	dev-rust/chrono
 	dev-rust/cros_fuzz:=
-	=dev-rust/crossbeam-utils-0.8*
 	=dev-rust/ctrlc-3.2*
 	=dev-rust/dbus-0.8*
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0

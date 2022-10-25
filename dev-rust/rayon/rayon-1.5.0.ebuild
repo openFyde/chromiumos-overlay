@@ -16,11 +16,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 IUSE="cros_host"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/crossbeam-deque-0.8*
-	>=dev-rust/rayon-core-1.9 <dev-rust/rayon-core-2.0
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 # Ensure that rayon deps are installed by default in SDK
 # to avoid re-installs at chroot creation time.

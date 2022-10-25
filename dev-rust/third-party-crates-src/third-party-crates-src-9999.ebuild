@@ -37,6 +37,41 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rayon-core-1.9.0
+	!=dev-rust/rayon-core-1.9.0-r1
+	!=dev-rust/rayon-core-1.9.0-r2
+	!=dev-rust/rayon-core-1.9.0-r3
+	!=dev-rust/rayon-core-1.9.0-r4
+	!=dev-rust/rayon-core-1.9.0-r5
+	!=dev-rust/rayon-core-1.9.0-r6
+	!=dev-rust/crossbeam-deque-0.8.1
+	!=dev-rust/crossbeam-deque-0.8.1-r1
+	!=dev-rust/crossbeam-deque-0.8.1-r2
+	!=dev-rust/crossbeam-deque-0.8.1-r3
+	!=dev-rust/crossbeam-epoch-0.9.0
+	!=dev-rust/crossbeam-epoch-0.9.0-r1
+	!=dev-rust/crossbeam-epoch-0.9.0-r2
+	!=dev-rust/crossbeam-epoch-0.9.0-r3
+	!=dev-rust/crossbeam-epoch-0.9.0-r4
+	!=dev-rust/crossbeam-epoch-0.9.0-r5
+	!=dev-rust/crossbeam-epoch-0.9.0-r6
+	!=dev-rust/crossbeam-channel-0.5.0
+	!=dev-rust/crossbeam-channel-0.5.0-r1
+	!=dev-rust/crossbeam-channel-0.5.0-r2
+	!=dev-rust/crossbeam-channel-0.5.0-r3
+	!=dev-rust/thread_local-1.1.4
+	!=dev-rust/thread_local-1.1.4-r1
+	!=dev-rust/thread_local-1.1.4-r2
+	!=dev-rust/svd-rs-0.12.1
+	!=dev-rust/svd-rs-0.12.1-r1
+	!=dev-rust/svd-rs-0.12.1-r2
+	!=dev-rust/svd-rs-0.12.1-r3
+	!=dev-rust/svd-rs-0.12.1-r4
+	!=dev-rust/crossbeam-utils-0.8.3
+	!=dev-rust/crossbeam-utils-0.8.3-r1
+	!=dev-rust/crossbeam-utils-0.8.3-r2
+	!=dev-rust/crossbeam-utils-0.8.3-r3
+	!=dev-rust/crossbeam-utils-0.8.3-r4
 	!=dev-rust/once_cell-1.7.2
 	!=dev-rust/once_cell-1.7.2-r1
 	!=dev-rust/tokio-io-0.1.13
@@ -952,6 +987,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"criterion-0.3.5"
 	"criterion-plot-0.4.5"
 	"crossbeam-0.8.2"
+	"crossbeam-channel-0.4.4"
+	"crossbeam-channel-0.5.6"
+	"crossbeam-deque-0.8.2"
+	"crossbeam-epoch-0.9.10"
+	"crossbeam-utils-0.7.2"
+	"crossbeam-utils-0.8.11"
 	"crunchy-0.2.2"
 	"crypto-common-0.1.6"
 	"cstr_core-0.2.6"
@@ -1264,6 +1305,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rand_xoshiro-0.1.0"
 	"rav1e-0.4.1"
 	"ravif-0.6.4"
+	"rayon-core-1.9.3"
 	"rdrand-0.4.0"
 	"redox_syscall-0.1.57"
 	"redox_syscall-0.2.16"
@@ -1362,6 +1404,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"strsim-0.9.3"
 	"structopt-derive-0.4.18"
 	"subtle-2.4.1"
+	"svd-rs-0.12.1"
 	"syn-0.11.11"
 	"syn-0.15.44"
 	"syn-1.0.101"
@@ -1383,6 +1426,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"thiserror-impl-1.0.32"
 	"thread-id-3.3.0"
 	"thread-id-4.0.0"
+	"thread_local-1.1.4"
 	"tiff-0.6.1"
 	"time-0.1.43"
 	"time-macros-0.1.1"

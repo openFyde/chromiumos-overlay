@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	>=dev-rust/crossbeam-utils-0.8 <dev-rust/crossbeam-utils-0.9
 	>=dev-rust/flate2-1.0.18 <dev-rust/flate2-2
 	=dev-rust/junit-report-0.4*
 	>=dev-rust/rayon-1.5.0 <dev-rust/rayon-2.0.0

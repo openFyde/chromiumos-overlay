@@ -12,7 +12,7 @@ SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="
-RDEPEND="${DEPEND}"
 
-# could not compile
+# error: could not compile `crossbeam-epoch`
 RESTRICT="test"
+RDEPEND="${DEPEND}"
