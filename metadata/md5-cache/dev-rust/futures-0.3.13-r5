@@ -1,0 +1,10 @@
+DEFINED_PHASES=-
+DEPEND=dev-rust/third-party-crates-src:=
+DESCRIPTION=Replaced by third-party-crates-src.
+EAPI=7
+KEYWORDS=*
+LICENSE=metapackage
+RDEPEND=dev-rust/third-party-crates-src:= !~dev-rust/futures-0.3.1
+RESTRICT=test
+SLOT=0.3.13/r5
+_md5_=9118245fc5c72ef8cce6a4c8d7b28a53
