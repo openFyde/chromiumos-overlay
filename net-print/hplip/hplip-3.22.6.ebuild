@@ -1,26 +1,23 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{5..9} )
-PYTHON_REQ_USE="threads(+),xml"
-
-# 14 and 15 spit out a lot of warnings about subdirs
-WANT_AUTOMAKE="1.13"
+PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_REQ_USE="threads(+),xml(+)"
 
 inherit cros-fuzzer cros-sanitizers autotools python-single-r1 readme.gentoo-r1 udev
 
 DESCRIPTION="HP Linux Imaging and Printing - Print, scan, fax drivers and service tools"
 HOMEPAGE="https://developers.hp.com/hp-linux-imaging-and-printing"
 SRC_URI="mirror://sourceforge/hplip/${P}.tar.gz
-		https://dev.gentoo.org/~billie/distfiles/${PN}-3.21.4-patches-1.tar.xz"
+		https://dev.gentoo.org/~billie/distfiles/${PN}-3.22.6-patches-1.tar.xz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE="asan fuzzer doc fax +hpcups hpijs kde libnotify libressl -libusb0 minimal parport policykit qt5 scanner +snmp static-ppds X"
+IUSE="asan fuzzer doc fax +hpcups hpijs kde libnotify -libusb0 minimal parport policykit qt5 scanner +snmp static-ppds X"
 
 COMMON_DEPEND="
 	net-print/cups
@@ -32,9 +29,9 @@ COMMON_DEPEND="
 		libusb0? ( virtual/libusb:0 )
 		scanner? ( media-gfx/sane-backends )
 		snmp? (
-			!libressl? ( dev-libs/openssl:0= )
-			libressl? ( dev-libs/libressl:= )
-			net-analyzer/net-snmp
+			dev-libs/openssl:0=
+			net-analyzer/net-snmp:=
+			net-dns/avahi[dbus,python,${PYTHON_SINGLE_USEDEP}]
 		)
 	)
 "
@@ -88,6 +85,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21.8-fix-buffer-overflow-in-halftoner.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-tempbuffer-size-in-halftoner.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-bad-header-read.patch"
+	"${FILESDIR}/${PN}-3.22.6-gccver.patch"
 )
 
 #DISABLE_AUTOFORMATTING="yes"
@@ -157,6 +155,7 @@ src_configure() {
 	local minimal_build=()
 
 	sanitizers-setup-env
+	append-lfs-flags
 
 	if use hpcups ; then
 		drv_build+=("$(use_enable hpcups hpcups-install)")
