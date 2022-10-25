@@ -19,7 +19,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/anyhow-1.0.31 <dev-rust/anyhow-2.0.0_alpha
 	>=dev-rust/clap-2.33.0 <dev-rust/clap-3.0.0_alpha
-	=dev-rust/toml-0.5*
 "
 RDEPEND="${DEPEND}"
 

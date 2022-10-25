@@ -20,7 +20,6 @@ DEPEND="
 	=dev-rust/clap-2*
 	=dev-rust/indexmap-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/toml-0.5*
 "
 RDEPEND="${DEPEND}"
 

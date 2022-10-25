@@ -7,21 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
-HOMEPAGE='https://crates.io/crates/clap'
+DESCRIPTION='Self-contained Cargo.lock parser with optional dependency graph analysis'
+HOMEPAGE='https://rustsec.org'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/backtrace-0.3*
-	~dev-rust/clap_derive-3.1.7
 	=dev-rust/indexmap-1*
-	=dev-rust/textwrap-0.15*
-	>=dev-rust/yaml-rust-0.4.1 <dev-rust/yaml-rust-0.5.0_alpha
 "
 RDEPEND="${DEPEND}"
 

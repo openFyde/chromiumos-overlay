@@ -37,6 +37,22 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/url-2.2.2
+	!=dev-rust/url-2.2.2-r1
+	!=dev-rust/url-2.2.2-r2
+	!=dev-rust/url-2.2.2-r3
+	!=dev-rust/url-2.2.2-r4
+	!=dev-rust/url-2.2.2-r5
+	!=dev-rust/yaml-rust-0.4.5
+	!=dev-rust/yaml-rust-0.4.5-r1
+	!=dev-rust/yaml-rust-0.3.5
+	!=dev-rust/toml-0.5.1
+	!=dev-rust/toml-0.5.1-r1
+	!=dev-rust/toml-0.5.1-r2
+	!=dev-rust/idna-0.2.3
+	!=dev-rust/idna-0.2.3-r1
+	!=dev-rust/idna-0.2.3-r2
+	!=dev-rust/idna-0.2.3-r3
 	!=dev-rust/unicode-bidi-0.3.4
 	!=dev-rust/unicode-bidi-0.3.4-r1
 	!=dev-rust/unicode-bidi-0.3.4-r2
@@ -1270,6 +1286,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"i2cdev-0.5.1"
 	"iana-time-zone-0.1.47"
 	"ident_case-1.0.1"
+	"idna-0.1.5"
+	"idna-0.2.3"
 	"imgref-1.9.4"
 	"indicatif-0.16.2"
 	"indoc-0.3.6"
@@ -1606,6 +1624,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"tokio-native-tls-0.3.0"
 	"tokio-stream-0.1.3"
 	"tokio-util-0.7.3"
+	"toml-0.4.10"
+	"toml-0.5.9"
 	"tonic-0.8.1"
 	"tonic-build-0.8.2"
 	"tower-0.4.13"
@@ -1640,6 +1660,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"unindent-0.1.10"
 	"uniquote-3.2.1"
 	"unreachable-1.0.0"
+	"url-1.7.2"
+	"url-2.2.2"
 	"utf8parse-0.2.0"
 	"uuid-0.8.2"
 	"v_frame-0.2.5"
@@ -1702,6 +1724,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"
 	"xmlparser-0.13.3"
+	"yaml-rust-0.3.5"
+	"yaml-rust-0.4.5"
 	"zeroize-1.5.7"
 	"zeroize_derive-1.3.2"
 )

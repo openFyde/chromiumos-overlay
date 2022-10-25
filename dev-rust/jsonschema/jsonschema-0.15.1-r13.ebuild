@@ -23,7 +23,6 @@ DEPEND="
 	>=dev-rust/serde_json-1.0.79 <dev-rust/serde_json-2.0.0_alpha
 	>=dev-rust/structopt-0.3.26 <dev-rust/structopt-0.4.0_alpha
 	>=dev-rust/time-0.3.7 <dev-rust/time-0.4.0_alpha
-	>=dev-rust/url-2.2.2 <dev-rust/url-3.0.0_alpha
 "
 RDEPEND="${DEPEND}"
 

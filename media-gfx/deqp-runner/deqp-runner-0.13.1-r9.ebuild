@@ -22,7 +22,6 @@ DEPEND="
 	=dev-rust/junit-report-0.4*
 	>=dev-rust/stderrlog-0.4 <dev-rust/stderrlog-0.6
 	=dev-rust/structopt-0.3*
-	=dev-rust/toml-0.5*
 "
 
 src_compile() {
