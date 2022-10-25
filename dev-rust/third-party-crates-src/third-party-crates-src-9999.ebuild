@@ -37,6 +37,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/serde_test-1.0.127
+	!=dev-rust/serde_test-1.0.127-r1
 	!=dev-rust/libz-sys-1.1.8
 	!=dev-rust/libz-sys-1.1.8-r1
 	!=dev-rust/libz-sys-1.1.8-r2
@@ -1504,6 +1506,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"serde-tuple-vec-map-1.0.1"
 	"serde_cbor-0.11.2"
 	"serde_derive-1.0.145"
+	"serde_test-1.0.147"
 	"serde_urlencoded-0.7.1"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
