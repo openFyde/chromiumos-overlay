@@ -19,11 +19,14 @@ KEYWORDS="~*"
 IUSE="test"
 
 COMMON_DEPEND="
+	chromeos-base/bootlockbox-client:=
 	dev-libs/openssl:="
 
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}"
 
-DEPEND="${COMMON_DEPEND}
+DEPEND="
+	${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
@@ -73,4 +76,5 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/feature_library_test"
 	platform_test "run" "${OUT}/hmac_test"
 	platform_test "run" "${OUT}/service_test"
+	platform_test "run" "${OUT}/store_impl_test"
 }
