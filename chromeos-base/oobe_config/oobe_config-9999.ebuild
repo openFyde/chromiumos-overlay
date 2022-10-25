@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_con
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="tpm tpm_dynamic tpm2"
+IUSE="tpm tpm_dynamic tpm2 fuzzer"
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
@@ -34,6 +34,7 @@ DEPEND="
 	${COMMMON_DEPEND}
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 pkg_preinst() {
@@ -82,6 +83,12 @@ src_install() {
 	insinto /usr/lib/tmpfiles.d/on-demand
 	doins tmpfiles.d/on-demand/oobe_config_restore.conf
 	doins tmpfiles.d/on-demand/oobe_config_save.conf
+
+	local fuzzer_component_id="1031231"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/load_oobe_config_rollback_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/rollback_openssl_encryption_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {
