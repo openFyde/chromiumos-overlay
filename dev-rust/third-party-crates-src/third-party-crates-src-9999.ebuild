@@ -1217,7 +1217,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"quine-mc_cluskey-0.2.4"
 	"quote-0.3.15"
 	"quote-0.6.13"
-	"quote-1.0.9"
+	"quote-1.0.21"
 	"r0-0.2.2"
 	"r0-1.0.0"
 	"radix_trie-0.2.1"
