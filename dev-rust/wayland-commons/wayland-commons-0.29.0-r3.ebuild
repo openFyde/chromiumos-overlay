@@ -7,17 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Per-object thread-local storage'
-HOMEPAGE='https://crates.io/crates/thread_local'
+DESCRIPTION='Common types and structures used by wayland-client and wayland-server.'
+HOMEPAGE='https://crates.io/crates/wayland-commons'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/once_cell-1.5.2 <dev-rust/once_cell-2.0.0_alpha
+	=dev-rust/wayland-sys-0.29*
 "
 RDEPEND="${DEPEND}"
 

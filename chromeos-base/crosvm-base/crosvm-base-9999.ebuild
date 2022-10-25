@@ -35,7 +35,6 @@ DEPEND="
 	=dev-rust/anyhow-1*
 	dev-rust/chrono
 	dev-rust/data_model:=
-	=dev-rust/once_cell-1*
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	media-sound/audio_streams:=

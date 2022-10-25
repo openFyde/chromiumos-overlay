@@ -24,7 +24,6 @@ DEPEND="
 	=dev-rust/built-0.5*
 	=dev-rust/chrono-0.4*
 	=dev-rust/clap-2.33*
-	=dev-rust/once_cell-1.7*
 	=dev-rust/serde_json-1*
 	sys-apps/flashrom
 "

@@ -41,9 +41,7 @@ RDEPEND="${COMMON_DEPEND}
 
 wayland_scanner_DEPEND=""
 
-wayland_commons_DEPEND="
-	>=dev-rust/once_cell-1.1.0 <dev-rust/once_cell-2.0.0_alpha
-"
+wayland_commons_DEPEND=""
 
 wayland_server_DEPEND="
 	=dev-rust/parking_lot-0.11*

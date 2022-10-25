@@ -37,6 +37,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/once_cell-1.7.2
+	!=dev-rust/once_cell-1.7.2-r1
 	!=dev-rust/tokio-io-0.1.13
 	!=dev-rust/tokio-io-0.1.13-r1
 	!=dev-rust/tokio-io-0.1.13-r2

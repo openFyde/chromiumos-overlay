@@ -32,6 +32,7 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "syn",
     # This just removes some pointless deps.
     "rand",
+    "once_cell",
 }
 
 # Line written into ebuilds which are automigrated.

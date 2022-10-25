@@ -25,7 +25,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
 	dev-rust/io_uring:=
-	=dev-rust/once_cell-1*
 	dev-rust/sync:=
 	dev-rust/sys_util:=
 	media-sound/audio_streams:=

@@ -27,7 +27,6 @@ DEPEND="
 	=dev-rust/dbus-tree-0.9*
 	dev-rust/featured:=
 	dev-rust/libchromeos:=
-	=dev-rust/once_cell-1.7*
 	=dev-rust/grpcio-0.9*
 "
 

@@ -15,10 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/once_cell-1.7*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 # error: no matching package named `loom` found
 RESTRICT="test"
