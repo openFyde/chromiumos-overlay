@@ -37,6 +37,9 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!~dev-rust/wayland-sys-0.29.0
+	!~dev-rust/wayland-commons-0.29.0
+	!=dev-rust/dlib-0.0.0
 	!=dev-rust/url-2.2.2
 	!=dev-rust/url-2.2.2-r1
 	!=dev-rust/url-2.2.2-r2
