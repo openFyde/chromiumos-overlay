@@ -83,17 +83,17 @@ Kconfig_style_config() {
 		CONFIG_PARAM="${CONFIG_HEADER:-CONFIG_}$1"
 		setting="${2:-y}"
 
-		if [ ! $setting = n ]; then
+		if [ ! "${setting}" = n ]; then
 			#first remove any leading "# " if $2 is not n
-			sed -i "/^# *$CONFIG_PARAM=/s/^# *//" .config || echo "Kconfig_style_config error uncommenting $CONFIG_PARAM"
+			sed -i "/^# *${CONFIG_PARAM}=/s/^# *//" .config || echo "Kconfig_style_config error uncommenting ${CONFIG_PARAM}"
 			#set item = $setting (defaulting to y)
-			sed -i "/^$CONFIG_PARAM\>/s/=.*/=$setting/" .config || echo "Kconfig_style_config error setting $CONFIG_PARAM=$setting"
-			if [ -z "$( grep ^$CONFIG_PARAM= .config )" ] ; then
-				echo "$CONFIG_PARAM=$setting" >>.config
+			sed -i "/^${CONFIG_PARAM}\>/s/=.*/=${setting}/" .config || echo "Kconfig_style_config error setting ${CONFIG_PARAM}=${setting}"
+			if ! grep -q "^${CONFIG_PARAM}=" .config; then
+				echo "${CONFIG_PARAM}=${setting}" >>.config
 			fi
 		else
 			#ensure item commented out
-			sed -i "/^$CONFIG_PARAM\>/s/$CONFIG_PARAM/# $CONFIG_PARAM/" .config || echo "Kconfig_style_config error commenting $CONFIG_PARAM"
+			sed -i "/^${CONFIG_PARAM}\>/s/${CONFIG_PARAM}/# ${CONFIG_PARAM}/" .config || echo "Kconfig_style_config error commenting ${CONFIG_PARAM}"
 		fi
 }
 
@@ -148,6 +148,9 @@ src_configure() {
 	sanitizers-setup-env
 	# Toolchain setup
 	append-flags -Werror
+	append-lfs-flags
+	# supplicant is using only CFLAGS so append CPPFLAGS (configured by lfs) to it
+	append-cflags "${CPPFLAGS}"
 	tc-export CC
 
 	cp defconfig .config || die
@@ -437,26 +440,26 @@ src_install() {
 	if use dbus ; then
 		# DBus introspection XML file.
 		insinto /usr/share/dbus-1/interfaces
-		doins ${FILESDIR}/dbus_bindings/fi.w1.wpa_supplicant1.xml || die
+		doins "${FILESDIR}/dbus_bindings/fi.w1.wpa_supplicant1.xml" || die
 		insinto /etc/dbus-1/system.d
 		# Allow (but don't require) wpa_supplicant to run as root only
 		# when building hwsim targets.
 		if use wifi_hostap_test; then
-			newins "${FILESDIR}"/dbus_permissions/root_fi.w1.wpa_supplicant1.conf \
+			newins "${FILESDIR}/dbus_permissions/root_fi.w1.wpa_supplicant1.conf" \
 				fi.w1.wpa_supplicant1.conf
 		else
-			doins "${FILESDIR}"/dbus_permissions/fi.w1.wpa_supplicant1.conf
+			doins "${FILESDIR}/dbus_permissions/fi.w1.wpa_supplicant1.conf"
 		fi
 	fi
 	# Install the init scripts
 	if use systemd; then
 		insinto /usr/share
-		systemd_dounit ${FILESDIR}/init/wpasupplicant.service
+		systemd_dounit "${FILESDIR}/init/wpasupplicant.service"
 		systemd_enable_service boot-services.target wpasupplicant.service
-		systemd_dotmpfilesd ${FILESDIR}/init/wpasupplicant-directories.conf
+		systemd_dotmpfilesd "${FILESDIR}/init/wpasupplicant-directories.conf"
 	else
 		insinto /etc/init
-		doins ${FILESDIR}/init/wpasupplicant.conf
+		doins "${FILESDIR}/init/wpasupplicant.conf"
 		if use seccomp; then
 			local policy="${FILESDIR}/seccomp/wpa_supplicant-${ARCH}.policy"
 			local policy_out="${ED}/usr/share/policy/wpa_supplicant.bpf"
