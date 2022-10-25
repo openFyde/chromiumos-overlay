@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/num-rational-0.3*
 	>=dev-rust/png-0.16.5 <dev-rust/png-0.17.0_alpha
 "
 RDEPEND="${DEPEND}"

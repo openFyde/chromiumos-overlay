@@ -37,6 +37,72 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/fraction-0.10.0
+	!=dev-rust/fraction-0.10.0-r1
+	!=dev-rust/fraction-0.10.0-r2
+	!=dev-rust/fraction-0.10.0-r3
+	!=dev-rust/fraction-0.10.0-r4
+	!=dev-rust/fraction-0.10.0-r5
+	!=dev-rust/fraction-0.10.0-r6
+	!=dev-rust/num-0.2.1
+	!=dev-rust/num-0.2.1-r1
+	!=dev-rust/num-0.2.1-r2
+	!=dev-rust/num-0.2.1-r3
+	!=dev-rust/num-0.2.1-r4
+	!=dev-rust/num-0.2.1-r5
+	!=dev-rust/num-0.2.1-r6
+	!=dev-rust/num-rational-0.3.2
+	!=dev-rust/num-rational-0.3.2-r1
+	!=dev-rust/num-rational-0.3.2-r2
+	!=dev-rust/num-rational-0.3.2-r3
+	!=dev-rust/num-rational-0.3.2-r4
+	!=dev-rust/num-rational-0.3.2-r5
+	!=dev-rust/num-rational-0.2.4
+	!=dev-rust/num-rational-0.2.4-r1
+	!=dev-rust/num-rational-0.2.4-r2
+	!=dev-rust/num-rational-0.2.4-r3
+	!=dev-rust/num-rational-0.2.4-r4
+	!=dev-rust/num-rational-0.2.4-r5
+	!=dev-rust/num-bigint-0.4.0
+	!=dev-rust/num-bigint-0.4.0-r1
+	!=dev-rust/num-bigint-0.4.0-r2
+	!=dev-rust/num-bigint-0.4.0-r3
+	!=dev-rust/num-bigint-0.4.0-r4
+	!=dev-rust/num-bigint-0.4.0-r5
+	!=dev-rust/num-bigint-0.4.0-r6
+	!=dev-rust/num-bigint-0.4.0-r7
+	!=dev-rust/num-bigint-0.3.3
+	!=dev-rust/num-bigint-0.3.3-r1
+	!=dev-rust/num-bigint-0.3.3-r2
+	!=dev-rust/num-bigint-0.3.3-r3
+	!=dev-rust/num-bigint-0.3.3-r4
+	!=dev-rust/num-bigint-0.3.3-r5
+	!=dev-rust/num-bigint-0.3.3-r6
+	!=dev-rust/num-bigint-0.3.3-r7
+	!=dev-rust/num-bigint-0.2.6
+	!=dev-rust/num-bigint-0.2.6-r1
+	!=dev-rust/num-bigint-0.2.6-r2
+	!=dev-rust/num-bigint-0.2.6-r3
+	!=dev-rust/num-bigint-0.2.6-r4
+	!=dev-rust/num-bigint-0.2.6-r5
+	!=dev-rust/num-bigint-0.2.6-r6
+	!=dev-rust/num-bigint-0.2.6-r7
+	!=dev-rust/generic-array-0.14.4
+	!=dev-rust/generic-array-0.14.4-r1
+	!=dev-rust/generic-array-0.14.4-r2
+	!=dev-rust/generic-array-0.14.4-r3
+	!=dev-rust/generic-array-0.13.3
+	!=dev-rust/generic-array-0.13.3-r1
+	!=dev-rust/generic-array-0.13.3-r2
+	!=dev-rust/generic-array-0.12.4
+	!=dev-rust/generic-array-0.12.4-r1
+	!=dev-rust/generic-array-0.12.4-r2
+	!=dev-rust/crossbeam-queue-0.2.3
+	!=dev-rust/crossbeam-queue-0.2.3-r1
+	!=dev-rust/crossbeam-queue-0.2.3-r2
+	!=dev-rust/crossbeam-queue-0.2.3-r3
+	!=dev-rust/clap_lex-0.1.1
+	!=dev-rust/clap_lex-0.1.1-r1
 	!=dev-rust/spin-0.9.4
 	!=dev-rust/spin-0.9.4-r1
 	!=dev-rust/spin-0.9.4-r2
@@ -996,6 +1062,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
 	"clang-sys-1.2.0"
+	"clap_lex-0.1.1"
+	"clap_lex-0.2.4"
 	"clipboard-win-4.2.1"
 	"clippy-0.0.166"
 	"clippy_lints-0.0.166"
@@ -1030,6 +1098,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"crossbeam-channel-0.5.6"
 	"crossbeam-deque-0.8.2"
 	"crossbeam-epoch-0.9.10"
+	"crossbeam-queue-0.2.3"
+	"crossbeam-queue-0.3.6"
 	"crossbeam-utils-0.7.2"
 	"crossbeam-utils-0.8.11"
 	"crunchy-0.2.2"
@@ -1108,6 +1178,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
 	"form_urlencoded-1.0.1"
+	"fraction-0.10.0"
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
 	"fuchsia-zircon-sys-0.3.3"
@@ -1126,6 +1197,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"gag-1.0.0"
 	"gdbstub-0.6.3"
 	"gdbstub_arch-0.2.4"
+	"generic-array-0.12.4"
+	"generic-array-0.13.3"
+	"generic-array-0.14.6"
 	"getopts-0.2.21"
 	"getrandom-0.1.16"
 	"getrandom-0.2.7"
@@ -1247,11 +1321,18 @@ ALLOWED_CRATE_VERSIONS=(
 	"nom-7.1.1"
 	"noop_proc_macro-0.3.0"
 	"ntapi-0.3.6"
+	"num-0.1.42"
+	"num-0.2.1"
+	"num-bigint-0.2.6"
+	"num-bigint-0.3.3"
+	"num-bigint-0.4.3"
 	"num-cmp-0.1.0"
 	"num-complex-0.2.4"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
 	"num-iter-0.1.43"
+	"num-rational-0.2.4"
+	"num-rational-0.3.2"
 	"num-traits-0.1.43"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"

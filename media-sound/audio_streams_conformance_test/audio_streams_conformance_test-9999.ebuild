@@ -25,7 +25,6 @@ DEPEND="
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 	dev-rust/cros_async:=
-	dev-rust/num:=
 	dev-rust/serde_json:=
 "
 
