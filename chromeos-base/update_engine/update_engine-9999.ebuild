@@ -43,6 +43,7 @@ DEPEND="
 	app-arch/xz-utils:=
 	chromeos-base/debugd-client:=
 	dlc? ( chromeos-base/dlcservice-client:= )
+	chromeos-base/imageloader:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill-client:=
