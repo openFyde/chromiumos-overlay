@@ -37,6 +37,24 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/indicatif-0.16.2
+	!=dev-rust/indicatif-0.16.2-r1
+	!=dev-rust/indicatif-0.16.2-r2
+	!=dev-rust/indicatif-0.16.2-r3
+	!=dev-rust/indicatif-0.16.2-r4
+	!=dev-rust/indicatif-0.16.2-r5
+	!=dev-rust/indicatif-0.16.2-r6
+	!=dev-rust/console-0.15.0
+	!=dev-rust/console-0.15.0-r1
+	!=dev-rust/console-0.15.0-r2
+	!=dev-rust/console-0.15.0-r3
+	!=dev-rust/console-0.15.0-r4
+	!=dev-rust/console-0.15.0-r5
+	!=dev-rust/bayer-0.1.5
+	!=dev-rust/bayer-0.1.5-r1
+	!=dev-rust/bayer-0.1.5-r2
+	!=dev-rust/bayer-0.1.5-r3
+	!=dev-rust/bayer-0.1.5-r4
 	!=dev-rust/rayon-1.5.0
 	!=dev-rust/rayon-1.5.0-r1
 	!=dev-rust/rayon-1.5.0-r2
@@ -933,6 +951,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"base-x-0.2.11"
 	"base64-0.10.1"
 	"base64-0.13.0"
+	"bayer-0.1.5"
 	"beef-0.5.2"
 	"bencher-0.1.5"
 	"bit-set-0.5.3"
@@ -978,6 +997,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"combine-3.8.1"
 	"compiler_builtins-0.1.80"
 	"configparser-3.0.0"
+	"console-0.15.1"
 	"const-random-0.1.13"
 	"const-random-macro-0.1.13"
 	"const-sha1-0.2.0"
@@ -1135,6 +1155,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"iana-time-zone-0.1.47"
 	"ident_case-1.0.1"
 	"imgref-1.9.4"
+	"indicatif-0.16.2"
 	"indoc-0.3.6"
 	"indoc-impl-0.3.6"
 	"inflections-1.1.1"

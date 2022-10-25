@@ -27,12 +27,14 @@ CUSTOMIZATION_IGNORE_CRATES = {
     # The patch for 0.3.11 is obsolete, and 0.3.11 can probably be deleted
     # entirely.
     "pkg-config",
-    # These just use sed to delete useless deps.
+    # These just delete useless deps/features.
+    "console",
     "instant",
-    "syn",
-    # This just removes some pointless deps.
-    "rand",
     "once_cell",
+    "rand",
+    "syn",
+    # This has a patch which has been migrated.
+    "bayer"
 }
 
 # Line written into ebuilds which are automigrated.
