@@ -29,7 +29,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*
-	=dev-rust/serde_bytes-0.10*
 	=dev-rust/serde_json-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

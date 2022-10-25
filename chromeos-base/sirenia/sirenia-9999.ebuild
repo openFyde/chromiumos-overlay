@@ -30,7 +30,6 @@ DEPEND="
 	=dev-rust/dbus-crossroads-0.5*
 	=dev-rust/flexbuffers-2*
 	dev-rust/libchromeos:=
-	=dev-rust/serde_bytes-0.10*
 	=dev-rust/serde_json-1*
 	=dev-rust/stderrlog-0.5*
 "

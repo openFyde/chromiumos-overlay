@@ -37,6 +37,24 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/unicode-bidi-0.3.4
+	!=dev-rust/unicode-bidi-0.3.4-r1
+	!=dev-rust/unicode-bidi-0.3.4-r2
+	!=dev-rust/unicode-bidi-0.3.4-r3
+	!=dev-rust/unicode-bidi-0.3.4-r4
+	!=dev-rust/unicode-bidi-0.3.4-r5
+	!=dev-rust/serde_bytes-0.10.5
+	!=dev-rust/serde_bytes-0.10.5-r1
+	!=dev-rust/serde_bytes-0.10.5-r2
+	!=dev-rust/serde_bytes-0.10.5-r3
+	!=dev-rust/linked-hash-map-0.5.4
+	!=dev-rust/linked-hash-map-0.5.4-r1
+	!=dev-rust/linked-hash-map-0.5.4-r2
+	!=dev-rust/linked-hash-map-0.5.4-r3
+	!=dev-rust/linked-hash-map-0.5.4-r4
+	!=dev-rust/ascii-1.0.0
+	!=dev-rust/ascii-1.0.0-r1
+	!=dev-rust/ascii-1.0.0-r2
 	!=dev-rust/serde_test-1.0.127
 	!=dev-rust/serde_test-1.0.127-r1
 	!=dev-rust/libz-sys-1.1.8
@@ -1020,6 +1038,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"argh_shared-0.1.8"
 	"arrayvec-0.4.12"
 	"arrayvec-0.5.2"
+	"ascii-0.9.3"
+	"ascii-1.0.0"
 	"assert_matches-1.5.0"
 	"async-stream-0.3.3"
 	"async-stream-impl-0.3.3"
@@ -1295,6 +1315,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libudev-sys-0.1.4"
 	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
+	"linked-hash-map-0.5.6"
 	"linux-raw-sys-0.0.46"
 	"litrs-0.2.3"
 	"lock_api-0.4.9"
@@ -1504,6 +1525,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"serde-0.8.23"
 	"serde-1.0.145"
 	"serde-tuple-vec-map-1.0.1"
+	"serde_bytes-0.10.5"
 	"serde_cbor-0.11.2"
 	"serde_derive-1.0.145"
 	"serde_test-1.0.147"
@@ -1606,6 +1628,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ufmt-write-0.1.0"
 	"uguid-1.2.1"
 	"unicase-2.6.0"
+	"unicode-bidi-0.3.8"
 	"unicode-ident-1.0.4"
 	"unicode-linebreak-0.1.4"
 	"unicode-normalization-0.1.21"
