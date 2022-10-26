@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="01611cc312c9b3acec36920032731ee8be032d07"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "30653c84ca5ec405b15058b448071f0bee46251d" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="14a66bed9fd830d7d2ed79da4b5b460feb182b71"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "0af0ef3890d7e7a7b01b23e42b685d515ee8d49c" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -51,7 +51,7 @@ src_install() {
 	dosbin "${OUT}"/rollback_prepare_save
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
-	dosbin "${OUT}"/rollback_finish_restore
+	dosbin "${OUT}"/rollback_cleanup
 
 	insinto /etc/dbus-1/system.d
 	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
