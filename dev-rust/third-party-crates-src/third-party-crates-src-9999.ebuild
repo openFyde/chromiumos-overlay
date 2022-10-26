@@ -37,6 +37,15 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/ahash-0.7.6
+	!=dev-rust/ahash-0.7.6-r1
+	!=dev-rust/ahash-0.7.6-r2
+	!=dev-rust/ahash-0.7.6-r3
+	!=dev-rust/ahash-0.7.6-r4
+	!=dev-rust/ahash-0.7.6-r5
+	!=dev-rust/ahash-0.7.6-r6
+	!=dev-rust/ahash-0.7.6-r7
+	!=dev-rust/ahash-0.7.0
 	!=dev-rust/time-0.3.9
 	!=dev-rust/time-0.3.9-r1
 	!=dev-rust/time-0.3.9-r2
@@ -1053,6 +1062,8 @@ ALLOWED_CRATE_VERSIONS=(
 	# modifications may be overwritten.
 	"adler-1.0.2"
 	"adler32-1.2.0"
+	"ahash-0.4.7"
+	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
 	"android_log-sys-0.2.0"
 	"android_system_properties-0.1.5"

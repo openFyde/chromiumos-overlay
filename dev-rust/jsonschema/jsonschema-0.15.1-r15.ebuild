@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/ahash-0.7.6 <dev-rust/ahash-0.8.0_alpha
 	>=dev-rust/anyhow-1.0.55 <dev-rust/anyhow-2.0.0_alpha
 	=dev-rust/parking_lot-0.12*
 	>=dev-rust/serde_json-1.0.79 <dev-rust/serde_json-2.0.0_alpha
