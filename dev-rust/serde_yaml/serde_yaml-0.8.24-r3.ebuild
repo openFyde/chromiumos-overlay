@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Procedural macros of the cortex-m-rtic crate'
-HOMEPAGE='https://crates.io/crates/cortex-m-rtic-macros'
+DESCRIPTION='YAML support for Serde'
+HOMEPAGE='https://crates.io/crates/serde_yaml'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,7 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/rtic-syntax-1.0.2 <dev-rust/rtic-syntax-2.0.0_alpha
+	=dev-rust/ryu-1*
 "
 RDEPEND="${DEPEND}"
 

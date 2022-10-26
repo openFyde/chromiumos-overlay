@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A JSON serialization file format'
-HOMEPAGE='https://crates.io/crates/serde_json'
+DESCRIPTION='Real-Time Interrupt-driven Concurrency (RTIC): a concurrency framework for building real-time systems'
+HOMEPAGE='https://crates.io/crates/cortex-m-rtic'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,8 +17,8 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/indexmap-1.5.0 <dev-rust/indexmap-2.0.0_alpha
-	=dev-rust/ryu-1*
+	=dev-rust/cortex-m-0.7*
+	>=dev-rust/heapless-0.7.7 <dev-rust/heapless-0.8.0_alpha
 "
 RDEPEND="${DEPEND}"
 

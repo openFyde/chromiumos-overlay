@@ -37,6 +37,35 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/cortex-m-rtic-macros-1.1.5
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r1
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r2
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r3
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r4
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r5
+	!=dev-rust/rtic-syntax-1.0.2
+	!=dev-rust/rtic-syntax-1.0.2-r1
+	!=dev-rust/rtic-syntax-1.0.2-r2
+	!=dev-rust/rtic-syntax-1.0.2-r3
+	!=dev-rust/rtic-syntax-1.0.2-r4
+	!=dev-rust/gimli-0.26.1
+	!=dev-rust/gimli-0.26.1-r1
+	!=dev-rust/gimli-0.26.1-r2
+	!=dev-rust/gimli-0.26.1-r3
+	!=dev-rust/gimli-0.26.1-r4
+	!=dev-rust/cargo-lock-7.1.0
+	!=dev-rust/cargo-lock-7.1.0-r1
+	!=dev-rust/cargo-lock-7.1.0-r2
+	!=dev-rust/cargo-lock-7.1.0-r3
+	!=dev-rust/cargo-lock-7.1.0-r4
+	!=dev-rust/cargo-lock-7.1.0-r5
+	!=dev-rust/cargo-lock-7.1.0-r6
+	!=dev-rust/cargo-lock-7.1.0-r7
+	!=dev-rust/indexmap-1.7.0
+	!=dev-rust/indexmap-1.7.0-r1
+	!=dev-rust/indexmap-1.7.0-r2
+	!=dev-rust/indexmap-1.7.0-r3
+	!=dev-rust/indexmap-1.7.0-r4
 	!=dev-rust/hashbrown-0.11.2
 	!=dev-rust/hashbrown-0.11.2-r1
 	!=dev-rust/hashbrown-0.11.2-r2
@@ -1130,6 +1159,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bytes-1.2.1"
 	"capnp-0.14.10"
 	"capnpc-0.14.9"
+	"cargo-lock-7.1.0"
 	"cargo_metadata-0.2.3"
 	"cast-0.2.7"
 	"cast-0.3.0"
@@ -1165,6 +1195,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-sys-0.8.3"
 	"cortex-m-rt-0.6.15"
 	"cortex-m-rt-macros-0.6.15"
+	"cortex-m-rtic-macros-1.1.5"
 	"cpp_demangle-0.3.5"
 	"cpufeatures-0.2.5"
 	"crc-2.1.0"
@@ -1284,6 +1315,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"getrandom-0.2.7"
 	"ghost-0.1.6"
 	"gif-0.11.4"
+	"gimli-0.26.2"
 	"git2-0.13.25"
 	"glob-0.3.0"
 	"graphql-parser-0.3.0"
@@ -1322,6 +1354,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"idna-0.1.5"
 	"idna-0.2.3"
 	"imgref-1.9.4"
+	"indexmap-1.9.1"
 	"indicatif-0.16.2"
 	"indoc-0.3.6"
 	"indoc-impl-0.3.6"
@@ -1536,6 +1569,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"roxmltree-0.14.1"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
+	"rtic-syntax-1.0.2"
 	"rust_hawktracer-0.7.0"
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"

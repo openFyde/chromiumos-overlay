@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A unified interface for reading and writing object file formats.'
-HOMEPAGE='https://crates.io/crates/object'
+DESCRIPTION='A cross-platform symbolication library written in Rust, using "gimli"'
+HOMEPAGE='https://crates.io/crates/addr2line'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( Apache-2.0 MIT )"
@@ -17,8 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/flate2-1*
-	>=dev-rust/indexmap-1.1.0 <dev-rust/indexmap-2.0.0_alpha
+	>=dev-rust/object-0.27.1 <dev-rust/object-0.28.0_alpha
 "
 RDEPEND="${DEPEND}"
 

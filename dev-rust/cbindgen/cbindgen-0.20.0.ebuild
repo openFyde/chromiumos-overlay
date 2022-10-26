@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/clap-2*
-	=dev-rust/indexmap-1*
 	=dev-rust/serde_json-1*
 "
 RDEPEND="${DEPEND}"

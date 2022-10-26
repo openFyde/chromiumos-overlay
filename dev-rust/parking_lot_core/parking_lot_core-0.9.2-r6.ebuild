@@ -1,23 +1,24 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
+CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='A library for reading and writing the DWARF debugging format.'
-HOMEPAGE='https://crates.io/crates/gimli'
+DESCRIPTION='An advanced API for creating custom synchronization primitives.'
+HOMEPAGE='https://crates.io/crates/parking_lot_core'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/indexmap-1.0.2 <dev-rust/indexmap-2.0.0_alpha
+	>=dev-rust/backtrace-0.3.60 <dev-rust/backtrace-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

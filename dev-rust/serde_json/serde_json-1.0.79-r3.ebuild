@@ -7,18 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Provides a crate with information from the time it was built.'
-HOMEPAGE='https://crates.io/crates/built'
+DESCRIPTION='A JSON serialization file format'
+HOMEPAGE='https://crates.io/crates/serde_json'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/cargo-lock-7*
-	=dev-rust/chrono-0.4*
+	=dev-rust/ryu-1*
 "
 RDEPEND="${DEPEND}"
 

@@ -11,8 +11,5 @@ SLOT="${PV}"
 KEYWORDS="*"
 
 # Migrated crate. See b/240953811 for more about this migration.
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/indexmap-1*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"

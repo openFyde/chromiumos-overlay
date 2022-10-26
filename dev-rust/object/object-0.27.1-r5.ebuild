@@ -1,4 +1,4 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,18 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='YAML support for Serde'
-HOMEPAGE='https://crates.io/crates/serde_yaml'
+DESCRIPTION='A unified interface for reading and writing object file formats.'
+HOMEPAGE='https://crates.io/crates/object'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/indexmap-1.5.2 <dev-rust/indexmap-2.0.0_alpha
-	=dev-rust/ryu-1*
+	=dev-rust/flate2-1*
 "
 RDEPEND="${DEPEND}"
 
