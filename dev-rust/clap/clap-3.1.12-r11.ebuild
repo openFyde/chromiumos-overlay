@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='A library to acquire a stack trace (backtrace) at runtime in a Rust program.'
-HOMEPAGE='https://github.com/rust-lang/backtrace-rs'
+DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
+HOMEPAGE='https://crates.io/crates/clap'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,8 +17,8 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/addr2line-0.17*
-	=dev-rust/object-0.27*
+	~dev-rust/clap_derive-3.1.7
+	=dev-rust/textwrap-0.15*
 "
 RDEPEND="${DEPEND}"
 
