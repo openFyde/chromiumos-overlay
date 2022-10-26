@@ -37,6 +37,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/time-0.3.9
+	!=dev-rust/time-0.3.9-r1
+	!=dev-rust/time-0.3.9-r2
+	!=dev-rust/time-0.3.9-r3
+	!=dev-rust/time-0.3.9-r4
+	!=dev-rust/time-0.3.9-r5
+	!=dev-rust/time-0.3.9-r6
+	!=dev-rust/time-0.3.9-r7
 	!~dev-rust/wayland-sys-0.29.0
 	!~dev-rust/wayland-commons-0.29.0
 	!=dev-rust/dlib-0.0.0
@@ -1612,6 +1620,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"thread_local-1.1.4"
 	"tiff-0.6.1"
 	"time-0.1.43"
+	"time-0.2.27"
+	"time-0.3.14"
 	"time-macros-0.1.1"
 	"time-macros-0.2.4"
 	"time-macros-impl-0.1.2"

@@ -7,17 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Date and time library. Fully interoperable with the standard library. Mostly compatible with #![no_std].'
-HOMEPAGE='https://time-rs.github.io'
+DESCRIPTION='Send log messages to syslog'
+HOMEPAGE='https://crates.io/crates/syslog'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( MIT Apache-2.0 )"
+LICENSE="MIT"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	~dev-rust/time-macros-0.2.4
+	>=dev-rust/error-chain-0.12.2 <dev-rust/error-chain-0.13.0_alpha
 "
 RDEPEND="${DEPEND}"
 
