@@ -34,7 +34,8 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "rand",
     "syn",
     # This has a patch which has been migrated.
-    "bayer"
+    "ahash",
+    "bayer",
 }
 
 # Line written into ebuilds which are automigrated.
