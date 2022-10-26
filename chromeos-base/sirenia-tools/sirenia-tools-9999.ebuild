@@ -33,7 +33,6 @@ DEPEND="
 	=dev-rust/flexbuffers-2*
 	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1*
-	=dev-rust/stderrlog-0.5*
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="

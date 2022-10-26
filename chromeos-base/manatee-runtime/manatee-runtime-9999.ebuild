@@ -24,7 +24,6 @@ DEPEND="
 	chromeos-base/libsirenia:=
 	=dev-rust/anyhow-1*
 	dev-rust/libchromeos:=
-	=dev-rust/stderrlog-0.5*
 	dev-rust/sync:=
 "
 RDEPEND="${DEPEND}"

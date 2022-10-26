@@ -25,7 +25,6 @@ DEPEND="
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
 	dev-rust/libchromeos:=
-	=dev-rust/stderrlog-0.5*
 	=dev-rust/syslog-6*
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*

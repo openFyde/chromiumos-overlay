@@ -28,7 +28,6 @@ DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
-	=dev-rust/stderrlog-0.5*
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus

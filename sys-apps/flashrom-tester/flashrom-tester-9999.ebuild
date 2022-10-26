@@ -21,7 +21,6 @@ KEYWORDS="~*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bindgen-0.59*
-	=dev-rust/built-0.5*
 	=dev-rust/clap-2.33*
 	=dev-rust/serde_json-1*
 	sys-apps/flashrom
@@ -31,9 +30,7 @@ RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41
 	sys-apps/flashrom
 "
 
-BDEPEND="
-	=dev-rust/built-0.5*
-"
+BDEPEND=""
 
 src_compile() {
 	# Override HOST_CFLAGS so that build dependencies use the correct

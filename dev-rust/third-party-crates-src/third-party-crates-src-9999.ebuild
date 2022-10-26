@@ -38,6 +38,22 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/stderrlog-0.5.3
+	!=dev-rust/stderrlog-0.5.3-r1
+	!=dev-rust/stderrlog-0.5.3-r2
+	!=dev-rust/stderrlog-0.5.3-r3
+	!=dev-rust/stderrlog-0.5.3-r4
+	!=dev-rust/stderrlog-0.5.3-r5
+	!=dev-rust/junit-report-0.4.0
+	!=dev-rust/junit-report-0.4.0-r1
+	!=dev-rust/junit-report-0.4.0-r2
+	!=dev-rust/junit-report-0.4.0-r3
+	!=dev-rust/junit-report-0.4.0-r4
+	!=dev-rust/built-0.5.1
+	!=dev-rust/built-0.5.1-r1
+	!=dev-rust/built-0.5.1-r2
+	!=dev-rust/built-0.5.1-r3
+	!=dev-rust/built-0.5.1-r4
 	!=dev-rust/chrono-0.4.19
 	!=dev-rust/chrono-0.4.19-r1
 	!=dev-rust/chrono-0.4.19-r2
@@ -1184,6 +1200,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"block-buffer-0.10.3"
 	"bson-1.2.4"
 	"bstr-0.2.17"
+	"built-0.5.1"
 	"bumpalo-3.11.0"
 	"bytecount-0.6.3"
 	"bytemuck-1.12.1"
@@ -1421,6 +1438,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"js-sys-0.3.60"
 	"juniper-0.15.10"
 	"juniper_codegen-0.15.9"
+	"junit-report-0.4.0"
 	"kernel32-sys-0.2.2"
 	"lazy_static-0.2.11"
 	"lazy_static-1.4.0"
@@ -1677,6 +1695,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"standback-0.2.17"
 	"static_assertions-0.3.4"
 	"static_assertions-1.1.0"
+	"stderrlog-0.5.3"
 	"stdweb-0.4.20"
 	"stdweb-derive-0.5.3"
 	"stdweb-internal-macros-0.2.9"
