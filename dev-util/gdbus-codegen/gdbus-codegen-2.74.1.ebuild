@@ -1,10 +1,10 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 GNOME_ORG_MODULE="glib"
 PYTHON_COMPAT=( python3_{6,7,8,9} )
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="xml(+)"
 DISTUTILS_SINGLE_IMPL=1
 DISTUTILS_USE_SETUPTOOLS=no
 
