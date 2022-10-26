@@ -21,17 +21,6 @@ IUSE="
 	camera_feature_face_detection
 	camera_feature_hdrnet
 	camera_feature_portrait_mode
-	legacy_amd64_cpu_support
-	march_alderlake
-	march_armv8
-	march_bdver4
-	march_corei7
-	march_goldmont
-	march_silvermont
-	march_skylake
-	march_tigerlake
-	march_tremont
-	march_znver1
 	ondevice_document_scanner
 	ondevice_document_scanner_dlc
 "
@@ -44,7 +33,7 @@ REQUIRED_USE="
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
 PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.09.06.tbz2"
-PACKAGE_DOCUMENT_SCANNING="chromeos-document-scanning-lib-2022.10.31.tar.bz2"
+PACKAGE_DOCUMENT_SCANNING_PV="2023.01.11"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2023.01.11.tar.zst"
 PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2020.04.06-unstripped.tbz2"
@@ -54,7 +43,6 @@ SRC_URI="
 		camera_feature_auto_framing? (
 				${LOCAL_MIRROR}/${PACAKGE_AUTOFRAMING}
 		)
-		${LOCAL_MIRROR}/${PACKAGE_DOCUMENT_SCANNING}
 		${LOCAL_MIRROR}/${PACAKGE_FACESSD}
 		camera_feature_hdrnet? (
 				${LOCAL_MIRROR}/${PACKAGE_GCAM}
@@ -67,6 +55,7 @@ SRC_URI="
 						${LOCAL_MIRROR}/${PACKAGE_PORTRAIT_PROCESSOR_ARM}
 				)
 		)
+		$(cros-camera_generate_document_scanning_package_SRC_URI ${PACKAGE_DOCUMENT_SCANNING_PV})
 "
 
 LICENSE="BSD-Google"
@@ -123,11 +112,7 @@ src_install() {
 		install_lib "${WORKDIR}/libautoframing_cros.so" "${so_files_path}"
 	fi
 	if use ondevice_document_scanner; then
-		if use legacy_amd64_cpu_support; then
-			install_lib "${WORKDIR}/legacy_amd64_cpu/libdocumentscanner.so" "${so_files_path}"
-		else
-			install_lib "${WORKDIR}/${arch_march}/libdocumentscanner.so" "${so_files_path}"
-		fi
+		install_lib "${WORKDIR}/libdocumentscanner.so" "${so_files_path}"
 	fi
 	install_lib "${WORKDIR}/${arch_march}/libfacessd_cros.so" "${so_files_path}"
 	if use camera_feature_hdrnet && (use march_skylake || use march_alderlake || use amd64); then

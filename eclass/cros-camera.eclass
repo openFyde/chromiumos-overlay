@@ -25,6 +25,7 @@ IUSE="
 	march_tigerlake
 	march_tremont
 	march_znver1
+	legacy_amd64_cpu_support
 "
 
 REQUIRED_USE="
@@ -84,4 +85,60 @@ cros-camera_get_arch_march_path() {
 	else
 		die "Unknown microarchitecture"
 	fi
+}
+
+# @FUNCTION: cros-camera_generate_conditional_SRC_URI
+# @USAGE:
+# @DESCRIPTION:
+# We build the libraries with different "-march" configuration but the USE flags
+# to differentiate the libraries are not mutually exclusive. For example, boards
+# with `march_skylake` will also have `amd64`. This function returns conditional
+# SRC_URI string like "flag1? ( src1 ) !flag1? ( flag2? ( src2 ) )" from the
+# given "flag src" mappings.
+cros-camera_generate_conditional_SRC_URI() {
+	local -n mappings="$1"
+	local flag=""
+	local src=""
+	local exclude_flags=()
+	for mapping in "${mappings[@]}"; do
+		read -r flag src <<< "${mapping}"
+		if [[ ${#exclude_flags[@]} -ne 0 ]]; then
+			printf " !%s? ( " "${exclude_flags[@]}"
+		fi
+		echo "${flag}? ( ${src} )"
+		for _ in "${exclude_flags[@]}"; do
+			echo " )"
+		done
+		exclude_flags+=("${flag}")
+	done
+}
+
+# @FUNCTION: cros-camera_generate_document_scanning_package_SRC_URI
+# @USAGE:
+# @DESCRIPTION:
+# Generate SRC_URI for document scanning package by PV.
+cros-camera_generate_document_scanning_package_SRC_URI() {
+	local pv="$1"
+	local prefix="gs://chromeos-localmirror/distfiles/chromeos-document-scanning-lib"
+	local suffix="${pv}.tar.zst"
+	# Skip the check for this variable since it's indirectly referenced in
+	# cros-camera_generate_conditional_SRC_URI (local -n).
+	# shellcheck disable=SC2034
+	local document_scanning_flag_src_mappings=(
+		"legacy_amd64_cpu_support ${prefix}-legacy_amd64_cpu_support-${suffix}"
+		"march_alderlake ${prefix}-x86_64-alderlake-${suffix}"
+		"march_armv8 ${prefix}-armv7-armv8-a+crc-${suffix}"
+		"march_bdver4 ${prefix}-x86_64-bdver4-${suffix}"
+		"march_corei7 ${prefix}-x86_64-corei7-${suffix}"
+		"march_goldmont ${prefix}-x86_64-goldmont-${suffix}"
+		"march_silvermont ${prefix}-x86_64-silvermont-${suffix}"
+		"march_skylake ${prefix}-x86_64-skylake-${suffix}"
+		"march_tigerlake ${prefix}-x86_64-tigerlake-${suffix}"
+		"march_tremont ${prefix}-x86_64-tremont-${suffix}"
+		"march_znver1 ${prefix}-x86_64-znver1-${suffix}"
+		"amd64 ${prefix}-x86_64-${suffix}"
+		"arm ${prefix}-armv7-${suffix}"
+		"arm64 ${prefix}-arm-${suffix}"
+	)
+	cros-camera_generate_conditional_SRC_URI document_scanning_flag_src_mappings
 }

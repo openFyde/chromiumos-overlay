@@ -4,10 +4,10 @@
 
 EAPI=7
 
-inherit cros-camera dlc
+inherit cros-camera dlc unpacker
 
 DESCRIPTION="Package for document scanner library as a DLC"
-SRC_URI="gs://chromeos-localmirror/distfiles/chromeos-document-scanning-lib-${PV}.tar.bz2"
+SRC_URI="$(cros-camera_generate_document_scanning_package_SRC_URI ${PV})"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -27,7 +27,6 @@ src_install() {
 
 	exeinto "$(dlc_add_path /)"
 
-	local arch_march=$(cros-camera_get_arch_march_path)
-	doexe "${arch_march}/libdocumentscanner.so"
+	doexe "libdocumentscanner.so"
 	dlc_src_install
 }
