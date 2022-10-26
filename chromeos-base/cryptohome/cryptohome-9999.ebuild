@@ -57,6 +57,7 @@ COMMON_DEPEND="
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
+	>=chromeos-base/libbrillo-0.0.1-r2089:=
 	chromeos-base/libhwsec:=[test?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/secure-erase-file:=
