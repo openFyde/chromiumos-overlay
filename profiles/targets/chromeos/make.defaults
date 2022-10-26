@@ -146,6 +146,9 @@ USE="${USE} ondevice_speech"
 # Enable secagentd by default.
 USE="${USE} secagent"
 
+# Enable private computing daemon by default.
+USE="${USE} private_computing"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 

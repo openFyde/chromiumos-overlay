@@ -86,6 +86,9 @@ USE="${USE} -racc"
 # Disable RGB Keyboard daemon.
 USE="${USE} -rgbkbd"
 
+# Disable Private Computing daemon.
+USE="${USE} -private_computing"
+
 # Disable disk usage daemon.
 USE="${USE} -spaced"
 
