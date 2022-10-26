@@ -1,7 +1,8 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+PYTHON_REQ_USE="xml(+)"
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 
 inherit flag-o-matic gnome.org gnome2-utils linux-info meson-multilib multilib python-any-r1 toolchain-funcs xdg
@@ -11,9 +12,8 @@ HOMEPAGE="https://www.gtk.org/"
 
 LICENSE="LGPL-2.1+"
 SLOT="2"
-IUSE="cros_host dbus debug doc elibc_glibc fam gtk-doc kernel_linux +mime selinux static-libs sysprof systemtap test utils xattr"
+IUSE="cros_host dbus debug doc gtk-doc +mime selinux static-libs sysprof systemtap test utils xattr"
 RESTRICT="!test? ( test )"
-REQUIRED_USE="gtk-doc? ( test )" # Bug #777636
 
 KEYWORDS="*"
 
@@ -29,7 +29,7 @@ KEYWORDS="*"
 RDEPEND="
 	!<dev-util/gdbus-codegen-${PV}
 	>=virtual/libiconv-0-r1[${MULTILIB_USEDEP}]
-	>=dev-libs/libpcre-8.31:3[${MULTILIB_USEDEP},static-libs?]
+	>=dev-libs/libpcre2-10.32:0=[${MULTILIB_USEDEP},static-libs?]
 	>=dev-libs/libffi-3.0.13-r1:=[${MULTILIB_USEDEP}]
 	>=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}]
 	>=virtual/libintl-0-r2[${MULTILIB_USEDEP}]
@@ -37,7 +37,6 @@ RDEPEND="
 	selinux? ( >=sys-libs/libselinux-2.2.2-r5[${MULTILIB_USEDEP}] )
 	xattr? ( !elibc_glibc? ( >=sys-apps/attr-2.4.47-r1[${MULTILIB_USEDEP}] ) )
 	cros_host? ( virtual/libelf:0= )
-	fam? ( >=virtual/fam-0-r1[${MULTILIB_USEDEP}] )
 	sysprof? ( >=dev-util/sysprof-capture-3.40.1:4[${MULTILIB_USEDEP}] )
 "
 DEPEND="${RDEPEND}"
@@ -70,8 +69,9 @@ MULTILIB_CHOST_TOOLS=(
 )
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-2.64.1-mark-gdbus-server-auth-test-flaky.patch
 	"${FILESDIR}/glib-2.66.7-CHROMIUM-gdbus-system-bus-address.patch"
+	"${FILESDIR}"/${PN}-2.74.0-crash-gparamspec.patch
+	"${FILESDIR}"/${P}-gnome-keyring-cpu.patch
 )
 
 pkg_setup() {
@@ -138,7 +138,7 @@ src_prepare() {
 	chmod a+x "${T}/glib-test-ld-wrapper" || die
 	sed -i -e "s|'ld'|'${T}/glib-test-ld-wrapper'|g" gio/tests/meson.build || die
 
-	xdg_src_prepare
+	default
 	gnome2_environment_reset
 	# TODO: python_name sedding for correct python shebang? Might be relevant mainly for glib-utils only
 }
@@ -170,12 +170,12 @@ multilib_src_configure() {
 		$(meson_use systemtap)
 		$(meson_feature sysprof)
 		$(meson_native_use_bool gtk-doc gtk_doc)
-		$(meson_use fam)
 		$(meson_use test tests)
 		-Dinstalled_tests=false
 		-Dnls=enabled
 		-Doss_fuzz=disabled
 		$(meson_native_use_feature cros_host libelf)
+		-Dmultiarch=false
 	)
 	meson_src_configure
 }
@@ -185,8 +185,13 @@ multilib_src_test() {
 	export XDG_DATA_DIRS=/usr/local/share:/usr/share
 	export G_DBUS_COOKIE_SHA1_KEYRING_DIR="${T}/temp"
 	export LC_TIME=C # bug #411967
+	export TZ=UTC
 	unset GSETTINGS_BACKEND # bug #596380
 	python_setup
+
+	# https://bugs.gentoo.org/839807
+	local -x SANDBOX_PREDICT=${SANDBOX_PREDICT}
+	addpredict /usr/b
 
 	# Related test is a bit nitpicking
 	mkdir "$G_DBUS_COOKIE_SHA1_KEYRING_DIR"

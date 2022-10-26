@@ -95,7 +95,6 @@ cross-x86_64-cros-linux-gnu/gdb	xml
 app-emulation/qemu	-doc -pin-upstream-blobs -seccomp static-user usb virtfs
 dev-libs/glib		static-libs
 dev-libs/libpcre2	static-libs
-dev-libs/libpcre	static-libs
 sys-apps/attr		static-libs
 sys-libs/zlib		static-libs
 
