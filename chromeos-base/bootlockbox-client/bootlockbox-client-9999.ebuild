@@ -7,14 +7,14 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk bootlockbox .gn"
+CROS_WORKON_SUBTREE="common-mk cryptohome .gn"
 
-PLATFORM_SUBDIR="bootlockbox/client"
+PLATFORM_SUBDIR="cryptohome/bootlockbox-client"
 
 inherit cros-workon platform
 
 DESCRIPTION="BootLockbox DBus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/bootlockbox/client/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -30,11 +30,11 @@ BDEPEND="
 src_install() {
 	# Export neccessary header files:
 	insinto /usr/include/bootlockbox-client/bootlockbox
-	doins ../boot_lockbox_client.h
+	doins ../bootlockbox/boot_lockbox_client.h
 
 	# Export necessary for crytphome header files:
-	insinto /usr/include/bootlockbox
-	doins "${OUT}"/gen/include/bootlockbox/*.h
+	insinto /usr/include/cryptohome/bootlockbox
+	doins "${OUT}"/gen/include/cryptohome/bootlockbox/*.h
 
 	dolib.a "${OUT}"/libbootlockbox-proto.a
 	# Install libbootlockbox-client.so:
