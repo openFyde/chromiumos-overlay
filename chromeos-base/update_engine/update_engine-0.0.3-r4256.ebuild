@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("2212c80b6cce86287dc3b90387728256c3646eda" "46452a7f822f3604f5018857d3e11a8412dd8dfd")
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "12900e372895c74a39604e62964ea34c2b9787f8" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "84958c3a1018db5ea391d0cb6afd997bf155d909")
+CROS_WORKON_COMMIT=("1e1f22ad2c2ba45c3cbeb4aefc0060141ede861b" "6a77041aa414ac351790269896195ff2e1054ec6")
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "12900e372895c74a39604e62964ea34c2b9787f8" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "6cfdaf6d2906b9d60b46ea5106927c9dd6010b13")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -45,6 +45,7 @@ DEPEND="
 	app-arch/xz-utils:=
 	chromeos-base/debugd-client:=
 	dlc? ( chromeos-base/dlcservice-client:= )
+	chromeos-base/imageloader:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill-client:=
