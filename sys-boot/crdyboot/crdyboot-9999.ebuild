@@ -18,6 +18,7 @@ KEYWORDS="~*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
+	=dev-rust/bindgen-0.59*
 	=dev-rust/object-0.27*
 "
 RDEPEND="${DEPEND}"
