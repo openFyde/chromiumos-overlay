@@ -37,6 +37,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/flate2-1.0.20
+	!=dev-rust/flate2-1.0.20-r1
+	!=dev-rust/flate2-1.0.20-r2
+	!=dev-rust/flate2-1.0.20-r3
+	!=dev-rust/flate2-1.0.20-r4
+	!=dev-rust/flate2-1.0.20-r5
+	!=dev-rust/flate2-1.0.20-r6
+	!=dev-rust/flate2-1.0.20-r7
 	!~dev-rust/miniz-sys-0.1.12-r2
 	!~dev-rust/cloudflare-zlib-sys-0.2.0
 	!=dev-rust/cortex-m-rtic-macros-1.1.5
@@ -1285,6 +1293,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"fixedbitset-0.4.2"
 	"flame-0.1.12"
 	"flamer-0.1.4"
+	"flate2-1.0.24"
 	"float-ord-0.2.0"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
