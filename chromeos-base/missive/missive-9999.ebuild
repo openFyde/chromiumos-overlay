@@ -48,6 +48,7 @@ src_install() {
 	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
 	dolib.a "${OUT}/libmissiveprotosecurityxdrevents.a"
 	dolib.a "${OUT}/libmissiveprotostatus.a"
+	dolib.a "${OUT}/libmissiveclienttestlib.a"
 
 	# Installs the header files to /usr/include/missive/.
 	local header_files=(
@@ -55,6 +56,12 @@ src_install() {
 		"client/report_queue_configuration.h"
 		"client/report_queue_factory.h"
 		"client/report_queue.h"
+		"client/report_queue_provider.h"
+		"client/mock_dm_token_retriever.h"
+		"client/mock_report_queue.h"
+		"client/mock_report_queue_provider.h"
+		"client/report_queue_provider_test_helper.h"
+		"storage/storage_module_interface.h"
 		"util/status.h"
 		"util/status_macros.h"
 		"util/statusor.h"
