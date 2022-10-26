@@ -37,6 +37,15 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/hashbrown-0.11.2
+	!=dev-rust/hashbrown-0.11.2-r1
+	!=dev-rust/hashbrown-0.11.2-r2
+	!=dev-rust/hashbrown-0.11.2-r3
+	!=dev-rust/hashbrown-0.11.2-r4
+	!=dev-rust/hashbrown-0.11.2-r5
+	!=dev-rust/hashbrown-0.11.2-r6
+	!=dev-rust/hashbrown-0.11.2-r7
+	!=dev-rust/hashbrown-0.11.2-r8
 	!=dev-rust/ahash-0.7.6
 	!=dev-rust/ahash-0.7.6-r1
 	!=dev-rust/ahash-0.7.6-r2
@@ -1285,7 +1294,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"h2-0.3.14"
 	"half-1.8.2"
 	"hash32-0.2.1"
+	"hashbrown-0.11.2"
 	"hashbrown-0.12.3"
+	"hashbrown-0.9.1"
 	"heapsize-0.4.2"
 	"heck-0.3.3"
 	"heck-0.4.0"
