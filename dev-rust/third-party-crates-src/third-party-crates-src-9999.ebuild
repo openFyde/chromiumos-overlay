@@ -37,6 +37,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!~dev-rust/miniz-sys-0.1.12-r2
+	!~dev-rust/cloudflare-zlib-sys-0.2.0
 	!=dev-rust/cortex-m-rtic-macros-1.1.5
 	!=dev-rust/cortex-m-rtic-macros-1.1.5-r1
 	!=dev-rust/cortex-m-rtic-macros-1.1.5-r2

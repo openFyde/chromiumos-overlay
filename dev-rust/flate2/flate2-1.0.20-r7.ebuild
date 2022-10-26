@@ -15,18 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/cloudflare-zlib-sys-0.2.0 <dev-rust/cloudflare-zlib-sys-0.3
-	>=dev-rust/miniz-sys-0.1.11 <dev-rust/miniz-sys-0.2
-"
-
-src_prepare() {
-	cros-rust_src_prepare
-
-	# Delete the optional zlib-ng dependency.
-	sed -i '/zlib-ng/d' "${S}/Cargo.toml"
-}
+DEPEND="dev-rust/third-party-crates-src:="
 
 # could not compile
 RESTRICT="test"
