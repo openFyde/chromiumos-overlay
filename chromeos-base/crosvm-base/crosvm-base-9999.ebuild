@@ -33,7 +33,6 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/anyhow-1*
-	dev-rust/chrono
 	dev-rust/data_model:=
 	=dev-rust/serde_json-1*
 	dev-rust/sync:=

@@ -15,10 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/chrono-0.4*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}
 	!~dev-rust/tiny_http-0.7.0
 "

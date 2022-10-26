@@ -28,6 +28,7 @@ CUSTOMIZATION_IGNORE_CRATES = {
     # entirely.
     "pkg-config",
     # These just delete useless deps/features.
+    "chrono",
     "console",
     "instant",
     "once_cell",

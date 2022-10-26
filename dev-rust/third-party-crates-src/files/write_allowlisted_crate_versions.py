@@ -29,6 +29,7 @@ import migration_utils
 EXPLICITLY_ALLOWLISTED_CRATES = {
     "addr2line-0.14.1",
     "adler-0.2.3",
+    "bindgen-0.60.1",
     "bytemuck-1.12.1",
     "cfg-if-1.0.0",
     "gimli-0.23.0",

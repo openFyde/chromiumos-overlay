@@ -38,6 +38,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/chrono-0.4.19
+	!=dev-rust/chrono-0.4.19-r1
+	!=dev-rust/chrono-0.4.19-r2
+	!=dev-rust/chrono-0.4.19-r3
+	!=dev-rust/chrono-0.4.19-r4
+	!=dev-rust/chrono-0.4.19-r5
+	!=dev-rust/chrono-0.4.19-r6
+	!=dev-rust/chrono-0.4.19-r7
+	!=dev-rust/chrono-0.4.19-r8
+	!=dev-rust/chrono-0.4.19-r9
 	!~dev-rust/backtrace-sys-0.1.16
 	!~dev-rust/clap_complete-3.1.2
 	!~dev-rust/clap_complete_fig-3.1.5
@@ -1129,7 +1139,6 @@ ALLOWED_CRATE_VERSIONS=(
 	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
 	"android_log-sys-0.2.0"
-	"android_system_properties-0.1.5"
 	"ansi_term-0.11.0"
 	"arbitrary-0.4.7"
 	"arbitrary-1.1.6"
@@ -1195,6 +1204,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"cfg-expr-0.10.3"
 	"cfg-if-0.1.10"
 	"cfg-if-1.0.0"
+	"chrono-0.3.0"
+	"chrono-0.4.19"
 	"chunked_transfer-1.4.0"
 	"clang-sys-1.2.0"
 	"clap_lex-0.1.1"
@@ -1376,7 +1387,6 @@ ALLOWED_CRATE_VERSIONS=(
 	"hyper-tls-0.5.0"
 	"hyphenation_commons-0.7.1"
 	"i2cdev-0.5.1"
-	"iana-time-zone-0.1.47"
 	"ident_case-1.0.1"
 	"idna-0.1.5"
 	"idna-0.2.3"
