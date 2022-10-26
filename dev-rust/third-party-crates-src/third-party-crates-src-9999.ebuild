@@ -38,6 +38,18 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/spi-memory-0.2.0
+	!=dev-rust/spi-memory-0.2.0-r1
+	!=dev-rust/spi-memory-0.2.0-r2
+	!=dev-rust/spi-memory-0.2.0-r3
+	!=dev-rust/embedded-hal-mock-0.8.0
+	!=dev-rust/embedded-hal-mock-0.8.0-r1
+	!=dev-rust/embedded-hal-mock-0.8.0-r2
+	!=dev-rust/embedded-hal-0.2.6
+	!=dev-rust/embedded-hal-0.2.6-r1
+	!=dev-rust/embedded-hal-0.2.6-r2
+	!=dev-rust/nb-1.0.0
+	!=dev-rust/nb-0.1.3
 	!=dev-rust/include_dir-0.6.1
 	!=dev-rust/include_dir-0.6.1-r1
 	!=dev-rust/include_dir-0.6.1-r2
@@ -1385,6 +1397,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"ed25519-1.5.2"
 	"ed25519-compact-1.0.11"
 	"either-1.8.0"
+	"embedded-hal-0.2.7"
+	"embedded-hal-mock-0.8.0"
 	"encode_unicode-0.3.6"
 	"encoding-0.2.33"
 	"encoding-index-japanese-1.20141219.5"
@@ -1565,6 +1579,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"multimap-0.8.3"
 	"nasm-rs-0.2.4"
 	"native-tls-0.2.10"
+	"nb-0.1.3"
+	"nb-1.0.0"
 	"net2-0.2.37"
 	"nibble_vec-0.1.0"
 	"nix-0.19.1"
@@ -1776,6 +1792,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"smawk-0.3.1"
 	"socket2-0.3.19"
 	"socket2-0.4.7"
+	"spi-memory-0.2.0"
 	"spidev-0.5.1"
 	"spin-0.9.4"
 	"stable_deref_trait-1.2.0"

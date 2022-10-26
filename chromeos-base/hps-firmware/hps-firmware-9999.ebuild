@@ -43,17 +43,13 @@ DEPEND="
 	=dev-rust/clap-3*
 	>=dev-rust/cortex-m-0.6.2 <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rtic-1.1.3 <dev-rust/cortex-m-rtic-2.0.0
-	>=dev-rust/embedded-hal-0.2.4 <dev-rust/embedded-hal-0.3.0
-	=dev-rust/embedded-hal-mock-0.8*
 	>=dev-rust/ftdi-0.1.3 <dev-rust/ftdi-0.2
 	>=dev-rust/image-0.23.14 <dev-rust/image-0.24
 	>=dev-rust/linux-embedded-hal-0.3.1 <dev-rust/linux-embedded-hal-0.4
 	>=dev-rust/num_enum-0.5.1 <dev-rust/num_enum-0.6.0
-	=dev-rust/nb-1*
 	=dev-rust/riscv-rt-0.8*
 	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	>=dev-rust/simple_logger-1.13.0 <dev-rust/simple_logger-2
-	>=dev-rust/spi-memory-0.2.0 <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*
 	>=dev-rust/rtt-target-0.3.1 <dev-rust/rtt-target-0.4.0
 "
