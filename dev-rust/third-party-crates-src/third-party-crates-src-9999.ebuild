@@ -37,6 +37,20 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!~dev-rust/backtrace-sys-0.1.16
+	!~dev-rust/clap_complete-3.1.2
+	!~dev-rust/clap_complete_fig-3.1.5
+	!~dev-rust/clap_mangen-0.1.6
+	!~dev-rust/crates-index-0.5.1
+	!~dev-rust/git-version-macro-0.3.5
+	!~dev-rust/git-version-0.3.5
+	!~dev-rust/microamp-0.1.0
+	!~dev-rust/mio-uds-0.6.8
+	!~dev-rust/roff-0.2.1
+	!~dev-rust/tokio-executor-0.1.10
+	!~dev-rust/ufmt-macros-0.1.1
+	!~dev-rust/unix_socket-0.5.0
+	!~dev-rust/value-bag-1.0.0
 	!=dev-rust/flate2-1.0.20
 	!=dev-rust/flate2-1.0.20-r1
 	!=dev-rust/flate2-1.0.20-r2
