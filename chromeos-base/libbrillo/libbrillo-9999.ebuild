@@ -66,6 +66,9 @@ src_install() {
 		insinto "/usr/include/${dir}"
 		doins "${dir}"/*.h
 	done < <(find brillo -type d -print0)
+	# Install all auto-generated proto_binding header files.
+	insinto "/usr/include/brillo/proto_bindings"
+	doins "${OUT}"/gen/include/brillo/proto_bindings/*.pb.h
 
 	insinto /usr/include/policy
 	doins policy/*.h
