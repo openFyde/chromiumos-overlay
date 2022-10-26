@@ -141,6 +141,9 @@ set_build_args() {
 		"use_system_libsync=false"
 		"use_cups=$(usetf cups)"
 		"use_bundled_fontconfig=false"
+		# Do not build the package using Chrome's custom libc++.
+		# See crbug.com/1335422.
+		"use_custom_libcxx=false"
 
 		# Clang features.
 		"is_asan=$(usetf asan)"
