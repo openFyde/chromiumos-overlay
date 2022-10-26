@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bb808e04111ce0e010b802cb050f0d1ce57d8829"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "d500c32bb518e7678402860b2ab497a2e826e968" "322313d829449b38b61302a3b9f10fe02a1056bf" "3fc72398a91ad5bde727b0aeb2454f940acbe71d" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="f42afd56c4378951a4ae6acfba704171a6d1435d"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "ee58141348ea9300e2bfbb71641c6a13e6d910a5" "322313d829449b38b61302a3b9f10fe02a1056bf" "3fc72398a91ad5bde727b0aeb2454f940acbe71d" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -101,8 +101,6 @@ src_install() {
 	dosbin cryptohome-namespace-mounter
 	dosbin mount-encrypted
 	dosbin encrypted-reboot-vault
-	dosbin bootlockboxd bootlockboxtool
-
 	popd >/dev/null || die
 
 	insinto /etc/dbus-1/system.d
@@ -134,7 +132,6 @@ src_install() {
 		systemd_enable_service ui.target lockbox-cache.service
 	else
 		insinto /etc/init
-		doins bootlockbox/bootlockboxd.conf
 		doins init/cryptohomed-client.conf
 		doins init/cryptohomed.conf
 		doins init/init-homedirs.conf
@@ -182,11 +179,6 @@ src_install() {
 	# Install udev rules for cryptohome.
 	udev_dorules udev/50-dm-cryptohome.rules
 
-	# Install seccomp policy for bootlockboxd
-	insinto /usr/share/policy
-	newins "bootlockbox/seccomp/bootlockboxd-seccomp-${ARCH}.policy" \
-		bootlockboxd-seccomp.policy
-
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
 	local fuzzer_component_id="1188704"
@@ -210,14 +202,11 @@ src_install() {
 }
 
 pkg_preinst() {
-	enewuser "bootlockboxd"
-	enewgroup "bootlockboxd"
 	enewuser "cryptohome"
 	enewgroup "cryptohome"
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/boot_lockbox_unittests"
 	platform_test "run" "${OUT}/cryptohome_testrunner"
 	platform_test "run" "${OUT}/fake_platform_unittest"
 	platform_test "run" "${OUT}/mount_encrypted_unittests"

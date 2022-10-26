@@ -3,20 +3,20 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bb808e04111ce0e010b802cb050f0d1ce57d8829"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "d500c32bb518e7678402860b2ab497a2e826e968" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="f42afd56c4378951a4ae6acfba704171a6d1435d"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk cryptohome .gn"
+CROS_WORKON_SUBTREE="common-mk bootlockbox .gn"
 
-PLATFORM_SUBDIR="cryptohome/bootlockbox-client"
+PLATFORM_SUBDIR="bootlockbox/client"
 
 inherit cros-workon platform
 
 DESCRIPTION="BootLockbox DBus client library for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/bootlockbox/client/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -32,11 +32,11 @@ BDEPEND="
 src_install() {
 	# Export neccessary header files:
 	insinto /usr/include/bootlockbox-client/bootlockbox
-	doins ../bootlockbox/boot_lockbox_client.h
+	doins ../boot_lockbox_client.h
 
 	# Export necessary for crytphome header files:
-	insinto /usr/include/cryptohome/bootlockbox
-	doins "${OUT}"/gen/include/cryptohome/bootlockbox/*.h
+	insinto /usr/include/bootlockbox
+	doins "${OUT}"/gen/include/bootlockbox/*.h
 
 	dolib.a "${OUT}"/libbootlockbox-proto.a
 	# Install libbootlockbox-client.so:
