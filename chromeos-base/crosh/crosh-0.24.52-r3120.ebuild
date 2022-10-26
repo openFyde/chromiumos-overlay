@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
+CROS_WORKON_COMMIT="f42afd56c4378951a4ae6acfba704171a6d1435d"
 CROS_WORKON_TREE="0a7e2c3ba0bf02e7c6a68cebc6456a2e1a7ce8db"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,10 +29,7 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/chrono-0.4*
 	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
-	=dev-rust/rand-0.7*
-	=dev-rust/rustyline-9*
 	dev-rust/system_api:=
-	dev-rust/tempfile
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
 	=dev-rust/textwrap-0.11*
 "

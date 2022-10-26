@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="726e504846992b2e3261fed33e8bb123be0eac52"
-CROS_WORKON_TREE="63826a4c96982afd15d9ea57e7e7206cfebad372"
+CROS_WORKON_COMMIT="70439c67fa61f074eb50fd2a498ff8ea0999db1c"
+CROS_WORKON_TREE="9faed6bb99c5ed7694680ce1699600bb85b122b7"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -39,6 +39,187 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rustyline-9.1.1
+	!=dev-rust/rustyline-9.1.1-r1
+	!=dev-rust/rustyline-9.1.1-r2
+	!=dev-rust/rustyline-9.1.1-r3
+	!=dev-rust/rustyline-9.1.1-r4
+	!=dev-rust/rustyline-9.1.1-r5
+	!=dev-rust/rustyline-9.1.1-r6
+	!=dev-rust/rustyline-9.1.1-r7
+	!=dev-rust/rustyline-9.1.1-r8
+	!=dev-rust/rustyline-9.1.1-r9
+	!=dev-rust/rustyline-9.1.1-r10
+	!=dev-rust/rustyline-9.1.1-r11
+	!=dev-rust/radix_trie-0.2.1
+	!=dev-rust/radix_trie-0.2.1-r1
+	!=dev-rust/radix_trie-0.2.1-r2
+	!=dev-rust/radix_trie-0.2.1-r3
+	!=dev-rust/nibble_vec-0.1.0
+	!=dev-rust/nibble_vec-0.1.0-r1
+	!=dev-rust/unicode-normalization-0.1.19
+	!=dev-rust/unicode-normalization-0.1.19-r1
+	!=dev-rust/smallvec-1.6.1
+	!=dev-rust/smallvec-1.6.1-r1
+	!=dev-rust/os_str_bytes-6.0.0
+	!=dev-rust/os_str_bytes-6.0.0-r1
+	!=dev-rust/os_str_bytes-6.0.0-r2
+	!=dev-rust/os_str_bytes-6.0.0-r3
+	!=dev-rust/instant-0.1.9
+	!=dev-rust/instant-0.1.9-r1
+	!=dev-rust/hash32-0.2.1
+	!=dev-rust/hash32-0.2.1-r1
+	!=dev-rust/ed25519-compact-1.0.2
+	!=dev-rust/ed25519-compact-1.0.2-r1
+	!=dev-rust/ed25519-compact-1.0.2-r2
+	!=dev-rust/ed25519-compact-1.0.2-r3
+	!=dev-rust/cortex-m-rt-0.6.15
+	!=dev-rust/cortex-m-rt-0.6.15-r1
+	!=dev-rust/cortex-m-rt-0.6.15-r2
+	!=dev-rust/socket2-0.4.4
+	!=dev-rust/socket2-0.4.4-r1
+	!=dev-rust/socket2-0.3.9
+	!=dev-rust/socket2-0.3.9-r1
+	!=dev-rust/socket2-0.3.9-r2
+	!=dev-rust/socket2-0.3.9-r3
+	!=dev-rust/socket2-0.3.9-r4
+	!=dev-rust/socket2-0.3.9-r5
+	!=dev-rust/tempfile-3.2.0
+	!=dev-rust/tempfile-3.2.0-r1
+	!=dev-rust/tempfile-3.2.0-r2
+	!=dev-rust/tempfile-3.2.0-r3
+	!=dev-rust/tempfile-3.2.0-r4
+	!=dev-rust/tempdir-0.3.7
+	!=dev-rust/tempdir-0.3.7-r1
+	!=dev-rust/tempdir-0.3.7-r2
+	!=dev-rust/tempdir-0.3.7-r3
+	!=dev-rust/tempdir-0.3.7-r4
+	!=dev-rust/tempdir-0.3.7-r5
+	!=dev-rust/rustc-serialize-0.3.24
+	!=dev-rust/rustc-serialize-0.3.24-r1
+	!=dev-rust/rustc-serialize-0.3.24-r2
+	!=dev-rust/num-complex-0.2.4
+	!=dev-rust/num-complex-0.2.4-r1
+	!=dev-rust/num-complex-0.2.4-r2
+	!=dev-rust/num-complex-0.2.4-r3
+	!=dev-rust/num-complex-0.2.4-r4
+	!=dev-rust/rand-0.8.4
+	!=dev-rust/rand-0.8.4-r1
+	!=dev-rust/rand-0.8.4-r2
+	!=dev-rust/rand-0.8.4-r3
+	!=dev-rust/rand-0.8.4-r4
+	!=dev-rust/rand-0.8.4-r5
+	!=dev-rust/rand-0.7.3
+	!=dev-rust/rand-0.7.3-r1
+	!=dev-rust/rand-0.7.3-r2
+	!=dev-rust/rand-0.7.3-r3
+	!=dev-rust/rand-0.7.3-r4
+	!=dev-rust/rand-0.7.3-r5
+	!=dev-rust/rand-0.7.3-r6
+	!=dev-rust/rand-0.7.3-r7
+	!=dev-rust/rand-0.7.3-r8
+	!=dev-rust/rand-0.6.5
+	!=dev-rust/rand-0.6.5-r1
+	!=dev-rust/rand-0.6.5-r2
+	!=dev-rust/rand-0.6.5-r3
+	!=dev-rust/rand-0.6.5-r4
+	!=dev-rust/rand-0.6.5-r5
+	!=dev-rust/rand-0.6.5-r6
+	!=dev-rust/rand-0.6.5-r7
+	!=dev-rust/rand-0.6.5-r8
+	!=dev-rust/rand-0.6.5-r9
+	!=dev-rust/rand-0.6.5-r10
+	!=dev-rust/rand-0.4.2
+	!=dev-rust/rand-0.4.2-r1
+	!=dev-rust/rand-0.4.2-r2
+	!=dev-rust/rand-0.4.2-r3
+	!=dev-rust/rand-0.4.2-r4
+	!=dev-rust/rand-0.3.20
+	!=dev-rust/rand_pcg-0.2.1
+	!=dev-rust/rand_pcg-0.2.1-r1
+	!=dev-rust/rand_pcg-0.2.1-r2
+	!=dev-rust/rand_pcg-0.1.2
+	!=dev-rust/rand_pcg-0.1.2-r1
+	!=dev-rust/rand_pcg-0.1.2-r2
+	!=dev-rust/rand_pcg-0.1.2-r3
+	!=dev-rust/rand_pcg-0.1.2-r4
+	!=dev-rust/rand_xorshift-0.1.1
+	!=dev-rust/rand_xorshift-0.1.1-r1
+	!=dev-rust/rand_xorshift-0.1.1-r2
+	!=dev-rust/rand_xorshift-0.1.1-r3
+	!=dev-rust/rand_xorshift-0.1.1-r4
+	!=dev-rust/rand_os-0.1.2
+	!=dev-rust/rand_os-0.1.2-r1
+	!=dev-rust/rand_os-0.1.2-r2
+	!=dev-rust/rand_os-0.1.2-r3
+	!=dev-rust/rand_os-0.1.2-r4
+	!=dev-rust/rand_os-0.1.2-r5
+	!=dev-rust/rand_os-0.1.2-r6
+	!=dev-rust/rand_jitter-0.1.3
+	!=dev-rust/rand_jitter-0.1.3-r1
+	!=dev-rust/rand_jitter-0.1.3-r2
+	!=dev-rust/rand_jitter-0.1.3-r3
+	!=dev-rust/rand_jitter-0.1.3-r4
+	!=dev-rust/rand_isaac-0.1.1
+	!=dev-rust/rand_isaac-0.1.1-r1
+	!=dev-rust/rand_isaac-0.1.1-r2
+	!=dev-rust/rand_isaac-0.1.1-r3
+	!=dev-rust/rand_isaac-0.1.1-r4
+	!=dev-rust/rand_hc-0.3.1
+	!=dev-rust/rand_hc-0.3.1-r1
+	!=dev-rust/rand_hc-0.2.0
+	!=dev-rust/rand_hc-0.2.0-r1
+	!=dev-rust/rand_hc-0.1.0
+	!=dev-rust/rand_hc-0.1.0-r1
+	!=dev-rust/rand_hc-0.1.0-r2
+	!=dev-rust/rand_chacha-0.3.1
+	!=dev-rust/rand_chacha-0.3.1-r1
+	!=dev-rust/rand_chacha-0.3.1-r2
+	!=dev-rust/rand_chacha-0.3.1-r3
+	!=dev-rust/rand_chacha-0.2.2
+	!=dev-rust/rand_chacha-0.2.2-r1
+	!=dev-rust/rand_chacha-0.2.2-r2
+	!=dev-rust/rand_chacha-0.1.1
+	!=dev-rust/rand_chacha-0.1.1-r1
+	!=dev-rust/rand_chacha-0.1.1-r2
+	!=dev-rust/rand_chacha-0.1.1-r3
+	!=dev-rust/uuid-0.8.2
+	!=dev-rust/uuid-0.8.2-r1
+	!=dev-rust/uuid-0.8.2-r2
+	!=dev-rust/uuid-0.8.2-r3
+	!=dev-rust/uuid-0.8.2-r4
+	!=dev-rust/uuid-0.8.2-r5
+	!=dev-rust/rand_core-0.6.3
+	!=dev-rust/rand_core-0.6.3-r1
+	!=dev-rust/rand_core-0.6.3-r2
+	!=dev-rust/rand_core-0.5.1
+	!=dev-rust/rand_core-0.5.1-r1
+	!=dev-rust/rand_core-0.5.1-r2
+	!=dev-rust/rand_core-0.4.0
+	!=dev-rust/rand_core-0.4.0-r1
+	!=dev-rust/rand_core-0.3.1
+	!=dev-rust/rand_core-0.3.1-r1
+	!=dev-rust/getrandom-0.2.6
+	!=dev-rust/getrandom-0.2.6-r1
+	!=dev-rust/getrandom-0.2.6-r2
+	!=dev-rust/getrandom-0.2.6-r3
+	!=dev-rust/getrandom-0.2.6-r4
+	!=dev-rust/getrandom-0.2.6-r5
+	!=dev-rust/getrandom-0.1.15
+	!=dev-rust/getrandom-0.1.15-r1
+	!=dev-rust/getrandom-0.1.15-r2
+	!=dev-rust/getrandom-0.1.15-r3
+	!=dev-rust/getrandom-0.1.15-r4
+	!=dev-rust/getrandom-0.1.15-r5
+	!=dev-rust/wasi-0.9.0
+	!=dev-rust/wasi-0.10.0
+	!=dev-rust/riscv-0.7.0
+	!=dev-rust/riscv-0.7.0-r1
+	!=dev-rust/riscv-0.7.0-r2
+	!=dev-rust/riscv-0.6.0
+	!=dev-rust/bare-metal-1.0.0
+	!=dev-rust/bare-metal-0.2.5
+	!=dev-rust/bare-metal-0.2.5-r1
 	!=dev-rust/rustc_version-0.4.0
 	!=dev-rust/rustc_version-0.2.3
 	!=dev-rust/defmt-0.2.3
@@ -689,6 +870,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"avif-serialize-0.6.5"
 	"axum-0.5.16"
 	"axum-core-0.2.8"
+	"bare-metal-0.2.5"
+	"bare-metal-1.0.0"
 	"base-x-0.2.11"
 	"base64-0.10.1"
 	"base64-0.13.0"
@@ -742,6 +925,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-0.9.3"
 	"core-foundation-sys-0.6.2"
 	"core-foundation-sys-0.8.3"
+	"cortex-m-rt-0.6.15"
 	"cortex-m-rt-macros-0.6.15"
 	"cpp_demangle-0.3.5"
 	"cpufeatures-0.2.5"
@@ -790,6 +974,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"downcast-rs-1.2.0"
 	"dtoa-0.2.2"
 	"ed25519-1.5.2"
+	"ed25519-compact-1.0.11"
 	"either-1.8.0"
 	"encode_unicode-0.3.6"
 	"encoding-0.2.33"
@@ -845,6 +1030,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"gdbstub-0.6.3"
 	"gdbstub_arch-0.2.4"
 	"getopts-0.2.21"
+	"getrandom-0.1.16"
+	"getrandom-0.2.7"
 	"ghost-0.1.6"
 	"gif-0.11.4"
 	"git2-0.13.25"
@@ -856,6 +1043,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"gzip-header-0.3.0"
 	"h2-0.3.14"
 	"half-1.8.2"
+	"hash32-0.2.1"
 	"hashbrown-0.12.3"
 	"heapsize-0.4.2"
 	"heck-0.3.3"
@@ -885,6 +1073,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"inflections-1.1.1"
 	"inotify-0.9.3"
 	"inotify-sys-0.1.5"
+	"instant-0.1.9"
 	"interpolate_name-0.2.3"
 	"intrusive-collections-0.9.4"
 	"inventory-0.1.11"
@@ -949,6 +1138,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"nasm-rs-0.2.4"
 	"native-tls-0.2.10"
 	"net2-0.2.37"
+	"nibble_vec-0.1.0"
 	"nix-0.19.1"
 	"nix-0.20.0"
 	"nix-0.23.1"
@@ -959,6 +1149,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"noop_proc_macro-0.3.0"
 	"ntapi-0.3.6"
 	"num-cmp-0.1.0"
+	"num-complex-0.2.4"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
 	"num-iter-0.1.43"
@@ -972,6 +1163,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"oorandom-11.1.3"
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
+	"os_str_bytes-6.3.0"
 	"packed_simd_2-0.3.8"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
@@ -1030,6 +1222,28 @@ ALLOWED_CRATE_VERSIONS=(
 	"quote-1.0.9"
 	"r0-0.2.2"
 	"r0-1.0.0"
+	"radix_trie-0.2.1"
+	"rand-0.3.23"
+	"rand-0.4.6"
+	"rand-0.5.6"
+	"rand-0.6.5"
+	"rand-0.7.3"
+	"rand-0.8.5"
+	"rand_chacha-0.1.1"
+	"rand_chacha-0.2.2"
+	"rand_chacha-0.3.1"
+	"rand_core-0.3.1"
+	"rand_core-0.4.2"
+	"rand_core-0.5.1"
+	"rand_core-0.6.4"
+	"rand_hc-0.1.0"
+	"rand_hc-0.2.0"
+	"rand_isaac-0.1.1"
+	"rand_jitter-0.1.4"
+	"rand_os-0.1.3"
+	"rand_pcg-0.1.2"
+	"rand_pcg-0.2.1"
+	"rand_xorshift-0.1.1"
 	"rand_xoshiro-0.1.0"
 	"rav1e-0.4.1"
 	"ravif-0.6.4"
@@ -1045,6 +1259,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"remove_dir_all-0.5.3"
 	"reqwest-0.11.12"
 	"rgb-0.8.34"
+	"riscv-0.6.0"
+	"riscv-0.7.0"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"roxmltree-0.13.1"
@@ -1056,6 +1272,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rust_hawktracer_proc_macro-0.4.1"
 	"rustc-demangle-0.1.21"
 	"rustc-hash-1.1.0"
+	"rustc-serialize-0.3.24"
 	"rustc-std-workspace-alloc-1.0.0"
 	"rustc-std-workspace-core-1.0.0"
 	"rustc-std-workspace-std-1.0.1"
@@ -1066,6 +1283,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustix-0.35.9"
 	"rustversion-1.0.9"
 	"rusty-fork-0.3.0"
+	"rustyline-10.0.0"
+	"rustyline-8.2.0"
+	"rustyline-9.1.2"
 	"rustyline-derive-0.4.0"
 	"rustyline-derive-0.6.0"
 	"same-file-1.0.6"
@@ -1104,8 +1324,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"skim-0.9.4"
 	"slab-0.4.7"
 	"slog-2.7.0"
+	"smallvec-1.10.0"
 	"smartstring-0.2.10"
 	"smawk-0.3.1"
+	"socket2-0.3.19"
+	"socket2-0.4.7"
 	"spidev-0.5.1"
 	"stable_deref_trait-1.2.0"
 	"standback-0.2.17"
@@ -1131,6 +1354,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"synstructure_test_traits-0.1.0"
 	"sys-info-0.9.1"
 	"system-deps-6.0.2"
+	"tempdir-0.3.7"
+	"tempfile-3.2.0"
 	"term-0.4.6"
 	"term-0.7.0"
 	"term_size-0.3.2"
@@ -1142,6 +1367,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"thread-id-3.3.0"
 	"thread-id-4.0.0"
 	"tiff-0.6.1"
+	"time-0.1.43"
 	"time-macros-0.1.1"
 	"time-macros-0.2.4"
 	"time-macros-impl-0.1.2"
@@ -1180,6 +1406,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"unicase-2.6.0"
 	"unicode-ident-1.0.4"
 	"unicode-linebreak-0.1.4"
+	"unicode-normalization-0.1.21"
 	"unicode-segmentation-1.10.0"
 	"unicode-width-0.1.10"
 	"unicode-xid-0.0.4"
@@ -1189,6 +1416,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"uniquote-3.2.1"
 	"unreachable-1.0.0"
 	"utf8parse-0.2.0"
+	"uuid-0.8.2"
 	"v_frame-0.2.5"
 	"vcell-0.1.3"
 	"vcpkg-0.2.11"
@@ -1204,7 +1432,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"wait-timeout-0.2.0"
 	"walkdir-2.3.2"
 	"want-0.3.0"
+	"wasi-0.10.2+wasi-snapshot-preview1"
 	"wasi-0.11.0+wasi-snapshot-preview1"
+	"wasi-0.9.0+wasi-snapshot-preview1"
 	"wasm-bindgen-0.2.83"
 	"wasm-bindgen-backend-0.2.83"
 	"wasm-bindgen-futures-0.4.33"

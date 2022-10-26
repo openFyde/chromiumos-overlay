@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
+CROS_WORKON_COMMIT="f42afd56c4378951a4ae6acfba704171a6d1435d"
 CROS_WORKON_TREE=("7286f60f39ca7e7dd78e67c7b50fc4bda7c4d5a2" "bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a")
 CROS_RUST_SUBDIR="metrics/memd"
 
@@ -33,7 +33,6 @@ DEPEND="
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
 	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
 	=dev-rust/syslog-6*
-	=dev-rust/tempfile-3*
 	=dev-rust/time-0.3*
 	"
 RDEPEND="sys-apps/dbus"
