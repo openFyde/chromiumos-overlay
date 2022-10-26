@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="231e28a1f7ea43a5335b08bb9814c1a18e7aca18"
+CROS_WORKON_COMMIT="9a5989bff2283557f80c55d293af155241533af4"
 CROS_WORKON_TREE=("1b753285eaf79c0abd50a05b67f2c7375f8da76a" "c103f0be2397bc622314466d808ae3633c9e50c3")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
@@ -23,10 +23,10 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	dev-rust/chromeos-dbus-bindings:=
 	>=dev-rust/clap-3.1.12 <dev-rust/clap-4.0
 	=dev-rust/dbus-0.9*
-	dev-rust/hound
 	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1*
 	media-sound/audio_streams:=
