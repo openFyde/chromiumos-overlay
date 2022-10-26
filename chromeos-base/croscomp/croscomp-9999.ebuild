@@ -43,9 +43,7 @@ wayland_scanner_DEPEND=""
 
 wayland_commons_DEPEND=""
 
-wayland_server_DEPEND="
-	=dev-rust/parking_lot-0.11*
-"
+wayland_server_DEPEND=""
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=

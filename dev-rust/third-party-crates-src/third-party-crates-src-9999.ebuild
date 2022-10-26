@@ -38,6 +38,55 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/include_dir-0.6.1
+	!=dev-rust/include_dir-0.6.1-r1
+	!=dev-rust/include_dir-0.6.1-r2
+	!=dev-rust/include_dir-0.6.1-r3
+	!=dev-rust/include_dir-0.6.1-r4
+	!=dev-rust/syslog-6.0.1
+	!=dev-rust/syslog-6.0.1-r1
+	!=dev-rust/syslog-6.0.1-r2
+	!=dev-rust/syslog-6.0.1-r3
+	!=dev-rust/syslog-6.0.1-r4
+	!=dev-rust/syslog-6.0.1-r5
+	!=dev-rust/svd-parser-0.12.0
+	!=dev-rust/svd-parser-0.12.0-r1
+	!=dev-rust/svd-parser-0.12.0-r2
+	!=dev-rust/svd-parser-0.12.0-r3
+	!=dev-rust/svd-parser-0.12.0-r4
+	!=dev-rust/parking_lot-0.12.0
+	!=dev-rust/parking_lot-0.12.0-r1
+	!=dev-rust/parking_lot-0.12.0-r2
+	!=dev-rust/parking_lot-0.11.1
+	!=dev-rust/parking_lot-0.11.1-r1
+	!=dev-rust/parking_lot-0.11.1-r2
+	!=dev-rust/parking_lot-0.11.1-r3
+	!=dev-rust/include_dir_impl-0.6.1
+	!=dev-rust/include_dir_impl-0.6.1-r1
+	!=dev-rust/include_dir_impl-0.6.1-r2
+	!=dev-rust/include_dir_impl-0.6.1-r3
+	!=dev-rust/include_dir_impl-0.6.1-r4
+	!=dev-rust/include_dir_impl-0.6.1-r5
+	!=dev-rust/parking_lot_core-0.9.2
+	!=dev-rust/parking_lot_core-0.9.2-r1
+	!=dev-rust/parking_lot_core-0.9.2-r2
+	!=dev-rust/parking_lot_core-0.9.2-r3
+	!=dev-rust/parking_lot_core-0.9.2-r4
+	!=dev-rust/parking_lot_core-0.9.2-r5
+	!=dev-rust/parking_lot_core-0.9.2-r6
+	!=dev-rust/parking_lot_core-0.9.2-r7
+	!=dev-rust/parking_lot_core-0.8.3
+	!=dev-rust/parking_lot_core-0.8.3-r1
+	!=dev-rust/parking_lot_core-0.8.3-r2
+	!=dev-rust/parking_lot_core-0.8.3-r3
+	!=dev-rust/parking_lot_core-0.8.3-r4
+	!=dev-rust/parking_lot_core-0.8.3-r5
+	!=dev-rust/parking_lot_core-0.8.3-r6
+	!=dev-rust/error-chain-0.12.4
+	!=dev-rust/error-chain-0.12.4-r1
+	!=dev-rust/error-chain-0.12.4-r2
+	!=dev-rust/anyhow-1.0.56
+	!=dev-rust/anyhow-1.0.56-r1
 	!=dev-rust/backtrace-0.3.63
 	!=dev-rust/backtrace-0.3.63-r1
 	!=dev-rust/backtrace-0.3.63-r2
@@ -1183,6 +1232,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"aho-corasick-0.7.18"
 	"android_log-sys-0.2.0"
 	"ansi_term-0.11.0"
+	"anyhow-1.0.62"
 	"arbitrary-0.4.7"
 	"arbitrary-1.1.6"
 	"arg_enum_proc_macro-0.3.2"
@@ -1351,6 +1401,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"env_logger-0.9.0"
 	"errno-0.2.8"
 	"errno-dragonfly-0.1.2"
+	"error-chain-0.11.0"
+	"error-chain-0.12.4"
 	"error-code-2.3.0"
 	"euclid-0.22.7"
 	"failure-0.1.8"
@@ -1436,6 +1488,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"idna-0.1.5"
 	"idna-0.2.3"
 	"imgref-1.9.4"
+	"include_dir-0.6.2"
+	"include_dir_impl-0.6.2"
 	"indexmap-1.9.1"
 	"indicatif-0.16.2"
 	"indoc-0.3.6"
@@ -1549,6 +1603,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"owning_ref-0.4.1"
 	"packed_simd_2-0.3.8"
 	"panic-halt-0.2.0"
+	"parking_lot-0.11.1"
+	"parking_lot-0.12.1"
+	"parking_lot_core-0.8.3"
+	"parking_lot_core-0.9.4"
 	"paste-0.1.18"
 	"paste-1.0.4"
 	"paste-impl-0.1.18"
@@ -1736,6 +1794,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"strsim-0.9.3"
 	"structopt-derive-0.4.18"
 	"subtle-2.4.1"
+	"svd-parser-0.12.0"
 	"svd-rs-0.12.1"
 	"syn-0.11.11"
 	"syn-0.15.44"
@@ -1745,6 +1804,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"synstructure-0.12.4"
 	"synstructure_test_traits-0.1.0"
 	"sys-info-0.9.1"
+	"syslog-4.0.1"
+	"syslog-6.0.1"
 	"system-deps-6.0.2"
 	"tempdir-0.3.7"
 	"tempfile-3.2.0"

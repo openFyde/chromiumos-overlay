@@ -22,7 +22,6 @@ IUSE="+seccomp"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/anyhow-1*
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
 	dev-rust/featured:=

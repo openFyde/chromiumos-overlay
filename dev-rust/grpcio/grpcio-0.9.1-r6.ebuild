@@ -7,17 +7,18 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='More compact and efficient implementations of the standard synchronization primitives.'
-HOMEPAGE='https://crates.io/crates/parking_lot'
+DESCRIPTION='The rust language implementation of gRPC, base on the gRPC c core library.'
+HOMEPAGE='https://github.com/tikv/grpc-rs'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="|| ( Apache-2.0 MIT )"
+LICENSE="Apache-2.0"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/parking_lot_core-0.9*
+	=dev-rust/grpcio-sys-0.9*
+	=dev-rust/protobuf-2*
 "
 RDEPEND="${DEPEND}"
 

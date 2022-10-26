@@ -24,7 +24,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
-	=dev-rust/anyhow-1*
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=

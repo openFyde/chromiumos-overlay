@@ -44,7 +44,6 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
 	dev-libs/wayland-protocols:=
-	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	dev-rust/cbindgen
 	dev-rust/cros_fuzz:=
 	=dev-rust/ctrlc-3.2*

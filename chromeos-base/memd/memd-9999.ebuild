@@ -29,7 +29,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
 	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
-	=dev-rust/syslog-6*
 "
 RDEPEND="sys-apps/dbus"
 

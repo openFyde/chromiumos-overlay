@@ -20,7 +20,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/mio-0.8.1 <dev-rust/mio-0.9.0_alpha
-	=dev-rust/parking_lot-0.12*
 "
 RDEPEND="${DEPEND}"
 

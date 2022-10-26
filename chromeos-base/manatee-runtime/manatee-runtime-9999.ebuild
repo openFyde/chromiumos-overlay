@@ -22,7 +22,6 @@ IUSE="cros_host manatee"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/libsirenia:=
-	=dev-rust/anyhow-1*
 	dev-rust/libchromeos:=
 	dev-rust/sync:=
 "

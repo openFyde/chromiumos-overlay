@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Send log messages to syslog'
-HOMEPAGE='https://crates.io/crates/syslog'
+DESCRIPTION='A crate for performing JSON schema validation'
+HOMEPAGE='https://crates.io/crates/jsonschema'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
@@ -17,7 +17,8 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/error-chain-0.12.2 <dev-rust/error-chain-0.13.0_alpha
+	>=dev-rust/serde_json-1.0.79 <dev-rust/serde_json-2.0.0_alpha
+	>=dev-rust/structopt-0.3.26 <dev-rust/structopt-0.4.0_alpha
 "
 RDEPEND="${DEPEND}"
 

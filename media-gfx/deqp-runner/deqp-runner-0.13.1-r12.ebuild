@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/anyhow-1*
 	=dev-rust/structopt-0.3*
 "
 

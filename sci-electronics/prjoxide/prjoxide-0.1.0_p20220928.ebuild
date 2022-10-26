@@ -30,7 +30,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/capnp-0.14*
 	=dev-rust/clap-3.1*
-	=dev-rust/include_dir-0.6*
 	=dev-rust/serde_json-1*
 "
 RDEPEND="

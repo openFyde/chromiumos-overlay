@@ -22,7 +22,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
-	=dev-rust/anyhow-1*
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
