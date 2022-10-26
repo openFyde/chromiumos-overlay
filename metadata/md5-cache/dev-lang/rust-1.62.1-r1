@@ -1,4 +1,4 @@
-BDEPEND==dev-lang/rust-host-1.62.1 sys-devel/llvm
+BDEPEND==dev-lang/rust-host-1.62.1-r1 sys-devel/llvm
 DEFINED_PHASES=compile configure install prepare setup unpack
 DEPEND=|| ( dev-lang/python:3.6 dev-lang/python:3.9 dev-lang/python:3.8 dev-lang/python:3.7 ) >=dev-libs/libxml2-2.9.6 >=dev-lang/perl-5.0 rust_cros_llvm? ( ~dev-lang/rust-llvm-sources-1.62.1:= ) dev-lang/rust-bootstrap:1.61.0
 EAPI=7
@@ -6,7 +6,7 @@ HOMEPAGE=https://www.rust-lang.org/
 IUSE=rust_profile_frontend_generate rust_profile_llvm_generate rust_profile_frontend_use_local rust_profile_llvm_use_local +rust_profile_frontend_use +rust_profile_llvm_use +rust_cros_llvm
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA
-RDEPEND==dev-lang/rust-host-1.62.1
+RDEPEND==dev-lang/rust-host-1.62.1-r1
 REQUIRED_USE=rust_profile_frontend_generate? ( !rust_profile_frontend_use !rust_profile_frontend_use_local !rust_profile_llvm_use !rust_profile_llvm_use_local ) rust_profile_llvm_generate? ( !rust_profile_frontend_use !rust_profile_frontend_use_local !rust_profile_llvm_use !rust_profile_llvm_use_local ) rust_profile_llvm_use? ( !rust_profile_llvm_use_local ) rust_profile_frontend_use? ( !rust_profile_frontend_use_local )
 RESTRICT=binchecks strip
 SLOT=stable/1.62
