@@ -1,6 +1,6 @@
 BDEPEND=dev-vcs/git
 DEFINED_PHASES=info setup unpack
-DEPEND=dev-rust/third-party-crates-src:= =dev-rust/anyhow-1* >=dev-rust/bincode-1.0.1 <dev-rust/bincode-1.1.0_alpha >=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0_alpha =dev-rust/serde_json-1* >=dev-rust/tempdir-0.3.7 <dev-rust/tempdir-0.4.0_alpha >=dev-rust/tempfile-3.2.0 <dev-rust/tempfile-4.0.0_alpha
+DEPEND=dev-rust/third-party-crates-src:= =dev-rust/anyhow-1* >=dev-rust/bincode-1.0.1 <dev-rust/bincode-1.1.0_alpha >=dev-rust/clap-3.1.0 <dev-rust/clap-4.0.0_alpha =dev-rust/serde_json-1*
 DESCRIPTION=This ebuild defines the rust dependencies used in factory_installer dir.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/factory_installer/
@@ -10,4 +10,4 @@ LICENSE=BSD-Google
 PROPERTIES=live
 SLOT=0/9999
 _eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=dc59cfa817995975ce3511e1c5b889f6
+_md5_=e2d933e34a9ddd2297e6aef9cab42fd2
