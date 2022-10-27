@@ -38,6 +38,12 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/aligned-0.3.4
+	!=dev-rust/as-slice-0.1.5
+	!=dev-rust/as-slice-0.1.5-r1
+	!=dev-rust/as-slice-0.1.5-r2
+	!=dev-rust/as-slice-0.1.5-r3
+	!=dev-rust/as-slice-0.1.5-r4
 	!=dev-rust/flexbuffers-2.0.0
 	!=dev-rust/flexbuffers-2.0.0-r1
 	!=dev-rust/flexbuffers-2.0.0-r2
@@ -1402,6 +1408,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ahash-0.4.7"
 	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
+	"aligned-0.3.5"
 	"android_log-sys-0.2.0"
 	"ansi_term-0.11.0"
 	"anyhow-1.0.62"
@@ -1413,6 +1420,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"argh_shared-0.1.8"
 	"arrayvec-0.4.12"
 	"arrayvec-0.5.2"
+	"as-slice-0.1.5"
 	"ascii-0.9.3"
 	"ascii-1.0.0"
 	"assert_matches-1.5.0"

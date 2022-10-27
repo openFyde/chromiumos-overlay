@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/aligned-0.3.1 <dev-rust/aligned-0.4.0
 	=dev-rust/cortex-m-0.7*
 "
 RDEPEND="${DEPEND}"
