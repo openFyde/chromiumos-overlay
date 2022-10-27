@@ -115,13 +115,13 @@ BDEPEND="
 	dev-java/java-config
 	dev-lang/swig
 	=dev-util/bazel-4*
-	!python? ( dev-lang/python )
+	${PYTHON_DEPS}
 	python? (
 		dev-python/cython
 		dev-python/mock
 		>=dev-python/grpcio-tools-1.28
 	)"
-REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
+REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
 PATCHES=(
 	"${FILESDIR}/tensorflow-2.8.0-0001-workspace.patch"
@@ -204,8 +204,9 @@ src_configure() {
 			export PYTHON_BIN_PATH="${PYTHON}"
 			export PYTHON_LIB_PATH="$(python_get_sitedir)"
 		else
-			export PYTHON_BIN_PATH="$(which python)"
-			export PYTHON_LIB_PATH="$(python -c 'from distutils.sysconfig import *; print(get_python_lib())')"
+			python_setup
+			export PYTHON_BIN_PATH="${PYTHON}"
+			# PYTHON_LIB_PATH is inferred automatically
 		fi
 
 		export TF_NEED_CUDA=0
