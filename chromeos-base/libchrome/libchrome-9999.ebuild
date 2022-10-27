@@ -64,25 +64,32 @@ RDEPEND="${RDEPEND}
 REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
-	# Apply patches
+	# Remove patches that do not apply.
 	while read -ra patch_config; do
 		local patch="${patch_config[0]}"
 		local use_flag="${patch_config[1]}"
-		if [ -n "${use_flag}" ]; then
-			if ! use "${use_flag}"; then
-				einfo "Skipped ${patch}"
-				continue
-			fi
+		if [ -z "${use_flag}" ]; then
+			die "Missing use flag for patch: ${patch}"
 		fi
-		if [[ ${patch} == *.patch ]]; then
-			eapply "${S}/libchrome_tools/patches/${patch}"
-		elif [[ -x "${S}/libchrome_tools/patches/${patch}" ]]; then
-			einfo "Applying ${patch} ..."
-			"${S}/libchrome_tools/patches/${patch}" || die "failed to patch by running script ${patch}"
+		if ! use "${use_flag}"; then
+			einfo "Skip ${patch}"
+			rm "${S}/libchrome_tools/patches/${patch}" || die "failed to remove patch ${patch}"
+		fi
+	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches.config")
+	# Apply all patches in directory, ordered by type then patch number.
+	for patch in "${S}"/libchrome_tools/patches/{long-term,cherry-pick,backward-compatibility,forward-compatibility}-*; do
+		local basename=$(basename "${patch}")
+		if [[ ${basename} == *"-*" ]]; then # patch type with no match
+			continue
+		elif [[ ${basename} == *.patch ]]; then
+			eapply "${patch}"
+		elif [[ -x "${patch}" ]]; then
+			einfo "Applying ${basename} ..."
+			"${patch}" || die "failed to patch by running script ${basename}"
 		else
-			die "Invalid patch file ${patch}"
+			die "Invalid patch file ${basename}"
 		fi
-	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
+	done
 	eapply_user
 }
 
