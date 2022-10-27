@@ -8,15 +8,16 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="13f690770f9cf6b24f1b83bef4eda3ac9c0fad8b"
-CROS_WORKON_TREE="a95b49705f377cb67fa412f6629a299dab800c0a"
+CROS_WORKON_COMMIT="90e7912ac45bc84a7f7f773bfaa26b5ad695cb91"
+CROS_WORKON_TREE="23c3843247166e736eca4cdee58cf9f29e2fd544"
 inherit cros-constants
 
-CROS_RUST_SUBDIR="rust/minijail-sys"
+CROS_RUST_SUBDIR="rust/minijail"
 
 CROS_WORKON_LOCALNAME="../platform/minijail"
 CROS_WORKON_PROJECT="chromiumos/platform/minijail"
 CROS_WORKON_EGIT_BRANCH="main"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
@@ -25,22 +26,21 @@ HOMEPAGE="https://google.github.io/minijail"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="test"
+IUSE="asan test"
 
-# ebuilds that install executables and depend on minijail-sys need to RDEPEND on
-# chromeos-base/minijail and sys-libs/libcap
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	chromeos-base/minijail:=
-	sys-libs/libcap:=
-	virtual/bindgen:=
+	>=dev-rust/minijail-sys-0.0.13:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}"
 
-src_prepare() {
-	cros-rust_src_prepare
-	# Do not skip regeneration of libminijail.rs.
-	export CROS_RUST=0
+src_test() {
+	local args=( -- --test-threads=1 )
+	if ! use amd64; then
+		# TODO(crbug.com/1201377) enable all tests on ARM when supported.
+		args=( --lib "${args[@]}" --skip 'seccomp_no_new_privs' )
+	fi
+	cros-rust_src_test "${args[@]}"
 }
