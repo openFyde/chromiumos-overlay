@@ -23,7 +23,6 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/chromeos-dbus-bindings:=
-	>=dev-rust/clap-3.1.12 <dev-rust/clap-4.0
 	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1*

@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/clap-2.20.0 <dev-rust/clap-3.0.0_alpha
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
 	=dev-rust/dbus-tree-0.9*

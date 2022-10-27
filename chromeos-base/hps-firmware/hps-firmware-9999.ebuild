@@ -40,7 +40,6 @@ python_check_deps() {
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bindgen-0.59*
-	=dev-rust/clap-3*
 	>=dev-rust/cortex-m-0.6.2 <dev-rust/cortex-m-0.7.0
 	>=dev-rust/cortex-m-rtic-1.1.3 <dev-rust/cortex-m-rtic-2.0.0
 	>=dev-rust/ftdi-0.1.3 <dev-rust/ftdi-0.2

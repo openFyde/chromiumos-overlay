@@ -52,7 +52,6 @@ DEPEND="${COMMON_DEPEND}
 	${wayland_server_DEPEND}
 
 	dev-libs/wayland-protocols:=
-	>=dev-rust/structopt-0.3.20 <dev-rust/structopt-0.4.0_alpha
 	dev-rust/cbindgen
 	x11-drivers/opengles-headers:=
 	=dev-rust/tokio-1*

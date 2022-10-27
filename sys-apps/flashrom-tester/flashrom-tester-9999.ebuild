@@ -21,7 +21,6 @@ KEYWORDS="~*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bindgen-0.59*
-	=dev-rust/clap-2.33*
 	=dev-rust/serde_json-1*
 	sys-apps/flashrom
 "

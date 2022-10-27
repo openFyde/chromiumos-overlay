@@ -38,6 +38,42 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/structopt-0.3.26
+	!=dev-rust/structopt-0.3.26-r1
+	!=dev-rust/structopt-0.3.26-r2
+	!=dev-rust/structopt-0.3.26-r3
+	!=dev-rust/structopt-0.3.26-r4
+	!=dev-rust/clap-3.1.12
+	!=dev-rust/clap-3.1.12-r1
+	!=dev-rust/clap-3.1.12-r2
+	!=dev-rust/clap-3.1.12-r3
+	!=dev-rust/clap-3.1.12-r4
+	!=dev-rust/clap-3.1.12-r5
+	!=dev-rust/clap-3.1.12-r6
+	!=dev-rust/clap-3.1.12-r7
+	!=dev-rust/clap-3.1.12-r8
+	!=dev-rust/clap-3.1.12-r9
+	!=dev-rust/clap-3.1.12-r10
+	!=dev-rust/clap-3.1.12-r11
+	!=dev-rust/clap-3.1.12-r12
+	!=dev-rust/clap-2.33.3
+	!=dev-rust/clap-2.33.3-r1
+	!=dev-rust/clap-2.33.3-r2
+	!=dev-rust/clap-2.33.3-r3
+	!=dev-rust/clap-2.33.3-r4
+	!=dev-rust/clap-2.33.3-r5
+	!=dev-rust/clap-2.33.3-r6
+	!=dev-rust/clap-2.33.3-r7
+	!=dev-rust/clap-2.33.3-r8
+	!=dev-rust/clap-2.33.3-r9
+	!=dev-rust/clap-2.33.3-r10
+	!=dev-rust/clap-2.33.3-r11
+	!=dev-rust/clap_derive-3.1.7
+	!=dev-rust/clap_derive-3.1.7-r1
+	!=dev-rust/clap_derive-3.1.7-r2
+	!=dev-rust/clap_derive-3.1.7-r3
+	!=dev-rust/clap_derive-3.1.7-r4
+	!=dev-rust/clap_derive-3.1.7-r5
 	!=dev-rust/textwrap-0.15.0
 	!=dev-rust/textwrap-0.15.0-r1
 	!=dev-rust/textwrap-0.15.0-r2
@@ -1325,6 +1361,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"chrono-0.4.19"
 	"chunked_transfer-1.4.0"
 	"clang-sys-1.2.0"
+	"clap-2.33.3"
+	"clap-3.2.22"
+	"clap_derive-3.2.18"
 	"clap_lex-0.1.1"
 	"clap_lex-0.2.4"
 	"clipboard-win-4.2.1"
@@ -1820,6 +1859,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"strsim-0.10.0"
 	"strsim-0.8.0"
 	"strsim-0.9.3"
+	"structopt-0.3.26"
 	"structopt-derive-0.4.18"
 	"subtle-2.4.1"
 	"svd-parser-0.12.0"

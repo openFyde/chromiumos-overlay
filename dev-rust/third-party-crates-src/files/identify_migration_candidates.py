@@ -103,7 +103,7 @@ def main(argv: List[str]):
     third_party_crates = third_party_crates_ebuild.parent
     available_rust_crates = find_available_rust_crates(opts.rust_crates_path)
 
-    blocklisted_migration_crates = ("clap_derive", "protobuf")
+    blocklisted_migration_crates = ("protobuf",)
 
     logging.info("Available crates: %s", available_rust_crates)
 

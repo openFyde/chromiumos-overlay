@@ -15,10 +15,7 @@ LICENSE="MIT"
 SLOT="0/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/structopt-0.3*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 src_compile() {
 	ecargo_build
