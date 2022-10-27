@@ -23,7 +23,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/sirenia-rpc-macros:=
-	=dev-rust/flexbuffers-2*
 	dev-rust/libchromeos:=
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*

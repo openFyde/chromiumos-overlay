@@ -38,6 +38,17 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/flexbuffers-2.0.0
+	!=dev-rust/flexbuffers-2.0.0-r1
+	!=dev-rust/flexbuffers-2.0.0-r2
+	!=dev-rust/flexbuffers-2.0.0-r3
+	!=dev-rust/flexbuffers-2.0.0-r4
+	!=dev-rust/num_enum_derive-0.5.1
+	!=dev-rust/num_enum_derive-0.5.1-r1
+	!=dev-rust/num_enum_derive-0.5.1-r2
+	!=dev-rust/num_enum_derive-0.5.1-r3
+	!=dev-rust/num_enum-0.5.1
+	!=dev-rust/num_enum-0.5.1-r1
 	!=dev-rust/riscv-rt-0.8.0
 	!=dev-rust/riscv-rt-0.8.0-r1
 	!=dev-rust/riscv-rt-0.8.0-r2
@@ -1586,6 +1597,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"flame-0.1.12"
 	"flamer-0.1.4"
 	"flate2-1.0.24"
+	"flexbuffers-2.0.0"
 	"float-ord-0.2.0"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
@@ -1771,6 +1783,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"num-traits-0.1.43"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"
+	"num_enum-0.5.7"
+	"num_enum_derive-0.5.7"
 	"num_threads-0.1.6"
 	"number_prefix-0.4.0"
 	"object-0.27.1"
@@ -1815,6 +1829,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"prettyplease-0.1.20"
 	"print_bytes-0.5.0"
 	"printf-compat-0.1.1"
+	"proc-macro-crate-1.2.1"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
 	"proc-macro-hack-0.5.19"

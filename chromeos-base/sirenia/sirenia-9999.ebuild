@@ -27,7 +27,6 @@ DEPEND="
 	dev-rust/data_model:=
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
-	=dev-rust/flexbuffers-2*
 	dev-rust/libchromeos:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
