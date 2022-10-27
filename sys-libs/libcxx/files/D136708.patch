@@ -1,0 +1,27 @@
+commit e225b7f0d4f875ffed18a52a644853b8f0a53dee
+Author: Tom Hughes <tomhughes@chromium.org>
+Date:   Thu Oct 27 09:52:42 2022 -0700
+
+    [libcxx] Disable assert when building with newlib
+    
+    newlib defines blank as 0200 (0x80) (see newlib/libc/include/ctype.h),
+    which is the same as __regex_word, so the static_assert fails. However,
+    "mask" is only a single byte, so we don't have room to expand.
+    
+    Differential Revision: https://reviews.llvm.org/D136708
+
+diff --git a/libcxx/include/__locale b/libcxx/include/__locale
+index 65160f3562fb..1301122b070c 100644
+--- a/libcxx/include/__locale
++++ b/libcxx/include/__locale
+@@ -549,8 +549,10 @@ public:
+ 
+     _LIBCPP_INLINE_VISIBILITY ctype_base() {}
+ 
++#ifndef _NEWLIB_VERSION
+     static_assert((__regex_word & ~(space | print | cntrl | upper | lower | alpha | digit | punct | xdigit | blank)) == __regex_word,
+                   "__regex_word can't overlap other bits");
++#endif
+ };
+ 
+ template <class _CharT> class _LIBCPP_TEMPLATE_VIS ctype;

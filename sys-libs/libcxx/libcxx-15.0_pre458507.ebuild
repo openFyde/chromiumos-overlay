@@ -165,6 +165,9 @@ multilib_src_configure() {
 		# Options for baremetal toolchains e.g. armv7m-cros-eabi.
 		# Disable stack allocation and features like posix_memalign.
 		append-cppflags "-D_LIBCPP_HAS_NO_LIBRARY_ALIGNED_ALLOCATION"
+		# Compilation with newlib as C standard library fails unless
+		# -D_GNU_SOURCE is defined.
+		append-cppflags "-D_GNU_SOURCE"
 		mycmakeargs+=(
 			"-DCMAKE_POSITION_INDEPENDENT_CODE=OFF"
 			"-DLIBCXXABI_ENABLE_SHARED=OFF"
@@ -175,7 +178,6 @@ multilib_src_configure() {
 			"-DLIBCXX_ENABLE_SHARED=OFF"
 			"-DLIBCXX_ENABLE_RANDOM_DEVICE=OFF"
 			"-DLIBCXX_ENABLE_ABI_LINKER_SCRIPT=OFF"
-			"-DLIBCXX_ENABLE_LOCALIZATION=OFF"
 			"-DLIBCXX_ENABLE_UNICODE=OFF"
 			"-DLIBCXX_ENABLE_EXPERIMENTAL_LIBRARY=OFF"
 			"-DLIBCXX_ENABLE_FILESYSTEM=OFF"
