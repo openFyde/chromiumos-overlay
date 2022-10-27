@@ -144,3 +144,6 @@ sys-power/cpupower -nls
 # for tshark.
 net-analyzer/wireshark -capinfos -captype -dftest -dumpcap -editcap -mergecap
 net-analyzer/wireshark -randpkt -randpktdump -reordercap -sharkd -text2pcap
+
+# We don't need or want su in the SDK. Use sudo instead.
+sys-apps/util-linux -su
