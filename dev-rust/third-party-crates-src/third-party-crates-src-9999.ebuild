@@ -38,6 +38,18 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/cortex-m-0.7.3
+	!=dev-rust/cortex-m-0.7.3-r1
+	!=dev-rust/cortex-m-0.7.3-r2
+	!=dev-rust/cortex-m-0.7.3-r3
+	!=dev-rust/cortex-m-0.7.3-r4
+	!=dev-rust/cortex-m-0.7.3-r5
+	!=dev-rust/cortex-m-0.6.7
+	!=dev-rust/cortex-m-0.6.7-r1
+	!=dev-rust/cortex-m-0.6.7-r2
+	!=dev-rust/cortex-m-0.6.7-r3
+	!=dev-rust/cortex-m-0.6.7-r4
+	!=dev-rust/cortex-m-0.6.7-r5
 	!=dev-rust/aligned-0.3.4
 	!=dev-rust/as-slice-0.1.5
 	!=dev-rust/as-slice-0.1.5-r1
@@ -1510,6 +1522,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-0.9.3"
 	"core-foundation-sys-0.6.2"
 	"core-foundation-sys-0.8.3"
+	"cortex-m-0.6.7"
+	"cortex-m-0.7.6"
 	"cortex-m-rt-0.6.15"
 	"cortex-m-rt-macros-0.6.15"
 	"cortex-m-rtic-macros-1.1.5"

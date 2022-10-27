@@ -1,4 +1,4 @@
-# Copyright 2021 The ChromiumOS Authors
+# Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
@@ -7,17 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Target side implementation of the RTT (Real-Time Transfer) I/O protocol'
-HOMEPAGE='https://crates.io/crates/rtt-target'
+DESCRIPTION='Peripheral access API for STM32G0 series microcontrollers'
+HOMEPAGE='https://crates.io/crates/stm32g0xx-hal'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha
+	=dev-rust/stm32g0-0.13*
 "
 RDEPEND="${DEPEND}"
 

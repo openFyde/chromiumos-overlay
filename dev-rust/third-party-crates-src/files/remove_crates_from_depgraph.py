@@ -188,6 +188,12 @@ def main(argv: List[str]):
                     "Ignore update for %s; it has a workon ebuild", rdep
                 )
                 continue
+            elif 'panic-reset' in no_version:
+                logging.info(
+                    "Ignore update for %s; it DNE", rdep
+                )
+                continue
+
             logging.info("Adding update for %s", rdep)
             deps[rdep].append(f"dev-rust/{crate}")
 

@@ -7,8 +7,8 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Peripheral access API for STM32G0 series microcontrollers'
-HOMEPAGE='https://crates.io/crates/stm32g0xx-hal'
+DESCRIPTION='Real-Time Interrupt-driven Concurrency (RTIC): a concurrency framework for building real-time systems'
+HOMEPAGE='https://crates.io/crates/cortex-m-rtic'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
@@ -17,8 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/cortex-m-0.7.1 <dev-rust/cortex-m-0.8.0_alpha
-	=dev-rust/stm32g0-0.13*
+	>=dev-rust/heapless-0.7.7 <dev-rust/heapless-0.8.0_alpha
 "
 RDEPEND="${DEPEND}"
 
