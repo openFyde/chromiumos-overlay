@@ -38,6 +38,10 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/codespan-reporting-0.11.1
+	!=dev-rust/codespan-reporting-0.11.1-r1
+	!=dev-rust/codespan-reporting-0.11.1-r2
+	!=dev-rust/codespan-reporting-0.11.1-r3
 	!=dev-rust/cortex-m-rtic-1.1.3
 	!=dev-rust/cortex-m-rtic-1.1.3-r1
 	!=dev-rust/cortex-m-rtic-1.1.3-r2
@@ -1534,15 +1538,18 @@ ALLOWED_CRATE_VERSIONS=(
 	"clang-sys-1.2.0"
 	"clap-2.33.3"
 	"clap-3.2.22"
+	"clap-4.0.18"
 	"clap_conf-0.1.5"
 	"clap_derive-3.2.18"
 	"clap_lex-0.1.1"
 	"clap_lex-0.2.4"
+	"clap_lex-0.3.0"
 	"clipboard-win-4.2.1"
 	"clippy-0.0.166"
 	"clippy_lints-0.0.166"
 	"cloudabi-0.0.3"
 	"cmake-0.1.48"
+	"codespan-reporting-0.11.1"
 	"color_quant-1.1.0"
 	"colored-2.0.0"
 	"com_logger-0.1.1"
@@ -1591,6 +1598,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cty-0.2.2"
 	"custom_derive-0.1.7"
 	"cxx-1.0.42"
+	"cxxbridge-cmd-1.0.80"
 	"cxxbridge-flags-1.0.42"
 	"cxxbridge-macro-1.0.42"
 	"darling-0.10.2"

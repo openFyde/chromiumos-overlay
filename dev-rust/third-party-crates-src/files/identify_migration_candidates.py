@@ -116,6 +116,9 @@ def main(argv: List[str]):
             continue
 
         files = [x for x in subdir.iterdir() if x.suffix == ".ebuild"]
+        if not files:
+            continue
+
         symlinks_to = set()
         for file in files:
             if file.is_symlink():
