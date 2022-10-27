@@ -3,15 +3,14 @@
 
 EAPI="7"
 
+CROS_RUST_SUBDIR="common/audio_streams"
+
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
-# We don't use CROS_WORKON_OUTOFTREE_BUILD here since audio_streams/Cargo.toml
-# is using "provided by ebuild" macro which supported by cros-rust
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_RUST_SUBDIR="common/audio_streams"
-CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
-CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
 inherit cros-workon cros-rust
 
@@ -33,3 +32,15 @@ DEPEND="
 RDEPEND="${DEPEND}
 	!<=media-sound/audio_streams-0.1.0-r49
 "
+
+src_unpack() {
+	# Copy the CROS_RUST_SUBDIR to a new location in the $S dir to make sure cargo will not
+	# try to build it as apart of the crosvm workspace.
+	cros-workon_src_unpack
+	if [ ! -e "${S}/${PN}" ]; then
+		(cd "${S}" && ln -s "./${CROS_RUST_SUBDIR}" "./${PN}") || die
+	fi
+	S+="/${PN}"
+
+	cros-rust_src_unpack
+}

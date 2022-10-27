@@ -9,7 +9,8 @@ CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE=""  # TODO(b/195126527): limit subtree to common/
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBDIRS_TO_COPY="${CROS_RUST_SUBDIR}"
 
 inherit cros-fuzzer cros-workon cros-rust
 
@@ -32,12 +33,30 @@ RDEPEND="${DEPEND}
 
 get_crate_version() {
 	local crate="$1"
-	awk '/^version = / { print $3 }' "$1/Cargo.toml" | head -n1 | tr -d '"'
+	awk '/^version = / { print $3 }' "${crate}/Cargo.toml" | head -n1 | tr -d '"'
 }
 
 pkg_setup() {
 	cros-rust_pkg_setup wire_format_derive
 	cros-rust_pkg_setup p9
+}
+
+src_unpack() {
+	# Copy the CROS_RUST_SUBDIR to a new location in the $S dir to make sure cargo will not
+	# try to build it as apart of the crosvm workspace.
+	cros-workon_src_unpack
+	if [ ! -e "${S}/${PN}" ]; then
+		(cd "${S}" && ln -s "./${CROS_RUST_SUBDIR}" "./${PN}") || die
+	fi
+	S+="/${PN}"
+
+	cros-rust_src_unpack
+}
+
+src_prepare() {
+	# Manually patch "provided by ebuild" lines in fuzz/Cargo.toml as well.
+	cros-rust_src_prepare
+	cros-rust-patch-cargo-toml "${S}/fuzz/Cargo.toml"
 }
 
 src_compile() {
@@ -51,7 +70,7 @@ src_compile() {
 	use test && ecargo_test --no-run
 
 	if use fuzzer; then
-		cd fuzz
+		cd fuzz || die
 		ecargo_build_fuzzer
 	fi
 }
@@ -66,10 +85,10 @@ src_test() {
 }
 
 src_install() {
-	pushd wire_format_derive > /dev/null || die
+	pushd wire_format_derive >/dev/null || die
 	local version="$(get_crate_version .)"
 	cros-rust_publish wire_format_derive "${version}"
-	popd > /dev/null || die
+	popd >/dev/null || die
 
 	version="$(get_crate_version .)"
 	cros-rust_publish p9 "${version}"
