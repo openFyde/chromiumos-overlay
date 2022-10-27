@@ -38,6 +38,12 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/clap_conf-0.1.5
+	!=dev-rust/clap_conf-0.1.5-r1
+	!=dev-rust/clap_conf-0.1.5-r2
+	!=dev-rust/clap_conf-0.1.5-r3
+	!=dev-rust/clap_conf-0.1.5-r4
+	!=dev-rust/clap_conf-0.1.5-r5
 	!=dev-rust/jsonschema-0.15.1
 	!=dev-rust/jsonschema-0.15.1-r1
 	!=dev-rust/jsonschema-0.15.1-r2
@@ -1448,6 +1454,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"clang-sys-1.2.0"
 	"clap-2.33.3"
 	"clap-3.2.22"
+	"clap_conf-0.1.5"
 	"clap_derive-3.2.18"
 	"clap_lex-0.1.1"
 	"clap_lex-0.2.4"

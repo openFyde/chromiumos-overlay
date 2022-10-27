@@ -38,6 +38,7 @@ CUSTOMIZATION_IGNORE_CRATES = {
     # This has a patch which has been migrated.
     "ahash",
     "bayer",
+    "clap_conf",
 }
 
 # Line written into ebuilds which are automigrated.

@@ -15,10 +15,7 @@ LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/clap_conf-0.1.5 <dev-rust/clap_conf-0.2.0_alpha
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 src_compile() {
