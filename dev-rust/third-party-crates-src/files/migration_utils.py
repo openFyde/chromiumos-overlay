@@ -31,6 +31,7 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "chrono",
     "console",
     "instant",
+    "mio",
     "once_cell",
     "rand",
     "syn",

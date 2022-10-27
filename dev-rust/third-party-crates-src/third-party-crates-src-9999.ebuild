@@ -38,6 +38,12 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/mio-0.8.3
+	!=dev-rust/mio-0.8.3-r1
+	!=dev-rust/mio-0.8.3-r2
+	!=dev-rust/mio-0.7.14
+	!=dev-rust/mio-0.7.14-r1
+	!=dev-rust/mio-0.7.14-r2
 	!=dev-rust/structopt-0.3.26
 	!=dev-rust/structopt-0.3.26-r1
 	!=dev-rust/structopt-0.3.26-r2
@@ -1621,6 +1627,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.3.7"
 	"miniz_oxide-0.4.4"
 	"miniz_oxide-0.5.4"
+	"mio-0.6.23"
+	"mio-0.7.14"
+	"mio-0.8.4"
 	"mio-extras-2.0.6"
 	"miow-0.2.2"
 	"miow-0.3.6"

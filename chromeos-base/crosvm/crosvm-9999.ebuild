@@ -50,7 +50,6 @@ DEPEND="${COMMON_DEPEND}
 	=dev-rust/dbus-0.8*
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=
-	>=dev-rust/mio-0.7.14 <dev-rust/mio-0.8.0_alpha
 	dev-rust/p9:=
 	>=dev-rust/protobuf-2.8
 	!>=dev-rust/protobuf-3
