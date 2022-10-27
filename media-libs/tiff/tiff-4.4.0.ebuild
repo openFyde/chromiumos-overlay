@@ -56,6 +56,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	local myeconfargs=(
+		--bindir="${EPREFIX}/usr/local/bin"
 		--without-x
 		--with-docdir="${EPREFIX}"/usr/share/doc/${PF}
 		$(use_enable cxx)
