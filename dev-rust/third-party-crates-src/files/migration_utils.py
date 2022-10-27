@@ -9,7 +9,6 @@ FIXME(b/240953811): Remove this once our migration is done.
 import re
 from typing import Optional, Tuple
 
-
 # bindgen, protobuf-codegen, dbus-codegen all generate code
 
 # Crates to ignore customization in. These are be vetted to ensure that any
@@ -43,8 +42,17 @@ CUSTOMIZATION_IGNORE_CRATES = {
 
 # Line written into ebuilds which are automigrated.
 MIGRATED_CRATE_MARKER = (
-    "# Migrated crate. See b/240953811 for more about this migration."
-)
+    "# Migrated crate. See b/240953811 for more about this migration.")
+
+# Setting this to something causes an ebuild to take the sources for a crate
+# from third-party-crates-src.
+THIRD_PARTY_CRATES_SRC_COPY_MARKER = "\nCROS_RUST_PREINSTALLED_REGISTRY_CRATE="
+
+
+def crate_is_migrated(ebuild_contents: str) -> bool:
+    """Returns true if the crate has been migrated already."""
+    return (MIGRATED_CRATE_MARKER in ebuild_contents
+            or THIRD_PARTY_CRATES_SRC_COPY_MARKER in ebuild_contents)
 
 
 def crate_has_customization(ebuild_contents: str) -> bool:
@@ -60,7 +68,8 @@ def crate_has_customization(ebuild_contents: str) -> bool:
     return False
 
 
-def parse_crate_from_ebuild_stem(ebuild_stem: str) -> Tuple[str, Optional[str]]:
+def parse_crate_from_ebuild_stem(
+        ebuild_stem: str) -> Tuple[str, Optional[str]]:
     """Parses the crate's `{name}-{version}` from an ebuild's stem.
 
     Returns a tuple of
@@ -82,9 +91,8 @@ def parse_crate_from_ebuild_stem(ebuild_stem: str) -> Tuple[str, Optional[str]]:
     return ebuild_stem, None
 
 
-def _read_quoted_shell_contents(
-    contents: str, quote_start: int
-) -> Optional[str]:
+def _read_quoted_shell_contents(contents: str,
+                                quote_start: int) -> Optional[str]:
     """Returns the contents of the quoted data starting at quote_start.
 
     If this isn't possible, returns None.
@@ -98,7 +106,7 @@ def _read_quoted_shell_contents(
         # Broken syntax probably?
         return False
 
-    quoted_contents = contents[quote_start + 1 : end_quote]
+    quoted_contents = contents[quote_start + 1:end_quote]
     # As a last resort, ensure that no funny business was happening with
     # what we think is the end quote. All of these are lossy heuristics since
     # we're not actually parsing the file. Should work in most cases; ebuilds
@@ -111,7 +119,7 @@ def _read_quoted_shell_contents(
     if i == -1:
         i = len(contents)
 
-    end_of_line = contents[end_quote + 1 : i].split("#")[0]
+    end_of_line = contents[end_quote + 1:i].split("#")[0]
     if end_of_line.strip():
         return None
 
@@ -137,15 +145,15 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
     rdepend_index = ebuild_contents.find(rdepend_prefix)
     if rdepend_index != -1:
         rdepend = _read_quoted_shell_contents(
-            ebuild_contents, rdepend_index + len(rdepend_prefix)
-        )
+            ebuild_contents, rdepend_index + len(rdepend_prefix))
         if rdepend is None:
             return False
 
         rdepend = _make_unconditional_depend(rdepend)
         for piece in rdepend.strip().split():
             # Ignore blockers and DEPEND
-            is_safe = piece.startswith("!") or piece in ("${DEPEND}", "$DEPEND")
+            is_safe = piece.startswith("!") or piece in ("${DEPEND}",
+                                                         "$DEPEND")
             if not is_safe:
                 return False
 
@@ -154,9 +162,8 @@ def is_leaf_crate(ebuild_contents: str) -> bool:
     if i == -1:
         return True
 
-    depend = _read_quoted_shell_contents(
-        ebuild_contents, i + len(depend_prefix)
-    )
+    depend = _read_quoted_shell_contents(ebuild_contents,
+                                         i + len(depend_prefix))
     if depend is None:
         return False
 

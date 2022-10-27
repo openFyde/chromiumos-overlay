@@ -29,7 +29,7 @@ def find_all_fully_migrated_crates(dev_rust: Path) -> Iterable[str]:
 
             found_ebuild = True
             text = file.read_text(encoding="utf-8")
-            if migration_utils.MIGRATED_CRATE_MARKER not in text:
+            if not migration_utils.crate_is_migrated(text):
                 found_unmigrated_ebuild = True
                 break
 

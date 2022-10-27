@@ -196,7 +196,7 @@ def main(argv: List[str]):
     ebuild_path = opts.ebuild_path
     ebuild_contents = ebuild_path.read_text(encoding="utf-8")
 
-    if migration_utils.MIGRATED_CRATE_MARKER in ebuild_contents:
+    if migration_utils.crate_is_migrated(ebuild_contents):
         logging.info("Ebuild is already migrated; ignoring")
         return
 

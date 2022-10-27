@@ -38,6 +38,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rustc-demangle-capi-0.1.0
+	!=dev-rust/rustc-demangle-capi-0.1.0-r1
 	!~dev-rust/error-chain-0.11.0
 	!~dev-rust/syslog-4.0.1
 	!=dev-rust/clap_conf-0.1.5
@@ -1885,6 +1887,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"
 	"rustc-demangle-0.1.21"
+	"rustc-demangle-capi-0.1.0"
 	"rustc-hash-1.1.0"
 	"rustc-serialize-0.3.24"
 	"rustc-std-workspace-alloc-1.0.0"

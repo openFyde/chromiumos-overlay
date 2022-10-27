@@ -32,6 +32,7 @@ EXPLICITLY_ALLOWLISTED_CRATES = {
     "bindgen-0.60.1",
     "bytemuck-1.12.1",
     "cfg-if-1.0.0",
+    "rustc-demangle-capi-0.1.0",
     "gimli-0.23.0",
     "hashbrown-0.12.3",
     "itertools-0.10.5",
@@ -53,11 +54,6 @@ compile_error!("This crate cannot be built for this configuration.");
 """.strip()
 
 
-def is_unmigrated_third_party_crate(ebuild_contents: str):
-    """Returns True if this ebuild is an unmigrated third-party crate."""
-    return migration_utils.MIGRATED_CRATE_MARKER not in ebuild_contents
-
-
 def find_dev_rust_crates(dev_rust: Path) -> List[str]:
     """Returns all dev-rust crates which haven't been migrated yet."""
     results = set()
@@ -77,7 +73,7 @@ def find_dev_rust_crates(dev_rust: Path) -> List[str]:
                 continue
 
             ebuild_contents = maybe_ebuild.read_text(encoding="utf-8")
-            if is_unmigrated_third_party_crate(ebuild_contents):
+            if not migration_utils.crate_is_migrated(ebuild_contents):
                 name = rev.sub("", maybe_ebuild.stem)
                 # We have rand_core_transitional in dev-rust/, which actually
                 # just installs rand_core. Account for that here.

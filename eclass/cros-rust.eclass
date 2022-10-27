@@ -113,6 +113,17 @@ fi
 # the same settings for C and C++ code.
 : "${CROS_RUST_PACKAGE_IS_HOT:=}"
 
+# @ECLASS-VARIABLE: CROS_RUST_PREINSTALLED_REGISTRY_CRATE
+# @DESCRIPTION:
+# If set to a nonempty value, `cros-rust_src_unpack` will also copy sources from
+# `${CROS_RUST_REGISTRY_DIR}` into `${S}`, and suppress any automatic publishing
+# of Rust sources.
+#
+# TODO(gbiv): This should ideally `ln` from the registry, rather than `cp`.
+# There's quite a bit that wants to write to the crate root though, and the
+# registry should be immutable, so a cleanup is needed.
+: "${CROS_RUST_PREINSTALLED_REGISTRY_CRATE:=}"
+
 inherit multiprocessing toolchain-funcs cros-constants cros-debug cros-sanitizers
 
 IUSE="asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan"
@@ -202,6 +213,12 @@ cros-rust_src_unpack() {
 	if [[ -n "${CROS_WORKON_PROJECT}" && ! -e "${S}" ]]; then
 		cros-workon_src_unpack
 		S+="/${CROS_RUST_SUBDIR}"
+	fi
+
+	if [[ -n "${CROS_RUST_PREINSTALLED_REGISTRY_CRATE}" ]]; then
+		local registry_dir="${ROOT}${CROS_RUST_REGISTRY_DIR}/${CROS_RUST_CRATE_NAME}-${CROS_RUST_CRATE_VERSION}"
+		[[ -d "${registry_dir}" ]] || die "Registry directory ${registry_dir} doesn't exist."
+		cp -r "${registry_dir}" "${S}" || die
 	fi
 
 	local archive
@@ -827,6 +844,9 @@ cros-rust_get_host_test_executables() {
 cros-rust_publish() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
 
+	[[ -n "${CROS_RUST_PREINSTALLED_REGISTRY_CRATE}" ]] && \
+		die "cros-rust_publish should not be called for preinstalled registry crates"
+
 	if [[ "${EBUILD_PHASE_FUNC}" != "src_install" ]]; then
 		die "${FUNCNAME[0]}() should only be used in src_install() phase"
 	fi
@@ -1152,7 +1172,9 @@ cros-rust_create_vendor_registry_links() {
 # Make sure a library crate isn't linked in the local registry prior to the
 # install step to avoid races.
 cros-rust_pkg_preinst() {
+	[[ -n "${CROS_RUST_PREINSTALLED_REGISTRY_CRATE}" ]] && return
 	debug-print-function "${FUNCNAME[0]}" "$@"
+
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_preinst" ]]; then
 		die "${FUNCNAME[0]}() should only be used in pkg_preinst() phase"
 	fi
@@ -1168,6 +1190,8 @@ cros-rust_pkg_preinst() {
 # making it visible to Cargo.
 cros-rust_pkg_postinst() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
+	[[ -n "${CROS_RUST_PREINSTALLED_REGISTRY_CRATE}" ]] && return
+
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_postinst" ]]; then
 		die "${FUNCNAME[0]}() should only be used in pkg_postinst() phase"
 	fi
@@ -1182,6 +1206,8 @@ cros-rust_pkg_postinst() {
 # the link.
 cros-rust_pkg_prerm() {
 	debug-print-function "${FUNCNAME[0]}" "$@"
+	[[ -n "${CROS_RUST_PREINSTALLED_REGISTRY_CRATE}" ]] && return
+
 	if [[ "${EBUILD_PHASE_FUNC}" != "pkg_prerm" ]]; then
 		die "${FUNCNAME[0]}() should only be used in pkg_prerm() phase"
 	fi

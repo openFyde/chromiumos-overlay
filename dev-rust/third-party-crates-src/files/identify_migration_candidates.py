@@ -159,7 +159,7 @@ def main(argv: List[str]):
             ebuild_ver = stem_no_rev.rsplit("-", 1)[1]
 
             contents = ebuild.read_text(encoding="utf-8")
-            if migration_utils.MIGRATED_CRATE_MARKER in contents:
+            if migration_utils.crate_is_migrated(contents):
                 logging.info("Skipping %s; it is already migrated", ebuild)
                 skip_reasons["already migrated"] += 1
                 # Don't set skipped_any here: that's used with
