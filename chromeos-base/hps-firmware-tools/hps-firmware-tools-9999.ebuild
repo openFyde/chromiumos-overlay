@@ -39,13 +39,10 @@ python_check_deps() {
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bindgen-0.59*
-	>=dev-rust/cortex-m-rtic-1.1.3 <dev-rust/cortex-m-rtic-2.0.0
 	>=dev-rust/ftdi-0.1.3 <dev-rust/ftdi-0.2
 	>=dev-rust/image-0.23.14 <dev-rust/image-0.24
 	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	>=dev-rust/simple_logger-1.13.0 <dev-rust/simple_logger-2
-	=dev-rust/stm32g0xx-hal-0.1*
-	>=dev-rust/rtt-target-0.3.1 <dev-rust/rtt-target-0.4.0
 "
 
 # host tools used to live in hps-firmware
