@@ -38,6 +38,34 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/linux-embedded-hal-0.3.2
+	!=dev-rust/linux-embedded-hal-0.3.2-r1
+	!=dev-rust/linux-embedded-hal-0.3.2-r2
+	!=dev-rust/linux-embedded-hal-0.3.2-r3
+	!=dev-rust/linux-embedded-hal-0.3.2-r4
+	!=dev-rust/linux-embedded-hal-0.3.2-r5
+	!=dev-rust/linux-embedded-hal-0.3.2-r6
+	!=dev-rust/sysfs_gpio-0.6.1
+	!=dev-rust/sysfs_gpio-0.6.1-r1
+	!=dev-rust/sysfs_gpio-0.6.1-r2
+	!=dev-rust/sysfs_gpio-0.6.1-r3
+	!=dev-rust/sysfs_gpio-0.6.1-r4
+	!=dev-rust/gpio-cdev-0.5.1
+	!=dev-rust/gpio-cdev-0.5.1-r1
+	!=dev-rust/gpio-cdev-0.5.1-r2
+	!=dev-rust/gpio-cdev-0.5.1-r3
+	!=dev-rust/gpio-cdev-0.5.1-r4
+	!=dev-rust/tokio-1.19.2
+	!=dev-rust/tokio-1.19.2-r1
+	!=dev-rust/tokio-1.19.2-r2
+	!=dev-rust/tokio-1.19.2-r3
+	!=dev-rust/tokio-1.19.2-r4
+	!=dev-rust/tokio-1.19.2-r5
+	!=dev-rust/tokio-1.19.2-r6
+	!=dev-rust/tokio-1.19.2-r7
+	!=dev-rust/tokio-1.19.2-r8
+	!=dev-rust/tokio-1.19.2-r9
+	!=dev-rust/tokio-1.19.2-r10
 	!=dev-rust/mio-0.8.3
 	!=dev-rust/mio-0.8.3-r1
 	!=dev-rust/mio-0.8.3-r2
@@ -1522,6 +1550,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"gimli-0.26.2"
 	"git2-0.13.25"
 	"glob-0.3.0"
+	"gpio-cdev-0.5.1"
 	"graphql-parser-0.3.0"
 	"grpcio-compiler-0.6.0"
 	"gumdrop-0.8.1"
@@ -1607,6 +1636,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
 	"linked-hash-map-0.5.6"
+	"linux-embedded-hal-0.3.2"
 	"linux-raw-sys-0.0.46"
 	"litrs-0.2.3"
 	"lock_api-0.4.9"
@@ -1881,6 +1911,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"synstructure-0.12.4"
 	"synstructure_test_traits-0.1.0"
 	"sys-info-0.9.1"
+	"sysfs_gpio-0.6.1"
 	"syslog-4.0.1"
 	"syslog-6.0.1"
 	"system-deps-6.0.2"
@@ -1912,6 +1943,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"tinytemplate-1.2.1"
 	"tinyvec-1.6.0"
 	"tinyvec_macros-0.1.0"
+	"tokio-1.19.2"
 	"tokio-io-0.1.13"
 	"tokio-io-timeout-1.2.0"
 	"tokio-macros-1.8.0"

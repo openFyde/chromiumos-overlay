@@ -54,7 +54,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
 	dev-rust/cbindgen
 	x11-drivers/opengles-headers:=
-	=dev-rust/tokio-1*
 "
 
 BDEPEND="
