@@ -25,6 +25,7 @@ EXPECTED_LICENSES=(
 	0BSD
 	Apache-2.0
 	BSD
+	BSD-2
 	ISC
 	MIT
 	MPL-2.0
