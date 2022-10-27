@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="14a66bed9fd830d7d2ed79da4b5b460feb182b71"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "0af0ef3890d7e7a7b01b23e42b685d515ee8d49c" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="6065cf07f70e34eb2efa2409d79b6570c3594854"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "94f29ace7a9b17ac45b77723cf4e5fe0ae796b1a" "eb510d666a66e6125e281499b649651b849a25f7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_con
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="tpm tpm_dynamic tpm2"
+IUSE="tpm tpm_dynamic tpm2 fuzzer"
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
@@ -36,6 +36,7 @@ DEPEND="
 	${COMMMON_DEPEND}
 	chromeos-base/power_manager-client:=
 	chromeos-base/system_api:=
+	fuzzer? ( dev-libs/libprotobuf-mutator:= )
 "
 
 pkg_preinst() {
@@ -84,6 +85,12 @@ src_install() {
 	insinto /usr/lib/tmpfiles.d/on-demand
 	doins tmpfiles.d/on-demand/oobe_config_restore.conf
 	doins tmpfiles.d/on-demand/oobe_config_save.conf
+
+	local fuzzer_component_id="1031231"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/load_oobe_config_rollback_fuzzer \
+		--comp "${fuzzer_component_id}"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/rollback_openssl_encryption_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 platform_pkg_test() {

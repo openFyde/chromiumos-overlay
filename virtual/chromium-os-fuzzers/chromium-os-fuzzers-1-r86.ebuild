@@ -58,6 +58,7 @@ RDEPEND="
 	chromeos-base/metrics[fuzzer]
 	chromeos-base/ml[fuzzer]
 	chromeos-base/modemfwd[fuzzer]
+	chromeos-base/oobe_config[fuzzer]
 	chromeos-base/ocr[fuzzer]
 	chromeos-base/p2p[fuzzer]
 	chromeos-base/patchpanel[fuzzer]
