@@ -38,6 +38,8 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "ahash",
     "bayer",
     "clap_conf",
+    "riscv-rt",
+    "riscv-rt-macros",
 }
 
 # Line written into ebuilds which are automigrated.

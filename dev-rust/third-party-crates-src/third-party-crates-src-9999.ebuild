@@ -38,6 +38,15 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/riscv-rt-0.8.0
+	!=dev-rust/riscv-rt-0.8.0-r1
+	!=dev-rust/riscv-rt-0.8.0-r2
+	!=dev-rust/riscv-rt-0.8.0-r3
+	!=dev-rust/riscv-rt-macros-0.1.6
+	!=dev-rust/riscv-rt-macros-0.1.6-r1
+	!=dev-rust/riscv-rt-macros-0.1.6-r2
+	!=dev-rust/riscv-rt-macros-0.1.6-r3
+	!=dev-rust/riscv-rt-macros-0.1.6-r4
 	!=dev-rust/rustc-demangle-capi-0.1.0
 	!=dev-rust/rustc-demangle-capi-0.1.0-r1
 	!~dev-rust/error-chain-0.11.0
@@ -1876,6 +1885,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"rgb-0.8.34"
 	"riscv-0.6.0"
 	"riscv-0.7.0"
+	"riscv-rt-0.8.0"
+	"riscv-rt-macros-0.1.6"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"roxmltree-0.13.1"
