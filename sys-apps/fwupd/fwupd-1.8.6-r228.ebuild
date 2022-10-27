@@ -3,10 +3,10 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="88b936cc64dde3cf39c728d5bd0b6ca414a1c7ab"
-CROS_WORKON_TREE="411d496bb3cb3db60aac6de72d582dccba65d297"
+CROS_WORKON_COMMIT="be6a87ae6c111935c8f750ee70416066022ed0f2"
+CROS_WORKON_TREE="43d5625515d7666da1ad510ec33d0e04c2aea35e"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.1"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.6"
 
 inherit cros-workon linux-info meson udev user xdg cros-sanitizers
 
@@ -33,6 +33,7 @@ REQUIRED_USE="
 	fastboot? ( gusb )
 	logitech? ( gusb )
 	minimal? ( !introspection )
+	modemmanager? ( gusb )
 	spi? ( lzma )
 	synaptics? ( gnutls )
 	uefi? ( gnutls )

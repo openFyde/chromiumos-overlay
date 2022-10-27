@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="dd0c400f2dc1a9fec9e6ba69fe419cbab65a07f8"
-CROS_WORKON_TREE="12e77b5838613f82938cf1cceb30662a3f27b419"
+CROS_WORKON_COMMIT="8eeaf7ca6896f72f89fc2c197e4c068c9abc7717"
+CROS_WORKON_TREE="3289b3113e03a6a5661445474f8c0fdbb68e5247"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 

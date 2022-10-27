@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="70439c67fa61f074eb50fd2a498ff8ea0999db1c"
-CROS_WORKON_TREE="9faed6bb99c5ed7694680ce1699600bb85b122b7"
+CROS_WORKON_COMMIT="bd150e2d4497265bfa09df0bc4b737e49cabb605"
+CROS_WORKON_TREE="0e129f3e52c0ffcda8fe9a771bd8495ec19da91c"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -1219,7 +1219,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"quine-mc_cluskey-0.2.4"
 	"quote-0.3.15"
 	"quote-0.6.13"
-	"quote-1.0.9"
+	"quote-1.0.21"
 	"r0-0.2.2"
 	"r0-1.0.0"
 	"radix_trie-0.2.1"
