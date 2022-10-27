@@ -1,6 +1,8 @@
 # Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# Deprecated: Use crates.io/crates/static_assertions instead.
+
 EAPI=7
 
 CROS_WORKON_LOCALNAME="../platform/crosvm"
@@ -9,8 +11,12 @@ CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/assertions"
-CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
+CROS_WORKON_SUBDIRS_TO_COPY=("/")
 CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
+
+# This crate is only used by sys_util and data_model, which are pinned to a fixed revision of
+# crosvm. See b/229016539 for details.
+CROS_WORKON_MANUAL_UPREV="1"
 
 inherit cros-workon cros-rust
 
