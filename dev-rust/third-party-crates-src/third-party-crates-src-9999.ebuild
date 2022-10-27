@@ -38,6 +38,13 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/ryu-1.0.5
+	!=dev-rust/ryu-1.0.5-r1
+	!=dev-rust/no-panic-0.1.10
+	!=dev-rust/no-panic-0.1.10-r1
+	!=dev-rust/no-panic-0.1.10-r2
+	!=dev-rust/no-panic-0.1.10-r3
+	!=dev-rust/no-panic-0.1.10-r4
 	!=dev-rust/linux-embedded-hal-0.3.2
 	!=dev-rust/linux-embedded-hal-0.3.2-r1
 	!=dev-rust/linux-embedded-hal-0.3.2-r2
@@ -1676,6 +1683,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"nix-0.20.0"
 	"nix-0.23.1"
 	"nix-0.24.2"
+	"no-panic-0.1.16"
 	"nodrop-0.1.14"
 	"nom-5.1.2"
 	"nom-7.1.1"
@@ -1838,6 +1846,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustyline-9.1.2"
 	"rustyline-derive-0.4.0"
 	"rustyline-derive-0.6.0"
+	"ryu-1.0.5"
 	"same-file-1.0.6"
 	"schannel-0.1.20"
 	"scoped-tls-1.0.0"
