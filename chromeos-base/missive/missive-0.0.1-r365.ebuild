@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="4a969b8840050d081a026166f35a9e3b2a700151"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "aaddd5588823e3513b42937161edd45a25424862" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="c842d3b10293c172bc072ad187ffbd39de89f79c"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "cfa59c2ef5fb63c93d025abc286ee6cde7a9950c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -48,7 +48,6 @@ src_install() {
 	dolib.a "${OUT}/libmissiveprotointerface.a"
 	dolib.a "${OUT}/libmissiveprotorecord.a"
 	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
-	dolib.a "${OUT}/libmissiveprotosecurityevents.a"
 	dolib.a "${OUT}/libmissiveprotosecurityxdrevents.a"
 	dolib.a "${OUT}/libmissiveprotostatus.a"
 
@@ -66,7 +65,6 @@ src_install() {
 		"${OUT}/gen/include/missive/proto/health.pb.h"
 		"${OUT}/gen/include/missive/proto/record.pb.h"
 		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
-		"${OUT}/gen/include/missive/proto/security_events.pb.h"
 		"${OUT}/gen/include/missive/proto/security_xdr_events.pb.h"
 		"${OUT}/gen/include/missive/proto/status.pb.h"
 	)
