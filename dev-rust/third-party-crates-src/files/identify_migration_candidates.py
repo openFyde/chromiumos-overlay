@@ -125,15 +125,8 @@ def main(argv: List[str]):
             logging.info("Skipping %s; it is first-party code.", subdir.name)
             continue
 
-        if subdir.name not in migration_utils.CUSTOMIZATION_IGNORE_CRATES:
-            if ebuilds_have_customization(
-                x for x in files if not x.is_symlink()
-            ):
-                logging.info("Skipping %s; it has customization", subdir.name)
-                continue
-
         if subdir.name in blocklisted_migration_crates:
-            logging.info("Skipping %s; it is not available", subdir.name)
+            logging.info("Skipping %s; it is blocklisted", subdir.name)
             skip_reasons["blocklisted"] += len(files)
             continue
 
@@ -145,6 +138,10 @@ def main(argv: List[str]):
 
         package_candidates = []
         skipped_any = False
+        customization_found = False
+        ignore_customization = (
+            subdir.name in migration_utils.CUSTOMIZATION_IGNORE_CRATES
+        )
         for ebuild in sorted(files):
             if ebuild in symlinks_to:
                 # Assume symlinks from foo.ebuild -> bar.ebuild are all uprevs,
@@ -159,6 +156,16 @@ def main(argv: List[str]):
             ebuild_ver = stem_no_rev.rsplit("-", 1)[1]
 
             contents = ebuild.read_text(encoding="utf-8")
+            if (
+                not ignore_customization
+                and migration_utils.crate_has_customization(contents)
+            ):
+                logging.info("Skipping %s; it has customization", ebuild)
+                skip_reasons["has customization"] += 1
+                customization_found = True
+                skipped_any = True
+                continue
+
             if migration_utils.crate_is_migrated(contents):
                 logging.info("Skipping %s; it is already migrated", ebuild)
                 skip_reasons["already migrated"] += 1
@@ -201,6 +208,9 @@ def main(argv: List[str]):
                 continue
 
             package_candidates.append(ebuild)
+
+        if customization_found:
+            continue
 
         if skipped_any and opts.full_packages_only:
             continue
