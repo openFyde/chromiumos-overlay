@@ -33,8 +33,6 @@ DEPEND="
 	>=dev-rust/simple_logger-1.13.0 <dev-rust/simple_logger-2
 	>=dev-rust/spi-memory-0.2.0 <dev-rust/spi-memory-0.3.0
 	=dev-rust/stm32g0xx-hal-0.1*
-	=dev-rust/ufmt-0.1*
-	>=dev-rust/panic-rtt-target-0.1.2 <dev-rust/panic-rtt-target-0.2.0
 	>=dev-rust/rtt-target-0.3.1 <dev-rust/rtt-target-0.4.0
 "
 
