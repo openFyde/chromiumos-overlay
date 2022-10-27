@@ -33,7 +33,6 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	media-sound/audio_streams:=
 	sys-libs/libcap:=

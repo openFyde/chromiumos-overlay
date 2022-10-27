@@ -30,7 +30,6 @@ DEPEND="
 	dev-rust/assertions:=
 	dev-rust/sys_util_core:=
 	dev-rust/data_model:=
-	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	sys-libs/libcap:=
 "

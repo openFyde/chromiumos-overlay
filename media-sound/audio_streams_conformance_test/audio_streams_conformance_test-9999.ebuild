@@ -25,7 +25,6 @@ DEPEND="
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 	dev-rust/cros_async:=
-	dev-rust/serde_json:=
 "
 
 src_compile() {

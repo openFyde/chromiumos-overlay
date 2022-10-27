@@ -8,7 +8,7 @@ EAPI="7"
 DESCRIPTION="Replaced by third-party-crates-src."
 
 LICENSE="metapackage"
-SLOT="0/${PVR}"
+SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="dev-rust/third-party-crates-src:="

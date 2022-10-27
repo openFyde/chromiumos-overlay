@@ -26,7 +26,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
-	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	dev-rust/system_api:=
 "

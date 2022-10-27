@@ -44,7 +44,6 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
 	dev-libs/wayland-protocols:=
-	dev-rust/cbindgen
 	dev-rust/cros_fuzz:=
 	=dev-rust/ctrlc-3.2*
 	=dev-rust/dbus-0.8*
@@ -55,7 +54,6 @@ DEPEND="${COMMON_DEPEND}
 	!>=dev-rust/protobuf-3
 	>=dev-rust/protoc-rust-2.8
 	!>=dev-rust/protoc-rust-3
-	=dev-rust/serde_json-1*
 	dev-rust/system_api:=
 	media-sound/libcras:=
 	tpm2? (

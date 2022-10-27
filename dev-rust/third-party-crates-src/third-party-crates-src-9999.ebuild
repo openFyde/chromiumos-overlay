@@ -38,6 +38,49 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/jsonschema-0.15.1
+	!=dev-rust/jsonschema-0.15.1-r1
+	!=dev-rust/jsonschema-0.15.1-r2
+	!=dev-rust/jsonschema-0.15.1-r3
+	!=dev-rust/jsonschema-0.15.1-r4
+	!=dev-rust/jsonschema-0.15.1-r5
+	!=dev-rust/jsonschema-0.15.1-r6
+	!=dev-rust/jsonschema-0.15.1-r7
+	!=dev-rust/jsonschema-0.15.1-r8
+	!=dev-rust/jsonschema-0.15.1-r9
+	!=dev-rust/jsonschema-0.15.1-r10
+	!=dev-rust/jsonschema-0.15.1-r11
+	!=dev-rust/jsonschema-0.15.1-r12
+	!=dev-rust/jsonschema-0.15.1-r13
+	!=dev-rust/jsonschema-0.15.1-r14
+	!=dev-rust/jsonschema-0.15.1-r15
+	!=dev-rust/jsonschema-0.15.1-r16
+	!=dev-rust/jsonschema-0.15.1-r17
+	!=dev-rust/jsonschema-0.15.1-r18
+	!=dev-rust/jsonschema-0.15.1-r19
+	!=dev-rust/cbindgen-0.20.0
+	!=dev-rust/cbindgen-0.20.0-r1
+	!=dev-rust/cbindgen-0.20.0-r2
+	!=dev-rust/cbindgen-0.20.0-r3
+	!=dev-rust/cbindgen-0.20.0-r4
+	!=dev-rust/cbindgen-0.20.0-r5
+	!=dev-rust/cbindgen-0.20.0-r6
+	!=dev-rust/cbindgen-0.20.0-r7
+	!=dev-rust/cbindgen-0.20.0-r8
+	!=dev-rust/cbindgen-0.20.0-r9
+	!=dev-rust/cbindgen-0.20.0-r10
+	!=dev-rust/cbindgen-0.20.0-r11
+	!=dev-rust/cbindgen-0.20.0-r12
+	!=dev-rust/serde_yaml-0.8.24
+	!=dev-rust/serde_yaml-0.8.24-r1
+	!=dev-rust/serde_yaml-0.8.24-r2
+	!=dev-rust/serde_yaml-0.8.24-r3
+	!=dev-rust/serde_yaml-0.8.24-r4
+	!=dev-rust/serde_json-1.0.79
+	!=dev-rust/serde_json-1.0.79-r1
+	!=dev-rust/serde_json-1.0.79-r2
+	!=dev-rust/serde_json-1.0.79-r3
+	!=dev-rust/serde_json-1.0.79-r4
 	!=dev-rust/ryu-1.0.5
 	!=dev-rust/ryu-1.0.5-r1
 	!=dev-rust/no-panic-0.1.10
@@ -1392,6 +1435,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cargo_metadata-0.2.3"
 	"cast-0.2.7"
 	"cast-0.3.0"
+	"cbindgen-0.20.0"
 	"cc-1.0.73"
 	"cexpr-0.4.0"
 	"cexpr-0.6.0"
@@ -1624,6 +1668,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"jobserver-0.1.24"
 	"jpeg-decoder-0.1.22"
 	"js-sys-0.3.60"
+	"jsonschema-0.15.2"
 	"juniper-0.15.10"
 	"juniper_codegen-0.15.9"
 	"junit-report-0.4.0"
@@ -1869,8 +1914,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"serde_bytes-0.10.5"
 	"serde_cbor-0.11.2"
 	"serde_derive-1.0.145"
+	"serde_json-0.8.6"
+	"serde_json-1.0.85"
 	"serde_test-1.0.147"
 	"serde_urlencoded-0.7.1"
+	"serde_yaml-0.8.26"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
 	"sha1-0.6.1"

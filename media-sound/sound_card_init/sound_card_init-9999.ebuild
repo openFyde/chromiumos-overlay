@@ -22,8 +22,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
-	dev-rust/serde_json
-	dev-rust/serde_yaml
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
 	media-sound/libcras:=

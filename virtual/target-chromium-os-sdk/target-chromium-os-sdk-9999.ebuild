@@ -412,7 +412,6 @@ RDEPEND="${RDEPEND}
 	chromeos-base/chromeos-dbus-bindings
 	chromeos-base/sirenia-tools
 	dev-rust/bindgen
-	dev-rust/cbindgen
 	dev-rust/dbus-codegen
 	dev-rust/protobuf-codegen
 	dev-util/cxxbridge-cmd

@@ -29,7 +29,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/capnp-0.14*
-	=dev-rust/serde_json-1*
 "
 RDEPEND="
 	${DEPEND}
