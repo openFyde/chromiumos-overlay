@@ -7,17 +7,17 @@ CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
-DESCRIPTION='Powerful library for word wrapping, indenting, and dedenting strings'
-HOMEPAGE='https://crates.io/crates/textwrap'
+DESCRIPTION='A simple to use, efficient, and full-featured Command Line Argument Parser'
+HOMEPAGE='https://crates.io/crates/clap'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
-LICENSE="MIT"
+LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/hyphenation-0.8.4 <dev-rust/hyphenation-0.9.0_alpha
+	~dev-rust/clap_derive-3.1.7
 "
 RDEPEND="${DEPEND}"
 

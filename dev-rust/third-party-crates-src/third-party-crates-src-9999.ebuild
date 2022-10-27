@@ -38,6 +38,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/textwrap-0.15.0
+	!=dev-rust/textwrap-0.15.0-r1
+	!=dev-rust/textwrap-0.15.0-r2
+	!=dev-rust/textwrap-0.15.0-r3
+	!=dev-rust/textwrap-0.15.0-r4
+	!=dev-rust/textwrap-0.11.0
+	!=dev-rust/textwrap-0.11.0-r1
+	!=dev-rust/textwrap-0.11.0-r2
+	!=dev-rust/textwrap-0.11.0-r3
+	!=dev-rust/hyphenation-0.7.1
 	!=dev-rust/spi-memory-0.2.0
 	!=dev-rust/spi-memory-0.2.0-r1
 	!=dev-rust/spi-memory-0.2.0-r2
@@ -1496,6 +1506,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"hyper-0.14.20"
 	"hyper-timeout-0.4.1"
 	"hyper-tls-0.5.0"
+	"hyphenation-0.7.1"
 	"hyphenation_commons-0.7.1"
 	"i2cdev-0.5.1"
 	"ident_case-1.0.1"
@@ -1832,6 +1843,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"termcolor-1.1.2"
 	"terminal_size-0.1.17"
 	"termios-0.2.2"
+	"textwrap-0.11.0"
+	"textwrap-0.15.1"
 	"thiserror-1.0.32"
 	"thiserror-impl-1.0.32"
 	"thread-id-3.3.0"
