@@ -38,6 +38,16 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libftdi1-sys-1.1.2
+	!=dev-rust/libftdi1-sys-1.1.2-r1
+	!=dev-rust/libftdi1-sys-1.1.2-r2
+	!=dev-rust/libftdi1-sys-1.1.2-r3
+	!=dev-rust/libftdi1-sys-1.1.2-r4
+	!=dev-rust/libftdi1-sys-1.1.2-r5
+	!=dev-rust/libftdi1-sys-1.1.2-r6
+	!=dev-rust/libftdi1-sys-1.1.2-r7
+	!=dev-rust/ftdi-mpsse-0.1.1
+	!=dev-rust/ftdi-mpsse-0.1.1-r1
 	!=dev-rust/bindgen-0.59.2
 	!=dev-rust/bindgen-0.59.2-r1
 	!=dev-rust/bindgen-0.59.2-r2
@@ -1700,6 +1710,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"foreign-types-shared-0.1.1"
 	"form_urlencoded-1.0.1"
 	"fraction-0.10.0"
+	"ftdi-mpsse-0.1.1"
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
 	"fuchsia-zircon-sys-0.3.3"
@@ -1807,6 +1818,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"lazycell-1.3.0"
 	"lexical-core-0.6.8"
 	"libc-0.2.132"
+	"libftdi1-sys-1.1.2"
 	"libfuzzer-sys-0.3.5"
 	"libfuzzer-sys-0.4.4"
 	"libloading-0.7.0"

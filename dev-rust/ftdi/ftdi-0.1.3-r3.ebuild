@@ -17,8 +17,8 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/ftdi-mpsse-0.1*
-	>=dev-rust/libftdi1-sys-1.1.0 <dev-rust/libftdi1-sys-2.0.0_alpha
+	dev-embedded/libftdi:=
+	virtual/libusb:1
 "
 RDEPEND="${DEPEND}"
 
