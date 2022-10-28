@@ -14,7 +14,4 @@ KEYWORDS="*"
 DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
-
-# Disable tests because only the 'png' feature of this crate works,
-# the other features have unsatisfied dependencies.
 RESTRICT="test"

@@ -39,7 +39,6 @@ python_check_deps() {
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/image-0.23.14 <dev-rust/image-0.24
 	dev-embedded/libftdi:=
 	virtual/libusb:1
 "

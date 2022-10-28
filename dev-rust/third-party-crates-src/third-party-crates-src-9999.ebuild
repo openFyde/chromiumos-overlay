@@ -38,6 +38,24 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/image-0.23.14
+	!=dev-rust/image-0.23.14-r1
+	!=dev-rust/image-0.23.14-r2
+	!=dev-rust/image-0.23.14-r3
+	!=dev-rust/image-0.23.14-r4
+	!=dev-rust/image-0.23.14-r5
+	!=dev-rust/image-0.23.14-r6
+	!=dev-rust/image-0.23.14-r7
+	!=dev-rust/image-0.23.14-r8
+	!=dev-rust/image-0.23.14-r9
+	!=dev-rust/image-0.23.14-r10
+	!=dev-rust/image-0.23.14-r11
+	!=dev-rust/image-0.23.14-r12
+	!=dev-rust/png-0.16.8
+	!=dev-rust/png-0.16.8-r1
+	!=dev-rust/png-0.16.8-r2
+	!=dev-rust/png-0.16.8-r3
+	!=dev-rust/png-0.16.8-r4
 	!=dev-rust/ftdi-0.1.3
 	!=dev-rust/ftdi-0.1.3-r1
 	!=dev-rust/ftdi-0.1.3-r2
@@ -1781,6 +1799,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ident_case-1.0.1"
 	"idna-0.1.5"
 	"idna-0.2.3"
+	"image-0.23.14"
 	"imgref-1.9.4"
 	"include_dir-0.6.2"
 	"include_dir_impl-0.6.2"
@@ -1936,6 +1955,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"plotters-0.3.4"
 	"plotters-backend-0.3.4"
 	"plotters-svg-0.3.3"
+	"png-0.16.8"
 	"portable-atomic-0.3.15"
 	"postgres-protocol-0.6.4"
 	"postgres-types-0.2.4"
