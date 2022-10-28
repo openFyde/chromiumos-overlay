@@ -3,17 +3,19 @@
 
 EAPI=7
 EGIT_REPO_URI="https://gitlab.freedesktop.org/drm/${PN}.git"
-GIT_ECLASS="git-r3"
 
+CROS_WORKON_COMMIT=e38045c24405e70fed6cfeec2f616454c68e6512
+CROS_WORKON_TREE=d93ff01d35d36e0653950a3f2a8a708552285117
+CROS_WORKON_EGIT_BRANCH=upstream/master
 CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
 CROS_WORKON_MANUAL_UPREV=1
 
-inherit ${GIT_ECLASS} meson cros-workon
+inherit meson cros-workon
 
 DESCRIPTION="Intel GPU userland tools"
 
 HOMEPAGE="https://01.org/linuxgraphics https://gitlab.freedesktop.org/drm/igt-gpu-tools"
-KEYWORDS="~*"
+KEYWORDS="*"
 SRC_URI=""
 LICENSE="MIT"
 SLOT="0"
