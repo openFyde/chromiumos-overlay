@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2e378732c01e42ccfab5cec0f2174567cf5d3def"
-CROS_WORKON_TREE="2d0702310ac34b336ff628bcac94bc0fdeb1d814"
+CROS_WORKON_COMMIT="f2ba07b4eb10413aef4abad420b59c50c204f699"
+CROS_WORKON_TREE="b196087428246414ebcbe87cfdc1ad1efba852a5"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -39,6 +39,148 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!~dev-rust/wayland-sys-0.29.0
+	!~dev-rust/wayland-commons-0.29.0
+	!=dev-rust/dlib-0.0.0
+	!=dev-rust/url-2.2.2
+	!=dev-rust/url-2.2.2-r1
+	!=dev-rust/url-2.2.2-r2
+	!=dev-rust/url-2.2.2-r3
+	!=dev-rust/url-2.2.2-r4
+	!=dev-rust/url-2.2.2-r5
+	!=dev-rust/yaml-rust-0.4.5
+	!=dev-rust/yaml-rust-0.4.5-r1
+	!=dev-rust/yaml-rust-0.3.5
+	!=dev-rust/toml-0.5.1
+	!=dev-rust/toml-0.5.1-r1
+	!=dev-rust/toml-0.5.1-r2
+	!=dev-rust/idna-0.2.3
+	!=dev-rust/idna-0.2.3-r1
+	!=dev-rust/idna-0.2.3-r2
+	!=dev-rust/idna-0.2.3-r3
+	!=dev-rust/unicode-bidi-0.3.4
+	!=dev-rust/unicode-bidi-0.3.4-r1
+	!=dev-rust/unicode-bidi-0.3.4-r2
+	!=dev-rust/unicode-bidi-0.3.4-r3
+	!=dev-rust/unicode-bidi-0.3.4-r4
+	!=dev-rust/unicode-bidi-0.3.4-r5
+	!=dev-rust/serde_bytes-0.10.5
+	!=dev-rust/serde_bytes-0.10.5-r1
+	!=dev-rust/serde_bytes-0.10.5-r2
+	!=dev-rust/serde_bytes-0.10.5-r3
+	!=dev-rust/linked-hash-map-0.5.4
+	!=dev-rust/linked-hash-map-0.5.4-r1
+	!=dev-rust/linked-hash-map-0.5.4-r2
+	!=dev-rust/linked-hash-map-0.5.4-r3
+	!=dev-rust/linked-hash-map-0.5.4-r4
+	!=dev-rust/ascii-1.0.0
+	!=dev-rust/ascii-1.0.0-r1
+	!=dev-rust/ascii-1.0.0-r2
+	!=dev-rust/serde_test-1.0.127
+	!=dev-rust/serde_test-1.0.127-r1
+	!=dev-rust/libz-sys-1.1.8
+	!=dev-rust/libz-sys-1.1.8-r1
+	!=dev-rust/libz-sys-1.1.8-r2
+	!=dev-rust/libz-sys-1.1.8-r3
+	!=dev-rust/libz-sys-1.1.8-r4
+	!=dev-rust/bincode-1.0.1
+	!=dev-rust/bincode-1.0.1-r1
+	!=dev-rust/bincode-1.0.1-r2
+	!=dev-rust/bincode-1.0.1-r3
+	!=dev-rust/fraction-0.10.0
+	!=dev-rust/fraction-0.10.0-r1
+	!=dev-rust/fraction-0.10.0-r2
+	!=dev-rust/fraction-0.10.0-r3
+	!=dev-rust/fraction-0.10.0-r4
+	!=dev-rust/fraction-0.10.0-r5
+	!=dev-rust/fraction-0.10.0-r6
+	!=dev-rust/num-0.2.1
+	!=dev-rust/num-0.2.1-r1
+	!=dev-rust/num-0.2.1-r2
+	!=dev-rust/num-0.2.1-r3
+	!=dev-rust/num-0.2.1-r4
+	!=dev-rust/num-0.2.1-r5
+	!=dev-rust/num-0.2.1-r6
+	!=dev-rust/num-rational-0.3.2
+	!=dev-rust/num-rational-0.3.2-r1
+	!=dev-rust/num-rational-0.3.2-r2
+	!=dev-rust/num-rational-0.3.2-r3
+	!=dev-rust/num-rational-0.3.2-r4
+	!=dev-rust/num-rational-0.3.2-r5
+	!=dev-rust/num-rational-0.2.4
+	!=dev-rust/num-rational-0.2.4-r1
+	!=dev-rust/num-rational-0.2.4-r2
+	!=dev-rust/num-rational-0.2.4-r3
+	!=dev-rust/num-rational-0.2.4-r4
+	!=dev-rust/num-rational-0.2.4-r5
+	!=dev-rust/num-bigint-0.4.0
+	!=dev-rust/num-bigint-0.4.0-r1
+	!=dev-rust/num-bigint-0.4.0-r2
+	!=dev-rust/num-bigint-0.4.0-r3
+	!=dev-rust/num-bigint-0.4.0-r4
+	!=dev-rust/num-bigint-0.4.0-r5
+	!=dev-rust/num-bigint-0.4.0-r6
+	!=dev-rust/num-bigint-0.4.0-r7
+	!=dev-rust/num-bigint-0.3.3
+	!=dev-rust/num-bigint-0.3.3-r1
+	!=dev-rust/num-bigint-0.3.3-r2
+	!=dev-rust/num-bigint-0.3.3-r3
+	!=dev-rust/num-bigint-0.3.3-r4
+	!=dev-rust/num-bigint-0.3.3-r5
+	!=dev-rust/num-bigint-0.3.3-r6
+	!=dev-rust/num-bigint-0.3.3-r7
+	!=dev-rust/num-bigint-0.2.6
+	!=dev-rust/num-bigint-0.2.6-r1
+	!=dev-rust/num-bigint-0.2.6-r2
+	!=dev-rust/num-bigint-0.2.6-r3
+	!=dev-rust/num-bigint-0.2.6-r4
+	!=dev-rust/num-bigint-0.2.6-r5
+	!=dev-rust/num-bigint-0.2.6-r6
+	!=dev-rust/num-bigint-0.2.6-r7
+	!=dev-rust/generic-array-0.14.4
+	!=dev-rust/generic-array-0.14.4-r1
+	!=dev-rust/generic-array-0.14.4-r2
+	!=dev-rust/generic-array-0.14.4-r3
+	!=dev-rust/generic-array-0.13.3
+	!=dev-rust/generic-array-0.13.3-r1
+	!=dev-rust/generic-array-0.13.3-r2
+	!=dev-rust/generic-array-0.12.4
+	!=dev-rust/generic-array-0.12.4-r1
+	!=dev-rust/generic-array-0.12.4-r2
+	!=dev-rust/crossbeam-queue-0.2.3
+	!=dev-rust/crossbeam-queue-0.2.3-r1
+	!=dev-rust/crossbeam-queue-0.2.3-r2
+	!=dev-rust/crossbeam-queue-0.2.3-r3
+	!=dev-rust/clap_lex-0.1.1
+	!=dev-rust/clap_lex-0.1.1-r1
+	!=dev-rust/spin-0.9.4
+	!=dev-rust/spin-0.9.4-r1
+	!=dev-rust/spin-0.9.4-r2
+	!=dev-rust/lock_api-0.4.7
+	!=dev-rust/lock_api-0.4.7-r1
+	!=dev-rust/lock_api-0.4.7-r2
+	!=dev-rust/lock_api-0.4.7-r3
+	!=dev-rust/lock_api-0.4.7-r4
+	!=dev-rust/owning_ref-0.4.1
+	!=dev-rust/owning_ref-0.4.1-r1
+	!=dev-rust/indicatif-0.16.2
+	!=dev-rust/indicatif-0.16.2-r1
+	!=dev-rust/indicatif-0.16.2-r2
+	!=dev-rust/indicatif-0.16.2-r3
+	!=dev-rust/indicatif-0.16.2-r4
+	!=dev-rust/indicatif-0.16.2-r5
+	!=dev-rust/indicatif-0.16.2-r6
+	!=dev-rust/console-0.15.0
+	!=dev-rust/console-0.15.0-r1
+	!=dev-rust/console-0.15.0-r2
+	!=dev-rust/console-0.15.0-r3
+	!=dev-rust/console-0.15.0-r4
+	!=dev-rust/console-0.15.0-r5
+	!=dev-rust/bayer-0.1.5
+	!=dev-rust/bayer-0.1.5-r1
+	!=dev-rust/bayer-0.1.5-r2
+	!=dev-rust/bayer-0.1.5-r3
+	!=dev-rust/bayer-0.1.5-r4
 	!=dev-rust/rayon-1.5.0
 	!=dev-rust/rayon-1.5.0-r1
 	!=dev-rust/rayon-1.5.0-r2
@@ -917,6 +1059,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"argh_shared-0.1.8"
 	"arrayvec-0.4.12"
 	"arrayvec-0.5.2"
+	"ascii-0.9.3"
+	"ascii-1.0.0"
 	"assert_matches-1.5.0"
 	"async-stream-0.3.3"
 	"async-stream-impl-0.3.3"
@@ -935,8 +1079,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"base-x-0.2.11"
 	"base64-0.10.1"
 	"base64-0.13.0"
+	"bayer-0.1.5"
 	"beef-0.5.2"
 	"bencher-0.1.5"
+	"bincode-1.0.1"
 	"bit-set-0.5.3"
 	"bit-vec-0.6.3"
 	"bit_field-0.10.1"
@@ -969,6 +1115,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"cfg-if-1.0.0"
 	"chunked_transfer-1.4.0"
 	"clang-sys-1.2.0"
+	"clap_lex-0.1.1"
+	"clap_lex-0.2.4"
 	"clipboard-win-4.2.1"
 	"clippy-0.0.166"
 	"clippy_lints-0.0.166"
@@ -980,6 +1128,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"combine-3.8.1"
 	"compiler_builtins-0.1.80"
 	"configparser-3.0.0"
+	"console-0.15.1"
 	"const-random-0.1.13"
 	"const-random-macro-0.1.13"
 	"const-sha1-0.2.0"
@@ -1002,6 +1151,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"crossbeam-channel-0.5.6"
 	"crossbeam-deque-0.8.2"
 	"crossbeam-epoch-0.9.10"
+	"crossbeam-queue-0.2.3"
+	"crossbeam-queue-0.3.6"
 	"crossbeam-utils-0.7.2"
 	"crossbeam-utils-0.8.11"
 	"crunchy-0.2.2"
@@ -1080,6 +1231,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"foreign-types-0.3.2"
 	"foreign-types-shared-0.1.1"
 	"form_urlencoded-1.0.1"
+	"fraction-0.10.0"
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
 	"fuchsia-zircon-sys-0.3.3"
@@ -1098,6 +1250,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"gag-1.0.0"
 	"gdbstub-0.6.3"
 	"gdbstub_arch-0.2.4"
+	"generic-array-0.12.4"
+	"generic-array-0.13.3"
+	"generic-array-0.14.6"
 	"getopts-0.2.21"
 	"getrandom-0.1.16"
 	"getrandom-0.2.7"
@@ -1136,7 +1291,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"i2cdev-0.5.1"
 	"iana-time-zone-0.1.47"
 	"ident_case-1.0.1"
+	"idna-0.1.5"
+	"idna-0.2.3"
 	"imgref-1.9.4"
+	"indicatif-0.16.2"
 	"indoc-0.3.6"
 	"indoc-impl-0.3.6"
 	"inflections-1.1.1"
@@ -1178,9 +1336,12 @@ ALLOWED_CRATE_VERSIONS=(
 	"libslirp-sys-4.2.1"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
+	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
+	"linked-hash-map-0.5.6"
 	"linux-raw-sys-0.0.46"
 	"litrs-0.2.3"
+	"lock_api-0.4.9"
 	"log-0.4.14"
 	"loop9-0.1.3"
 	"managed-0.8.0"
@@ -1217,11 +1378,18 @@ ALLOWED_CRATE_VERSIONS=(
 	"nom-7.1.1"
 	"noop_proc_macro-0.3.0"
 	"ntapi-0.3.6"
+	"num-0.1.42"
+	"num-0.2.1"
+	"num-bigint-0.2.6"
+	"num-bigint-0.3.3"
+	"num-bigint-0.4.3"
 	"num-cmp-0.1.0"
 	"num-complex-0.2.4"
 	"num-derive-0.3.3"
 	"num-integer-0.1.45"
 	"num-iter-0.1.43"
+	"num-rational-0.2.4"
+	"num-rational-0.3.2"
 	"num-traits-0.1.43"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"
@@ -1233,6 +1401,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
 	"os_str_bytes-6.3.0"
+	"owning_ref-0.4.1"
 	"packed_simd_2-0.3.8"
 	"panic-halt-0.2.0"
 	"paste-0.1.18"
@@ -1379,8 +1548,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"serde-0.8.23"
 	"serde-1.0.145"
 	"serde-tuple-vec-map-1.0.1"
+	"serde_bytes-0.10.5"
 	"serde_cbor-0.11.2"
 	"serde_derive-1.0.145"
+	"serde_test-1.0.147"
 	"serde_urlencoded-0.7.1"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
@@ -1402,6 +1573,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"socket2-0.3.19"
 	"socket2-0.4.7"
 	"spidev-0.5.1"
+	"spin-0.9.4"
 	"stable_deref_trait-1.2.0"
 	"standback-0.2.17"
 	"static_assertions-0.3.4"
@@ -1457,6 +1629,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"tokio-native-tls-0.3.0"
 	"tokio-stream-0.1.3"
 	"tokio-util-0.7.3"
+	"toml-0.4.10"
+	"toml-0.5.9"
 	"tonic-0.8.1"
 	"tonic-build-0.8.2"
 	"tower-0.4.13"
@@ -1479,6 +1653,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ufmt-write-0.1.0"
 	"uguid-1.2.1"
 	"unicase-2.6.0"
+	"unicode-bidi-0.3.8"
 	"unicode-ident-1.0.4"
 	"unicode-linebreak-0.1.4"
 	"unicode-normalization-0.1.21"
@@ -1490,6 +1665,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"unindent-0.1.10"
 	"uniquote-3.2.1"
 	"unreachable-1.0.0"
+	"url-1.7.2"
+	"url-2.2.2"
 	"utf8parse-0.2.0"
 	"uuid-0.8.2"
 	"v_frame-0.2.5"
@@ -1552,6 +1729,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"x86_64-0.14.10"
 	"xml-rs-0.8.4"
 	"xmlparser-0.13.3"
+	"yaml-rust-0.3.5"
+	"yaml-rust-0.4.5"
 	"zeroize-1.5.7"
 	"zeroize_derive-1.3.2"
 )

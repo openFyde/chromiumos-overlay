@@ -42,7 +42,6 @@ python_check_deps() {
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/anyhow-1.0.38 <dev-rust/anyhow-2.0.0
-	>=dev-rust/bayer-0.1.5 <dev-rust/bayer-0.2.0_alpha
 	=dev-rust/bindgen-0.59*
 	=dev-rust/clap-3*
 	>=dev-rust/cortex-m-0.6.2 <dev-rust/cortex-m-0.7.0
@@ -51,7 +50,6 @@ DEPEND="
 	=dev-rust/embedded-hal-mock-0.8*
 	>=dev-rust/ftdi-0.1.3 <dev-rust/ftdi-0.2
 	>=dev-rust/image-0.23.14 <dev-rust/image-0.24
-	>=dev-rust/indicatif-0.16.2 <dev-rust/indicatif-0.17
 	>=dev-rust/linux-embedded-hal-0.3.1 <dev-rust/linux-embedded-hal-0.4
 	>=dev-rust/num_enum-0.5.1 <dev-rust/num_enum-0.6.0
 	=dev-rust/nb-1*

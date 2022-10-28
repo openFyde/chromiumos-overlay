@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
+CROS_WORKON_COMMIT="12b6c0bbeab58d1801bf9353c442a1f4acc6e6c1"
 CROS_WORKON_TREE="955f33e0c32219cf280b20e45894ac95e9571870"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -32,7 +32,6 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/ascii-1.0.0 <dev-rust/ascii-1.1
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	dev-rust/libchromeos:=
 	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9

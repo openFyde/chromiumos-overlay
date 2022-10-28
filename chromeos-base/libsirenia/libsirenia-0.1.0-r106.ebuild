@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
+CROS_WORKON_COMMIT="12b6c0bbeab58d1801bf9353c442a1f4acc6e6c1"
 CROS_WORKON_TREE="e733f7a6b19ddc3c095bc4261a7b09ede44b73b2"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -31,7 +31,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	>=dev-rust/minijail-0.2.3:=
 	=dev-rust/openssl-0.10*
-	=dev-rust/serde_bytes-0.10*
 	=dev-rust/serde_json-1*
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when

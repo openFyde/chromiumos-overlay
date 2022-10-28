@@ -4,7 +4,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="306edb5a3e9b84e22b2b1e19b56330f87f05480f"
+CROS_WORKON_COMMIT="12e836f2bfe411f582cdbc6eb3e94c7736a92f49"
 CROS_WORKON_TREE=("f5bdf5e62032045aa3d8ebf9fd4624ce9e291b2a" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -27,7 +27,6 @@ DEPEND="
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 	dev-rust/cros_async:=
-	dev-rust/num:=
 	dev-rust/serde_json:=
 "
 
