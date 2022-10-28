@@ -22,6 +22,7 @@ KEYWORDS="~*"
 IUSE=""
 
 DEPEND="
+	chromeos-base/system_api:=
 	chromeos-base/shill-client:=
 	chromeos-base/shill-net
 "
