@@ -21,11 +21,13 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="profiling test tpm tpm_dynamic tpm2"
 
-RDEPEND="
+DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/system_api
 	chromeos-base/tpm_manager-client
 	"
+
+RDEPEND="${DEPEND}"
 
 src_install() {
 	platform_src_install
