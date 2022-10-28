@@ -38,6 +38,9 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/ftdi-0.1.3
+	!=dev-rust/ftdi-0.1.3-r1
+	!=dev-rust/ftdi-0.1.3-r2
 	!=dev-rust/libftdi1-sys-1.1.2
 	!=dev-rust/libftdi1-sys-1.1.2-r1
 	!=dev-rust/libftdi1-sys-1.1.2-r2
@@ -1710,6 +1713,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"foreign-types-shared-0.1.1"
 	"form_urlencoded-1.0.1"
 	"fraction-0.10.0"
+	"ftdi-0.1.3"
 	"ftdi-mpsse-0.1.1"
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
