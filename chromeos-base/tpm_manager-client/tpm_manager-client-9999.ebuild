@@ -30,6 +30,7 @@ IUSE="cros_host test tpm tpm2 fuzzer"
 DEPEND="
 	cros_host? ( >=chromeos-base/chromeos-dbus-bindings-0.0.1-r1058 )
 	chromeos-base/libbrillo:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 # Note that for RDEPEND, we conflict with tpm_manager package older than
