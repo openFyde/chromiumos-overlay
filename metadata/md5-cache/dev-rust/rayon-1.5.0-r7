@@ -1,0 +1,11 @@
+DEFINED_PHASES=-
+DEPEND=dev-rust/third-party-crates-src:=
+DESCRIPTION=Replaced by third-party-crates-src.
+EAPI=7
+IUSE=cros_host
+KEYWORDS=*
+LICENSE=metapackage
+RDEPEND=cros_host? ( dev-rust/third-party-crates-src:= )
+RESTRICT=test
+SLOT=1.5.0/r7
+_md5_=f52366253d0bc9dd455a60891944ba20
