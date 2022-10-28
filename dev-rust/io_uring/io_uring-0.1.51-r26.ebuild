@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b1ed0beba584345490400f9e82b43ee32d48f792"
-CROS_WORKON_TREE=("036faddf548a679c333c51196c141271deeebd89" "a920b8bc18a923d5cfa6abfb5390bc903526beef")
+CROS_WORKON_COMMIT="278c84bfd03995394a1639e88c77784df4bf7afb"
+CROS_WORKON_TREE=("c7a723c4e16c13607227742e5220767b0cafd5b6" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_RUST_SUBDIR="common/io_uring"
+CROS_RUST_SUBDIR="io_uring"
 CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
 CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
 
@@ -27,13 +27,29 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 
 DEPEND="
+	chromeos-base/crosvm-base:=
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
 	dev-rust/sync:=
-	dev-rust/sys_util:=
-	=dev-rust/tempfile-3*
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	cros-rust_src_prepare
+
+	# Use the ChromeOS copy of base instead of the crosvm copy.
+	sed -i 's/^base = /crosvm-base = /g' "${S}/Cargo.toml"
+	sed -i -e 's/^use base/use crosvm_base/g' \
+		-e 's/(base::/(crosvm_base::/g' \
+		-- "${S}/src/"*.rs
+
+	# Replace the version in the sources with the ebuild version.
+	# ${FILESDIR}/chromeos-version.sh sets the minor version 50 ahead to avoid
+	# colliding with the version included by path.
+	if [[ "${PV}" != 9999 ]]; then
+		sed -i 's/^version = .*$/version = "'"${PV}"'"/g' "${S}/Cargo.toml"
+	fi
+}
 
 src_test() {
 	# The io_uring implementation on kernels older than 5.10 was buggy so skip

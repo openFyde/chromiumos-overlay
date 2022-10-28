@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b1ed0beba584345490400f9e82b43ee32d48f792"
-CROS_WORKON_TREE=("21dfa4764b2f9940fb18945fd1d7bf4b6c7e2c32" "a920b8bc18a923d5cfa6abfb5390bc903526beef")
+CROS_WORKON_COMMIT="278c84bfd03995394a1639e88c77784df4bf7afb"
+CROS_WORKON_TREE=("acff6d584607d50d0248ef27171017b271cf74fc" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_RUST_SUBDIR="common/data_model"
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} .cargo"
-CROS_WORKON_SUBDIRS_TO_COPY=(${CROS_WORKON_SUTREE})
+CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
+CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
 
 # The version of this crate is pinned. See b/229016539 for details.
 CROS_WORKON_MANUAL_UPREV="1"
@@ -26,14 +26,22 @@ KEYWORDS="*"
 IUSE="test"
 
 DEPEND="
+	dev-rust/third-party-crates-src:=
 	dev-rust/assertions:=
-	dev-rust/libc:=
-	=dev-rust/remain-0.2*:=
-	=dev-rust/serde-1*:=
-	>=dev-rust/thiserror-1.0.20:= <dev-rust/thiserror-2.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}
 	!!<=dev-rust/data_model-0.1.0-r13
 "
+
+src_prepare() {
+	cros-rust_src_prepare
+
+	# Replace the version in the sources with the ebuild version.
+	# ${FILESDIR}/chromeos-version.sh sets the minor version 50 ahead to avoid
+	# colliding with the version included by path.
+	if [[ "${PV}" != 9999 ]]; then
+		sed -i 's/^version = .*$/version = "'"${PV}"'"/g' "${S}/Cargo.toml"
+	fi
+}

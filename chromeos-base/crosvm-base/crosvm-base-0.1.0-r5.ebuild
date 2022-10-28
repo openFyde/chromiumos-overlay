@@ -4,8 +4,8 @@
 EAPI=7
 
 # Remove windows dependencies.
-CROS_WORKON_COMMIT="5b451ef482d56ed700bf16822af06001972b4253"
-CROS_WORKON_TREE=("52efe2e63931d15e1896f26de277592d4700bb91" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
+CROS_WORKON_COMMIT="278c84bfd03995394a1639e88c77784df4bf7afb"
+CROS_WORKON_TREE=("7141d03a2738c2f673a7e6c742a2fa8b3baf193a" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
 CROS_RUST_REMOVE_TARGET_CFG=1
 
 CROS_WORKON_LOCALNAME="platform/crosvm"
@@ -34,17 +34,11 @@ IUSE="test"
 # The first group of DEPENDs is for base_event_token_derive.
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	dev-rust/cfg-if
+	=dev-rust/anyhow-1*
 	dev-rust/chrono
-	=dev-rust/env_logger-0.9*
 	dev-rust/data_model:=
-	=dev-rust/log-0.4*
-	=dev-rust/once_cell-1*
 	=dev-rust/serde_json-1*
-	=dev-rust/smallvec-1*
 	dev-rust/sync:=
-	=dev-rust/tempfile-3*
-	=dev-rust/uuid-0.8*
 	media-sound/audio_streams:=
 	sys-libs/libcap:=
 "
@@ -108,9 +102,4 @@ pkg_postinst() {
 pkg_prerm() {
 	cros-rust_pkg_prerm base_event_token_derive
 	cros-rust_pkg_prerm
-}
-
-pkg_postrm() {
-	cros-rust_pkg_postrm base_event_token_derive
-	cros-rust_pkg_postrm
 }
