@@ -18,7 +18,10 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libec"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-COMMON_DEPEND=""
+COMMON_DEPEND="
+	chromeos-base/chromeos-ec-headers:=
+	chromeos-base/power_manager-client:=
+"
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -26,8 +29,6 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/chromeos-ec-headers:=
-	chromeos-base/power_manager-client:=
 "
 
 src_install() {
