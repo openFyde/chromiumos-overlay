@@ -40,6 +40,9 @@ CUSTOMIZATION_IGNORE_CRATES = {
     "clap_conf",
     "riscv-rt",
     "riscv-rt-macros",
+    # This has host-specific build instructions, which aren't relevant to
+    # targets.
+    "bindgen",
 }
 
 # Line written into ebuilds which are automigrated.

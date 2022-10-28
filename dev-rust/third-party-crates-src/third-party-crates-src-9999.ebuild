@@ -38,6 +38,20 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/bindgen-0.59.2
+	!=dev-rust/bindgen-0.59.2-r1
+	!=dev-rust/bindgen-0.59.2-r2
+	!=dev-rust/bindgen-0.59.2-r3
+	!=dev-rust/bindgen-0.59.2-r4
+	!=dev-rust/bindgen-0.59.2-r5
+	!=dev-rust/bindgen-0.59.2-r6
+	!=dev-rust/bindgen-0.59.2-r7
+	!=dev-rust/bindgen-0.59.2-r8
+	!=dev-rust/bindgen-0.59.2-r9
+	!=dev-rust/bindgen-0.59.2-r10
+	!=dev-rust/bindgen-0.59.2-r11
+	!=dev-rust/bindgen-0.59.2-r12
+	!=dev-rust/bindgen-0.59.2-r13
 	!=dev-rust/rusb-0.8.1
 	!=dev-rust/rusb-0.8.1-r1
 	!=dev-rust/rusb-0.8.1-r2
@@ -1509,6 +1523,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"beef-0.5.2"
 	"bencher-0.1.5"
 	"bincode-1.0.1"
+	"bindgen-0.57.0"
+	"bindgen-0.59.2"
 	"bindgen-0.60.1"
 	"bit-set-0.5.3"
 	"bit-vec-0.6.3"
@@ -1630,6 +1646,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"derive_builder-0.9.0"
 	"derive_builder_core-0.9.0"
 	"derive_utils-0.11.2"
+	"diff-0.1.13"
 	"digest-0.10.5"
 	"digest-0.9.0"
 	"dirs-next-2.0.0"

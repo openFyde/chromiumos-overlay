@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-embedded/libftdi:=
-	=dev-rust/bindgen-0.59*
 	virtual/libusb:1
 "
 RDEPEND="${DEPEND}"

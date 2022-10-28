@@ -15,7 +15,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/bindgen-0.59.2 <dev-rust/bindgen-1
 	>=dev-rust/openssl-src-111.0.1 <dev-rust/openssl-src-112
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are
