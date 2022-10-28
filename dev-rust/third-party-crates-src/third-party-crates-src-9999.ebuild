@@ -38,6 +38,10 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libusb1-sys-0.5.0
+	!=dev-rust/libusb1-sys-0.5.0-r1
+	!=dev-rust/libusb1-sys-0.5.0-r2
+	!=dev-rust/libusb1-sys-0.5.0-r3
 	!=dev-rust/codespan-reporting-0.11.1
 	!=dev-rust/codespan-reporting-0.11.1-r1
 	!=dev-rust/codespan-reporting-0.11.1-r2
@@ -1786,6 +1790,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libslirp-sys-4.2.1"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
+	"libusb1-sys-0.5.0"
 	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
 	"linked-hash-map-0.5.6"
