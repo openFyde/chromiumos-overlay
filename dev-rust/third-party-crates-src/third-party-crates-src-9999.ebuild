@@ -38,6 +38,12 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libdbus-sys-0.2.1
+	!=dev-rust/libdbus-sys-0.2.1-r1
+	!=dev-rust/libdbus-sys-0.1.3
+	!=dev-rust/libdbus-sys-0.1.3-r1
+	!=dev-rust/libdbus-sys-0.1.3-r2
+	!=dev-rust/libdbus-sys-0.1.3-r3
 	!=dev-rust/image-0.23.14
 	!=dev-rust/image-0.23.14-r1
 	!=dev-rust/image-0.23.14-r2
@@ -1841,6 +1847,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"lazycell-1.3.0"
 	"lexical-core-0.6.8"
 	"libc-0.2.132"
+	"libdbus-sys-0.1.3"
+	"libdbus-sys-0.2.2"
 	"libftdi1-sys-1.1.2"
 	"libfuzzer-sys-0.3.5"
 	"libfuzzer-sys-0.4.4"

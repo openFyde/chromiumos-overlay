@@ -17,7 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/libdbus-sys-0.2*
+	sys-apps/dbus:=
 "
 RDEPEND="${DEPEND}"
 
