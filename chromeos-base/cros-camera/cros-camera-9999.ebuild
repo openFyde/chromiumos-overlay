@@ -29,6 +29,7 @@ RDEPEND="
 	chromeos-base/cros-camera-android-deps:=
 	media-libs/cros-camera-hal-usb:=
 	media-libs/libsync:=
+	media-libs/libyuv:=
 	libcamera? ( media-libs/libcamera )
 	!libcamera? (
 		virtual/cros-camera-hal
