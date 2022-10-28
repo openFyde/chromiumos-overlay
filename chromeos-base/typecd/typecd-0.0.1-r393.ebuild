@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="739441a7eea3f214f37d99fa89e90d1c738bde39"
+CROS_WORKON_COMMIT="52ec6559ccd720d8df0cbdfb25c4794388d4a250"
 CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "ff380f5945a44e44e64051e46064538d321b0ece" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -66,7 +66,6 @@ src_install() {
 		"typecd_port_manager_fuzzer"
 		"typecd_session_manager_proxy_fuzzer"
 		"typecd_udev_monitor_fuzzer"
-		"typecd_usb_monitor_fuzzer"
 	)
 	local fuzz_target
 	for fuzz_target in "${fuzz_targets[@]}"; do
