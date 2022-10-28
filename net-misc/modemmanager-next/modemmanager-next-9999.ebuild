@@ -75,7 +75,6 @@ src_prepare() {
 	gtkdocize
 	eautopoint
 	eautoreconf
-	intltoolize --force
 }
 
 src_configure() {
