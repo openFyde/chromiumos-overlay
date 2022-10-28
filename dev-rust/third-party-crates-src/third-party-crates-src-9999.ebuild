@@ -38,6 +38,10 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/simple_logger-1.13.0
+	!=dev-rust/simple_logger-1.13.0-r1
+	!=dev-rust/simple_logger-1.13.0-r2
+	!=dev-rust/simple_logger-1.13.0-r3
 	!=dev-rust/libusb1-sys-0.5.0
 	!=dev-rust/libusb1-sys-0.5.0-r1
 	!=dev-rust/libusb1-sys-0.5.0-r2
@@ -2045,6 +2049,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"signal-hook-registry-1.4.0"
 	"signature-1.6.4"
 	"simd_helpers-0.1.0"
+	"simple_logger-1.16.0"
 	"skim-0.9.4"
 	"slab-0.4.7"
 	"slog-2.7.0"
