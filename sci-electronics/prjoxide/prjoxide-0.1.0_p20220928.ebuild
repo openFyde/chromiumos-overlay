@@ -52,6 +52,13 @@ src_unpack() {
 	rm libprjoxide/Cargo.toml || die
 }
 
+src_prepare() {
+	default
+	cd "${PRJOXIDE_ROOT_DIR}/database" || die
+	eapply "${FILESDIR}/timing-updates.patch"
+	eapply "${FILESDIR}/lram-registered-output-timing.patch"
+}
+
 src_compile() {
 	ecargo_build
 }
