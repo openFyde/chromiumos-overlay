@@ -1731,6 +1731,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"xmlparser-0.13.3"
 	"yaml-rust-0.3.5"
 	"yaml-rust-0.4.5"
+	"zerocopy-0.7.0-alpha.1"
+	"zerocopy-derive-0.3.2"
 	"zeroize-1.5.7"
 	"zeroize_derive-1.3.2"
 )
