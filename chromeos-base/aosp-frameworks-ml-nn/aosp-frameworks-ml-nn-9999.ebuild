@@ -53,6 +53,7 @@ RDEPEND="
 	chromeos-base/nnapi:=
 	dev-libs/openssl:=
 	sci-libs/tensorflow[xnnpack?]
+	chromeos-base/session_manager-client:=
 "
 
 DEPEND="
