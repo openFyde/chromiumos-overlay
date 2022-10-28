@@ -38,6 +38,9 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rusb-0.8.1
+	!=dev-rust/rusb-0.8.1-r1
+	!=dev-rust/rusb-0.8.1-r2
 	!=dev-rust/simple_logger-1.13.0
 	!=dev-rust/simple_logger-1.13.0-r1
 	!=dev-rust/simple_logger-1.13.0-r2
@@ -1988,6 +1991,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rtic-monotonic-1.0.0"
 	"rtic-syntax-1.0.2"
 	"rtt-target-0.3.1"
+	"rusb-0.8.1"
 	"rust_hawktracer-0.7.0"
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"

@@ -32,9 +32,9 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	dev-rust/libchromeos:=
-	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	dev-rust/sync:=
 	>=dev-rust/tiny_http-0.8 <dev-rust/tiny_http-0.9
+	virtual/libusb:1
 "
 
 pkg_preinst() {

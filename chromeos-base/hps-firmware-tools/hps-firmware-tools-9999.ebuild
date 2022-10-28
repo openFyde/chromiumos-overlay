@@ -41,7 +41,7 @@ DEPEND="
 	=dev-rust/bindgen-0.59*
 	>=dev-rust/ftdi-0.1.3 <dev-rust/ftdi-0.2
 	>=dev-rust/image-0.23.14 <dev-rust/image-0.24
-	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
+	virtual/libusb:1
 "
 
 # host tools used to live in hps-firmware
