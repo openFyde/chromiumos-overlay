@@ -24,6 +24,7 @@ case "${EAPI:-0}" in
 esac
 
 DLC_BUILD_DIR="build/rootfs/dlc"
+DLC_BUILD_DIR_SCALED="build/rootfs/dlc-scaled"
 
 # @ECLASS-VARIABLE: DLC_PREALLOC_BLOCKS
 # @DEFAULT_UNSET
@@ -86,9 +87,9 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # @DESCRIPTION:
 # Determines whether the package will be a DLC package or regular package.
 # By default, the package is a DLC package and the files will be installed in
-# ${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root, but if the variable is set to
-# "false", all the functions will ignore the path suffix and everything that
-# would have been installed inside the DLC, gets installed in the rootfs.
+# ${DLC_BUILD_DIR[_SCALED]}/${DLC_ID}/${DLC_PACKAGE}/root, but if the variable is
+# set to "false", all the functions will ignore the path suffix and everything
+# that would have been installed inside the DLC, gets installed in the rootfs.
 : "${DLC_ENABLED:="true"}"
 
 # @ECLASS-VARIABLE: DLC_USED_BY
@@ -130,6 +131,12 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # (Please consult @chromeos-core-services team before using this)
 : "${DLC_LOADPIN_VERITY_DIGEST:="false"}"
 
+# @ECLASS-VARIABLE: DLC_SCALED
+# @DESCRIPTION:
+# DLC will be fed through scaling design.
+# (Please consult @chromeos-core-services team before using this)
+: "${DLC_SCALED:="false"}"
+
 # @FUNCTION: dlc_add_path
 # @USAGE: <path to add the DLC prefix to>
 # @RETURN:
@@ -143,7 +150,11 @@ dlc_add_path() {
 	else
 		[[ -z "${DLC_ID}" ]] && die "DLC_ID undefined"
 		[[ -z "${DLC_PACKAGE}" ]] && die "DLC_PACKAGE undefined"
-		echo "/${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root/${input_path}"
+		if [[ "${DLC_SCALED}" == "true" ]]; then
+			echo "/${DLC_BUILD_DIR_SCALED}/${DLC_ID}/${DLC_PACKAGE}/root/${input_path}"
+		else
+			echo "/${DLC_BUILD_DIR}/${DLC_ID}/${DLC_PACKAGE}/root/${input_path}"
+		fi
 	fi
 }
 
@@ -178,6 +189,8 @@ dlc_src_install() {
 		|| die "Invalid DLC_CRITICAL_UPDATE value"
 	[[ "${DLC_LOADPIN_VERITY_DIGEST}" =~ ^(true|false)$ ]] \
 		|| die "Invalid DLC_LOADPIN_VERITY_DIGEST value"
+	[[ "${DLC_SCALED}" =~ ^(true|false)$ ]] \
+		|| die "Invalid DLC_SCALED value"
 
 	local args=(
 		--install-root-dir="${D}"
@@ -222,6 +235,10 @@ dlc_src_install() {
 
 	if [[ "${DLC_LOADPIN_VERITY_DIGEST}" == "true" ]]; then
 		args+=( --loadpin-verity-digest )
+	fi
+
+	if [[ "${DLC_SCALED}" == "true" ]]; then
+		args+=( --scaled )
 	fi
 
 	"${CHROMITE_BIN_DIR}"/build_dlc "${args[@]}" \
