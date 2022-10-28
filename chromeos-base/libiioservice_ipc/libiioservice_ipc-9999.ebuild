@@ -21,5 +21,6 @@ KEYWORDS="~*"
 RDEPEND=""
 
 DEPEND="${RDEPEND}
+	chromeos-base/system_api:=
 	virtual/pkgconfig
 "
