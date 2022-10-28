@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8ffe72e65e97442d093f1cef9de50e2e5224ee84"
-CROS_WORKON_TREE="4ac817f17675a9b97a8e9c53abcc4211a336b0a2"
+CROS_WORKON_COMMIT="6707a6cd30092b68825884b5d36c70eeba11526d"
+CROS_WORKON_TREE="e28129d755b361f324263358abb9e5a0daa704c7"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -42,7 +42,6 @@ IUSE_TESTS="
 	+tests_cellular_Hermes_SingleProfile
 	+tests_cellular_Identifiers
 	+tests_cellular_SIMLocking
-	+tests_cellular_Smoke
 	+tests_cellular_StressEnable
 	+tests_cellular_ValidateTestEnvironment
 "
