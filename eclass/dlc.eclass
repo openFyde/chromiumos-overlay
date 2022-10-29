@@ -136,7 +136,7 @@ DLC_BUILD_DIR="build/rootfs/dlc"
 # Adds the DLC path prefix to the argument based on the value of |DLC_ENABLED|
 # and returns that value.
 dlc_add_path() {
-	[[ $# -eq 1 ]] || die "${FUNCNAME}: takes one argument"
+	[[ $# -eq 1 ]] || die "${FUNCNAME[0]}: takes one argument"
 	local input_path="$1"
 	if [[ "${DLC_ENABLED}" != "true" ]]; then
 		echo "/${input_path}"
@@ -176,6 +176,8 @@ dlc_src_install() {
 		|| die "Invalid DLC_RESERVED value"
 	[[ "${DLC_CRITICAL_UPDATE}" =~ ^(true|false)$ ]] \
 		|| die "Invalid DLC_CRITICAL_UPDATE value"
+	[[ "${DLC_LOADPIN_VERITY_DIGEST}" =~ ^(true|false)$ ]] \
+		|| die "Invalid DLC_LOADPIN_VERITY_DIGEST value"
 
 	local args=(
 		--install-root-dir="${D}"
