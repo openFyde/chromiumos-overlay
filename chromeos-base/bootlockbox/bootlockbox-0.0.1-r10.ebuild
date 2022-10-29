@@ -3,20 +3,20 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b841f25a412b504b022f25e5570eadf5685e0ea6"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "1000081f098ca5a92d2b975bbc20759541b93b96" "17bdc3c664a4bad17dfdff0350af34faae44800f" "191ec9f359d96553c1e1bb00d2fbba8d4cc45800" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="326a69d813a0c121ff1367c9c7f46c45377da834"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "88521dccc04069b1404e999c7b3165c549a8b173" "17bdc3c664a4bad17dfdff0350af34faae44800f" "191ec9f359d96553c1e1bb00d2fbba8d4cc45800" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk cryptohome libhwsec libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk bootlockbox libhwsec libhwsec-foundation .gn"
 
-PLATFORM_SUBDIR="cryptohome/bootlockbox"
+PLATFORM_SUBDIR="bootlockbox"
 
 inherit cros-workon platform user
 
 DESCRIPTION="BootLockbox service for Chromium OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptohome/bootlockbox/"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/bootlockbox/"
 SRC_URI=""
 
 LICENSE="BSD-Google"

@@ -3,7 +3,7 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="e5df5679c498262a74b5b24ca5788ccfdc7b279a"
+CROS_WORKON_COMMIT="326a69d813a0c121ff1367c9c7f46c45377da834"
 CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "17bdc3c664a4bad17dfdff0350af34faae44800f" "191ec9f359d96553c1e1bb00d2fbba8d4cc45800" "f04b4cdb00eb1881eeb6c35fc3400ee726299940" "49f17dd26f6eb6be59009adab6aa79f3bddbb940" "e0af264b8154f25a6a947488a41a286745729db8" "60b1091e186fbe1f2554d2d0844d56c6c556e1e1" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -58,6 +58,9 @@ pkg_preinst() {
 }
 
 src_install() {
+	# TODO: move installation & test configs from ebuild to GN
+	platform_src_install
+
 	# Install D-Bus configuration file.
 	insinto /etc/dbus-1/system.d
 	doins server/org.chromium.TpmManager.conf
