@@ -5,5 +5,6 @@ EAPI=7
 KEYWORDS=*
 LICENSE=metapackage
 RDEPEND=dev-rust/third-party-crates-src:=
-SLOT=0.7.6/r0
-_md5_=05dd3543e4ff85e2677346219d1941fc
+RESTRICT=test
+SLOT=1.7.0/r5
+_md5_=13d305384abe9b0e768c1c52438f2260
