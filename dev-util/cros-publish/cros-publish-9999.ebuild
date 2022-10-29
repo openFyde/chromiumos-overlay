@@ -20,7 +20,9 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/publish/cmd/cros-publish"
+	"chromiumos/test/publish/cmd/gcs-publish"
+	"chromiumos/test/publish/cmd/tko-publish"
+	"chromiumos/test/publish/cmd/rdb-publish"
 )
 
 CROS_GO_TEST=(
@@ -44,3 +46,10 @@ DEPEND="
 	chromeos-base/cros-config-api
 "
 RDEPEND="${DEPEND}"
+
+src_prepare() {
+	# CGO_ENABLED=0 will make the executable statically linked.
+	export CGO_ENABLED=0
+
+	default
+}
