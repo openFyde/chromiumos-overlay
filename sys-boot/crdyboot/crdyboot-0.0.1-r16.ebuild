@@ -52,6 +52,9 @@ src_prepare() {
 }
 
 src_compile() {
+	local key_section=".vbpubk"
+	local key_path="${S}/third_party/vboot_reference/tests/devkeys/kernel_subkey.vbpubk"
+
 	# Set the appropriate linker for UEFI targets.
 	export RUSTFLAGS+=" -C linker=lld-link"
 
@@ -85,6 +88,21 @@ src_compile() {
 			--release \
 			--target="${uefi_target}" \
 			--package crdyboot
+
+		# CARGO_TARGET_DIR is defined in an eclass
+		# shellcheck disable=SC2154
+		local exe_path="${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi"
+
+		# Add the vboot test kernel subkey to a `.vbpubk`
+		# section of the PE executable. This allows the
+		# bootloader to work on unsigned builds. For signed
+		# builds, the signer will throw this section out and put
+		# in a different public key.
+		llvm-objcopy \
+			--add-section "${key_section}=${key_path}" \
+			--set-section-flags "${key_section}=data,readonly" \
+			"${exe_path}" \
+			"${exe_path}.with_pubkey"
 	done
 }
 
@@ -105,7 +123,7 @@ src_install() {
 	for uefi_target in "${UEFI_TARGETS[@]}"; do
 		# CARGO_TARGET_DIR is defined in an eclass
 		# shellcheck disable=SC2154
-		newins "${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi" \
+		newins "${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi.with_pubkey" \
 			"crdyboot$(uefi_arch_suffix "${uefi_target}")"
 	done
 }
