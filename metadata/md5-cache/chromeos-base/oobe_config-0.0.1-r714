@@ -1,0 +1,15 @@
+BDEPEND=dev-vcs/git dev-vcs/git
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=>=chromeos-base/metrics-0.0.1-r3152:= sys-apps/dbus:= chromeos-base/power_manager-client:= chromeos-base/system_api:= fuzzer? ( dev-libs/libprotobuf-mutator:= ) >=chromeos-base/libchrome-0.0.1-r497:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2075:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:= sys-apps/baselayout
+DESCRIPTION=Provides utilities to save and restore OOBE config.
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_config/
+IUSE=tpm tpm_dynamic tpm2 fuzzer cros_host cros_workon_tree_bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a_a7732f4a4163e3ec5cbdc067e829533c19ab6d0b_49f17dd26f6eb6be59009adab6aa79f3bddbb940_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a_a7732f4a4163e3ec5cbdc067e829533c19ab6d0b_49f17dd26f6eb6be59009adab6aa79f3bddbb940_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live live
+RDEPEND=>=chromeos-base/metrics-0.0.1-r3152:= sys-apps/dbus:= >=chromeos-base/libchrome-0.0.1-r497:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2075:= virtual/tmpfiles sys-apps/baselayout
+REQUIRED_USE=tpm_dynamic? ( tpm tpm2 ) !tpm_dynamic? ( ?? ( tpm tpm2 ) )
+SLOT=0/0.0.1-r714
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	8810007d652e9da761e1ae54f450f4c1	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	9cee5c7b72cf2fed729e12c62867aaf5	tmpfiles	6170dc7770585fb3f16efdee789a3218	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	7c566af8c48023219fd63246e88d6621
+_md5_=ddb1cc2a6c78fed525017cbefd3a4603
