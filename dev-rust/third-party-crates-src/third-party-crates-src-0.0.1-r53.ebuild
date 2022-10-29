@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f2ba07b4eb10413aef4abad420b59c50c204f699"
-CROS_WORKON_TREE="b196087428246414ebcbe87cfdc1ad1efba852a5"
+CROS_WORKON_COMMIT="934fca1cc4ce85434122411204fcc843158064a9"
+CROS_WORKON_TREE="f2c204a168a1786da352eb2b0f75b6721eadc465"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -39,6 +39,85 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!~dev-rust/backtrace-sys-0.1.16
+	!~dev-rust/clap_complete-3.1.2
+	!~dev-rust/clap_complete_fig-3.1.5
+	!~dev-rust/clap_mangen-0.1.6
+	!~dev-rust/crates-index-0.5.1
+	!~dev-rust/git-version-macro-0.3.5
+	!~dev-rust/git-version-0.3.5
+	!~dev-rust/microamp-0.1.0
+	!~dev-rust/mio-uds-0.6.8
+	!~dev-rust/roff-0.2.1
+	!~dev-rust/tokio-executor-0.1.10
+	!~dev-rust/ufmt-macros-0.1.1
+	!~dev-rust/unix_socket-0.5.0
+	!~dev-rust/value-bag-1.0.0
+	!=dev-rust/flate2-1.0.20
+	!=dev-rust/flate2-1.0.20-r1
+	!=dev-rust/flate2-1.0.20-r2
+	!=dev-rust/flate2-1.0.20-r3
+	!=dev-rust/flate2-1.0.20-r4
+	!=dev-rust/flate2-1.0.20-r5
+	!=dev-rust/flate2-1.0.20-r6
+	!=dev-rust/flate2-1.0.20-r7
+	!~dev-rust/miniz-sys-0.1.12-r2
+	!~dev-rust/cloudflare-zlib-sys-0.2.0
+	!=dev-rust/cortex-m-rtic-macros-1.1.5
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r1
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r2
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r3
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r4
+	!=dev-rust/cortex-m-rtic-macros-1.1.5-r5
+	!=dev-rust/rtic-syntax-1.0.2
+	!=dev-rust/rtic-syntax-1.0.2-r1
+	!=dev-rust/rtic-syntax-1.0.2-r2
+	!=dev-rust/rtic-syntax-1.0.2-r3
+	!=dev-rust/rtic-syntax-1.0.2-r4
+	!=dev-rust/gimli-0.26.1
+	!=dev-rust/gimli-0.26.1-r1
+	!=dev-rust/gimli-0.26.1-r2
+	!=dev-rust/gimli-0.26.1-r3
+	!=dev-rust/gimli-0.26.1-r4
+	!=dev-rust/cargo-lock-7.1.0
+	!=dev-rust/cargo-lock-7.1.0-r1
+	!=dev-rust/cargo-lock-7.1.0-r2
+	!=dev-rust/cargo-lock-7.1.0-r3
+	!=dev-rust/cargo-lock-7.1.0-r4
+	!=dev-rust/cargo-lock-7.1.0-r5
+	!=dev-rust/cargo-lock-7.1.0-r6
+	!=dev-rust/cargo-lock-7.1.0-r7
+	!=dev-rust/indexmap-1.7.0
+	!=dev-rust/indexmap-1.7.0-r1
+	!=dev-rust/indexmap-1.7.0-r2
+	!=dev-rust/indexmap-1.7.0-r3
+	!=dev-rust/indexmap-1.7.0-r4
+	!=dev-rust/hashbrown-0.11.2
+	!=dev-rust/hashbrown-0.11.2-r1
+	!=dev-rust/hashbrown-0.11.2-r2
+	!=dev-rust/hashbrown-0.11.2-r3
+	!=dev-rust/hashbrown-0.11.2-r4
+	!=dev-rust/hashbrown-0.11.2-r5
+	!=dev-rust/hashbrown-0.11.2-r6
+	!=dev-rust/hashbrown-0.11.2-r7
+	!=dev-rust/hashbrown-0.11.2-r8
+	!=dev-rust/ahash-0.7.6
+	!=dev-rust/ahash-0.7.6-r1
+	!=dev-rust/ahash-0.7.6-r2
+	!=dev-rust/ahash-0.7.6-r3
+	!=dev-rust/ahash-0.7.6-r4
+	!=dev-rust/ahash-0.7.6-r5
+	!=dev-rust/ahash-0.7.6-r6
+	!=dev-rust/ahash-0.7.6-r7
+	!=dev-rust/ahash-0.7.0
+	!=dev-rust/time-0.3.9
+	!=dev-rust/time-0.3.9-r1
+	!=dev-rust/time-0.3.9-r2
+	!=dev-rust/time-0.3.9-r3
+	!=dev-rust/time-0.3.9-r4
+	!=dev-rust/time-0.3.9-r5
+	!=dev-rust/time-0.3.9-r6
+	!=dev-rust/time-0.3.9-r7
 	!~dev-rust/wayland-sys-0.29.0
 	!~dev-rust/wayland-commons-0.29.0
 	!=dev-rust/dlib-0.0.0
@@ -1047,6 +1126,8 @@ ALLOWED_CRATE_VERSIONS=(
 	# modifications may be overwritten.
 	"adler-1.0.2"
 	"adler32-1.2.0"
+	"ahash-0.4.7"
+	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
 	"android_log-sys-0.2.0"
 	"android_system_properties-0.1.5"
@@ -1104,6 +1185,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bytes-1.2.1"
 	"capnp-0.14.10"
 	"capnpc-0.14.9"
+	"cargo-lock-7.1.0"
 	"cargo_metadata-0.2.3"
 	"cast-0.2.7"
 	"cast-0.3.0"
@@ -1139,6 +1221,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-sys-0.8.3"
 	"cortex-m-rt-0.6.15"
 	"cortex-m-rt-macros-0.6.15"
+	"cortex-m-rtic-macros-1.1.5"
 	"cpp_demangle-0.3.5"
 	"cpufeatures-0.2.5"
 	"crc-2.1.0"
@@ -1226,6 +1309,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"fixedbitset-0.4.2"
 	"flame-0.1.12"
 	"flamer-0.1.4"
+	"flate2-1.0.24"
 	"float-ord-0.2.0"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
@@ -1258,6 +1342,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"getrandom-0.2.7"
 	"ghost-0.1.6"
 	"gif-0.11.4"
+	"gimli-0.26.2"
 	"git2-0.13.25"
 	"glob-0.3.0"
 	"graphql-parser-0.3.0"
@@ -1268,7 +1353,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"h2-0.3.14"
 	"half-1.8.2"
 	"hash32-0.2.1"
+	"hashbrown-0.11.2"
 	"hashbrown-0.12.3"
+	"hashbrown-0.9.1"
 	"heapsize-0.4.2"
 	"heck-0.3.3"
 	"heck-0.4.0"
@@ -1294,6 +1381,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"idna-0.1.5"
 	"idna-0.2.3"
 	"imgref-1.9.4"
+	"indexmap-1.9.1"
 	"indicatif-0.16.2"
 	"indoc-0.3.6"
 	"indoc-impl-0.3.6"
@@ -1508,6 +1596,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"roxmltree-0.14.1"
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
+	"rtic-syntax-1.0.2"
 	"rust_hawktracer-0.7.0"
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"
@@ -1614,6 +1703,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"thread_local-1.1.4"
 	"tiff-0.6.1"
 	"time-0.1.43"
+	"time-0.2.27"
+	"time-0.3.14"
 	"time-macros-0.1.1"
 	"time-macros-0.2.4"
 	"time-macros-impl-0.1.2"
