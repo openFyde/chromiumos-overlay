@@ -209,6 +209,7 @@ RDEPEND="
 		app-accessibility/pumpkin
 		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
+		chromeos-base/scaled-dlc
 		chromeos-languagepacks/tts-es-us
 	)
 	bluetooth? ( net-wireless/bluez )
