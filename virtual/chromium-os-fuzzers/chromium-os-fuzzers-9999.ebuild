@@ -88,6 +88,7 @@ RDEPEND="
 	media-sound/adhd[fuzzer]
 	net-dns/avahi[fuzzer]
 	net-libs/libmbim[fuzzer]
+	net-libs/libqmi[fuzzer]
 	net-print/hplip[fuzzer]
 	net-wireless/bluez[fuzzer]
 	net-wireless/wpa_supplicant-cros[fuzzer]
