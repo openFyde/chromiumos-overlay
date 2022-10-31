@@ -44,8 +44,10 @@ DEPEND="
 	dev-go/golint
 	dev-go/gopacket
 	dev-go/gopsutil
+	dev-go/goselect
 	dev-go/go-ini
 	dev-go/go-matroska
+	dev-go/go-serial
 	dev-go/go-sys
 	dev-go/grpc
 	dev-go/mdns
