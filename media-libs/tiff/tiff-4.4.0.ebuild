@@ -47,6 +47,10 @@ MULTILIB_WRAPPED_HEADERS=(
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-4.4.0_rc1-skip-thumbnail-test.patch
+	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-fpe.patch
+	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-extractimagesection.patch
+	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-tiffmemcpy.patch
+	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-extractContigSamplesShifted24bits.patch
 )
 
 src_prepare() {
