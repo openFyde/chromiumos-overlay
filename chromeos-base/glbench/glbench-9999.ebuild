@@ -19,6 +19,7 @@ IUSE="opengl opengles"
 COMMON_DEPEND="
 	>=dev-cpp/gflags-2.0:=
 	media-libs/libpng:=
+	media-libs/libepoxy:=
 	virtual/opengles:=
 	media-libs/waffle:="
 RDEPEND="${COMMON_DEPEND}"
@@ -34,7 +35,7 @@ src_install() {
 
 	# Install the executable.
 	exeinto "${glbench_dir}/bin"
-	doexe glbench windowmanagertest
+	doexe glbench compositortest windowmanagertest
 	insinto "${glbench_dir}/bin"
 	doins -r runtime
 
