@@ -52,7 +52,7 @@ src_install() {
 
 	dodir /etc/featured
 	insinto /etc/featured
-	fperms 0544 /etc/featured
+	fperms 0764 /etc/featured
 	doins share/platform-features.json
 
 	local fuzzer_component_id="1096648"
