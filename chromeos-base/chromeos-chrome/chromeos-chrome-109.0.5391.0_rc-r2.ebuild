@@ -25,6 +25,7 @@ LICENSE="BSD-Google chrome_internal? ( Google-TOS )"
 SLOT="0"
 KEYWORDS="*"
 IUSE="
+	afdo_generate
 	+afdo_use
 	afdo_verify
 	+accessibility
@@ -438,7 +439,7 @@ set_build_args() {
 		# Using -g1 causes problems with crash server (see crbug.com/601854).
 		# Disable debug_fission for bots which generate AFDO profile. (see crbug.com/704602).
 		local debug_level=2
-		if use arm && ! use debug_fission; then
+		if use arm && ! use debug_fission && use afdo_generate; then
 			# Limit debug info to -g1 to keep the binary size within 4GB.
 			# Production builds do not use "-debug_fission". But it is used
 			# by the AFDO builders and AFDO tools are fine with debug_level=1.
@@ -827,16 +828,6 @@ setup_compile_flags() {
 	# Add "-faddrsig" flag required to efficiently support "--icf=all".
 	append-flags -faddrsig
 	append-flags -Wno-unknown-warning-option
-
-	if use arm && use debug_fission; then
-		# FIXME(b/243982712)
-		# ChromeOS has reached the 4GB ceiling when compiling Chrome in debug
-		# mode on 32-bit systems. After some investigation, we learnt that we
-		# can remove 1.5GB of debug info by disabling debug info from libc++
-		# symbols. This is a workaround to disable those symbols until we can
-		# get dwp compression.
-		append-flags -D_LIBCPP_NO_DEBUG_INFO -Wno-backend-plugin
-	fi
 
 	export CXXFLAGS_host+=" -Wno-unknown-warning-option"
 	export CFLAGS_host+=" -Wno-unknown-warning-option"
