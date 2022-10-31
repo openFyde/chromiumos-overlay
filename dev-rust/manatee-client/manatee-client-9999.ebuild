@@ -27,10 +27,10 @@ DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/libchromeos:=
 	sys-apps/dbus:=
+	sirenia? ( chromeos-base/manatee-runtime )
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus
-	sirenia? ( chromeos-base/manatee-runtime )
 "
 
 BDEPEND="sirenia? ( chromeos-base/sirenia-tools )"
