@@ -6,8 +6,8 @@
 # VERSION=REVBUMP-0.0.18
 
 EAPI=7
-CROS_WORKON_COMMIT=("4108f5db8e1df8935edb12dab1b19ec447b7cea8" "148e5b836dc52e8d81bb67f29dea7c81aa3d720f")
-CROS_WORKON_TREE=("8dca4c4f1b095e2c1c740cc37ebf2e5d45d91dff" "2263fbaa748009e6551e39fbc446911c80db7ab1" "525345fec39d76b8f324b1eeca98ba4e3acb96d4" "c60191ef59eebd5e7b391d5bbaf708e4fe69db4b" "9cfe65be01161d64dacf97b3c5dc0a31999baf1b" "6a5c58c46faffb4722cf24b5cd97481815c24dc2")
+CROS_WORKON_COMMIT=("2fd9f13a93b2ebf7db34abad439e7486501835dc" "b8d03e8180e86ef9090f91991a96c6b68cb4aad0")
+CROS_WORKON_TREE=("8dca4c4f1b095e2c1c740cc37ebf2e5d45d91dff" "7fc0c5241801d03ca88bebb7516c2669ec2e8eae" "79f58240bbde3afcd2fbe0e7895b6c64ad46a6a3" "c60191ef59eebd5e7b391d5bbaf708e4fe69db4b" "9cfe65be01161d64dacf97b3c5dc0a31999baf1b" "6a5c58c46faffb4722cf24b5cd97481815c24dc2")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/platform/vboot_reference"
