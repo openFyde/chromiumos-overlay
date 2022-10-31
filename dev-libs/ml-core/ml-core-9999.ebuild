@@ -35,7 +35,3 @@ src_install() {
 	platform_src_install
 	dolib.so "${OUT}"/lib/libcros_ml_core.so
 }
-
-platform_pkg_test() {
-	platform test_all
-}
