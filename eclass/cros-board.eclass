@@ -549,7 +549,6 @@ ALL_BOARDS=(
 	zork-arc-r
 	zork-borealis
 	zork-kernelnext
-	zork-minios
 )
 
 # Use the CROS_BOARDS defined by ebuild, otherwise use ALL_BOARDS.
