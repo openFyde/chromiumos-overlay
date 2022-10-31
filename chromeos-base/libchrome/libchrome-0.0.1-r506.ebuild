@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("a9c1b04ad1632fa7b4ea04d856c825b819800389" "d38cf739c24e7381d2615b7e5212e7dbcd683c9d")
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "1cd308a6300947821d9b4d52f8d3c77c6f90e7c0")
+CROS_WORKON_COMMIT=("0683032cf700b8ec5db0fc3f5aa246269d2e3bf8" "c53b9224259e9eda712cb040646090e7d2af3b0c")
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "b4c02127f7dc2be4d14f7bf27caebd2b34ef2114")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "platform/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "main")
@@ -66,25 +66,32 @@ RDEPEND="${RDEPEND}
 REQUIRED_USE="mojo? ( crypto )"
 
 src_prepare() {
-	# Apply patches
+	# Remove patches that do not apply.
 	while read -ra patch_config; do
 		local patch="${patch_config[0]}"
 		local use_flag="${patch_config[1]}"
-		if [ -n "${use_flag}" ]; then
-			if ! use "${use_flag}"; then
-				einfo "Skipped ${patch}"
-				continue
-			fi
+		if [ -z "${use_flag}" ]; then
+			die "Missing use flag for patch: ${patch}"
 		fi
-		if [[ ${patch} == *.patch ]]; then
-			eapply "${S}/libchrome_tools/patches/${patch}"
-		elif [[ -x "${S}/libchrome_tools/patches/${patch}" ]]; then
-			einfo "Applying ${patch} ..."
-			"${S}/libchrome_tools/patches/${patch}" || die "failed to patch by running script ${patch}"
+		if ! use "${use_flag}"; then
+			einfo "Skip ${patch}"
+			rm "${S}/libchrome_tools/patches/${patch}" || die "failed to remove patch ${patch}"
+		fi
+	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches.config")
+	# Apply all patches in directory, ordered by type then patch number.
+	for patch in "${S}"/libchrome_tools/patches/{long-term,cherry-pick,backward-compatibility,forward-compatibility}-*; do
+		local basename=$(basename "${patch}")
+		if [[ ${basename} == *"-*" ]]; then # patch type with no match
+			continue
+		elif [[ ${basename} == *.patch ]]; then
+			eapply "${patch}"
+		elif [[ -x "${patch}" ]]; then
+			einfo "Applying ${basename} ..."
+			"${patch}" || die "failed to patch by running script ${basename}"
 		else
-			die "Invalid patch file ${patch}"
+			die "Invalid patch file ${basename}"
 		fi
-	done < <(grep -E '^[^#]' "${S}/libchrome_tools/patches/patches")
+	done
 	eapply_user
 }
 
