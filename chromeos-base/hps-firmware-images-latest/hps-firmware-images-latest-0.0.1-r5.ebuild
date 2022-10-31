@@ -8,8 +8,8 @@ EAPI=7
 
 # We depend on hps-firmware2 to ensure that a new image is
 # copied if source code has changed
-CROS_WORKON_COMMIT="bb77ddc3b751322505a965dfa6011a60be10f5cf"
-CROS_WORKON_TREE="6b2bc173804b7e681a6d4ff83dd1cbc0bcfe90d6"
+CROS_WORKON_COMMIT="f67c800410b4240761f8a12c45b3b2f05be22855"
+CROS_WORKON_TREE="cf1f756b88c4cbb25e1a6d47c4eed462c47f4b03"
 CROS_WORKON_PROJECT="chromiumos/platform/hps-firmware"
 CROS_WORKON_LOCALNAME="platform/hps-firmware2"
 
