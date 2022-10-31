@@ -861,7 +861,12 @@ cros-workon_src_unpack() {
 		done
 	fi
 	if [[ "${EMPTY_PROJECT}" == "0" ]]; then
-		set_vcsid "$(get_rev "${path[0]}/.git")"
+		local gitrev
+		if gitrev="$(get_rev "${path[0]}/.git")"; then
+			set_vcsid "${gitrev}"
+		else
+			ewarn "Failed to get VCSID"
+		fi
 	fi
 	cros-workon_enforce_subtrees
 }
