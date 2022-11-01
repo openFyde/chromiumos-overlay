@@ -3951,5 +3951,33 @@
             "from": 468909,
             "until": null
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Driver: Refactor and support per target dirs in baremetal"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/06fc5a7714621324b121fb3ee03ac15eb018cf99.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 470471
+        }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "BareMetal: detect usr/include/c++/v1 path in sysroot"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/5e5d21462d1ea7dbaa13bcd9bcf0156cee45b97c.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 476221
+        }
     }
 ]
