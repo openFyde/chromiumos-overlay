@@ -40,7 +40,9 @@ if [[ ${CATEGORY} == cross-*linux-gnu* ]] ; then
 fi
 
 pkg_setup() {
-	export CMAKE_USE_DIR="${S}/compiler-rt"
+	# Since compiler-rt is moving to runtimes,
+	# we should build with CMAKE there.
+	export CMAKE_USE_DIR="${S}/runtimes"
 }
 
 src_unpack() {
@@ -82,7 +84,7 @@ src_configure() {
 	BUILD_DIR=${WORKDIR}/${P}_build
 
 	local mycmakeargs=(
-		"-DLLVM_ENABLE_PROJECTS=compiler-rt"
+		"-DLLVM_ENABLE_RUNTIMES=compiler-rt"
 		"-DCMAKE_TRY_COMPILE_TARGET_TYPE=STATIC_LIBRARY"
 		# crbug/855759
 		"-DCOMPILER_RT_BUILD_CRT=$(usex llvm-crt)"
