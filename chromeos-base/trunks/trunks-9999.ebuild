@@ -161,7 +161,7 @@ src_install() {
 	# TODO (b/242806964): Need a better approach for fixing up the seccomp policy
 	# related issues (i.e. fix with a single function call)
 	if use profiling; then
-		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\nuname: 1\n" >> \
 		"${D}/usr/share/policy/trunksd-seccomp.policy"
 	fi
 }
