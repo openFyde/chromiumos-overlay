@@ -3979,5 +3979,19 @@
             "from": 465103,
             "until": 476221
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[clang][auto-init] Deprecate -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/aef03c9b3bed5cef5a1940774b80128aefcb4095.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 475520
+        }
     }
 ]
