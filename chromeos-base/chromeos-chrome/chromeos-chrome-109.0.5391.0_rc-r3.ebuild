@@ -1255,9 +1255,7 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins "${FILESDIR}"/chrome.conf
 
-	# Copy Quickoffice resources for official build.
-	# Quickoffice is not yet available for arm64, https://crbug.com/881489
-	if use chrome_internal && [[ "${ARCH}" != "arm64" ]]; then
+	if use chrome_internal; then
 		local qo_install_root="/usr/share/chromeos-assets/quickoffice"
 		insinto "${qo_install_root}"
 		QUICKOFFICE="${CHROME_ROOT}"/src/chrome/browser/resources/chromeos/quickoffice
@@ -1271,6 +1269,9 @@ src_install() {
 		local qo_path=""
 		case "${ARCH}" in
 		arm)
+			qo_path="${QUICKOFFICE}"/_platform_specific/arm
+			;;
+		arm64)
 			qo_path="${QUICKOFFICE}"/_platform_specific/arm
 			;;
 		amd64)
