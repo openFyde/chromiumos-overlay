@@ -8,5 +8,5 @@ LICENSE=BSD-Google
 REQUIRED_USE=dlc ondevice_handwriting
 SLOT=0
 SRC_URI=gs://chromeos-localmirror/distfiles/languagepack-handwriting-fi-20220203.tar.xz
-_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	43a2fa303c94a91a951330280a180de1
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	dlc	47ecb7815b52e738005f6feab1294a42
 _md5_=e370f987e7f6f7bbd0bc2c1017cf06c3
