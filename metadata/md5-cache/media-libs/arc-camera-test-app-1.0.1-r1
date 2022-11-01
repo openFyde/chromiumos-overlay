@@ -1,0 +1,8 @@
+DEFINED_PHASES=install
+DESCRIPTION=Test app to exercise ARC camera usages
+EAPI=7
+KEYWORDS=*
+LICENSE=BSD-Google
+SLOT=0
+SRC_URI=gs://chromeos-localmirror/distfiles/ArcCameraTest-1.0.1.apk
+_md5_=4e0886513d6d77dff8a1cd75cb0ac658
