@@ -59,7 +59,6 @@ RDEPEND="
 		chromeos-base/tast-local-apks-cros
 		dev-util/android-tools
 		dev-util/android-uiautomator-server
-		media-libs/arc-camera-test-app
 	)
 	net-misc/curl
 	cups? (
