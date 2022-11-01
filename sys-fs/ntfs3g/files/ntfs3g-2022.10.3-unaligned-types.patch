@@ -1,12 +1,22 @@
-Mark internal types used in ntfs packets as unaligned to avoid crashes.
-These types are used everywhere in packed structs and
-the source code freely takes addresses of these types.
-Clang crashes because it assumed that the types are aligned
-(https://crbug.com/739958).
-diff -Nur ntfs-3g_ntfsprogs-2017.3.23/include/ntfs-3g/types.h ntfs-3g_ntfsprogs-2017.3.23_new/include/ntfs-3g/types.h
---- ntfs-3g_ntfsprogs-2017.3.23/include/ntfs-3g/types.h
-+++ ntfs-3g_ntfsprogs-2017.3.23_new/include/ntfs-3g/types.h
-@@ -44,25 +44,30 @@
+From 1f1e981bae1b21893ae18e56c1577771d70cd303 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Fran=C3=A7ois=20Degros?= <fdegros@chromium.org>
+Date: Wed, 2 Nov 2022 14:30:06 +1100
+Subject: [PATCH] Mark internal types used in ntfs packets as unaligned
+
+These types are used everywhere in packed structs and the source code
+freely takes addresses of these types. Clang crashes because it assumes
+that the types are aligned.
+
+https://crbug.com/739958
+---
+ include/ntfs-3g/types.h | 29 +++++++++++++++++------------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
+
+diff --git a/include/ntfs-3g/types.h b/include/ntfs-3g/types.h
+index 43d91b20..21cf2751 100644
+--- a/include/ntfs-3g/types.h
++++ b/include/ntfs-3g/types.h
+@@ -44,25 +44,30 @@ typedef int16_t s16;
  typedef int32_t s32;
  typedef int64_t s64;
  
@@ -47,5 +57,8 @@ diff -Nur ntfs-3g_ntfsprogs-2017.3.23/include/ntfs-3g/types.h ntfs-3g_ntfsprogs-
 +typedef __attribute__((__aligned__(1))) u32 sbe32;
 +typedef __attribute__((__aligned__(1))) u64 sbe64;
  
- typedef le16 ntfschar;                 /* 2-byte Unicode character type. */
+ typedef le16 ntfschar;			/* 2-byte Unicode character type. */
  #define UCHAR_T_SIZE_BITS 1
+-- 
+2.38.1.273.g43a17bfeac-goog
+
