@@ -41,4 +41,6 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/glib_bridge_test_runner"
+	platform_test "run" "${OUT}/glib_structured_logger_test_runner"
+	platform_test "run" "${OUT}/glib_unstructured_logger_test_runner"
 }
