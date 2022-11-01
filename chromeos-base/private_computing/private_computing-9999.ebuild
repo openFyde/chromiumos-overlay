@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="private_computing common-mk .gn"
 
 PLATFORM_SUBDIR="private_computing"
 
-inherit cros-workon platform user
+inherit cros-workon platform user tmpfiles
 
 DESCRIPTION="A daemon that saves and retrieves device active status with preserved file."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/private_computing/"
@@ -31,6 +31,7 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	platform_src_install
+	dotmpfiles tmpfiles.d/private_computing.conf
 }
 
 platform_pkg_test() {
