@@ -27,7 +27,7 @@ KEYWORDS="*"
 if [[ "${PV}" == "9999" ]]; then
 	KEYWORDS="~*"
 fi
-IUSE="llvm-next llvm-tot continue-on-patch-failure"
+IUSE="llvm-next llvm-tot continue-on-patch-failure system_wide_scudo"
 DEPEND="sys-libs/libxcrypt"
 
 pkg_setup() {
@@ -100,11 +100,13 @@ src_install() {
 	local libname="libclang_rt.scudo_standalone-${arch}.so"
 	dolib.so "${BUILD_DIR}/lib/linux/${libname}"
 
-	# Install the ld.so.preload.d file to load this globally
-	# unconditionally.
-	# TODO(b/248085566): This is pretty hacky. We should consider not
-	# using the global preload in the first place, but some package has to
-	# own the true ld.so.preload.
-	insinto '/etc'
-	echo "/usr/$(get_libdir)/${libname}" | newins - 'ld.so.preload'
+	if use system_wide_scudo; then
+		# Install the ld.so.preload.d file to load this globally
+		# unconditionally.
+		# TODO(b/248085566): This is pretty hacky. We should consider not
+		# using the global preload in the first place, but some package has to
+		# own the true ld.so.preload.
+		insinto '/etc'
+		echo "/usr/$(get_libdir)/${libname}" | newins - 'ld.so.preload'
+	fi
 }
