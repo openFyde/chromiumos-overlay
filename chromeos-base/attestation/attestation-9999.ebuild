@@ -81,6 +81,8 @@ src_install() {
 	if use profiling; then
 		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
 		"${D}/usr/share/policy/attestationd-seccomp.policy"
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		"${D}/usr/share/policy/pca_agentd-seccomp.policy"
 	fi
 }
 
