@@ -23,4 +23,5 @@ src_install() {
 	else
 		newins "${FILESDIR}"/init/manual.conf avahi.conf
 	fi
+	newins "${FILESDIR}"/init/cgroup.conf avahi-cgroup.conf
 }
