@@ -1,4 +1,4 @@
-BDEPEND=sys-devel/llvm
+BDEPEND==dev-lang/rust-host-1.62.1-r1 sys-devel/llvm
 DEFINED_PHASES=compile configure install prepare setup unpack
 DEPEND=|| ( dev-lang/python:3.6 dev-lang/python:3.9 dev-lang/python:3.8 dev-lang/python:3.7 ) >=dev-libs/libxml2-2.9.6 >=dev-lang/perl-5.0 rust_cros_llvm? ( ~dev-lang/rust-llvm-sources-1.62.1:= ) dev-lang/rust-bootstrap:1.61.0
 EAPI=7
@@ -6,10 +6,10 @@ HOMEPAGE=https://www.rust-lang.org/
 IUSE=rust_profile_frontend_generate rust_profile_llvm_generate rust_profile_frontend_use_local rust_profile_llvm_use_local +rust_profile_frontend_use +rust_profile_llvm_use +rust_cros_llvm
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA
-RDEPEND=!<dev-lang/rust-1.59.0
+RDEPEND==dev-lang/rust-host-1.62.1-r1
 REQUIRED_USE=rust_profile_frontend_generate? ( !rust_profile_frontend_use !rust_profile_frontend_use_local !rust_profile_llvm_use !rust_profile_llvm_use_local ) rust_profile_llvm_generate? ( !rust_profile_frontend_use !rust_profile_frontend_use_local !rust_profile_llvm_use !rust_profile_llvm_use_local ) rust_profile_llvm_use? ( !rust_profile_llvm_use_local ) rust_profile_frontend_use? ( !rust_profile_frontend_use_local )
 RESTRICT=binchecks strip
 SLOT=stable/1.62
 SRC_URI=https://static.rust-lang.org/dist/rustc-1.62.1-src.tar.gz -> rustc-1.62.1-src.tar.gz rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-1.62.1-frontend-1.profdata.xz ) rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-1.62.1-llvm-1.profdata.xz )
 _eclasses_=cros-rustc	7544f0867602f8aef87a4e7fce74e46a	cros-rustc-directories	08a80277af00ac678221123eb7ca5e5a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	40d8aa7fe6ebbfad6019c8a46695058b	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=59c7c40b78b20ba53dc1cd450109a2e1
+_md5_=792dc305298eb757222f612de7bf7ea3
