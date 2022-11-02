@@ -147,6 +147,7 @@ src_configure() {
 		-Defi_binary="false"
 		-Dgudev="enabled"
 		-Dsupported_build="enabled"
+		-Dudevdir="${EPREFIX}$(get_udevdir)"
 		$(meson_feature archive libarchive)
 		$(meson_use bash-completion bash_completion)
 		$(meson_feature bluetooth bluez)
