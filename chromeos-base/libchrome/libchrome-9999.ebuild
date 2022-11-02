@@ -117,8 +117,6 @@ src_install() {
 	dolib.so "${OUT}"/lib/libbase*.so
 	dolib.a "${OUT}"/libbase*.a
 
-	local mojom_dirs=()
-
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
 
@@ -126,12 +124,6 @@ src_install() {
 	if use mojo; then
 		# Install binary.
 		dolib.so "${OUT}"/lib/libmojo.so
-
-		# Install headers.
-		mojom_dirs+=(
-			mojo/public/interfaces/bindings
-			mojo/public/mojom/base
-		)
 
 		# Install libmojo.pc.
 		insinto "/usr/$(get_libdir)/pkgconfig"
@@ -159,24 +151,4 @@ src_install() {
 			/usr/src/libmojo/mojo/mojom_bindings_generator.py \
 			/usr/src/libmojo/mojo/mojom_parser.py
 	fi
-
-	# Install header files.
-	local d
-	for d in "${mojom_dirs[@]}"; do
-		insinto /usr/include/libchrome/"${d}"
-		doins "${OUT}"/gen/include/"${d}"/*.h
-		# Not to install mojom and pickle file to prevent misuse until Chromium IPC
-		# team is ready to have a stable mojo_base. see crbug.com/1055379
-		# insinto /usr/src/libchrome/mojom/"${d}"
-		# doins "${S}"/"${d}"/*.mojom
-		# insinto /usr/share/libchrome/pickle/"${d}"
-		# doins "${OUT}"/gen/include/"${d}"/*.p
-	done
-
-	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
-	# Install libchrome base type mojo mapping
-	# if use mojo; then
-		# insinto /usr/share/libchrome/mojom_type_mappings_typemapping
-		# doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
-	# fi
 }
