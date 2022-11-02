@@ -15,8 +15,8 @@ if [[ ${PV} == 9999 ]]; then
 else
 	# TODO(b/229869104): Switch back to ninja-build once jobserver support is added
 	# SRC_URI="https://github.com/ninja-build/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	SRC_URI="https://github.com/Kitware/ninja/archive/refs/tags/v1.10.2.g51db2.kitware.jobserver-1.tar.gz -> ninja-1.10.2.g51db2.kitware.jobserver-1.tar.gz"
-	S="${WORKDIR}/ninja-1.10.2.g51db2.kitware.jobserver-1"
+	SRC_URI="https://github.com/Kitware/ninja/archive/refs/tags/v1.11.1.g95dee.kitware.jobserver-1.tar.gz -> ninja-1.11.1.g95dee.kitware.jobserver-1.tar.gz"
+	S="${WORKDIR}/ninja-1.11.1.g95dee.kitware.jobserver-1"
 	KEYWORDS="*"
 fi
 
