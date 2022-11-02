@@ -107,7 +107,6 @@ src_install() {
 	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
 	doins "${WORKDIR}"/cloud_policy.proto
 	insinto /usr/share/policy_resources
-	doins "${POLICY_DIR}"/resources/policy_templates.json
 	doins "${POLICY_DIR}"/resources/generated_policy_templates.json
 	doins "${FILESDIR}"/VERSION
 	exeinto /usr/share/policy_tools

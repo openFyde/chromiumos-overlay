@@ -61,15 +61,15 @@ CROS_WORKON_MANUAL_UPREV=1
 #   packages that rely on the new policies. If you added new device
 #   policy encodings above that will at least be authpolicy.
 CROS_WORKON_COMMIT=(
-	"e18fc689ac53b08c77e1e26e854ca112d30fff92" # policy
-	"01c19971401b31e25e68a4ee86f7a57343372fe1" # private_membership
-	"b9908342aa1f638ce7ae09e1f5deb820b0618644" # shell-encryption
+	"9963d7736a9a591b965db00a4b091dc4113ce7e6" # policy
+	"048727ec9c784c3411099a9153c0f547f3939075" # private_membership
+	"50f6a7d2f163796ca07914e25b682c5bef864295" # shell-encryption
 )
 # git rev-parse $HASH:./
 CROS_WORKON_TREE=(
-	"badf783385e033cd496d6fe8c3a553a1eb0e92c9" # policy
-	"b8b0625858593b22d19fba21ee460ac37b5d90e1" # private_membership
-	"a4ef97c015504e9188027f60fbfffcde3420efb1" # shell-encryption
+	"3877fb8a95c0936b503d14250b11f9c14be0f846" # policy
+	"04e8c44eefc5f67ce7cad6211682338710d7ad68" # private_membership
+	"7baea605dc8e970c140588b423451f2475110b4e" # shell-encryption
 )
 
 PYTHON_COMPAT=( python{3_6,3_7} )
@@ -137,7 +137,6 @@ src_install() {
 	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
 	doins "${WORKDIR}"/cloud_policy.proto
 	insinto /usr/share/policy_resources
-	doins "${POLICY_DIR}"/resources/policy_templates.json
 	doins "${POLICY_DIR}"/resources/generated_policy_templates.json
 	doins "${FILESDIR}"/VERSION
 	exeinto /usr/share/policy_tools
