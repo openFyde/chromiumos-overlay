@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="c2c176a2eb2a16d1a7deaf12cf1425f417081f84"
-CROS_WORKON_TREE="2e230a3a11d409a12e35e89bed31a4c668b173ba"
+CROS_WORKON_COMMIT="a6d14b9d340df12ec9c06739eddc4993c0e72c6c"
+CROS_WORKON_TREE="53d7d21b7c9251a63baaf1fc646dace665fc7d4f"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -16,7 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/initramfs/"
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
+IUSE="+cros_ec_utils device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
 IUSE="${IUSE} manatee_performance_tools nvme ufs"
@@ -35,6 +35,7 @@ REQUIRED_USE="|| ( test ${TARGETS_IUSE} )"
 
 # Packages required for building recovery initramfs.
 RECOVERY_DEPENDS="
+	chromeos-base/chromeos-config
 	chromeos-base/chromeos-installer
 	chromeos-base/common-assets
 	chromeos-base/vboot_reference
@@ -175,7 +176,6 @@ src_compile() {
 	if [[ ${#targets[@]} -gt 0 ]]; then
 		emake SYSROOT="${SYSROOT}" \
 			BOARD="$(get_current_board_with_variant)" \
-			DETACHABLE="$(usex detachable 1 0)" \
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
