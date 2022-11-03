@@ -90,7 +90,6 @@ dc_make() {
 
 	local OPTS=(
 		"EC_HEADERS=${SYSROOT}/usr/include/chromeos/ec"
-		"PD_SYNC=$(usev pd_sync)"
 		"LIBPAYLOAD_DIR=${libpayload}/libpayload"
 		"obj=${builddir}"
 	)
