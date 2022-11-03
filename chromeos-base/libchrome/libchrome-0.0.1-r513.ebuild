@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("aeee6f2ffc2a5dd6aac2ab2e4fe7b8e89928308b" "42aef5197967003277876e97ba1bc7fe9bbc7523")
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "b053d28990a2d23eb6945bb349210c8e0f3262bc")
+CROS_WORKON_COMMIT=("66eee69788ef7120f1c5ea101a16324be197777f" "7098f39e75dab900aa5581c39437bb9a0ccc2bb8")
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "31e13ee61f0f09f13838b8097f2089f87e53082a")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "platform/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "main")
@@ -119,8 +119,6 @@ src_install() {
 	dolib.so "${OUT}"/lib/libbase*.so
 	dolib.a "${OUT}"/libbase*.a
 
-	local mojom_dirs=()
-
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/obj/libchrome/libchrome*.pc
 
@@ -128,12 +126,6 @@ src_install() {
 	if use mojo; then
 		# Install binary.
 		dolib.so "${OUT}"/lib/libmojo.so
-
-		# Install headers.
-		mojom_dirs+=(
-			mojo/public/interfaces/bindings
-			mojo/public/mojom/base
-		)
 
 		# Install libmojo.pc.
 		insinto "/usr/$(get_libdir)/pkgconfig"
@@ -161,24 +153,4 @@ src_install() {
 			/usr/src/libmojo/mojo/mojom_bindings_generator.py \
 			/usr/src/libmojo/mojo/mojom_parser.py
 	fi
-
-	# Install header files.
-	local d
-	for d in "${mojom_dirs[@]}"; do
-		insinto /usr/include/libchrome/"${d}"
-		doins "${OUT}"/gen/include/"${d}"/*.h
-		# Not to install mojom and pickle file to prevent misuse until Chromium IPC
-		# team is ready to have a stable mojo_base. see crbug.com/1055379
-		# insinto /usr/src/libchrome/mojom/"${d}"
-		# doins "${S}"/"${d}"/*.mojom
-		# insinto /usr/share/libchrome/pickle/"${d}"
-		# doins "${OUT}"/gen/include/"${d}"/*.p
-	done
-
-	# TODO(fqj): Revisit later for type mapping (see libchrome/BUILD.gn)
-	# Install libchrome base type mojo mapping
-	# if use mojo; then
-		# insinto /usr/share/libchrome/mojom_type_mappings_typemapping
-		# doins "${OUT}"/gen/libchrome/mojom_type_mappings_typemapping
-	# fi
 }
