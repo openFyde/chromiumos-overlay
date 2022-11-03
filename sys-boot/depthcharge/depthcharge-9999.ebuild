@@ -90,7 +90,6 @@ dc_make() {
 
 	local OPTS=(
 		"EC_HEADERS=${SYSROOT}/usr/include/chromeos/ec"
-		"VB_SOURCE=${VBOOT_REFERENCE_DESTDIR}"
 		"PD_SYNC=$(usev pd_sync)"
 		"LIBPAYLOAD_DIR=${libpayload}/libpayload"
 		"obj=${builddir}"
