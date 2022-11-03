@@ -32,6 +32,7 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/typecd
+	dobin "${OUT}"/typecd_tool
 
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.typecd.service
