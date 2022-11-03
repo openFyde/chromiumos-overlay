@@ -37,6 +37,11 @@ src_unpack() {
 	fi
 
 	git-r3_src_unpack
+
+	# git-r3_src_unpack won't freshly unpack sources if they're already
+	# there, so we do the following to get to a clean state.
+	git -C "${S}" reset --hard HEAD || die
+	git -C "${S}" clean -fd || die
 }
 
 src_prepare() {
