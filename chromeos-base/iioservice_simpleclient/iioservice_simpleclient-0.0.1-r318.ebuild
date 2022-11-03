@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="01611cc312c9b3acec36920032731ee8be032d07"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "77cc0ad6e3c6963ea161d98f76bd163ea1274596" "284f3602420093498b1e01984a0db1190bd55812" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="ea80531655a159c8e4f307069071d9d2adcbb0bd"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "2d9de9eff9f38d6ac152314ff01b91572c6bb9e3" "284f3602420093498b1e01984a0db1190bd55812" "3aef0ba75f083926ddf0cf339ff9f8db1c870d01" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Remove libmems from this list.
-CROS_WORKON_SUBTREE="common-mk iioservice libmems .gn"
+CROS_WORKON_SUBTREE="common-mk iioservice libmems mojo_service_manager .gn"
 
 PLATFORM_SUBDIR="iioservice/iioservice_simpleclient"
 
@@ -25,6 +25,7 @@ IUSE=""
 RDEPEND="
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
+	chromeos-base/mojo_service_manager:=
 "
 
 DEPEND="${RDEPEND}
