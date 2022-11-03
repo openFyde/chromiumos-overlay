@@ -16,13 +16,20 @@ inherit cros-workon platform
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="internal"
+IUSE="internal local_ml_core_internal"
 
 RDEPEND="
 	internal? ( chromeos-base/ml-core-internal:= )
 "
 DEPEND="${RDEPEND}
 "
+
+src_configure() {
+	if use local_ml_core_internal; then
+		append-cppflags "-DUSE_LOCAL_ML_CORE_INTERNAL"
+	fi
+	platform_src_configure
+}
 
 src_install() {
 	platform_src_install
