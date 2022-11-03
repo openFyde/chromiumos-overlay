@@ -106,6 +106,8 @@ src_unpack() {
 src_prepare() {
 	cd "${S}/_dist/src/github.com/lxc/lxd" || die
 	eapply "${FILESDIR}/0003-syscall_wrappers-don-t-conflict-with-glibc-provided-.patch"
+	cd "${S}/_dist/deps/raft" || die
+	eapply "${FILESDIR}/0001-uv_metadata-use-unaligned-access-functions.patch"
 	eapply_user
 }
 
