@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="aeee6f2ffc2a5dd6aac2ab2e4fe7b8e89928308b"
-CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "a515847dc44eb4eaaf90a6912b8df50751095470" "bb68dc6227e9176d8b27a3fa2715d1614526e1c5" "01161c6783377e4c9285dc2d5eec34adfbd16f3b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="4afc8bf230abcaaeb0ce4d1d136575b6df020351"
+CROS_WORKON_TREE=("bb46f20bc6d2f9e7fb1aa1178d1e47384440de9a" "a515847dc44eb4eaaf90a6912b8df50751095470" "bb68dc6227e9176d8b27a3fa2715d1614526e1c5" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/1044813): Remove chromeos-config once its public headers are fixed.
-CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics libec .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config diagnostics .gn"
 
 PLATFORM_SUBDIR="diagnostics"
 
