@@ -8,6 +8,7 @@ CROS_GO_SOURCE="go.googlesource.com/exp:golang.org/x/exp 316c7553db56"
 CROS_GO_PACKAGES=(
 	"golang.org/x/exp/constraints"
 	"golang.org/x/exp/slices"
+	"golang.org/x/exp/maps"
 )
 
 CROS_GO_TEST=(
