@@ -262,7 +262,7 @@ sandboxless_ensure_directory() {
 			# We need root access to create these directories, so we need to
 			# use sudo. This implicitly disables the sandbox.
 			sudo mkdir -p "${dir}" || die
-			sudo chown "${PORTAGE_USERNAME}:portage" "${dir}" || die
+			sudo chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" "${dir}" || die
 			sudo chmod 0755 "${dir}" || die
 		fi
 	done
