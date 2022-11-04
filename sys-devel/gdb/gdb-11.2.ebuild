@@ -69,7 +69,7 @@ RESTRICT="
 RDEPEND="
 	dev-libs/mpfr:0=
 	dev-libs/gmp:=
-	>=sys-libs/ncurses-5.2-r2:0=
+	>=sys-libs/ncurses-5.2-r2
 	>=sys-libs/readline-7:0=
 	sys-libs/zlib
 	lzma? ( app-arch/xz-utils )
