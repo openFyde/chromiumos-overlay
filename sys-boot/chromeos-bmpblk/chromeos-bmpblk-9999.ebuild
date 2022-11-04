@@ -66,14 +66,7 @@ src_prepare() {
 compile_bmpblk() {
 	local build_target="$1"
 
-	config_detachable="$(cros_config_host get-key-value \
-		/firmware/build-targets bmpblk "${build_target}" \
-		/firmware detachable-ui --ignore-unset)" || \
-		die "Unable to determine detachable ui config for ${build_target}"
-	if [[ "${config_detachable}" == "True" ]] ; then
-		export DETACHABLE=1
-	elif use detachable ; then
-		# TODO(b/249868427) Remove this once USE flag support not longer needed
+	if use detachable ; then
 		export DETACHABLE=1
 	fi
 
