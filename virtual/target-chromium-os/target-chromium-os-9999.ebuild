@@ -391,15 +391,9 @@ RDEPEND="
 	virtual/linux-sources
 	sys-apps/kmod[tools]
 	virtual/service-manager
-	cr50_onboard? (
-		chromeos-base/chromeos-cr50
-		chromeos-base/u2fd
-	)
-	ti50_onboard? (
-		chromeos-base/chromeos-ti50
-		chromeos-base/u2fd
-	)
-	tpm? ( chromeos-base/u2fd )
+	cr50_onboard? ( chromeos-base/chromeos-cr50 )
+	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/u2fd
 	chromeos-base/bootlockbox
 	ime? (
 		app-i18n/chinese-input

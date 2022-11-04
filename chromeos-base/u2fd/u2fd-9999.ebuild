@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer tpm cr50_onboard ti50_onboard"
+IUSE="fuzzer cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
 	fuzzer? (
