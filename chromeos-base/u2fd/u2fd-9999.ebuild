@@ -22,9 +22,6 @@ KEYWORDS="~*"
 IUSE="fuzzer tpm cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
-	tpm? (
-		app-crypt/trousers:=
-	)
 	fuzzer? (
 		chromeos-base/trunks:=
 	)
@@ -39,11 +36,10 @@ COMMON_DEPEND="
 	chromeos-base/cbor:=
 	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/cryptohome-client:=
-	chromeos-base/libhwsec:=
+	chromeos-base/libhwsec:=[test?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/power_manager-client:=
 	chromeos-base/session_manager-client:=
-	chromeos-base/tpm_manager:=
 	chromeos-base/u2fd-client:=
 	dev-libs/hidapi:=
 "
