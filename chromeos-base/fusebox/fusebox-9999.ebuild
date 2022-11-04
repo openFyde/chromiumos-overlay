@@ -35,9 +35,6 @@ DEPEND="${COMMON_DEPEND}
 
 src_install() {
 	dobin "${OUT}"/fusebox
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.FuseBoxReverseService.conf
 }
 
 platform_pkg_test() {
