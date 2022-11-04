@@ -107,6 +107,7 @@ IUSE="
 	+syslog
 	+system_locales
 	system_proxy
+	system_wide_scudo
 	systemd
 	ti50_onboard
 	touchview
@@ -374,6 +375,7 @@ RDEPEND="
 	)
 	lvm_stateful_partition? ( chromeos-base/lvmd )
 	ufs? ( chromeos-base/discod )
+	system_wide_scudo? ( sys-libs/scudo )
 "
 
 ################################################################################
