@@ -3,11 +3,11 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="beab21d723fb714dcdc29fb908005893a54bc7b8"
-CROS_WORKON_TREE="6fd7c4dcd3d08a5a4efd102e476730d3a09e00e9"
+CROS_WORKON_COMMIT="0642575392d27a16a55260cc7edcae4da3e84fd0"
+CROS_WORKON_TREE="3db9674f4a558e82493797bd12406cc5a37842b0"
 CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
-CROS_WORKON_EGIT_BRANCH="chromeos-1.2"
+CROS_WORKON_EGIT_BRANCH="chromeos-1.13"
 
 inherit cros-workon autotools flag-o-matic
 
@@ -17,7 +17,7 @@ HOMEPAGE="http://upstart.ubuntu.com/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge"
+IUSE="debug direncryption examples nls global_seccomp selinux udev_bridge -upstart_scripts"
 
 RDEPEND=">=sys-apps/dbus-1.2.16
 	>=sys-libs/libnih-1.0.2
@@ -33,7 +33,8 @@ RDEPEND=">=sys-apps/dbus-1.2.16
 	)
 	global_seccomp? (
 		chromeos-base/minijail
-	)"
+	)
+	dev-libs/json-c"
 DEPEND=">=dev-libs/expat-2.0.0
 	nls? ( sys-devel/gettext )
 	direncryption? (
@@ -51,6 +52,9 @@ src_prepare() {
 	# kernel command-line when we need to.
 	use debug && eapply "${FILESDIR}"/upstart-1.2-log-verbosity.patch
 
+	# Set the paths to run inside /build/$BOARD:
+	sed -i "/^build_dir=/s:.*:\0;build_dir=\${build_dir#\"${SYSROOT}\"}:" init/tests/test_conf_preload.sh.in || die
+
 	# The selinux patch changes makefile.am and configure.ac
 	# so we need to run autoreconf, and if we don't the system
 	# will do it for us, and incorrectly too.
@@ -64,13 +68,16 @@ src_configure() {
 	append-lfs-flags
 
 	local myconf=(
+		--libdir="${EPREFIX}/usr/$(get_libdir)"
 		--prefix=/
 		--exec-prefix=
 		--includedir="${prefix}/usr/include"
 		--disable-rpath
+		--disable-cgroups
 		$(use_with direncryption dircrypto-keyring)
 		$(use_enable selinux)
 		$(use_enable nls)
+		$(use_enable upstart_scripts scripts)
 	)
 
 	if use global_seccomp; then
@@ -80,6 +87,15 @@ src_configure() {
 	fi
 
 	econf "${myconf[@]}"
+
+	# Remove /build/$BOARD to ensure the path to binaries are correct
+	# within the test chroot.
+	for file in "test/Makefile" $(usex upstart_scripts "scripts/Makefile" "") "Makefile" "lib/Makefile"; do
+		sed -i "/abs_top_builddir = /s|${SYSROOT}||" "${file}" || die
+	done
+	for file in "init/Makefile"; do
+		sed -i "/TEST_DATA_DIR = /s|\$(srcdir)|${S#${SYSROOT}}/init|" "${file}" || die
+	done
 }
 
 src_compile() {
