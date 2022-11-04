@@ -23,7 +23,6 @@ DEPEND="
 	=dev-rust/dbus-0.8*
 	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1.0*
-	dev-rust/sys_util:=
 "
 
 RDEPEND="
