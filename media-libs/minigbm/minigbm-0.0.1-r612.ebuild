@@ -26,7 +26,7 @@ for card in ${VIDEO_CARDS}; do
 	IUSE+=" video_cards_${card}"
 done
 
-MINI_GBM_PLATFORMS_USE=( mt8183 mt8186 mt8192 mt8195 sc7280)
+MINI_GBM_PLATFORMS_USE=( mt8183 mt8186 mt8188g mt8192 mt8195 sc7280)
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
 RDEPEND="
@@ -58,6 +58,7 @@ src_configure() {
 	use video_cards_marvell && append-cppflags -DDRV_MARVELL && export DRV_MARVELL=1
 	use minigbm_platform_mt8183 && append-cppflags -DMTK_MT8183
 	use minigbm_platform_mt8186 && append-cppflags -DMTK_MT8186
+	use minigbm_platform_mt8188g && append-cppflags -DMTK_MT8188G
 	use minigbm_platform_mt8192 && append-cppflags -DMTK_MT8192
 	use minigbm_platform_mt8195 && append-cppflags -DMTK_MT8195
 	use minigbm_platform_sc7280 && append-cppflags -DSC_7280
