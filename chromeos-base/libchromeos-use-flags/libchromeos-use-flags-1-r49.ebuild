@@ -91,6 +91,7 @@ IUSE="
 	pita
 	pita-camera
 	pita-microphone
+	prefer_libyuv_image_processor
 	reven_branding
 	rialto
 	scheduler_configuration_performance
