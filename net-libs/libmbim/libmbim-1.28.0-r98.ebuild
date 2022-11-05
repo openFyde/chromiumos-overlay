@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="6a05a55e49762e0e6eccee7212fddddc08969be5"
-CROS_WORKON_TREE="52b3cbced5c904d3892dd0649a613c6e79c9ac91"
+CROS_WORKON_COMMIT="e734c940123e50f8b77b900c7fcf7e1dad95f689"
+CROS_WORKON_TREE="c2941423fff603c8ab89174297645bb3cc9584d9"
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 CROS_WORKON_EGIT_BRANCH="master"
 
-inherit meson cros-sanitizers cros-workon udev
+inherit meson cros-sanitizers cros-workon udev cros-fuzzer cros-sanitizers
 
 DESCRIPTION="MBIM modem protocol helper library"
 HOMEPAGE="http://cgit.freedesktop.org/libmbim/"
@@ -15,7 +15,7 @@ HOMEPAGE="http://cgit.freedesktop.org/libmbim/"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-asan doc static-libs"
+IUSE="-asan doc static-libs fuzzer"
 
 RDEPEND=">=dev-libs/glib-2.36
 	virtual/libgudev"
@@ -35,6 +35,23 @@ src_configure() {
 		-Dintrospection=false
 		-Dman=false
 		-Dbash_completion=false
+		$(meson_use fuzzer)
 	)
 	meson_src_configure
+}
+
+src_install() {
+	meson_src_install
+
+	if use fuzzer; then
+		local fuzzer_build_path="${BUILD_DIR}/src/libmbim-glib/test"
+		cp "${fuzzer_build_path}/test-message-fuzzer" \
+			"${fuzzer_build_path}/test-mbim-message-fuzzer" || die
+
+		# ChromeOS/Platform/Connectivity/Cellular
+		local fuzzer_component_id="167157"
+		fuzzer_install "${S}/OWNERS" \
+			"${fuzzer_build_path}/test-mbim-message-fuzzer" \
+			--comp "${fuzzer_component_id}"
+	fi
 }
