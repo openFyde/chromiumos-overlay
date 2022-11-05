@@ -1,25 +1,36 @@
-# Copyright 2013 The ChromiumOS Authors
+# Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
-CROS_WORKON_COMMIT="f6c577f0dc55139fc9b13502f1468f200f52c2ff"
-CROS_WORKON_TREE="c00fefceecabf652cc27dd5ba0992c9ec0be0b3e"
+EAPI=5
+CROS_WORKON_COMMIT="e029c5c1e60b30c1661dbd1c9e5c94d0662118bd"
+CROS_WORKON_TREE="3bc4abed6d66867059e31bb8e878e0440766575d"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest-deponly
 
-DESCRIPTION="Dependencies for WebGL many planets deep test"
+DESCRIPTION="Autotest policy deps"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
-
 LICENSE="GPL-2"
+SLOT="0"
 KEYWORDS="*"
 
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="webgl_mpd"
+AUTOTEST_DEPS_LIST="policy_protos"
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+DEPEND="
+	>=chromeos-base/protofiles-0.0.43:=
+	chromeos-base/system_api
+	dev-libs/protobuf:=
+"
+
+# Calling this here, so tests using this dep don't have to call setup_dep().
+src_prepare() {
+	autotest-deponly_src_prepare
+}
