@@ -69,6 +69,18 @@ generate_constants_json() {
 	"${cmd[@]}" >"${OUT}"/constants.json || die
 }
 
+# Install policies for minijail default runtime environment.
+default_policy_install() {
+	local policy="v0.bin"
+
+	tools/compile_seccomp_policy.py --arch-json "${OUT}/constants.json" \
+		policies/cros_default_v0.policy "${policy}" --denylist \
+		|| die
+
+	insinto "/etc/security/minijail"
+	doins "${policy}"
+}
+
 src_compile() {
 	# Avoid confusing people with our docs.
 	sed -i "s:/var/empty:${DEFAULT_PIVOT_ROOT}:g" minijail0.[15] || die
@@ -118,4 +130,8 @@ src_install() {
 	insinto "${include_dir}"
 	doins libminijail.h
 	doins scoped_minijail.h
+
+	if ! use cros_host; then
+		default_policy_install
+	fi
 }
