@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3e4ddd7f06d6fe07b78f6b04ed15bcafbd68eeeb"
-CROS_WORKON_TREE="18cd1765b265b73527452b085d57b68f0d68236a"
+CROS_WORKON_COMMIT="4c163671fd54f47f9e2484561ad38f6d94d8feaa"
+CROS_WORKON_TREE="30320ee0277e6ce4511a9afd386df4b515ffa761"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,6 +30,7 @@ DEPEND="
 	dev-rust/system_api:=
 	dev-rust/libchromeos:=
 "
+RDEPEND="sys-apps/dbus:="
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/shadercached"
