@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="666db4fd2dedc2bf2e70cb0f9bb93e26715489d6"
-CROS_WORKON_TREE=("949c73de3faed1daba26b0dcf53a03f571b02837" "d4c833cc57ca542c85a450a93040367ae439106d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="90a2f3f312fc24e67adc74f7fbc4b09992a08fd0"
+CROS_WORKON_TREE=("949c73de3faed1daba26b0dcf53a03f571b02837" "5f4f58ae4734ecec6015b17242160cfa89affd88" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -34,6 +34,7 @@ DEPEND="
 
 src_install() {
 	dobin "${OUT}"/typecd
+	dobin "${OUT}"/typecd_tool
 
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.typecd.service
