@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="69a935e188af3ae8205c7050abeac1ad77a5a9fc"
-CROS_WORKON_TREE="fba1ed33926032ae14d167f88ec1678a24994732"
+CROS_WORKON_COMMIT="ed2f92ef8ed57b902c359107c6f655126694cce8"
+CROS_WORKON_TREE="168d221aa3fc22aa0837bffc79ba734cba7744ed"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME="platform/dev"
 CROS_WORKON_SUBTREE="src"
