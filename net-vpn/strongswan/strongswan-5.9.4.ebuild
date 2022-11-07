@@ -101,6 +101,7 @@ pkg_setup() {
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-5.5.0-5.9.4_eap_success.patch"
+	epatch "${FILESDIR}/${PN}-5.1.0-5.9.7_cert_online_validate.patch"
 	default
 }
 
