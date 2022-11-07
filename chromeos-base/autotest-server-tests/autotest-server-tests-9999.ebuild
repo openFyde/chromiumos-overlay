@@ -25,7 +25,6 @@ IUSE="
 	-chromeless_tests
 	-chromeless_tty
 	debugd
-	dlc_test
 	has-kernelnext
 	is-kernelnext
 	minios
@@ -92,7 +91,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_Periodic
 	+tests_autoupdate_RejectDuplicateUpdate
 	+tests_autoupdate_Rollback
-	dlc_test? ( +tests_autoupdate_WithDLC )
+	+tests_autoupdate_WithDLC
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
 		+tests_cheets_CTS_Instant

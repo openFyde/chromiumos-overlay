@@ -16,7 +16,7 @@ SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups dlc_test +encrypted_stateful +network_time +passive_metrics +profile vaapi"
+IUSE="arc-camera3 biod -chromeless_tests -chromeless_tty +crash_reporting cups +encrypted_stateful +network_time +passive_metrics +profile vaapi"
 # Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
@@ -68,7 +68,7 @@ CLIENT_IUSE_TESTS="
 	+tests_autoupdate_BadMetadata
 	+tests_autoupdate_CannedOmahaUpdate
 	+tests_autoupdate_DisconnectReconnectNetwork
-	dlc_test? ( +tests_autoupdate_InstallAndUpdateDLC )
+	+tests_autoupdate_InstallAndUpdateDLC
 	+tests_autoupdate_InvalidateSuccessfulUpdate
 	+tests_autoupdate_PeriodicCheck
 	+tests_autoupdate_UrlSwitch
