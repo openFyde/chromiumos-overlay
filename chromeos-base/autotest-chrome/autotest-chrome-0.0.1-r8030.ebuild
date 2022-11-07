@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="5529bc1c9234aab58eb926fb22403e3ba65f4f4c"
-CROS_WORKON_TREE="e3fbf36efc149c876210ef2d6335ddbca399c2aa"
+CROS_WORKON_COMMIT="4fb6f964fe2f97161c4623f89bcc2634f74e5845"
+CROS_WORKON_TREE="1ed8d3a87160b40c9120866c117f1dd924bcf311"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -155,6 +155,7 @@ IUSE_TESTS_ATOMIC="
 IUSE_TESTS_CHROMIUM="
 	+tests_chromium
 	+tests_chromium_Telemetry
+	+tests_chromium_GPU
 "
 
 IUSE_TESTS="
