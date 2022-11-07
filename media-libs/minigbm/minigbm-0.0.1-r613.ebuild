@@ -29,6 +29,8 @@ done
 MINI_GBM_PLATFORMS_USE=( mt8183 mt8186 mt8188g mt8192 mt8195 sc7280)
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
 
+IUSE+=" intel_drm_tile4"
+
 RDEPEND="
 	x11-libs/libdrm
 	!media-libs/mesa[gbm]"
@@ -53,7 +55,11 @@ src_configure() {
 	use video_cards_exynos && append-cppflags -DDRV_EXYNOS && export DRV_EXYNOS=1
 	use video_cards_intel && append-cppflags -DDRV_I915 && export DRV_I915=1
 	if use video_cards_intel ; then
-		append-cppflags -DI915_SCANOUT_Y_TILED
+		if use intel_drm_tile4 ; then
+			append-cppflags -DI915_SCANOUT_4_TILED
+		else
+			append-cppflags -DI915_SCANOUT_Y_TILED
+		fi
 	fi
 	use video_cards_marvell && append-cppflags -DDRV_MARVELL && export DRV_MARVELL=1
 	use minigbm_platform_mt8183 && append-cppflags -DMTK_MT8183
