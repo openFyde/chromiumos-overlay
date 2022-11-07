@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="23a6fbd01557bd6a266aeb88dc3f7b2100276ab8"
+CROS_WORKON_COMMIT="c00411f45346a8a50fc55928fb8da3d7ba2536dc"
 CROS_WORKON_TREE="6ab99ead1139df1f0659d84ba8f491db793334c7"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,7 +25,6 @@ DEPEND="
 	=dev-rust/dbus-0.8*
 	dev-rust/libchromeos:=
 	=dev-rust/serde_json-1.0*
-	dev-rust/sys_util:=
 "
 
 RDEPEND="
