@@ -7,6 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 CROS_RUST_CRATE_NAME="factory_installer"
 CROS_RUST_SUBDIR="rust"
+CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
 
 inherit cros-workon cros-rust cros-factory
 
@@ -75,8 +76,10 @@ COMMON_DEPEND="
 	!chromeos-base/chromeos-factory"
 
 DEPEND="${COMMON_DEPEND}
+	test? ( app-shells/dash )
 	chromeos-base/factory:=
 	chromeos-base/factory_rust
+	test? ( chromeos-base/chromeos-base )
 	test? ( chromeos-base/secure-wipe:= )
 	x86? ( sys-boot/syslinux:= )"
 
