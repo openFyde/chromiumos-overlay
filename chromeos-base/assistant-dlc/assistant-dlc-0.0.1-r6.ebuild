@@ -35,6 +35,9 @@ DLC_NAME="Assistant DLC"
 # Tast tests run against libassistant.so
 DLC_PRELOAD=true
 
+# Enabled scaled design.
+DLC_SCALED=true
+
 CHROME_DIR=/opt/google/chrome
 LIBASSISTANT_DIR="${SYSROOT}/build/share/libassistant"
 

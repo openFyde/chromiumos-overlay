@@ -25,7 +25,6 @@ IUSE="
 	asan
 	arc-camera1
 	arc-camera3
-	assistant-dlc
 	biod
 	bluetooth
 	bootchart
@@ -214,6 +213,9 @@ RDEPEND="
 		chromeos-base/sample-dlc
 		chromeos-base/scaled-dlc
 		chromeos-languagepacks/tts-es-us
+		chrome_internal? (
+			chromeos-base/assistant-dlc
+		)
 	)
 	bluetooth? ( net-wireless/bluez )
 	floss? (
@@ -370,9 +372,6 @@ RDEPEND="
 	dns-proxy? ( chromeos-base/dns-proxy )
 	featured? ( chromeos-base/featured )
 	fusebox? ( chromeos-base/fusebox )
-	chrome_internal? (
-		assistant-dlc? ( chromeos-base/assistant-dlc )
-	)
 	lvm_stateful_partition? ( chromeos-base/lvmd )
 	ufs? ( chromeos-base/discod )
 	system_wide_scudo? ( sys-libs/scudo )

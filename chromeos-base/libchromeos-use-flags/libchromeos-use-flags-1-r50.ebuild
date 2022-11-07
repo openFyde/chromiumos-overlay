@@ -34,7 +34,6 @@ IUSE="
 	arcvm
 	arcvm_virtio_blk_data
 	asan
-	assistant-dlc
 	background_blur
 	big_little
 	biod
