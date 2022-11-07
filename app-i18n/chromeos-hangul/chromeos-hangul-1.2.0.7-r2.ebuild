@@ -14,7 +14,7 @@ KEYWORDS="*"
 
 src_prepare() {
 	# Removes unused NaCl binaries.
-	if ! use arm ; then
+	if ! use arm && ! use arm64; then
 		rm hangul_arm.nexe || die
 	fi
 	if ! use x86 ; then

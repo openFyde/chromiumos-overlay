@@ -22,7 +22,7 @@ src_prepare() {
 	cd ${PN}-*/ || die
 
 	# Removes unused NaCl binaries.
-	if ! use arm ; then
+	if ! use arm && ! use arm64; then
 		rm nacl_session_handler_arm.nexe || die
 	fi
 	if ! use x86 ; then
