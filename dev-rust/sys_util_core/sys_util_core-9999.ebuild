@@ -1,0 +1,57 @@
+# Copyright 2022 The ChromiumOS Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_LOCALNAME="../platform/crosvm"
+CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
+CROS_WORKON_EGIT_BRANCH="chromeos"
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_RUST_SUBDIR="common/sys_util_core"
+CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
+CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
+
+# The version of this crate is pinned. See b/229016539 for details.
+CROS_WORKON_MANUAL_UPREV="1"
+
+inherit cros-workon cros-rust
+
+DESCRIPTION="Internal dependency of dev-rust/sys_util. Do not use directly"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/common/sys_util_core"
+
+LICENSE="BSD-Google"
+KEYWORDS="~*"
+IUSE="test"
+
+DEPEND="dev-rust/third-party-crates-src:="
+
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+# Also, do not allow to be installed with older versions of sys_util to prevent file collisions.
+RDEPEND="
+	${DEPEND}
+	!<dev-rust/sys_util-0.1.0-r197
+"
+src_install() {
+	(
+		cd poll_token_derive || die
+		cros-rust_publish poll_token_derive "$(cros-rust_get_crate_version .)"
+	)
+
+	cros-rust_src_install
+}
+
+pkg_preinst() {
+	cros-rust_pkg_preinst poll_token_derive
+	cros-rust_pkg_preinst
+}
+
+pkg_postinst() {
+	cros-rust_pkg_postinst poll_token_derive
+	cros-rust_pkg_postinst
+}
+
+pkg_prerm() {
+	cros-rust_pkg_prerm poll_token_derive
+	cros-rust_pkg_prerm
+}
