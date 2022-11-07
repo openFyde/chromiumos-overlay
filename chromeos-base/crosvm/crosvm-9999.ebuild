@@ -217,6 +217,7 @@ src_test() {
 		--exclude rutabaga_gfx
 		--exclude crosvm-fuzz
 		# Exclude crates that require KVM.
+		--exclude e2e_tests
 		--exclude integration_tests
 		--exclude hypervisor
 		--exclude kvm
