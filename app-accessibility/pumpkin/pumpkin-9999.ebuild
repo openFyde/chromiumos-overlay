@@ -28,7 +28,6 @@ CROS_WORKON_LOCALNAME="../platform/empty-project"
 # DLC variables.
 # 4KB * 1624 = ~6.5MB
 DLC_PREALLOC_BLOCKS="1624"
-DLC_PRELOAD=true
 
 S="${WORKDIR}"
 src_unpack() {
