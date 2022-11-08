@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="666db4fd2dedc2bf2e70cb0f9bb93e26715489d6"
+CROS_WORKON_COMMIT="dc65033af045b97a66c68ca80db2d84818b27ad5"
 CROS_WORKON_TREE="85e7948f49723ecee76a48e63fa2f8d0971372ba"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,7 +26,6 @@ COMMON_DEPEND="
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
-	=dev-rust/chrono-0.4*
 	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
 	dev-rust/system_api:=

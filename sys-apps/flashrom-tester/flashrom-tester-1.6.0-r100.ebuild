@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="955495350e3130e41108bf01d960accb7a0b6f6b"
+CROS_WORKON_COMMIT="dab683a6eb2436661f6c2a3768cd188a6c291e6e"
 CROS_WORKON_TREE=("81b382f372bfa19d76ed64f96d403113c02f3340" "56c8acb0cc6d8a4d0cab33551a283a6ee495620c" "b33bb3b65dfb8b92a68e103fbccedc8f27cfabdf" "bc5980cc2db3e4283b3e789fdaa7ccfe996e380a")
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
@@ -23,8 +23,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/bindgen-0.59*
-	=dev-rust/built-0.5*
-	=dev-rust/chrono-0.4*
 	=dev-rust/clap-2.33*
 	=dev-rust/serde_json-1*
 	sys-apps/flashrom
@@ -34,9 +32,7 @@ RDEPEND="!<=sys-apps/flashrom-tester-1.60-r41
 	sys-apps/flashrom
 "
 
-BDEPEND="
-	=dev-rust/built-0.5*
-"
+BDEPEND=""
 
 src_compile() {
 	# Override HOST_CFLAGS so that build dependencies use the correct
