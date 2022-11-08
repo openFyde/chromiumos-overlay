@@ -72,7 +72,7 @@ src_install() {
 	dodir "${dir}"
 	unzip -d "${D}${dir}" nassh/dist/crosh.zip || die
 	local pnacl="${D}${dir}/plugin/pnacl"
-	if ! use arm ; then
+	if ! use arm && ! use arm64; then
 		rm "${pnacl}/ssh_client_nl_arm.nexe"* || die
 	fi
 	if ! use x86 ; then
