@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="0b478772e3a151bddcb444680def45b16db7aebb"
+CROS_WORKON_COMMIT="303713f1d8b8f1512d0253d9888824c5a41b34d1"
 CROS_WORKON_TREE=("949c73de3faed1daba26b0dcf53a03f571b02837" "484f1e2c34eac4f5bfd4daed8051252ce371f2a7" "51259f50ee011d75518baa1232863345ebb6d631" "beb7d9804a319357e0d4fb473aea5df3ddb78978" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -163,7 +163,7 @@ src_install() {
 	# TODO (b/242806964): Need a better approach for fixing up the seccomp policy
 	# related issues (i.e. fix with a single function call)
 	if use profiling; then
-		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\nuname: 1\n" >> \
 		"${D}/usr/share/policy/trunksd-seccomp.policy"
 	fi
 }
