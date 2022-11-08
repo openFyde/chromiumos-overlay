@@ -190,9 +190,14 @@ src_install() {
 	doins "${FILESDIR}/upstart/btmanagerd.conf"
 	doins "${FILESDIR}/upstart/btadapterd.conf"
 
-	# Install sysprop config file
+	# Install sysprop config file and override dir
 	insinto /etc/bluetooth
 	doins "${FILESDIR}/sysprops.conf"
+	keepdir "/etc/bluetooth/sysprops.conf.d"
+
+	# Change permissions so root can write and bluetooth can read
+	chown -R root:bluetooth "${ED}"/etc/bluetooth/sysprops.conf.d
+	chmod -R 640 "${ED}"/etc/bluetooth/sysprops.conf.d
 
 	# Install tmpfiles (don't forget to update sepolicy if you change the
 	# files/folders created to something other than /var/lib/bluetooth)
