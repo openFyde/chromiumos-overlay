@@ -161,8 +161,16 @@ start() {
 stop() {
   logger -t "${JOB}" "turning off swap"
 
-  # This is safe to call even if no swap is turned on.
-  swapoff -av
+  # Fixup for mount namespace issue, b/248317295
+  # Skip first line for header.
+  tail -n +2 /proc/swaps | while read -r line; do
+    # It is possible that the Filename of swap file zram0 in /proc/swaps shows
+    # wrong path "/zram0", since devtmpfs in minijail mount namespace is lazily
+    # unmounted while swap_management terminates.
+    # If "/zram[0-9]" is found in /proc/swaps, add "/dev/" prefix for it.
+    SWAP_PATH=$(echo "${line}" | awk '{print $1}' | sed -E 's/(^\/zram[0-9]+$)/\/dev\1/g')
+    swapoff -v "${SWAP_PATH}"
+  done
 
   if [ -b "/dev/zram0" ]; then
     # When we start up, we try to configure zram0, but it doesn't like to
