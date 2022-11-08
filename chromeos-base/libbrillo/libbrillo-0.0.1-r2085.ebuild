@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="90efbf3c872c8b343053b4f8cceb26c4bbe80751"
+CROS_WORKON_COMMIT="d053b8f9b46ab76f35f3e7b5a17eaa9f62af8098"
 CROS_WORKON_TREE=("45d2d3f6225f2e66796a2a4a833460156c777c42" "a7b3caa0b64518c37a8285016c700996d8c7dc76" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -68,6 +68,9 @@ src_install() {
 		insinto "/usr/include/${dir}"
 		doins "${dir}"/*.h
 	done < <(find brillo -type d -print0)
+	# Install all auto-generated proto_binding header files.
+	insinto "/usr/include/brillo/proto_bindings"
+	doins "${OUT}"/gen/include/brillo/proto_bindings/*.pb.h
 
 	insinto /usr/include/policy
 	doins policy/*.h
