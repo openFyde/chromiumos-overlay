@@ -40,6 +40,96 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/clap_conf-0.1.5
+	!=dev-rust/clap_conf-0.1.5-r1
+	!=dev-rust/clap_conf-0.1.5-r2
+	!=dev-rust/clap_conf-0.1.5-r3
+	!=dev-rust/clap_conf-0.1.5-r4
+	!=dev-rust/clap_conf-0.1.5-r5
+	!=dev-rust/jsonschema-0.15.1
+	!=dev-rust/jsonschema-0.15.1-r1
+	!=dev-rust/jsonschema-0.15.1-r2
+	!=dev-rust/jsonschema-0.15.1-r3
+	!=dev-rust/jsonschema-0.15.1-r4
+	!=dev-rust/jsonschema-0.15.1-r5
+	!=dev-rust/jsonschema-0.15.1-r6
+	!=dev-rust/jsonschema-0.15.1-r7
+	!=dev-rust/jsonschema-0.15.1-r8
+	!=dev-rust/jsonschema-0.15.1-r9
+	!=dev-rust/jsonschema-0.15.1-r10
+	!=dev-rust/jsonschema-0.15.1-r11
+	!=dev-rust/jsonschema-0.15.1-r12
+	!=dev-rust/jsonschema-0.15.1-r13
+	!=dev-rust/jsonschema-0.15.1-r14
+	!=dev-rust/jsonschema-0.15.1-r15
+	!=dev-rust/jsonschema-0.15.1-r16
+	!=dev-rust/jsonschema-0.15.1-r17
+	!=dev-rust/jsonschema-0.15.1-r18
+	!=dev-rust/jsonschema-0.15.1-r19
+	!=dev-rust/cbindgen-0.20.0
+	!=dev-rust/cbindgen-0.20.0-r1
+	!=dev-rust/cbindgen-0.20.0-r2
+	!=dev-rust/cbindgen-0.20.0-r3
+	!=dev-rust/cbindgen-0.20.0-r4
+	!=dev-rust/cbindgen-0.20.0-r5
+	!=dev-rust/cbindgen-0.20.0-r6
+	!=dev-rust/cbindgen-0.20.0-r7
+	!=dev-rust/cbindgen-0.20.0-r8
+	!=dev-rust/cbindgen-0.20.0-r9
+	!=dev-rust/cbindgen-0.20.0-r10
+	!=dev-rust/cbindgen-0.20.0-r11
+	!=dev-rust/cbindgen-0.20.0-r12
+	!=dev-rust/serde_yaml-0.8.24
+	!=dev-rust/serde_yaml-0.8.24-r1
+	!=dev-rust/serde_yaml-0.8.24-r2
+	!=dev-rust/serde_yaml-0.8.24-r3
+	!=dev-rust/serde_yaml-0.8.24-r4
+	!=dev-rust/serde_json-1.0.79
+	!=dev-rust/serde_json-1.0.79-r1
+	!=dev-rust/serde_json-1.0.79-r2
+	!=dev-rust/serde_json-1.0.79-r3
+	!=dev-rust/serde_json-1.0.79-r4
+	!=dev-rust/ryu-1.0.5
+	!=dev-rust/ryu-1.0.5-r1
+	!=dev-rust/no-panic-0.1.10
+	!=dev-rust/no-panic-0.1.10-r1
+	!=dev-rust/no-panic-0.1.10-r2
+	!=dev-rust/no-panic-0.1.10-r3
+	!=dev-rust/no-panic-0.1.10-r4
+	!=dev-rust/linux-embedded-hal-0.3.2
+	!=dev-rust/linux-embedded-hal-0.3.2-r1
+	!=dev-rust/linux-embedded-hal-0.3.2-r2
+	!=dev-rust/linux-embedded-hal-0.3.2-r3
+	!=dev-rust/linux-embedded-hal-0.3.2-r4
+	!=dev-rust/linux-embedded-hal-0.3.2-r5
+	!=dev-rust/linux-embedded-hal-0.3.2-r6
+	!=dev-rust/sysfs_gpio-0.6.1
+	!=dev-rust/sysfs_gpio-0.6.1-r1
+	!=dev-rust/sysfs_gpio-0.6.1-r2
+	!=dev-rust/sysfs_gpio-0.6.1-r3
+	!=dev-rust/sysfs_gpio-0.6.1-r4
+	!=dev-rust/gpio-cdev-0.5.1
+	!=dev-rust/gpio-cdev-0.5.1-r1
+	!=dev-rust/gpio-cdev-0.5.1-r2
+	!=dev-rust/gpio-cdev-0.5.1-r3
+	!=dev-rust/gpio-cdev-0.5.1-r4
+	!=dev-rust/tokio-1.19.2
+	!=dev-rust/tokio-1.19.2-r1
+	!=dev-rust/tokio-1.19.2-r2
+	!=dev-rust/tokio-1.19.2-r3
+	!=dev-rust/tokio-1.19.2-r4
+	!=dev-rust/tokio-1.19.2-r5
+	!=dev-rust/tokio-1.19.2-r6
+	!=dev-rust/tokio-1.19.2-r7
+	!=dev-rust/tokio-1.19.2-r8
+	!=dev-rust/tokio-1.19.2-r9
+	!=dev-rust/tokio-1.19.2-r10
+	!=dev-rust/mio-0.8.3
+	!=dev-rust/mio-0.8.3-r1
+	!=dev-rust/mio-0.8.3-r2
+	!=dev-rust/mio-0.7.14
+	!=dev-rust/mio-0.7.14-r1
+	!=dev-rust/mio-0.7.14-r2
 	!=dev-rust/structopt-0.3.26
 	!=dev-rust/structopt-0.3.26-r1
 	!=dev-rust/structopt-0.3.26-r2
@@ -1353,6 +1443,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cargo_metadata-0.2.3"
 	"cast-0.2.7"
 	"cast-0.3.0"
+	"cbindgen-0.20.0"
 	"cc-1.0.73"
 	"cexpr-0.4.0"
 	"cexpr-0.6.0"
@@ -1365,6 +1456,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"clang-sys-1.2.0"
 	"clap-2.33.3"
 	"clap-3.2.22"
+	"clap_conf-0.1.5"
 	"clap_derive-3.2.18"
 	"clap_lex-0.1.1"
 	"clap_lex-0.2.4"
@@ -1518,6 +1610,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"gimli-0.26.2"
 	"git2-0.13.25"
 	"glob-0.3.0"
+	"gpio-cdev-0.5.1"
 	"graphql-parser-0.3.0"
 	"grpcio-compiler-0.6.0"
 	"gumdrop-0.8.1"
@@ -1584,6 +1677,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"jobserver-0.1.24"
 	"jpeg-decoder-0.1.22"
 	"js-sys-0.3.60"
+	"jsonschema-0.15.2"
 	"juniper-0.15.10"
 	"juniper_codegen-0.15.9"
 	"junit-report-0.4.0"
@@ -1603,6 +1697,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
 	"linked-hash-map-0.5.6"
+	"linux-embedded-hal-0.3.2"
 	"linux-raw-sys-0.0.46"
 	"litrs-0.2.3"
 	"lock_api-0.4.9"
@@ -1623,6 +1718,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"miniz_oxide-0.3.7"
 	"miniz_oxide-0.4.4"
 	"miniz_oxide-0.5.4"
+	"mio-0.6.23"
+	"mio-0.7.14"
+	"mio-0.8.4"
 	"mio-extras-2.0.6"
 	"miow-0.2.2"
 	"miow-0.3.6"
@@ -1639,6 +1737,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"nix-0.20.0"
 	"nix-0.23.1"
 	"nix-0.24.2"
+	"no-panic-0.1.16"
 	"nodrop-0.1.14"
 	"nom-5.1.2"
 	"nom-7.1.1"
@@ -1801,6 +1900,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rustyline-9.1.2"
 	"rustyline-derive-0.4.0"
 	"rustyline-derive-0.6.0"
+	"ryu-1.0.5"
 	"same-file-1.0.6"
 	"schannel-0.1.20"
 	"scoped-tls-1.0.0"
@@ -1823,8 +1923,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"serde_bytes-0.10.5"
 	"serde_cbor-0.11.2"
 	"serde_derive-1.0.145"
+	"serde_json-0.8.6"
+	"serde_json-1.0.85"
 	"serde_test-1.0.147"
 	"serde_urlencoded-0.7.1"
+	"serde_yaml-0.8.26"
 	"serial-core-0.4.0"
 	"serial-unix-0.4.0"
 	"sha1-0.6.1"
@@ -1874,6 +1977,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"synstructure-0.12.4"
 	"synstructure_test_traits-0.1.0"
 	"sys-info-0.9.1"
+	"sysfs_gpio-0.6.1"
 	"syslog-4.0.1"
 	"syslog-6.0.1"
 	"system-deps-6.0.2"
@@ -1905,6 +2009,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"tinytemplate-1.2.1"
 	"tinyvec-1.6.0"
 	"tinyvec_macros-0.1.0"
+	"tokio-1.19.2"
 	"tokio-io-0.1.13"
 	"tokio-io-timeout-1.2.0"
 	"tokio-macros-1.8.0"

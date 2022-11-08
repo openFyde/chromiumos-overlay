@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f5e5fbec9333388fc2d9b49120f7cc49f0938646"
+CROS_WORKON_COMMIT="1c22d6f5e87ca4c8cded90f36f9aee91d21f266d"
 CROS_WORKON_TREE="ca2e4c9dab5d78c8d51550762696f37b86430c59"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -24,8 +24,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/libchromeos:=
 	=dev-rust/log-0.4*
-	dev-rust/serde_json
-	dev-rust/serde_yaml
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
 	media-sound/libcras:=

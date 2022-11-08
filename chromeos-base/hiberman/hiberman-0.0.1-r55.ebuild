@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="616c714e61ce48380286b52f0cea7d465a68ef4d"
+CROS_WORKON_COMMIT="db60de95925b9cfa3f5f8ff83232de073abf50ed"
 CROS_WORKON_TREE="0148b3dcb07845d821427599284922ace39fc050"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -28,7 +28,6 @@ DEPEND="
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
 	=dev-rust/protobuf-2*
-	=dev-rust/serde_json-1*
 	dev-rust/sync:=
 	dev-rust/system_api:=
 "

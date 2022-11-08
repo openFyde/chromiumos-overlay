@@ -27,7 +27,6 @@ DEPEND="
 	dev-rust/chromeos-dbus-bindings:=
 	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
-	=dev-rust/serde_json-1*
 	media-sound/audio_streams:=
 	media-sound/libcras:=
 "
