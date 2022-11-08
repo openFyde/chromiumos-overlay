@@ -20,7 +20,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="fuzzer systemd test tpm tpm2 tpm_dynamic"
+IUSE="fuzzer profiling systemd test tpm tpm2 tpm_dynamic"
 
 RDEPEND="
 	!<chromeos-base/cryptohome-0.0.2
@@ -38,6 +38,14 @@ DEPEND="${RDEPEND}"
 
 src_install() {
 	platform_src_install
+	# Allow specific syscalls for profiling.
+	# TODO (b/242806964): Need a better approach for fixing up the seccomp policy
+	# related issues (i.e. fix with a single function call)
+	if use profiling; then
+		sed -i "/prctl:/d" "${D}/usr/share/policy/bootlockboxd-seccomp.policy" &&
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\nprctl: 1\n" >> \
+		"${D}/usr/share/policy/bootlockboxd-seccomp.policy"
+	fi
 }
 
 pkg_preinst() {
