@@ -121,14 +121,7 @@ start() {
   # If still empty, compute swap based on RAM size.
   if [ -z "${requested_size_mb}" ]; then
     # Default multiplier for zram size. (Shell math is integer only.)
-    local multiplier="3 / 2"
-
-    # Systems with less than 5gb of ram (measured in kb) will
-    # get 2x rather than 1.5x zram capacity, ie. 5Mi KiB.
-    local double_cutoff_kb=$((5 << 20))
-    if [ "${mem_total}" -lt "${double_cutoff_kb}" ]; then
-      multiplier="2"
-    fi
+    local multiplier="2"
 
     # The multiplier may be an expression, so it MUST use the $ expansion.
     size_kb=$(( mem_total * ${multiplier} ))
