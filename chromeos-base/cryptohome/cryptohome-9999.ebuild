@@ -196,6 +196,10 @@ src_install() {
 		fuzzers/data/*
 
 	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_userdataauth_fuzzer \
+		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_user_secret_stash_parser_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
