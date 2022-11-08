@@ -318,7 +318,7 @@ install_iwlwifi() {
 	for x in "${IUSE_IWLWIFI[@]}"; do
 		use_fw "${x}" || continue
 		case "${x}" in
-		iwlwifi-all)   doins iwlwifi-*.ucode ;;
+		iwlwifi-all)   doins iwlwifi-*.ucode iwlwifi-*.pnvm;;
 		iwlwifi-6005)  doins iwlwifi-6000g2a-*.ucode ;;
 		iwlwifi-6030)  doins iwlwifi-6000g2b-*.ucode ;;
 		iwlwifi-7260)  doins "${x}-17.ucode" ;;
