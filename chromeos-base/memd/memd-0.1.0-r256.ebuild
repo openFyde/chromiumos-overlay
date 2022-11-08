@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="90efbf3c872c8b343053b4f8cceb26c4bbe80751"
+CROS_WORKON_COMMIT="dc65033af045b97a66c68ca80db2d84818b27ad5"
 CROS_WORKON_TREE=("7286f60f39ca7e7dd78e67c7b50fc4bda7c4d5a2" "45d2d3f6225f2e66796a2a4a833460156c777c42")
 CROS_RUST_SUBDIR="metrics/memd"
 
@@ -27,7 +27,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
-	>=dev-rust/chrono-0.4.2 <dev-rust/chrono-0.5.0
 	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
 	dev-rust/libchromeos:=
 	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0

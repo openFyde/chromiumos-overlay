@@ -48,7 +48,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
 	>=dev-rust/anyhow-1.0.32 <dev-rust/anyhow-2.0
 	dev-rust/cbindgen
-	dev-rust/chrono
 	dev-rust/cros_fuzz:=
 	=dev-rust/ctrlc-3.2*
 	=dev-rust/dbus-0.8*
@@ -73,17 +72,6 @@ DEPEND="${COMMON_DEPEND}
 		=dev-rust/dbus-0.6*
 	)
 "
-
-get_seccomp_path() {
-	local seccomp_arch="unknown"
-	case ${ARCH} in
-	amd64) seccomp_arch=x86_64 ;;
-	arm) seccomp_arch=arm ;;
-	arm64) seccomp_arch=aarch64 ;;
-	esac
-
-	echo "seccomp/${seccomp_arch}"
-}
 
 FUZZERS=(
 	crosvm_block_fuzzer
@@ -273,26 +261,6 @@ src_install() {
 	# crosvm instead.
 	local build_dir="$(cros-rust_get_build_dir)"
 	dobin "${build_dir}/crosvm"
-
-	# Install seccomp policy files.
-	local seccomp_path="${S}/$(get_seccomp_path)"
-	if [[ -d "${seccomp_path}" ]]; then
-		local policy
-		for policy in "${seccomp_path}"/*.policy; do
-			sed -i "s:/usr/share/policy/crosvm:${seccomp_path}:g" "${policy}" ||
-				die "failed to modify seccomp policy ${policy}"
-		done
-		for policy in "${seccomp_path}"/*.policy; do
-			local policy_output="${policy%.policy}.bpf"
-			compile_seccomp_policy \
-				--arch-json "${SYSROOT}/build/share/constants.json" \
-				--default-action trap "${policy}" "${policy_output}" ||
-				die "failed to compile seccomp policy ${policy}"
-		done
-		rm "${seccomp_path}"/common_device.bpf
-		insinto /usr/share/policy/crosvm
-		doins "${seccomp_path}"/*.bpf
-	fi
 
 	# Install qcow utils library, header, and pkgconfig files.
 	dolib.so "${build_dir}/deps/libqcow_utils.so"
