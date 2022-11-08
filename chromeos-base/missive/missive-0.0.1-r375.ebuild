@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="c00411f45346a8a50fc55928fb8da3d7ba2536dc"
+CROS_WORKON_COMMIT="c3fcd0014dad8332d4998a907cbc4eadb849e060"
 CROS_WORKON_TREE=("949c73de3faed1daba26b0dcf53a03f571b02837" "e05b56785f03537173a6ca067e555669ca66534d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -50,6 +50,7 @@ src_install() {
 	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
 	dolib.a "${OUT}/libmissiveprotosecurityxdrevents.a"
 	dolib.a "${OUT}/libmissiveprotostatus.a"
+	dolib.a "${OUT}/libmissiveclienttestlib.a"
 
 	# Installs the header files to /usr/include/missive/.
 	local header_files=(
@@ -57,6 +58,12 @@ src_install() {
 		"client/report_queue_configuration.h"
 		"client/report_queue_factory.h"
 		"client/report_queue.h"
+		"client/report_queue_provider.h"
+		"client/mock_dm_token_retriever.h"
+		"client/mock_report_queue.h"
+		"client/mock_report_queue_provider.h"
+		"client/report_queue_provider_test_helper.h"
+		"storage/storage_module_interface.h"
 		"util/status.h"
 		"util/status_macros.h"
 		"util/statusor.h"
