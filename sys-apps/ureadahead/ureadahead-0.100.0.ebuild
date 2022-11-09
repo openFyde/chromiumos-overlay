@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit arc-build-constants
+inherit arc-build-constants tmpfiles
 
 DESCRIPTION="Ureadahead - Read files in advance during boot"
 HOMEPAGE="https://launchpad.net/ureadahead"
@@ -50,6 +50,8 @@ src_install() {
 	# install init script
 	insinto /etc/init
 	doins "${FILESDIR}"/init/*.conf
+
+	dotmpfiles "${FILESDIR}"/tmpfiles.d/*
 
 	# install executable into guest vendor image for ARCVM
 	if use arcvm; then
