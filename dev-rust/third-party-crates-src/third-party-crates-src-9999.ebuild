@@ -38,6 +38,19 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/protoc-rust-2.24.1
+	!=dev-rust/protoc-rust-2.24.1-r1
+	!=dev-rust/protoc-rust-2.24.1-r2
+	!=dev-rust/protoc-rust-2.24.1-r3
+	!=dev-rust/protoc-2.24.1
+	!=dev-rust/protoc-2.24.1-r1
+	!=dev-rust/protoc-2.24.1-r2
+	!=dev-rust/protobuf-codegen-2.24.1
+	!=dev-rust/protobuf-codegen-2.24.1-r1
+	!=dev-rust/protobuf-codegen-2.24.1-r2
+	!=dev-rust/protobuf-2.24.1
+	!=dev-rust/protobuf-2.24.1-r1
+	!=dev-rust/protobuf-2.24.1-r2
 	!=dev-rust/libdbus-sys-0.2.1
 	!=dev-rust/libdbus-sys-0.2.1-r1
 	!=dev-rust/libdbus-sys-0.1.3
@@ -1984,7 +1997,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"prost-derive-0.11.0"
 	"prost-derive-0.7.0"
 	"prost-types-0.11.1"
+	"protobuf-2.27.1"
+	"protobuf-codegen-2.27.1"
+	"protoc-2.27.1"
 	"protoc-grpcio-2.0.0"
+	"protoc-rust-2.27.1"
 	"pulldown-cmark-0.0.15"
 	"pulldown-cmark-0.6.1"
 	"pyo3-0.13.2"

@@ -3,11 +3,12 @@
 
 EAPI="7"
 
+CROS_RUST_PREINSTALLED_REGISTRY_CRATE=1
+
 inherit cros-rust
 
 DESCRIPTION="Protobuf code generator and a protoc-gen-rust protoc plugin"
 HOMEPAGE="https://github.com/stepancheg/rust-protobuf/protobuf-codegen"
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="MIT"
 SLOT="0/${PVR}"
@@ -15,9 +16,7 @@ KEYWORDS="*"
 IUSE="cros_host"
 
 BDEPEND="!cros_host? ( =${CATEGORY}/${PF} )"
-DEPEND="
-	~dev-rust/protobuf-${PV}
-"
+DEPEND="dev-rust/third-party-crates-src:="
 
 RDEPEND="${DEPEND}"
 
@@ -26,6 +25,5 @@ src_compile() {
 }
 
 src_install() {
-	cros-rust_publish "${PN}" "$(cros-rust_get_crate_version)"
 	use cros_host && dobin "$(cros-rust_get_build_dir)/protoc-gen-rust"
 }

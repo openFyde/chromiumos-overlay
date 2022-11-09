@@ -18,7 +18,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/grpcio-sys-0.9*
-	=dev-rust/protobuf-2*
 "
 RDEPEND="${DEPEND}"
 

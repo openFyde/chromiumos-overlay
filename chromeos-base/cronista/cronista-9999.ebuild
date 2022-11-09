@@ -16,16 +16,15 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="manatee"
 
+BDEPEND="dev-libs/protobuf"
 RDEPEND="sys-apps/dbus"
-
 DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
-	=dev-rust/protobuf-2*
-	=dev-rust/protoc-rust-2*
 "
 
 pkg_setup() {

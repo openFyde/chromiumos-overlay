@@ -21,14 +21,14 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="+seccomp"
 
+BDEPEND="dev-libs/protobuf"
 DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
 	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
 	dev-rust/libchromeos:=
-	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
-	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
 "
 RDEPEND="sys-apps/dbus"
 
