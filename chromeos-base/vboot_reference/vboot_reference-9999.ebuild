@@ -16,7 +16,7 @@ DESCRIPTION="Chrome OS verified boot tools"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm_dynamic tpm2 tpm2_simulator vtpm_proxy"
+IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm_dynamic tpm2 tpm2_simulator vtpm_proxy +flashrom"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
@@ -29,7 +29,7 @@ COMMON_DEPEND="
 	dev-libs/libzip:=
 	dev-libs/openssl:=
 	sys-apps/coreboot-utils:=
-	sys-apps/flashrom:=
+	flashrom? ( sys-apps/flashrom:= )
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
 # vboot_reference tests are shell scripts using all these utilities
@@ -94,6 +94,7 @@ vemake() {
 		VTPM_PROXY="$(usev vtpm_proxy)" \
 		FUZZ_FLAGS="${SANITIZER_CFLAGS}" \
 		BUILD="$(get_build_dir)" \
+		USE_FLASHROM="$(usev flashrom)" \
 		"$@"
 }
 
