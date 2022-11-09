@@ -116,13 +116,11 @@ dc_make() {
 #   $2: build directory
 #   $3: libpayload dir
 #   $4: recovery input method
-#   $5: detachable ui enabled status ("True" for enabled)
 make_depthcharge() {
 	local board="$1"
 	local builddir="$2"
 	local libpayload="$3"
 	local recovery_input="$4"
-	local config_detachable="$5"
 	local base_defconfig="board/${board}/defconfig"
 	local defconfig="${T}/${board}-defconfig"
 	local config="${builddir}/depthcharge.config"
@@ -143,11 +141,7 @@ make_depthcharge() {
 		echo "CONFIG_CLI=y" >> "${defconfig}"
 		echo "CONFIG_SYS_PROMPT=\"${board}: \"" >> "${defconfig}"
 	fi
-
-	if [[ "${config_detachable}" == "True" ]] ; then
-		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
-	elif use detachable ; then
-		# TODO(b/249868427) Remove this once USE flag support not longer needed
+	if use detachable ; then
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
 
@@ -216,12 +210,8 @@ src_compile() {
 
 		recovery_input="$(cros_config_host get-firmware-recovery-input depthcharge "${depthcharge}")" || \
 			die "Unable to determine recovery input for ${depthcharge}"
-		config_detachable="$(cros_config_host get-key-value \
-			/firmware/build-targets depthcharge "${depthcharge}" \
-			/firmware detachable-ui --ignore-unset)" || \
-			die "Unable to detachable ui config for ${depthcharge}"
 
-		make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}" "${recovery_input}" "${config_detachable}"
+		make_depthcharge "${depthcharge}" "${builddir}" "${libpayload}" "${recovery_input}"
 	done < <(cros_config_host get-firmware-build-combinations depthcharge)
 
 	popd >/dev/null || die
