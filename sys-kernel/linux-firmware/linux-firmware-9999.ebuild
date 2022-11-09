@@ -325,17 +325,17 @@ install_iwlwifi() {
 		iwlwifi-9260)  doins "${x}-th-b0-jf-b0-46.ucode" ;;
 		iwlwifi-cc)
 			case "${kernel}" in
-			kernel-5_15)     doins "${x}-a0-74.ucode" ;;
+			kernel-5_15)     doins "${x}-a0-77.ucode" ;;
 			kernel-upstream) doins "${x}-a0-72.ucode" ;;
-			*)               doins "${x}-a0-74.ucode" ;;
+			*)               doins "${x}-a0-77.ucode" ;;
 			esac
 			;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-74.ucode" ;;
-			kernel-5_4)  doins "${x}-a0-hr-b0-74.ucode" ;;
-			kernel-5_10) doins "${x}-a0-hr-b0-74.ucode" ;;
-			kernel-5_15) doins "${x}-a0-hr-b0-74.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-77.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-77.ucode" ;;
+			kernel-5_10) doins "${x}-a0-hr-b0-77.ucode" ;;
+			kernel-5_15) doins "${x}-a0-hr-b0-77.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-72.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
@@ -346,12 +346,11 @@ install_iwlwifi() {
 			;;
 		iwlwifi-so)
 			case "${kernel}" in
-			kernel-5_15)     doins "${x}-a0-gf-a0-74.ucode" ;;
+			kernel-5_15)     doins "${x}-a0-gf-a0-77.ucode" ;;
 			kernel-upstream) doins "${x}-a0-gf-a0-72.ucode" ;;
-			*)               doins "${x}-a0-gf-a0-74.ucode" ;;
+			*)               doins "${x}-a0-gf-a0-77.ucode" ;;
 			esac
-			doins "${x}-a0-gf-a0.pnvm"
-			;;
+			doins "${x}-a0-gf-a0.pnvm" ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
 		# At least with EAPI 7, it's ok to call 'doins' with the same
