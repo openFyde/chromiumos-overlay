@@ -1,1 +1,0 @@
-mesa-llvmpipe-22.2.ebuild

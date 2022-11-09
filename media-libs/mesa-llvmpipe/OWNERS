@@ -1,1 +1,2 @@
-include chromiumos/platform/graphics:/OWNERS.mesa
+# TODO: Add per-package OWNERS and delete this when done.
+*
