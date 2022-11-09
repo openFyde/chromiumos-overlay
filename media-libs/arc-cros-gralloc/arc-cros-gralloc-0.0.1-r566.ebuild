@@ -21,7 +21,7 @@ VIDEO_CARDS="amdgpu exynos intel marvell mediatek msm rockchip tegra virgl"
 IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 MINI_GBM_PLATFORMS_USE=( mt8183 mt8186 mt8188g mt8192 mt8195 sc7280 )
 IUSE+=" ${MINI_GBM_PLATFORMS_USE[*]/#/minigbm_platform_}"
-IUSE+=" android-container-pi"
+IUSE+=" arcpp"
 
 RDEPEND="
 	!<media-libs/minigbm-0.0.1-r438
@@ -104,7 +104,7 @@ multilib_src_compile() {
 
 	# ARCVM doesn't need gralloc.cros.so because it uses
 	# gralloc.minigbm_arcvm.so, which is built inside Android vendor image.
-	if use android-container-pi; then
+	if use arcpp; then
 		emake -C "${S}/cros_gralloc"
 	fi
 
@@ -112,7 +112,7 @@ multilib_src_compile() {
 }
 
 multilib_src_install() {
-	if use android-container-pi; then
+	if use arcpp; then
 		exeinto "${ARC_PREFIX}/vendor/$(get_libdir)/hw/"
 		doexe "${BUILD_DIR}"/gralloc.cros.so
 	fi
@@ -123,7 +123,7 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
-	if use android-container-pi; then
+	if use arcpp; then
 		# Install cros_gralloc header files for arc-mali-* packages
 		insinto "/usr/include/cros_gralloc"
 		doins "${S}/cros_gralloc/cros_gralloc_handle.h"
