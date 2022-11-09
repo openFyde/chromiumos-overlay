@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5cf6734c0a1e5dea7177fddb7653308505486bb5"
-CROS_WORKON_TREE=("684de7632fb3bf23e07149db10c51780f7a80c39" "2adb7b0f2e2cff54ae12baa905b1d4802925753e" "1ca3357861ef3a20202ba4a870b6a31de9c28fea" "3d196fb5b23da11433c98dd3daa6ffe0d55e4b0e" "484f1e2c34eac4f5bfd4daed8051252ce371f2a7" "8fc14973373f54152f16326c133b3bdf540e11f7" "c31a43f8353ab3c8e5b58a77bcf7470a9564b8a6" "beb7d9804a319357e0d4fb473aea5df3ddb78978" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="162a7dd861ab8b6249f80896f31e5e09bed830af"
+CROS_WORKON_TREE=("684de7632fb3bf23e07149db10c51780f7a80c39" "8758c7efc38441571efbfa4db5c14ddc98f8639d" "1ca3357861ef3a20202ba4a870b6a31de9c28fea" "3d196fb5b23da11433c98dd3daa6ffe0d55e4b0e" "484f1e2c34eac4f5bfd4daed8051252ce371f2a7" "8fc14973373f54152f16326c133b3bdf540e11f7" "c31a43f8353ab3c8e5b58a77bcf7470a9564b8a6" "beb7d9804a319357e0d4fb473aea5df3ddb78978" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -83,6 +83,8 @@ src_install() {
 	if use profiling; then
 		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
 		"${D}/usr/share/policy/attestationd-seccomp.policy"
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		"${D}/usr/share/policy/pca_agentd-seccomp.policy"
 	fi
 }
 
