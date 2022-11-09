@@ -49,6 +49,15 @@ PATCHES=(
 	"${FILESDIR}"/0001-xwayland-Fall-back-to-gbm_bo_create-if-no-modifiers-.patch
 	"${FILESDIR}"/0001-Revert-xwayland-Use-a-fixed-DPI-value-for-core-proto.patch
 	"${FILESDIR}"/0001-Use-toolchain-pkg-config.patch
+	"${FILESDIR}"/0001-xkb-switch-to-array-index-loops-to-moving-pointers.patch
+	# CVE-2022-2319
+	"${FILESDIR}"/0002-xkb-swap-XkbSetDeviceInfo-and-XkbSetDeviceInfoCheck.patch
+	# CVE-2022-2320
+	"${FILESDIR}"/0003-xkb-add-request-length-validation-for-XkbSetGeometry.patch
+	# CVE-2022-3550
+	"${FILESDIR}"/0004-xkb-proof-GetCountedString-against-request-length-at.patch
+	# CVE-2022-3551
+	"${FILESDIR}"/0005-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
 )
 
 src_prepare() {
