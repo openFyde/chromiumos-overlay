@@ -89,4 +89,14 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/libinstallattributes_tests"
 	platform_test "run" "${OUT}/libpolicy_tests"
 	platform_test "run" "${OUT}/libbrillo-grpc_tests"
+
+	# `secure_blob_test_runner` does not work inside of qemu because of:
+	# https://gitlab.com/qemu-project/qemu/-/issues/698
+	# so do not run on different architectures.
+	platform_is_native && (
+		# Change the working directory so `secure_blob_test_runner` can find
+		# `secure_blob_test_helper `.
+		cd "${OUT}" || die
+		platform_test "run" "${OUT}/secure_blob_test_runner"
+	)
 }
