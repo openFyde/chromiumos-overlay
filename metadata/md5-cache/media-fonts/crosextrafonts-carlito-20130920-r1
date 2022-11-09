@@ -1,5 +1,5 @@
+BDEPEND=X? ( >=x11-apps/mkfontscale-1.2.0 media-fonts/encodings )
 DEFINED_PHASES=install postinst postrm setup
-DEPEND=X? ( x11-apps/mkfontdir media-fonts/encodings ) >=media-libs/fontconfig-2.4.0
 DESCRIPTION=Carlito font for Chrom*OS by tyPoland Lukasz Dziedzic
 EAPI=7
 IUSE=X
@@ -8,5 +8,5 @@ LICENSE=OFL-1.1
 RESTRICT=strip binchecks
 SLOT=0
 SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/crosextrafonts-carlito-20130920.tar.gz
-_eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	font	bc3df4ed373e09f86a90e8fad39034d6
+_eclasses_=font	9cdfddf092c05c7c4efd70cc30dea046
 _md5_=c111d6aa2089ae3e5bc819c1a29a14c8

@@ -1,6 +1,5 @@
-BDEPEND=app-arch/unzip
+BDEPEND=app-arch/unzip X? ( >=x11-apps/mkfontscale-1.2.0 media-fonts/encodings )
 DEFINED_PHASES=install postinst postrm prepare setup
-DEPEND=X? ( x11-apps/mkfontdir media-fonts/encodings ) >=media-libs/fontconfig-2.4.0
 DESCRIPTION=Japanese IPA extended TrueType fonts
 EAPI=7
 HOMEPAGE=https://moji.or.jp/ipafont/
@@ -10,5 +9,5 @@ LICENSE=IPAfont
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://moji.or.jp/wp-content/ipafont/IPAexfont/IPAexfont00401.zip
-_eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	font	bc3df4ed373e09f86a90e8fad39034d6
+_eclasses_=font	9cdfddf092c05c7c4efd70cc30dea046
 _md5_=bf85a42e0bbebcdb1ff8583a728aec4b
