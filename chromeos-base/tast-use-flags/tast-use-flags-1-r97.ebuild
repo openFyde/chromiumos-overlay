@@ -140,6 +140,7 @@ IUSE="
 	spring
 	+storage_wearout_detect
 	tablet_form_factor
+	third_party_firmware
 	ti50_onboard
 	tpm2
 	tpm2_simulator
