@@ -24,10 +24,10 @@ DEPEND="
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
 	dev-rust/libchromeos:=
-	=dev-rust/openssl-0.10*
 	dev-rust/sync:=
 	dev-rust/system_api:=
 	dev-rust/update_engine_dbus:=
+	dev-libs/openssl:0=
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus

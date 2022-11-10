@@ -24,7 +24,7 @@ DEPEND="
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-rust/libchromeos:=
-	=dev-rust/openssl-0.10*
+	dev-libs/openssl:0=
 "
 
 pkg_setup() {
