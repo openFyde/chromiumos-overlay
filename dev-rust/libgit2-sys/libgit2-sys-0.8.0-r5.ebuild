@@ -16,5 +16,5 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/libssh2-sys-0.2.11
-	>=dev-rust/openssl-sys-0.9.47
+	dev-libs/openssl:0=
 "

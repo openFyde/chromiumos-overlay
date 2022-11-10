@@ -17,7 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/openssl-sys-0.9.73 <dev-rust/openssl-sys-0.10.0
+	dev-libs/openssl:0=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are
 # pulled in when installing binpkgs since the full source tree is required to

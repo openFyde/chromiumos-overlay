@@ -38,6 +38,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/openssl-sys-0.9.73
+	!=dev-rust/openssl-sys-0.9.73-r1
+	!=dev-rust/openssl-sys-0.9.73-r2
+	!=dev-rust/openssl-sys-0.9.73-r3
+	!=dev-rust/openssl-sys-0.9.73-r4
+	!=dev-rust/openssl-sys-0.9.73-r5
+	!=dev-rust/openssl-sys-0.9.73-r6
+	!=dev-rust/openssl-sys-0.9.73-r7
 	!=dev-rust/alsa-sys-0.2.0
 	!=dev-rust/alsa-sys-0.2.0-r1
 	!=dev-rust/alsa-sys-0.2.0-r2
@@ -1951,6 +1959,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"oorandom-11.1.3"
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
+	"openssl-sys-0.9.75"
 	"os_str_bytes-6.3.0"
 	"owning_ref-0.4.1"
 	"packed_simd_2-0.3.8"
