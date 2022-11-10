@@ -94,6 +94,9 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
+	# TODO(crbug/1184602): Move remaining install logic to GN.
+	platform_src_install
+
 	pushd "${OUT}" || die
 	dosbin cryptohomed cryptohome cryptohome-path homedirs_initializer \
 		lockbox-cache stateful-recovery

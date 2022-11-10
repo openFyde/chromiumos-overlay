@@ -7,7 +7,8 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk arc/vm/data_migrator .gn"
+# TODO(b/187784160): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE="common-mk arc/vm/data_migrator cryptohome .gn"
 
 PLATFORM_SUBDIR="arc/vm/data_migrator"
 
@@ -20,6 +21,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 
 RDEPEND="
+	chromeos-base/cryptohome:=
 "
 
 DEPEND="
