@@ -38,6 +38,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/ctrlc-3.2.1
+	!=dev-rust/ctrlc-3.2.1-r1
 	!=dev-rust/dbus-tokio-0.7.5
 	!=dev-rust/dbus-tokio-0.7.5-r1
 	!=dev-rust/dbus-tokio-0.7.5-r2
@@ -1726,6 +1728,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"csv-core-0.1.10"
 	"ct-codecs-1.1.1"
 	"ctor-0.1.22"
+	"ctrlc-3.2.3"
 	"cty-0.2.2"
 	"custom_derive-0.1.7"
 	"cxx-1.0.42"
@@ -1978,6 +1981,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"nix-0.20.0"
 	"nix-0.23.1"
 	"nix-0.24.2"
+	"nix-0.25.0"
 	"no-panic-0.1.16"
 	"nodrop-0.1.14"
 	"nom-5.1.2"
