@@ -27,3 +27,11 @@ DEPEND="
 	=dev-rust/bindgen-0.59*
 "
 RDEPEND="${DEPEND}"
+
+src_install() {
+	cros-rust_src_install
+
+	# Install to /usr/local so they are stripped out of the release image.
+	into /usr/local
+	dobin "$(cros-rust_get_build_dir)/offline-pipeline"
+}
