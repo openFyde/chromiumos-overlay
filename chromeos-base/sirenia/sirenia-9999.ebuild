@@ -25,7 +25,6 @@ DEPEND="
 	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=
-	=dev-rust/dbus-crossroads-0.5*
 	dev-rust/libchromeos:=
 	sys-apps/dbus:=
 "

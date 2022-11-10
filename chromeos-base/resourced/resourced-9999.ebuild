@@ -22,7 +22,6 @@ IUSE="+seccomp"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/dbus-tree-0.9*
 	dev-rust/featured:=
 	dev-rust/libchromeos:=
 	=dev-rust/grpcio-0.9*

@@ -17,8 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/dbus-crossroads-0.5*
-	=dev-rust/dbus-tree-0.9*
 	sys-apps/dbus:=
 "
 RDEPEND="${DEPEND}"
