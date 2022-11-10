@@ -38,6 +38,11 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/dbus-tokio-0.7.5
+	!=dev-rust/dbus-tokio-0.7.5-r1
+	!=dev-rust/dbus-tokio-0.7.5-r2
+	!=dev-rust/dbus-tokio-0.7.5-r3
+	!=dev-rust/dbus-tokio-0.7.5-r4
 	!=dev-rust/dbus-tree-0.9.1
 	!=dev-rust/dbus-tree-0.9.1-r1
 	!=dev-rust/dbus-crossroads-0.5.0
@@ -1738,6 +1743,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"dbus-0.9.5"
 	"dbus-crossroads-0.4.0"
 	"dbus-crossroads-0.5.1"
+	"dbus-tokio-0.7.5"
 	"dbus-tree-0.9.2"
 	"dcv-color-primitives-0.1.16"
 	"defer-drop-1.2.0"
