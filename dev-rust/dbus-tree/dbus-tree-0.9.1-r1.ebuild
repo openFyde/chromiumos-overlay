@@ -4,12 +4,11 @@
 EAPI="7"
 
 CROS_RUST_REMOVE_DEV_DEPS=1
-CROS_RUST_REMOVE_TARGET_CFG=1
 
 inherit cros-rust
 
-DESCRIPTION='Bindings to D-Bus, which is a bus commonly used on Linux for inter-process communication.'
-HOMEPAGE='https://crates.io/crates/dbus'
+DESCRIPTION='Framework for writing D-Bus method handlers (legacy)'
+HOMEPAGE='https://crates.io/crates/dbus-tree'
 SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( Apache-2.0 MIT )"

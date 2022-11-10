@@ -27,9 +27,9 @@ DEPEND="
 	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=
-	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="

@@ -23,10 +23,10 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
 	media-sound/audio_streams:=
 	media-sound/libcras:=
+	sys-apps/dbus:=
 "
 # DEPEND isn't needed in RDEPEND because nothing from this ebuild is installed
 # to the cros_rust_registry.

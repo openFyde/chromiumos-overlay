@@ -26,9 +26,8 @@ DEPEND="
 	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
-	sys-apps/dbus:=
-	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 RDEPEND="sys-apps/dbus"
 

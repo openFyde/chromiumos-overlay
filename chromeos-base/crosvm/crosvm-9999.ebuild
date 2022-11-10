@@ -48,20 +48,18 @@ DEPEND="${COMMON_DEPEND}
 	dev-libs/wayland-protocols:=
 	dev-rust/cros_fuzz:=
 	=dev-rust/ctrlc-3.2*
-	=dev-rust/dbus-0.8*
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=
 	dev-rust/p9:=
 	dev-rust/system_api:=
 	media-sound/libcras:=
+	sys-apps/dbus:=
 	tpm2? (
 		chromeos-base/tpm2:=
 		chromeos-base/trunks:=
-		=dev-rust/dbus-0.6*
 	)
 	crosvm-power-monitor-powerd? (
 		chromeos-base/system_api
-		=dev-rust/dbus-0.6*
 	)
 "
 

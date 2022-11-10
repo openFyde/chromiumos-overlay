@@ -22,10 +22,10 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
-	=dev-rust/dbus-0.9*
 	>=dev-rust/poll_token_derive-0.1.1:=
 	dev-rust/system_api:=
 	dev-rust/vboot_reference-sys:=
+	sys-apps/dbus:=
 "
 
 RDEPEND="${DEPEND}

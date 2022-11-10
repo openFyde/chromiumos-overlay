@@ -21,12 +21,12 @@ KEYWORDS="~*"
 
 DEPEND="
 	=dev-rust/anyhow-1*:=
-	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.5*:=
 	=dev-rust/dbus-tokio-0.7*:=
 	=dev-rust/tokio-1.19*:=
 	dev-rust/system_api:=
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 RDEPEND="sys-apps/dbus:="
 

@@ -38,6 +38,24 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/dbus-0.9.3
+	!=dev-rust/dbus-0.9.3-r1
+	!=dev-rust/dbus-0.9.3-r2
+	!=dev-rust/dbus-0.9.3-r3
+	!=dev-rust/dbus-0.9.3-r4
+	!=dev-rust/dbus-0.9.3-r5
+	!=dev-rust/dbus-0.8.4
+	!=dev-rust/dbus-0.8.4-r1
+	!=dev-rust/dbus-0.8.4-r2
+	!=dev-rust/dbus-0.8.4-r3
+	!=dev-rust/dbus-0.8.4-r4
+	!=dev-rust/dbus-0.8.4-r5
+	!=dev-rust/dbus-0.6.1
+	!=dev-rust/dbus-0.6.1-r1
+	!=dev-rust/dbus-0.6.1-r2
+	!=dev-rust/dbus-0.6.1-r3
+	!=dev-rust/dbus-0.6.1-r4
+	!=dev-rust/dbus-0.6.1-r5
 	!=dev-rust/libssh2-sys-0.2.11
 	!=dev-rust/libssh2-sys-0.2.11-r1
 	!=dev-rust/libssh2-sys-0.2.11-r2
@@ -1710,6 +1728,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"dasp_sample-0.11.0"
 	"dav1d-0.6.1"
 	"dav1d-sys-0.3.5"
+	"dbus-0.6.5"
+	"dbus-0.8.4"
+	"dbus-0.9.5"
 	"dcv-color-primitives-0.1.16"
 	"defer-drop-1.2.0"
 	"deflate-0.8.6"

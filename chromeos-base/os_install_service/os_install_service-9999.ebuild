@@ -18,8 +18,8 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
-	=dev-rust/dbus-0.8*
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 
 RDEPEND="

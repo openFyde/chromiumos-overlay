@@ -22,9 +22,9 @@ IUSE="dlc test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/dbus-0.9*
 	dev-rust/system_api:=
 	media-sound/audio_processor:=
+	sys-apps/dbus:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

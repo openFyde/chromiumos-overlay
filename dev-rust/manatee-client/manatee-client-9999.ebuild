@@ -25,8 +25,8 @@ DEPEND="
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus

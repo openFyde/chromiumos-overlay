@@ -24,10 +24,10 @@ COMMON_DEPEND="
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
-	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
 	dev-rust/system_api:=
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
+	sys-apps/dbus:=
 "
 RDEPEND="${COMMON_DEPEND}
 	app-admin/sudo
