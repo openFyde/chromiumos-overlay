@@ -38,6 +38,13 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libssh2-sys-0.2.11
+	!=dev-rust/libssh2-sys-0.2.11-r1
+	!=dev-rust/libssh2-sys-0.2.11-r2
+	!=dev-rust/libssh2-sys-0.2.11-r3
+	!=dev-rust/libssh2-sys-0.2.11-r4
+	!=dev-rust/libssh2-sys-0.2.11-r5
+	!=dev-rust/libssh2-sys-0.2.11-r6
 	!=dev-rust/openssl-0.10.40
 	!=dev-rust/openssl-0.10.40-r1
 	!=dev-rust/openssl-0.10.40-r2
@@ -1887,6 +1894,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libloading-0.7.0"
 	"libm-0.1.4"
 	"libslirp-sys-4.2.1"
+	"libssh2-sys-0.2.23"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
 	"libusb1-sys-0.5.0"
