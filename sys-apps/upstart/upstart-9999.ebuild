@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/upstart"
 CROS_WORKON_LOCALNAME="../third_party/upstart"
 CROS_WORKON_EGIT_BRANCH="chromeos-1.13"
 
-inherit cros-constants cros-workon autotools flag-o-matic
+inherit cros-workon autotools flag-o-matic
 
 DESCRIPTION="An event-based replacement for the init daemon"
 HOMEPAGE="http://upstart.ubuntu.com/"
@@ -99,16 +99,6 @@ src_configure() {
 src_compile() {
 	emake clean
 	emake "NIH_DBUS_TOOL=$(which nih-dbus-tool)"
-}
-
-src_test() {
-	# Some tests are using PTRACE, which is not compatible with QEMU.
-	if ! use x86 && ! use amd64; then
-		ewarn "Skipping unittests for non-native arches"
-		return
-	fi
-	local platform2_test_py="${CHROOT_SOURCE_ROOT}/src/platform2/common-mk/platform2_test.py"
-	emake check VERBOSE=1 LOG_COMPILER="${platform2_test_py} --run --no-ns-pid --sysroot ${SYSROOT} -u chronos"
 }
 
 src_install() {
