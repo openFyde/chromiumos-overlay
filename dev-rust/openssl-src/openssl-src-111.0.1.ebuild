@@ -3,15 +3,12 @@
 
 EAPI="7"
 
-CROS_RUST_EMPTY_CRATE=1
-
-inherit cros-rust
-
-DESCRIPTION="Empty ${PN} crate that pulls in the openssl headers."
-HOMEPAGE=""
+# Migrated crate. See b/240953811 for more about this migration.
+DESCRIPTION="Replaced by third-party-crates-src."
 
 LICENSE="metapackage"
 SLOT="${PV}/${PR}"
 KEYWORDS="*"
 
-DEPEND="dev-libs/openssl:0="
+DEPEND="dev-rust/third-party-crates-src:="
+RDEPEND="${DEPEND}"
