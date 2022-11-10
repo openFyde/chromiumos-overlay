@@ -11,7 +11,7 @@ CROS_WORKON_SUBTREE="common-mk attestation libhwsec-foundation metrics tpm_manag
 
 PLATFORM_SUBDIR="vtpm"
 
-inherit tmpfiles cros-workon libchrome platform user
+inherit cros-workon libchrome platform user
 
 DESCRIPTION="Virtual TPM service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vtpm/"
@@ -41,8 +41,6 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dotmpfiles tmpflies.d/vtpm.conf
 }
 
 platform_pkg_test() {
