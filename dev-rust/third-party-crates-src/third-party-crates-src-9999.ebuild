@@ -38,6 +38,12 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/tiny_http-0.8.0
+	!=dev-rust/tiny_http-0.8.0-r1
+	!=dev-rust/tiny_http-0.8.0-r2
+	!=dev-rust/tiny_http-0.8.0-r3
+	!=dev-rust/tiny_http-0.8.0-r4
+	!=dev-rust/tiny_http-0.8.0-r5
 	!=dev-rust/ctrlc-3.2.1
 	!=dev-rust/ctrlc-3.2.1-r1
 	!=dev-rust/dbus-tokio-0.7.5
@@ -1929,6 +1935,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libftdi1-sys-1.1.2"
 	"libfuzzer-sys-0.3.5"
 	"libfuzzer-sys-0.4.4"
+	"libgit2-sys-0.12.26+1.3.0"
 	"libloading-0.7.0"
 	"libm-0.1.4"
 	"libslirp-sys-4.2.1"
@@ -2269,6 +2276,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"timeout-readwrite-0.3.2"
 	"timer-0.2.0"
 	"tiny-keccak-2.0.2"
+	"tiny_http-0.8.2"
 	"tinytemplate-1.2.1"
 	"tinyvec-1.6.0"
 	"tinyvec_macros-0.1.0"

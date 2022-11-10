@@ -33,7 +33,6 @@ DEPEND="
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	dev-rust/libchromeos:=
 	dev-rust/sync:=
-	>=dev-rust/tiny_http-0.8 <dev-rust/tiny_http-0.9
 	virtual/libusb:1
 "
 
