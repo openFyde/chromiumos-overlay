@@ -21,9 +21,9 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/alsa-sys-0.2.0 <dev-rust/alsa-sys-0.3.0
 	=dev-rust/log-0.4*:=
 	media-sound/cros_alsa_derive:=
+	>=media-libs/alsa-lib-1.1.8-r3:= <media-libs/alsa-lib-2.0.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.

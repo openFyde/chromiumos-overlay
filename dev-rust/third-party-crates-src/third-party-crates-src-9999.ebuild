@@ -38,6 +38,9 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/alsa-sys-0.2.0
+	!=dev-rust/alsa-sys-0.2.0-r1
+	!=dev-rust/alsa-sys-0.2.0-r2
 	!=dev-rust/protoc-rust-2.24.1
 	!=dev-rust/protoc-rust-2.24.1-r1
 	!=dev-rust/protoc-rust-2.24.1-r2
@@ -1535,6 +1538,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
 	"aligned-0.3.5"
+	"alsa-sys-0.2.1"
 	"android_log-sys-0.2.0"
 	"ansi_term-0.11.0"
 	"anyhow-1.0.62"
