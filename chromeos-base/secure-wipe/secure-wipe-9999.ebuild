@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secure-w
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="mmc nvme sata test"
+IUSE="mmc nvme sata test ufs"
 
 DEPEND=""
 
@@ -27,6 +27,7 @@ RDEPEND="
 	sata? ( sys-apps/hdparm )
 	mmc? ( sys-apps/mmc-utils )
 	nvme? ( sys-apps/nvme-cli )
+	ufs? ( chromeos-base/factory_ufs )
 	sys-apps/util-linux
 	sys-block/fio"
 
