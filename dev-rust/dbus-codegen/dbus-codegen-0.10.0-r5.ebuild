@@ -3,13 +3,13 @@
 
 EAPI="7"
 
+CROS_RUST_PREINSTALLED_REGISTRY_CRATE=1
 CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
 DESCRIPTION='Binary crate to generate Rust code from XML introspection data'
 HOMEPAGE='https://crates.io/crates/dbus-codegen'
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( Apache-2.0 MIT )"
 SLOT="0/${PVR}"
@@ -20,7 +20,6 @@ DEPEND="
 	sys-apps/dbus:=
 "
 RDEPEND="${DEPEND}"
-
 
 src_compile() {
 	ecargo_build

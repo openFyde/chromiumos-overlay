@@ -3,13 +3,13 @@
 
 EAPI="7"
 
+CROS_RUST_PREINSTALLED_REGISTRY_CRATE=1
 CROS_RUST_REMOVE_DEV_DEPS=1
 
 inherit cros-rust
 
 DESCRIPTION='Generate Rust register maps ("struct"s) from SVD files'
 HOMEPAGE='https://crates.io/crates/svd2rust'
-SRC_URI="https://crates.io/api/v1/crates/${PN}/${PV}/download -> ${P}.crate"
 
 LICENSE="|| ( MIT Apache-2.0 )"
 SLOT="${PV}/${PR}"
