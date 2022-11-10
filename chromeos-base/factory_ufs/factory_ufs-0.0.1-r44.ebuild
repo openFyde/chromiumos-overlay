@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0477cbf7f321e0bb8a8363e8507cea928ea1dfa5"
-CROS_WORKON_TREE="87bf897e6a9491e616238cbd3a5e597a25d87c9e"
+CROS_WORKON_COMMIT="3566ac7eb96411ee0e9bf728fa0d30e4ef1435e8"
+CROS_WORKON_TREE="d39ba19a33f37410fb09e99f5f9a3c6bdc58211e"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 CROS_RUST_CRATE_NAME="factory_ufs"
