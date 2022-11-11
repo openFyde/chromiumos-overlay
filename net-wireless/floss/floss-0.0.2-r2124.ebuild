@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("a3df7490af0ae87fa92158e676ba029358af9b5f" "b3615bf3c98f9aa078012b305191e1f818ee96a1" "cfdb9e3e86d0afa6c536d75cfb1e316bfe576af6" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "c8e97608689962f25e525cd3d143b0224409e9f3")
+CROS_WORKON_COMMIT=("13d13594abfe54ec5b246a4bbd4f9271138cbc32" "b3615bf3c98f9aa078012b305191e1f818ee96a1" "cfdb9e3e86d0afa6c536d75cfb1e316bfe576af6" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "c8e97608689962f25e525cd3d143b0224409e9f3")
 CROS_WORKON_TREE=("684de7632fb3bf23e07149db10c51780f7a80c39" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "f174336e83ca5cc67770403a177bf06d79e3c152" "56d9705ac3513acb2322a4ced9d1d35df6893aa8" "c3473ab29243f136628d4c8708ab647c15f6a411" "7240f9ab544449969adaa636df43af019b32bae6")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -192,9 +192,14 @@ src_install() {
 	doins "${FILESDIR}/upstart/btmanagerd.conf"
 	doins "${FILESDIR}/upstart/btadapterd.conf"
 
-	# Install sysprop config file
+	# Install sysprop config file and override dir
 	insinto /etc/bluetooth
 	doins "${FILESDIR}/sysprops.conf"
+	keepdir "/etc/bluetooth/sysprops.conf.d"
+
+	# Change permissions so root can write and bluetooth can read
+	chown -R root:bluetooth "${ED}"/etc/bluetooth/sysprops.conf.d
+	chmod -R 640 "${ED}"/etc/bluetooth/sysprops.conf.d
 
 	# Install tmpfiles (don't forget to update sepolicy if you change the
 	# files/folders created to something other than /var/lib/bluetooth)
