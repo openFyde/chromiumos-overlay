@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("50446d93d4cf76856525052aedfb744bea37e7d3" "b2ac4693172b54c7a0985b5e9eadd519bf4ceb66")
-CROS_WORKON_TREE=("684de7632fb3bf23e07149db10c51780f7a80c39" "6f54dc774856c3f1666e891b1635fc71d0103ba2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "1e97703c2723c1d8adb9754c1e1a3b5a95139561")
+CROS_WORKON_COMMIT=("c0c516a40562956da99f254ab6600a406666100d" "ba6f1d1510de14487f82819f079dd4e2be87c412")
+CROS_WORKON_TREE=("684de7632fb3bf23e07149db10c51780f7a80c39" "6f54dc774856c3f1666e891b1635fc71d0103ba2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "73aa6d9db6ab0727a79805f8d3c1c2cb3babd6db")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -23,7 +23,7 @@ SRC_URI=""
 
 LICENSE="Apache-2.0"
 KEYWORDS="*"
-IUSE="cfm cros_host cros_p2p dlc fuzzer hw_details -hwid_override lvm_stateful_partition minios +power_management report_requisition systemd"
+IUSE="cfm cros_host cros_p2p dlc fuzzer hibernate hw_details -hwid_override lvm_stateful_partition minios +power_management report_requisition systemd"
 
 COMMON_DEPEND="
 	app-arch/bzip2:=
@@ -51,6 +51,7 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/update_engine-client:=
+	hibernate? ( chromeos-base/hiberman-client:= )
 	test? ( sys-fs/squashfs-tools )
 	${COMMON_DEPEND}"
 
