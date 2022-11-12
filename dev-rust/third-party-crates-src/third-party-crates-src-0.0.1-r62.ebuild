@@ -40,6 +40,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!~dev-rust/error-chain-0.11.0
+	!~dev-rust/syslog-4.0.1
 	!=dev-rust/clap_conf-0.1.5
 	!=dev-rust/clap_conf-0.1.5-r1
 	!=dev-rust/clap_conf-0.1.5-r2
