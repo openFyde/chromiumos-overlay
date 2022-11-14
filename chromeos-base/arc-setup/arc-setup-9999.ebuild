@@ -27,7 +27,6 @@ IUSE="
 	fuzzer
 	houdini
 	houdini64
-	iioservice
 	lvm_stateful_partition
 	ndk_translation
 	test"
