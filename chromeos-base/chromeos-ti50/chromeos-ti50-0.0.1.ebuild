@@ -16,7 +16,7 @@ RDEPEND="chromeos-base/chromeos-cr50-dev
 
 # There are two major types of images of Ti50, prod (used on most MP devices)
 # and pre-pvt, used on devices still not fully released.
-PROD_IMAGE="ti50.ro.0.0.26.rw.0.21.0"
+PROD_IMAGE="ti50.r0.0.36.w0.23.0"
 PRE_PVT_IMAGE="ti50.ro.0.0.36.rw.0.24.0_FFFF_00000000_00000010"
 
 # Ensure all images and included in the manifest.
