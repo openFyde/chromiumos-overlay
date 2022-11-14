@@ -1713,6 +1713,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"memchr-2.5.0"
 	"memoffset-0.5.6"
 	"memoffset-0.6.5"
+	"merge-0.1.0"
+	"merge_derive-0.1.0"
 	"mime-0.3.16"
 	"minimal-lexical-0.2.1"
 	"miniz_oxide-0.3.7"
