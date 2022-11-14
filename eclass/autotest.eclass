@@ -44,10 +44,6 @@ export AUTOTEST_WORKDIR="${WORKDIR}/autotest-work"
 # The list of 'find' expressions to find in the resulting image and delete
 : ${AUTOTEST_FILE_MASK:=}
 
-fast_cp() {
-	cp -l "$@" || cp "$@"
-}
-
 get_test_list() {
 	if [ -n "${AUTOTEST_FORCE_TEST_LIST}" ]; then
 		# list forced
@@ -222,7 +218,7 @@ autotest_src_prepare() {
 		# test does have this directory
 		for test in ${TEST_LIST}; do
 			if [ -d "${srcdir}/${test}" ]; then
-				fast_cp -fpr "${srcdir}/${test}" "${AUTOTEST_WORKDIR}/${l1}/${l2}"/ || die
+				cp -fpr "${srcdir}/${test}" "${AUTOTEST_WORKDIR}/${l1}/${l2}"/ || die
 			fi
 		done
 	done
@@ -238,10 +234,11 @@ autotest_src_prepare() {
 			eval deplist=\${AUTOTEST_${l2^^*}_LIST}
 
 			if [ "${deplist}" = "*" ]; then
-				fast_cp -fpr * "${AUTOTEST_WORKDIR}/client/${l2}"
+				cp -fpr * "${AUTOTEST_WORKDIR}/client/${l2}"
 			else
 				for dir in ${deplist}; do
-					fast_cp -fpr "${dir}" "${AUTOTEST_WORKDIR}/client/${l2}"/ || die
+					cp -fpr "${dir}" "${AUTOTEST_WORKDIR}/client/${l2}"/ \
+						|| die "Failed copying autotest deps"
 				done
 			fi
 			popd 1> /dev/null
