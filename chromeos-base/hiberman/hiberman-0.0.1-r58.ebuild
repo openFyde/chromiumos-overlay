@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c22ee4d934231e9ba3a1194b7e5f19cc68662e88"
+CROS_WORKON_COMMIT="16bec166aa42549241551764600bc2bc39a496f8"
 CROS_WORKON_TREE="63f1a6a91ea590e2a43658387379d2137342671e"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,6 +30,7 @@ DEPEND="
 	=dev-rust/protobuf-2*
 	dev-rust/sync:=
 	dev-rust/system_api:=
+	dev-rust/update_engine_dbus:=
 "
 RDEPEND="${DEPEND}
 	sys-apps/dbus
