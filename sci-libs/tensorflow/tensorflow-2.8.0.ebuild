@@ -135,6 +135,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.8.0-0009-resolve-overflow.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0011-Convolution2DTransposeBias.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0012-clvk.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0013-generate-pc-tflite.patch"
 )
 
 S="${WORKDIR}/${MY_P}"
@@ -312,7 +313,8 @@ src_compile() {
 	ebazel shutdown
 
 	einfo "Generate pkg-config file"
-	${PN}/c/generate-pc.sh --prefix="${EPREFIX}"/usr --libdir="$(get_libdir)" --version=${MY_PV} || die
+	chmod +x ${PN}/lite/generate-pc.sh
+	${PN}/lite/generate-pc.sh --prefix="${EPREFIX}"/usr --libdir="$(get_libdir)" --version=${MY_PV} || die
 }
 
 src_install() {
@@ -398,7 +400,7 @@ src_install() {
 
 	einfo "Installing pkg-config file"
 	insinto /usr/"$(get_libdir)"/pkgconfig
-	doins ${PN}.pc ${PN}_cc.pc
+	doins ${PN}lite.pc
 
 	einstalldocs
 }
