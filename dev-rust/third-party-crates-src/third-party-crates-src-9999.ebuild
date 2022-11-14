@@ -38,6 +38,8 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/boringssl-src-0.3.0
+	!=dev-rust/boringssl-src-0.3.0-r1
 	!=dev-rust/tiny_http-0.8.0
 	!=dev-rust/tiny_http-0.8.0-r1
 	!=dev-rust/tiny_http-0.8.0-r2
@@ -1647,6 +1649,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"bitreader-0.3.6"
 	"bitstream-io-1.5.0"
 	"block-buffer-0.10.3"
+	"boringssl-src-0.3.0+688fc5c"
 	"bson-1.2.4"
 	"bstr-0.2.17"
 	"built-0.5.1"

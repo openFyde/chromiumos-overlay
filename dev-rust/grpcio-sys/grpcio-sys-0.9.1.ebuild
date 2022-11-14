@@ -17,7 +17,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/boringssl-src-0.3*
 	dev-libs/openssl:0=
 "
 RDEPEND="${DEPEND}"
