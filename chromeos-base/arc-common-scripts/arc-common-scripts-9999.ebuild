@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 
-IUSE="arcpp iioservice"
+IUSE="arcpp"
 RDEPEND="
 	!<=chromeos-base/arc-base-0.0.1-r349
 	!<chromeos-base/arc-setup-0.0.1-r1084
@@ -29,7 +29,6 @@ src_install() {
 	dosbin arc/container/scripts/android-sh
 	insinto /etc/init
 	doins arc/container/scripts/arc-kmsg-logger.conf
-	use iioservice || doins arc/container/scripts/arc-sensor.conf
 	doins arc/container/scripts/arc-ureadahead.conf
 	insinto /etc/sysctl.d
 	doins arc/container/scripts/01-sysctl-arc.conf
