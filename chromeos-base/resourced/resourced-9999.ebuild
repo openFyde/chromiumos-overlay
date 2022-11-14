@@ -24,7 +24,7 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/featured:=
 	dev-rust/libchromeos:=
-	=dev-rust/grpcio-0.9*
+	dev-libs/openssl:0=
 	sys-apps/dbus:=
 "
 

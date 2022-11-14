@@ -38,6 +38,15 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/grpcio-0.9.1
+	!=dev-rust/grpcio-0.9.1-r1
+	!=dev-rust/grpcio-0.9.1-r2
+	!=dev-rust/grpcio-0.9.1-r3
+	!=dev-rust/grpcio-0.9.1-r4
+	!=dev-rust/grpcio-0.9.1-r5
+	!=dev-rust/grpcio-0.9.1-r6
+	!=dev-rust/grpcio-0.9.1-r7
+	!=dev-rust/grpcio-0.9.1-r8
 	!=dev-rust/grpcio-sys-0.9.1
 	!=dev-rust/grpcio-sys-0.9.1-r1
 	!=dev-rust/grpcio-sys-0.9.1-r2
@@ -1868,6 +1877,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"glob-0.3.0"
 	"gpio-cdev-0.5.1"
 	"graphql-parser-0.3.0"
+	"grpcio-0.9.1"
 	"grpcio-compiler-0.6.0"
 	"grpcio-sys-0.9.1+1.38.0"
 	"gumdrop-0.8.1"
