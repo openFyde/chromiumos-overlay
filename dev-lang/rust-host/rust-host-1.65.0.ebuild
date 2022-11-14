@@ -24,13 +24,14 @@ RDEPEND="!<dev-lang/rust-1.59.0"
 src_install() {
 	# shellcheck disable=SC2154 # defined in cros-rustc.eclass
 	local obj="${CROS_RUSTC_BUILD_DIR}/x86_64-unknown-linux-gnu/stage2"
-	local tools="${obj}-tools/x86_64-unknown-linux-gnu/release/"
-	dobin "${obj}/bin/rustc" "${obj}/bin/rustdoc"
+	local tools="${obj}-tools/x86_64-unknown-linux-gnu/release"
+	dobin "${obj}/bin/rustc"
 	dobin "${tools}/cargo" "${obj}/bin/rust-toolchain-version"
 	if ! use rust_profile_frontend_generate && ! use rust_profile_llvm_generate; then
 		# These won't be built for an instrumented build.
 		dobin "${tools}/rustfmt" "${tools}/cargo-fmt"
 		dobin "${tools}/clippy-driver" "${tools}/cargo-clippy"
+		dobin "${obj}/bin/rustdoc"
 	fi
 	dobin src/etc/rust-gdb src/etc/rust-lldb
 	insinto "/usr/$(get_libdir)"

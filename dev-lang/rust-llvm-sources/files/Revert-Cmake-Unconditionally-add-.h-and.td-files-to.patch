@@ -1,7 +1,7 @@
 diff --git a/llvm/cmake/modules/LLVMProcessSources.cmake b/llvm/cmake/modules/LLVMProcessSources.cmake
 index ba8dca313c8..b99430c0f30 100644
---- a/src/llvm-project/llvm/cmake/modules/LLVMProcessSources.cmake
-+++ b/src/llvm-project/llvm/cmake/modules/LLVMProcessSources.cmake
+--- a/llvm/cmake/modules/LLVMProcessSources.cmake
++++ b/llvm/cmake/modules/LLVMProcessSources.cmake
 @@ -63,11 +63,15 @@ function(llvm_process_sources OUT_VAR)
      llvm_check_source_file_list(${sources})
    endif()

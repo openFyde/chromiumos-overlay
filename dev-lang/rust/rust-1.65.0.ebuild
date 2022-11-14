@@ -80,7 +80,7 @@ src_compile() {
 		einfo "Stage1 build exists; instructing x.py to use it"
 		keep_stages=("--keep-stage=0" "--keep-stage=1")
 	fi
-	cros-rustc_src_compile "${keep_stages[@]}" library/std
+	cros-rustc_src_compile "${keep_stages[@]}" library
 }
 
 src_install() {

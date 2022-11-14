@@ -141,7 +141,7 @@ CROS_RUSTC_BUILD_RAW_SOURCES=
 # We identify the .profdata file we want by ${PV}. Sometimes we may want to
 # upload and use a newer profdata file even if we haven't bumped PV; these can
 # be distinguished with this suffix.
-PROFDATA_SUFFIX='-1'
+PROFDATA_SUFFIX=
 
 # There's a fair amount of direct commonality between dev-lang/rust and
 # dev-lang/rust-host. Capture that here.
@@ -153,7 +153,7 @@ SRC="${MY_P}-src.tar.gz"
 # The version of rust-bootstrap that we're using to build our current Rust
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
-BOOTSTRAP_VERSION="1.61.0"
+BOOTSTRAP_VERSION="1.64.0"
 
 # If `CROS_RUSTC_BUILD_RAW_SOURCES` is nonempty, a full Rust source tree is
 # expected to be available here.
@@ -193,11 +193,8 @@ if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 fi
 
 PATCHES=(
-	"${FILESDIR}/rust-Remove-DXILPointerTyID-which-our-LLVM-doesn-t-have.patch"
 	"${FILESDIR}/rust-add-cros-targets.patch"
 	"${FILESDIR}/rust-fix-rpath.patch"
-	"${FILESDIR}/rust-Revert-CMake-Unconditionally-add-.h-and-.td-files-to.patch"
-	"${FILESDIR}/rust-no-test-on-build.patch"
 	"${FILESDIR}/rust-sanitizer-supported.patch"
 	"${FILESDIR}/rust-cc.patch"
 	"${FILESDIR}/rust-revert-libunwind-build.patch"
@@ -205,9 +202,7 @@ PATCHES=(
 	"${FILESDIR}/rust-Handle-sparse-git-repo-without-erroring.patch"
 	"${FILESDIR}/rust-disable-mutable-noalias.patch"
 	"${FILESDIR}/rust-add-armv7a-sanitizers.patch"
-	"${FILESDIR}/rust-passes-only-in-pre-link.patch"
-	"${FILESDIR}/rust-Don-t-build-std-for-uefi-targets.patch"
-	"${FILESDIR}/rust-Bump-cc-version-in-bootstrap-to-fix-build-of-uefi-ta.patch"
+	"${FILESDIR}/rust-Remove-LLVMGetAggregateElement.patch"
 )
 
 S="${CROS_RUSTC_SRC_DIR}/${MY_P}-src"
@@ -323,18 +318,9 @@ cros-rustc_src_prepare() {
 		cp -avu "${_CROS_RUSTC_RAW_SOURCES_ROOT}/build/cache" "${CROS_RUSTC_BUILD_DIR}" || die
 	fi
 
-	if use rust_cros_llvm; then
-		einfo "Copying CrOS LLVM"
-		local rust_llvm="src/llvm-project"
-		rm -rf "${rust_llvm}"
-		mkdir -p -m 755 "${rust_llvm}"
-		# Avoid copying the hidden .git directory.
-		rsync -rl --exclude=.git "${CROS_RUSTC_LLVM_SRC_DIR}"/* "${rust_llvm}" || die
-	fi
-
 	einfo "Applying Rust patches..."
 	# Copy "unknown" vendor targets to create cros_sdk target triple
-	# variants as referred to in 0001-add-cros-targets.patch and
+	# variants as referred to in rust-add-cros-targets.patch and
 	# RUSTC_TARGET_TRIPLES. armv7a is treated specially because the cros
 	# toolchain differs in more than just the vendor part of the target
 	# triple. The arch is armv7a in cros versus armv7.
@@ -354,13 +340,6 @@ cros-rustc_src_prepare() {
 	sed -i 's@tool::Miri,@@g' builder.rs
 	popd || die
 
-	# Tsk. Tsk. The rust makefile for LLVM's compiler-rt uses -ffreestanding
-	# but one of the files includes <stdlib.h> causing occasional problems
-	# with MB_LEN_MAX. See crbug.com/730845 for the thrilling details. This
-	# line patches over the problematic include.
-	sed -e 's:#include <stdlib.h>:void abort(void);:g' \
-		-i "${ECONF_SOURCE:-.}"/src/llvm-project/compiler-rt/lib/builtins/int_util.c || die
-
 	# For the rustc_llvm module, the build will link with -nodefaultlibs and
 	# manually choose the std C++ library. For x86_64 Linux, the build
 	# script always chooses libstdc++ which will not work if LLVM was built
@@ -378,6 +357,13 @@ cros-rustc_src_prepare() {
 
 cros-rustc_src_configure() {
 	tc-export CC PKG_CONFIG
+
+	if use rust_cros_llvm; then
+		einfo "Symlinking CrOS LLVM"
+		local rust_llvm="src/llvm-project"
+		rm -rf "${rust_llvm}"
+		ln -s "${CROS_RUSTC_LLVM_SRC_DIR}" "${rust_llvm}"
+	fi
 
 	# If FEATURES=ccache is set, we can cache LLVM builds. We could set this to
 	# true unconditionally, but invoking `ccache` to just have it `exec` the
@@ -408,7 +394,7 @@ cros-rustc_src_configure() {
 	fi
 
 	read -r -d '' tools <<- EOF
-		tools = ["cargo", "rustfmt", "clippy", "cargofmt"]
+		tools = ["cargo", "rustfmt", "clippy", "cargofmt", "rustdoc"]
 	EOF
 
 	if use rust_profile_llvm_generate || use rust_profile_frontend_generate; then
