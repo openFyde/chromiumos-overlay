@@ -17,7 +17,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/grpcio-sys-0.9*
+	dev-libs/openssl:0=
 "
 RDEPEND="${DEPEND}"
 
