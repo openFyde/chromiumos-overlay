@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5c0f0bd2eec9ccb989dea350338a7f65408060d6"
-CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "71eba4f1914a2a9d1e3ca925b9cca3a9230f8078" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="7f8f4f509c45f4e8c034404815bf4cc2d91b587a"
+CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "8c1ff9bea41a49be7589fa78479201c343f43409" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -91,4 +91,14 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/libinstallattributes_tests"
 	platform_test "run" "${OUT}/libpolicy_tests"
 	platform_test "run" "${OUT}/libbrillo-grpc_tests"
+
+	# `secure_blob_test_runner` does not work inside of qemu because of:
+	# https://gitlab.com/qemu-project/qemu/-/issues/698
+	# so do not run on different architectures.
+	platform_is_native && (
+		# Change the working directory so `secure_blob_test_runner` can find
+		# `secure_blob_test_helper `.
+		cd "${OUT}" || die
+		platform_test "run" "${OUT}/secure_blob_test_runner"
+	)
 }
