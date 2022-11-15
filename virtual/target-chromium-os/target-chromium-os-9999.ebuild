@@ -106,7 +106,6 @@ IUSE="
 	system_wide_scudo
 	systemd
 	ti50_onboard
-	touchview
 	+tpm
 	-tpm2
 	+trim_supported
@@ -367,9 +366,6 @@ RDEPEND="
 	watchdog? ( sys-apps/daisydog )
 	mtd? ( sys-fs/mtd-utils )
 	cups? ( virtual/chromium-os-printing )
-	touchview? (
-		!iioservice? ( chromeos-base/chromeos-accelerometer-init )
-	)
 	system_locales? ( chromeos-base/system-locales )
 	system_proxy? ( chromeos-base/system-proxy )
 	eclog? ( chromeos-base/timberslide )
