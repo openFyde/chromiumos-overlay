@@ -36,7 +36,7 @@ BDEPEND="${CATEGORY}/binutils"
 
 RESTRICT="strip"
 
-IUSE="cet gcc_repo gcj git_gcc go graphite gtk hardened hardfp mounted_gcc multilib
+IUSE="cet gcc_repo gcj git_gcc go graphite gtk hardened hardfp llvm_libgcc mounted_gcc multilib
 	nls cxx openmp test tests +thumb upstream_gcc vanilla vtable_verify +wrapper_ccache"
 
 is_crosscompile() { [[ ${CHOST} != "${CTARGET}" ]] ; }
@@ -550,6 +550,20 @@ gcc_movelibs() {
 		rmdir "${D}${FROMDIR}" >& /dev/null
 	done
 	find -depth "${ED}" -type d -exec rmdir {} + >& /dev/null
+
+	# We remove all instances of the GCC-installed libgcc, since we will be
+	# installing compiler-rt and libunwind in its place.
+	#
+	# We'd like to remove libgcc.a, but this is required to build glibc, and
+	# that causes complications. libgcc_eh.a also can't be removed yet, due
+	# to it defining `__gcc_personality_v0`, which is a compiler-rt thing on
+	# the LLVM side. We'll be able to remove both nce we can remove libgcc.a,
+	# since this remnant of GCC's libgcc is confusing the system. Alternatively,
+	# once we get a true LLVM runtimes build happening, we should be able to
+	# remove libgcc_eh.a.
+	if use llvm_libgcc; then
+		rm -f "${D}${LIBPATH}"/libgcc_s* || die
+	fi
 }
 
 # make sure the libtool archives have libdir set to where they actually
