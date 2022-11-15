@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8969d6aeb5f3ccfa506f47366c034a7f7eb3c445"
-CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "5887ff668f6b57039a451d2a001fb7fd4ecb78fc" "104508898bd6312a5a9bba33aa0ec4c15b9a25f3" "484f1e2c34eac4f5bfd4daed8051252ce371f2a7" "db75597a3a702c90030f8f50dee1f1f79046be1a" "264ae8e8ad73ab221fc719e5faa59d8d73806d71" "c295f5ad49b7ef97f4cbe675751fe9eb7dcdc8bb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="1a3b34a58dc8fef5b2967060e7a02d7829f19c74"
+CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "5887ff668f6b57039a451d2a001fb7fd4ecb78fc" "104508898bd6312a5a9bba33aa0ec4c15b9a25f3" "484f1e2c34eac4f5bfd4daed8051252ce371f2a7" "db75597a3a702c90030f8f50dee1f1f79046be1a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics trunks tpm_manager .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="chaps"
 
@@ -23,20 +23,9 @@ SRC_URI=""
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="profiling systemd test tpm tpm_dynamic tpm_insecure_fallback tpm2 fuzzer"
-
-REQUIRED_USE="
-	tpm_dynamic? ( tpm tpm2 )
-	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
-"
+IUSE="profiling systemd test tpm_insecure_fallback fuzzer"
 
 RDEPEND="
-	tpm? (
-		app-crypt/trousers:=
-	)
-	tpm2? (
-		chromeos-base/trunks:=
-	)
 	chromeos-base/chaps-client:=
 	chromeos-base/libhwsec:=[test?]
 	chromeos-base/minijail:=
@@ -57,7 +46,6 @@ DEPEND="${RDEPEND}
 	)
 	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator )
-	tpm2? ( chromeos-base/trunks:=[test?] )
 	dev-libs/nss:=
 	dev-libs/nspr:=
 	"

@@ -9,19 +9,22 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("34c2f4848f64615fd4c70fb22aaa66025f6b3666" "0dd679081b9c8bfa2583d74e3a17a413709ea362")
-CROS_WORKON_TREE=("aa4cd44d794a00ab6d5594d961f4c62ddf4dd3ad" "d99abee3f825248f344c0638d5f9fcdce114b744")
+CROS_WORKON_COMMIT=("34c2f4848f64615fd4c70fb22aaa66025f6b3666" "0dd679081b9c8bfa2583d74e3a17a413709ea362" "4be6a458acc129b10faf88aeb2fc32f0444eefb1")
+CROS_WORKON_TREE=("aa4cd44d794a00ab6d5594d961f4c62ddf4dd3ad" "d99abee3f825248f344c0638d5f9fcdce114b744" "19e8cc93fb42b27386df03756edbd264238d34fa")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
+	"external/gitlab.com/libeigen/eigen"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/ec"
 	"third_party/cryptoc"
+	"third_party/eigen3"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/third_party/cryptoc"
+	"${S}/third_party/eigen3"
 )
 
 inherit coreboot-sdk cros-ec cros-workon cros-sanitizers
