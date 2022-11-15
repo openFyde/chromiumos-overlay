@@ -9,12 +9,18 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
 
-inherit toolchain-funcs autotools cros-fuzzer cros-sanitizers cros-workon
+inherit toolchain-funcs autotools cros-bazel cros-fuzzer cros-sanitizers cros-workon
 inherit cros-unibuild systemd user
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
-SRC_URI=""
+bazel_external_uris="
+	https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz
+	https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip
+	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
+	https://github.com/google/benchmark/archive/refs/tags/v1.5.5.tar.gz -> google-benchmark-1.5.5.tar.gz
+"
+SRC_URI="${bazel_external_uris}"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="asan +cras-apm cras-ml dlc featured fuzzer selinux systemd"
@@ -48,15 +54,21 @@ DEPEND="
 	media-sound/cras_rust:=
 "
 
+src_unpack() {
+	bazel_load_distfiles "${bazel_external_uris}"
+	cros-workon_src_unpack
+}
+
 src_prepare() {
+	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 	cd cras || die
+	sanitizers-setup-env
 	eautoreconf
 	default
 }
 
 src_configure() {
 	cros_optimize_package_for_speed
-	sanitizers-setup-env
 	if use amd64 ; then
 		export FUZZER_LDFLAGS="-fsanitize=fuzzer"
 	fi
@@ -85,6 +97,17 @@ src_configure() {
 
 src_compile() {
 	emake CC="$(tc-getCC)" || die "Unable to build ADHD"
+	# Build cras_bench
+	if ! use fuzzer ; then
+		cd cras || die
+		args=(
+			"$(use cras-apm && echo "--//src/benchmark:hw_dependency=true")"
+		)
+		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
+		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
+		bazel_setup_crosstool
+		ebazel build //src/benchmark:cras_bench "${args[*]}"
+	fi
 }
 
 src_test() {
@@ -139,6 +162,12 @@ src_install() {
 		local fuzzer_component_id="769744"
 		fuzzer_install "${S}/OWNERS.fuzz" cras/src/cras_fl_media_fuzzer \
 			--comp "${fuzzer_component_id}"
+	fi
+
+	if ! use fuzzer ; then
+		# Install cras_bench into /usr/local for test image
+		into /usr/local
+		dobin cras/bazel-bin/src/benchmark/cras_bench
 	fi
 }
 

@@ -210,7 +210,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/autotest-client
 	cras? (
 		chromeos-base/audiotest
-		media-sound/cras_bench
 		dev-util/rt-tests
 		media-sound/audio_streams_conformance_test
 	)
