@@ -31,14 +31,6 @@ virtual/target-chromium-os-sdk python_targets_python3_8
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux pcre2
 
-# qemu is statically linked with glib when compiled for the host and thus
-# requires glib (and transitively, libpcre) to be compiled with static-libs.
-# See http://crosbug.com/35162 for details.
-dev-libs/glib static-libs
-dev-libs/libpcre static-libs
-net-libs/nghttp2 static-libs
-sys-apps/attr static-libs
-
 # mkfs.erofs needs selinux for SELinux context labeling.
 sys-fs/erofs-utils selinux
 
@@ -102,25 +94,10 @@ cross-x86_64-cros-linux-gnu/gdb	xml
 # we can run vms outside of the chroot.
 app-emulation/qemu	-doc -pin-upstream-blobs -seccomp static-user usb virtfs
 dev-libs/glib		static-libs
-dev-libs/libaio		static-libs
+dev-libs/libpcre2	static-libs
 dev-libs/libpcre	static-libs
-dev-libs/libusb		static-libs
-dev-libs/libxml2	static-libs
-dev-libs/openssl	static-libs
-media-libs/jpeg		static-libs
-media-libs/libjpeg-turbo	static-libs
-media-libs/libpng	static-libs
-net-libs/libslirp	static-libs
-net-misc/curl		static-libs
 sys-apps/attr		static-libs
-sys-apps/dtc		static-libs
-sys-libs/libcap		static-libs
-sys-libs/libcap-ng	static-libs
-sys-libs/ncurses	static-libs unicode
-virtual/jpeg		static-libs
-virtual/libusb		static-libs
-x11-libs/libxkbcommon	static-libs
-x11-libs/pixman		static-libs
+sys-libs/zlib		static-libs
 
 # Enable building shellcheck statically so we can make it available to tricium
 # and developer workstations.
