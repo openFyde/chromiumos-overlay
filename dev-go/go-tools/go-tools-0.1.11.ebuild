@@ -35,6 +35,7 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/internal/fastwalk"
 	"golang.org/x/tools/internal/gocommand"
 	"golang.org/x/tools/internal/gopathwalk"
+	"golang.org/x/tools/internal/lsp/bug"
 	"golang.org/x/tools/internal/lsp/fuzzy"
 	"golang.org/x/tools/internal/lsp/diff/..."
 	"golang.org/x/tools/internal/packagesinternal"
