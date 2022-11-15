@@ -50,7 +50,7 @@ https://storage.cloud.google.com/chromeos-localmirror/distfiles/${SPIRV_LLVM_TRA
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug"
+IUSE="debug clvk-perfetto"
 
 # target build dependencies
 DEPEND="
@@ -74,12 +74,18 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-opencl12.patch")
-	# TODO(b/228820464) : To be removed once Intel issue on OpMulExtended is fixed.
-	PATCHES+=("${FILESDIR}/hack-mul-extended.patch")
 	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
 	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
 	PATCHES+=("${FILESDIR}/clvk-sampledbuffer.patch")
+
+	# TODO(b/259217927) : To be remove as soon as they are merged upstream
+	PATCHES+=("${FILESDIR}/clvk-01-default-config.patch")
+	PATCHES+=("${FILESDIR}/clvk-02-profiling-event.patch")
+	PATCHES+=("${FILESDIR}/clvk-03-main-thread-exec.patch")
+	PATCHES+=("${FILESDIR}/clvk-04-multi-command-event.patch")
+	PATCHES+=("${FILESDIR}/clvk-05-timeline-semaphores.patch")
+	PATCHES+=("${FILESDIR}/clvk-06-configurable-polling.patch")
 fi
 
 src_unpack() {
@@ -92,6 +98,7 @@ src_prepare() {
 	# TODO(b/227133185) : To be removed once Intel fixed the issue in mesa breaking TFlite (and preventing llvm to be updated).
 	pushd "${WORKDIR}/${LLVM_FOLDER}" || die
 	eapply "${FILESDIR}/UPSTREAM-llvm-d8d793f29b4-Fix-compat-with-retroactive-c++23.patch"
+	eapply "${FILESDIR}/UPSTREAM-llvm-b3dae59b9df-Fix-CodeGenAction-for-LLVM-IR-MemBuffers.patch"
 	popd || die
 
 	cmake-utils_src_prepare
@@ -155,6 +162,11 @@ src_configure() {
 		-DCMAKE_MODULE_PATH="${CMAKE_MODULE_PATH};${CLVK_LLVM_PROJECT_DIR}/llvm/cmake/modules"
 
 		-DBUILD_SHARED_LIBS=OFF
+
+		-DCLVK_PERFETTO_ENABLE=$(usex clvk-perfetto ON OFF)
+		-DCLVK_PERFETTO_LIBRARY=perfetto_sdk
+		-DCLVK_PERFETTO_BACKEND=System
+		-DCLVK_PERFETTO_SDK_DIR="${ESYSROOT}/usr/include/perfetto/"
 	)
 
 	if tc-is-cross-compiler; then

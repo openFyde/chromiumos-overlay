@@ -1,3 +1,16 @@
+diff --git a/clspv/lib/AddFunctionAttributesPass.cpp b/clspv/lib/AddFunctionAttributesPass.cpp
+index aea1aae3..aea712ca 100644
+--- a/clspv/lib/AddFunctionAttributesPass.cpp
++++ b/clspv/lib/AddFunctionAttributesPass.cpp
+@@ -28,7 +28,7 @@ clspv::AddFunctionAttributesPass::run(Module &M, ModuleAnalysisManager &) {
+   // Add ReadNone and Speculatable to literal sampler functions to avoid loop
+   // optimizations producing phis with them.
+   if (auto F = M.getFunction(clspv::TranslateSamplerInitializerFunction())) {
+-    F->setDoesNotAccessMemory();
++    F->addFnAttr(Attribute::AttrKind::ReadNone);
+     F->addFnAttr(Attribute::AttrKind::Speculatable);
+   }
+ 
 diff --git a/clspv/lib/BitcastUtils.cpp b/clspv/lib/BitcastUtils.cpp
 index a4284dd8..77228209 100644
 --- a/clspv/lib/BitcastUtils.cpp
@@ -14,10 +27,10 @@ index a4284dd8..77228209 100644
    Values.resize(NewValuesSize);
  }
 diff --git a/clspv/lib/Compiler.cpp b/clspv/lib/Compiler.cpp
-index 89bcc675..dc8c3f47 100644
+index 55f97a30..c29bcee6 100644
 --- a/clspv/lib/Compiler.cpp
 +++ b/clspv/lib/Compiler.cpp
-@@ -272,7 +272,6 @@ int SetCompilerInstanceOptions(
+@@ -295,7 +295,6 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
    instance.getCodeGenOpts().SimplifyLibCalls = false;
    instance.getCodeGenOpts().EmitOpenCLArgMetadata = false;
    instance.getCodeGenOpts().DisableO0ImplyOptNone = true;
@@ -25,7 +38,7 @@ index 89bcc675..dc8c3f47 100644
    instance.getDiagnosticOpts().IgnoreWarnings = IgnoreWarnings;
  
    instance.getLangOpts().SinglePrecisionConstants =
-@@ -320,8 +319,9 @@ int SetCompilerInstanceOptions(
+@@ -344,8 +343,9 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
    // We manually include the OpenCL headers below, so this vector is unused.
    std::vector<std::string> includes;
  
@@ -37,11 +50,115 @@ index 89bcc675..dc8c3f47 100644
  
    // Override the C99 inline semantics to accommodate for more OpenCL C
    // programs in the wild.
+diff --git a/clspv/lib/FixupBuiltinsPass.cpp b/clspv/lib/FixupBuiltinsPass.cpp
+index d70a8264..410b84b3 100644
+--- a/clspv/lib/FixupBuiltinsPass.cpp
++++ b/clspv/lib/FixupBuiltinsPass.cpp
+@@ -51,7 +51,7 @@ bool FixupBuiltinsPass::fixupSqrt(Function &F) {
+     if (auto CI = dyn_cast<CallInst>(U.getUser())) {
+       IRBuilder<> builder(CI);
+       auto nan = ConstantFP::getNaN(CI->getType());
+-      auto zero = ConstantFP::getZero(CI->getType());
++      auto zero = ConstantFP::getNullValue(CI->getType());
+       auto op_is_positive = builder.CreateFCmpOGE(CI->getOperand(0), zero);
+       builder.SetInsertPoint(CI->getNextNode());
+       SelectInst *select =
+diff --git a/clspv/lib/HideConstantLoadsPass.cpp b/clspv/lib/HideConstantLoadsPass.cpp
+index 38128eb6..ec895e65 100644
+--- a/clspv/lib/HideConstantLoadsPass.cpp
++++ b/clspv/lib/HideConstantLoadsPass.cpp
+@@ -82,7 +82,7 @@ PreservedAnalyses clspv::HideConstantLoadsPass::run(Module &M,
+       FunctionType *fnTy = FunctionType::get(loadedTy, {loadedTy}, false);
+       auto fn_constant = M.getOrInsertFunction(fn_name, fnTy);
+       fn = cast<Function>(fn_constant.getCallee());
+-      fn->setOnlyReadsMemory();
++      fn->addFnAttr(Attribute::ReadOnly);
+     }
+ 
+     // Wrap the load
+diff --git a/clspv/lib/InlineEntryPointsPass.cpp b/clspv/lib/InlineEntryPointsPass.cpp
+index 3214e2fe..68511ab9 100644
+--- a/clspv/lib/InlineEntryPointsPass.cpp
++++ b/clspv/lib/InlineEntryPointsPass.cpp
+@@ -53,7 +53,7 @@ bool clspv::InlineEntryPointsPass::InlineFunctions(Module &M) {
+   for (auto call : to_inline) {
+     InlineFunctionInfo IFI;
+     // Disable generation of lifetime intrinsic.
+-    Changed |= InlineFunction(*call, IFI, false, nullptr, false).isSuccess();
++    Changed |= InlineFunction(*call, IFI, nullptr, false).isSuccess();
+   }
+ 
+   return Changed;
+diff --git a/clspv/lib/InlineFuncWithImageMetadataGetterPass.cpp b/clspv/lib/InlineFuncWithImageMetadataGetterPass.cpp
+index 0f475683..e8ce32f4 100644
+--- a/clspv/lib/InlineFuncWithImageMetadataGetterPass.cpp
++++ b/clspv/lib/InlineFuncWithImageMetadataGetterPass.cpp
+@@ -87,7 +87,7 @@ bool clspv::InlineFuncWithImageMetadataGetterPass::InlineFunctions(Module &M) {
+ 
+   for (CallInst *Call : WorkList) {
+     InlineFunctionInfo IFI;
+-    Changed |= InlineFunction(*Call, IFI, false, nullptr, false).isSuccess();
++    Changed |= InlineFunction(*Call, IFI, nullptr, false).isSuccess();
+   }
+ 
+   return Changed;
+diff --git a/clspv/lib/InlineFuncWithPointerBitCastArgPass.cpp b/clspv/lib/InlineFuncWithPointerBitCastArgPass.cpp
+index bfd6908f..f8928c2b 100644
+--- a/clspv/lib/InlineFuncWithPointerBitCastArgPass.cpp
++++ b/clspv/lib/InlineFuncWithPointerBitCastArgPass.cpp
+@@ -180,7 +180,7 @@ bool clspv::InlineFuncWithPointerBitCastArgPass::InlineFunctions(Module &M) {
+   for (CallInst *Call : WorkList) {
+     InlineFunctionInfo IFI;
+     // Disable generation of lifetime intrinsic.
+-    Changed |= InlineFunction(*Call, IFI, false, nullptr, false).isSuccess();
++    Changed |= InlineFunction(*Call, IFI, nullptr, false).isSuccess();
+   }
+ 
+   return Changed;
+diff --git a/clspv/lib/InlineFuncWithPointerToFunctionArgPass.cpp b/clspv/lib/InlineFuncWithPointerToFunctionArgPass.cpp
+index 99fd987b..87a5aa34 100644
+--- a/clspv/lib/InlineFuncWithPointerToFunctionArgPass.cpp
++++ b/clspv/lib/InlineFuncWithPointerToFunctionArgPass.cpp
+@@ -87,7 +87,7 @@ bool clspv::InlineFuncWithPointerToFunctionArgPass::InlineFunctions(Module &M) {
+   for (CallInst *Call : WorkList) {
+     InlineFunctionInfo IFI;
+     // Disable generation of lifetime intrinsic.
+-    Changed |= InlineFunction(*Call, IFI, false, nullptr, false).isSuccess();
++    Changed |= InlineFunction(*Call, IFI, nullptr, false).isSuccess();
+   }
+ 
+   // Remove dead functions.
+diff --git a/clspv/lib/InlineFuncWithSingleCallSitePass.cpp b/clspv/lib/InlineFuncWithSingleCallSitePass.cpp
+index be079f91..bb1fe934 100644
+--- a/clspv/lib/InlineFuncWithSingleCallSitePass.cpp
++++ b/clspv/lib/InlineFuncWithSingleCallSitePass.cpp
+@@ -82,7 +82,7 @@ bool clspv::InlineFuncWithSingleCallSitePass::InlineFunctions(Module &M) {
+   for (auto call : to_inline) {
+     InlineFunctionInfo IFI;
+     // Disable generation of lifetime intrinsic.
+-    Changed |= InlineFunction(*call, IFI, false, nullptr, false).isSuccess();
++    Changed |= InlineFunction(*call, IFI, nullptr, false).isSuccess();
+   }
+ 
+   return Changed;
+diff --git a/clspv/lib/MultiVersionUBOFunctionsPass.cpp b/clspv/lib/MultiVersionUBOFunctionsPass.cpp
+index 5ed25c1f..f3507761 100644
+--- a/clspv/lib/MultiVersionUBOFunctionsPass.cpp
++++ b/clspv/lib/MultiVersionUBOFunctionsPass.cpp
+@@ -126,7 +126,7 @@ bool clspv::MultiVersionUBOFunctionsPass::AnalyzeCall(
+ 
+ void clspv::MultiVersionUBOFunctionsPass::InlineCallSite(CallInst *call) {
+   InlineFunctionInfo IFI;
+-  InlineFunction(*call, IFI, false, nullptr, false);
++  InlineFunction(*call, IFI, nullptr, false);
+ }
+ 
+ void clspv::MultiVersionUBOFunctionsPass::SpecializeCall(
 diff --git a/clspv/lib/PushConstant.cpp b/clspv/lib/PushConstant.cpp
-index a1ba95a4..49b1344f 100644
+index 08542b1c..ff8d9881 100644
 --- a/clspv/lib/PushConstant.cpp
 +++ b/clspv/lib/PushConstant.cpp
-@@ -259,7 +259,10 @@ void RedeclareGlobalPushConstants(Module &M, StructType *mangled_struct_ty,
+@@ -262,7 +262,10 @@ void RedeclareGlobalPushConstants(Module &M, StructType *mangled_struct_ty,
          auto new_gep = ConstantExpr::getGetElementPtr(
              push_constant_ty, new_GV, indices, gep_operator->isInBounds());
          user->replaceAllUsesWith(new_gep);
@@ -52,3 +169,217 @@ index a1ba95a4..49b1344f 100644
          assert(false && "unexpected global use");
        }
      }
+diff --git a/clspv/lib/ReplaceLLVMIntrinsicsPass.cpp b/clspv/lib/ReplaceLLVMIntrinsicsPass.cpp
+index aee6ed96..640ad752 100644
+--- a/clspv/lib/ReplaceLLVMIntrinsicsPass.cpp
++++ b/clspv/lib/ReplaceLLVMIntrinsicsPass.cpp
+@@ -67,7 +67,7 @@ Type *descend_type(Type *InType) {
+   }
+ 
+   return OutType;
+-}
++};
+ } // namespace
+ 
+ PreservedAnalyses
+@@ -716,8 +716,8 @@ bool clspv::ReplaceLLVMIntrinsicsPass::replaceAddSubSat(Function &F,
+       auto clamp_value =
+           is_add ? Constant::getAllOnesValue(ty) : Constant::getNullValue(ty);
+       auto struct_ty = StructType::get(ty->getContext(), {ty, ty});
+-      auto call = clspv::InsertSPIRVOp(Call, op, {}, struct_ty, {a, b},
+-                                       MemoryEffects::none());
++      auto call = clspv::InsertSPIRVOp(Call, op, {Attribute::ReadNone},
++                                       struct_ty, {a, b});
+ 
+       auto add_sub = builder.CreateExtractValue(call, {0});
+       auto carry_borrow = builder.CreateExtractValue(call, {1});
+diff --git a/clspv/lib/ReplaceOpenCLBuiltinPass.cpp b/clspv/lib/ReplaceOpenCLBuiltinPass.cpp
+index acb45dab..d9d9e728 100644
+--- a/clspv/lib/ReplaceOpenCLBuiltinPass.cpp
++++ b/clspv/lib/ReplaceOpenCLBuiltinPass.cpp
+@@ -710,8 +710,8 @@ Value *ReplaceOpenCLBuiltinPass::InsertOpMulExtended(Instruction *InsertPoint,
+   if (!Option::HackMulExtended()) {
+     spv::Op opcode = IsSigned ? spv::OpSMulExtended : spv::OpUMulExtended;
+ 
+-    return clspv::InsertSPIRVOp(InsertPoint, opcode, {}, RetTy, {a, b},
+-                                MemoryEffects::none());
++    return clspv::InsertSPIRVOp(InsertPoint, opcode, {Attribute::ReadNone},
++                                RetTy, {a, b});
+   }
+ 
+   unsigned int ScalarSizeInBits = Ty->getScalarSizeInBits();
+@@ -843,9 +843,9 @@ Value *ReplaceOpenCLBuiltinPass::InsertOpMulExtended(Instruction *InsertPoint,
+       // res_neg.
+       auto mul_lo_xor =
+           Builder.CreateXor(mul_lo, Constant::getAllOnesValue(Ty));
+-      auto mul_lo_xor_add = InsertSPIRVOp(
+-          InsertPoint, spv::OpIAddCarry, {}, RetTy,
+-          {mul_lo_xor, ConstantInt::get(Ty, 1)}, MemoryEffects::none());
++      auto mul_lo_xor_add =
++          InsertSPIRVOp(InsertPoint, spv::OpIAddCarry, {Attribute::ReadNone},
++                        RetTy, {mul_lo_xor, ConstantInt::get(Ty, 1)});
+       auto mul_lo_inv = Builder.CreateExtractValue(mul_lo_xor_add, {0});
+       auto carry = Builder.CreateExtractValue(mul_lo_xor_add, {1});
+       auto mul_hi_inv = Builder.CreateAdd(
+@@ -1151,8 +1151,8 @@ bool ReplaceOpenCLBuiltinPass::replaceDot(Function &F) {
+ 
+     Value *V = nullptr;
+     if (Op0->getType()->isVectorTy()) {
+-      V = clspv::InsertSPIRVOp(CI, spv::OpDot, {}, CI->getType(), {Op0, Op1},
+-                               MemoryEffects::none());
++      V = clspv::InsertSPIRVOp(CI, spv::OpDot, {Attribute::ReadNone},
++                               CI->getType(), {Op0, Op1});
+     } else {
+       V = BinaryOperator::Create(Instruction::FMul, Op0, Op1, "", CI);
+     }
+@@ -1474,9 +1474,8 @@ bool ReplaceOpenCLBuiltinPass::replaceIsInfAndIsNan(Function &F,
+                                CIVecTy->getElementCount().getKnownMinValue());
+     }
+ 
+-    auto NewCI =
+-        clspv::InsertSPIRVOp(CI, SPIRVOp, {}, CorrespondingBoolTy,
+-                             {CI->getOperand(0)}, MemoryEffects::none());
++    auto NewCI = clspv::InsertSPIRVOp(CI, SPIRVOp, {Attribute::ReadNone},
++                                      CorrespondingBoolTy, {CI->getOperand(0)});
+ 
+     return SelectInst::Create(NewCI, TrueValue, FalseValue, "", CI);
+   });
+@@ -1561,8 +1560,8 @@ bool ReplaceOpenCLBuiltinPass::replaceAllAndAny(Function &F, spv::Op SPIRVOp) {
+ 
+         const auto BoolTy = Type::getInt1Ty(M.getContext());
+ 
+-        const auto NewCI = clspv::InsertSPIRVOp(CI, SPIRVOp, {}, BoolTy, {Cmp},
+-                                                MemoryEffects::none());
++        const auto NewCI = clspv::InsertSPIRVOp(
++            CI, SPIRVOp, {Attribute::ReadNone}, BoolTy, {Cmp});
+         SelectSource = NewCI;
+ 
+       } else {
+@@ -3615,7 +3614,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
+           FunctionType::get(result_ty, {result_ty, result_ty}, false);
+       fmin_fn =
+           cast<Function>(M.getOrInsertFunction(fmin_name, fn_ty).getCallee());
+-      fmin_fn->setDoesNotAccessMemory();
++      fmin_fn->addFnAttr(Attribute::ReadNone);
+       fmin_fn->setCallingConv(CallingConv::SPIR_FUNC);
+     }
+ 
+@@ -3627,7 +3626,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
+       FunctionType *fn_ty = FunctionType::get(result_ty, {result_ty}, false);
+       floor_fn =
+           cast<Function>(M.getOrInsertFunction(floor_name, fn_ty).getCallee());
+-      floor_fn->setDoesNotAccessMemory();
++      floor_fn->addFnAttr(Attribute::ReadNone);
+       floor_fn->setCallingConv(CallingConv::SPIR_FUNC);
+     }
+ 
+@@ -3639,7 +3638,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
+       FunctionType *fn_ty = FunctionType::get(result_ty, {result_ty}, false);
+       clspv_fract_fn = cast<Function>(
+           M.getOrInsertFunction(clspv_fract_name, fn_ty).getCallee());
+-      clspv_fract_fn->setDoesNotAccessMemory();
++      clspv_fract_fn->addFnAttr(Attribute::ReadNone);
+       clspv_fract_fn->setCallingConv(CallingConv::SPIR_FUNC);
+     }
+ 
+@@ -3968,8 +3967,9 @@ bool ReplaceOpenCLBuiltinPass::replaceMadSat(Function &F, bool is_signed) {
+       auto mul_ext = InsertOpMulExtended(Call, a, b, false);
+       auto mul_lo = builder.CreateExtractValue(mul_ext, {0});
+       auto mul_hi = builder.CreateExtractValue(mul_ext, {1});
+-      auto add_carry = InsertSPIRVOp(Call, spv::OpIAddCarry, {}, struct_ty,
+-                                     {mul_lo, c}, MemoryEffects::none());
++      auto add_carry =
++          InsertSPIRVOp(Call, spv::OpIAddCarry, {Attribute::ReadNone},
++                        struct_ty, {mul_lo, c});
+       auto add = builder.CreateExtractValue(add_carry, {0});
+       auto carry = builder.CreateExtractValue(add_carry, {1});
+       auto or_value = builder.CreateOr(mul_hi, carry);
+@@ -4108,7 +4108,7 @@ bool ReplaceOpenCLBuiltinPass::replaceRound(Function &F) {
+           F.getParent()
+               ->getOrInsertFunction(clspv_fract_name, F.getFunctionType())
+               .getCallee());
+-      clspv_fract_fn->setDoesNotAccessMemory();
++      clspv_fract_fn->addFnAttr(Attribute::ReadNone);
+       clspv_fract_fn->setCallingConv(CallingConv::SPIR_FUNC);
+     }
+ 
+diff --git a/clspv/lib/RewriteInsertsPass.cpp b/clspv/lib/RewriteInsertsPass.cpp
+index c2c51798..75745490 100644
+--- a/clspv/lib/RewriteInsertsPass.cpp
++++ b/clspv/lib/RewriteInsertsPass.cpp
+@@ -214,7 +214,7 @@ clspv::RewriteInsertsPass::GetConstructFunction(Module &M,
+     FunctionType *fnTy = FunctionType::get(constructed_type, elements, false);
+     auto fn_constant = M.getOrInsertFunction(fn_name, fnTy);
+     fn = cast<Function>(fn_constant.getCallee());
+-    fn->setOnlyReadsMemory();
++    fn->addFnAttr(Attribute::ReadOnly);
+   }
+   return fn;
+ }
+diff --git a/clspv/lib/SPIRVOp.cpp b/clspv/lib/SPIRVOp.cpp
+index 32bffa36..883427b5 100644
+--- a/clspv/lib/SPIRVOp.cpp
++++ b/clspv/lib/SPIRVOp.cpp
+@@ -28,8 +28,7 @@ using namespace llvm;
+ 
+ Instruction *InsertSPIRVOp(Instruction *Insert, spv::Op Opcode,
+                            ArrayRef<Attribute::AttrKind> Attributes,
+-                           Type *RetType, ArrayRef<Value *> Args,
+-                           const MemoryEffects &MemEffects) {
++                           Type *RetType, ArrayRef<Value *> Args) {
+ 
+   // Prepare mangled name
+   std::string MangledName = clspv::SPIRVOpIntrinsicFunction();
+@@ -55,8 +54,6 @@ Instruction *InsertSPIRVOp(Instruction *Insert, spv::Op Opcode,
+     for (auto A : Attributes) {
+       func->addFnAttr(A);
+     }
+-    if (MemEffects != MemoryEffects::unknown())
+-      func->setMemoryEffects(MemEffects);
+   }
+ 
+   // Now call it with the values we were passed
+diff --git a/clspv/lib/SPIRVOp.h b/clspv/lib/SPIRVOp.h
+index 5e757a6c..69e31ebe 100644
+--- a/clspv/lib/SPIRVOp.h
++++ b/clspv/lib/SPIRVOp.h
+@@ -17,7 +17,6 @@
+ #include "llvm/IR/Instruction.h"
+ #include "llvm/IR/Type.h"
+ #include "llvm/IR/Value.h"
+-#include "llvm/Support/ModRef.h"
+ 
+ #include "spirv/unified1/spirv.hpp"
+ 
+@@ -37,10 +36,8 @@ using namespace llvm;
+ // Since this function may modify the symbol table of the module containing
+ // Insert, it shouldn't be used while iterating over the symbols of that module
+ // unless the caller knows that no new function will be created.
+-Instruction *
+-InsertSPIRVOp(Instruction *Insert, spv::Op Opcode,
+-              ArrayRef<Attribute::AttrKind> Attributes, Type *RetType,
+-              ArrayRef<Value *> Args,
+-              const MemoryEffects &MemEffects = MemoryEffects::unknown());
++Instruction *InsertSPIRVOp(Instruction *Insert, spv::Op Opcode,
++                           ArrayRef<Attribute::AttrKind> Attributes,
++                           Type *RetType, ArrayRef<Value *> Args);
+ 
+ } // namespace clspv
+diff --git a/clspv/lib/SPIRVProducerPass.cpp b/clspv/lib/SPIRVProducerPass.cpp
+index b18f1858..891d8943 100644
+--- a/clspv/lib/SPIRVProducerPass.cpp
++++ b/clspv/lib/SPIRVProducerPass.cpp
+@@ -2923,11 +2923,11 @@ void SPIRVProducerPassImpl::GenerateFuncPrologue(Function &F) {
+     FuncControl |= spv::FunctionControlDontInlineMask;
+   }
+   // TODO: Check llvm attribute for Function Control Pure.
+-  if (F.onlyReadsMemory()) {
++  if (F.hasFnAttribute(Attribute::ReadOnly)) {
+     FuncControl |= spv::FunctionControlPureMask;
+   }
+   // TODO: Check llvm attribute for Function Control Const.
+-  if (F.doesNotAccessMemory()) {
++  if (F.hasFnAttribute(Attribute::ReadNone)) {
+     FuncControl |= spv::FunctionControlConstMask;
+   }
+ 

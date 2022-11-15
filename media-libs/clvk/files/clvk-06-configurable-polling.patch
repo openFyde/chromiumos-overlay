@@ -1,0 +1,163 @@
+diff --git a/clvk/src/config.def b/clvk/src/config.def
+index ab02e2d..15e945f 100644
+--- a/clvk/src/config.def
++++ b/clvk/src/config.def
+@@ -26,6 +26,9 @@ OPTION(bool, log_colour, false)
+ OPTION(std::string, log_dest, "")
+ OPTION(uint32_t, spirv_validation, 2u)
+ 
++OPTION(bool, poll_executor, false)
++OPTION(bool, poll_main_thread, true)
++
+ #if COMPILER_AVAILABLE
+ OPTION(std::string, clspv_options, "")
+ #if !CLSPV_ONLINE_COMPILER
+diff --git a/clvk/src/event.hpp b/clvk/src/event.hpp
+index e3f4002..3e95bd7 100644
+--- a/clvk/src/event.hpp
++++ b/clvk/src/event.hpp
+@@ -39,7 +39,8 @@ struct cvk_condition_variable {
+     virtual ~cvk_condition_variable() {}
+ 
+     virtual void notify() = 0;
+-    CHECK_RETURN virtual bool wait(std::unique_lock<std::mutex>&) = 0;
++    CHECK_RETURN virtual bool wait(std::unique_lock<std::mutex>& lock,
++                                   bool poll) = 0;
+ 
+     virtual cvk_semaphore* get_semaphore() {
+         CVK_ASSERT(false && "Should never be called");
+@@ -63,9 +64,15 @@ struct cvk_semaphore_condition_variable final : public cvk_condition_variable {
+     ~cvk_semaphore_condition_variable() { m_sem->release(); }
+ 
+     void notify() override final { m_sem->notify(m_value); }
+-    CHECK_RETURN bool wait(std::unique_lock<std::mutex>& lock) override final {
++    CHECK_RETURN bool wait(std::unique_lock<std::mutex>& lock,
++                           bool poll) override final {
+         lock.unlock();
+-        bool ret = m_sem->wait(m_value);
++        bool ret;
++        if (poll) {
++            ret = m_sem->poll(m_value);
++        } else {
++            ret = m_sem->wait(m_value);
++        }
+         lock.lock();
+         return ret;
+     }
+@@ -82,7 +89,8 @@ private:
+ 
+ struct cvk_std_condition_variable final : public cvk_condition_variable {
+     void notify() override final { m_cv.notify_all(); }
+-    CHECK_RETURN bool wait(std::unique_lock<std::mutex>& lock) override final {
++    CHECK_RETURN bool wait(std::unique_lock<std::mutex>& lock,
++                           __attribute__((unused)) bool poll) override final {
+         m_cv.wait(lock);
+         return true;
+     }
+@@ -117,7 +125,7 @@ struct cvk_event : public _cl_event, api_object<object_magic::event> {
+         return m_queue;
+     }
+ 
+-    virtual cl_int wait() = 0 ;
++    virtual cl_int wait(bool poll) = 0 ;
+ 
+     virtual uint64_t get_profiling_info(cl_profiling_info pinfo) = 0 ;
+     virtual uint64_t
+@@ -172,13 +180,14 @@ struct cvk_event_command : public cvk_event {
+         return m_status;
+     }
+ 
+-    cl_int wait() override final {
++
++    cl_int wait(bool poll) override final {
+         std::unique_lock<std::mutex> lock(m_lock);
+         cvk_debug("cvk_event::wait: event = %p, status = %d", this, m_status);
+         if (m_status > 0) {
+             TRACE_BEGIN_EVENT(command_type(), "queue", (uintptr_t)m_queue,
+                               "command", (uintptr_t)m_cmd);
+-            auto ret = m_cv->wait(lock);
++            auto ret = m_cv->wait(lock, poll);
+             TRACE_END();
+             if (!ret) {
+                 m_status = CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST;
+@@ -279,8 +288,8 @@ struct cvk_event_combine : public cvk_event {
+         return std::min(m_end_event->get_status(), m_start_event->get_status());
+     }
+ 
+-    cl_int wait() override final {
+-        return m_end_event->wait();
++    cl_int wait(bool poll) override final {
++        return m_end_event->wait(poll);
+     }
+ 
+     uint64_t get_profiling_info(cl_profiling_info pinfo) override final {
+diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
+index ab3defd..9197bbf 100644
+--- a/clvk/src/queue.cpp
++++ b/clvk/src/queue.cpp
+@@ -292,7 +292,7 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+     // Now wait for all the events
+     for (cl_uint i = 0; i < num_events; i++) {
+         cvk_event* event = icd_downcast(event_list[i]);
+-        if (event->wait() != CL_COMPLETE) {
++        if (event->wait(config.poll_main_thread) != CL_COMPLETE) {
+             ret = CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST;
+         }
+     }
+@@ -300,14 +300,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+     return ret;
+ }
+ 
+-static cl_int execute_cmds(std::deque<cvk_command*>& cmds) {
++static cl_int execute_cmds(std::deque<cvk_command*>& cmds, bool poll) {
+     TRACE_FUNCTION();
+     cl_int global_status = CL_SUCCESS;
+     while (!cmds.empty()) {
+         cvk_command* cmd = cmds.front();
+         cvk_debug_fn("executing command %p, event %p", cmd, cmd->event());
+ 
+-        cl_int status = cmd->execute();
++        cl_int status = cmd->execute(poll);
+         if (status != CL_COMPLETE && global_status == CL_SUCCESS)
+             global_status = status;
+         cvk_debug_fn("command returned %d", status);
+@@ -327,8 +327,10 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
+     }
+ 
+     m_lock.unlock();
++
+     auto cmds = exec->extract_cmds_dominated_by(true, num_events, event_list);
+-    auto ret = execute_cmds(cmds);
++    auto ret = execute_cmds(cmds, config.poll_main_thread);
++
+     m_lock.lock();
+ 
+     return ret;
+@@ -418,7 +420,7 @@ void cvk_executor_thread::executor() {
+         CVK_ASSERT(group->commands.size() > 0);
+         cvk_command_queue_holder queue = group->commands.front()->queue();
+ 
+-        execute_cmds(group->commands);
++        execute_cmds(group->commands, config.poll_executor);
+ 
+         queue->group_completed();
+ 
+diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
+index 8806357..49a3ed0 100644
+--- a/clvk/src/queue.hpp
++++ b/clvk/src/queue.hpp
+@@ -409,12 +409,12 @@ struct cvk_command {
+         m_event_deps.push_back(dep);
+     }
+ 
+-    CHECK_RETURN cl_int execute() {
++    CHECK_RETURN cl_int execute(bool poll) {
+ 
+         // First wait for dependencies
+         cl_int status = CL_COMPLETE;
+         for (auto& ev : m_event_deps) {
+-            if (ev->wait() != CL_COMPLETE) {
++            if (ev->wait(poll) != CL_COMPLETE) {
+                 status = CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST;
+             }
+         }
