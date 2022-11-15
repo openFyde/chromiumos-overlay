@@ -89,8 +89,10 @@ foreach_make() {
 
 src_compile() {
 	tc-export AR PKG_CONFIG
+	# TODO(b/259472793): Upgrade to freeimage 3.19 which supports C++17.
+	# Force the C++ compiler to c++14 for auto_ptr support.
 	foreach_make \
-		CXX="$(tc-getCXX) -fPIC" \
+		CXX="$(tc-getCXX) -fPIC -std=c++14" \
 		CC="$(tc-getCC) -fPIC" \
 		${MY_PN}
 }
