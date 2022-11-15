@@ -66,6 +66,25 @@ PATCHES=(
 	"${FILESDIR}/0036-fs-btrfs-Fix-several-fuzz-issues-with-invalid-dir-it.patch"
 	"${FILESDIR}/0037-fs-btrfs-Fix-more-ASAN-and-SEGV-issues-found-with-fu.patch"
 	"${FILESDIR}/0038-fs-btrfs-Fix-more-fuzz-issues-related-to-chunks.patch"
+
+	# Security patches for the 2022/11/15 vulnerabilities:
+	# https://lists.gnu.org/archive/html/grub-devel/2022-11/msg00059.html
+	#
+	# Generated from the grub repo with:
+	# git format-patch --start-number=39 f6b623607~..151467888
+	"${FILESDIR}/0039-font-Reject-glyphs-exceeds-font-max_glyph_width-or-f.patch"
+	"${FILESDIR}/0040-font-Fix-size-overflow-in-grub_font_get_glyph_intern.patch"
+	"${FILESDIR}/0041-font-Fix-several-integer-overflows-in-grub_font_cons.patch"
+	"${FILESDIR}/0042-font-Remove-grub_font_dup_glyph.patch"
+	"${FILESDIR}/0043-font-Fix-integer-overflow-in-ensure_comb_space.patch"
+	"${FILESDIR}/0044-font-Fix-integer-overflow-in-BMP-index.patch"
+	"${FILESDIR}/0045-font-Fix-integer-underflow-in-binary-search-of-char-.patch"
+	"${FILESDIR}/0046-kern-efi-sb-Enforce-verification-of-font-files.patch"
+	"${FILESDIR}/0047-fbutil-Fix-integer-overflow.patch"
+	"${FILESDIR}/0048-font-Fix-an-integer-underflow-in-blit_comb.patch"
+	"${FILESDIR}/0049-font-Harden-grub_font_blit_glyph-and-grub_font_blit_.patch"
+	"${FILESDIR}/0050-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch"
+	"${FILESDIR}/0051-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch"
 )
 
 src_prepare() {
