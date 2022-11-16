@@ -26,5 +26,6 @@ RESTRICT="binchecks strip"
 
 DEPEND="
 	dev-go/goselect
+	dev-go/go-sys
 "
 RDEPEND=""
