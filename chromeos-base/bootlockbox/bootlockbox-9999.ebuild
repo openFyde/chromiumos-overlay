@@ -20,7 +20,7 @@ SRC_URI=""
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="fuzzer systemd test"
+IUSE="fuzzer systemd test tpm tpm2 tpm_dynamic"
 
 RDEPEND="
 	!<chromeos-base/cryptohome-0.0.2
