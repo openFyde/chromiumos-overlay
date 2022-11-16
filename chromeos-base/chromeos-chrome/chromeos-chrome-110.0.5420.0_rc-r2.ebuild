@@ -295,9 +295,6 @@ set_build_args() {
 		# disable them here.
 		"enable_assistant_integration_tests=false"
 
-		# Generate debug info necessary for AutoFDO.
-		"clang_emit_debug_info_for_profiling=true"
-
 		# Add libinput to handle touchpad.
 		"use_libinput=$(usetf libinput)"
 
