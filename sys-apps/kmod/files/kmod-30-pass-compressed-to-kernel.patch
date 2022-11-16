@@ -16,25 +16,28 @@ scheme, then use finit_module() and pass a file descriptor to the
 compressed module instead of init_module() with decompressed data.
 ---
 
-This is a backport to kmod-25 branch. The original version can be
+This is a backport to kmod-30 branch. The original version can be
 found at:
 
 https://lore.kernel.org/linux-modules/YbLo8wjBWDxwICf1@google.com/
 
- libkmod/libkmod-file.c     | 34 ++++++++++++++++++---------------
- libkmod/libkmod-internal.h |  8 +++++++-
- libkmod/libkmod-module.c   | 39 +++++++++++++++++++++++++++++++++++++-
+ libkmod/libkmod-file.c     | 41 +++++++++++++++++++-------------------
+ libkmod/libkmod-internal.h |  9 ++++++++-
+ libkmod/libkmod-module.c   | 41 +++++++++++++++++++++++++++++++++++++-
  shared/missing.h           |  4 ++++
- 4 files changed, 68 insertions(+), 17 deletions(-)
+ 4 files changed, 73 insertions(+), 22 deletions(-)
 
 diff --git a/libkmod/libkmod-file.c b/libkmod/libkmod-file.c
-index 5eeba6a..7840c18 100644
+index b6a8cc9..9f1b99e 100644
 --- a/libkmod/libkmod-file.c
 +++ b/libkmod/libkmod-file.c
-@@ -45,14 +45,11 @@ struct file_ops {
+@@ -48,17 +48,11 @@ struct file_ops {
  };
  
  struct kmod_file {
+-#ifdef ENABLE_ZSTD
+-	bool zstd_used;
+-#endif
 -#ifdef ENABLE_XZ
 -	bool xz_used;
 -#endif
@@ -47,7 +50,25 @@ index 5eeba6a..7840c18 100644
  	off_t size;
  	void *memory;
  	const struct file_ops *ops;
-@@ -131,7 +128,7 @@ static int xz_uncompress(lzma_stream *strm, struct kmod_file *file)
+@@ -179,7 +173,7 @@ static int load_zstd(struct kmod_file *file)
+ 
+ 	ZSTD_freeDStream(dstr);
+ 	free((void *)zst_inb.src);
+-	file->zstd_used = true;
++	file->compression = KMOD_COMPRESSION_ZSTD;
+ 	file->memory = zst_outb.dst;
+ 	file->size = zst_outb.pos;
+ 	return 0;
+@@ -193,7 +187,7 @@ out:
+ 
+ static void unload_zstd(struct kmod_file *file)
+ {
+-	if (!file->zstd_used)
++	if (file->compression != KMOD_COMPRESSION_ZSTD)
+ 		return;
+ 	free(file->memory);
+ }
+@@ -272,7 +266,7 @@ static int xz_uncompress(lzma_stream *strm, struct kmod_file *file)
  			goto out;
  		}
  	}
@@ -56,7 +77,7 @@ index 5eeba6a..7840c18 100644
  	file->memory = p;
  	file->size = total;
  	return 0;
-@@ -161,7 +158,7 @@ static int load_xz(struct kmod_file *file)
+@@ -302,7 +296,7 @@ static int load_xz(struct kmod_file *file)
  
  static void unload_xz(struct kmod_file *file)
  {
@@ -65,7 +86,7 @@ index 5eeba6a..7840c18 100644
  		return;
  	free(file->memory);
  }
-@@ -173,15 +170,20 @@ static const char magic_xz[] = {0xfd, '7', 'z', 'X', 'Z', 0};
+@@ -314,15 +308,20 @@ static const char magic_xz[] = {0xfd, '7', 'z', 'X', 'Z', 0};
  #define READ_STEP (4 * 1024 * 1024)
  static int load_zlib(struct kmod_file *file)
  {
@@ -88,7 +109,7 @@ index 5eeba6a..7840c18 100644
  
  	for (;;) {
  		int r;
-@@ -212,22 +214,24 @@ static int load_zlib(struct kmod_file *file)
+@@ -353,22 +352,24 @@ static int load_zlib(struct kmod_file *file)
  		did += r;
  	}
  
@@ -116,7 +137,7 @@ index 5eeba6a..7840c18 100644
  }
  
  static const char magic_zlib[] = {0x1f, 0x8b};
-@@ -259,7 +263,8 @@ static int load_reg(struct kmod_file *file)
+@@ -403,7 +404,8 @@ static int load_reg(struct kmod_file *file)
  			    file->fd, 0);
  	if (file->memory == MAP_FAILED)
  		return -errno;
@@ -126,7 +147,7 @@ index 5eeba6a..7840c18 100644
  	return 0;
  }
  
-@@ -303,7 +308,6 @@ struct kmod_file *kmod_file_open(const struct kmod_ctx *ctx,
+@@ -447,7 +449,6 @@ struct kmod_file *kmod_file_open(const struct kmod_ctx *ctx,
  			magic_size_max = itr->magic_size;
  	}
  
@@ -134,7 +155,7 @@ index 5eeba6a..7840c18 100644
  	if (magic_size_max > 0) {
  		char *buf = alloca(magic_size_max + 1);
  		ssize_t sz;
-@@ -357,9 +361,9 @@ off_t kmod_file_get_size(const struct kmod_file *file)
+@@ -501,9 +502,9 @@ off_t kmod_file_get_size(const struct kmod_file *file)
  	return file->size;
  }
  
@@ -147,10 +168,10 @@ index 5eeba6a..7840c18 100644
  
  int kmod_file_get_fd(const struct kmod_file *file)
 diff --git a/libkmod/libkmod-internal.h b/libkmod/libkmod-internal.h
-index 346579c..93eefac 100644
+index c22644a..a8405b3 100644
 --- a/libkmod/libkmod-internal.h
 +++ b/libkmod/libkmod-internal.h
-@@ -46,6 +46,12 @@ static _always_inline_ _printf_format_(2, 3) void
+@@ -48,6 +48,13 @@ static _always_inline_ _printf_format_(2, 3) void
  #  endif
  #endif
  
@@ -158,12 +179,13 @@ index 346579c..93eefac 100644
 +	KMOD_COMPRESSION_NONE,
 +	KMOD_COMPRESSION_GZIP,
 +	KMOD_COMPRESSION_XZ,
++	KMOD_COMPRESSION_ZSTD,
 +};
 +
  void kmod_log(const struct kmod_ctx *ctx,
  		int priority, const char *file, int line, const char *fn,
  		const char *format, ...) __attribute__((format(printf, 6, 7))) __attribute__((nonnull(1, 3, 5)));
-@@ -151,7 +157,7 @@ struct kmod_file *kmod_file_open(const struct kmod_ctx *ctx, const char *filenam
+@@ -155,7 +162,7 @@ struct kmod_file *kmod_file_open(const struct kmod_ctx *ctx, const char *filenam
  struct kmod_elf *kmod_file_get_elf(struct kmod_file *file) __attribute__((nonnull(1)));
  void *kmod_file_get_contents(const struct kmod_file *file) _must_check_ __attribute__((nonnull(1)));
  off_t kmod_file_get_size(const struct kmod_file *file) _must_check_ __attribute__((nonnull(1)));
@@ -173,10 +195,10 @@ index 346579c..93eefac 100644
  void kmod_file_unref(struct kmod_file *file) __attribute__((nonnull(1)));
  
 diff --git a/libkmod/libkmod-module.c b/libkmod/libkmod-module.c
-index 0a3ef11..ff8d438 100644
+index 6e0ff1a..34cb7f0 100644
 --- a/libkmod/libkmod-module.c
 +++ b/libkmod/libkmod-module.c
-@@ -796,6 +796,37 @@ KMOD_EXPORT int kmod_module_remove_module(struct kmod_module *mod,
+@@ -802,6 +802,39 @@ KMOD_EXPORT int kmod_module_remove_module(struct kmod_module *mod,
  	return err;
  }
  
@@ -206,6 +228,8 @@ index 0a3ef11..ff8d438 100644
 +		return KMOD_COMPRESSION_GZIP;
 +	else if (streq(buf, "xz\n"))
 +		return KMOD_COMPRESSION_XZ;
++	else if (streq(buf, "zstd\n"))
++		return KMOD_COMPRESSION_ZSTD;
 +
 +fail:
 +	return KMOD_COMPRESSION_NONE;
@@ -214,7 +238,7 @@ index 0a3ef11..ff8d438 100644
  extern long init_module(const void *mem, unsigned long len, const char *args);
  
  /**
-@@ -823,6 +854,7 @@ KMOD_EXPORT int kmod_module_insert_module(struct kmod_module *mod,
+@@ -829,6 +862,7 @@ KMOD_EXPORT int kmod_module_insert_module(struct kmod_module *mod,
  	struct kmod_elf *elf;
  	const char *path;
  	const char *args = options ? options : "";
@@ -222,7 +246,7 @@ index 0a3ef11..ff8d438 100644
  
  	if (mod == NULL)
  		return -ENOENT;
-@@ -841,7 +873,9 @@ KMOD_EXPORT int kmod_module_insert_module(struct kmod_module *mod,
+@@ -847,7 +881,9 @@ KMOD_EXPORT int kmod_module_insert_module(struct kmod_module *mod,
  		}
  	}
  
@@ -233,7 +257,7 @@ index 0a3ef11..ff8d438 100644
  		unsigned int kernel_flags = 0;
  
  		if (flags & KMOD_INSERT_FORCE_VERMAGIC)
-@@ -849,6 +883,9 @@ KMOD_EXPORT int kmod_module_insert_module(struct kmod_module *mod,
+@@ -855,6 +891,9 @@ KMOD_EXPORT int kmod_module_insert_module(struct kmod_module *mod,
  		if (flags & KMOD_INSERT_FORCE_MODVERSION)
  			kernel_flags |= MODULE_INIT_IGNORE_MODVERSIONS;
  

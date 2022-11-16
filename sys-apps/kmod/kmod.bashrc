@@ -3,6 +3,6 @@
 # found in the LICENSE file.
 
 cros_pre_src_prepare_patches() {
-	patch -p1 < "${BASHRC_FILESDIR}"/${PN}-24-no-run.patch || die
-	patch -p1 < "${BASHRC_FILESDIR}"/${PN}-25-pass-compressed-to-kernel.patch || die
+	patch -p1 < "${BASHRC_FILESDIR}"/${PN}-30-no-run.patch || die
+	patch -p1 < "${BASHRC_FILESDIR}"/${PN}-30-pass-compressed-to-kernel.patch || die
 }
