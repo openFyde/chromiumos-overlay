@@ -2,15 +2,15 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
+CROS_WORKON_COMMIT="6539ea5fe17fce683133c45f07fac316593ee1f7"
+CROS_WORKON_TREE="6f032045d5f340ef04591be829d655ac992403c0"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/drm/${PN}.git"
+GIT_ECLASS="git-r3"
 
-CROS_WORKON_COMMIT=e38045c24405e70fed6cfeec2f616454c68e6512
-CROS_WORKON_TREE=d93ff01d35d36e0653950a3f2a8a708552285117
-CROS_WORKON_EGIT_BRANCH=upstream/master
 CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
 CROS_WORKON_MANUAL_UPREV=1
 
-inherit meson cros-workon
+inherit ${GIT_ECLASS} meson cros-workon
 
 DESCRIPTION="Intel GPU userland tools"
 
