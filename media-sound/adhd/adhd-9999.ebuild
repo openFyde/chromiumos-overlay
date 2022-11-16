@@ -99,7 +99,8 @@ src_compile() {
 	if ! use fuzzer ; then
 		cd cras || die
 		args=(
-			"$(use cras-apm && echo "--//src/benchmark:hw_dependency=true")"
+			"--//:hw_dependency"
+			"$(use cras-apm && echo "--//:apm")"
 		)
 		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
 		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
