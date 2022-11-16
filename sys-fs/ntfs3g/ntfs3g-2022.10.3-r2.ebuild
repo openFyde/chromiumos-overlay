@@ -82,6 +82,9 @@ src_install() {
 	keepdir "/usr/$(get_libdir)/ntfs-3g"
 	find "${ED}" -name '*.la' -type f -delete || die
 
+	# Add the mount.ntfs symlink (http://b/259007877)
+	dosym mount.ntfs-3g /sbin/mount.ntfs
+
 	# Remove lowntfs-3g as it's not used on ChromeOS.
 	rm -f "${D}/usr/bin/lowntfs-3g" "${D}/usr/sbin/mount.lowntfs-3g" "${D}/sbin/mount.lowntfs-3g"
 }
