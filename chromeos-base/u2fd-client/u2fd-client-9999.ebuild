@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_INCREMENTAL_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libhwsec-foundation metrics trunks u2fd .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation metrics trunks u2fd .gn"
 
 PLATFORM_SUBDIR="u2fd/client"
 
@@ -22,15 +22,7 @@ KEYWORDS="~*"
 IUSE="fuzzer cr50_onboard ti50_onboard"
 
 COMMON_DEPEND="
-	fuzzer? (
-		chromeos-base/trunks:=
-	)
-	cr50_onboard? (
-		chromeos-base/trunks:=
-	)
-	ti50_onboard? (
-		chromeos-base/trunks:=
-	)
+	chromeos-base/libhwsec:=
 	chromeos-base/session_manager-client:=
 "
 

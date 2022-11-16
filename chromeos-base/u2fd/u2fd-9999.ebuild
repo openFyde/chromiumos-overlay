@@ -22,15 +22,6 @@ KEYWORDS="~*"
 IUSE="cr50_onboard fuzzer profiling ti50_onboard"
 
 COMMON_DEPEND="
-	fuzzer? (
-		chromeos-base/trunks:=
-	)
-	cr50_onboard? (
-		chromeos-base/trunks:=
-	)
-	ti50_onboard? (
-		chromeos-base/trunks:=
-	)
 	chromeos-base/attestation:=
 	chromeos-base/attestation-client:=
 	chromeos-base/cbor:=
