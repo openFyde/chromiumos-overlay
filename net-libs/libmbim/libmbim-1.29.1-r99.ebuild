@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="e734c940123e50f8b77b900c7fcf7e1dad95f689"
-CROS_WORKON_TREE="c2941423fff603c8ab89174297645bb3cc9584d9"
+CROS_WORKON_COMMIT="848c18e79869844b874d90e0ce09c25d5fce9667"
+CROS_WORKON_TREE="288e1ccf8ebb92788f11e5bcb02f4e6c8dc14b9e"
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
 CROS_WORKON_EGIT_BRANCH="master"
 
