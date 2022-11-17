@@ -115,6 +115,7 @@ ALL_BOARDS=(
 	brya-hibernate
 	brya-lvm-stateful
 	brya-manatee
+	brya-manatee-kernelnext
 	brya-nopkvm
 	brya-pkvm
 	bubs
