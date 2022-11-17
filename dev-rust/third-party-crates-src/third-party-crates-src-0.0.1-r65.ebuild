@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5a11bb8f092237ed7d9538e28100e847ec27fd63"
-CROS_WORKON_TREE="ad7290ec6830e6d51795e2085873da630e11562f"
+CROS_WORKON_COMMIT="9f24236d02aab512cdc9e895a71be2e1ab0f4325"
+CROS_WORKON_TREE="82449b28449681bd49e5957b818c7feb9561b435"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -40,6 +40,28 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/flexbuffers-2.0.0
+	!=dev-rust/flexbuffers-2.0.0-r1
+	!=dev-rust/flexbuffers-2.0.0-r2
+	!=dev-rust/flexbuffers-2.0.0-r3
+	!=dev-rust/flexbuffers-2.0.0-r4
+	!=dev-rust/num_enum_derive-0.5.1
+	!=dev-rust/num_enum_derive-0.5.1-r1
+	!=dev-rust/num_enum_derive-0.5.1-r2
+	!=dev-rust/num_enum_derive-0.5.1-r3
+	!=dev-rust/num_enum-0.5.1
+	!=dev-rust/num_enum-0.5.1-r1
+	!=dev-rust/riscv-rt-0.8.0
+	!=dev-rust/riscv-rt-0.8.0-r1
+	!=dev-rust/riscv-rt-0.8.0-r2
+	!=dev-rust/riscv-rt-0.8.0-r3
+	!=dev-rust/riscv-rt-macros-0.1.6
+	!=dev-rust/riscv-rt-macros-0.1.6-r1
+	!=dev-rust/riscv-rt-macros-0.1.6-r2
+	!=dev-rust/riscv-rt-macros-0.1.6-r3
+	!=dev-rust/riscv-rt-macros-0.1.6-r4
+	!=dev-rust/rustc-demangle-capi-0.1.0
+	!=dev-rust/rustc-demangle-capi-0.1.0-r1
 	!~dev-rust/error-chain-0.11.0
 	!~dev-rust/syslog-4.0.1
 	!=dev-rust/clap_conf-0.1.5
@@ -1577,6 +1599,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"flame-0.1.12"
 	"flamer-0.1.4"
 	"flate2-1.0.24"
+	"flexbuffers-2.0.0"
 	"float-ord-0.2.0"
 	"fnv-1.0.7"
 	"foreign-types-0.3.2"
@@ -1715,6 +1738,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"memchr-2.5.0"
 	"memoffset-0.5.6"
 	"memoffset-0.6.5"
+	"merge-0.1.0"
+	"merge_derive-0.1.0"
 	"mime-0.3.16"
 	"minimal-lexical-0.2.1"
 	"miniz_oxide-0.3.7"
@@ -1760,6 +1785,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"num-traits-0.1.43"
 	"num-traits-0.2.14"
 	"num_cpus-1.13.0"
+	"num_enum-0.5.7"
+	"num_enum_derive-0.5.7"
 	"num_threads-0.1.6"
 	"number_prefix-0.4.0"
 	"object-0.27.1"
@@ -1804,6 +1831,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"prettyplease-0.1.20"
 	"print_bytes-0.5.0"
 	"printf-compat-0.1.1"
+	"proc-macro-crate-1.2.1"
 	"proc-macro-error-1.0.4"
 	"proc-macro-error-attr-1.0.4"
 	"proc-macro-hack-0.5.19"
@@ -1874,6 +1902,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"rgb-0.8.34"
 	"riscv-0.6.0"
 	"riscv-0.7.0"
+	"riscv-rt-0.8.0"
+	"riscv-rt-macros-0.1.6"
 	"riscv-target-0.1.2"
 	"ron-0.5.1"
 	"roxmltree-0.13.1"
@@ -1885,6 +1915,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"
 	"rustc-demangle-0.1.21"
+	"rustc-demangle-capi-0.1.0"
 	"rustc-hash-1.1.0"
 	"rustc-serialize-0.3.24"
 	"rustc-std-workspace-alloc-1.0.0"
