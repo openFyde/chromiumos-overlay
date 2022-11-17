@@ -40,6 +40,59 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/cortex-m-rtic-1.1.3
+	!=dev-rust/cortex-m-rtic-1.1.3-r1
+	!=dev-rust/cortex-m-rtic-1.1.3-r2
+	!=dev-rust/cortex-m-rtic-1.1.3-r3
+	!=dev-rust/cortex-m-rtic-1.1.3-r4
+	!=dev-rust/cortex-m-rtic-1.1.3-r5
+	!=dev-rust/heapless-0.7.15
+	!=dev-rust/heapless-0.7.15-r1
+	!=dev-rust/heapless-0.7.15-r2
+	!=dev-rust/heapless-0.7.15-r3
+	!=dev-rust/heapless-0.7.15-r4
+	!=dev-rust/heapless-0.7.15-r5
+	!=dev-rust/heapless-0.7.15-r6
+	!=dev-rust/stm32g0xx-hal-0.1.5
+	!=dev-rust/stm32g0xx-hal-0.1.5-r1
+	!=dev-rust/stm32g0xx-hal-0.1.5-r2
+	!=dev-rust/stm32g0xx-hal-0.1.5-r3
+	!=dev-rust/stm32g0xx-hal-0.1.5-r4
+	!=dev-rust/stm32g0xx-hal-0.1.5-r5
+	!=dev-rust/stm32g0xx-hal-0.1.5-r6
+	!=dev-rust/atomic-polyfill-0.1.8
+	!=dev-rust/atomic-polyfill-0.1.8-r1
+	!=dev-rust/stm32g0-0.13.0
+	!=dev-rust/stm32g0-0.13.0-r1
+	!=dev-rust/stm32g0-0.13.0-r2
+	!=dev-rust/stm32g0-0.13.0-r3
+	!=dev-rust/stm32g0-0.13.0-r4
+	!=dev-rust/rtt-target-0.3.1
+	!=dev-rust/rtt-target-0.3.1-r1
+	!=dev-rust/rtt-target-0.3.1-r2
+	!=dev-rust/rtt-target-0.3.1-r3
+	!=dev-rust/critical-section-0.2.7
+	!=dev-rust/critical-section-0.2.7-r1
+	!=dev-rust/critical-section-0.2.7-r2
+	!=dev-rust/critical-section-0.2.7-r3
+	!=dev-rust/cortex-m-0.7.3
+	!=dev-rust/cortex-m-0.7.3-r1
+	!=dev-rust/cortex-m-0.7.3-r2
+	!=dev-rust/cortex-m-0.7.3-r3
+	!=dev-rust/cortex-m-0.7.3-r4
+	!=dev-rust/cortex-m-0.7.3-r5
+	!=dev-rust/cortex-m-0.6.7
+	!=dev-rust/cortex-m-0.6.7-r1
+	!=dev-rust/cortex-m-0.6.7-r2
+	!=dev-rust/cortex-m-0.6.7-r3
+	!=dev-rust/cortex-m-0.6.7-r4
+	!=dev-rust/cortex-m-0.6.7-r5
+	!=dev-rust/aligned-0.3.4
+	!=dev-rust/as-slice-0.1.5
+	!=dev-rust/as-slice-0.1.5-r1
+	!=dev-rust/as-slice-0.1.5-r2
+	!=dev-rust/as-slice-0.1.5-r3
+	!=dev-rust/as-slice-0.1.5-r4
 	!=dev-rust/flexbuffers-2.0.0
 	!=dev-rust/flexbuffers-2.0.0-r1
 	!=dev-rust/flexbuffers-2.0.0-r2
@@ -1404,6 +1457,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ahash-0.4.7"
 	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
+	"aligned-0.3.5"
 	"android_log-sys-0.2.0"
 	"ansi_term-0.11.0"
 	"anyhow-1.0.62"
@@ -1415,6 +1469,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"argh_shared-0.1.8"
 	"arrayvec-0.4.12"
 	"arrayvec-0.5.2"
+	"as-slice-0.1.5"
 	"ascii-0.9.3"
 	"ascii-1.0.0"
 	"assert_matches-1.5.0"
@@ -1423,6 +1478,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"async-task-4.3.0"
 	"async-trait-0.1.48"
 	"atlatl-0.1.2"
+	"atomic-polyfill-0.1.10"
 	"atty-0.2.14"
 	"autocfg-0.1.7"
 	"autocfg-1.1.0"
@@ -1504,8 +1560,11 @@ ALLOWED_CRATE_VERSIONS=(
 	"core-foundation-0.9.3"
 	"core-foundation-sys-0.6.2"
 	"core-foundation-sys-0.8.3"
+	"cortex-m-0.6.7"
+	"cortex-m-0.7.6"
 	"cortex-m-rt-0.6.15"
 	"cortex-m-rt-macros-0.6.15"
+	"cortex-m-rtic-1.1.3"
 	"cortex-m-rtic-macros-1.1.5"
 	"cpp_demangle-0.3.5"
 	"cpufeatures-0.2.5"
@@ -1514,6 +1573,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"crc32fast-1.3.2"
 	"criterion-0.3.5"
 	"criterion-plot-0.4.5"
+	"critical-section-0.2.7"
 	"crossbeam-0.8.2"
 	"crossbeam-channel-0.4.4"
 	"crossbeam-channel-0.5.6"
@@ -1647,6 +1707,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"hashbrown-0.11.2"
 	"hashbrown-0.12.3"
 	"hashbrown-0.9.1"
+	"heapless-0.7.16"
 	"heapsize-0.4.2"
 	"heck-0.3.3"
 	"heck-0.4.0"
@@ -1911,6 +1972,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rtic-core-1.0.0"
 	"rtic-monotonic-1.0.0"
 	"rtic-syntax-1.0.2"
+	"rtt-target-0.3.1"
 	"rust_hawktracer-0.7.0"
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"
@@ -1992,6 +2054,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"stdweb-derive-0.5.3"
 	"stdweb-internal-macros-0.2.9"
 	"stdweb-internal-runtime-0.1.5"
+	"stm32g0-0.13.0"
+	"stm32g0xx-hal-0.1.5"
 	"str-buf-1.0.5"
 	"stringprep-0.1.2"
 	"strsim-0.10.0"
