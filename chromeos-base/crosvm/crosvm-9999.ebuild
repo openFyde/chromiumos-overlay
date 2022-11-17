@@ -33,7 +33,6 @@ COMMON_DEPEND="
 	)
 	crosvm-wl-dmabuf? ( media-libs/minigbm:= )
 	dev-rust/libchromeos:=
-	virtual/libusb:1=
 "
 
 RDEPEND="${COMMON_DEPEND}
