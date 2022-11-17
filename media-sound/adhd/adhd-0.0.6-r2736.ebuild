@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="3ec63a6e238c9f15b113fb8444995986e762bb2c"
-CROS_WORKON_TREE="e35debbe7b6d5fe8c3abf5b63a26e5b648cdb8ba"
+CROS_WORKON_COMMIT="078dd4f760f1f7492063a7c9475ad5df39088dbe"
+CROS_WORKON_TREE="a826bc92d98ea9fd686a658136745734d4265fee"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -101,7 +101,8 @@ src_compile() {
 	if ! use fuzzer ; then
 		cd cras || die
 		args=(
-			"$(use cras-apm && echo "--//src/benchmark:hw_dependency=true")"
+			"--//:hw_dependency"
+			"$(use cras-apm && echo "--//:apm")"
 		)
 		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
 		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
