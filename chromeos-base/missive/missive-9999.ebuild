@@ -21,9 +21,6 @@ SLOT=0/0
 KEYWORDS="~*"
 IUSE=""
 
-# TODO(b/258063046): Unit tests are flaky.  Re-enable once reliable.
-RESTRICT="test"
-
 RDEPEND="
 	app-arch/snappy
 	chromeos-base/metrics:=
