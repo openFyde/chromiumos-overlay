@@ -8,7 +8,7 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill .gn mojo_service_manager"
 
 PLATFORM_SUBDIR="shill"
 
@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/mojo_service_manager:=
 	chromeos-base/nsswitch:=
 	chromeos-base/patchpanel-client:=
 	chromeos-base/shill-net:=
