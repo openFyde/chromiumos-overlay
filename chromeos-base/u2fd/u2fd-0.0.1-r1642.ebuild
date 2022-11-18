@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="88ffa0dd6860dbc67f3704bcd7b0fb7a5201a0a9"
-CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "52a37fd272cac406117fc0fe310a1518197b40f9" "3d4405b6a3b6408d391ee6a0c750b3d19f6f17de" "db75597a3a702c90030f8f50dee1f1f79046be1a" "4098abcef2eb500e62fbc4217f2aacc3fa0d7922" "310b96c5a5e6797857fc68c5850211192cb1ec95" "6ad23d8a51d232d0788cf855fbb08a726c4b2443" "3d4405b6a3b6408d391ee6a0c750b3d19f6f17de" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="9c33ab089ae0c8d529c59984995e08eb46bac077"
+CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "52a37fd272cac406117fc0fe310a1518197b40f9" "3d4405b6a3b6408d391ee6a0c750b3d19f6f17de" "db75597a3a702c90030f8f50dee1f1f79046be1a" "4098abcef2eb500e62fbc4217f2aacc3fa0d7922" "e82f01f7faaf72894e76b92250298b3251abb574" "6ad23d8a51d232d0788cf855fbb08a726c4b2443" "3d4405b6a3b6408d391ee6a0c750b3d19f6f17de" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer cr50_onboard ti50_onboard"
+IUSE="cr50_onboard fuzzer profiling ti50_onboard"
 
 COMMON_DEPEND="
 	fuzzer? (
