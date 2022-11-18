@@ -89,7 +89,6 @@ src_configure() {
 	local plugins=(
 		-Dplugin_fibocom="enabled"
 		-Dplugin_generic="enabled"
-		-Dplugin_huawei="enabled"
 		-Dplugin_intel="enabled"
 	)
 
@@ -137,9 +136,6 @@ src_install() {
 
 	# Install Chrome OS specific udev rules.
 	udev_dorules "${FILESDIR}/52-mm-modem-permissions.rules"
-	udev_dorules "${FILESDIR}/77-mm-huawei-configuration.rules"
-	exeinto "$(get_udevdir)"
-	doexe "${FILESDIR}/mm-huawei-configuration-switch.sh"
 }
 
 pkg_preinst() {
