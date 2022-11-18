@@ -3993,5 +3993,19 @@
             "from": 465103,
             "until": 475520
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Define _GNU_SOURCE for arm baremetal in C++ mode."
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/2497d5aa7716a664c4f73df1980b026c906c7522.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 478794
+        }
     }
 ]
