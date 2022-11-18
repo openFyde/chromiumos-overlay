@@ -40,6 +40,57 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libdbus-sys-0.2.1
+	!=dev-rust/libdbus-sys-0.2.1-r1
+	!=dev-rust/libdbus-sys-0.1.3
+	!=dev-rust/libdbus-sys-0.1.3-r1
+	!=dev-rust/libdbus-sys-0.1.3-r2
+	!=dev-rust/libdbus-sys-0.1.3-r3
+	!=dev-rust/image-0.23.14
+	!=dev-rust/image-0.23.14-r1
+	!=dev-rust/image-0.23.14-r2
+	!=dev-rust/image-0.23.14-r3
+	!=dev-rust/image-0.23.14-r4
+	!=dev-rust/image-0.23.14-r5
+	!=dev-rust/image-0.23.14-r6
+	!=dev-rust/image-0.23.14-r7
+	!=dev-rust/image-0.23.14-r8
+	!=dev-rust/image-0.23.14-r9
+	!=dev-rust/image-0.23.14-r10
+	!=dev-rust/image-0.23.14-r11
+	!=dev-rust/image-0.23.14-r12
+	!=dev-rust/png-0.16.8
+	!=dev-rust/png-0.16.8-r1
+	!=dev-rust/png-0.16.8-r2
+	!=dev-rust/png-0.16.8-r3
+	!=dev-rust/png-0.16.8-r4
+	!=dev-rust/ftdi-0.1.3
+	!=dev-rust/ftdi-0.1.3-r1
+	!=dev-rust/ftdi-0.1.3-r2
+	!=dev-rust/libftdi1-sys-1.1.2
+	!=dev-rust/libftdi1-sys-1.1.2-r1
+	!=dev-rust/libftdi1-sys-1.1.2-r2
+	!=dev-rust/libftdi1-sys-1.1.2-r3
+	!=dev-rust/libftdi1-sys-1.1.2-r4
+	!=dev-rust/libftdi1-sys-1.1.2-r5
+	!=dev-rust/libftdi1-sys-1.1.2-r6
+	!=dev-rust/libftdi1-sys-1.1.2-r7
+	!=dev-rust/ftdi-mpsse-0.1.1
+	!=dev-rust/ftdi-mpsse-0.1.1-r1
+	!=dev-rust/bindgen-0.59.2
+	!=dev-rust/bindgen-0.59.2-r1
+	!=dev-rust/bindgen-0.59.2-r2
+	!=dev-rust/bindgen-0.59.2-r3
+	!=dev-rust/bindgen-0.59.2-r4
+	!=dev-rust/bindgen-0.59.2-r5
+	!=dev-rust/bindgen-0.59.2-r6
+	!=dev-rust/bindgen-0.59.2-r7
+	!=dev-rust/bindgen-0.59.2-r8
+	!=dev-rust/bindgen-0.59.2-r9
+	!=dev-rust/bindgen-0.59.2-r10
+	!=dev-rust/bindgen-0.59.2-r11
+	!=dev-rust/bindgen-0.59.2-r12
+	!=dev-rust/bindgen-0.59.2-r13
 	!=dev-rust/rusb-0.8.1
 	!=dev-rust/rusb-0.8.1-r1
 	!=dev-rust/rusb-0.8.1-r2
@@ -1511,6 +1562,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"beef-0.5.2"
 	"bencher-0.1.5"
 	"bincode-1.0.1"
+	"bindgen-0.57.0"
+	"bindgen-0.59.2"
 	"bindgen-0.60.1"
 	"bit-set-0.5.3"
 	"bit-vec-0.6.3"
@@ -1632,6 +1685,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"derive_builder-0.9.0"
 	"derive_builder_core-0.9.0"
 	"derive_utils-0.11.2"
+	"diff-0.1.13"
 	"digest-0.10.5"
 	"digest-0.9.0"
 	"dirs-next-2.0.0"
@@ -1685,6 +1739,8 @@ ALLOWED_CRATE_VERSIONS=(
 	"foreign-types-shared-0.1.1"
 	"form_urlencoded-1.0.1"
 	"fraction-0.10.0"
+	"ftdi-0.1.3"
+	"ftdi-mpsse-0.1.1"
 	"fuchsia-cprng-0.1.1"
 	"fuchsia-zircon-0.3.3"
 	"fuchsia-zircon-sys-0.3.3"
@@ -1751,6 +1807,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ident_case-1.0.1"
 	"idna-0.1.5"
 	"idna-0.2.3"
+	"image-0.23.14"
 	"imgref-1.9.4"
 	"include_dir-0.6.2"
 	"include_dir_impl-0.6.2"
@@ -1792,6 +1849,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"lazycell-1.3.0"
 	"lexical-core-0.6.8"
 	"libc-0.2.132"
+	"libdbus-sys-0.1.3"
+	"libdbus-sys-0.2.2"
+	"libftdi1-sys-1.1.2"
 	"libfuzzer-sys-0.3.5"
 	"libfuzzer-sys-0.4.4"
 	"libloading-0.7.0"
@@ -1905,6 +1965,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"plotters-0.3.4"
 	"plotters-backend-0.3.4"
 	"plotters-svg-0.3.3"
+	"png-0.16.8"
 	"portable-atomic-0.3.15"
 	"postgres-protocol-0.6.4"
 	"postgres-types-0.2.4"

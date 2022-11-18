@@ -18,10 +18,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/bindgen-0.59*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 # TODO(b/253251805): disable tests, they don't yet work in the chroot build.
