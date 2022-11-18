@@ -14,6 +14,7 @@ import subprocess
 import sys
 from typing import List
 
+
 # CFlags used when building RISCV runtime libraries.
 RISCV_RUNTIME_CFLAGS = (
     '-O2',
@@ -23,7 +24,7 @@ RISCV_RUNTIME_CFLAGS = (
     '-fno-builtin',
     '-fvisibility=hidden',
     '-fomit-frame-pointer',
-    '-mno-relax',
+    '-mrelax',
     '-fforce-enable-int128',
     '-DCRT_HAS_INITFINI_ARRAY',
     '-march=rv32imcxsoteria',
@@ -35,13 +36,17 @@ RISCV_RUNTIME_CFLAGS = (
 )
 
 # Flags passed to cmake command for building LLVM
-# TODO(sukhomlinov): These args are copy-pasted; they might not all be
-# necessary.
 CMAKE_FLAGS = (
     '-G',
     'Ninja',
     '-DCMAKE_BUILD_TYPE=Release',
+    '-DCLANG_VENDOR=ChromiumOS Ti50',
+    '-DCMAKE_C_COMPILER=/usr/bin/clang',
+    '-DCMAKE_CXX_COMPILER=/usr/bin/clang++',
+    '-DCMAKE_C_COMPILER_LAUNCHER=ccache',
+    '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache',
     '-DLLVM_ENABLE_LIBCXX=ON',
+    '-DLLVM_ENABLE_LLD=ON',
     '-DLLVM_OPTIMIZED_TABLEGEN=ON',
     '-DLLVM_BUILD_TESTS=OFF',
     '-DCLANG_ENABLE_STATIC_ANALYZER=ON',
@@ -49,37 +54,31 @@ CMAKE_FLAGS = (
     '-DLLVM_DEFAULT_TARGET_TRIPLE=riscv32-unknown-elf',
     '-DLLVM_INSTALL_BINUTILS_SYMLINKS=ON',
     '-DLLVM_INSTALL_CCTOOLS_SYMLINKS=ON',
+    '-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF',
+    '-DLLVM_BUILD_RUNTIME=OFF',
+    '-DLLVM_BUILD_RUNTIMES=OFF',
     '-DCLANG_DEFAULT_LINKER=ld.lld',
     '-DLLVM_ENABLE_BACKTRACES=OFF',
     '-DLLVM_INCLUDE_EXAMPLES=OFF',
     '-DLLVM_DYLIB_COMPONENTS=""',
+    '-DCLANG_ENABLE_CLANGD=ON',
     '-DLLVM_LINK_LLVM_DYLIB=OFF',
     '-DLLVM_BUILD_STATIC=OFF',
     '-DLLVM_INSTALL_UTILS=ON',
     '-DLLVM_ENABLE_Z3_SOLVER=OFF',
+    '-DLLVM_ENABLE_LIBPFM=OFF',
+    '-DLLVM_ENABLE_LIBXML2=OFF',
+    '-DLLVM_ENABLE_LIBEDIT=OFF',
+    '-DLLVM_ENABLE_OCAMLDOC=OFF',
+    '-DLLVM_INCLUDE_BENCHMARKS=OFF',
+    '-DLLVM_INCLUDE_DOCS=OFF',
+    '-DLLVM_INCLUDE_TESTS=OFF',
     '-DLLVM_USE_RELATIVE_PATHS_IN_FILES=ON',
+    '-DCLANG_DEFAULT_STD_C=gnu17',
+    '-DENABLE_X86_RELAX_RELOCATIONS=ON',
     '-DLLVM_TARGETS_TO_BUILD=RISCV;X86',
-    '-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;lldb;lld;polly',
+    '-DLLVM_ENABLE_PROJECTS=clang;clang-tools-extra;lld',
 )
-
-# Flags for configuring newlib.
-NEWLIB_CONFIG_FLAGS = (
-    '--target=riscv32-unknown-elf',
-    '--enable-newlib-reent-small',
-    '--disable-newlib-fvwrite-in-streamio',
-    '--disable-newlib-fseek-optimization',
-    '--disable-newlib-wide-orient',
-    '--enable-newlib-nano-malloc',
-    '--disable-newlib-unbuf-stream-opt',
-    '--enable-lite-exit',
-    '--enable-newlib-global-atexit',
-    '--enable-newlib-nano-formatted-io',
-    '--disable-newlib-supplied-syscalls',
-    '--disable-nls',
-    '--enable-newlib-io-c99-formats',
-    '--enable-newlib-io-long-long',
-)
-
 
 def remove_path_if_exists(file_or_dir: Path):
     """Removes the given file/directory/symlink if it exists."""
@@ -91,11 +90,11 @@ def remove_path_if_exists(file_or_dir: Path):
         assert not file_or_dir.exists(), file_or_dir
 
 
-def find_clang_resource_dir(llvm_install_dir: Path) -> Path:
-    """Locates the resource directory of the clang in |llvm_install_dir|."""
+def find_clang_runtime_dir(llvm_install_dir: Path) -> Path:
+    """Locates the runtime directory of the clang in |llvm_install_dir|."""
     return Path(
         subprocess.check_output(
-            [str(llvm_install_dir / 'bin' / 'clang'), '-print-resource-dir'],
+            [str(llvm_install_dir / 'bin' / 'clang'), '-print-runtime-dir'],
             encoding='utf-8',
         ).strip())
 
@@ -106,11 +105,13 @@ def build_llvm(llvm_dir: Path, build_dir: Path, install_dir: Path):
 
     if not (build_dir / 'build.ninja').exists():
         logging.info('Configuring LLVM')
+        # Use sysroot relative to installation, since {install_dir}
+        # points to temporary directory used by ebuild.
         cmd = [
             'cmake',
             f'-DCMAKE_INSTALL_PREFIX={install_dir}',
-            f'-DDEFAULT_SYSROOT={install_dir}',
-            f'-DGCC_INSTALL_PREFIX={install_dir}',
+            '-DDEFAULT_SYSROOT=..',
+            '-DGCC_INSTALL_PREFIX=..',
             str(llvm_dir / 'llvm'),
         ]
         cmd += CMAKE_FLAGS
@@ -118,6 +119,12 @@ def build_llvm(llvm_dir: Path, build_dir: Path, install_dir: Path):
 
     logging.info('Building + installing LLVM')
     subprocess.check_call(['ninja', 'install'], cwd=build_dir)
+
+    # Clean /lib directory which is not needed
+    for f in (install_dir / 'lib').glob('*.a'):
+        f.unlink()
+
+    remove_path_if_exists(install_dir / 'lib' / 'cmake')
 
     # And now we build the runtime library. Whee.
     clang_rtlib_prefix = [
@@ -127,108 +134,32 @@ def build_llvm(llvm_dir: Path, build_dir: Path, install_dir: Path):
     ]
     clang_rtlib_prefix += RISCV_RUNTIME_CFLAGS
 
-    libdir = find_clang_resource_dir(install_dir)
-    (libdir / 'lib').mkdir(parents=True, exist_ok=True)
+    libdir = find_clang_runtime_dir(install_dir)
+    libdir.mkdir(parents=True, exist_ok=True)
+
     subprocess.check_call(clang_rtlib_prefix + [
         str(llvm_dir / 'compiler-rt' / 'lib' / 'crt' / 'crtbegin.c'),
         '-o',
-        str(libdir / 'lib' / 'clang_rt.crtbegin-riscv32.o'),
+        str(libdir / 'clang_rt.crtbegin-riscv32.o'),
     ])
 
     subprocess.check_call(clang_rtlib_prefix + [
         str(llvm_dir / 'compiler-rt' / 'lib' / 'crt' / 'crtend.c'),
         '-o',
-        str(libdir / 'lib' / 'clang_rt.crtend-riscv32.o'),
+        str(libdir / 'clang_rt.crtend-riscv32.o'),
     ])
 
 
-def build_newlib(rv_clang_bin: Path, newlib_dir: Path, newlib_build_dir: Path,
-                 install_dir: Path):
-    """Builds and installs newlib into |install_dir|."""
-    newlib_build_dir.mkdir(parents=True)
-
-    logging.info("Setting up newlib's build")
-
-    env_with_rv_clang = os.environ.copy()
-    # ...I don't *want* to have all of this in the environment, but if all of
-    # this (ignoring PATH) is provided to |./configure| as args, |make| gets
-    # angry that it doesn't see the same values in its environment when invoked.
-    #
-    # TODO(sukhomlinov): This seems like brokenness in newlib, maybe?
-    env_with_rv_clang.update({
-        'LDFLAGS': f'{env_with_rv_clang.get("LDFLAGS", "")} -fuse-ld=lld',
-        'PATH': f'{rv_clang_bin}:{env_with_rv_clang["PATH"]}',
-    })
-
-    tool_substitutions = (
-        ('AR', 'llvm-ar'),
-        ('AS', 'llvm-as'),
-        ('NM', 'llvm-nm'),
-        ('OBJDUMP', 'llvm-objdump'),
-        ('RANLIB', 'llvm-ranlib'),
-    )
-
-    for var_name, executable in tool_substitutions:
-        executable_path = install_dir / 'bin' / executable
-        env_with_rv_clang.update({
-            var_name: executable_path,
-            f'{var_name}_FOR_TARGET': executable_path,
-        })
-
-    env_with_rv_clang.update({
-        f'{var_name}_FOR_TARGET': install_dir / 'bin' / exe
-        for var_name, exe in (('CC', 'clang'), ('CXX', 'clang++'))
-    })
-
-    cmd = [
-        './configure',
-        f'--prefix={newlib_build_dir}',
-        f'CFLAGS_FOR_TARGET={" ".join(RISCV_RUNTIME_CFLAGS)}',
-        f'CXXFLAGS_FOR_TARGET={" ".join(RISCV_RUNTIME_CFLAGS)}',
-        'LDFLAGS=-fuse-ld=lld',
-        'LDFLAGS_FOR_TARGET=-fuse-ld=lld',
-    ]
-    cmd += NEWLIB_CONFIG_FLAGS
-    subprocess.check_call(cmd, cwd=newlib_dir, env=env_with_rv_clang)
-
-    logging.info('Building newlib')
-
-    jobs = f'-j{os.cpu_count()}'
-    subprocess.check_call(['make', jobs], cwd=newlib_dir,
-                          env=env_with_rv_clang)
-    subprocess.check_call(['make', jobs, 'install'],
-                          cwd=newlib_dir,
-                          env=env_with_rv_clang)
-
-    logging.info("Fixing newlib's installation")
-    # Quoting the script that I'm basing this off of:
-    # """
-    # move includes/libs to where they can be found by default
-    # this is also a hack, but avoid adding paths explicitly
-    # This is because riscv32-unknown-elf target only use
-    # $INSTALL_DIR/lib and $INSTALL_DIR/lib/clang/11.0.0/lib paths,
-    # ignoring --libdir and --sysroot for cmake configure
-    # $INSTALL_DIR/include contains llvm headers not used for C compilation
-    # normally, unless you build llvm tools, but directory is in default
-    # search path, so use it for libc headers.
-    # """
+def install_c_headers(install_dir: Path, include_dir: Path):
+    """Builds and installs C headers into |install_dir|/include."""
     installed_include_dir = install_dir / 'include'
-    old_include_dir = install_dir / 'include.old'
-    if installed_include_dir.exists():
-        shutil.move(installed_include_dir, old_include_dir)
 
-    shutil.copytree(newlib_build_dir / 'riscv32-unknown-elf' / 'include',
+    # Remove all LLVM development headers installed in {install_dir}/include
+    remove_path_if_exists(installed_include_dir)
+
+    # Copy baremetal C headers
+    shutil.copytree(include_dir,
                     installed_include_dir)
-
-    if old_include_dir.exists():
-        shutil.rmtree(old_include_dir)
-    for f in (install_dir / 'lib').glob('*.a'):
-        f.unlink()
-
-    lib_base = install_dir / 'lib'
-    for f in (newlib_build_dir / 'riscv32-unknown-elf' / 'lib').iterdir():
-        shutil.copy2(f, lib_base / f.name)
-
 
 def build_compiler_rt(llvm_path: Path, compiler_rt_build_dir: Path,
                       install_dir: Path):
@@ -247,14 +178,11 @@ def build_compiler_rt(llvm_path: Path, compiler_rt_build_dir: Path,
     # It's expected that some of these builds fail for various reasons
     # (no atomic uint64_t on riscv-32, etc.)
     expected_failures = {
-        'atomic_flag_clear.c',
-        'atomic_flag_clear_explicit.c',
-        'atomic_flag_test_and_set.c',
-        'atomic_flag_test_and_set_explicit.c',
-        'atomic_signal_fence.c',
-        'atomic_thread_fence.c',
+        'atomic.c',
         'emutls.c',
         'enable_execute_stack.c',
+        'truncsfbf2.c',
+        'truncdfbf2.c',
     }
 
     had_unexpected_results = False
@@ -292,7 +220,7 @@ def build_compiler_rt(llvm_path: Path, compiler_rt_build_dir: Path,
             "Manual builds of compiler-rt bits didn't go as planned; please"
             ' see logging output')
 
-    libdir = find_clang_resource_dir(install_dir)
+    libdir = find_clang_runtime_dir(install_dir)
     link_command = [
         str(install_dir / 'bin' / 'llvm-ar'),
         'rc',
@@ -307,6 +235,7 @@ def log_install_paths(install_dir: Path):
     clang = str(install_dir / 'bin' / 'clang')
     subprocess.check_call([clang, '-E', '-x', 'c++', '/dev/null', '-v'])
     subprocess.check_call([clang, '-print-search-dirs'])
+    subprocess.check_call([clang, '-print-runtime-dir'])
 
 def symlink(src, dst):
     """Wrapper around os.symlink() to ignore exceptions."""
@@ -319,19 +248,26 @@ def symlink(src, dst):
 def add_symlinks(install_dir: Path):
     """Create symlinks to llvm tools"""
     clang_bin = install_dir.joinpath('bin')
-    symlink('llvm-mc', str(clang_bin.joinpath('llvm-mc-11')))
+    symlink('llvm-mc', str(clang_bin.joinpath('llvm-mc-15')))
     symlink('lld', str(clang_bin.joinpath('riscv32-unknown-elf-ld.lld')))
-    symlink('llvm-ar', str(clang_bin.joinpath('llvm-ar-11')))
+    symlink('llvm-ar', str(clang_bin.joinpath('llvm-ar-15')))
     symlink('llvm-ar', str(clang_bin.joinpath('riscv32-unknown-elf-ar')))
     symlink('llvm-ranlib',
             str(clang_bin.joinpath('riscv32-unknown-elf-ranlib')))
-    symlink('llvm-objdump', str(clang_bin.joinpath('llvm-objdump-11')))
-    symlink('llvm-objcopy', str(clang_bin.joinpath('llvm-objcopy-11')))
-    symlink('llvm-size', str(clang_bin.joinpath('llvm-size-11')))
-    symlink('llvm-nm', str(clang_bin.joinpath('llvm-nm-11')))
-    symlink('clang', str(clang_bin.joinpath('clang-11')))
-    symlink('clang++', str(clang_bin.joinpath('clang++-11')))
-    symlink('lld', str(clang_bin.joinpath('lld-11')))
+    symlink('llvm-objdump', str(clang_bin.joinpath('llvm-objdump-15')))
+    symlink('llvm-objcopy', str(clang_bin.joinpath('llvm-objcopy-15')))
+    symlink('llvm-size', str(clang_bin.joinpath('llvm-size-15')))
+    symlink('llvm-nm', str(clang_bin.joinpath('llvm-nm-15')))
+    symlink('clang', str(clang_bin.joinpath('clang-15')))
+    symlink('clang++', str(clang_bin.joinpath('clang++-15')))
+    symlink('lld', str(clang_bin.joinpath('lld-15')))
+    # add support for -march=rv32imc in addition to rv32imcxsoteria
+    rv32_dir = install_dir.joinpath('rv32im').joinpath('ilp32')
+    rv32_dir.mkdir(parents=True, exist_ok=True)
+    (rv32_dir / 'lib').symlink_to(
+      Path('..')/ '..' / 'lib', target_is_directory=True)
+    (rv32_dir / 'include').symlink_to(
+      Path('..') / '..' / 'include', target_is_directory=True)
 
 
 def get_parser():
@@ -352,22 +288,16 @@ def get_parser():
         help='Path to the LLVM checkout.',
     )
     parser.add_argument(
-        '--newlib-dir',
+        '--include-dir',
         required=True,
         type=Path,
-        help='Path to the newlib checkout.',
+        help='Path to the C headers.',
     )
     parser.add_argument(
         '--no-clean-llvm',
         action='store_false',
         dest='clean_llvm',
         help="Don't wipe out LLVM's build directory if it exists.",
-    )
-    parser.add_argument(
-        '--no-clean-newlib',
-        action='store_false',
-        dest='clean_newlib',
-        help="Don't wipe out newlib's build directory if it exists.",
     )
     parser.add_argument(
         '--install-dir',
@@ -390,7 +320,7 @@ def main(argv: List[str]):
     work_dir = opts.work_dir
     install_dir = opts.install_dir.resolve()
     llvm_path = opts.llvm_dir.resolve()
-    newlib_path = opts.newlib_dir.resolve()
+    include_dir =  opts.include_dir.resolve()
 
     work_dir.mkdir(parents=True, exist_ok=True)
 
@@ -402,23 +332,7 @@ def main(argv: List[str]):
         remove_path_if_exists(llvm_build_dir)
     build_llvm(llvm_path, llvm_build_dir, install_dir)
 
-    newlib_build_dir = work_dir / 'newlib' / 'build'
-    if opts.clean_newlib:
-        # Ugly: newlib builds to _both_ the build dir and an
-        # in-git-directory dir; would be nice if it only used one.
-        remove_path_if_exists(newlib_build_dir)
-        # In an |emerge| flow, we don't need this, but repeated |ebuild|s could
-        # leave us with a dirty source directory.
-        if (newlib_path / 'Makefile').exists():
-            remove_path_if_exists(newlib_path / 'riscv32-unknown-elf')
-            subprocess.check_call(['make', 'distclean'], cwd=newlib_path)
-
-    build_newlib(
-        rv_clang_bin=install_dir / 'bin',
-        newlib_dir=newlib_path,
-        newlib_build_dir=newlib_build_dir,
-        install_dir=install_dir,
-    )
+    install_c_headers(install_dir=install_dir, include_dir=include_dir)
 
     compiler_rt_build_dir = work_dir / 'compiler-rt-build'
     remove_path_if_exists(compiler_rt_build_dir)

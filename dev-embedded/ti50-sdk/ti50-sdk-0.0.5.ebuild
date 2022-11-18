@@ -16,7 +16,7 @@ SLOT="0"
 # The llvm src tarball was manually packed from a checkout of
 # https://github.com/llvm/llvm-project at ${LLVM_SHA}, using
 # ${FILESDIR}/pack_git_tarball.py.
-LLVM_SHA="bb852a09ae36"
+LLVM_SHA="25a36ca5c791"
 LLVM_SRC_TARBALL_NAME="llvm-${LLVM_SHA}-src"
 SRC_URI="https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${LLVM_SRC_TARBALL_NAME}.tar.xz"
 
@@ -44,13 +44,6 @@ SRC_URI+="
 	https://static.rust-lang.org/dist/${RUST_STAGE0_DATE}/${RUST_RUSTFMT_TARBALL_NAME}.tar.xz -> ${RUST_PREFIX}-${RUST_RUSTFMT_TARBALL_NAME}.tar.xz
 "
 
-# The newlib src tarball was manually packed from a checkout of
-# https://sourceware.org/git/newlib-cygwin.git at ${NEWLIB_SHA}, using
-# ${FILESDIR}/pack_git_tarball.py.
-NEWLIB_SHA="1debd4d635c2"
-NEWLIB_SRC_TARBALL_NAME="newlib-${NEWLIB_SHA}-src"
-SRC_URI+=" https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/${NEWLIB_SRC_TARBALL_NAME}.tar.xz"
-
 SRC_ROOT="${WORKDIR}/${P}/src"
 INSTALL_ROOT="${WORKDIR}/${P}/install"
 INSTALL_PREFIX="opt/${PN}"
@@ -77,7 +70,6 @@ src_unpack() {
 	mkdir -p "${SRC_ROOT}" || die
 
 	mv "${WORKDIR}/${LLVM_SRC_TARBALL_NAME}" "${SRC_ROOT}/llvm" || die
-	mv "${WORKDIR}/${NEWLIB_SRC_TARBALL_NAME}" "${SRC_ROOT}/newlib" || die
 
 	mv "${WORKDIR}/${RUST_SRC_TARBALL_NAME}" "${SRC_ROOT}/rustc" || die
 	cp -r \
@@ -88,7 +80,7 @@ src_unpack() {
 
 src_prepare() {
 	cd "${SRC_ROOT}/llvm" || die
-	eapply "${FILESDIR}/llvm11-10122020-soteria.patch"
+	eapply "${FILESDIR}/llvm15-23112022-soteria.patch"
 
 	cd "${SRC_ROOT}/rustc" || die
 
@@ -122,7 +114,7 @@ src_compile() {
 		"${FILESDIR}/build_clang_toolchain.py" \
 			--install-dir="${INSTALL_ROOT}" \
 			--llvm-dir="${SRC_ROOT}/llvm" \
-			--newlib-dir="${SRC_ROOT}/newlib" \
+			--include-dir="${FILESDIR}/include" \
 			--work-dir="${SRC_ROOT}/llvm/build" \
 			|| die
 	fi
