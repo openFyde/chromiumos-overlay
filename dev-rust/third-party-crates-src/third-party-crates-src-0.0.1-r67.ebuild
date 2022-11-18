@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9f24236d02aab512cdc9e895a71be2e1ab0f4325"
-CROS_WORKON_TREE="82449b28449681bd49e5957b818c7feb9561b435"
+CROS_WORKON_COMMIT="9cfa0ace18be4609be778a72a571fe8903b2ddc4"
+CROS_WORKON_TREE="60e6157f543ccc7bd3856ecbef6ee565fc0d63ad"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -40,6 +40,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/libusb1-sys-0.5.0
+	!=dev-rust/libusb1-sys-0.5.0-r1
+	!=dev-rust/libusb1-sys-0.5.0-r2
+	!=dev-rust/libusb1-sys-0.5.0-r3
+	!=dev-rust/codespan-reporting-0.11.1
+	!=dev-rust/codespan-reporting-0.11.1-r1
+	!=dev-rust/codespan-reporting-0.11.1-r2
+	!=dev-rust/codespan-reporting-0.11.1-r3
 	!=dev-rust/cortex-m-rtic-1.1.3
 	!=dev-rust/cortex-m-rtic-1.1.3-r1
 	!=dev-rust/cortex-m-rtic-1.1.3-r2
@@ -1536,15 +1544,18 @@ ALLOWED_CRATE_VERSIONS=(
 	"clang-sys-1.2.0"
 	"clap-2.33.3"
 	"clap-3.2.22"
+	"clap-4.0.18"
 	"clap_conf-0.1.5"
 	"clap_derive-3.2.18"
 	"clap_lex-0.1.1"
 	"clap_lex-0.2.4"
+	"clap_lex-0.3.0"
 	"clipboard-win-4.2.1"
 	"clippy-0.0.166"
 	"clippy_lints-0.0.166"
 	"cloudabi-0.0.3"
 	"cmake-0.1.48"
+	"codespan-reporting-0.11.1"
 	"color_quant-1.1.0"
 	"colored-2.0.0"
 	"com_logger-0.1.1"
@@ -1593,6 +1604,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"cty-0.2.2"
 	"custom_derive-0.1.7"
 	"cxx-1.0.42"
+	"cxxbridge-cmd-1.0.80"
 	"cxxbridge-flags-1.0.42"
 	"cxxbridge-macro-1.0.42"
 	"darling-0.10.2"
@@ -1780,6 +1792,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libslirp-sys-4.2.1"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
+	"libusb1-sys-0.5.0"
 	"libz-sys-1.1.8"
 	"link-cplusplus-1.0.5"
 	"linked-hash-map-0.5.6"
