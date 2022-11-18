@@ -35,6 +35,8 @@ dev-libs/libp11         -bindist
 # Readline is used by pcretest which we don't use.
 # zlib/bzip2 are only used by pcregrep which we don't use.
 dev-libs/libpcre	-bzip2 -readline -zlib
+# JIT uses mmap(..., PROT_WRITE | PROT_EXEC, ...)
+dev-libs/libpcre2	-bzip2 -jit -readline -zlib
 dev-libs/leveldb	-tcmalloc
 dev-libs/nss		-utils
 dev-libs/opencryptoki	tpmtok
