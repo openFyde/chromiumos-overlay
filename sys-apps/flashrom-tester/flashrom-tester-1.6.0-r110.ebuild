@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="575fa83cbaf56901e20ea6fe81e10b6234b5e464"
+CROS_WORKON_COMMIT="64a7c1d2f75a717c47aeb3edb4d2bba73d7b36ac"
 CROS_WORKON_TREE=("c89ac976c0cd028624fce58deb6ba55c366141ca" "56c8acb0cc6d8a4d0cab33551a283a6ee495620c" "b33bb3b65dfb8b92a68e103fbccedc8f27cfabdf" "2e2d7a209735e7d06b8c52e2d5586b982edf7c39")
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
@@ -22,7 +22,6 @@ LICENSE="GPL-2"
 KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/bindgen-0.59*
 	sys-apps/flashrom
 "
 

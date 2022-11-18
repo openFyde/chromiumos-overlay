@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="51808d6d8412a4060c3ceadfbdeb5e0d72f7b480"
+CROS_WORKON_COMMIT="75141f980638e143482f385d8ab7fa342a0ad15c"
 CROS_WORKON_TREE="324cf04f75832a09f1dec370cd7f499be73c008f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="../platform2"
@@ -20,7 +20,6 @@ KEYWORDS="*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/featured
-	=dev-rust/bindgen-0.59*
 "
 
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
