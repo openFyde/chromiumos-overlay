@@ -19,7 +19,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="mpi +python xla xnnpack inference_accuracy_eval tflite_custom_ops tflite_opencl_profiling ubsan"
+IUSE="mpi +python xla xnnpack tflite_opencl_profiling ubsan"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -133,6 +133,7 @@ PATCHES=(
 	"${FILESDIR}/tensorflow-2.8.0-0007-protobuff-cc-toolchain.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0008-remove-llvm-repo.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0009-resolve-overflow.patch"
+	"${FILESDIR}/tensorflow-2.8.0-0011-Convolution2DTransposeBias.patch"
 	"${FILESDIR}/tensorflow-2.8.0-0012-clvk.patch"
 )
 
@@ -169,10 +170,6 @@ src_unpack() {
 }
 
 src_prepare() {
-	if use tflite_custom_ops; then
-		PATCHES+=("${FILESDIR}/tensorflow-2.8.0-0011-Convolution2DTransposeBias.patch")
-	fi
-
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 
 	# Relax version checks in setup.py
@@ -284,15 +281,13 @@ src_compile() {
 	bazel_args+=("tensorflow/lite:libtensorflowlite.so")
 	bazel_args+=("//tensorflow/lite/kernels/internal:install_nnapi_extra_headers")
 	if ! use ubsan; then
+		bazel_args+=("//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval")
+		bazel_args+=("//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval")
 		bazel_args+=("//tensorflow/lite/tools/benchmark:benchmark_model")
 	fi
 
 	if use tflite_opencl_profiling; then
 		bazel_args+=("//tensorflow/lite/delegates/gpu/cl/testing:performance_profiling")
-	fi
-	if use inference_accuracy_eval; then
-		bazel_args+=("//tensorflow/lite/tools/evaluation/tasks/inference_diff:run_eval")
-		bazel_args+=("//tensorflow/lite/tools/evaluation/tasks/coco_object_detection:run_eval")
 	fi
 
 	# fail early if any deps are missing
@@ -367,20 +362,16 @@ src_install() {
 		into /usr/local
 		einfo "Install benchmark_model tool to /usr/local/bin"
 		dobin bazel-bin/tensorflow/lite/tools/benchmark/benchmark_model
+		einfo "Install inference diff evaluation tool"
+		newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/inference_diff/run_eval inference_diff_eval
+		einfo "Install object detection evaluation tool"
+		newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/coco_object_detection/run_eval object_detection_eval
 	fi
 
 	if use tflite_opencl_profiling; then
 		into /usr/local/
 		einfo "Install performance_profiling tool"
 		dobin bazel-bin/tensorflow/lite/delegates/gpu/cl/testing/performance_profiling
-	fi
-
-	if use inference_accuracy_eval; then
-		into /usr/local/
-		einfo "Install inference diff evaluation tool"
-		newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/inference_diff/run_eval inference_diff_eval
-		einfo "Install object detection evaluation tool"
-		newbin bazel-bin/tensorflow/lite/tools/evaluation/tasks/coco_object_detection/run_eval object_detection_eval
 	fi
 
 	if use xnnpack; then
