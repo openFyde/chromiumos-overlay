@@ -5,8 +5,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="126b485ae60da47b2e9367e4e16d5f6c3677bde9"
-CROS_WORKON_TREE="9ce033eb723968d27a0847f0c772b0e3fb4bc0b1"
+CROS_WORKON_COMMIT="703612077cc4460793e0588a18dd0cd81bac2da1"
+CROS_WORKON_TREE="aff5d1d5e5625ded26da9b4179efa5ebdcaeb942"
 CROS_RUST_SUBDIR="cras/src/audio_processor"
 
 CROS_WORKON_LOCALNAME="adhd"
@@ -29,3 +29,11 @@ DEPEND="
 	=dev-rust/bindgen-0.59*
 "
 RDEPEND="${DEPEND}"
+
+src_install() {
+	cros-rust_src_install
+
+	# Install to /usr/local so they are stripped out of the release image.
+	into /usr/local
+	dobin "$(cros-rust_get_build_dir)/offline-pipeline"
+}
