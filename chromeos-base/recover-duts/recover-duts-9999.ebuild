@@ -3,7 +3,7 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/crostestutils"
-CROS_WORKON_LOCALNAME="crostestutils"
+CROS_WORKON_LOCALNAME="platform/crostestutils"
 CROS_WORKON_SUBTREE="recover_duts"
 
 inherit cros-workon
