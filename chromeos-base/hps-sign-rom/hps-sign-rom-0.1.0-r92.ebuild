@@ -21,8 +21,7 @@ DEPEND="
 	=dev-rust/bindgen-0.59*
 	>=dev-rust/ftdi-0.1.3 <dev-rust/ftdi-0.2
 	>=dev-rust/image-0.23.14 <dev-rust/image-0.24
-	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
-	>=dev-rust/simple_logger-1.13.0 <dev-rust/simple_logger-2
+	virtual/libusb:1
 "
 
 # /usr/bin/hps-sign-rom moved from hps-firmware-tools to here

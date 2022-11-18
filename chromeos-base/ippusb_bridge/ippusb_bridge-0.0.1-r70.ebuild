@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3d1f10208041d8af3faaba05b26254dc99857b82"
+CROS_WORKON_COMMIT="5eca16bd3a578163be1db735542bba4f98b4cc68"
 CROS_WORKON_TREE="1a41e022b0909d3c4617a56b8dcd618c36938c60"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -34,9 +34,9 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	dev-rust/libchromeos:=
-	>=dev-rust/rusb-0.8.1 <dev-rust/rusb-0.9
 	dev-rust/sync:=
 	>=dev-rust/tiny_http-0.8 <dev-rust/tiny_http-0.9
+	virtual/libusb:1
 "
 
 pkg_preinst() {
