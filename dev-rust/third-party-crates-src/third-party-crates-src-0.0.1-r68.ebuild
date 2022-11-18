@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9cfa0ace18be4609be778a72a571fe8903b2ddc4"
-CROS_WORKON_TREE="60e6157f543ccc7bd3856ecbef6ee565fc0d63ad"
+CROS_WORKON_COMMIT="20eefa9dc62afc36b62c3948e088cf284a5ab126"
+CROS_WORKON_TREE="01375380929ad55b95a5b24ad5c1a2497d0cda17"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -40,6 +40,13 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/rusb-0.8.1
+	!=dev-rust/rusb-0.8.1-r1
+	!=dev-rust/rusb-0.8.1-r2
+	!=dev-rust/simple_logger-1.13.0
+	!=dev-rust/simple_logger-1.13.0-r1
+	!=dev-rust/simple_logger-1.13.0-r2
+	!=dev-rust/simple_logger-1.13.0-r3
 	!=dev-rust/libusb1-sys-0.5.0
 	!=dev-rust/libusb1-sys-0.5.0-r1
 	!=dev-rust/libusb1-sys-0.5.0-r2
@@ -1986,6 +1993,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"rtic-monotonic-1.0.0"
 	"rtic-syntax-1.0.2"
 	"rtt-target-0.3.1"
+	"rusb-0.8.1"
 	"rust_hawktracer-0.7.0"
 	"rust_hawktracer_normal_macro-0.4.1"
 	"rust_hawktracer_proc_macro-0.4.1"
@@ -2047,6 +2055,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"signal-hook-registry-1.4.0"
 	"signature-1.6.4"
 	"simd_helpers-0.1.0"
+	"simple_logger-1.16.0"
 	"skim-0.9.4"
 	"slab-0.4.7"
 	"slog-2.7.0"
