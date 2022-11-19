@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="616c714e61ce48380286b52f0cea7d465a68ef4d"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="78abcf7ae8b972bc49ae91ff44b6886fce87d179"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,16 +18,15 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="manatee"
 
+BDEPEND="dev-libs/protobuf"
 RDEPEND="sys-apps/dbus"
-
 DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/crosvm-base:=
 	chromeos-base/libsirenia:=
 	dev-rust/libchromeos:=
 	=dev-rust/openssl-0.10*
-	=dev-rust/protobuf-2*
-	=dev-rust/protoc-rust-2*
 "
 
 pkg_setup() {
