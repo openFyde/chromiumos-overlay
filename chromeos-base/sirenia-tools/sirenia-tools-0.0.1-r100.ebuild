@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a942cb0bdb938820a4e320b41a90c9ec4fed2b49"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="ba2a65e5030f6074a2c2504f705958d51219d63f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,9 +29,9 @@ DEPEND="
 	dev-rust/balloon_control:=
 	dev-rust/chromeos-dbus-bindings:=
 	dev-rust/data_model:=
-	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-crossroads-0.5*
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 # Add host deps in RDEPEND so that they are installed by default in SDK.
 RDEPEND="

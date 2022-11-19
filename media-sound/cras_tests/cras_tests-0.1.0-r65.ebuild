@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="1c22d6f5e87ca4c8cded90f36f9aee91d21f266d"
+CROS_WORKON_COMMIT="599ab2b27c5dc76d0d0323f0afacf0cf95f10602"
 CROS_WORKON_TREE=("53d92083a25fb829e3e9994f0f30a6b82d25ac2b" "c103f0be2397bc622314466d808ae3633c9e50c3")
 CROS_RUST_SUBDIR="cras/client/cras_tests"
 
@@ -25,10 +25,10 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
 	media-sound/audio_streams:=
 	media-sound/libcras:=
+	sys-apps/dbus:=
 "
 # DEPEND isn't needed in RDEPEND because nothing from this ebuild is installed
 # to the cros_rust_registry.

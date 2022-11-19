@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c9fca50adcac92aece186cfc3bc4433c2074dba1"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="0c229ee8f1fb1397a9928d98a00eb0cbacad50ee"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,12 +23,12 @@ KEYWORDS="*"
 
 DEPEND="
 	=dev-rust/anyhow-1*:=
-	=dev-rust/dbus-0.9*:=
 	=dev-rust/dbus-crossroads-0.5*:=
 	=dev-rust/dbus-tokio-0.7*:=
 	=dev-rust/tokio-1.19*:=
 	dev-rust/system_api:=
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 RDEPEND="sys-apps/dbus:="
 

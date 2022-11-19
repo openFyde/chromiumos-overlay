@@ -40,6 +40,49 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # A list of crate versions which we've fully replaced.
 # FIXME(b/240953811): Remove this when our migration is done.
 RDEPEND="
+	!=dev-rust/dbus-0.9.3
+	!=dev-rust/dbus-0.9.3-r1
+	!=dev-rust/dbus-0.9.3-r2
+	!=dev-rust/dbus-0.9.3-r3
+	!=dev-rust/dbus-0.9.3-r4
+	!=dev-rust/dbus-0.9.3-r5
+	!=dev-rust/dbus-0.8.4
+	!=dev-rust/dbus-0.8.4-r1
+	!=dev-rust/dbus-0.8.4-r2
+	!=dev-rust/dbus-0.8.4-r3
+	!=dev-rust/dbus-0.8.4-r4
+	!=dev-rust/dbus-0.8.4-r5
+	!=dev-rust/dbus-0.6.1
+	!=dev-rust/dbus-0.6.1-r1
+	!=dev-rust/dbus-0.6.1-r2
+	!=dev-rust/dbus-0.6.1-r3
+	!=dev-rust/dbus-0.6.1-r4
+	!=dev-rust/dbus-0.6.1-r5
+	!=dev-rust/libssh2-sys-0.2.11
+	!=dev-rust/libssh2-sys-0.2.11-r1
+	!=dev-rust/libssh2-sys-0.2.11-r2
+	!=dev-rust/libssh2-sys-0.2.11-r3
+	!=dev-rust/libssh2-sys-0.2.11-r4
+	!=dev-rust/libssh2-sys-0.2.11-r5
+	!=dev-rust/libssh2-sys-0.2.11-r6
+	!=dev-rust/openssl-0.10.40
+	!=dev-rust/openssl-0.10.40-r1
+	!=dev-rust/openssl-0.10.40-r2
+	!=dev-rust/openssl-0.10.40-r3
+	!=dev-rust/openssl-0.10.40-r4
+	!=dev-rust/openssl-0.10.40-r5
+	!=dev-rust/openssl-0.10.40-r6
+	!=dev-rust/openssl-sys-0.9.73
+	!=dev-rust/openssl-sys-0.9.73-r1
+	!=dev-rust/openssl-sys-0.9.73-r2
+	!=dev-rust/openssl-sys-0.9.73-r3
+	!=dev-rust/openssl-sys-0.9.73-r4
+	!=dev-rust/openssl-sys-0.9.73-r5
+	!=dev-rust/openssl-sys-0.9.73-r6
+	!=dev-rust/openssl-sys-0.9.73-r7
+	!=dev-rust/alsa-sys-0.2.0
+	!=dev-rust/alsa-sys-0.2.0-r1
+	!=dev-rust/alsa-sys-0.2.0-r2
 	!=dev-rust/protoc-rust-2.24.1
 	!=dev-rust/protoc-rust-2.24.1-r1
 	!=dev-rust/protoc-rust-2.24.1-r2
@@ -1537,6 +1580,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"ahash-0.7.6"
 	"aho-corasick-0.7.18"
 	"aligned-0.3.5"
+	"alsa-sys-0.2.1"
 	"android_log-sys-0.2.0"
 	"ansi_term-0.11.0"
 	"anyhow-1.0.62"
@@ -1686,6 +1730,9 @@ ALLOWED_CRATE_VERSIONS=(
 	"dasp_sample-0.11.0"
 	"dav1d-0.6.1"
 	"dav1d-sys-0.3.5"
+	"dbus-0.6.5"
+	"dbus-0.8.4"
+	"dbus-0.9.5"
 	"dcv-color-primitives-0.1.16"
 	"defer-drop-1.2.0"
 	"deflate-0.8.6"
@@ -1870,6 +1917,7 @@ ALLOWED_CRATE_VERSIONS=(
 	"libloading-0.7.0"
 	"libm-0.1.4"
 	"libslirp-sys-4.2.1"
+	"libssh2-sys-0.2.23"
 	"libudev-0.2.0"
 	"libudev-sys-0.1.4"
 	"libusb1-sys-0.5.0"
@@ -1947,8 +1995,10 @@ ALLOWED_CRATE_VERSIONS=(
 	"object-0.29.0"
 	"once_cell-1.13.1"
 	"oorandom-11.1.3"
+	"openssl-0.10.41"
 	"openssl-macros-0.1.0"
 	"openssl-probe-0.1.5"
+	"openssl-sys-0.9.75"
 	"os_str_bytes-6.3.0"
 	"owning_ref-0.4.1"
 	"packed_simd_2-0.3.8"

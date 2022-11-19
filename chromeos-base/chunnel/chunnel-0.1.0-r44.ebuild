@@ -27,8 +27,8 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
 	dev-rust/libchromeos:=
-	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
+	sys-apps/dbus:=
 "
 
 RDEPEND="sys-apps/dbus"
