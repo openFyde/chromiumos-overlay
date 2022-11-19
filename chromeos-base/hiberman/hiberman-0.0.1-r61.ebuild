@@ -23,7 +23,6 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-libs/openssl:=
 	dev-rust/chromeos-dbus-bindings:=
-	=dev-rust/dbus-crossroads-0.5*
 	dev-rust/libchromeos:=
 	dev-rust/sync:=
 	dev-rust/system_api:=
