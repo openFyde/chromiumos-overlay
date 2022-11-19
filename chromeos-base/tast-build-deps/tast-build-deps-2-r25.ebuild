@@ -25,6 +25,7 @@ DEPEND="
 	chromeos-base/hardware_verifier_proto
 	chromeos-base/modemfwd-proto
 	chromeos-base/policy-go-proto
+	chromeos-base/reporting-proto
 	chromeos-base/system_api
 	chromeos-base/vm_protos
 	chromeos-base/wilco-dtc-grpc-protos
