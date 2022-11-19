@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5eca16bd3a578163be1db735542bba4f98b4cc68"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="402ab01aab7a7bae27e34fc487e0796fd56ed62f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -24,11 +24,11 @@ IUSE="+seccomp"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
 	dev-rust/featured:=
 	dev-rust/libchromeos:=
 	=dev-rust/grpcio-0.9*
+	sys-apps/dbus:=
 "
 
 src_install() {

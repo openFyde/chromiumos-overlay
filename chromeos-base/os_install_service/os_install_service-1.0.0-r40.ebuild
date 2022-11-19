@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="db60de95925b9cfa3f5f8ff83232de073abf50ed"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="6ab99ead1139df1f0659d84ba8f491db793334c7"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,8 +20,8 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
-	=dev-rust/dbus-0.8*
 	dev-rust/libchromeos:=
+	sys-apps/dbus:=
 "
 
 RDEPEND="

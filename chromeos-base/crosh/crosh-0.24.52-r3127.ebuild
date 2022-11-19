@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="eff668612072742a3d85641b0cfd9f048da7f104"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="b1a645a6e8ab674aece99c0707d3d5f76cee799f"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,10 +26,10 @@ COMMON_DEPEND="
 
 DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
-	=dev-rust/dbus-0.9*
 	dev-rust/libchromeos:=
 	dev-rust/system_api:=
 	>dev-rust/tlsdate_dbus-0.24.52-r8:=
+	sys-apps/dbus:=
 "
 RDEPEND="${COMMON_DEPEND}
 	app-admin/sudo

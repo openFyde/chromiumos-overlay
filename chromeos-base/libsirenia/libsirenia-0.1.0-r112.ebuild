@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a942cb0bdb938820a4e320b41a90c9ec4fed2b49"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="59164aaff7cb5a63bbbdd73bf54f77230b5517d7"
 CROS_RUST_SUBDIR="sirenia/libsirenia"
 
@@ -27,7 +27,7 @@ DEPEND="
 	chromeos-base/sirenia-rpc-macros:=
 	dev-rust/libchromeos:=
 	>=dev-rust/minijail-0.2.3:=
-	=dev-rust/openssl-0.10*
+	dev-libs/openssl:0=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
