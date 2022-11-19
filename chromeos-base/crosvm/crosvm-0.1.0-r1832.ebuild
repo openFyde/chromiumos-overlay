@@ -22,6 +22,7 @@ LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
 KEYWORDS="*"
 IUSE="test cros-debug crosvm-gpu crosvm-swap -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder -crosvm-video-ffmpeg +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master android-vm-tm arcvm_gce_l1"
 
+BDEPEND="dev-libs/protobuf"
 COMMON_DEPEND="
 	sys-apps/dtc:=
 	sys-libs/libcap:=
@@ -44,6 +45,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 DEPEND="${COMMON_DEPEND}
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	dev-libs/wayland-protocols:=
 	dev-rust/cros_fuzz:=
@@ -52,10 +54,6 @@ DEPEND="${COMMON_DEPEND}
 	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=
 	dev-rust/p9:=
-	>=dev-rust/protobuf-2.8
-	!>=dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.8
-	!>=dev-rust/protoc-rust-3
 	dev-rust/system_api:=
 	media-sound/libcras:=
 	tpm2? (

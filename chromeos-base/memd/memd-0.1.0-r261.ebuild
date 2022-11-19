@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="331c7db90a15896fbacb4e4606e69a3f5ee1cccd"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE=("8b65993bc3f08535d77b96149ea9059af59070a1" "ebcce78502266e81f55c63ade8f25b8888e2c103")
 CROS_RUST_SUBDIR="metrics/memd"
 
@@ -23,14 +23,14 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="+seccomp"
 
+BDEPEND="dev-libs/protobuf"
 DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
 	>=dev-rust/dbus-0.6.1 <dev-rust/dbus-0.7.0
 	dev-rust/libchromeos:=
-	>=dev-rust/protobuf-2.3 <dev-rust/protobuf-3.0
-	>=dev-rust/protoc-rust-2.3 <dev-rust/protoc-rust-3
 "
 RDEPEND="sys-apps/dbus"
 

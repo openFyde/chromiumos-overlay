@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="47106c5ef57bb352f5265671471807fcbaf25c23"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="8a5298bbd93195dbefcd24c973ece60aa6b8cbf1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,13 +18,13 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
+BDEPEND="dev-libs/protobuf"
 DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api
 	=dev-rust/dbus-0.8*
 	dev-rust/libchromeos:=
-	>=dev-rust/protobuf-2.16 <dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.16 <dev-rust/protoc-rust-3
 "
 
 RDEPEND="sys-apps/dbus"

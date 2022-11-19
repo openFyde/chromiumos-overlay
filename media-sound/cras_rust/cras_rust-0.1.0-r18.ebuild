@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="c6374ba7d6c4823bbdf691a3486b942f863e1b7d"
+CROS_WORKON_COMMIT="599ab2b27c5dc76d0d0323f0afacf0cf95f10602"
 CROS_WORKON_TREE="5144cda3f9748955562ca6e9becc115a822d24ac"
 CROS_RUST_SUBDIR="cras/src/server/rust"
 
@@ -25,7 +25,6 @@ IUSE="dlc test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	=dev-rust/dbus-0.9*
-	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
 	dev-rust/system_api:=
 	media-sound/audio_processor:=
 "

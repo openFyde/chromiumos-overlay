@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6825a2d51a7bba4cb230d95af9393cbf3e29203a"
+CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
 CROS_WORKON_TREE="d8f8f176318b4a9163a952a2b46503354b66fb64"
 CROS_RUST_SUBDIR="vm_tools/chunnel"
 
@@ -21,14 +21,14 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="kvm_host"
 
+BDEPEND="dev-libs/protobuf"
 DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
 	dev-rust/third-party-crates-src:=
 	chromeos-base/system_api:=
 	dev-rust/libchromeos:=
 	=dev-rust/dbus-0.9*
 	=dev-rust/dbus-tree-0.9*
-	>=dev-rust/protobuf-2.16.2 <dev-rust/protobuf-3
-	>=dev-rust/protoc-rust-2.16.2 <dev-rust/protoc-rust-3
 "
 
 RDEPEND="sys-apps/dbus"
