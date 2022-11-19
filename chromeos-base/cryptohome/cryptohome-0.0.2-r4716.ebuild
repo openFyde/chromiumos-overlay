@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
-CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "e5d09e83b64cf5f3e2ef9b69d8aaf05bfc3e967b" "54d3f5c569d4d9fa5f4a60473eeb31a5cc2bafb6" "c86404e26c39cebf45cbb0b295f01443a56cfe8c" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="c6717d17ff08814a0b8d949f274826a4d3547a06"
+CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "d0832b065a4bf5b09d0dc80fc53eb733993ca3d3" "54d3f5c569d4d9fa5f4a60473eeb31a5cc2bafb6" "c86404e26c39cebf45cbb0b295f01443a56cfe8c" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -196,6 +196,10 @@ src_install() {
 		"${OUT}"/cryptohome_tpm1_cmk_migration_parser_fuzzer \
 		--comp "${fuzzer_component_id}" \
 		fuzzers/data/*
+
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_userdataauth_fuzzer \
+		--comp "${fuzzer_component_id}"
 
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_user_secret_stash_parser_fuzzer \
