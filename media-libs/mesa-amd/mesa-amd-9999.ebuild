@@ -91,8 +91,9 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
-		-Dgallium-va=true
+		-Dgallium-va=enabled
 		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
+		-Dvideo-codecs=h264dec,h264enc,h265dec
 	)
 
 	meson_src_configure
