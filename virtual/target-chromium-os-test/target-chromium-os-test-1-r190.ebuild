@@ -24,6 +24,7 @@ IUSE="
 	arc-camera3
 	biod
 	camera_feature_auto_framing
+	camera_feature_effects
 	camera_feature_frame_annotator
 	camera_feature_hdrnet
 	-chromeless_tests
@@ -115,6 +116,7 @@ CROS_COMMON_RDEPEND="
 	)
 	ml_service? ( chromeos-base/ml-cmdline )
 	hps? ( chromeos-base/hps-tool )
+	camera_feature_effects? ( dev-libs/ml-core-tests )
 	nnapi? (
 		chromeos-base/aosp-frameworks-ml-nn-vts
 		chromeos-base/ml-test-assets
