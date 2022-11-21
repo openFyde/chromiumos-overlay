@@ -19,7 +19,7 @@ HOMEPAGE="https://www.tensorflow.org/"
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="*"
-IUSE="mpi +python xla xnnpack tflite_opencl_profiling ubsan"
+IUSE="mpi +python xla xnnpack tflite_opencl_profiling ubsan nnapi_custom_ops"
 
 # distfiles that bazel uses for the workspace, will be copied to basel-distdir
 bazel_external_uris="
@@ -170,6 +170,10 @@ src_unpack() {
 }
 
 src_prepare() {
+	if use nnapi_custom_ops; then
+		PATCHES+=("${FILESDIR}/tensorflow-2.8.0-0010-Convolution2DTransposeBias-nnapi.patch")
+	fi
+
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 
 	# Relax version checks in setup.py
