@@ -35,7 +35,6 @@ RDEPEND="
 			!ubsan? ( chromeos-base/hps-firmware-images-latest )
 		)
 	)
-	media-libs/cros-camera-hal-fake
 	virtual/chromeos-test-testauthkeys
 	virtual/chromeos-bsp-test-root
 "
