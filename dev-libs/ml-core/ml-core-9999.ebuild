@@ -19,6 +19,7 @@ KEYWORDS="~*"
 IUSE="internal local_ml_core_internal"
 
 RDEPEND="
+	chromeos-base/dlcservice-client:=
 	internal? ( chromeos-base/ml-core-internal:= )
 "
 DEPEND="${RDEPEND}
