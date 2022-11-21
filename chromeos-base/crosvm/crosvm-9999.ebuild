@@ -211,7 +211,7 @@ src_test() {
 	# dividing -- option), so these are in a separate array from args.
 	local skip_tests=(
 		# Skip tests in devices that need KVM.
-		--skip "irqchip::kvm"
+		--skip "kvm"
 		# Skip tests in x86_64 that need KVM.
 		--skip "cpuid::tests::feature_and_vendor_name"
 		--skip "test_integration::simple_kvm"
