@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="d0ded9d694f339d29a2eb7f427513cb3e22aaea9"
-CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "54d3f5c569d4d9fa5f4a60473eeb31a5cc2bafb6" "c86404e26c39cebf45cbb0b295f01443a56cfe8c" "f04b4cdb00eb1881eeb6c35fc3400ee726299940" "db75597a3a702c90030f8f50dee1f1f79046be1a" "4098abcef2eb500e62fbc4217f2aacc3fa0d7922" "52a37fd272cac406117fc0fe310a1518197b40f9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="4279479879cfdd944e363a34ba34270db34dab62"
+CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "54d3f5c569d4d9fa5f4a60473eeb31a5cc2bafb6" "c86404e26c39cebf45cbb0b295f01443a56cfe8c" "f04b4cdb00eb1881eeb6c35fc3400ee726299940" "db75597a3a702c90030f8f50dee1f1f79046be1a" "b5b64e24e37c0f274a67b657a5d9039e455444ef" "52a37fd272cac406117fc0fe310a1518197b40f9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -101,6 +101,14 @@ src_install() {
 
 	# Install fuzzer.
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/tpm_manager_service_fuzzer
+
+	# Allow specific syscalls for profiling.
+	# TODO (b/242806964): Need a better approach for fixing up the seccomp policy
+	# related issues (i.e. fix with a single function call)
+	if use profiling; then
+		echo -e "\n# Syscalls added for profiling case only.\nmkdir: 1\nftruncate: 1\n" >> \
+		"${D}/usr/share/policy/tpm_managerd-seccomp.policy"
+	fi
 }
 
 platform_pkg_test() {
