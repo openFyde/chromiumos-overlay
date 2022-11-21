@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="70ada8046be10beb4d17680c6054b0e84db433c4"
+CROS_WORKON_COMMIT="71f96b87ed338eb2772ae3cd720f8995ae9637b7"
 CROS_WORKON_TREE="402ab01aab7a7bae27e34fc487e0796fd56ed62f"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,7 +26,7 @@ DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/featured:=
 	dev-rust/libchromeos:=
-	=dev-rust/grpcio-0.9*
+	dev-libs/openssl:0=
 	sys-apps/dbus:=
 "
 

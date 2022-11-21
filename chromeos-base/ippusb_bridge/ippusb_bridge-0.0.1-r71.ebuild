@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5eca16bd3a578163be1db735542bba4f98b4cc68"
+CROS_WORKON_COMMIT="71f96b87ed338eb2772ae3cd720f8995ae9637b7"
 CROS_WORKON_TREE="1a41e022b0909d3c4617a56b8dcd618c36938c60"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -35,7 +35,6 @@ DEPEND="
 	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	dev-rust/libchromeos:=
 	dev-rust/sync:=
-	>=dev-rust/tiny_http-0.8 <dev-rust/tiny_http-0.9
 	virtual/libusb:1
 "
 
