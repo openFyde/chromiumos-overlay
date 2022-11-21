@@ -18,7 +18,12 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="test"
 
-DEPEND="
+COMMON_DEPEND="
+	dev-libs/openssl:="
+
+RDEPEND="${COMMON_DEPEND}"
+
+DEPEND="${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
@@ -64,5 +69,6 @@ src_install() {
 
 platform_pkg_test() {
 	platform_test "run" "${OUT}/feature_library_test"
+	platform_test "run" "${OUT}/hmac_test"
 	platform_test "run" "${OUT}/service_test"
 }
