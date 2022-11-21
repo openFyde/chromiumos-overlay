@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
 	chromeos-base/mojo_service_manager:=
+	dev-libs/libevdev:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	net-libs/grpc:=
