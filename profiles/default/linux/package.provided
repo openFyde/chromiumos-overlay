@@ -5,3 +5,7 @@
 # even a simple mta (like ssmtp).  http://crosbug.com/5777
 mail-mta/ssmtp-2.64
 net-mail/mailbase-1
+
+# Since we are not using OpenRC with systemd as udev provider
+# we don't need this.
+sys-fs/udev-init-scripts-34
