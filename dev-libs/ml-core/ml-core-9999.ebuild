@@ -12,7 +12,7 @@ DESCRIPTION="Chrome OS ML Core Feature Library"
 
 PLATFORM_SUBDIR="ml_core"
 
-inherit cros-workon platform
+inherit cros-workon platform user
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -38,4 +38,23 @@ src_install() {
 
 	insinto /etc/init
 	doins opencl_caching/init/opencl-cacher.conf
+
+	# For now, we run everything as the camera user,
+	# so use "arc-camera"
+	local daemon_store="/etc/daemon-store/ml-core-effects"
+	dodir "${daemon_store}"
+	fperms 0700 "${daemon_store}"
+	fowners arc-camera:arc-camera "${daemon_store}"
+}
+
+platform_pkg_test() {
+	platform test_all
+}
+
+pkg_setup() {
+	# Has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs arc-camera.
+	enewuser "arc-camera"
+	enewgroup "arc-camera"
+	cros-workon_pkg_setup
 }
