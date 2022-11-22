@@ -46,14 +46,8 @@ src_install() {
 }
 
 src_test() {
-	local features=()
-
 	local candidate
 	for candidate in "${CANDIDATES[@]}"; do
-		if use "${candidate}"; then
-			features+=("${candidate}")
-		fi
+		cros-rust_src_test --features="${candidate}"
 	done
-
-	cros-rust_src_test --features="${features[*]}"
 }
