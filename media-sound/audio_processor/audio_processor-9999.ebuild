@@ -21,11 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/c
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	>=dev-rust/clap-3.1.12 <dev-rust/clap-4.0
-	=dev-rust/bindgen-0.59*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
 
 src_install() {

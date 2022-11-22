@@ -21,7 +21,6 @@ KEYWORDS="~*"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/libchromeos:=
-	=dev-rust/log-0.4*
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
 	media-sound/libcras:=

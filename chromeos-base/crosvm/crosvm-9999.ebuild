@@ -46,7 +46,6 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
 	dev-libs/wayland-protocols:=
 	dev-rust/cros_fuzz:=
-	>=dev-rust/libudev-0.2.0 <dev-rust/libudev-0.3.0
 	dev-rust/minijail:=
 	dev-rust/p9:=
 	dev-rust/system_api:=

@@ -21,8 +21,6 @@ KEYWORDS="~*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/anyhow-1*:=
-	=dev-rust/tokio-1.19*:=
 	dev-rust/system_api:=
 	dev-rust/libchromeos:=
 	sys-apps/dbus:=

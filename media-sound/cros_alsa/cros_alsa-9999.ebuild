@@ -21,7 +21,6 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/log-0.4*:=
 	media-sound/cros_alsa_derive:=
 	>=media-libs/alsa-lib-1.1.8-r3:= <media-libs/alsa-lib-2.0.0
 "

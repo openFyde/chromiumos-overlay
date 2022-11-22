@@ -30,7 +30,6 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	dev-rust/third-party-crates-src:=
-	>=dev-rust/chunked_transfer-1 <dev-rust/chunked_transfer-2
 	dev-rust/libchromeos:=
 	dev-rust/sync:=
 	virtual/libusb:1

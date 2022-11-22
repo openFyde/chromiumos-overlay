@@ -18,7 +18,7 @@ KEYWORDS="~*"
 BDEPEND="
 	chromeos-base/hps-sign-rom
 	dev-embedded/hps-sdk
-	dev-rust/svd2rust
+	dev-rust/svd2rust:=
 	sci-electronics/amaranth
 	>=sci-electronics/nextpnr-0.1_p20220210
 	sci-electronics/prjoxide

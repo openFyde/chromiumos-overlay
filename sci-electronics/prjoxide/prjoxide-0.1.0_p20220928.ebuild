@@ -26,10 +26,7 @@ LICENSE="ISC"
 SLOT="0"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/capnp-0.14*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="
 	${DEPEND}
 	sci-electronics/yosys
