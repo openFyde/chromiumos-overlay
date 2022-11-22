@@ -28,6 +28,16 @@ DEPEND="
 	sys-apps/dbus:=
 "
 
+src_compile() {
+	local features=(
+		chromeos
+	)
+
+	ecargo_build -v \
+		--features="${features[*]}" ||
+		die "cargo build failed"
+}
+
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/resourced"
 
