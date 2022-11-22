@@ -25,7 +25,6 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
-	=dev-rust/nom-7*
 	dev-rust/serde_keyvalue_derive:=
 "
 RDEPEND="${DEPEND}"
