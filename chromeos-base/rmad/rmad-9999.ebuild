@@ -29,8 +29,8 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
-	iioservice? ( chromeos-base/iioservice_simpleclient )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/iioservice
 	chromeos-base/croslog
 	chromeos-base/hardware_verifier
 	chromeos-base/libmems
@@ -41,6 +41,7 @@ DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/cryptohome-client:=
 	chromeos-base/libec:=
+	chromeos-base/libiioservice_ipc:=
 	chromeos-base/metrics:=
 	chromeos-base/mojo_service_manager:=
 	chromeos-base/runtime_probe-client:=
