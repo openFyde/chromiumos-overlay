@@ -27,12 +27,6 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
-src_install() {
-	platform_src_install
-
-	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" ip.so
-}
-
 platform_pkg_test() {
-	platform_test run "${OUT}"/request_queue_test
+	platform test_all
 }

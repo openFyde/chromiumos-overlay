@@ -24,8 +24,3 @@ DEPEND="${RDEPEND}
 	x11-libs/libdrm"
 
 BDEPEND="virtual/pkgconfig"
-
-src_install() {
-	platform_src_install
-	dobin "${OUT}/cros_camera_connector_client"
-}

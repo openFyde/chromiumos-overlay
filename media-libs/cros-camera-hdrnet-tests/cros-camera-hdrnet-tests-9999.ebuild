@@ -41,10 +41,3 @@ src_configure() {
 	cros_optimize_package_for_speed
 	platform_src_configure
 }
-
-src_install() {
-	dobin "${OUT}"/hdrnet_stream_manipulator_test
-	dobin "${OUT}"/hdrnet_processor_impl_test
-	dobin "${OUT}"/hdrnet_processor_benchmark
-	platform_src_install
-}

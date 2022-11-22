@@ -35,8 +35,3 @@ src_configure() {
 	cros_optimize_package_for_speed
 	platform_src_configure
 }
-
-src_install() {
-	dobin "${OUT}"/image_processor_test
-	platform_src_install
-}

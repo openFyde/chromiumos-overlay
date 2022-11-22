@@ -48,27 +48,8 @@ src_configure() {
 
 src_install() {
 	platform_src_install
-	dobin "${OUT}/cros_camera_service"
-
-	insinto /etc/init
-	doins init/cros-camera.conf
-	doins init/cros-camera-failsafe.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/CrosCamera.conf
-
 	udev_dorules udev/99-camera.rules
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	newins "seccomp_filter/cros-camera-${ARCH}.policy" cros-camera.policy
-
 	dotmpfiles tmpfiles.d/*.conf
-
-	if use cheets && ! use arc-camera1; then
-		insinto "${ARC_VENDOR_DIR}/etc/init"
-		doins init/init.camera.rc
-	fi
 }
 
 pkg_preinst() {

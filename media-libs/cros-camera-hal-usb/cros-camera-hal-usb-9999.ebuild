@@ -31,21 +31,6 @@ DEPEND="${RDEPEND}
 	media-libs/libyuv
 	virtual/pkgconfig"
 
-src_install() {
-	platform_src_install
-	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" usb.so
-}
-
 platform_pkg_test() {
-	local tests=(
-		image_processor_test
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		# TODO(b/193747946): Remove the condition once we solve the camera
-		# libraries missing when running with asan enabled issue.
-		if ! use asan; then
-			platform_test run "${OUT}/${test_bin}"
-		fi
-	done
+	platform test_all
 }

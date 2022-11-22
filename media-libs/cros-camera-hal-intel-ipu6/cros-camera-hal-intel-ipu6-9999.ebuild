@@ -45,13 +45,5 @@ DEPEND="${RDEPEND}
 
 src_install() {
 	platform_src_install
-
-	cros-camera_dohal "${OUT}/lib/libcamhal.so" intel-ipu6.so
-	dolib.so "${OUT}/lib/libcam_algo.so"
-
-	if use ipu6se; then
-		dolib.so "${OUT}/lib/libcam_algo_vendor_gpu.so"
-	fi
-
 	udev_dorules "${FILESDIR}/50-ipu-psys0.rules"
 }

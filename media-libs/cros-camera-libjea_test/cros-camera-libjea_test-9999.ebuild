@@ -26,8 +26,3 @@ RDEPEND="
 	media-libs/libyuv"
 
 DEPEND="${RDEPEND}"
-
-src_install() {
-	platform_src_install
-	dobin "${OUT}/libjea_test"
-}

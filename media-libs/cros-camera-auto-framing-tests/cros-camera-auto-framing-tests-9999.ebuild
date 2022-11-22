@@ -46,8 +46,3 @@ src_configure() {
 	cros_optimize_package_for_speed
 	platform_src_configure
 }
-
-src_install() {
-	dobin "${OUT}"/auto_framing_test
-	platform_src_install
-}

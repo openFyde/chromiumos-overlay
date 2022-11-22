@@ -33,9 +33,3 @@ src_configure() {
 	cros_optimize_package_for_speed
 	platform_src_configure
 }
-
-src_install() {
-	platform_src_install
-
-	dolib.so "${OUT}"/lib/libcros_camera_frame_annotator.so
-}

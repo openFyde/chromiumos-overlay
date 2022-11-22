@@ -26,8 +26,3 @@ RDEPEND="
 
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
-
-src_install() {
-	platform_src_install
-	dobin "${OUT}/document_scanner_perf_test"
-}
