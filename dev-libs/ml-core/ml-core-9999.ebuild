@@ -35,4 +35,7 @@ src_configure() {
 src_install() {
 	platform_src_install
 	dolib.so "${OUT}"/lib/libcros_ml_core.so
+
+	insinto /etc/init
+	doins opencl_caching/init/opencl-cacher.conf
 }
