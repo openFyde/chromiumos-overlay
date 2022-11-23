@@ -8,7 +8,15 @@ inherit cmake cuda fortran-2
 
 DESCRIPTION="C++ template library for linear algebra"
 HOMEPAGE="https://eigen.tuxfamily.org/index.php?title=Main_Page"
-SRC_URI="https://chromium.googlesource.com/external/gitlab.com/libeigen/eigen/+archive/refs/heads/cros/${PV}.tar.gz -> eigen-4be6a458acc129b10faf88aeb2fc32f0444eefb1-3.4.0.tar.xz"
+
+# Commit ID must be kept in sync with repo manifest.
+EIGEN_GIT_COMMIT=3564668908afc66351c1c3cc47dca2fcdb91dc12
+
+# The file uploaded to the local mirror has the "eigen-" prefix.
+SRC_URI="https://chromium.googlesource.com/external/gitlab.com/libeigen/eigen/+archive/${EIGEN_GIT_COMMIT}.tar.gz -> eigen-${EIGEN_GIT_COMMIT}.tar.gz"
+
+# Use custom build directory to match the folder layout of the tar.gz archive.
+S="${WORKDIR}"
 
 LICENSE="MPL-2.0"
 SLOT="3"
