@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="8e085d1a0e359223d84bd87a0ff84c619ee213b0"
-CROS_WORKON_TREE="b386f64897b3c5b0557167114196f46740cdefe2"
+CROS_WORKON_COMMIT="9a056e688a1833cbd594dc30aa1f18ddc81efd3d"
+CROS_WORKON_TREE="24844f338b82e8d1768c2e38142caf7376364643"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -327,17 +327,17 @@ install_iwlwifi() {
 		iwlwifi-9260)  doins "${x}-th-b0-jf-b0-46.ucode" ;;
 		iwlwifi-cc)
 			case "${kernel}" in
-			kernel-5_15)     doins "${x}-a0-74.ucode" ;;
+			kernel-5_15)     doins "${x}-a0-77.ucode" ;;
 			kernel-upstream) doins "${x}-a0-72.ucode" ;;
-			*)               doins "${x}-a0-74.ucode" ;;
+			*)               doins "${x}-a0-77.ucode" ;;
 			esac
 			;;
 		iwlwifi-QuZ)
 			case "${kernel}" in
-			kernel-4_19) doins "${x}-a0-hr-b0-74.ucode" ;;
-			kernel-5_4)  doins "${x}-a0-hr-b0-74.ucode" ;;
-			kernel-5_10) doins "${x}-a0-hr-b0-74.ucode" ;;
-			kernel-5_15) doins "${x}-a0-hr-b0-74.ucode" ;;
+			kernel-4_19) doins "${x}-a0-hr-b0-77.ucode" ;;
+			kernel-5_4)  doins "${x}-a0-hr-b0-77.ucode" ;;
+			kernel-5_10) doins "${x}-a0-hr-b0-77.ucode" ;;
+			kernel-5_15) doins "${x}-a0-hr-b0-77.ucode" ;;
 			kernel-upstream)  doins "${x}-a0-hr-b0-72.ucode" ;;
 			*)
 				ewarn "Unexpected kernel version '${kernel}'."
@@ -348,12 +348,11 @@ install_iwlwifi() {
 			;;
 		iwlwifi-so)
 			case "${kernel}" in
-			kernel-5_15)     doins "${x}-a0-gf-a0-74.ucode" ;;
+			kernel-5_15)     doins "${x}-a0-gf-a0-77.ucode" ;;
 			kernel-upstream) doins "${x}-a0-gf-a0-72.ucode" ;;
-			*)               doins "${x}-a0-gf-a0-74.ucode" ;;
+			*)               doins "${x}-a0-gf-a0-77.ucode" ;;
 			esac
-			doins "${x}-a0-gf-a0.pnvm"
-			;;
+			doins "${x}-a0-gf-a0.pnvm" ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
 		# At least with EAPI 7, it's ok to call 'doins' with the same
