@@ -176,6 +176,9 @@ src_prepare() {
 	epkowa
 	EOF
 
+	# Add Fujitsu fi-8170.
+	eapply "${FILESDIR}/${PN}-1.1.1-fi8170.patch"
+
 	# Accepted upstream.  Drop once 1.1.2 is release.
 	eapply "${FILESDIR}/${PN}-1.1.1-xp2200.patch"
 
