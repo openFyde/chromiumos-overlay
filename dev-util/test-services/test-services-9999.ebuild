@@ -23,7 +23,8 @@ DEPEND="
 	dev-util/cros-servod
 	dev-util/cros-test
 	dev-util/cros-test-finder
-	dev-util/fw-provision
+	!dev-util/fw-provision
+	dev-util/cros-fw-provision
 	dev-util/testlabenv-local
 	dev-util/test-plan
 "
