@@ -54,7 +54,7 @@ RDEPEND="${COMMON_DEPEND}
 	chromeos-base/tty
 	oobe_config? ( chromeos-base/oobe_config )
 	sys-apps/upstart
-	!systemd? ( sys-apps/systemd-tmpfiles )
+	!systemd? ( sys-apps/systemd-utils )
 	sys-process/lsof
 	virtual/chromeos-bootcomplete
 	!cros_embedded? (

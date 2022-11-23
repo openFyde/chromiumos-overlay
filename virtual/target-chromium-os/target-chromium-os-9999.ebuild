@@ -375,7 +375,7 @@ RDEPEND="
 	eclog? ( chromeos-base/timberslide )
 	chromeos-base/chromeos-machine-id-regen
 	systemd? ( sys-apps/systemd )
-	!systemd? ( sys-apps/systemd-tmpfiles )
+	!systemd? ( sys-apps/systemd-utils )
 	usbguard? ( sys-apps/usbguard )
 	kvm_host? (
 		chromeos-base/crosdns
