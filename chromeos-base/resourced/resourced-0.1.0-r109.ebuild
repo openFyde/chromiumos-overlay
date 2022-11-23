@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2ff88145b67133da690acc67df840e602642c555"
-CROS_WORKON_TREE="afe61485df4a0620a2b5f2da152efce8bca7f208"
+CROS_WORKON_COMMIT="23233fd5e3e383ea24cd729654e2552a8a35c759"
+CROS_WORKON_TREE="778b54a4469c63c5a4932402fbfe8ba0e5943647"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -29,6 +29,16 @@ DEPEND="
 	dev-libs/openssl:0=
 	sys-apps/dbus:=
 "
+
+src_compile() {
+	local features=(
+		chromeos
+	)
+
+	ecargo_build -v \
+		--features="${features[*]}" ||
+		die "cargo build failed"
+}
 
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/resourced"
