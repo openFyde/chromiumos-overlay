@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="2d9b6cb9dc4f4f7496707c1397ba7e78a695f71f"
+CROS_WORKON_COMMIT="879deec8ae570098fb5a1cdf0a793df0db695524"
 CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "edad366ed53da01e3f4f60a5cec5f69c6f8d63cf" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,9 +22,6 @@ LICENSE="BSD-Google"
 SLOT=0/0
 KEYWORDS="*"
 IUSE=""
-
-# TODO(b/258063046): Unit tests are flaky.  Re-enable once reliable.
-RESTRICT="test"
 
 RDEPEND="
 	app-arch/snappy
