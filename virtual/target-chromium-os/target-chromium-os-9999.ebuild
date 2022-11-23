@@ -210,10 +210,12 @@ RDEPEND="
 		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
 		chromeos-base/scaled-dlc
+		chromeos-languagepacks/tts-en-us
 		chromeos-languagepacks/tts-es-es
 		chromeos-languagepacks/tts-es-us
 		chromeos-languagepacks/tts-fr-fr
 		chromeos-languagepacks/tts-hi-in
+		chromeos-languagepacks/tts-ja-jp
 		chromeos-languagepacks/tts-nl-nl
 		chromeos-languagepacks/tts-pt-br
 		chromeos-languagepacks/tts-sv-se
