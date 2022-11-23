@@ -3,15 +3,15 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c209031dffbbd13ae7d8b9b9b9184ffcf040a14d"
-CROS_WORKON_TREE="5ca4d9788a61f9cd88f9ace820254df8e92b9bed"
+CROS_WORKON_COMMIT="61f78542ec96b05eead8b8371a6eff261390d35c"
+CROS_WORKON_TREE="6b795f6266b75bff3afebb255ddbf500c74f6b68"
 CROS_WORKON_PROJECT="chromiumos/third_party/OP-TEE/optee_os"
 CROS_WORKON_LOCALNAME="optee_os"
 CROS_WORKON_DESTDIR="${S}"
 
 inherit cros-workon coreboot-sdk
 
-DESCRIPTION="Op-Tee Secure OS"
+DESCRIPTION="Op-Tee Secure OS TA Dev Kit"
 HOMEPAGE="https://www.github.com/OP-TEE/optee_os"
 
 LICENSE="BSD"
@@ -28,8 +28,7 @@ src_configure() {
 	export O="${WORKDIR}/out"
 	export CFG_ARM64_core="y"
 	export DEBUG="0"
-	# TODO(b/246343588): Remove this when it is determined at run time.
-	export CFG_DRAM_SIZE="0x200000000"
+	export CFG_EARLY_TA="y"
 
 	# CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS are set for userland, but those options
 	# don't apply properly to firmware so unset them.
@@ -37,13 +36,11 @@ src_configure() {
 }
 
 src_compile() {
-	emake ta-targets=ta_arm64 all
+	emake ta-targets=ta_arm64 ta_dev_kit
 }
 
 src_install() {
-	# Copy the Op-Tee ELF file for inclusion as the BL32 image in coreboot.
-	# TODO(b/246837563): Don't copy the Op-Tee ELF file for inclusion by coreboot,
-	# instead install it into the rootfs and load it from there.
-	insinto /firmware/optee
-	doins "${WORKDIR}/out/core/tee.elf"
+	# Install the dev kit used when building TAs (makefiles, header files, etc.).
+	insinto /build/share/optee
+	doins -r "${WORKDIR}/out/export-ta_arm64"
 }
