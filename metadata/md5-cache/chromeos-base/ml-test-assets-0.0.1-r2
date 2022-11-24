@@ -1,10 +1,10 @@
-DEFINED_PHASES=install
+DEFINED_PHASES=info install setup unpack
 DESCRIPTION=TFLite models and supporting assets used for testing ML & NNAPI.
 EAPI=7
-HOMEPAGE=https://chromium.googlesource.com/aosp/platform/test/mlts/models/
-IUSE=label_image benchmark_model
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/main/ml_benchmark/model_zoo/
+IUSE=cros_host cros_workon_tree_1297d613f1e00b8c2c1fba5f181bf2a2ff58a4ac
 KEYWORDS=*
 LICENSE=Apache-2.0
 SLOT=0
-SRC_URI=label_image? ( gs://chromeos-localmirror/distfiles/ml-test-assets-label-image-assets_20200721.tar.xz ) benchmark_model? ( gs://chromeos-localmirror/distfiles/aosp-mlts-models-7331369.tar.xz )
-_md5_=c65feb91f5545a243615de179cd1948b
+_eclasses_=cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=b33d6047c0c3e14fb23c968d577f30e5

@@ -1,0 +1,9 @@
+DEFINED_PHASES=-
+DEPEND=dev-rust/third-party-crates-src:=
+DESCRIPTION=Replaced by third-party-crates-src.
+EAPI=7
+KEYWORDS=*
+LICENSE=metapackage
+RDEPEND=dev-rust/third-party-crates-src:= !=dev-rust/openssl-sys-0.9*
+SLOT=0.9.73/r8
+_md5_=8d5b57aeeef4c7502136210f59c3fe17
