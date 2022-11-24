@@ -16,9 +16,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hwsec-ut
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cr50_onboard generic_tpm2 test ti50_onboard"
-REQUIRED_USE="^^ ( ti50_onboard cr50_onboard generic_tpm2 )"
-CANDIDATES=( "cr50_onboard" "generic_tpm2" "ti50_onboard" )
+IUSE="cr50_onboard test ti50_onboard"
+REQUIRED_USE="^^ ( ti50_onboard cr50_onboard )"
+CANDIDATES=( "cr50_onboard" "ti50_onboard" )
 
 DEPEND="dev-rust/third-party-crates-src:="
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
