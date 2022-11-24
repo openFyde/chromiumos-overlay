@@ -103,6 +103,9 @@ SERVER_IUSE_TESTS="
 	android-vm-rvc? (
 		+tests_cheets_CTS_R
 	)
+	android-vm-tm? (
+		+tests_cheets_CTS_T
+	)
 	+tests_cellular_Callbox_AssertCellularData
 	+tests_cellular_Callbox_AssertSMS
 	+tests_display_EdidStress
