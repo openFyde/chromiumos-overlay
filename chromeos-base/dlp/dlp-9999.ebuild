@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dlp .gn"
+CROS_WORKON_SUBTREE="common-mk dlp metrics .gn"
 
 PLATFORM_SUBDIR="dlp"
 
@@ -21,6 +21,7 @@ KEYWORDS="~*"
 IUSE="fuzzer"
 
 COMMON_DEPEND="
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	!dev-db/leveldb
 	dev-libs/leveldb:=
