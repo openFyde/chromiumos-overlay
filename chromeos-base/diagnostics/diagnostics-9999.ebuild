@@ -26,6 +26,7 @@ COMMON_DEPEND="
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	chromeos-base/missive:=
 	chromeos-base/mojo_service_manager:=
