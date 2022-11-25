@@ -87,7 +87,7 @@ src_install() {
 	local fuzzer_component_id="1031231"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/load_oobe_config_rollback_fuzzer \
 		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/rollback_openssl_encryption_fuzzer \
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/openssl_encryption_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
 
