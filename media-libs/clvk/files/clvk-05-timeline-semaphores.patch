@@ -11,7 +11,7 @@ index 81dbf20..7ec5e63 100644
    tracing.cpp
    unit.cpp
 diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
-index 90e70ca..3041ba0 100644
+index 543e041..75e3e0f 100644
 --- a/clvk/src/device.cpp
 +++ b/clvk/src/device.cpp
 @@ -51,6 +51,8 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
@@ -70,7 +70,7 @@ index 90e70ca..3041ba0 100644
      // Selectively enable core features.
      if (supported_features.features.shaderInt16) {
 diff --git a/clvk/src/device.hpp b/clvk/src/device.hpp
-index 616414b..a37bc53 100644
+index d08078d..4c2e5e3 100644
 --- a/clvk/src/device.hpp
 +++ b/clvk/src/device.hpp
 @@ -410,6 +410,15 @@ struct cvk_device : public _cl_device_id,
@@ -553,7 +553,7 @@ index 65cd093..ab3defd 100644
  
      m_queue->batch_completed();
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 93db2a0..8806357 100644
+index 93db2a0..28af287 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -210,11 +210,21 @@ struct cvk_command_queue : public _cl_command_queue,
@@ -622,16 +622,23 @@ index 93db2a0..8806357 100644
  
      void set_dependencies(cl_uint num_event_deps,
                            _cl_event* const* event_deps) {
-@@ -378,6 +402,8 @@ struct cvk_command {
+@@ -378,6 +402,15 @@ struct cvk_command {
      // never have data movement requirements of their own.
      virtual bool is_data_movement() const { return false; }
  
-+    virtual bool is_synchronous_submit() const { return false; }
++    virtual bool is_synchronous_submit() const {
++        for (auto &ev : m_event_deps) {
++            if (ev->is_user_event()) {
++                return true;
++            }
++        }
++        return false;
++    }
 +
      void add_dependency(cvk_event* dep) {
          dep->retain();
          m_event_deps.push_back(dep);
-@@ -391,7 +417,6 @@ struct cvk_command {
+@@ -391,7 +424,6 @@ struct cvk_command {
              if (ev->wait() != CL_COMPLETE) {
                  status = CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST;
              }
@@ -639,7 +646,7 @@ index 93db2a0..8806357 100644
          }
  
          // Then execute the action if no dependencies failed
-@@ -405,6 +430,9 @@ struct cvk_command {
+@@ -405,6 +437,9 @@ struct cvk_command {
              status = do_action();
              TRACE_END();
          }
@@ -649,7 +656,7 @@ index 93db2a0..8806357 100644
  
          set_event_status(status);
          return status;
-@@ -638,6 +666,7 @@ struct cvk_command_batchable : public cvk_command {
+@@ -638,6 +673,7 @@ struct cvk_command_batchable : public cvk_command {
  
      bool can_be_batched() const override final;
      bool is_built_before_enqueue() const override final { return false; }
@@ -657,7 +664,7 @@ index 93db2a0..8806357 100644
  
      CHECK_RETURN cl_int get_timestamp_query_results(cl_ulong* start,
                                                      cl_ulong* end);
-@@ -779,7 +808,7 @@ private:
+@@ -779,7 +815,7 @@ private:
  
  struct cvk_command_batch : public cvk_command {
      cvk_command_batch(cvk_command_queue* queue)
@@ -666,7 +673,7 @@ index 93db2a0..8806357 100644
  
      cl_int add_command(cvk_command_batchable* cmd) {
          if (!m_command_buffer) {
-@@ -811,6 +840,8 @@ struct cvk_command_batch : public cvk_command {
+@@ -811,6 +847,8 @@ struct cvk_command_batch : public cvk_command {
  
      cl_uint batch_size() { return m_commands.size(); }
  
@@ -675,7 +682,7 @@ index 93db2a0..8806357 100644
      CHECK_RETURN cl_int
      set_profiling_info(cl_profiling_info pinfo) override final {
          cl_int status = cvk_command::set_profiling_info(pinfo);
-@@ -848,9 +879,12 @@ struct cvk_command_batch : public cvk_command {
+@@ -848,9 +886,12 @@ struct cvk_command_batch : public cvk_command {
          }
      }
  
