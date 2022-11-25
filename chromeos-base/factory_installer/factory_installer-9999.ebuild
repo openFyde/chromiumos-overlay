@@ -76,10 +76,8 @@ COMMON_DEPEND="
 	!chromeos-base/chromeos-factory"
 
 DEPEND="${COMMON_DEPEND}
-	test? ( app-shells/dash )
 	chromeos-base/factory:=
 	chromeos-base/factory_rust
-	test? ( chromeos-base/chromeos-base )
 	test? ( chromeos-base/secure-wipe:= )
 	x86? ( sys-boot/syslinux:= )"
 
