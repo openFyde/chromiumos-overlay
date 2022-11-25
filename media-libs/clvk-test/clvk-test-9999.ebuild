@@ -47,6 +47,7 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-gtest.patch")
+	PATCHES+=("${FILESDIR}/clvk-api_tests-profiling.patch")
 fi
 
 src_prepare() {
