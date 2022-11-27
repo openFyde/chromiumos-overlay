@@ -162,7 +162,6 @@
             "chromiumos"
         ],
         "rel_patch_path": "db126ae243cd70e4f68fd50a7c619740e90e1dc6.patch",
-        "start_version": 422132,
         "version_range": {
             "from": 422132,
             "until": 435269
@@ -263,7 +262,7 @@
         "rel_patch_path": "0001-libcxx-makes-it-possible-to-strip-debug-info-from-li-v2.patch",
         "version_range": {
             "from": 465103,
-            "until": null
+            "until": 475826
         }
     },
     {
