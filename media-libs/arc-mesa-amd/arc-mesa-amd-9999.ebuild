@@ -101,6 +101,7 @@ multilib_src_configure() {
 		-Dgles2=true
 		-Dshared-glapi=true
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
+		-Dvideo-codecs=h264dec,h264enc,h265dec
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
