@@ -1,5 +1,5 @@
 diff --git a/src/libmtp.c b/src/libmtp.c
-index 180c369..da2cf9a 100644
+index f295c6d..066c45c 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
 @@ -1939,15 +1939,15 @@ LIBMTP_mtpdevice_t *LIBMTP_Open_Raw_Device_Uncached(LIBMTP_raw_device_t *rawdevi

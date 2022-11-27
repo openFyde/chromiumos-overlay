@@ -1,5 +1,5 @@
 diff --git a/src/libmtp.c b/src/libmtp.c
-index 14d1532..0031756 100644
+index ca27154..d3d4f89 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
 @@ -4586,6 +4586,67 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *device,
@@ -71,10 +71,10 @@ index 14d1532..0031756 100644
  /**
   * This creates a new track metadata structure and allocates memory
 diff --git a/src/libmtp.h.in b/src/libmtp.h.in
-index 671b922..5ed5164 100644
+index 001bd25..69cdc23 100644
 --- a/src/libmtp.h.in
 +++ b/src/libmtp.h.in
-@@ -922,6 +922,10 @@ LIBMTP_file_t *LIBMTP_Get_Filelisting_With_Callback(LIBMTP_mtpdevice_t *,
+@@ -921,6 +921,10 @@ LIBMTP_file_t *LIBMTP_Get_Filelisting_With_Callback(LIBMTP_mtpdevice_t *,
  LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
  					     uint32_t const,
  					     uint32_t const);

@@ -38,6 +38,7 @@ PATCHES=(
 
 src_prepare() {
 	epatch "${PATCHES[@]}"
+	eautoreconf
 }
 
 src_configure() {

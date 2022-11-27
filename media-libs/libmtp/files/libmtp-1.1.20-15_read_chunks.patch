@@ -1,5 +1,5 @@
 diff --git a/src/libmtp.c b/src/libmtp.c
-index da2cf9a..14d1532 100644
+index 066c45c..ca27154 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
 @@ -5145,6 +5145,56 @@ LIBMTP_track_t *LIBMTP_Get_Trackmetadata(LIBMTP_mtpdevice_t *device, uint32_t co
@@ -60,10 +60,10 @@ index da2cf9a..14d1532 100644
   * This is a manual conversion from MTPDataGetFunc to PTPDataGetFunc
   * to isolate the internal type.
 diff --git a/src/libmtp.h.in b/src/libmtp.h.in
-index f292ec1..671b922 100644
+index e6df53b..001bd25 100644
 --- a/src/libmtp.h.in
 +++ b/src/libmtp.h.in
-@@ -923,6 +923,8 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
+@@ -922,6 +922,8 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *,
  					     uint32_t const,
  					     uint32_t const);
  LIBMTP_file_t *LIBMTP_Get_Filemetadata(LIBMTP_mtpdevice_t *, uint32_t const);

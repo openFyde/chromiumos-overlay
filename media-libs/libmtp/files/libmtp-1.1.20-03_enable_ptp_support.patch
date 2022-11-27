@@ -1,8 +1,8 @@
 diff --git a/src/libusb1-glue.c b/src/libusb1-glue.c
-index 6ba3eb7..32d5a9e 100644
+index a624159..bb61e36 100644
 --- a/src/libusb1-glue.c
 +++ b/src/libusb1-glue.c
-@@ -224,15 +224,15 @@ static void free_mtpdevice_list(mtpdevice_list_t *devlist)
+@@ -227,15 +227,15 @@ static void free_mtpdevice_list(mtpdevice_list_t *devlist)
  }
  
  /**
@@ -22,7 +22,7 @@ index 6ba3eb7..32d5a9e 100644
   */
  static int probe_device_descriptor(libusb_device *dev, FILE *dumpfile)
  {
-@@ -316,7 +316,6 @@ static int probe_device_descriptor(libusb_device *dev, FILE *dumpfile)
+@@ -319,7 +319,6 @@ static int probe_device_descriptor(libusb_device *dev, FILE *dumpfile)
  	   * TODO: Check for Still Image Capture class with PIMA 15740
  	   * protocol, also known as PTP
  	   */
@@ -30,7 +30,7 @@ index 6ba3eb7..32d5a9e 100644
  	  if (intf->bInterfaceClass == LIBUSB_CLASS_PTP
  	      && intf->bInterfaceSubClass == 0x01
  	      && intf->bInterfaceProtocol == 0x01) {
-@@ -325,17 +324,9 @@ static int probe_device_descriptor(libusb_device *dev, FILE *dumpfile)
+@@ -328,17 +327,9 @@ static int probe_device_descriptor(libusb_device *dev, FILE *dumpfile)
  	      fprintf(dumpfile, "   Found PTP device, check vendor "
  		      "extension...\n");
  	    }
