@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="de753d03811d7bc21fa5af140cbeca48de5a390b"
+CROS_WORKON_COMMIT="9abc5526b8d7fa1642c58ddd2f75ce2e78438ab5"
 CROS_WORKON_TREE="ce320186f7363bb7aca9b2edde7d12ecba4750eb"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,9 +18,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hwsec-ut
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cr50_onboard generic_tpm2 test ti50_onboard"
-REQUIRED_USE="^^ ( ti50_onboard cr50_onboard generic_tpm2 )"
-CANDIDATES=( "cr50_onboard" "generic_tpm2" "ti50_onboard" )
+IUSE="cr50_onboard test ti50_onboard"
+REQUIRED_USE="^^ ( ti50_onboard cr50_onboard )"
+CANDIDATES=( "cr50_onboard" "ti50_onboard" )
 
 DEPEND="dev-rust/third-party-crates-src:="
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
@@ -48,14 +48,8 @@ src_install() {
 }
 
 src_test() {
-	local features=()
-
 	local candidate
 	for candidate in "${CANDIDATES[@]}"; do
-		if use "${candidate}"; then
-			features+=("${candidate}")
-		fi
+		cros-rust_src_test --features="${candidate}"
 	done
-
-	cros-rust_src_test --features="${features[*]}"
 }
