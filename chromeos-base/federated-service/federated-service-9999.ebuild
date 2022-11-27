@@ -22,6 +22,7 @@ IUSE="local-federated-server"
 RDEPEND="
 	dev-db/sqlite:=
 	chromeos-base/dlcservice-client:=
+	chromeos-base/metrics:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/system_api:=
