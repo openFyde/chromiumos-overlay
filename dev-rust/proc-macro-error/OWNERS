@@ -1,4 +1,0 @@
-include /media-gfx/deqp-runner/OWNERS
-
-# For the dev-rust/third-party-crates-src migration
-gbiv@chromium.org

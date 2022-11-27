@@ -1,1 +1,0 @@
-image-0.23.14.ebuild
