@@ -18,8 +18,5 @@ HOMEPAGE='https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libchrom
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/syn-0.15*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
