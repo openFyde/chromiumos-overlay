@@ -31,9 +31,9 @@ NPM_HASHES=(
 )
 PLUGIN_VERSIONS=(
 	# Current one.
-	0.49
-	# Next one.
 	0.50
+	# Next one.
+	0.52
 )
 SRC_URI="
 	$(printf 'https://storage.googleapis.com/chromium-nodejs/%s ' "${NODE_HASHES[@]}")
