@@ -4007,5 +4007,19 @@
             "from": 465103,
             "until": 478794
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[Driver] Add -fsample-profile-use-profi"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/13f83365cdb5bb752066ee8f4149ae24dfe46cf1.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 479116
+        }
     }
 ]
