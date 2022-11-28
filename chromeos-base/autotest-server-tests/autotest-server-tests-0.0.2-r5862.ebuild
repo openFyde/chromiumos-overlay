@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="4da454cea56961387ec20d679ea85413cd378886"
-CROS_WORKON_TREE="be993286abab09ff3e6b1caefaf62f8bc57f5e13"
+CROS_WORKON_COMMIT="0db74be5021830af2f08a474e6a1bbb2a118309f"
+CROS_WORKON_TREE="066fd36f1f4215f41bcfc73d0fd1dd81e529eae0"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -21,6 +21,7 @@ IUSE="
 	android-container-pi
 	android-container-rvc
 	android-vm-rvc
+	android-vm-tm
 	+autotest
 	biod
 	+cellular
