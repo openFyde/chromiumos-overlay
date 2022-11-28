@@ -19,6 +19,7 @@ IUSE="
 	android-container-pi
 	android-container-rvc
 	android-vm-rvc
+	android-vm-tm
 	+autotest
 	biod
 	+cellular
