@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="75e7aa4737c9221dcb23eb5da3c2a1de1308abbd"
+CROS_WORKON_COMMIT="553d3d0f1bca3d9d2574228ca2f842453f795501"
 CROS_WORKON_TREE=("ebcce78502266e81f55c63ade8f25b8888e2c103" "596468baf1772288f2657c4720146be01d62a092" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -24,6 +24,7 @@ IUSE="local-federated-server"
 RDEPEND="
 	dev-db/sqlite:=
 	chromeos-base/dlcservice-client:=
+	chromeos-base/metrics:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/system_api:=
