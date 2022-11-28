@@ -137,3 +137,14 @@ app-arch/tar selinux
 
 # We don't need translated man pages.  b/248739853
 sys-apps/man-db -nls
+# Or any other translated messages.
+app-arch/xz-utils -nls
+app-crypt/mit-krb5 -nls
+app-crypt/rhash -nls
+app-editors/vim -nls
+app-editors/vim-core -nls
+dev-vcs/git -nls
+sys-apps/help2man -nls
+sys-apps/net-tools -nls
+sys-libs/binutils-libs -nls
+sys-power/cpupower -nls
