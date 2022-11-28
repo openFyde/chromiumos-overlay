@@ -28,3 +28,6 @@ USE="${USE} -floss"
 
 # Disable extra Japanese fonts.
 USE="${USE} -extra_japanese_fonts"
+
+# Disable federated service.
+USE="${USE} -federated_service"

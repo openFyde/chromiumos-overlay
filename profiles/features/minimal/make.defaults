@@ -102,5 +102,8 @@ USE="${USE} -selinux"
 # Disable ondevice speech.
 USE="${USE} -ondevice_speech"
 
+# Disable federated service.
+USE="${USE} -federated_service"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE=""

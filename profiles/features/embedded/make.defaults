@@ -115,5 +115,8 @@ USE="${USE} -ondevice_speech"
 # Disable security event reporting daemon.
 USE="${USE} -secagent"
 
+# Disable federated service.
+USE="${USE} -federated_service"
+
 # Make each board select the firmware it needs.
 LINUX_FIRMWARE="-*"
