@@ -283,15 +283,15 @@
     {
         "metadata": {
             "info": [],
-            "title": "[libcxx] Disable assert when building with newlib"
+            "title": "[libc++] Fix __regex_word value when using newlib/picolibc"
         },
         "platforms": [
             "chromiumos"
         ],
-        "rel_patch_path": "D136708.patch",
+        "rel_patch_path": "4559864897500193d2812cea7b66dc8daba0b836.patch",
         "version_range": {
             "from": 465103,
-            "until": null
+            "until": 480632
         }
     }
 ]
