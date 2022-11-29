@@ -48,7 +48,6 @@ IUSE="
 	eclog
 	factory_branch
 	featured
-	federated_service
 	floss
 	+fonts
 	fpstudy
@@ -239,7 +238,6 @@ RDEPEND="
 		chromeos-base/vtpm
 	)
 	pam? ( virtual/chromeos-auth-config )
-	federated_service? ( chromeos-base/federated-service )
 	fonts? ( chromeos-base/chromeos-fonts )
 	chromeos-base/chromeos-installer
 	chromeos-base/dev-install
