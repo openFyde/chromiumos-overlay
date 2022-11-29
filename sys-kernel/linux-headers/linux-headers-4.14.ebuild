@@ -79,6 +79,7 @@ PATCHES=(
 	"${FILESDIR}/0055-CHROMIUM-v4l2-add-upstream-V4L2-HEVC-stateless-contr.patch"
 	"${FILESDIR}/0056-BACKPORT-add-close_range-syscall-definitions.patch"
 	"${FILESDIR}/0057-BACKPORT-fanotify-add-API-to-attach-detach-super-blo.patch"
+	"${FILESDIR}/0058-BACKPORT-kexec-file-load.patch"
 )
 
 src_unpack() {
