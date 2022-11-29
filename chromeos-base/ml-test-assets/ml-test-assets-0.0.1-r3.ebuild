@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b39a9b79906a525e0adc89010bd7c16d82693979"
-CROS_WORKON_TREE="1297d613f1e00b8c2c1fba5f181bf2a2ff58a4ac"
+CROS_WORKON_COMMIT="08e67f2233d351e455403611696edd19d94d23a8"
+CROS_WORKON_TREE="fd28afac0d6f2591b39c3ca52ecdcdfc4892f062"
 DESCRIPTION="TFLite models and supporting assets used for testing ML & NNAPI."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/main/ml_benchmark/model_zoo/"
 
