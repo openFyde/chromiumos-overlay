@@ -85,6 +85,12 @@ PATCHES=(
 	"${FILESDIR}/0049-font-Harden-grub_font_blit_glyph-and-grub_font_blit_.patch"
 	"${FILESDIR}/0050-font-Assign-null_font-to-glyphs-in-ascii_font_glyph.patch"
 	"${FILESDIR}/0051-normal-charset-Fix-an-integer-overflow-in-grub_unico.patch"
+
+	# Security patch for image loaders.
+	#
+	# Generated from the grub repo with:
+	# git format-patch --start-number=52 a85714545~..a85714545
+	"${FILESDIR}/0052-video-readers-Add-artificial-limit-to-image-dimensio.patch"
 )
 
 src_prepare() {
