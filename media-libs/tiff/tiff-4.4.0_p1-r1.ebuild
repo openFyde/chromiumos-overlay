@@ -6,27 +6,21 @@ EAPI=7
 # shellcheck disable=SC2034
 QA_PKGCONFIG_VERSION="$(ver_cut 1-3)"
 
-# Release signer can vary per version but not clear if others will be doing
-# them in future, so gone with Even Rouault for now as he does other geosci
-# stuff too like PROJ, GDAL. Previous release manager of TIFF was
-# GraphicsMagick maintainer Bob Friesenhahn. Please be careful when verifying
-# who made releases.
-VERIFY_SIG_OPENPGP_KEY_PATH="${BROOT}"/usr/share/openpgp-keys/rouault.asc
-inherit multilib-minimal verify-sig libtool flag-o-matic
+inherit autotools multilib-minimal libtool flag-o-matic
 
-MY_P="${P/_rc/rc}"
 DESCRIPTION="Tag Image File Format (TIFF) library"
 HOMEPAGE="http://libtiff.maptools.org"
-SRC_URI="https://download.osgeo.org/libtiff/${MY_P}.tar.xz"
-SRC_URI+=" verify-sig? ( https://download.osgeo.org/libtiff/${MY_P}.tar.xz.sig )"
-S="${WORKDIR}/${PN}-$(ver_cut 1-3)"
+MY_COMMIT="db1d2127862bb70df6b9d145c15ee592ee29bb7b"
+MY_P="libtiff-${MY_COMMIT}"
+SRC_URI="https://gitlab.com/libtiff/libtiff/-/archive/${MY_COMMIT}/${MY_P}.tar.gz"
+S="${WORKDIR}/${MY_P}"
 
 LICENSE="libtiff"
 SLOT="0"
 if [[ ${PV} != *_rc* ]] ; then
 	KEYWORDS="*"
 fi
-IUSE="+cxx jbig jpeg lzma static-libs test webp zlib zstd"
+IUSE="cros_host +cxx jbig jpeg lzma static-libs test webp zlib zstd"
 RESTRICT="!test? ( test )"
 
 # bug #483132
@@ -39,28 +33,20 @@ RDEPEND="jbig? ( >=media-libs/jbigkit-2.1:=[${MULTILIB_USEDEP}] )
 	zlib? ( >=sys-libs/zlib-1.2.8-r1[${MULTILIB_USEDEP}] )
 	zstd? ( >=app-arch/zstd-1.3.7-r1:=[${MULTILIB_USEDEP}] )"
 DEPEND="${RDEPEND}"
-BDEPEND="verify-sig? ( sec-keys/openpgp-keys-evenrouault )"
 
 MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/tiffconf.h
 )
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-4.4.0_rc1-skip-thumbnail-test.patch
-	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-fpe.patch
-	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-extractimagesection.patch
-	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-tiffmemcpy.patch
-	"${FILESDIR}"/${PN}-4.4.0-tiffcrop-extractContigSamplesShifted24bits.patch
-)
-
 src_prepare() {
 	default
+	# ChromeOS: generate configure script since we aren't using the pre-configured tar.gz
+	eautoreconf
 	elibtoolize
 }
 
 multilib_src_configure() {
 	local myeconfargs=(
-		--bindir="${EPREFIX}/usr/local/bin"
 		--without-x
 		--with-docdir="${EPREFIX}"/usr/share/doc/${PF}
 		$(use_enable cxx)
@@ -72,6 +58,11 @@ multilib_src_configure() {
 		$(use_enable zlib)
 		$(use_enable zstd)
 	)
+
+	# ChromeOS: install utilities to /usr/local unless installing to the SDK.
+	if ! use cros_host ; then
+		myeconfargs+=( --bindir="${EPREFIX}/usr/local/bin" )
+	fi
 
 	append-lfs-flags
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
@@ -99,5 +90,6 @@ multilib_src_test() {
 
 multilib_src_install_all() {
 	find "${ED}" -type f -name '*.la' -delete || die
-	rm "${ED}"/usr/share/doc/${PF}/{COPYRIGHT,README*,RELEASE-DATE,TODO,VERSION} || die
+	# ChromeOS: COPYRIGHT doesn't exist in the top-of-tree version of libtiff.
+	rm "${ED}"/usr/share/doc/${PF}/{README*,RELEASE-DATE,TODO,VERSION} || die
 }
