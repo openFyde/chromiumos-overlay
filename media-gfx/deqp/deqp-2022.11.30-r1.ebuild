@@ -11,22 +11,24 @@ DESCRIPTION="drawElements Quality Program - an OpenGL ES testsuite"
 HOMEPAGE="https://github.com/KhronosGroup/VK-GL-CTS"
 
 # This corresponds to a commit for the chosen tag/branch.
-MY_DEQP_COMMIT='a8fc4961d753dc2bddb1f78bdb91a21960a1ed57'
+MY_DEQP_COMMIT='6024a88390942876147a88dce82bbed73b866c1b'
 
 # When building the Vulkan CTS, dEQP requires that certain external
 # dependencies be unpacked into the source tree. See ${S}/external/fetch_sources.py
 # in the dEQP for the required dependencies. Upload these tarballs to the ChromeOS mirror too and
 # update the manifest.
-MY_AMBER_COMMIT='615ab4863f7d2e31d3037d0c6a0f641fd6fc0d07'
-MY_GLSLANG_COMMIT='c34bb3b6c55f6ab084124ad964be95a699700d34'
-MY_SPIRV_TOOLS_COMMIT='20b122b2e0d43fcc322a383354d1a3f4514e3757'
-MY_SPIRV_HEADERS_COMMIT='b42ba6d92faf6b4938e6f22ddd186dbdacc98d78'
+MY_AMBER_COMMIT='8b145a6c89dcdb4ec28173339dd176fb7b6f43ed'
+MY_GLSLANG_COMMIT='7dda6a6347b0bd550e202942adee475956ef462a'
+MY_JSONCPP_COMMIT='9059f5cad030ba11d37818847443a53918c327b1'
+MY_SPIRV_TOOLS_COMMIT='b930e734ea198b7aabbbf04ee1562cf6f57962f0'
+MY_SPIRV_HEADERS_COMMIT='b765c355f488837ca4c77980ba69484f3ff277f5'
 
 SRC_URI="https://github.com/KhronosGroup/VK-GL-CTS/archive/${MY_DEQP_COMMIT}.tar.gz -> deqp-${MY_DEQP_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/glslang/archive/${MY_GLSLANG_COMMIT}.tar.gz -> glslang-${MY_GLSLANG_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/SPIRV-Tools/archive/${MY_SPIRV_TOOLS_COMMIT}.tar.gz -> SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}.tar.gz
 	https://github.com/KhronosGroup/SPIRV-Headers/archive/${MY_SPIRV_HEADERS_COMMIT}.tar.gz -> SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}.tar.gz
-	https://github.com/google/amber/archive/${MY_AMBER_COMMIT}.tar.gz -> amber-${MY_AMBER_COMMIT}.tar.gz"
+	https://github.com/google/amber/archive/${MY_AMBER_COMMIT}.tar.gz -> amber-${MY_AMBER_COMMIT}.tar.gz
+	https://github.com/open-source-parsers/jsoncpp/archive/${MY_JSONCPP_COMMIT}.tar.gz -> jsoncpp-${MY_JSONCPP_COMMIT}.tar.gz"
 
 LICENSE="Apache-2.0"
 SLOT="0"
@@ -52,9 +54,10 @@ src_unpack() {
 
 	mv "VK-GL-CTS-${MY_DEQP_COMMIT}/"* .
 	# TODO(ihf): remove cat once deqp-runner supports references.
-	cat android/cts/master/vk-master/*.txt | sort > android/cts/master/tmp_cat_vk-master.txt
+	cat android/cts/main/vk-master/*.txt | sort | uniq > android/cts/main/tmp_cat_vk-master.txt
 	mkdir -p external/{amber,glslang,spirv-tools,spirv-headers}
 	mv "amber-${MY_AMBER_COMMIT}" external/amber/src || die
+	mv "jsoncpp-${MY_JSONCPP_COMMIT}" external/jsoncpp/src || die
 	mv "glslang-${MY_GLSLANG_COMMIT}" external/glslang/src || die
 	mv "SPIRV-Tools-${MY_SPIRV_TOOLS_COMMIT}" external/spirv-tools/src || die
 	mv "SPIRV-Headers-${MY_SPIRV_HEADERS_COMMIT}" external/spirv-headers/src || die
@@ -144,16 +147,16 @@ src_install() {
 
 	# Install caselists
 	insinto "${deqp_dir}/caselists"
-	newins "android/cts/master/egl-master.txt" "egl.txt"
-	newins "android/cts/master/gles2-master.txt" "gles2.txt"
-	newins "android/cts/master/gles3-master.txt" "gles3.txt"
-	newins "android/cts/master/gles31-master.txt" "gles31.txt"
+	newins "android/cts/main/egl-master.txt" "egl.txt"
+	newins "android/cts/main/gles2-master.txt" "gles2.txt"
+	newins "android/cts/main/gles3-master.txt" "gles3.txt"
+	newins "android/cts/main/gles31-master.txt" "gles31.txt"
 	if use vulkan; then
 		# TODO(ihf): remove tmp_cat_vk-master.txt when deqp-runner understands
 		# directory structure below again.
-		newins "android/cts/master/tmp_cat_vk-master.txt" "vk.txt"
-		#newins "android/cts/master/vk-master.txt" "vk.txt"
-		#doins -r "android/cts/master/vk-master"
+		newins "android/cts/main/tmp_cat_vk-master.txt" "vk.txt"
+		#newins "android/cts/main/vk-master.txt" "vk.txt"
+		#doins -r "android/cts/main/vk-master"
 		#dosym "${deqp_dir}/caselists/vk-master" "${deqp_dir}/external/vulkancts/modules/vulkan/vk-master"
 	fi
 }
