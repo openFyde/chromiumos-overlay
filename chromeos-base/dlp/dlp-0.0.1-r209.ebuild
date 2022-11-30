@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e6ca6aa48cabd3cb4a2efc09a676cf5a17acb7c5"
-CROS_WORKON_TREE=("7c7d4170b01f9cd05a107c251a378c716ccd9d77" "0cd128fc1009dbf4098a9ffea2ba4d1deb142ffc" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="0ea1d096ea44e5a1f6faf05b946c0658303f702e"
+CROS_WORKON_TREE=("7c7d4170b01f9cd05a107c251a378c716ccd9d77" "0cd128fc1009dbf4098a9ffea2ba4d1deb142ffc" "b351b261a3ee0131687cc28062782f9ef5962817" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dlp .gn"
+CROS_WORKON_SUBTREE="common-mk dlp metrics .gn"
 
 PLATFORM_SUBDIR="dlp"
 
@@ -23,6 +23,7 @@ KEYWORDS="*"
 IUSE="fuzzer"
 
 COMMON_DEPEND="
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	!dev-db/leveldb
 	dev-libs/leveldb:=
