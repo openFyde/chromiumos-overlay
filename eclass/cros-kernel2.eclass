@@ -14,7 +14,7 @@ esac
 # Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
 # it is not safe to reuse the kernel prebuilts across different boards. Inherit
 # the cros-board eclass to make sure that doesn't happen.
-inherit binutils-funcs cros-board estack toolchain-funcs
+inherit binutils-funcs cros-board cros-kernel-versions estack toolchain-funcs
 
 HOMEPAGE="http://www.chromium.org/"
 LICENSE="GPL-2"
