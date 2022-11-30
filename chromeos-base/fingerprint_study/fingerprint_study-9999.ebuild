@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
 PYTHON_COMPAT=( python3_{6..9} pypy3 )
 
-inherit cros-workon python-r1
+inherit cros-workon python-r1 tmpfiles
 
 DESCRIPTION="Chromium OS Fingerprint user study software"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/biod/study"
@@ -37,6 +37,8 @@ src_unpack() {
 }
 
 src_install() {
+	dotmpfiles tmpfiles.d/*.conf
+
 	# install the study local server
 	exeinto /opt/google/fingerprint_study
 	newexe study_serve.py study_serve
@@ -49,7 +51,6 @@ src_install() {
 
 	insinto /etc/init
 	doins init/fingerprint_study.conf
-	doins init/syslog_fingerprint_study.conf
 
 	insinto /etc/bash/bashrc.d
 	doins shell-audit.sh
