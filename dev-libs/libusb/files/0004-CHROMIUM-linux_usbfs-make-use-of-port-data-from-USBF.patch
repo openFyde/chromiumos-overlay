@@ -1,7 +1,7 @@
-From 95c08130319d8d141d4cc6cffb8fd53642bc59e1 Mon Sep 17 00:00:00 2001
+From 8d5b4aa632613f7107a5611ad6717c82ed1269fa Mon Sep 17 00:00:00 2001
 From: Dmitry Torokhov <dtor@chromium.org>
 Date: Wed, 5 Jun 2019 11:25:28 -0700
-Subject: [PATCH 09/11] CHROMIUM: linux_usbfs: make use of port data from
+Subject: [PATCH 4/6] CHROMIUM: linux_usbfs: make use of port data from
  USBFS_CONNINFO_EX
 
 Add a new backend operation get_port_numbers() and use information
@@ -16,14 +16,14 @@ Signed-off-by: Dmitry Torokhov <dtor@chromium.org>
 ---
  libusb/core.c           |  7 +++++++
  libusb/libusbi.h        | 17 +++++++++++++++++
- libusb/os/linux_usbfs.c | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+)
+ libusb/os/linux_usbfs.c | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)
 
 diff --git a/libusb/core.c b/libusb/core.c
-index a3b9cc1..4d6fda4 100644
+index ec429b7c..05c67546 100644
 --- a/libusb/core.c
 +++ b/libusb/core.c
-@@ -933,6 +933,13 @@ int API_EXPORTED libusb_get_port_numbers(libusb_device *dev,
+@@ -948,6 +948,13 @@ int API_EXPORTED libusb_get_port_numbers(libusb_device *dev,
  	if (port_numbers_len <= 0)
  		return LIBUSB_ERROR_INVALID_PARAM;
  
@@ -38,12 +38,12 @@ index a3b9cc1..4d6fda4 100644
  	while((dev) && (dev->port_number != 0)) {
  		if (--i < 0) {
 diff --git a/libusb/libusbi.h b/libusb/libusbi.h
-index e47ee72..2dc6a3b 100644
+index b1fc88c9..46b87de6 100644
 --- a/libusb/libusbi.h
 +++ b/libusb/libusbi.h
-@@ -854,6 +854,23 @@ struct usbi_os_backend {
- 		uint8_t bConfigurationValue, unsigned char **buffer,
- 		int *host_endian);
+@@ -1135,6 +1135,23 @@ struct usbi_os_backend {
+ 	int (*get_config_descriptor_by_value)(struct libusb_device *device,
+ 		uint8_t bConfigurationValue, void **buffer);
  
 +	/* Get the list of all port numbers from root for the specified device.
 +	 *
@@ -66,26 +66,26 @@ index e47ee72..2dc6a3b 100644
  	 * Optional. This should only be implemented if you can retrieve it from
  	 * cache (don't generate I/O).
 diff --git a/libusb/os/linux_usbfs.c b/libusb/os/linux_usbfs.c
-index a00d51a..3695023 100644
+index 8348734a..9461f565 100644
 --- a/libusb/os/linux_usbfs.c
 +++ b/libusb/os/linux_usbfs.c
-@@ -160,6 +160,8 @@ struct linux_device_priv {
- 	unsigned char *descriptors;
- 	int descriptors_len;
- 	int active_config; /* cache val for !sysfs_can_relate_devices  */
+@@ -125,6 +125,8 @@ struct linux_device_priv {
+ 	size_t descriptors_len;
+ 	struct config_descriptor *config_descriptors;
+ 	int active_config; /* cache val for !sysfs_available  */
 +	uint8_t *ports;
 +	int num_ports;
  };
  
  struct linux_device_handle_priv {
-@@ -955,6 +957,21 @@ static int op_get_config_descriptor(struct libusb_device *dev,
+@@ -870,6 +872,21 @@ static int op_get_config_descriptor(struct libusb_device *dev,
  	return len;
  }
  
-+int op_get_port_numbers(struct libusb_device *dev,
++static int op_get_port_numbers(struct libusb_device *dev,
 +	uint8_t* port_numbers, int port_numbers_len)
 +{
-+	struct linux_device_priv *priv = _device_priv(dev);
++	struct linux_device_priv *priv = usbi_get_device_priv(dev);
 +
 +	if (!priv->ports)
 +		return LIBUSB_ERROR_OTHER;
@@ -100,7 +100,7 @@ index a00d51a..3695023 100644
  /* send a control message to retrieve active configuration */
  static int usbfs_get_active_config(struct libusb_device *dev, int fd)
  {
-@@ -1134,6 +1151,17 @@ static int initialize_from_usbfs(struct libusb_device *dev, int fd)
+@@ -1101,6 +1118,17 @@ static int initialize_from_usbfs(struct libusb_device *dev, int wrapped_fd)
  		dev->bus_number = ci.busnum;
  		dev->device_address = ci.devnum;
  		dev->speed = device_speed_from_kernel(ctx, ci.speed);
@@ -115,19 +115,18 @@ index a00d51a..3695023 100644
 +			priv->num_ports = ci.num_ports;
 +			memcpy(priv->ports, ci.ports, ci.num_ports);
 +		}
+ 	} else {
+ 		dev->speed = usbfs_get_speed(ctx, fd);
  	}
- 
- 	return LIBUSB_SUCCESS;
-@@ -2006,6 +2034,8 @@ static int op_release_interface(struct libusb_device_handle *handle, int iface)
- static void op_destroy_device(struct libusb_device *dev)
+@@ -1939,6 +1967,7 @@ static void op_destroy_device(struct libusb_device *dev)
  {
- 	struct linux_device_priv *priv = _device_priv(dev);
-+	if (priv->ports)
-+		free(priv->ports);
- 	if (priv->descriptors)
- 		free(priv->descriptors);
- 	if (priv->sysfs_dir)
-@@ -2961,6 +2991,7 @@ const struct usbi_os_backend usbi_backend = {
+ 	struct linux_device_priv *priv = usbi_get_device_priv(dev);
+ 
++	free(priv->ports);
+ 	free(priv->config_descriptors);
+ 	free(priv->descriptors);
+ 	free(priv->sysfs_dir);
+@@ -2867,6 +2896,7 @@ const struct usbi_os_backend usbi_backend = {
  	.get_active_config_descriptor = op_get_active_config_descriptor,
  	.get_config_descriptor = op_get_config_descriptor,
  	.get_config_descriptor_by_value = op_get_config_descriptor_by_value,
@@ -136,5 +135,5 @@ index a00d51a..3695023 100644
  	.wrap_sys_device = op_wrap_sys_device,
  	.open = op_open,
 -- 
-2.22.0.rc2.383.gf4fbbf30c2-goog
+2.38.1.584.g0f3c55d4c2-goog
 
