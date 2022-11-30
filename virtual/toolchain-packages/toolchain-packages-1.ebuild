@@ -19,6 +19,8 @@ IUSE=""
 
 DEPEND="
 	dev-embedded/coreboot-sdk
+	dev-embedded/hps-sdk
+	dev-embedded/ti50-sdk
 	dev-lang/go
 	dev-lang/rust
 	dev-libs/elfutils
