@@ -3,6 +3,8 @@
 
 EAPI="7"
 
+inherit cros-kernel-versions
+
 DESCRIPTION="Chrome OS Kernel virtual package"
 HOMEPAGE="http://src.chromium.org"
 
@@ -10,43 +12,21 @@ LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="*"
 
-IUSE_KERNEL_VERS=(
-	kernel-4_4
-	kernel-4_14
-	kernel-4_19
-	kernel-5_4
-	kernel-5_10
-	kernel-5_15
-	kernel-6_1
-	kernel-experimental
-	kernel-next
-	kernel-upstream
-	kernel-upstream-mainline
-	kernel-upstream-next
-)
-IUSE="${IUSE_KERNEL_VERS[*]}"
+# shellcheck disable=SC2154
+IUSE="${!CHROMEOS_KERNELS[*]}"
 # exactly one of foo, bar, or baz must be set, but not several
-REQUIRED_USE="^^ ( ${IUSE_KERNEL_VERS[*]} )"
+REQUIRED_USE="^^ ( ${!CHROMEOS_KERNELS[*]} )"
 
+# shellcheck disable=SC2154
 RDEPEND="
-	kernel-4_4? ( sys-kernel/chromeos-kernel-4_4 )
-	kernel-4_14? ( sys-kernel/chromeos-kernel-4_14 )
-	kernel-4_19? ( sys-kernel/chromeos-kernel-4_19 )
-	kernel-5_4? ( sys-kernel/chromeos-kernel-5_4 )
-	kernel-5_10? ( sys-kernel/chromeos-kernel-5_10 )
-	kernel-5_15? ( sys-kernel/chromeos-kernel-5_15 )
-	kernel-6_1? ( sys-kernel/chromeos-kernel-6_1 )
-	kernel-experimental? ( sys-kernel/chromeos-kernel-experimental )
-	kernel-next? ( sys-kernel/chromeos-kernel-next )
-	kernel-upstream? ( sys-kernel/chromeos-kernel-upstream )
-	kernel-upstream-mainline? ( sys-kernel/upstream-kernel-mainline )
-	kernel-upstream-next? ( sys-kernel/upstream-kernel-next )
+	$(for v in "${!CHROMEOS_KERNELS[@]}"; do echo  "${v}? (  sys-kernel/${CHROMEOS_KERNELS[${v}]} )"; done)
 "
 
 # Add blockers so when migrating between USE flags, the old version gets
 # unmerged automatically.
+# shellcheck disable=SC2154
 RDEPEND+="
-	$(for v in "${IUSE_KERNEL_VERS[@]}"; do echo "!${v}? ( !sys-kernel/chromeos-${v} )"; done)
+	$(for v in "${!CHROMEOS_KERNELS[@]}"; do echo "!${v}? ( !sys-kernel/${CHROMEOS_KERNELS[${v}]} )"; done)
 "
 
 # Default to the latest kernel if none has been selected.
@@ -54,7 +34,7 @@ RDEPEND+="
 RDEPEND_DEFAULT="sys-kernel/chromeos-kernel-5_4"
 # Here be dragons!
 RDEPEND+="
-	$(printf '!%s? ( ' "${IUSE_KERNEL_VERS[@]}")
+	$(printf '!%s? ( ' "${!CHROMEOS_KERNELS[@]}")
 	${RDEPEND_DEFAULT}
-	$(printf '%0.s) ' "${IUSE_KERNEL_VERS[@]}")
+	$(printf '%0.s) ' "${!CHROMEOS_KERNELS[@]}")
 "
