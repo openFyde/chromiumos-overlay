@@ -87,6 +87,10 @@ cros-ish_set_build_env() {
 	EC_OPTS=()
 	use quiet && EC_OPTS+=( -s V=0 )
 	use verbose && EC_OPTS+=( V=1 )
+
+	# Disable the kconfig checker, as the platform/ec commit queue
+	# does not use this code path.
+	EC_OPTS+=( "ALLOW_CONFIG=1" )
 }
 
 # @FUNCTION: cros-ish_src_compile
