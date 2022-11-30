@@ -1,0 +1,38 @@
+# Copyright 2019 The ChromiumOS Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=5
+
+CROS_WORKON_COMMIT="1c1d4a83416317d316f1542bb1a9c5b7edccbf86"
+CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "3a939e262dbbb04bab2434b9e34a18e1f4cbda60" "dd2d85ee47a9a229938d18a8e604ba1e0ce635cb" "e6578b38b469b21f5109dcf59ac8fc6f401ec7a1" "19f83764478ccf1f38ca1663e0b982cfdf3fffd0" "0b0dd5bc473351b6560e9918ec0b086342282058" "a0af00390c3d3c63903578edd1d7c7cb504a8699" "5c3bb2fd2ed1b07b2afc032368304988b7b7df99" "7c7d4170b01f9cd05a107c251a378c716ccd9d77")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/ip camera/hal/usb camera/include camera/mojo chromeos-config common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera/hal/ip"
+
+inherit cros-camera cros-workon platform
+
+DESCRIPTION="Chrome OS IP camera HAL v3."
+
+LICENSE="BSD-Google"
+SLOT="0"
+KEYWORDS="*"
+RDEPEND="
+	chromeos-base/chromeos-config-tools
+	chromeos-base/cros-camera-android-deps
+	chromeos-base/cros-camera-libs
+	media-libs/libsync"
+
+DEPEND="${RDEPEND}
+	virtual/pkgconfig"
+
+src_install() {
+	cros-camera_dohal "${OUT}/lib/libcamera_hal.so" ip.so
+}
+
+platform_pkg_test() {
+	platform_test run "${OUT}"/request_queue_test
+}
