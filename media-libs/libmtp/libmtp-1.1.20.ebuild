@@ -34,6 +34,8 @@ PATCHES=(
 	"${FILESDIR}"/${P}-19_raw_read_directory.patch
 	"${FILESDIR}"/${P}-20_get_thumbnail_format.patch
 	"${FILESDIR}"/${P}-22_ptp_timezone.patch
+	"${FILESDIR}"/${P}-23_check_ptp_init_send_memory_handler_return.patch
+	"${FILESDIR}"/${P}-24_update_ptp_ucs2str_reader.patch
 )
 
 src_prepare() {

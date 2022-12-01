@@ -1,8 +1,11 @@
+Patch 19 is from upstream libmtp git master branch commit:
+https://github.com/libmtp/libmtp/commit/e95483e6475b8adf7ea31c699a3fcc54b91fed43
+
 diff --git a/src/libmtp.c b/src/libmtp.c
-index ca27154..d3d4f89 100644
+index ca27154..c73263f 100644
 --- a/src/libmtp.c
 +++ b/src/libmtp.c
-@@ -4586,6 +4586,67 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *device,
+@@ -4586,6 +4586,65 @@ LIBMTP_file_t * LIBMTP_Get_Files_And_Folders(LIBMTP_mtpdevice_t *device,
    return retfiles;
  }
  
@@ -30,13 +33,11 @@ index ca27154..d3d4f89 100644
 +                        uint32_t **out)
 +{
 +  PTPParams *params = (PTPParams *) device->params;
-+  PTP_USB *ptp_usb = (PTP_USB*) device->usbinfo;
 +  LIBMTP_file_t *retfiles = NULL;
 +  LIBMTP_file_t *curfile = NULL;
 +  PTPObjectHandles currentHandles;
 +  uint32_t storageid;
 +  uint16_t ret;
-+  int i = 0;
 +
 +  if (device->cached) {
 +    // This function is only supposed to be used by devices
