@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5a62edbb1e5d8eeeeb3a91fd6f8b56eb2af1876b"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "45bc47485a024170c23b44afcafcb8353f2b0d46" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="0ab868998bcc8a1129cb02b2f1d25ce4ab808e7e"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "34bbb907e299188b374561d2aa4329c405497412" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,10 +30,7 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/arc-host-clock-service
-
-	insinto /etc/init
-	doins arc-host-clock-service.conf
+	platform_src_install
 }
 
 pkg_preinst() {
