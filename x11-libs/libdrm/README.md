@@ -6,3 +6,6 @@ Please monitor after each libdrm uprev the [Chrome OS LKGM builds](https://chrom
 Look for amd64-generic and betty failures in ozone_unittests, especially
 failures affecting Display and DRM. If such failures appear this may indicate a
 need to [adjust the structures in mock_drm_device.h](http://b/222614515).
+
+Example Chromium roll created with:
+~/chromium/src$ roll-dep --roll-to b9ca37b3134861048986b75896c0915cbf2e97f9 -b b:247687324 src/third_party/libdrm/src
