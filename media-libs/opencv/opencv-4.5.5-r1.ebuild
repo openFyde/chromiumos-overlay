@@ -527,6 +527,7 @@ multilib_src_configure() {
 		-DINSTALL_PYTHON_EXAMPLES=OFF
 		-DBUILD_opencv_python2=OFF
 		-DBUILD_opencv_python3=OFF
+		-DCMAKE_CXX_STANDARD=14
 	)
 
 	cmake_src_configure
@@ -559,6 +560,7 @@ python_module_compile() {
 		-DOPENCV_SKIP_PYTHON_LOADER=ON
 		-DOPENCV_PYTHON3_INSTALL_PATH="${python_install_path}"
 		-DINSTALL_PYTHON_EXAMPLES=$(usex examples)
+		-DCMAKE_CXX_STANDARD=14
 	)
 
 	# Regenerate cache file. Can't use rebuild_cache as it won't
