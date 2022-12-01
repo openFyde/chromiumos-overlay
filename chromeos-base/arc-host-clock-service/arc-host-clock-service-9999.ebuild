@@ -28,10 +28,7 @@ DEPEND="
 "
 
 src_install() {
-	dobin "${OUT}"/arc-host-clock-service
-
-	insinto /etc/init
-	doins arc-host-clock-service.conf
+	platform_src_install
 }
 
 pkg_preinst() {
