@@ -101,6 +101,7 @@ src_compile() {
 		args=(
 			"--//:hw_dependency"
 			"$(use cras-apm && echo "--//:apm")"
+			"$(use cras-ml && echo "--//:ml")"
 		)
 		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
 		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
