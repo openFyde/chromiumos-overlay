@@ -65,7 +65,7 @@ src_install() {
 	fperms 0700 "${daemon_store}"
 	fowners u2f:u2f "${daemon_store}"
 
-	local fuzzer_component_id="1188704"
+	local fuzzer_component_id="1281105"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2f_apdu_fuzzer \
 		--comp "${fuzzer_component_id}"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/u2fhid_fuzzer \
