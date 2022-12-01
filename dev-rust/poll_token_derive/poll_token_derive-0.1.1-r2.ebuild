@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="b933ffdecb3ee250c74c6c646b12ccac3330caff"
+CROS_WORKON_COMMIT="05a0aed037ac63c803cb79df8d8bb788182b219e"
 CROS_WORKON_TREE="8da6d7dd34a1a3b0b5141e6c49cf25268b1b6a1b"
 CROS_RUST_SUBDIR="libchromeos-rs/src/deprecated/poll_token_derive"
 
@@ -20,8 +20,5 @@ HOMEPAGE='https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libchrom
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-DEPEND="
-	dev-rust/third-party-crates-src:=
-	=dev-rust/syn-0.15*
-"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="${DEPEND}"
