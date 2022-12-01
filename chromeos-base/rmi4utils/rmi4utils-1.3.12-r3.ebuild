@@ -16,9 +16,12 @@ IUSE=""
 
 src_configure() {
 	tc-export AR CXX RANLIB
+	export STATIC_BUILD=n
 }
 
 src_install() {
+	dolib.so rmidevice/librmidevice.so
+
 	dosbin rmi4update/rmi4update
 	dosbin rmihidtool/rmihidtool
 }
