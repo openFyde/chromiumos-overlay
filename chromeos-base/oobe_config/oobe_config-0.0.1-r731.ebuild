@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="da3a7bc1d0bc06a3bfc02e7f21e3a9f5e10d58bf"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "e26980e303a4d4cebe9dea8e8819124910e089d1" "9da4303fca3d31774ff2a0ed56ad7e4beb63abc7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="917f200499a6e3ad3b0f6d374a042f21034114d4"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "0115f034b7363328f264048244adda75a2fdf805" "9da4303fca3d31774ff2a0ed56ad7e4beb63abc7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -89,7 +89,7 @@ src_install() {
 	local fuzzer_component_id="1031231"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/load_oobe_config_rollback_fuzzer \
 		--comp "${fuzzer_component_id}"
-	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/rollback_openssl_encryption_fuzzer \
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/openssl_encryption_fuzzer \
 		--comp "${fuzzer_component_id}"
 }
 
