@@ -184,7 +184,7 @@ src_install() {
 
 	dotmpfiles tmpfiles.d/cryptohome.conf
 
-	local fuzzer_component_id="1188704"
+	local fuzzer_component_id="1088399"
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_cryptolib_rsa_oaep_decrypt_fuzzer \
 		--comp "${fuzzer_component_id}" \
