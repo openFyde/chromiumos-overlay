@@ -12,7 +12,7 @@ JavaScript API. This DLC downloads the web assembly, JavaScript wrapper, and
 locale-specific binary files, which are all built in google3. Pumpkin is
 currently used by accessibility services on Chrome OS.'
 HOMEPAGE=""
-SRC_URI="gs://chromeos-localmirror/distfiles/${PN}-2.0.tar.xz"
+SRC_URI="gs://chromeos-localmirror/distfiles/${PN}-3.0.tar.xz"
 
 LICENSE="BSD-Google"
 SLOT="0"
@@ -26,8 +26,9 @@ CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="../platform/empty-project"
 
 # DLC variables.
-# 4KB * 1624 = ~6.5MB
-DLC_PREALLOC_BLOCKS="1624"
+# The total size of the Pumpkin DLC is 5.9MB.
+# DLC_PREALLOC_BLOCKS = (DLC_SIZE * 1.3) / 4000 = 1917.5.
+DLC_PREALLOC_BLOCKS="1918"
 
 S="${WORKDIR}"
 src_unpack() {
