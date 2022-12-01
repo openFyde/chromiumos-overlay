@@ -5,13 +5,13 @@
 EAPI=7
 
 CROS_WORKON_COMMIT=(
-	"3119f36cbfba7b8dcee148fa248ee00069407710"
-	"e9b6f585f9c23ebc4e85e9f5cfa277dfa2021c88"
+	"402fc2dc512ec39ddd3406987c2e21c9cc6b9330"
+	"f62cef16e4310a900d88481ce03f78cad5a449c7"
 )
 
 CROS_WORKON_TREE=(
-	"3119f36cbfba7b8dcee148fa248ee00069407710"
-	"e9b6f585f9c23ebc4e85e9f5cfa277dfa2021c88"
+	"402fc2dc512ec39ddd3406987c2e21c9cc6b9330"
+	"f62cef16e4310a900d88481ce03f78cad5a449c7"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -83,19 +83,18 @@ BDEPEND="
 
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
-	PATCHES+=("${FILESDIR}/clvk-opencl12.patch")
+	PATCHES+=("${FILESDIR}/clvk-00-opencl12.patch")
 	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
 	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
-	PATCHES+=("${FILESDIR}/clvk-sampledbuffer.patch")
+	PATCHES+=("${FILESDIR}/clvk-01-sampledbuffer.patch")
 
 	# TODO(b/259217927) : To be remove as soon as they are merged upstream
-	PATCHES+=("${FILESDIR}/clvk-01-default-config.patch")
-	PATCHES+=("${FILESDIR}/clvk-02-profiling-event.patch")
-	PATCHES+=("${FILESDIR}/clvk-03-main-thread-exec.patch")
-	PATCHES+=("${FILESDIR}/clvk-04-multi-command-event.patch")
-	PATCHES+=("${FILESDIR}/clvk-05-timeline-semaphores.patch")
-	PATCHES+=("${FILESDIR}/clvk-06-configurable-polling.patch")
+	PATCHES+=("${FILESDIR}/clvk-10-build-cache-tmp.patch")
+	PATCHES+=("${FILESDIR}/clvk-11-main-thread-exec.patch")
+	PATCHES+=("${FILESDIR}/clvk-12-multi-command-event.patch")
+	PATCHES+=("${FILESDIR}/clvk-90-timeline-semaphores.patch")
+	PATCHES+=("${FILESDIR}/clvk-91-configurable-polling.patch")
 fi
 
 src_unpack() {

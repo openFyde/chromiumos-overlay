@@ -1,8 +1,8 @@
 diff --git a/clvk/src/CMakeLists.txt b/clvk/src/CMakeLists.txt
-index 81dbf20..7ec5e63 100644
+index 46a44a1..cac6069 100644
 --- a/clvk/src/CMakeLists.txt
 +++ b/clvk/src/CMakeLists.txt
-@@ -51,6 +51,7 @@ add_library(OpenCL-objects OBJECT
+@@ -52,6 +52,7 @@ add_library(OpenCL-objects OBJECT
    memory.cpp
    program.cpp
    queue.cpp
@@ -11,10 +11,10 @@ index 81dbf20..7ec5e63 100644
    tracing.cpp
    unit.cpp
 diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
-index 543e041..75e3e0f 100644
+index ce5e83a..7108d98 100644
 --- a/clvk/src/device.cpp
 +++ b/clvk/src/device.cpp
-@@ -51,6 +51,8 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
+@@ -47,6 +47,8 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT;
      m_subgroup_properties.sType =
          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES;
@@ -23,7 +23,7 @@ index 543e041..75e3e0f 100644
  
  #define VER_EXT_PROP(ver, ext, prop)                                           \
      {ver, ext, reinterpret_cast<VkBaseOutStructure*>(&prop)}
-@@ -65,6 +67,9 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
+@@ -61,6 +63,9 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
                           m_pci_bus_info_properties),
              VER_EXT_PROP(VK_MAKE_VERSION(1, 1, 0), nullptr,
                           m_subgroup_properties),
@@ -33,15 +33,15 @@ index 543e041..75e3e0f 100644
          };
  #undef VER_EXT_PROP
  
-@@ -278,6 +283,7 @@ bool cvk_device::init_extensions() {
-         VK_EXT_PCI_BUS_INFO_EXTENSION_NAME,
+@@ -217,6 +222,7 @@ bool cvk_device::init_extensions() {
          VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME,
          VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME,
+         VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME,
 +        VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME,
      };
  
      if (m_properties.apiVersion < VK_MAKE_VERSION(1, 2, 0)) {
-@@ -329,6 +335,8 @@ void cvk_device::init_features(VkInstance instance) {
+@@ -268,6 +274,8 @@ void cvk_device::init_features(VkInstance instance) {
          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES_KHR;
      m_features_vulkan_memory_model.sType =
          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES;
@@ -50,7 +50,7 @@ index 543e041..75e3e0f 100644
  
      std::vector<std::tuple<uint32_t, const char*, VkBaseOutStructure*>>
          coreversion_extension_features = {
-@@ -355,6 +363,9 @@ void cvk_device::init_features(VkInstance instance) {
+@@ -294,6 +302,9 @@ void cvk_device::init_features(VkInstance instance) {
              VER_EXT_FEAT(VK_MAKE_VERSION(1, 2, 0),
                           VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME,
                           m_features_vulkan_memory_model),
@@ -60,7 +60,7 @@ index 543e041..75e3e0f 100644
  #undef VER_EXT_FEAT
          };
  
-@@ -401,6 +412,8 @@ void cvk_device::init_features(VkInstance instance) {
+@@ -340,6 +351,8 @@ void cvk_device::init_features(VkInstance instance) {
      cvk_info(
          "subgroup extended types: %d",
          m_features_shader_subgroup_extended_types.shaderSubgroupExtendedTypes);
@@ -70,10 +70,10 @@ index 543e041..75e3e0f 100644
      // Selectively enable core features.
      if (supported_features.features.shaderInt16) {
 diff --git a/clvk/src/device.hpp b/clvk/src/device.hpp
-index d08078d..4c2e5e3 100644
+index 05ca4b0..5eebd12 100644
 --- a/clvk/src/device.hpp
 +++ b/clvk/src/device.hpp
-@@ -410,6 +410,15 @@ struct cvk_device : public _cl_device_id,
+@@ -431,6 +431,15 @@ struct cvk_device : public _cl_device_id,
  
      CHECK_RETURN bool has_timer_support() const { return m_has_timer_support; }
  
@@ -89,7 +89,7 @@ index d08078d..4c2e5e3 100644
      CHECK_RETURN cl_int get_device_host_timer(cl_ulong* dev_ts,
                                                cl_ulong* host_ts) const;
      cl_ulong device_timer_to_host(cl_ulong dev, cl_ulong sync_dev,
-@@ -513,6 +522,7 @@ private:
+@@ -538,6 +547,7 @@ private:
      VkPhysicalDeviceIDPropertiesKHR m_device_id_properties;
      VkPhysicalDeviceSubgroupProperties m_subgroup_properties{};
      VkPhysicalDevicePCIBusInfoPropertiesEXT m_pci_bus_info_properties;
@@ -97,7 +97,7 @@ index d08078d..4c2e5e3 100644
      // Vulkan features
      VkPhysicalDeviceFeatures2 m_features{};
      VkPhysicalDeviceVariablePointerFeatures m_features_variable_pointer{};
-@@ -525,6 +535,7 @@ private:
+@@ -550,6 +560,7 @@ private:
          m_features_shader_subgroup_extended_types{};
      VkPhysicalDeviceVulkanMemoryModelFeaturesKHR
          m_features_vulkan_memory_model{};
@@ -106,15 +106,14 @@ index d08078d..4c2e5e3 100644
      VkDevice m_dev;
      std::vector<const char*> m_vulkan_device_extensions;
 diff --git a/clvk/src/event.cpp b/clvk/src/event.cpp
-index 9042455..c841c6b 100644
+index 969b321..cfe1c07 100644
 --- a/clvk/src/event.cpp
 +++ b/clvk/src/event.cpp
-@@ -33,13 +33,22 @@ cvk_event_command::cvk_event_command(cvk_context* ctx, cvk_command* cmd,
+@@ -32,13 +32,21 @@ cvk_event_command::cvk_event_command(cvk_context* ctx, cvk_command* cmd,
+         m_status = CL_QUEUED;
          m_command_type = cmd->type();
-         set_profiling_info_from_monotonic_clock(CL_PROFILING_COMMAND_QUEUED);
      }
-+    if (m_command_type == CL_COMMAND_USER ||
-+        !queue->device()->has_timeline_semaphore_support()) {
++    if (m_command_type == CL_COMMAND_USER || !queue->use_timeline_semaphore()) {
 +        m_cv = std::make_unique<cvk_std_condition_variable>();
 +    } else {
 +        cvk_semaphore* sem;
@@ -125,26 +124,18 @@ index 9042455..c841c6b 100644
  }
  
 -void cvk_event_command::set_status(cl_int status) {
-+void cvk_event_command::set_status_no_lock(cl_int status) {
-     cvk_debug("cvk_event::set_status: event = %p, status = %d", this, status);
+-    cvk_debug("cvk_event::set_status: event = %p, status = %d", this, status);
 -    std::lock_guard<std::mutex> lock(m_lock);
- 
--    CVK_ASSERT(status < m_status);
++void cvk_event_command::set_status_no_lock(cl_int status) {
 +    if (status >= m_status)
 +        return;
+ 
+-    CVK_ASSERT(status < m_status);
++    cvk_debug("cvk_event::set_status: event = %p, status = %d", this, status);
      m_status = status;
  
      if (m_queue && m_queue->has_property(CL_QUEUE_PROFILING_ENABLE) && m_cmd &&
-@@ -47,7 +56,7 @@ void cvk_event_command::set_status(cl_int status) {
-         cl_profiling_info pinfo = status_to_profiling_info[status];
-         // profiling could have already been set. In particular in the
-         // case of the command_batch
--        if (get_profiling_info(pinfo) == 0) {
-+        if (get_profiling_info_unchecked(pinfo) == 0) {
-             auto err = m_cmd->set_profiling_info(pinfo);
-             if (err != CL_SUCCESS) {
-                 m_status = err;
-@@ -55,7 +64,7 @@ void cvk_event_command::set_status(cl_int status) {
+@@ -54,7 +62,7 @@ void cvk_event_command::set_status(cl_int status) {
          }
      }
  
@@ -153,7 +144,7 @@ index 9042455..c841c6b 100644
  
          for (auto& type_cb : m_callbacks) {
              for (auto& cb : type_cb.second) {
-@@ -63,6 +72,6 @@ void cvk_event_command::set_status(cl_int status) {
+@@ -62,6 +70,6 @@ void cvk_event_command::set_status(cl_int status) {
              }
          }
  
@@ -162,7 +153,7 @@ index 9042455..c841c6b 100644
      }
  }
 diff --git a/clvk/src/event.hpp b/clvk/src/event.hpp
-index 86d85d9..e3f4002 100644
+index 86d85d9..03d567c 100644
 --- a/clvk/src/event.hpp
 +++ b/clvk/src/event.hpp
 @@ -17,6 +17,7 @@
@@ -243,15 +234,10 @@ index 86d85d9..e3f4002 100644
  
      bool completed() { return get_status() == CL_COMPLETE; }
  
-@@ -62,7 +119,18 @@ struct cvk_event : public _cl_event, api_object<object_magic::event> {
- 
+@@ -63,6 +120,14 @@ struct cvk_event : public _cl_event, api_object<object_magic::event> {
      virtual cl_int wait() = 0 ;
  
--    virtual uint64_t get_profiling_info(cl_profiling_info pinfo) const = 0 ;
-+    virtual uint64_t get_profiling_info(cl_profiling_info pinfo) = 0 ;
-+    virtual uint64_t
-+    get_profiling_info_unchecked(cl_profiling_info pinfo) const = 0;
-+
+     virtual uint64_t get_profiling_info(cl_profiling_info pinfo) const = 0 ;
 +    virtual cvk_semaphore* get_semaphore() {
 +        CVK_ASSERT(false && "Should never be called");
 +        return nullptr;
@@ -263,7 +249,7 @@ index 86d85d9..e3f4002 100644
  
  protected:
      cl_command_type m_command_type;
-@@ -73,7 +141,10 @@ struct cvk_event_command : public cvk_event {
+@@ -73,7 +138,10 @@ struct cvk_event_command : public cvk_event {
  
      cvk_event_command(cvk_context* ctx, cvk_command* cmd, cvk_command_queue* queue);
  
@@ -275,7 +261,7 @@ index 86d85d9..e3f4002 100644
  
      void register_callback(cl_int callback_type,
                             cvk_event_callback_pointer_type ptr,
-@@ -89,16 +160,33 @@ struct cvk_event_command : public cvk_event {
+@@ -89,16 +157,33 @@ struct cvk_event_command : public cvk_event {
          }
      }
  
@@ -312,29 +298,7 @@ index 86d85d9..e3f4002 100644
          }
  
          return m_status;
-@@ -109,11 +197,19 @@ struct cvk_event_command : public cvk_event {
-     }
- 
-     void copy_profiling_info(cl_profiling_info info, const cvk_event* event) {
--        auto val = event->get_profiling_info(info);
-+        auto val = event->get_profiling_info_unchecked(info);
-         set_profiling_info(info, val);
-     }
- 
--    uint64_t get_profiling_info(cl_profiling_info pinfo) const override final {
-+    uint64_t get_profiling_info(cl_profiling_info pinfo) override final{
-+        if (pinfo == CL_PROFILING_COMMAND_END) {
-+            check_completion();
-+        }
-+        return get_profiling_info_unchecked(pinfo);
-+    }
-+
-+    uint64_t
-+    get_profiling_info_unchecked(cl_profiling_info pinfo) const override final {
-         return m_profiling_data[pinfo - CL_PROFILING_COMMAND_QUEUED];
-     }
- 
-@@ -128,13 +224,19 @@ struct cvk_event_command : public cvk_event {
+@@ -128,13 +213,19 @@ struct cvk_event_command : public cvk_event {
          set_profiling_info(pinfo, sample_clock());
      }
  
@@ -355,7 +319,7 @@ index 86d85d9..e3f4002 100644
      cl_int m_status;
      cl_ulong m_profiling_data[4]{};
      cvk_command* m_cmd;
-@@ -173,7 +275,7 @@ struct cvk_event_combine : public cvk_event {
+@@ -173,7 +264,7 @@ struct cvk_event_combine : public cvk_event {
          }
      }
  
@@ -364,31 +328,8 @@ index 86d85d9..e3f4002 100644
          return std::min(m_end_event->get_status(), m_start_event->get_status());
      }
  
-@@ -181,13 +283,21 @@ struct cvk_event_combine : public cvk_event {
-         return m_end_event->wait();
-     }
- 
--    uint64_t get_profiling_info(cl_profiling_info pinfo) const override final {
-+    uint64_t get_profiling_info(cl_profiling_info pinfo) override final {
-         if (pinfo == CL_PROFILING_COMMAND_END) {
-             return m_end_event->get_profiling_info(pinfo);
-         } else {
-             return m_start_event->get_profiling_info(pinfo);
-         }
-     }
-+    uint64_t
-+    get_profiling_info_unchecked(cl_profiling_info pinfo) const override final {
-+        if (pinfo == CL_PROFILING_COMMAND_END) {
-+            return m_end_event->get_profiling_info_unchecked(pinfo);
-+        } else {
-+            return m_start_event->get_profiling_info_unchecked(pinfo);
-+        }
-+    }
- 
- private:
-     cvk_event *m_start_event;
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index 65cd093..ab3defd 100644
+index 5faa651..058ef23 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
 @@ -33,11 +33,14 @@ cvk_command_queue::cvk_command_queue(
@@ -420,23 +361,68 @@ index 65cd093..ab3defd 100644
      if (m_executor != nullptr) {
          get_thread_pool()->return_executor(m_executor);
      }
-@@ -119,6 +128,9 @@ void cvk_command_queue::enqueue_command(cvk_command* cmd) {
-     } else if (m_finish_event != nullptr) {
-         cmd->add_dependency(m_finish_event);
-     }
+@@ -108,6 +117,23 @@ cl_int cvk_command_queue::satisfy_data_dependencies(cvk_command* cmd) {
+     return CL_SUCCESS;
+ }
+ 
++void cvk_command_queue::enqueue_command(cvk_command* cmd) {
++    TRACE_FUNCTION("queue", (uintptr_t)this, "cmd", (uintptr_t)cmd);
++    // clvk only supports inorder queues.
++    // But as the commands can be executed by 2 threads (1 executor and the main
++    // thread), we need to explicit the dependency to ensure it will be
++    // respected.
++    if (!m_groups.back()->commands.empty()) {
++        cmd->add_dependency(m_groups.back()->commands.back()->event());
++    } else if (m_finish_event != nullptr) {
++        cmd->add_dependency(m_finish_event);
++    }
 +    if (cmd->is_synchronous_submit()) {
 +        sync_submit_cmd_enqueued();
 +    }
-     m_groups.back()->commands.push_back(cmd);
- }
++    m_groups.back()->commands.push_back(cmd);
++}
++
+ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
  
-@@ -231,8 +243,17 @@ cl_int cvk_command_queue::end_current_command_batch() {
+     cl_int err;
+@@ -133,6 +159,9 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
+             return err;
+         }
+ 
++        cmd->event()->set_profiling_info_from_monotonic_clock(
++            CL_PROFILING_COMMAND_QUEUED);
++
+         // End command batch when size limit reached
+         if (m_command_batch->batch_size() >= m_max_cmd_batch_size ||
+             (m_nb_batch_in_flight == 0 &&
+@@ -156,14 +185,14 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
+             }
+         }
+ 
+-        m_groups.back()->commands.push_back(cmd);
++        enqueue_command(cmd);
++
++        cmd->event()->set_profiling_info_from_monotonic_clock(
++            CL_PROFILING_COMMAND_QUEUED);
+     }
+ 
+     cvk_debug_fn("enqueued command %p, event %p", cmd, cmd->event());
+ 
+-    cmd->event()->set_profiling_info_from_monotonic_clock(
+-        CL_PROFILING_COMMAND_QUEUED);
+-
+     if (event != nullptr) {
+         // The event will be returned to the app, retain it for the user
+         cmd->event()->retain();
+@@ -219,9 +248,18 @@ cl_int cvk_command_queue::end_current_command_batch() {
+         if (!m_command_batch->end()) {
              return CL_OUT_OF_RESOURCES;
          }
-         enqueue_command(m_command_batch);
+-        m_groups.back()->commands.push_back(m_command_batch);
 -        m_command_batch = nullptr;
- 
-+        if (m_device->has_timeline_semaphore_support() &&
++        enqueue_command(m_command_batch);
++
++        if (use_timeline_semaphore() &&
 +            m_nb_synchronous_submit_command_in_flight == 1) {
 +            m_command_batch->set_event_status(CL_SUBMITTED);
 +            m_command_batch->set_event_status(CL_RUNNING);
@@ -444,12 +430,12 @@ index 65cd093..ab3defd 100644
 +                return CL_OUT_OF_RESOURCES;
 +            }
 +        }
-+
+ 
 +        m_command_batch = nullptr;
          batch_enqueued();
      }
      return CL_SUCCESS;
-@@ -306,7 +327,7 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
+@@ -295,7 +333,7 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
      }
  
      m_lock.unlock();
@@ -458,7 +444,7 @@ index 65cd093..ab3defd 100644
      auto ret = execute_cmds(cmds);
      m_lock.lock();
  
-@@ -477,6 +498,27 @@ cl_int cvk_command_queue::finish() {
+@@ -461,6 +499,27 @@ cl_int cvk_command_queue::finish() {
      return CL_SUCCESS;
  }
  
@@ -486,7 +472,7 @@ index 65cd093..ab3defd 100644
  VkResult cvk_command_pool::allocate_command_buffer(VkCommandBuffer* cmdbuf) {
  
      std::lock_guard<std::mutex> lock(m_lock);
-@@ -518,6 +560,22 @@ bool cvk_command_buffer::begin() {
+@@ -502,6 +561,22 @@ bool cvk_command_buffer::begin() {
      return true;
  }
  
@@ -509,7 +495,7 @@ index 65cd093..ab3defd 100644
  bool cvk_command_buffer::submit_and_wait() {
      auto& queue = m_queue->vulkan_queue();
  
-@@ -1059,12 +1117,38 @@ cl_int cvk_command_batchable::do_action() {
+@@ -1043,12 +1118,38 @@ cl_int cvk_command_batchable::do_action() {
      return CL_COMPLETE;
  }
  
@@ -553,10 +539,22 @@ index 65cd093..ab3defd 100644
  
      m_queue->batch_completed();
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 93db2a0..28af287 100644
+index 838bac5..b43a7ae 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
-@@ -210,11 +210,21 @@ struct cvk_command_queue : public _cl_command_queue,
+@@ -142,6 +142,11 @@ struct cvk_command_queue : public _cl_command_queue,
+         return (m_properties & prop) == prop;
+     }
+ 
++    bool use_timeline_semaphore() const {
++        return m_device->has_timeline_semaphore_support() &&
++               !has_property(CL_QUEUE_PROFILING_ENABLE);
++    }
++
+     CHECK_RETURN cl_int enqueue_command_with_deps(cvk_command* cmd,
+                                                   cl_uint num_dep_events,
+                                                   _cl_event* const* dep_events,
+@@ -200,11 +205,21 @@ struct cvk_command_queue : public _cl_command_queue,
          TRACE_CNT(group_in_flight_counter, group - 1);
      }
  
@@ -578,7 +576,7 @@ index 93db2a0..28af287 100644
  private:
      CHECK_RETURN cl_int satisfy_data_dependencies(cvk_command* cmd);
      void enqueue_command(cvk_command* cmd);
-@@ -237,6 +247,9 @@ private:
+@@ -227,6 +242,9 @@ private:
      cvk_vulkan_queue_wrapper& m_vulkan_queue;
      cvk_command_pool m_command_pool;
  
@@ -588,7 +586,7 @@ index 93db2a0..28af287 100644
      cl_uint m_max_cmd_batch_size;
      cl_uint m_max_first_cmd_batch_size;
      cl_uint m_max_cmd_group_size;
-@@ -245,6 +258,8 @@ private:
+@@ -235,6 +253,8 @@ private:
      std::atomic<uint64_t> m_nb_batch_in_flight;
      std::atomic<uint64_t> m_nb_group_in_flight;
  
@@ -597,7 +595,7 @@ index 93db2a0..28af287 100644
      TRACE_CNT_VAR(batch_in_flight_counter);
      TRACE_CNT_VAR(group_in_flight_counter);
  };
-@@ -331,6 +346,10 @@ struct cvk_command_buffer {
+@@ -321,6 +341,10 @@ struct cvk_command_buffer {
          return res == VK_SUCCESS;
      }
  
@@ -608,7 +606,7 @@ index 93db2a0..28af287 100644
      CHECK_RETURN bool submit_and_wait();
  
      operator VkCommandBuffer() { return m_command_buffer; }
-@@ -349,7 +368,12 @@ struct cvk_command {
+@@ -339,7 +363,12 @@ struct cvk_command {
          : m_type(type), m_queue(queue),
            m_event(new cvk_event_command(m_queue->context(), this, queue)) {}
  
@@ -622,7 +620,7 @@ index 93db2a0..28af287 100644
  
      void set_dependencies(cl_uint num_event_deps,
                            _cl_event* const* event_deps) {
-@@ -378,6 +402,15 @@ struct cvk_command {
+@@ -368,6 +397,15 @@ struct cvk_command {
      // never have data movement requirements of their own.
      virtual bool is_data_movement() const { return false; }
  
@@ -638,7 +636,7 @@ index 93db2a0..28af287 100644
      void add_dependency(cvk_event* dep) {
          dep->retain();
          m_event_deps.push_back(dep);
-@@ -391,7 +424,6 @@ struct cvk_command {
+@@ -381,7 +419,6 @@ struct cvk_command {
              if (ev->wait() != CL_COMPLETE) {
                  status = CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST;
              }
@@ -646,7 +644,7 @@ index 93db2a0..28af287 100644
          }
  
          // Then execute the action if no dependencies failed
-@@ -405,6 +437,9 @@ struct cvk_command {
+@@ -395,12 +432,15 @@ struct cvk_command {
              status = do_action();
              TRACE_END();
          }
@@ -656,7 +654,14 @@ index 93db2a0..28af287 100644
  
          set_event_status(status);
          return status;
-@@ -638,6 +673,7 @@ struct cvk_command_batchable : public cvk_command {
+     }
+ 
+-    cvk_event_command* event() const { return m_event; }
++    virtual cvk_event_command* event() const { return m_event; }
+ 
+     cl_command_type type() const { return m_type; }
+ 
+@@ -628,6 +668,7 @@ struct cvk_command_batchable : public cvk_command {
  
      bool can_be_batched() const override final;
      bool is_built_before_enqueue() const override final { return false; }
@@ -664,7 +669,7 @@ index 93db2a0..28af287 100644
  
      CHECK_RETURN cl_int get_timestamp_query_results(cl_ulong* start,
                                                      cl_ulong* end);
-@@ -779,7 +815,7 @@ private:
+@@ -764,7 +805,7 @@ private:
  
  struct cvk_command_batch : public cvk_command {
      cvk_command_batch(cvk_command_queue* queue)
@@ -673,7 +678,7 @@ index 93db2a0..28af287 100644
  
      cl_int add_command(cvk_command_batchable* cmd) {
          if (!m_command_buffer) {
-@@ -811,6 +847,8 @@ struct cvk_command_batch : public cvk_command {
+@@ -796,6 +837,8 @@ struct cvk_command_batch : public cvk_command {
  
      cl_uint batch_size() { return m_commands.size(); }
  
@@ -682,11 +687,23 @@ index 93db2a0..28af287 100644
      CHECK_RETURN cl_int
      set_profiling_info(cl_profiling_info pinfo) override final {
          cl_int status = cvk_command::set_profiling_info(pinfo);
-@@ -848,9 +886,12 @@ struct cvk_command_batch : public cvk_command {
+@@ -828,14 +871,24 @@ struct cvk_command_batch : public cvk_command {
+ 
+     void set_event_status(cl_int status) override final {
+         m_event->set_status(status);
++        if (status == CL_RUNNING && m_queue->profiling_on_device())
++            return;
+         for (auto& cmd : m_commands) {
+             cmd->set_event_status(status);
          }
      }
  
 +    CHECK_RETURN cl_int submit();
++
++    cvk_event_command* event() const override final {
++        CVK_ASSERT(m_commands.size() > 0);
++        return m_commands.back()->event();
++    }
 +
  private:
      CHECK_RETURN cl_int do_action() override final;
@@ -694,10 +711,10 @@ index 93db2a0..28af287 100644
 +    bool m_submitted;
      std::vector<std::unique_ptr<cvk_command_batchable>> m_commands;
      std::unique_ptr<cvk_command_buffer> m_command_buffer;
- };
+     cl_ulong m_sync_dev, m_sync_host;
 diff --git a/clvk/src/semaphore.cpp b/clvk/src/semaphore.cpp
 new file mode 100644
-index 0000000..e16e26e
+index 0000000..a331ab1
 --- /dev/null
 +++ b/clvk/src/semaphore.cpp
 @@ -0,0 +1,127 @@
@@ -826,7 +843,7 @@ index 0000000..e16e26e
 +    m_lock.unlock();
 +    TRACE_END();
 +
-+    return counter_value >= value;
++    return m_current_value >= value;
 +}
 diff --git a/clvk/src/semaphore.hpp b/clvk/src/semaphore.hpp
 new file mode 100644

@@ -73,19 +73,18 @@ BDEPEND="
 
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
-	PATCHES+=("${FILESDIR}/clvk-opencl12.patch")
+	PATCHES+=("${FILESDIR}/clvk-00-opencl12.patch")
 	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
 	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
-	PATCHES+=("${FILESDIR}/clvk-sampledbuffer.patch")
+	PATCHES+=("${FILESDIR}/clvk-01-sampledbuffer.patch")
 
 	# TODO(b/259217927) : To be remove as soon as they are merged upstream
-	PATCHES+=("${FILESDIR}/clvk-01-default-config.patch")
-	PATCHES+=("${FILESDIR}/clvk-02-profiling-event.patch")
-	PATCHES+=("${FILESDIR}/clvk-03-main-thread-exec.patch")
-	PATCHES+=("${FILESDIR}/clvk-04-multi-command-event.patch")
-	PATCHES+=("${FILESDIR}/clvk-05-timeline-semaphores.patch")
-	PATCHES+=("${FILESDIR}/clvk-06-configurable-polling.patch")
+	PATCHES+=("${FILESDIR}/clvk-10-build-cache-tmp.patch")
+	PATCHES+=("${FILESDIR}/clvk-11-main-thread-exec.patch")
+	PATCHES+=("${FILESDIR}/clvk-12-multi-command-event.patch")
+	PATCHES+=("${FILESDIR}/clvk-90-timeline-semaphores.patch")
+	PATCHES+=("${FILESDIR}/clvk-91-configurable-polling.patch")
 fi
 
 src_unpack() {
@@ -162,6 +161,8 @@ src_configure() {
 		-DCMAKE_MODULE_PATH="${CMAKE_MODULE_PATH};${CLVK_LLVM_PROJECT_DIR}/llvm/cmake/modules"
 
 		-DBUILD_SHARED_LIBS=OFF
+
+		-DCLVK_ENABLE_ASSERTIONS=ON
 
 		-DCLVK_PERFETTO_ENABLE=$(usex clvk-perfetto ON OFF)
 		-DCLVK_PERFETTO_LIBRARY=perfetto_sdk

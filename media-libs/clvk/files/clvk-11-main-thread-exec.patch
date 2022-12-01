@@ -1,38 +1,8 @@
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index 5eab0a4..35acfb1 100644
+index 94ec0c4..9cf66e5 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
-@@ -108,6 +108,20 @@ cl_int cvk_command_queue::satisfy_data_dependencies(cvk_command* cmd) {
-     return CL_SUCCESS;
- }
- 
-+void cvk_command_queue::enqueue_command(cvk_command* cmd) {
-+    TRACE_FUNCTION("queue", (uintptr_t)this, "cmd", (uintptr_t)cmd);
-+    // clvk only supports inorder queues.
-+    // But as the commands can be executed by 2 threads (1 executor and the main
-+    // thread), we need to explicit the dependency to ensure it will be
-+    // respected.
-+    if (!m_groups.back()->commands.empty()) {
-+        cmd->add_dependency(m_groups.back()->commands.back()->event());
-+    } else if (m_finish_event != nullptr) {
-+        cmd->add_dependency(m_finish_event);
-+    }
-+    m_groups.back()->commands.push_back(cmd);
-+}
-+
- cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
- 
-     cl_int err;
-@@ -156,7 +170,7 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
-             }
-         }
- 
--        m_groups.back()->commands.push_back(cmd);
-+        enqueue_command(cmd);
-     }
- 
-     cvk_debug_fn("enqueued command %p, event %p", cmd, cmd->event());
-@@ -211,10 +225,12 @@ cl_int cvk_command_queue::enqueue_command_with_deps(
+@@ -214,6 +214,8 @@ cl_int cvk_command_queue::enqueue_command_with_deps(
  
  cl_int cvk_command_queue::end_current_command_batch() {
      if (m_command_batch) {
@@ -41,12 +11,7 @@ index 5eab0a4..35acfb1 100644
          if (!m_command_batch->end()) {
              return CL_OUT_OF_RESOURCES;
          }
--        m_groups.back()->commands.push_back(m_command_batch);
-+        enqueue_command(m_command_batch);
-         m_command_batch = nullptr;
- 
-         batch_enqueued();
-@@ -244,6 +260,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+@@ -247,6 +249,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
          }
      }
  
@@ -61,7 +26,7 @@ index 5eab0a4..35acfb1 100644
      // Now wait for all the events
      for (cl_uint i = 0; i < num_events; i++) {
          cvk_event* event = icd_downcast(event_list[i]);
-@@ -255,13 +279,103 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+@@ -258,15 +268,102 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
      return ret;
  }
  
@@ -121,9 +86,7 @@ index 5eab0a4..35acfb1 100644
 +
 +    std::unique_ptr<cvk_command_group> executor_cmds =
 +        std::make_unique<cvk_command_group>();
-+    // if `event_list` is `nullptr`, is means that we want to extract all
-+    // possible commands.
-+    bool dominated = event_list == nullptr;
++    bool dominated = false;
 +    while (!m_groups.empty()) {
 +        auto group = std::move(m_groups.back());
 +        m_groups.pop_back();
@@ -164,16 +127,19 @@ index 5eab0a4..35acfb1 100644
 -        if (m_groups.size() == 0) {
 +        while (m_groups.size() == 0 && !m_shutdown) {
              m_running = false;
-             m_running_cv.notify_all();
+-            m_running_cv.notify_all();
              TRACE_BEGIN("executor_wait");
-@@ -283,18 +397,7 @@ void cvk_executor_thread::executor() {
+             m_cv.wait(lock);
+             TRACE_END();
+@@ -286,19 +383,7 @@ void cvk_executor_thread::executor() {
          CVK_ASSERT(group->commands.size() > 0);
          cvk_command_queue_holder queue = group->commands.front()->queue();
  
 -        while (group->commands.size() > 0) {
 -
 -            cvk_command* cmd = group->commands.front();
--            cvk_debug_fn("executing command %p, event %p", cmd, cmd->event());
+-            cvk_debug_fn("executing command %p (%s), event %p", cmd,
+-                         cl_command_type_to_string(cmd->type()), cmd->event());
 -
 -            cl_int status = cmd->execute();
 -            cvk_debug_fn("command returned %d", status);
@@ -186,7 +152,7 @@ index 5eab0a4..35acfb1 100644
  
          queue->group_completed();
  
-@@ -339,6 +442,10 @@ cl_int cvk_command_queue::flush_no_lock() {
+@@ -343,6 +428,10 @@ cl_int cvk_command_queue::flush_no_lock() {
          m_executor = get_thread_pool()->get_executor();
      }
  
@@ -197,22 +163,40 @@ index 5eab0a4..35acfb1 100644
      // Submit command group to executor
      m_executor->send_group(std::move(group));
      group_sent();
-@@ -359,6 +466,10 @@ cl_int cvk_command_queue::finish() {
+@@ -363,8 +452,10 @@ cl_int cvk_command_queue::finish() {
          return status;
      }
  
-+    // Giving `nullptr` as the `event_list` means that we want to execute all
-+    // possible commands here.
-+    execute_cmds_dominated_by_no_lock(1, nullptr);
-+
-     if (m_executor != nullptr) {
-         m_executor->wait_idle();
+-    if (m_executor != nullptr) {
+-        m_executor->wait_idle();
++    if (m_finish_event != nullptr) {
++        _cl_event* evt_list = (_cl_event*)&*m_finish_event;
++        execute_cmds_dominated_by_no_lock(1, &evt_list);
++        m_finish_event->wait();
      }
+ 
+     return CL_SUCCESS;
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 7e5abbc..c673322 100644
+index 1402628..d0abdae 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
-@@ -77,6 +77,10 @@ struct cvk_executor_thread {
+@@ -54,15 +54,6 @@ struct cvk_executor_thread {
+         return !m_running;
+     }
+ 
+-    void wait_idle() {
+-        std::unique_lock<std::mutex> lock(m_lock);
+-        while (m_running) {
+-            TRACE_BEGIN("wait_idle");
+-            m_running_cv.wait(lock);
+-            TRACE_END();
+-        }
+-    }
+-
+     void shutdown() {
+ 
+         // Tell the executor to shutdown
+@@ -77,6 +68,10 @@ struct cvk_executor_thread {
          }
      }
  
@@ -223,7 +207,15 @@ index 7e5abbc..c673322 100644
  private:
      void executor();
  
-@@ -206,8 +210,14 @@ struct cvk_command_queue : public _cl_command_queue,
+@@ -87,7 +82,6 @@ private:
+     std::deque<std::unique_ptr<cvk_command_group>> m_groups;
+ 
+     bool m_running;
+-    std::condition_variable m_running_cv;
+ };
+ 
+ struct cvk_command_pool {
+@@ -206,8 +200,14 @@ struct cvk_command_queue : public _cl_command_queue,
          TRACE_CNT(group_in_flight_counter, group - 1);
      }
  
@@ -238,7 +230,7 @@ index 7e5abbc..c673322 100644
      CHECK_RETURN cl_int enqueue_command(cvk_command* cmd, _cl_event** event);
      CHECK_RETURN cl_int end_current_command_batch();
      void executor();
-@@ -217,6 +227,7 @@ private:
+@@ -217,6 +217,7 @@ private:
      std::vector<cl_queue_properties> m_properties_array;
  
      cvk_executor_thread* m_executor;

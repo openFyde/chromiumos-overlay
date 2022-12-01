@@ -12,10 +12,10 @@ index aea1aae3..aea712ca 100644
    }
  
 diff --git a/clspv/lib/BitcastUtils.cpp b/clspv/lib/BitcastUtils.cpp
-index a4284dd8..77228209 100644
+index aa1c6880..200f9f3e 100644
 --- a/clspv/lib/BitcastUtils.cpp
 +++ b/clspv/lib/BitcastUtils.cpp
-@@ -384,8 +384,9 @@ void GroupVectorValuesInPair(IRBuilder<> &Builder,
+@@ -395,8 +395,9 @@ void GroupVectorValuesInPair(IRBuilder<> &Builder,
  
    for (unsigned i = 0; i < NewValuesSize; i++) {
      unsigned idx = 2 * i;
@@ -27,10 +27,10 @@ index a4284dd8..77228209 100644
    Values.resize(NewValuesSize);
  }
 diff --git a/clspv/lib/Compiler.cpp b/clspv/lib/Compiler.cpp
-index 55f97a30..c29bcee6 100644
+index 4a491bd0..ec7d47b1 100644
 --- a/clspv/lib/Compiler.cpp
 +++ b/clspv/lib/Compiler.cpp
-@@ -295,7 +295,6 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
+@@ -310,7 +310,6 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
    instance.getCodeGenOpts().SimplifyLibCalls = false;
    instance.getCodeGenOpts().EmitOpenCLArgMetadata = false;
    instance.getCodeGenOpts().DisableO0ImplyOptNone = true;
@@ -38,7 +38,7 @@ index 55f97a30..c29bcee6 100644
    instance.getDiagnosticOpts().IgnoreWarnings = IgnoreWarnings;
  
    instance.getLangOpts().SinglePrecisionConstants =
-@@ -344,8 +343,9 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
+@@ -359,8 +358,9 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
    // We manually include the OpenCL headers below, so this vector is unused.
    std::vector<std::string> includes;
  
@@ -50,6 +50,15 @@ index 55f97a30..c29bcee6 100644
  
    // Override the C99 inline semantics to accommodate for more OpenCL C
    // programs in the wild.
+@@ -447,7 +447,7 @@ int RunPassPipeline(llvm::Module &M, llvm::raw_svector_ostream *binaryStream) {
+   llvm::CGSCCAnalysisManager cgam;
+   llvm::ModuleAnalysisManager mam;
+   llvm::PassInstrumentationCallbacks PIC;
+-  llvm::StandardInstrumentations si(M.getContext(), false /*DebugLogging*/);
++  llvm::StandardInstrumentations si(false /*DebugLogging*/);
+   clspv::RegisterClspvPasses(&PIC);
+   si.registerCallbacks(PIC, &fam);
+   llvm::PassBuilder pb(nullptr, llvm::PipelineTuningOptions(), llvm::None,
 diff --git a/clspv/lib/FixupBuiltinsPass.cpp b/clspv/lib/FixupBuiltinsPass.cpp
 index d70a8264..410b84b3 100644
 --- a/clspv/lib/FixupBuiltinsPass.cpp
@@ -366,10 +375,10 @@ index 5e757a6c..69e31ebe 100644
  
  } // namespace clspv
 diff --git a/clspv/lib/SPIRVProducerPass.cpp b/clspv/lib/SPIRVProducerPass.cpp
-index b18f1858..891d8943 100644
+index 37b60f58..2da7813e 100644
 --- a/clspv/lib/SPIRVProducerPass.cpp
 +++ b/clspv/lib/SPIRVProducerPass.cpp
-@@ -2923,11 +2923,11 @@ void SPIRVProducerPassImpl::GenerateFuncPrologue(Function &F) {
+@@ -2948,11 +2948,11 @@ void SPIRVProducerPassImpl::GenerateFuncPrologue(Function &F) {
      FuncControl |= spv::FunctionControlDontInlineMask;
    }
    // TODO: Check llvm attribute for Function Control Pure.
