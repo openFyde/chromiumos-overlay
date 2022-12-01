@@ -70,11 +70,7 @@ CROS_X86_RDEPEND="
 	sys-apps/dmidecode
 	sys-apps/pciutils
 	sys-boot/syslinux
-	vaapi? (
-		chromeos-base/libva-fake-driver
-		media-gfx/vadumpcaps
-		media-video/libva-utils
-	)
+	vaapi? ( media-gfx/vadumpcaps media-video/libva-utils )
 "
 
 RDEPEND="
