@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(b/187784160): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk arc/vm/data_migrator cryptohome .gn"
+CROS_WORKON_SUBTREE="common-mk arc/vm/data_migrator cryptohome metrics .gn"
 
 PLATFORM_SUBDIR="arc/vm/data_migrator"
 
@@ -22,6 +22,7 @@ KEYWORDS="~*"
 
 RDEPEND="
 	chromeos-base/cryptohome:=
+	>=chromeos-base/metrics-0.0.1-r3152:=
 "
 
 DEPEND="
