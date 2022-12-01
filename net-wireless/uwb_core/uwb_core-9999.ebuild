@@ -8,8 +8,8 @@ CROS_WORKON_PROJECT=(
 	"aosp/platform/external/uwb"
 )
 CROS_WORKON_LOCALNAME=(
-	"../aosp/external/uwb/public/local"
-	"../aosp/external/uwb/public/upstream"
+	"../aosp/external/uwb/local"
+	"../aosp/external/uwb/upstream"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}"
