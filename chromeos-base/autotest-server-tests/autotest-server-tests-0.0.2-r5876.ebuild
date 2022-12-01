@@ -208,7 +208,6 @@ SERVER_IUSE_TESTS="
 		+tests_firmware_FingerprintCrosConfig
 		+tests_firmware_FingerprintSigner
 	)
-	+tests_firmware_FMap
 	+tests_firmware_FWMPDisableCCD
 	+tests_firmware_FwScreenCloseLid
 	+tests_firmware_FwScreenPressPower
