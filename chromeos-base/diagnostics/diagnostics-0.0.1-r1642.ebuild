@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="089d9aea291fb15dc03fee872c171f170c24d1f7"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "5c3bb2fd2ed1b07b2afc032368304988b7b7df99" "8c7913b9ff69e7389e7c7efda3427ba0b8899191" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="ba2bdc99b855925fee8d64b33349cf93c76305f2"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "5c3bb2fd2ed1b07b2afc032368304988b7b7df99" "c9b8b9b78f032bf52fc19813edb4fcd879cbba31" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -25,6 +25,7 @@ IUSE="fuzzer wilco mesa_reven diagnostics iioservice"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
+	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
 	chromeos-base/minijail:=
