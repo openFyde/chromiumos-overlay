@@ -79,6 +79,9 @@ pkg_preinst() {
 	enewgroup healthd_fp
 	enewuser healthd_evdev
 	enewgroup healthd_evdev
+	enewuser healthd_psr
+	enewgroup healthd_psr
+	enewgroup mei-access
 
 	if use wilco; then
 		enewuser wilco_dtc
