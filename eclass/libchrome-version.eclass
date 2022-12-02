@@ -11,6 +11,8 @@
 # @DESCRIPTION:
 # This eclass manages the libchrome ebuild version.
 # This file is also owned by libchrome team in case of revision bump.
+# Prefer updating the REQUIRED version number in this file (as opposed to adding
+# ">=" dependencies on libchrome or libbrillo to other packages ebuild files).
 
 # shellcheck disable=SC2034
 REQUIRED_LIBCHROME_EBUILD_VERSION=538
