@@ -14,6 +14,9 @@ package main
 // tag is set.
 
 // TODO: Enable test in config_test.go, once we have new llvm-next flags.
-var llvmNextFlags = []string{}
+var llvmNextFlags = []string{
+	"-Wno-enum-constexpr-conversion",
+	"-Wno-deprecated-builtins",
+}
 
 var llvmNextPostFlags = []string{}

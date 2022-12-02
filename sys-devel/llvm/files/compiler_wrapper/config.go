@@ -121,7 +121,8 @@ func crosCommonClangFlags() []string {
 		"-Wno-tautological-unsigned-enum-zero-compare",
 		"-Wno-unknown-warning-option",
 		"-fdebug-default-version=5",
-		"-fexperimental-new-pass-manager",
+		"-Wno-int-conversion",
+		"-Wno-incompatible-function-pointer-types",
 	}
 }
 
@@ -130,9 +131,9 @@ func crosCommonClangPostFlags() []string {
 	return []string{
 		"-Wno-compound-token-split-by-space",
 		"-Wno-deprecated-copy",
+		"-Wno-unused-but-set-variable",
 		"-Wno-implicit-int-float-conversion",
 		"-Wno-string-concatenation",
-		"-Wno-unused-but-set-variable",
 	}
 }
 
