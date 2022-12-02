@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ffe1b3ba95630cb1883e89fffb9e69bf95d31f62"
-CROS_WORKON_TREE="9576b3ebc647d1b005c23591e02cfb83bd0f3378"
+CROS_WORKON_COMMIT="71bce31c26998d5d53cff3138049261fd6c4fbaf"
+CROS_WORKON_TREE="197821ebfc8dae65926240151e5309277bcc115b"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/drm/${PN}.git"
 GIT_ECLASS="git-r3"
 
