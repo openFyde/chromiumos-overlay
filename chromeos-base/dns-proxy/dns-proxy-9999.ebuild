@@ -44,13 +44,7 @@ pkg_preinst() {
 }
 
 src_install() {
-	dosbin "${OUT}"/dnsproxyd
-
-	insinto /etc/init
-	doins init/dns-proxy.conf
-
-	insinto /usr/share/policy
-	newins seccomp/dns-proxy-seccomp-"${ARCH}".policy dns-proxy-seccomp.policy
+	platform_src_install
 
 	local fuzzer_component_id="156085"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer \
@@ -62,5 +56,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/dns-proxy_test"
+	platform test_all
 }
