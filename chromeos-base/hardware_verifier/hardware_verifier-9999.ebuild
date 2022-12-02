@@ -35,23 +35,8 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dobin "${OUT}/hardware_verifier"
-
-	insinto /etc/init
-	doins init/hardware_verifier.conf
-	doins init/hardware_verifier-dbus.conf
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.HardwareVerifier.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.HardwareVerifier.service
-
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
