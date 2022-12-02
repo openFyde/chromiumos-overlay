@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="c70d4180805a3eff611f91c20969d1ff749841f6"
-CROS_WORKON_TREE="ff3e984e6d0cd108a93b91fc0aad51e6a5e81fd1"
+CROS_WORKON_COMMIT="80ffb725ddb4c836908833f4aabd98c1c9a8e4b9"
+CROS_WORKON_TREE="b538b4112fe30c85d78ef9f502bc328e756deb88"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -103,6 +103,7 @@ src_compile() {
 		args=(
 			"--//:hw_dependency"
 			"$(use cras-apm && echo "--//:apm")"
+			"$(use cras-ml && echo "--//:ml")"
 		)
 		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
 		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
