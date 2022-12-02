@@ -30,7 +30,7 @@ IUSE="cros_host extra_japanese_fonts internal"
 DEPEND="
 	internal? (
 		chromeos-base/monotype-fonts:=
-		chromeos-base/google-sans-fonts:=
+		>=chromeos-base/google-sans-fonts-3.0.0:=
 	)
 	media-fonts/croscorefonts:=
 	media-fonts/crosextrafonts:=
