@@ -22,10 +22,11 @@ KEYWORDS="~*"
 IUSE="test fuzzer tpm tpm2 tpm_dynamic"
 
 COMMON_DEPEND="
-	chromeos-base/libhwsec-foundation
-	chromeos-base/tpm_manager-client
+	chromeos-base/libhwsec-foundation:=
+	chromeos-base/metrics:=
+	chromeos-base/tpm_manager-client:=
 	dev-libs/openssl:0=
-	dev-libs/flatbuffers
+	dev-libs/flatbuffers:=
 	tpm2? (
 		chromeos-base/pinweaver:=
 		chromeos-base/trunks:=[test?]
