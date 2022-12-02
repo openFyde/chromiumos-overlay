@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="139de048d810cab81920b68a0759bfb846e171bb"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "01f7a0cc68b7b9804f3cd0fdabf8e153fdf12034" "82c550c79806b960d658266a67c8e07b134aba5d" "df143cde88af1b7e2427d71c8519156768a0ef36" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="71a508b6f99e7fa3607bea10a9b7657bcf62b267"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "acc7d660cedf0bf5cd5421adb5b77e755900b6d1" "82c550c79806b960d658266a67c8e07b134aba5d" "df143cde88af1b7e2427d71c8519156768a0ef36" "0cbf638bdbdbacc203abd3bcb0d31c738f9fd9ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -59,6 +59,7 @@ COMMON_DEPEND="
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/featured:=
 	>=chromeos-base/libbrillo-0.0.1-r2089:=
 	chromeos-base/libhwsec:=[test?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -96,6 +97,9 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
+	# TODO(crbug/1184602): Move remaining install logic to GN.
+	platform_src_install
+
 	pushd "${OUT}" || die
 	dosbin cryptohomed cryptohome cryptohome-path homedirs_initializer \
 		lockbox-cache stateful-recovery
