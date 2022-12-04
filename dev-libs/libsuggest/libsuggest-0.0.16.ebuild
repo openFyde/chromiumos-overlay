@@ -32,5 +32,7 @@ src_install() {
 		# Install the model artifacts.
 		doins nwp.uint8.mmap.tflite
 		doins nwp.csym
+		doins nwp.20220920.uint8.mmap.tflite
+		doins nwp.20220920.csym
 	fi
 }
