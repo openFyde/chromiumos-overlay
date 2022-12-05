@@ -23,7 +23,7 @@ IUSE="+autotest"
 # following deps don't compile: boottool, mysql, pgpool, pgsql, systemtap, # dejagnu, libcap, libnet
 # following deps are not deps: factory
 # following tests are going to be moved: chrome_test
-AUTOTEST_DEPS_LIST="gtest iwcap"
+AUTOTEST_DEPS_LIST="gtest"
 AUTOTEST_CONFIG_LIST=*
 AUTOTEST_PROFILERS_LIST=*
 
@@ -33,7 +33,6 @@ AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 # deps/gtest
 RDEPEND="
 	dev-cpp/gtest:=
-	dev-libs/libnl:0
 	>=dev-python/grpcio-1.19
 	>=dev-python/psutil-5.5.0
 	sys-devel/binutils
