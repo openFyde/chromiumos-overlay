@@ -23,6 +23,7 @@ RDEPEND="
 	net-print/starcupsdrv
 	internal? (
 		net-print/fuji-xerox-printing-license
+		net-print/fujifilm-printing-license
 		net-print/konica-minolta-printing-license
 		net-print/nec-printing-license
 		net-print/xerox-printing-license
