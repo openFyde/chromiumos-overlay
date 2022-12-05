@@ -66,6 +66,8 @@ IUSE="
 	ondevice_handwriting_dlc
 	ondevice_speech
 	ondevice_text_suggestions
+	asan
+	ubsan
 "
 
 RDEPEND="
@@ -182,7 +184,12 @@ platform_pkg_test() {
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
+	local gtest_excl_filter="-"
+	if use asan || use ubsan; then
+		gtest_excl_filter+="SODARecognizerTest.*:"
+	fi
+
 	# The third argument equaling 1 means "run as root". This is needed for
 	# multiprocess unit test.
-	platform_test "run" "${OUT}/ml_service_test" 1
+	platform_test "run" "${OUT}/ml_service_test" 1 "${gtest_excl_filter}"
 }
