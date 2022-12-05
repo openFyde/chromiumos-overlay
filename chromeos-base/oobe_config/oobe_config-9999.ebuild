@@ -47,7 +47,6 @@ pkg_preinst() {
 src_install() {
 	platform_src_install
 
-	dosbin "${OUT}"/rollback_prepare_save
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
 	dosbin "${OUT}"/rollback_cleanup
