@@ -87,12 +87,9 @@ multilib_src_configure() {
 
 	cros_optimize_package_for_speed
 
-	local cxxabi cxxabi_incs
+	local cxxabi
 	if use libcxxabi; then
 		cxxabi=libcxxabi
-		# CTARGET is defined in an eclass, which shellcheck won't see
-		# shellcheck disable=SC2154
-		cxxabi_incs="${SYSROOT}/${PREFIX}/include/libcxxabi"
 	fi
 	# Use vfpv3 to be able to target non-neon targets.
 	if [[ $(tc-arch) == "arm" ]] ; then
