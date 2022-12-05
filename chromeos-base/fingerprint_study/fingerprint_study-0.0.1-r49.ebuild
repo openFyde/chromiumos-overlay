@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b8afc23e4950843a7579d34c4a953246520c1f27"
-CROS_WORKON_TREE="ca48ef62e0bf1bbb89d41e011fe1da69d945df2f"
+CROS_WORKON_COMMIT="4cf709e80bfd17ae207270df777f8c5eae88c33c"
+CROS_WORKON_TREE="b34b2f721a7601a2868aa79734779e7b72edbacf"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="biod/study"
 PYTHON_COMPAT=( python3_{6..9} pypy3 )
 
-inherit cros-workon python-r1
+inherit cros-workon python-r1 tmpfiles
 
 DESCRIPTION="Chromium OS Fingerprint user study software"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/biod/study"
@@ -39,6 +39,8 @@ src_unpack() {
 }
 
 src_install() {
+	dotmpfiles tmpfiles.d/*.conf
+
 	# install the study local server
 	exeinto /opt/google/fingerprint_study
 	newexe study_serve.py study_serve
@@ -51,7 +53,6 @@ src_install() {
 
 	insinto /etc/init
 	doins init/fingerprint_study.conf
-	doins init/syslog_fingerprint_study.conf
 
 	insinto /etc/bash/bashrc.d
 	doins shell-audit.sh
