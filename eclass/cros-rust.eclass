@@ -357,11 +357,20 @@ cros-rust-patch-cargo-toml() {
 	#     [dependencies]
 	#     data_model = { path = "../data_model" }  # provided by ebuild
 	#
+	# This also works with `git` attributes:
+	#     [dependencies]
+	#     bar = { git = "https://www.foo.com", branch = "a" }  # provided by ebuild
+	#     foo = { git = "https://www.foo.com", rev = "1234567" }  # provided by ebuild
+	#     foo = { git = "https://www.foo.com" }  # provided by ebuild
+	#
 	# '# ignored by ebuild'
 	# Emerge ignores "out-of-sandbox" [patch.crates-io] lines in Cargo.toml.
 	sed -i \
-		-e '/# provided by ebuild$/ s/path = "[^"]*"/version = "*"/' \
 		-e '/# ignored by ebuild/d' \
+		-e '/# provided by ebuild$/ {
+			s/\(path\|git\) = "[^"]*"/version = "*"/
+			s/,\? *\(branch\|rev\) = "[^"]*"//
+		}' \
 		"${cargo_toml_path}" || die
 }
 
