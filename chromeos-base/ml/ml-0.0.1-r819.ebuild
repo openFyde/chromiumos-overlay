@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5a62edbb1e5d8eeeeb3a91fd6f8b56eb2af1876b"
+CROS_WORKON_COMMIT="890ff53ed68e0cdf0172c6deed67ead79a964251"
 CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "ae579f1d60015ae3fb409329fea1b4e686bd5243" "b1693742debb15d333f97dabcd533cc338c750ae" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -68,6 +68,8 @@ IUSE="
 	ondevice_handwriting_dlc
 	ondevice_speech
 	ondevice_text_suggestions
+	asan
+	ubsan
 "
 
 RDEPEND="
@@ -184,7 +186,12 @@ platform_pkg_test() {
 		cp "${DISTDIR}/${distfile_uri##*/}" "${T}/ml_models" || die
 	done
 
+	local gtest_excl_filter="-"
+	if use asan || use ubsan; then
+		gtest_excl_filter+="SODARecognizerTest.*:"
+	fi
+
 	# The third argument equaling 1 means "run as root". This is needed for
 	# multiprocess unit test.
-	platform_test "run" "${OUT}/ml_service_test" 1
+	platform_test "run" "${OUT}/ml_service_test" 1 "${gtest_excl_filter}"
 }
