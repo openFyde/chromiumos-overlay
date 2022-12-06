@@ -63,6 +63,16 @@ pkg_setup() {
 	esac
 }
 
+src_prepare() {
+	default
+
+	# b/261636413: We use __libc_{init,fini}_array for initialization, not
+	# _init/_fini.
+	if [[ ${CTARGET} == armv7m* ]]; then
+		eapply "${FILESDIR}"/0001-Set-have_init_fini-to-no-for-ARM.patch
+	fi
+}
+
 src_configure() {
 	if [[ ${CTARGET} == armv7m* ]]; then
 		# EC doesn't support unaligned access: b/239254184.
