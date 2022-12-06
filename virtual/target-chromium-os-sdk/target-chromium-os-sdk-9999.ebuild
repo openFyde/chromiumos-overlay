@@ -228,7 +228,6 @@ RDEPEND="${RDEPEND}
 	net-libs/rpcsvc-proto
 	net-misc/gsutil
 	sys-apps/usbutils
-	!sys-apps/nih-dbus-tool
 	sys-devel/autofdo
 	sys-devel/bc
 	sys-devel/llvm
@@ -236,7 +235,6 @@ RDEPEND="${RDEPEND}
 	sys-libs/libcxx
 	sys-libs/llvm-libunwind
 	virtual/udev
-	sys-libs/libnih
 	sys-power/iasl
 	sys-apps/kmod[tools]
 	x11-apps/mkfontscale
@@ -618,3 +616,8 @@ RDEPEND="${RDEPEND}
 # needed for include what you use.
 RDEPEND="${RDEPEND}
 	dev-util/iwyu"
+
+# nih-dbus-tool (in libnih package) is needed to build upstart.
+RDEPEND="${RDEPEND}
+	!sys-apps/nih-dbus-tool
+	sys-libs/libnih"
