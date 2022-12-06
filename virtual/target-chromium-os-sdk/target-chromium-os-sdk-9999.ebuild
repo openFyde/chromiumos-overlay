@@ -320,7 +320,6 @@ RDEPEND="${RDEPEND}
 	sys-apps/less
 	sys-apps/man-pages
 	sys-apps/pv
-	sys-devel/smatch
 	sys-devel/sparse
 	"
 
