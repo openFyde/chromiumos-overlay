@@ -141,3 +141,8 @@ sys-apps/help2man -nls
 sys-apps/net-tools -nls
 sys-libs/binutils-libs -nls
 sys-power/cpupower -nls
+
+# We don't need any of these binaries provided by wireshark. We're only looking
+# for tshark.
+net-analyzer/wireshark -capinfos -captype -dftest -dumpcap -editcap -mergecap
+net-analyzer/wireshark -randpkt -randpktdump -reordercap -sharkd -text2pcap
