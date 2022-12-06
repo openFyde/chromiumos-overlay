@@ -36,16 +36,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/dlp
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Dlp.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.Dlp.service
-
-	insinto /etc/init
-	doins init/dlp.conf
+	platform_src_install
 
 	local daemon_store="/etc/daemon-store/dlp"
 	dodir "${daemon_store}"
