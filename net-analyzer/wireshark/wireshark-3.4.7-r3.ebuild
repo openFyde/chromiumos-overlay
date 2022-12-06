@@ -265,7 +265,7 @@ pkg_postinst() {
 	xdg_icon_cache_update
 	xdg_mimeinfo_database_update
 
-	use pcap && chmod o-x "${ED}"/usr/bin/dumpcap #357237
+	use dumpcap && use pcap && chmod o-x "${ED}"/usr/bin/dumpcap #357237
 }
 
 pkg_postrm() {
