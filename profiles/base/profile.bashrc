@@ -492,8 +492,10 @@ cros_post_src_unpack_asan_init() {
 
 # Check for & show ASAN failures when dying.
 asan_death_hook() {
-	local l
+	# Find and fix permissions on the log files so that they can be read later.
+	find "${T}"/asan_logs/asan* '!' -user "${PORTAGE_USERNAME}" -exec sudo chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" {} +
 
+	local l
 	for l in "${T}"/asan_logs/asan*; do
 		[[ ! -e ${l} ]] && return 0
 		echo
