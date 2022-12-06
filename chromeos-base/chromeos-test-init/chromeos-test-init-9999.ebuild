@@ -31,13 +31,10 @@ src_install() {
 	doins upstart/test-init/*.conf
 
 	insinto /usr/share/cros
-	doins upstart/test-init/*_utils.sh
+	doins upstart/test-init/factory_utils.sh
 
 	if use encrypted_stateful && use tpm2; then
 		insinto /etc/init
 		doins upstart/test-init/encrypted_stateful/create-system-key.conf
-
-		insinto /usr/share/cros
-		doins upstart/test-init/encrypted_stateful/system_key_utils.sh
 	fi
 }
