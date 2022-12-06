@@ -44,9 +44,9 @@ sys-libs/ncurses tinfo
 
 # We don't need this, so don't bother enabling.
 dev-libs/libxslt -python
-# icedtea-bin still has some linking issues when built without USE=cups. See
-# https://bugs.gentoo.org/486042 and https://crbug.com/656717
-dev-java/icedtea-bin cups -gtk headless-awt -multilib -webstart
+# We don't need Java cups support.
+dev-java/icedtea-bin -cups -gtk headless-awt -multilib -webstart
+dev-java/openjdk-bin -cups
 # We don't want cups-filters to pull in ghostscript.
 net-print/cups-filters -postscript
 # We don't use python features in cups.
