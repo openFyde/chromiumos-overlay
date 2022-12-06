@@ -224,7 +224,6 @@ RDEPEND="${RDEPEND}
 	>=dev-vcs/git-1.7.2
 	>=media-libs/freetype-2.2.1
 	>=media-libs/lcms-2.6:2
-	net-fs/sshfs
 	net-libs/rpcsvc-proto
 	net-misc/gsutil
 	sys-apps/usbutils
