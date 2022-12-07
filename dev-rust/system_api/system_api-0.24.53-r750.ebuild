@@ -1,0 +1,42 @@
+# Copyright 2019 The ChromiumOS Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="f81237c66f254ba1dc4c7b9051aa2d0e69846b8a"
+CROS_WORKON_TREE=("e841f26cf69dfaa557da08a2a36db5b0b139a250" "a0d8550678a1ed2a4ab62782049032a024bf40df" "9df9fc64d9e406f250d18c48a165395d19289616" "3b79fb687b945eebe8e59da80fb173096ec02063" "956c30347917fccc691a79addf055f199b675da1" "5553e9df87365e5c6350d7ba59a80527ecc53f13" "4dbca6b769e6c988682950680c0e0e0b1565bab5" "fb8c2f02b9aa6e0c828689cbd427f6f643002d42" "e187b9e6e2d1190ac2cf0175f68e36cca4a96e9e")
+CROS_RUST_SUBDIR="system_api"
+
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} authpolicy/dbus_bindings cryptohome/dbus_bindings debugd/dbus_bindings dlcservice/dbus_adaptors login_manager/dbus_bindings shill/dbus_bindings power_manager/dbus_bindings vtpm"
+
+inherit cros-workon cros-rust
+
+DESCRIPTION="Chrome OS system API D-Bus bindings for Rust."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/system_api/"
+
+LICENSE="BSD-Google"
+SLOT="0/${PVR}"
+KEYWORDS="*"
+
+BDEPEND="dev-libs/protobuf"
+DEPEND="
+	cros_host? ( dev-libs/protobuf:= )
+	dev-rust/third-party-crates-src:=
+	dev-rust/chromeos-dbus-bindings:=
+	sys-apps/dbus:=
+"
+# (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
+# installing binpkgs since the full source tree is required to use the crate.
+RDEPEND="${DEPEND}
+	!chromeos-base/system_api-rust
+"
+
+src_install() {
+	# We don't want the build.rs to get packaged with the crate. Otherwise
+	# we will try and regenerate the bindings.
+	rm build.rs || die "Cannot remove build.rs"
+
+	cros-rust_src_install
+}
