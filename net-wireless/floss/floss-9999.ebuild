@@ -114,6 +114,11 @@ src_configure() {
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
 
+	# TODO(b/261541399) - Building generated code for arm for unit-tests
+	# seems to fail due to OOM issues. Reduce opt-level to reduce memory
+	# usage.
+	use test && (use arm || use arm64) && rustflags+=( '-C opt-level=0' )
+
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
 
