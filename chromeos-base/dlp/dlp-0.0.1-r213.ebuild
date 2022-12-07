@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="ebfc497144f9b7c9575fab504ae676cf677f2fa2"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "690a9539b8e771e219ebd40463ae181f46378f1b" "9da4303fca3d31774ff2a0ed56ad7e4beb63abc7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="d8a2d9db2a097fd186661cbc1026362895a23a54"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "b3764faf633b812f49080d0fdee7033232a9a4d8" "9da4303fca3d31774ff2a0ed56ad7e4beb63abc7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,16 +38,7 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_install() {
-	dosbin "${OUT}"/dlp
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.Dlp.conf
-
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.Dlp.service
-
-	insinto /etc/init
-	doins init/dlp.conf
+	platform_src_install
 
 	local daemon_store="/etc/daemon-store/dlp"
 	dodir "${daemon_store}"
