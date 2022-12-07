@@ -17,6 +17,8 @@ SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="elan"
+# Litmus test to ensure we can really drop USE=elan.
+REQUIRED_USE="!elan"
 
 RDEPEND="!chromeos-base/touchpad-linearity"
 DEPEND=""
@@ -45,9 +47,7 @@ src_install() {
 	#    - 50-touchpad-cmt-daisy.conf
 	#    - 60-touchpad-cmt-daisy_skate.conf
 	doins 40-touchpad-cmt.conf
-	if use elan; then
-		doins 50-touchpad-cmt-elan.conf
-	elif [[ "${board}" = "reven" ]]; then
+	if [[ "${board}" = "reven" ]]; then
 		doins 50-touchpad-cmt-reven.conf
 		# Since reven could be run on Chrome OS devices, it may as well
 		# include configs for their touchpads, so long as those configs

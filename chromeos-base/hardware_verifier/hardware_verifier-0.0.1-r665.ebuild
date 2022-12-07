@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cc3442f66f46601bde2b62c02101dee9900c11fb"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "2d0abd098ee0a709b476a33627d483917ed20c58" "387ee11d9b13a92ea3f8ef1d0cb3541c84f99fcd" "9da4303fca3d31774ff2a0ed56ad7e4beb63abc7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="2586202d7828880b5cf5ab341be03010ba109325"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "2d0abd098ee0a709b476a33627d483917ed20c58" "38d7e8f3a67c14718619b826697df434baffdf3c" "9da4303fca3d31774ff2a0ed56ad7e4beb63abc7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -37,23 +37,8 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dobin "${OUT}/hardware_verifier"
-
-	insinto /etc/init
-	doins init/hardware_verifier.conf
-	doins init/hardware_verifier-dbus.conf
-
-	# Install D-Bus configuration file.
-	insinto /etc/dbus-1/system.d
-	doins dbus/org.chromium.HardwareVerifier.conf
-
-	# Install D-Bus service activation configuration.
-	insinto /usr/share/dbus-1/system-services
-	doins dbus/org.chromium.HardwareVerifier.service
-
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/unittest_runner"
+	platform test_all
 }
