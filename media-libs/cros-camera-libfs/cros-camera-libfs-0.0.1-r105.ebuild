@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5a62edbb1e5d8eeeeb3a91fd6f8b56eb2af1876b"
+CROS_WORKON_COMMIT="4d7bbde12dbba80a8cb02fe815b84a66e5cbc854"
 CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "3a939e262dbbb04bab2434b9e34a18e1f4cbda60" "ee46c272200c3bb842d0288afb22d9ebb36f02f7" "0c4b88db0ba1152616515efb0c6660853232e8d0")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -14,7 +14,7 @@ CROS_WORKON_INCREMENTAL_BUILD="1"
 
 PLATFORM_SUBDIR="camera/libfs"
 
-inherit cros-camera cros-workon platform
+inherit cros-camera cros-workon platform unpacker
 
 DESCRIPTION="Camera Libraries File System which installs the prebuilt libraries."
 
@@ -84,7 +84,7 @@ RDEPEND="
 "
 
 src_unpack() {
-	default_src_unpack
+	unpacker
 	platform_src_unpack
 	# Override unpacked data by files/* for local development.
 	if [[ "${PV}" == "9999" ]]; then
