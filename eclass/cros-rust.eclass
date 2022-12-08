@@ -923,7 +923,7 @@ cros-rust_publish() {
 	local f
 	for f in "${files[@]}"; do
 		shasum="$(sha256sum "${f}" | cut -d ' ' -f 1)"
-		printf '\t\t"%s": "%s"' "${f#${dir}/}" "${shasum}" >> "${checksum}"
+		printf '\t\t"%s": "%s"' "${f#"${dir}"/}" "${shasum}" >> "${checksum}"
 
 		# The json parser is unnecessarily strict about not allowing
 		# commas on the last line so we have to track this ourselves.
