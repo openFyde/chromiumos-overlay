@@ -485,13 +485,24 @@ cros-rust_configure_cargo() {
 	# https://github.com/rust-lang/rust/issues/59125
 	cros-rust_use_sanitizers || export RUST_BACKTRACE=1
 
-	# We want debug info even in release builds.
 	# We want to split the flags since it's a command line as a scalar.
 	# shellcheck disable=SC2206
 	local rustflags=(
 		${CROS_BASE_RUSTFLAGS}
+		# We want debug info even in release builds.
 		"-Cdebuginfo=2"
 		"-Zallow-features=sanitizer,backtrace"
+		# Remap source directories because of the following:
+		# * crashes from panics are grouped across different boards
+		# * the remapped strings are shorter resulting in smaller binaries
+		#
+		# This shouldn't be needed because cargo includes local sources with
+		# relative paths, but just-in-case remap the source directory.
+		"--remap-path-prefix=${S}=[${PN}]"
+		# Remap the cros_rust_registry/registry directory.
+		"--remap-path-prefix=${SYSROOT}${CROS_RUST_REGISTRY_INST_DIR}=[REGISTRY]"
+		# Remap the target directory for generated sources.
+		"--remap-path-prefix=${CARGO_TARGET_DIR}=[TARGET]"
 	)
 
 	if [[ -n "${CROS_RUST_PACKAGE_IS_HOT}" ]]; then
