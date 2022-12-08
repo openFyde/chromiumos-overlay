@@ -4,8 +4,8 @@
 EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT="b9ca37b3134861048986b75896c0915cbf2e97f9"
-	CROS_WORKON_TREE="6c515810bee8549d81e68c548a26a63909f8e716"
+	CROS_WORKON_COMMIT="60cf6bcef1390473419df14e3214da149dbd8f99"
+	CROS_WORKON_TREE="8b07d3ffc5ac89bd8547c8f80d8e365c1d7e32e8"
 fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_EGIT_BRANCH="upstream/master"
@@ -61,17 +61,17 @@ src_configure() {
 
 	local emesonargs=(
 		-Dinstall-test-programs=true
-		$(meson_feature video_cards_amdgpu amdgpu)
-		$(meson_feature video_cards_freedreno freedreno)
-		$(meson_feature video_cards_intel intel)
-		$(meson_feature video_cards_nouveau nouveau)
-		$(meson_feature video_cards_omap omap)
-		$(meson_feature video_cards_radeon radeon)
-		$(meson_feature video_cards_vc4 vc4)
-		$(meson_feature video_cards_vmware vmwgfx)
-		$(meson_feature manpages man-pages)
+		$(meson_use video_cards_amdgpu amdgpu)
+		$(meson_use video_cards_freedreno freedreno)
+		$(meson_use video_cards_intel intel)
+		$(meson_use video_cards_nouveau nouveau)
+		$(meson_use video_cards_omap omap)
+		$(meson_use video_cards_radeon radeon)
+		$(meson_use video_cards_vc4 vc4)
+		$(meson_use video_cards_vmware vmwgfx)
+		$(meson_use manpages man-pages)
 		$(meson_use udev)
-		-Dcairo-tests=disabled
+		-Dcairo-tests=false
 	)
 	meson_src_configure
 }
