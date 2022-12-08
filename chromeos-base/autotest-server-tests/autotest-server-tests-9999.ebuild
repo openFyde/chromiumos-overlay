@@ -94,6 +94,7 @@ SERVER_IUSE_TESTS="
 	+tests_autoupdate_RejectDuplicateUpdate
 	+tests_autoupdate_Rollback
 	+tests_autoupdate_WithDLC
+	+tests_autoupdate_WithFirmware
 	cellular? ( +tests_cellular_StaleModemReboot )
 	android-container-pi? (
 		+tests_cheets_CTS_Instant
