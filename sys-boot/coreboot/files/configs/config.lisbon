@@ -13,3 +13,6 @@ CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt-lisbon.bin"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-lisbon.bin"
+
+# Wifi SAR
+CONFIG_CHROMEOS_WIFI_SAR=y
