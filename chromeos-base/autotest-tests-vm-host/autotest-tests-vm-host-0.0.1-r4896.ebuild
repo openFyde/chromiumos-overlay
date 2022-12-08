@@ -3,8 +3,8 @@
 
 EAPI=5
 
-CROS_WORKON_COMMIT="10c1e6440afc9fa25d17a849f39cd309d100a876"
-CROS_WORKON_TREE="25fba96ea68a555983b1f24910bda6e0f028d6dc"
+CROS_WORKON_COMMIT="d127cacf504acc1abc4325ecf3cdf112288ef0b9"
+CROS_WORKON_TREE="4b1c6c27721afad565aac3079e420f912c2f5ae4"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -12,23 +12,20 @@ CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="SmbProvider Autotests"
+DESCRIPTION="kvm host autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
+
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-# Enable autotest by default.
-IUSE="${IUSE} +autotest"
+IUSE="+autotest"
 
-RDEPEND="
-	chromeos-base/chromeos-chrome
-	chromeos-base/autotest-chrome
-"
-
+RDEPEND=""
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
+	+tests_vm_CrosVmStart
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
