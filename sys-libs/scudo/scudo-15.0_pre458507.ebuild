@@ -61,7 +61,7 @@ src_prepare() {
 
 src_configure() {
 	BUILD_DIR="${WORKDIR}/${P}_build"
-
+	append-lfs-flags
 	append-flags -DUSE_CHROMEOS_CONFIG
 
 	local mycmakeargs=(
