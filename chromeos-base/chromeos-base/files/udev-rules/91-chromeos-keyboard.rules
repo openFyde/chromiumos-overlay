@@ -1,5 +1,6 @@
 # Copyright 2017 The ChromiumOS Authors
-# Distributed under the terms of the GNU General Public License v2
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
 
 # Tag keyboard interfaces in Hammer/Wand/Whiskers USB bases as
 # having new top row layout.
