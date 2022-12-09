@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="chromeos-base/factory_rust"
+DEPEND="dev-rust/third-party-crates-src:="
 RDEPEND="
 	sys-apps/ufs-utils
 "

@@ -79,7 +79,7 @@ COMMON_DEPEND="
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/factory:=
-	chromeos-base/factory_rust
+	dev-rust/third-party-crates-src:=
 	test? ( chromeos-base/secure-wipe:= )
 	x86? ( sys-boot/syslinux:= )"
 
