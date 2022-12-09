@@ -65,8 +65,8 @@ src_configure() {
 src_compile() {
 	# For lack of a better place to put this (since we want it to run when
 	# FEATURES=test is not enabled), verify licenses here.
-	"${S}/verify_licenses.py" \
-		--license-file="${S}/licenses_used.txt" \
+	"${S}/vendor_artifacts/verify_licenses.py" \
+		--license-file="${S}/vendor_artifacts/licenses_used.txt" \
 		--expected-licenses="${EXPECTED_LICENSES[*]}" \
 		|| die
 	einfo "License verification complete."
