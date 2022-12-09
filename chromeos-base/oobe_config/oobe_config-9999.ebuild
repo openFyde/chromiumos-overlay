@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk oobe_config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk oobe_config metrics libhwsec libhwsec-foundation .gn"
 
 PLATFORM_SUBDIR="oobe_config"
 
@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_con
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="tpm tpm_dynamic tpm2 fuzzer"
+IUSE="test tpm tpm_dynamic tpm2 fuzzer"
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
@@ -29,7 +29,10 @@ COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/dbus:=
 "
-RDEPEND="${COMMMON_DEPEND}"
+RDEPEND="
+	${COMMMON_DEPEND}
+	chromeos-base/libhwsec:=[test?]
+"
 DEPEND="
 	${COMMMON_DEPEND}
 	chromeos-base/power_manager-client:=
