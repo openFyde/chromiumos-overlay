@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("bdcfb897adf9c41054a211d7b03ffa498fd9d274" "5bd198d41f90baee298a69185d0e4935a0987240" "d7242dba46402eca9f1367365b344c69e44d3736" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "5e69bf62f1e22a05216948fb23603fdf499e4f8f")
+CROS_WORKON_COMMIT=("f60d4c9e966d6dd0b31900e380791e3cab96c75b" "5bd198d41f90baee298a69185d0e4935a0987240" "d7242dba46402eca9f1367365b344c69e44d3736" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "5e69bf62f1e22a05216948fb23603fdf499e4f8f")
 CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "98e101e1bbe1ec901a5d58d47cd4041325dfe39a" "ed3ab28949bb8c6c72c5119fc7936c95ced23f5c" "c3473ab29243f136628d4c8708ab647c15f6a411" "29650eaab868626e5cf20ab1581f682f5422031a")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -115,6 +115,11 @@ src_configure() {
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
+
+	# TODO(b/261541399) - Building generated code for arm for unit-tests
+	# seems to fail due to OOM issues. Reduce opt-level to reduce memory
+	# usage.
+	use test && (use arm || use arm64) && rustflags+=( '-C opt-level=0' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
