@@ -99,6 +99,7 @@ src_install() {
 
 	# Install udev rules.
 	udev_dorules udev/99-chown_dmi_dir.rules
+	udev_dorules udev/99-mei_driver_files.rules
 
 	# Install fuzzers.
 	local fuzzer_component_id="982097"
