@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dlp metrics .gn"
+CROS_WORKON_SUBTREE="common-mk dlp featured metrics .gn"
 
 PLATFORM_SUBDIR="dlp"
 
@@ -29,6 +29,7 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
+	chromeos-base/featured:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
