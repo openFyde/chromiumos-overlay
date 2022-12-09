@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="b124decdd2254ea22dde70620df2864e714654f4"
-CROS_WORKON_TREE="9322067328d18489f25cdbea9e0262975252444b"
+CROS_WORKON_COMMIT="5f67b5119e66f888edd6654be290f2f84e440019"
+CROS_WORKON_TREE=("5fa02eb2518abed4a0efd6fec558d47a917fda11" "09855d2410e6e37a86fc7e42e149c9f5ac3dc7ea")
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test/dut"
+CROS_WORKON_SUBTREE="src/chromiumos/test/dut src/chromiumos/test/util"
 
 inherit cros-go cros-workon
 
