@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5a62edbb1e5d8eeeeb3a91fd6f8b56eb2af1876b"
-CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "5866489a03b2274fb8fb4ce86fb47de2c45f77e8" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="025eabccfe2bf94a4af3fb4f5a5f0feb3b1fe732"
+CROS_WORKON_TREE=("0c4b88db0ba1152616515efb0c6660853232e8d0" "02c6f54d85b69a22aaf2388cb508144c82cccfa1" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -41,12 +41,17 @@ src_install() {
 	insinto /etc/init
 	doins opencl_caching/init/opencl-cacher.conf
 
-	# For now, we run everything as the camera user,
-	# so use "arc-camera"
+	# Only on AMD64 for now
+	insinto /usr/share/policy
+	doins opencl_caching/seccomp_filter/opencl-cacher-amd64.policy
+
+	insinto /etc/dbus-1/system.d
+	doins opencl_caching/dbus/opencl-cacher-dbus.conf
+
 	local daemon_store="/etc/daemon-store/ml-core-effects"
 	dodir "${daemon_store}"
-	fperms 0700 "${daemon_store}"
-	fowners arc-camera:arc-camera "${daemon_store}"
+	fperms 0770 "${daemon_store}"
+	fowners ml-core:ml-core "${daemon_store}"
 }
 
 platform_pkg_test() {
@@ -55,8 +60,8 @@ platform_pkg_test() {
 
 pkg_setup() {
 	# Has to be done in pkg_setup() instead of pkg_preinst() since
-	# src_install() needs arc-camera.
-	enewuser "arc-camera"
-	enewgroup "arc-camera"
+	# src_install() needs ml-core.
+	enewuser "ml-core"
+	enewgroup "ml-core"
 	cros-workon_pkg_setup
 }
