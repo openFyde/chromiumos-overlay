@@ -4,14 +4,14 @@
 EAPI="7"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/mesa/drm.git"
 if [[ ${PV} != *9999* ]]; then
-	CROS_WORKON_COMMIT="60cf6bcef1390473419df14e3214da149dbd8f99"
-	CROS_WORKON_TREE="8b07d3ffc5ac89bd8547c8f80d8e365c1d7e32e8"
+	CROS_WORKON_COMMIT="56f81e6776c1c100c3f627b2c1feb9dcae2aad3c"
+	CROS_WORKON_TREE="f2dad5f135f56bf9e56b44d5b9637ffb59d38f23"
 fi
 CROS_WORKON_PROJECT="chromiumos/third_party/libdrm"
 CROS_WORKON_EGIT_BRANCH="upstream/master"
 CROS_WORKON_MANUAL_UPREV="1"
 
-inherit cros-workon flag-o-matic meson
+inherit meson cros-workon
 
 DESCRIPTION="X.Org libdrm library"
 HOMEPAGE="http://dri.freedesktop.org/"
@@ -27,12 +27,13 @@ if [[ ${PV} = *9999* ]]; then
 else
 	KEYWORDS="*"
 fi
-VIDEO_CARDS="amdgpu freedreno intel nouveau omap radeon vc4 vmware"
+VIDEO_CARDS="amdgpu exynos freedreno intel nouveau omap radeon vc4 vmware"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
 
-IUSE="${IUSE_VIDEO_CARDS} manpages +udev"
+IUSE="${IUSE_VIDEO_CARDS} libkms manpages +udev"
+REQUIRED_USE="video_cards_exynos? ( libkms )"
 RESTRICT="test" # see bug #236845
 
 RDEPEND="dev-libs/libpthread-stubs
@@ -51,17 +52,18 @@ src_prepare() {
 	eapply "${FILESDIR}"/Add-Rockchip-AFBC-modifier.patch
 	eapply "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 	eapply "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
+	eapply "${FILESDIR}"/UPSTREAM-intel-Add-support-for-RPLP.patch
 
 	eapply_user
 }
 
 src_configure() {
-	append-lfs-flags
 	cros_optimize_package_for_speed
 
 	local emesonargs=(
 		-Dinstall-test-programs=true
 		$(meson_use video_cards_amdgpu amdgpu)
+		$(meson_use video_cards_exynos exynos)
 		$(meson_use video_cards_freedreno freedreno)
 		$(meson_use video_cards_intel intel)
 		$(meson_use video_cards_nouveau nouveau)
@@ -69,6 +71,7 @@ src_configure() {
 		$(meson_use video_cards_radeon radeon)
 		$(meson_use video_cards_vc4 vc4)
 		$(meson_use video_cards_vmware vmwgfx)
+		$(meson_use libkms)
 		$(meson_use manpages man-pages)
 		$(meson_use udev)
 		-Dcairo-tests=false
