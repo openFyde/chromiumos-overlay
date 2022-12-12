@@ -4,8 +4,8 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="15958516a909fc2e58a4100eb92cb61f7390c576"
-CROS_WORKON_TREE="1ba5c96a39da6e218fa3f0c885049147a47f4b89"
+CROS_WORKON_COMMIT="1c1c72a7058b8250776a794a9b39f4936e13a399"
+CROS_WORKON_TREE="5260f9b1a4e62fe494ae6d2ec7143cb6899964a8"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-amd"
 CROS_WORKON_EGIT_BRANCH="chromeos-amd"
@@ -93,8 +93,9 @@ src_configure() {
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
-		-Dgallium-va=true
+		-Dgallium-va=enabled
 		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
+		-Dvideo-codecs=h264dec,h264enc,h265dec
 	)
 
 	meson_src_configure
