@@ -638,9 +638,9 @@ sanity_prechecks() {
 
 	# Prevent native builds from downgrading
 	if [[ ${MERGE_TYPE} != "buildonly" ]] && \
-	   [[ -z ${ROOT} ]] && \
-	   [[ ${CBUILD} == ${CHOST} ]] && \
-	   [[ ${CHOST} == ${CTARGET} ]] ; then
+		[[ -z ${ROOT} ]] && \
+		[[ ${CBUILD} == ${CHOST} ]] && \
+		[[ ${CHOST} == ${CTARGET} ]] ; then
 
 		# The high rev # is to allow people to downgrade between -r#
 		# versions. We want to block 2.20->2.19, but 2.20-r3->2.20-r2

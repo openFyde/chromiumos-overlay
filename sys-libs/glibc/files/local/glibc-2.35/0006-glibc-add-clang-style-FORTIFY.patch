@@ -995,12 +995,12 @@ index 1c2b044a0d..845e63260e 100644
 +#define __FORTIFY_ARG_PACK __fortify_ap
 +#define __FORTIFY_INIT_ARG_PACK(va_arg) \
 +  __gnuc_va_list __FORTIFY_ARG_PACK; \
-+  va_start (__FORTIFY_ARG_PACK, va_arg)
++  __builtin_va_start (__FORTIFY_ARG_PACK, va_arg)
 +#define __FORTIFY_CALL_VA_ALIAS(fn, ...) __v##fn##_alias (__VA_ARGS__)
 +#define __FORTIFY_CALL_VA_CHK(fn, ...) __v##fn##_chk (__VA_ARGS__)
 +#define __FORTIFY_CALL_VA_BUILTIN(fn, ...) \
 +  __builtin___v##fn##_chk (__VA_ARGS__)
-+#define __FORTIFY_FREE_ARG_PACK() va_end (__FORTIFY_ARG_PACK)
++#define __FORTIFY_FREE_ARG_PACK() __builtin_va_end (__FORTIFY_ARG_PACK)
 +#define __FORTIFY_ARG_PACK_OK 1
 +#elif defined(__va_arg_pack)
 +#define __FORTIFY_ARG_PACK __va_arg_pack ()
