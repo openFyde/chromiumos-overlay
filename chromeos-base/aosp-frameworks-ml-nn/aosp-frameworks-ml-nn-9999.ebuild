@@ -65,11 +65,6 @@ DEPEND="
 src_configure() {
 	# This warning is triggered in tensorflow.
 	append-flags "-Wno-unused-but-set-variable"
-	if use x86 || use amd64; then
-		append-cppflags "-D_Float16=__fp16"
-		append-cxxflags "-Xclang -fnative-half-type"
-		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
-	fi
 	if use xnnpack; then
 		append-cppflags "-DNNAPI_USE_XNNPACK_DRIVER"
 	fi

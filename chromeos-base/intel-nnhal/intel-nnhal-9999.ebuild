@@ -46,15 +46,6 @@ src_unpack() {
 	unpacker_src_unpack
 }
 
-src_configure() {
-	if use x86 || use amd64; then
-		append-cppflags "-D_Float16=__fp16"
-		append-cxxflags "-Xclang -fnative-half-type"
-		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
-	fi
-	platform_src_configure
-}
-
 src_prepare() {
 	cros_enable_cxx_exceptions
 	eapply_user
