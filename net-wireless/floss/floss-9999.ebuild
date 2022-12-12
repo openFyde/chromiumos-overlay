@@ -81,9 +81,16 @@ DOCS=( README.md )
 src_unpack() {
 	platform_src_unpack
 
+	# TODO(b/261541399) - Limit number of jobs on arm test builds. This
+	# specific scenario is causing OOM failures.
+	local local_makeopts="${MAKEOPTS}"
+	if use test && (use arm || use arm64); then
+		local_makeopts="${local_makeopts} --jobs 4"
+	fi
+
 	# Cros rust unpack should come after platform unpack otherwise platform
 	# unpack will fail.
-	cros-rust_src_unpack
+	MAKEOPTS="${local_makeopts}" cros-rust_src_unpack
 
 	# In order to be compatible with cros-rust.eclass while also using our
 	# own vendored crates, we re-use the existing config but add a floss
