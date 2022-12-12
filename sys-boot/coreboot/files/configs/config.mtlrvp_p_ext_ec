@@ -1,5 +1,5 @@
 CONFIG_VENDOR_INTEL=y
-CONFIG_BOARD_INTEL_MTLRVP_P=y
+CONFIG_BOARD_INTEL_MTLRVP_P_EXT_EC=y
 
 # SPI Descriptor
 CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/rex/descriptor-mtlrvp_p.bin"
@@ -14,4 +14,4 @@ CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/rex/me_rw-mtlrvp_p
 CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/rex/vbt-mtlrvp_p.bin"
 
 # Microcode
-CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/rex/ucode-mtlrvp_p.bin"
+CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/rex/ucode-mtlrvp_p_ext_ec.bin"
