@@ -95,6 +95,7 @@ src_unpack() {
 	# In order to be compatible with cros-rust.eclass while also using our
 	# own vendored crates, we re-use the existing config but add a floss
 	# source and replace source.crates-io with it.
+	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
 	sed -i 's/replace-with = "chromeos"/replace-with = "floss"/' "${ECARGO_HOME}/config"
 	cat <<- EOF >> "${ECARGO_HOME}/config"
 
@@ -135,6 +136,7 @@ src_configure() {
 
 copy_floss_tools() {
 	local bin_dir="/usr/bin"
+	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
 	local rust_dir="${ECARGO_HOME}/bin"
 	local cxx_dir="$(cros-workon_get_build_dir)/out/Default"
 
@@ -154,6 +156,8 @@ floss_build_rust() {
 
 	# cc rust package requires CLANG_PATH so it uses correct clang triple
 	export CLANG_PATH="$(tc-getCC)"
+	# shellcheck disable=SC2154 # BUILD_CFLAGS is defined in
+	# toolchain-funcs.eclass
 	export HOST_CFLAGS=${BUILD_CFLAGS}
 
 	# Export the source path for bindgen
@@ -185,6 +189,7 @@ src_compile() {
 src_install() {
 	platform_src_install
 
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btmanagerd"
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btadapterd"
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btclient"
@@ -225,17 +230,17 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		"bluetoothtbd_test"
-		"bluetooth_test_common"
-		"net_test_avrcp"
-		"net_test_btcore"
-		"net_test_types"
-		"net_test_btm_iso"
-		# TODO(b/178740721) - This test wasn't compiling. Need to fix
-		# this and re-enable it.
-		# "net_test_btpackets"
-	)
+	#local tests=(
+		#"bluetoothtbd_test"
+		#"bluetooth_test_common"
+		#"net_test_avrcp"
+		#"net_test_btcore"
+		#"net_test_types"
+		#"net_test_btm_iso"
+		## TODO(b/178740721) - This test wasn't compiling. Need to fix
+		## this and re-enable it.
+		## "net_test_btpackets"
+	#)
 
 	# Run rust tests
 	# TODO(b/210127355) - Fix flaky tests and re-enable
@@ -246,4 +251,5 @@ platform_pkg_test() {
 	#for test_bin in "${tests[@]}"; do
 		#platform_test run "${OUT}/${test_bin}"
 	#done
+	:
 }
