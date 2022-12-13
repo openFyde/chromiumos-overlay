@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("dee9edca5874f6d0375fb8874c1f96574b9e7438" "92a11fb8983dea8e55557f65f372042b0629a518" "2efc84d540db0a53851342907fd46a0f82f047d0" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "b1f8c9870fdda9a1213194882165c571ac5355a3")
-CROS_WORKON_TREE=("36bc32d34cdd5a8aa796661ad9ca401b99c7f218" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "8c43ebfd6c9143e0522c88df2ff811c7f2c9c5f7" "244081736af0893b9253d17555ab92c54528ee9b" "c3473ab29243f136628d4c8708ab647c15f6a411" "b01280c00d261a98a3f486f7e6b62fe5657ee9f6")
+CROS_WORKON_COMMIT=("344bf972fc22ae3e3ba0d3112ff99ef7b62620c7" "7342bcbd7c11d87cf7e0769b01a67fc812f3d814" "2efc84d540db0a53851342907fd46a0f82f047d0" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "b1f8c9870fdda9a1213194882165c571ac5355a3")
+CROS_WORKON_TREE=("36bc32d34cdd5a8aa796661ad9ca401b99c7f218" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "5233209d4ab81f81876666e66235d4ab3409a796" "244081736af0893b9253d17555ab92c54528ee9b" "c3473ab29243f136628d4c8708ab647c15f6a411" "b01280c00d261a98a3f486f7e6b62fe5657ee9f6")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/packages/modules/Bluetooth"
@@ -83,13 +83,21 @@ DOCS=( README.md )
 src_unpack() {
 	platform_src_unpack
 
+	# TODO(b/261541399) - Limit number of jobs on arm test builds. This
+	# specific scenario is causing OOM failures.
+	local local_makeopts="${MAKEOPTS}"
+	if use test && (use arm || use arm64); then
+		local_makeopts="${local_makeopts} --jobs 4"
+	fi
+
 	# Cros rust unpack should come after platform unpack otherwise platform
 	# unpack will fail.
-	cros-rust_src_unpack
+	MAKEOPTS="${local_makeopts}" cros-rust_src_unpack
 
 	# In order to be compatible with cros-rust.eclass while also using our
 	# own vendored crates, we re-use the existing config but add a floss
 	# source and replace source.crates-io with it.
+	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
 	sed -i 's/replace-with = "chromeos"/replace-with = "floss"/' "${ECARGO_HOME}/config"
 	cat <<- EOF >> "${ECARGO_HOME}/config"
 
@@ -130,6 +138,7 @@ src_configure() {
 
 copy_floss_tools() {
 	local bin_dir="/usr/bin"
+	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
 	local rust_dir="${ECARGO_HOME}/bin"
 	local cxx_dir="$(cros-workon_get_build_dir)/out/Default"
 
@@ -149,6 +158,8 @@ floss_build_rust() {
 
 	# cc rust package requires CLANG_PATH so it uses correct clang triple
 	export CLANG_PATH="$(tc-getCC)"
+	# shellcheck disable=SC2154 # BUILD_CFLAGS is defined in
+	# toolchain-funcs.eclass
 	export HOST_CFLAGS=${BUILD_CFLAGS}
 
 	# Export the source path for bindgen
@@ -180,6 +191,7 @@ src_compile() {
 src_install() {
 	platform_src_install
 
+	# shellcheck disable=SC2154 # CARGO_TARGET_DIR is defined in cros-rust.eclass
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btmanagerd"
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btadapterd"
 	dobin "${CARGO_TARGET_DIR}/${CHOST}/release/btclient"
@@ -220,17 +232,17 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		"bluetoothtbd_test"
-		"bluetooth_test_common"
-		"net_test_avrcp"
-		"net_test_btcore"
-		"net_test_types"
-		"net_test_btm_iso"
-		# TODO(b/178740721) - This test wasn't compiling. Need to fix
-		# this and re-enable it.
-		# "net_test_btpackets"
-	)
+	#local tests=(
+		#"bluetoothtbd_test"
+		#"bluetooth_test_common"
+		#"net_test_avrcp"
+		#"net_test_btcore"
+		#"net_test_types"
+		#"net_test_btm_iso"
+		## TODO(b/178740721) - This test wasn't compiling. Need to fix
+		## this and re-enable it.
+		## "net_test_btpackets"
+	#)
 
 	# Run rust tests
 	# TODO(b/210127355) - Fix flaky tests and re-enable
@@ -241,4 +253,5 @@ platform_pkg_test() {
 	#for test_bin in "${tests[@]}"; do
 		#platform_test run "${OUT}/${test_bin}"
 	#done
+	:
 }
