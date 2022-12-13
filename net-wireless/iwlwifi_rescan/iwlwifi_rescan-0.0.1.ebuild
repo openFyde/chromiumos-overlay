@@ -36,5 +36,5 @@ src_install() {
 
 	# Set the iwlwifi module parameters.
 	insinto "/etc/modprobe.d"
-	doins "${FILESDIR}/modprobe.d/iwlwifi.conf"
+	doins "${FILESDIR}/modprobe.d/iwlwifi_remove_when_gone.conf"
 }
