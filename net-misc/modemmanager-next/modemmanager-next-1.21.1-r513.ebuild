@@ -37,8 +37,7 @@ BDEPEND="
 	bash-completion? ( >=app-shells/bash-completion-2.0 )
 	dev-util/gdbus-codegen
 	dev-util/glib-utils
-	>=sys-devel/gettext-0.19.8
-        "
+	>=sys-devel/gettext-0.19.8"
 
 DOCS="AUTHORS NEWS README"
 
@@ -112,7 +111,7 @@ src_configure() {
 }
 
 src_install() {
-        meson_src_install
+	meson_src_install
 	# Remove useless .la files
 	find "${D}" -name '*.la' -delete
 
