@@ -265,5 +265,19 @@
             "from": 450784,
             "until": 458762
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "[X86] Support `_Float16` on SSE2 and up"
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "abeeae570efff38dceccf68f5352809c58ffdda2.patch",
+        "version_range": {
+            "from": 465103,
+            "until": 466392
+        }
     }
 ]
