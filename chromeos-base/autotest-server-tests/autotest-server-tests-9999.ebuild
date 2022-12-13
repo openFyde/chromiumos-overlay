@@ -26,6 +26,7 @@ IUSE="
 	-chromeless_tests
 	-chromeless_tty
 	debugd
+	dlc
 	has-kernelnext
 	is-kernelnext
 	minios
@@ -117,6 +118,9 @@ SERVER_IUSE_TESTS="
 	+tests_display_ResolutionList
 	+tests_display_ServerChameleonConnection
 	+tests_display_SwitchMode
+	dlc? (
+		+tests_dlc_Install
+	)
 	+tests_factory_Basic
 	+tests_firmware_ClearTPMOwnerAndReset
 	+tests_firmware_ConsecutiveBoot
