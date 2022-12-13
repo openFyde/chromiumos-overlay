@@ -25,6 +25,7 @@ IUSE="cros-debug"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	dev-libs/libpcre:=
 "
 
 RDEPEND="
