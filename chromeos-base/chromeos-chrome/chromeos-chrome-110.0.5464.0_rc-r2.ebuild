@@ -747,6 +747,7 @@ setup_test_lists() {
 	if use v4l2_codec; then
 		TEST_FILES+=(
 			v4l2_stateless_decoder
+			v4l2_unittest
 		)
 	fi
 
