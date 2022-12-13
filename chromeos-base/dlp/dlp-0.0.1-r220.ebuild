@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5f05913184c2f17a1217b1faf88f95ae7fad93e9"
-CROS_WORKON_TREE=("36bc32d34cdd5a8aa796661ad9ca401b99c7f218" "5acd27d64424cdfee7ed6c6abd3e4310e2ad4687" "681f77a4a7a2cec002ec5ac29c1b9757a35e4cf0" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="639f6a6c455fef6610c46805b4656f7bb70611cd"
+CROS_WORKON_TREE=("36bc32d34cdd5a8aa796661ad9ca401b99c7f218" "5acd27d64424cdfee7ed6c6abd3e4310e2ad4687" "32b01675a699325361df67452789542c5eb5024a" "681f77a4a7a2cec002ec5ac29c1b9757a35e4cf0" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk dlp metrics .gn"
+CROS_WORKON_SUBTREE="common-mk dlp featured metrics .gn"
 
 PLATFORM_SUBDIR="dlp"
 
@@ -31,6 +31,7 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
+	chromeos-base/featured:=
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:=
