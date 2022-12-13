@@ -25,7 +25,13 @@ IUSE="cros-debug"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/cros-camera-libs:=
+	chromeos-base/debugd-client:=
+	chromeos-base/libec:=
+	chromeos-base/shill-client:=
+	chromeos-base/vboot_reference:=
 	dev-libs/libpcre:=
+	media-libs/minigbm:=
 "
 
 RDEPEND="
@@ -33,15 +39,8 @@ RDEPEND="
 	chromeos-base/ec-utils
 "
 
-# Add vboot_reference as build time dependency to read cros_debug status
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/cros-camera-libs:=
-	chromeos-base/debugd-client:=
-	chromeos-base/libec:=
-	chromeos-base/shill-client:=
-	chromeos-base/system_api:=
-	chromeos-base/vboot_reference:=
-	media-libs/minigbm:=
+	chromeos-base/system_api:=[fuzzer?]
 "
 
 platform_pkg_test() {
