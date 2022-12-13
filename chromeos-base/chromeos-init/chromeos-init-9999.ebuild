@@ -22,7 +22,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
 IUSE="
-	arcpp arcvm cros_embedded direncryption +encrypted_stateful
+	cros_embedded direncryption +encrypted_stateful
 	+encrypted_reboot_vault frecon fsverity lvm_stateful_partition
 	+oobe_config prjquota -s3halt +syslog systemd tpm2 +udev vivid vtconsole"
 
@@ -118,12 +118,6 @@ src_install_upstart() {
 	else
 		doins upstart/*.conf
 		dotmpfiles tmpfiles.d/*.conf
-
-		if ! use arcpp && use arcvm; then
-			sed -i '/^env IS_ARCVM=/s:=0:=1:' \
-				"${D}/etc/init/rt-limits.conf" || \
-				die "Failed to replace is_arcvm in rt-limits.conf"
-		fi
 
 		dosbin chromeos-disk-metrics
 		dosbin chromeos-send-kernel-errors
