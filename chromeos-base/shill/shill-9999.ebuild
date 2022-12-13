@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/shill/"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cellular fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wpa3_sae +wireguard"
+IUSE="cellular floss fuzzer sae_h2e systemd +tpm +vpn +wake_on_wifi +wpa3_sae +wireguard"
 
 # Sorted by the package we depend on. (Not by use flag!)
 COMMON_DEPEND="
@@ -42,6 +42,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	net-misc/dhcpcd
+	floss? ( net-wireless/floss )
 	vpn? ( net-dialup/xl2tpd:= )
 	vpn? ( net-vpn/openvpn )
 	vpn? ( net-vpn/strongswan:= )
