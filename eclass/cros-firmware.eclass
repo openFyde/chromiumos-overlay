@@ -6,11 +6,6 @@
 # Purpose: Generate shell script containing firmware update bundle.
 #
 
-# Skip unibuild if we don't have a board set.
-if [[ ${#CROS_BOARDS[@]} -eq 0 ]]; then
-	CROS_BOARDS=( "none" )
-fi
-
 if [[ -z "${EBUILD}" ]]; then
 	die "This eclass needs EBUILD environment variable."
 fi
