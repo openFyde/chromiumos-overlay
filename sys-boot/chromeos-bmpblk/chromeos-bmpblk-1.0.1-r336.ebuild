@@ -16,7 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/bmpblk/"
 SRC_URI=""
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="detachable physical_presence_power physical_presence_recovery unibuild"
+IUSE="physical_presence_power physical_presence_recovery unibuild"
 REQUIRED_USE="unibuild"
 
 BDEPEND="${PYTHON_DEPS}
@@ -68,7 +68,11 @@ src_prepare() {
 compile_bmpblk() {
 	local build_target="$1"
 
-	if use detachable ; then
+	config_detachable="$(cros_config_host get-key-value \
+		/firmware/build-targets bmpblk "${build_target}" \
+		/firmware detachable-ui --ignore-unset)" || \
+		die "Unable to determine detachable ui config for ${build_target}"
+	if [[ "${config_detachable}" == "True" ]] ; then
 		export DETACHABLE=1
 	fi
 
