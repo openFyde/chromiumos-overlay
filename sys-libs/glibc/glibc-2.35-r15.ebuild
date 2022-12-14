@@ -852,6 +852,8 @@ src_prepare() {
 	else
 		cros_use_gcc
 	fi
+	# Allow building with C++ exception.
+	cros_enable_cxx_exceptions
 
 	cd "${S}"
 }
