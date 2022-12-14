@@ -33,6 +33,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
+	dev-rust/minijail:=
 	dev-rust/sync:=
 	media-sound/audio_streams:=
 	sys-libs/libcap:=
@@ -54,6 +55,12 @@ src_unpack() {
 src_prepare() {
 	sed -i 's/name = "base"/name = "'"${PN}"'"/g' "${S}/Cargo.toml"
 	cros-rust_src_prepare
+
+	# Use the ChromeOS copy of base instead of the crosvm copy. (For tests folder)
+	# Note the trailing slash due to ${S} being a symlink.
+	find "${S}/" -iname '*.rs' -type f -exec \
+		sed -i -e 's/^use base/use crosvm_base/g' \
+			-e 's/\([^[:alnum:]_]\)base::/\1crosvm_base::/g' -- {} +
 }
 
 src_test() {

@@ -37,9 +37,9 @@ src_prepare() {
 
 	# Use the ChromeOS copy of base instead of the crosvm copy.
 	sed -i 's/^base = /crosvm-base = /g' "${S}/Cargo.toml"
-	sed -i -e 's/^use base/use crosvm_base/g' \
-		-e 's/(base::/(crosvm_base::/g' \
-		-- "${S}/src/"*.rs
+	find "${S}" -iname '*.rs' -type f -exec \
+		sed -i -e 's/^use base/use crosvm_base/g' \
+			-e 's/\([^[:alnum:]_]\)base::/\1crosvm_base::/g' -- {} +
 
 	# Replace the version in the sources with the ebuild version.
 	# ${FILESDIR}/chromeos-version.sh sets the minor version 50 ahead to avoid

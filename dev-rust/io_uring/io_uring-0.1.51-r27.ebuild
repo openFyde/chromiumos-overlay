@@ -3,26 +3,26 @@
 
 EAPI=7
 
-# Remove windows dependencies.
-CROS_WORKON_COMMIT="278c84bfd03995394a1639e88c77784df4bf7afb"
-CROS_WORKON_TREE=("787a46162f14892a7d2b4920f330f8a4cd750bc5" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
-CROS_RUST_REMOVE_TARGET_CFG=1
-
+CROS_WORKON_COMMIT="555ec7ba06c797fadc6cb9c0db1fa7e0b08e7c0d"
+CROS_WORKON_TREE=("92bdf273f63535712d4d991d9d195bb50db9d425" "8fd5cb688a5e1373afdc435818ac1d6d759eefe2")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_RUST_SUBDIR="cros_async"
+CROS_RUST_SUBDIR="io_uring"
 CROS_WORKON_SUBDIRS_TO_COPY=("${CROS_RUST_SUBDIR}" .cargo)
 CROS_WORKON_SUBTREE="${CROS_WORKON_SUBDIRS_TO_COPY[*]}"
 
 # The version of this crate is pinned. See b/229016539 for details.
 CROS_WORKON_MANUAL_UPREV="1"
 
+# TODO: Enable tests on ARM once the emulator supports io_uring.
+CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
+
 inherit cros-workon cros-rust
 
-DESCRIPTION="Rust async tools for Chrome OS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/cros_async"
+DESCRIPTION="Safe wrappers around the linux kernel's io_uring interface"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/+/HEAD/io_uring"
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
@@ -30,13 +30,9 @@ DEPEND="
 	chromeos-base/crosvm-base:=
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
-	dev-rust/io_uring:=
-	dev-rust/serde_keyvalue:=
 	dev-rust/sync:=
-	media-sound/audio_streams:=
 "
-RDEPEND="${DEPEND}
-	!<=dev-rust/cros_async-0.1.0-r38"
+RDEPEND="${DEPEND}"
 
 src_prepare() {
 	cros-rust_src_prepare
@@ -51,7 +47,7 @@ src_prepare() {
 	# ${FILESDIR}/chromeos-version.sh sets the minor version 50 ahead to avoid
 	# colliding with the version included by path.
 	if [[ "${PV}" != 9999 ]]; then
-		sed -i '0,/^version/{s/^version = .*$/version = "'"${PV}"'"/}' "${S}/Cargo.toml"
+		sed -i 's/^version = .*$/version = "'"${PV}"'"/g' "${S}/Cargo.toml"
 	fi
 }
 
@@ -61,18 +57,6 @@ src_test() {
 	local cut_version="$(ver_cut 1-2 "$(uname -r)")"
 	if ver_test "${cut_version}" -lt 5.10; then
 		einfo "Skipping io_uring tests on kernel version < 5.10"
-	# TODO: Enable tests on ARM once the emulator supports io_uring.
-	elif ! cros_rust_is_direct_exec; then
-		einfo "Skipping uring tests on non-x86 platform"
-		local skip_tests=(
-			ring
-			io_ext
-			timer::tests::one_shot
-		)
-
-		# We want word splitting here.
-		# shellcheck disable=SC2046
-		cros-rust_src_test -- $(printf -- "--skip %s\n" "${skip_tests[@]}")
 	else
 		cros-rust_src_test
 	fi

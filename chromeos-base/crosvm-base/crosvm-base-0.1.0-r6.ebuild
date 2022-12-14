@@ -4,8 +4,8 @@
 EAPI=7
 
 # Remove windows dependencies.
-CROS_WORKON_COMMIT="278c84bfd03995394a1639e88c77784df4bf7afb"
-CROS_WORKON_TREE=("7141d03a2738c2f673a7e6c742a2fa8b3baf193a" "fa91eb24f5d1f5d37f2b8765977fb8a265c0f9a6")
+CROS_WORKON_COMMIT="555ec7ba06c797fadc6cb9c0db1fa7e0b08e7c0d"
+CROS_WORKON_TREE=("c05e9eed237ca7f6ebc17b313ee66d11405b5dad" "8fd5cb688a5e1373afdc435818ac1d6d759eefe2")
 CROS_RUST_REMOVE_TARGET_CFG=1
 
 CROS_WORKON_LOCALNAME="platform/crosvm"
@@ -35,6 +35,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/data_model:=
+	dev-rust/minijail:=
 	dev-rust/sync:=
 	media-sound/audio_streams:=
 	sys-libs/libcap:=
@@ -56,6 +57,12 @@ src_unpack() {
 src_prepare() {
 	sed -i 's/name = "base"/name = "'"${PN}"'"/g' "${S}/Cargo.toml"
 	cros-rust_src_prepare
+
+	# Use the ChromeOS copy of base instead of the crosvm copy. (For tests folder)
+	# Note the trailing slash due to ${S} being a symlink.
+	find "${S}/" -iname '*.rs' -type f -exec \
+		sed -i -e 's/^use base/use crosvm_base/g' \
+			-e 's/\([^[:alnum:]_]\)base::/\1crosvm_base::/g' -- {} +
 }
 
 src_test() {
