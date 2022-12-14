@@ -94,6 +94,7 @@ rename: 1
 restart_syscall: 1
 rmdir: 1
 rt_sigaction: 1
+rt_sigpending: 1
 rt_sigprocmask: 1
 _newselect: 1
 pselect6: 1
