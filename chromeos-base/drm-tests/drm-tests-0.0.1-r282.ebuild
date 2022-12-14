@@ -53,6 +53,7 @@ src_install() {
 		drm_cursor_test \
 		dmabuf_test \
 		gamma_test \
+		gbmtest \
 		linear_bo_test \
 		mali_stats \
 		mapped_access_perf_test \
@@ -62,9 +63,9 @@ src_install() {
 		null_platform_test \
 		plane_test \
 		synctest swrast_test \
+		udmabuf_create_test \
 		v4l2_stateful_decoder \
-		v4l2_stateful_encoder \
-		udmabuf_create_test
+		v4l2_stateful_encoder
 
 	if use vulkan; then
 		dobin vk_glow
