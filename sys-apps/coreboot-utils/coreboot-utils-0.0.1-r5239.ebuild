@@ -3,8 +3,8 @@
 # $Header:
 
 EAPI=7
-CROS_WORKON_COMMIT=("9a3b2ca988280d812d5a0fb2cba85fe0b93b500a" "196b0843e90cfa791123d1fff88eca06721dc64a")
-CROS_WORKON_TREE=("a65b4a3ac4f4e5b059a64fa28ada57452ef96286" "99130c22d46e62295101ee49e8ef3894303a2525" "c20958b34c9fca932d030af2d0775d89ce1b0f8d" "3c4c2d1f78d70547ae755c56c69f969581b0b975" "2c5a74064c2467e570c5975109ef1ee9440c0ef1" "d5934f03f358e2c41541ca74abb36e968641ce95" "8aba685cbfbc96068fcf770b30780eee8246faae" "1e1d60e2da6f20cd9bef95d0667113fdb74f1e48" "e03866d9ecdf3529248f3d4bd0b63499a092f2c3" "052584a30fcbe73624a942716f00e76fc4724675" "dbfe90ed7e6f0449bda3f72e8cb9b4cf733b03bb" "06476ece66ad56d2e3d24d15b672c875f25bba2e" "cb504ff33a624e4d93e1f24328dc44358aac038f" "dd623a4fd802313ae3e9f4c93d85f5b9fe5fdee2" "115d88ea65b8d1a84bcf2e59b23c84f9f5a17a8c" "60173f048e95b3b61845e465a3d7fd95bb2995f3" "89898e7f89c421e3484120e3b544d5d336f68cb3")
+CROS_WORKON_COMMIT=("47c489ba10606903db7eeeec3d8bfad411419a72" "cf416d357fc56a6b62e7774e8a012dbc8706ba8a")
+CROS_WORKON_TREE=("a65b4a3ac4f4e5b059a64fa28ada57452ef96286" "99130c22d46e62295101ee49e8ef3894303a2525" "c20958b34c9fca932d030af2d0775d89ce1b0f8d" "3c4c2d1f78d70547ae755c56c69f969581b0b975" "2c5a74064c2467e570c5975109ef1ee9440c0ef1" "d5934f03f358e2c41541ca74abb36e968641ce95" "8aba685cbfbc96068fcf770b30780eee8246faae" "1e1d60e2da6f20cd9bef95d0667113fdb74f1e48" "e03866d9ecdf3529248f3d4bd0b63499a092f2c3" "052584a30fcbe73624a942716f00e76fc4724675" "dbfe90ed7e6f0449bda3f72e8cb9b4cf733b03bb" "06476ece66ad56d2e3d24d15b672c875f25bba2e" "cb504ff33a624e4d93e1f24328dc44358aac038f" "dd623a4fd802313ae3e9f4c93d85f5b9fe5fdee2" "115d88ea65b8d1a84bcf2e59b23c84f9f5a17a8c" "60173f048e95b3b61845e465a3d7fd95bb2995f3" "3ccc864d04c1a49b0736efbbc9d01b670aa10562")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/platform/vboot_reference"
@@ -76,8 +76,8 @@ src_compile() {
 		_emake -C util/cbmem
 	fi
 	if is_x86; then
+		_emake -C util/ifdtool
 		if use cros_host; then
-			_emake -C util/ifdtool
 			_emake -C util/amdfwtool
 		else
 			_emake -C util/superiotool \
@@ -99,8 +99,8 @@ src_install() {
 		dobin util/cbmem/cbmem
 	fi
 	if is_x86; then
+		dobin util/ifdtool/ifdtool
 		if use cros_host; then
-			dobin util/ifdtool/ifdtool
 			dobin util/amdfwtool/amdfwread
 		else
 			dobin util/superiotool/superiotool
