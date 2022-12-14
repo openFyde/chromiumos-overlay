@@ -54,6 +54,7 @@ src_install() {
 	fi
 
 	if use v4l2_codec; then
+		doexe "${BINARY_DIR}/v4l2_unittest"
 		doexe "${BINARY_DIR}/v4l2_stateless_decoder"
 	fi
 }
