@@ -66,7 +66,6 @@ RDEPEND="${COMMON_DEPEND}"
 RDEPEND+="
 	chromeos-base/vpd
 	sys-apps/flashrom
-	sys-apps/mosys
 	cros_ish? ( chromeos-base/chromeos-ish )
 	"
 # Maintenance note:  The factory install shim downloads and executes
