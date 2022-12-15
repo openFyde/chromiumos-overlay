@@ -21,6 +21,7 @@ IUSE="+secagentd_min_core_btf"
 
 COMMON_DEPEND="
 	chromeos-base/attestation-client:=
+	chromeos-base/featured:=
 	chromeos-base/missive:=
 	chromeos-base/tpm_manager-client:=
 	>=dev-libs/libbpf-0.8.1
