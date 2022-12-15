@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="579942815dc2f53b36898b6d7aebed86e9ab5b97"
-CROS_WORKON_TREE="dfe947c54e82715278e3ca6e92cfc2c4c597bcf2"
+CROS_WORKON_COMMIT="79dbb3c7456792541541f2de7b172a0690aae013"
+CROS_WORKON_TREE="5d4e62e46efdabcce292c0a52cf9d21cdb4f25df"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -355,10 +355,6 @@ install_iwlwifi() {
 			doins "${x}-a0-gf-a0.pnvm" ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
-		# At least with EAPI 7, it's ok to call 'doins' with the same
-		# file multiple times. So an overlay declaring multiple
-		# 'iwlwifi-*' USE flags (e.g. volteer) won't break the build.
-		doins "iwl-dbg-cfg.ini"
 	done
 }
 
