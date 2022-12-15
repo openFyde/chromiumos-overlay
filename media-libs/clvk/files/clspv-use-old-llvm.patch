@@ -27,7 +27,7 @@ index aa1c6880..200f9f3e 100644
    Values.resize(NewValuesSize);
  }
 diff --git a/clspv/lib/Compiler.cpp b/clspv/lib/Compiler.cpp
-index 4a491bd0..ec7d47b1 100644
+index 32eb2cd4..55bec949 100644
 --- a/clspv/lib/Compiler.cpp
 +++ b/clspv/lib/Compiler.cpp
 @@ -310,7 +310,6 @@ int SetCompilerInstanceOptions(CompilerInstance &instance,
@@ -59,6 +59,19 @@ index 4a491bd0..ec7d47b1 100644
    clspv::RegisterClspvPasses(&PIC);
    si.registerCallbacks(PIC, &fam);
    llvm::PassBuilder pb(nullptr, llvm::PipelineTuningOptions(), llvm::None,
+@@ -584,11 +584,9 @@ int RunPassPipeline(llvm::Module &M, llvm::raw_svector_ostream *binaryStream) {
+     // redundant alloca, load and store instructions from function arguments.
+     // clspv needs to remove them ahead of transformation.
+     pm.addPass(llvm::createModuleToFunctionPassAdaptor(llvm::PromotePass()));
+-
+     // SROA pass is run because it will fold structs/unions that are
+     // problematic on Vulkan SPIR-V away.
+-    pm.addPass(llvm::createModuleToFunctionPassAdaptor(
+-        llvm::SROAPass(llvm::SROAOptions::PreserveCFG)));
++    pm.addPass(llvm::createModuleToFunctionPassAdaptor(llvm::SROAPass()));
+ 
+     // InstructionCombining pass folds bitcast and gep instructions which are
+     // not supported by Vulkan SPIR-V.
 diff --git a/clspv/lib/FixupBuiltinsPass.cpp b/clspv/lib/FixupBuiltinsPass.cpp
 index d70a8264..410b84b3 100644
 --- a/clspv/lib/FixupBuiltinsPass.cpp
@@ -203,10 +216,10 @@ index aee6ed96..640ad752 100644
        auto add_sub = builder.CreateExtractValue(call, {0});
        auto carry_borrow = builder.CreateExtractValue(call, {1});
 diff --git a/clspv/lib/ReplaceOpenCLBuiltinPass.cpp b/clspv/lib/ReplaceOpenCLBuiltinPass.cpp
-index acb45dab..d9d9e728 100644
+index f382f9a7..aa21f25a 100644
 --- a/clspv/lib/ReplaceOpenCLBuiltinPass.cpp
 +++ b/clspv/lib/ReplaceOpenCLBuiltinPass.cpp
-@@ -710,8 +710,8 @@ Value *ReplaceOpenCLBuiltinPass::InsertOpMulExtended(Instruction *InsertPoint,
+@@ -730,8 +730,8 @@ Value *ReplaceOpenCLBuiltinPass::InsertOpMulExtended(Instruction *InsertPoint,
    if (!Option::HackMulExtended()) {
      spv::Op opcode = IsSigned ? spv::OpSMulExtended : spv::OpUMulExtended;
  
@@ -217,7 +230,7 @@ index acb45dab..d9d9e728 100644
    }
  
    unsigned int ScalarSizeInBits = Ty->getScalarSizeInBits();
-@@ -843,9 +843,9 @@ Value *ReplaceOpenCLBuiltinPass::InsertOpMulExtended(Instruction *InsertPoint,
+@@ -863,9 +863,9 @@ Value *ReplaceOpenCLBuiltinPass::InsertOpMulExtended(Instruction *InsertPoint,
        // res_neg.
        auto mul_lo_xor =
            Builder.CreateXor(mul_lo, Constant::getAllOnesValue(Ty));
@@ -230,7 +243,7 @@ index acb45dab..d9d9e728 100644
        auto mul_lo_inv = Builder.CreateExtractValue(mul_lo_xor_add, {0});
        auto carry = Builder.CreateExtractValue(mul_lo_xor_add, {1});
        auto mul_hi_inv = Builder.CreateAdd(
-@@ -1151,8 +1151,8 @@ bool ReplaceOpenCLBuiltinPass::replaceDot(Function &F) {
+@@ -1173,8 +1173,8 @@ bool ReplaceOpenCLBuiltinPass::replaceDot(Function &F) {
  
      Value *V = nullptr;
      if (Op0->getType()->isVectorTy()) {
@@ -241,7 +254,7 @@ index acb45dab..d9d9e728 100644
      } else {
        V = BinaryOperator::Create(Instruction::FMul, Op0, Op1, "", CI);
      }
-@@ -1474,9 +1474,8 @@ bool ReplaceOpenCLBuiltinPass::replaceIsInfAndIsNan(Function &F,
+@@ -1496,9 +1496,8 @@ bool ReplaceOpenCLBuiltinPass::replaceIsInfAndIsNan(Function &F,
                                 CIVecTy->getElementCount().getKnownMinValue());
      }
  
@@ -253,7 +266,7 @@ index acb45dab..d9d9e728 100644
  
      return SelectInst::Create(NewCI, TrueValue, FalseValue, "", CI);
    });
-@@ -1561,8 +1560,8 @@ bool ReplaceOpenCLBuiltinPass::replaceAllAndAny(Function &F, spv::Op SPIRVOp) {
+@@ -1583,8 +1582,8 @@ bool ReplaceOpenCLBuiltinPass::replaceAllAndAny(Function &F, spv::Op SPIRVOp) {
  
          const auto BoolTy = Type::getInt1Ty(M.getContext());
  
@@ -264,7 +277,7 @@ index acb45dab..d9d9e728 100644
          SelectSource = NewCI;
  
        } else {
-@@ -3615,7 +3614,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
+@@ -3635,7 +3634,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
            FunctionType::get(result_ty, {result_ty, result_ty}, false);
        fmin_fn =
            cast<Function>(M.getOrInsertFunction(fmin_name, fn_ty).getCallee());
@@ -273,7 +286,7 @@ index acb45dab..d9d9e728 100644
        fmin_fn->setCallingConv(CallingConv::SPIR_FUNC);
      }
  
-@@ -3627,7 +3626,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
+@@ -3647,7 +3646,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
        FunctionType *fn_ty = FunctionType::get(result_ty, {result_ty}, false);
        floor_fn =
            cast<Function>(M.getOrInsertFunction(floor_name, fn_ty).getCallee());
@@ -282,7 +295,7 @@ index acb45dab..d9d9e728 100644
        floor_fn->setCallingConv(CallingConv::SPIR_FUNC);
      }
  
-@@ -3639,7 +3638,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
+@@ -3659,7 +3658,7 @@ bool ReplaceOpenCLBuiltinPass::replaceFract(Function &F, int vec_size) {
        FunctionType *fn_ty = FunctionType::get(result_ty, {result_ty}, false);
        clspv_fract_fn = cast<Function>(
            M.getOrInsertFunction(clspv_fract_name, fn_ty).getCallee());
@@ -291,7 +304,7 @@ index acb45dab..d9d9e728 100644
        clspv_fract_fn->setCallingConv(CallingConv::SPIR_FUNC);
      }
  
-@@ -3968,8 +3967,9 @@ bool ReplaceOpenCLBuiltinPass::replaceMadSat(Function &F, bool is_signed) {
+@@ -4041,8 +4040,9 @@ bool ReplaceOpenCLBuiltinPass::replaceMadSat(Function &F, bool is_signed) {
        auto mul_ext = InsertOpMulExtended(Call, a, b, false);
        auto mul_lo = builder.CreateExtractValue(mul_ext, {0});
        auto mul_hi = builder.CreateExtractValue(mul_ext, {1});
@@ -303,7 +316,7 @@ index acb45dab..d9d9e728 100644
        auto add = builder.CreateExtractValue(add_carry, {0});
        auto carry = builder.CreateExtractValue(add_carry, {1});
        auto or_value = builder.CreateOr(mul_hi, carry);
-@@ -4108,7 +4108,7 @@ bool ReplaceOpenCLBuiltinPass::replaceRound(Function &F) {
+@@ -4181,7 +4181,7 @@ bool ReplaceOpenCLBuiltinPass::replaceRound(Function &F) {
            F.getParent()
                ->getOrInsertFunction(clspv_fract_name, F.getFunctionType())
                .getCallee());
@@ -375,7 +388,7 @@ index 5e757a6c..69e31ebe 100644
  
  } // namespace clspv
 diff --git a/clspv/lib/SPIRVProducerPass.cpp b/clspv/lib/SPIRVProducerPass.cpp
-index 37b60f58..2da7813e 100644
+index eb6808b6..07944a6a 100644
 --- a/clspv/lib/SPIRVProducerPass.cpp
 +++ b/clspv/lib/SPIRVProducerPass.cpp
 @@ -2948,11 +2948,11 @@ void SPIRVProducerPassImpl::GenerateFuncPrologue(Function &F) {
@@ -391,4 +404,17 @@ index 37b60f58..2da7813e 100644
 +  if (F.hasFnAttribute(Attribute::ReadNone)) {
      FuncControl |= spv::FunctionControlConstMask;
    }
+ 
+diff --git a/clspv/tools/clspv-opt/main.cpp b/clspv/tools/clspv-opt/main.cpp
+index e0bc8a04..980e1cb3 100644
+--- a/clspv/tools/clspv-opt/main.cpp
++++ b/clspv/tools/clspv-opt/main.cpp
+@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
+ 
+   llvm::PassInstrumentationCallbacks PIC;
+   clspv::RegisterClspvPasses(&PIC);
+-  llvm::PassBuilder PB(nullptr, llvm::PipelineTuningOptions(), std::nullopt,
++  llvm::PassBuilder PB(nullptr, llvm::PipelineTuningOptions(), llvm::None,
+                        &PIC);
+   clspv::RegisterClspvPassBuilderCallback(&PB);
  

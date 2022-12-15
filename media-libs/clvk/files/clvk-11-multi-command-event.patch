@@ -1,5 +1,5 @@
 diff --git a/clvk/src/api.cpp b/clvk/src/api.cpp
-index 5d609ca..72f4684 100644
+index 6cda1b0..2c92eef 100644
 --- a/clvk/src/api.cpp
 +++ b/clvk/src/api.cpp
 @@ -1157,7 +1157,7 @@ cl_event CLVK_API_CALL clCreateUserEvent(cl_context context,
@@ -125,7 +125,7 @@ index 5d609ca..72f4684 100644
  }
  
  cl_int cvk_enqueue_ndrange_kernel(cvk_command_queue* command_queue,
-@@ -4726,14 +4793,185 @@ cl_int CLVK_API_CALL clGetSupportedImageFormats(cl_context context,
+@@ -4749,14 +4816,185 @@ cl_int CLVK_API_CALL clGetSupportedImageFormats(cl_context context,
      return CL_SUCCESS;
  }
  
@@ -313,7 +313,7 @@ index 5d609ca..72f4684 100644
      std::array<size_t, 3> reg = {region[0], region[1], region[2]};
  
      cl_map_flags map_flags;
-@@ -4744,14 +4982,6 @@ cl_int cvk_enqueue_image_copy(
+@@ -4767,14 +5005,6 @@ cl_int cvk_enqueue_image_copy(
      }
  
      auto img = static_cast<cvk_image*>(image);
@@ -328,7 +328,7 @@ index 5d609ca..72f4684 100644
  
      // Create copy command
      auto rpitch = row_pitch;
-@@ -4764,31 +4994,48 @@ cl_int cvk_enqueue_image_copy(
+@@ -4787,31 +5017,48 @@ cl_int cvk_enqueue_image_copy(
          spitch = region[1] * rpitch;
      }
      const size_t zero_origin[3] = {0, 0, 0};
@@ -391,7 +391,7 @@ index 5d609ca..72f4684 100644
  }
  
  cl_int CLVK_API_CALL clEnqueueReadImage(
-@@ -5050,15 +5297,16 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
+@@ -5073,15 +5320,16 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
      // TODO use Vulkan clear commands when possible
      // TODO use a shader when better
  
@@ -413,7 +413,7 @@ index 5d609ca..72f4684 100644
      if (err != CL_SUCCESS) {
          return err;
      }
-@@ -5071,26 +5319,31 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
+@@ -5094,26 +5342,31 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
      auto cmd_fill = std::make_unique<cvk_command_fill_image>(
          command_queue, map_ptr, pattern, pattern_size, reg);
  
@@ -459,7 +459,7 @@ index 5d609ca..72f4684 100644
  }
  
  cl_int CLVK_API_CALL clEnqueueCopyImageToBuffer(
-@@ -5245,119 +5498,6 @@ cl_int CLVK_API_CALL clEnqueueCopyBufferToImage(
+@@ -5268,119 +5521,6 @@ cl_int CLVK_API_CALL clEnqueueCopyBufferToImage(
          cmd.release(), num_events_in_wait_list, event_wait_list, event);
  }
  
@@ -579,7 +579,7 @@ index 5d609ca..72f4684 100644
  void* CLVK_API_CALL clEnqueueMapImage(
      cl_command_queue cq, cl_mem image, cl_bool blocking_map,
      cl_map_flags map_flags, const size_t* origin, const size_t* region,
-@@ -5380,17 +5520,17 @@ void* CLVK_API_CALL clEnqueueMapImage(
+@@ -5403,17 +5543,17 @@ void* CLVK_API_CALL clEnqueueMapImage(
  
      auto command_queue = icd_downcast(cq);
  
@@ -783,10 +783,10 @@ index 07c2e55..86d85d9 100644
  
  static inline cvk_event* icd_downcast(cl_event event) {
 diff --git a/clvk/src/memory.hpp b/clvk/src/memory.hpp
-index c00f2bc..8d01e82 100644
+index 341da37..292c003 100644
 --- a/clvk/src/memory.hpp
 +++ b/clvk/src/memory.hpp
-@@ -566,6 +566,7 @@ struct cvk_image : public cvk_mem {
+@@ -594,6 +594,7 @@ struct cvk_image : public cvk_mem {
              mapping.ptr = mapping.buffer->map_ptr(0);
          }
  
@@ -794,7 +794,7 @@ index c00f2bc..8d01e82 100644
          auto num_mappings_with_same_pointer = m_mappings.count(mapping.ptr);
          // TODO support multiple mappings with the same pointer
          if (num_mappings_with_same_pointer != 0 &&
-@@ -577,17 +578,20 @@ struct cvk_image : public cvk_mem {
+@@ -605,17 +606,20 @@ struct cvk_image : public cvk_mem {
          }
  
          m_mappings[mapping.ptr].push_back(mapping);
@@ -815,7 +815,7 @@ index c00f2bc..8d01e82 100644
          mapping.buffer->unmap();
          mapping.buffer->release();
          mapping.buffer = nullptr;
-@@ -596,8 +600,10 @@ struct cvk_image : public cvk_mem {
+@@ -624,8 +628,10 @@ struct cvk_image : public cvk_mem {
      }
  
      cvk_image_mapping mapping_for(void* ptr) {
@@ -826,7 +826,7 @@ index c00f2bc..8d01e82 100644
          return mapping;
      }
  
-@@ -690,6 +696,7 @@ private:
+@@ -718,6 +724,7 @@ private:
      VkImage m_image;
      VkImageView m_sampled_view;
      VkImageView m_storage_view;

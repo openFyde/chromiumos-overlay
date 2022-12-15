@@ -5,13 +5,13 @@
 EAPI=7
 
 CROS_WORKON_COMMIT=(
-	"402fc2dc512ec39ddd3406987c2e21c9cc6b9330"
-	"f62cef16e4310a900d88481ce03f78cad5a449c7"
+	"ff2673a2da69d190198a89df1aac4091fbd31f5c"
+	"587e6002adf88b17ab6d7d29097733b1b7442dc3"
 )
 
 CROS_WORKON_TREE=(
-	"402fc2dc512ec39ddd3406987c2e21c9cc6b9330"
-	"f62cef16e4310a900d88481ce03f78cad5a449c7"
+	"ff2673a2da69d190198a89df1aac4091fbd31f5c"
+	"587e6002adf88b17ab6d7d29097733b1b7442dc3"
 )
 
 CROS_WORKON_MANUAL_UPREV="1"
@@ -90,9 +90,8 @@ if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-01-sampledbuffer.patch")
 
 	# TODO(b/259217927) : To be remove as soon as they are merged upstream
-	PATCHES+=("${FILESDIR}/clvk-10-build-cache-tmp.patch")
-	PATCHES+=("${FILESDIR}/clvk-11-main-thread-exec.patch")
-	PATCHES+=("${FILESDIR}/clvk-12-multi-command-event.patch")
+	PATCHES+=("${FILESDIR}/clvk-10-main-thread-exec.patch")
+	PATCHES+=("${FILESDIR}/clvk-11-multi-command-event.patch")
 	PATCHES+=("${FILESDIR}/clvk-90-timeline-semaphores.patch")
 	PATCHES+=("${FILESDIR}/clvk-91-configurable-polling.patch")
 fi
