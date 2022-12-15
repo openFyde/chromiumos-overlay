@@ -39,7 +39,7 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	default
+	econf cups_serverbindir=/usr/libexec/cups
 }
 
 src_install() {
