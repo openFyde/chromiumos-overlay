@@ -57,6 +57,7 @@ multilib_src_configure() {
 		$(use_enable webp)
 		$(use_enable zlib)
 		$(use_enable zstd)
+		--disable-docs
 	)
 
 	# ChromeOS: install utilities to /usr/local unless installing to the SDK.
@@ -91,5 +92,5 @@ multilib_src_test() {
 multilib_src_install_all() {
 	find "${ED}" -type f -name '*.la' -delete || die
 	# ChromeOS: COPYRIGHT doesn't exist in the top-of-tree version of libtiff.
-	rm "${ED}"/usr/share/doc/${PF}/{README*,RELEASE-DATE,TODO,VERSION} || die
+	rm -f "${ED}"/usr/share/doc/${PF}/{README*,RELEASE-DATE,TODO,VERSION} || die
 }
