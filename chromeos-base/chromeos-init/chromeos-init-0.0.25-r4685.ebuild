@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ee9fd10f1475cf7db8882404068e938b4846f36d"
-CROS_WORKON_TREE=("0a34e7c8254674b933abb878c9bc51424fdecd10" "77239ccadb55a36ade999b6cc42e20ae38e28d82" "1daf1bea13a1b789cef5c1b857a8dc4058f20ffb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="aa43b9e9be5f8c4f1ed35a4806d08bcd81c1be8c"
+CROS_WORKON_TREE=("0a34e7c8254674b933abb878c9bc51424fdecd10" "0bcf9ec14f806b17da9ec038e589ab5b00e51b94" "1daf1bea13a1b789cef5c1b857a8dc4058f20ffb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -24,7 +24,7 @@ LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
 IUSE="
-	arcpp arcvm cros_embedded direncryption +encrypted_stateful
+	cros_embedded direncryption +encrypted_stateful
 	+encrypted_reboot_vault frecon fsverity lvm_stateful_partition
 	+oobe_config prjquota -s3halt +syslog systemd tpm2 +udev vivid vtconsole"
 
@@ -120,12 +120,6 @@ src_install_upstart() {
 	else
 		doins upstart/*.conf
 		dotmpfiles tmpfiles.d/*.conf
-
-		if ! use arcpp && use arcvm; then
-			sed -i '/^env IS_ARCVM=/s:=0:=1:' \
-				"${D}/etc/init/rt-limits.conf" || \
-				die "Failed to replace is_arcvm in rt-limits.conf"
-		fi
 
 		dosbin chromeos-disk-metrics
 		dosbin chromeos-send-kernel-errors

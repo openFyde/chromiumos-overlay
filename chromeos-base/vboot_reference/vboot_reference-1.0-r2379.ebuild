@@ -5,7 +5,7 @@ EAPI=7
 
 # platform2 is used purely for the platform2_test.py wrapper
 
-CROS_WORKON_COMMIT=("167d3873450dcd5d735a07d647462829f16b2061" "75cd823e68f67b683692ee20594c15f37acfbcd3")
+CROS_WORKON_COMMIT=("167d3873450dcd5d735a07d647462829f16b2061" "aa43b9e9be5f8c4f1ed35a4806d08bcd81c1be8c")
 CROS_WORKON_TREE=("5cd2fc8d43707954e8565151606c14959189b842" "0a34e7c8254674b933abb878c9bc51424fdecd10")
 CROS_WORKON_PROJECT=("chromiumos/platform/vboot_reference" "chromiumos/platform2")
 CROS_WORKON_LOCALNAME=("platform/vboot_reference" "platform2")
@@ -18,7 +18,7 @@ DESCRIPTION="Chrome OS verified boot tools"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm_dynamic tpm2 tpm2_simulator vtpm_proxy"
+IUSE="cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm_dynamic tpm2 tpm2_simulator vtpm_proxy +flashrom"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
@@ -31,7 +31,7 @@ COMMON_DEPEND="
 	dev-libs/libzip:=
 	dev-libs/openssl:=
 	sys-apps/coreboot-utils:=
-	sys-apps/flashrom:=
+	flashrom? ( sys-apps/flashrom:= )
 	sys-apps/util-linux:="
 RDEPEND="${COMMON_DEPEND}"
 # vboot_reference tests are shell scripts using all these utilities
@@ -96,6 +96,7 @@ vemake() {
 		VTPM_PROXY="$(usev vtpm_proxy)" \
 		FUZZ_FLAGS="${SANITIZER_CFLAGS}" \
 		BUILD="$(get_build_dir)" \
+		USE_FLASHROM="$(usev flashrom)" \
 		"$@"
 }
 
