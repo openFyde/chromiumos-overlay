@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
-CROS_WORKON_COMMIT="e689e6936a438c10c14b9a3bb19c167ce0d20397"
-CROS_WORKON_TREE="1965189119042df7bbcf4dacf01efb4dbdf945ec"
+CROS_WORKON_COMMIT="e131fe85b3654dac8cf623966289a80c50d418f7"
+CROS_WORKON_TREE="9561cc27e6bf3f7f99b945f033db7bc28110ab08"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -28,6 +28,7 @@ IUSE="
 	-chromeless_tests
 	-chromeless_tty
 	debugd
+	dlc
 	has-kernelnext
 	is-kernelnext
 	minios
@@ -119,6 +120,9 @@ SERVER_IUSE_TESTS="
 	+tests_display_ResolutionList
 	+tests_display_ServerChameleonConnection
 	+tests_display_SwitchMode
+	dlc? (
+		+tests_dlc_Install
+	)
 	+tests_factory_Basic
 	+tests_firmware_ClearTPMOwnerAndReset
 	+tests_firmware_ConsecutiveBoot
