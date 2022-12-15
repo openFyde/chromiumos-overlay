@@ -31,7 +31,10 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	econf --disable-shared
+	econf \
+		--disable-shared \
+		--with-cupsfilterdir=/usr/libexec/cups/filter \
+		--with-cupsppddir=/usr/share/cups
 
 	# Makefile calls ls to generate a file list which is included in Makefile.am
 	# Set the collation to C to avoid automake being called automatically
