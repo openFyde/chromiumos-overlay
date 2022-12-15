@@ -68,6 +68,10 @@ dev-embedded/openocd  ftdi
 # http://crbug.com/508630 (see #8)
 sys-libs/libcap	-pam
 
+# Exclude qmanifest and qtegrity from portage-utils (unused),
+# and disable OpenMP support (not supported by toolchain).
+app-portage/portage-utils -openmp -qmanifest -qtegrity
+
 # Disable obsolete/unused protocols.
 dev-libs/openssl -sslv2 -sslv3 -tls-heartbeat
 
