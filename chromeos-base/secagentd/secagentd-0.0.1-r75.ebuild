@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="d9b35688d673fc3df047212a2ba0056d35870b95"
-CROS_WORKON_TREE=("232eeac462515f4e1460770a38b8ac52bef0adec" "6d855e200e83a84f6c26e3d673607f1cf7647917" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="4a7bc3f9ab53feaa949aa1eeea8fdc7ed45b85fe"
+CROS_WORKON_TREE=("232eeac462515f4e1460770a38b8ac52bef0adec" "c4a0653a2e1b060e238302c86ab45229b079efb4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -60,10 +60,6 @@ src_install() {
 		insinto /usr/share/btf/secagentd
 		doins "${OUT}"/gen/btf/*.min.btf
 	fi
-
-	# Install Upstart configuration.
-	insinto /etc/init
-	doins secagentd.conf
 }
 
 platform_pkg_test() {
