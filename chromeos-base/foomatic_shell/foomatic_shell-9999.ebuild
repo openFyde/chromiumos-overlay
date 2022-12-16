@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk foomatic_shell .gn"
+CROS_WORKON_SUBTREE="common-mk foomatic_shell metrics .gn"
 
 PLATFORM_SUBDIR="foomatic_shell"
 
@@ -18,6 +18,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/foomatic
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+
+RDEPEND="chromeos-base/metrics:="
+DEPEND="${RDEPEND}"
 
 src_install() {
 	platform_src_install
