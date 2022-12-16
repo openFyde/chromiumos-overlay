@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="35a85995e8aac3d700502064a0649dd1449d3ab1"
-CROS_WORKON_TREE=("c7c0905a6b2404597933022decab6f4c5011aaf7" "2bbf53b0300ba923b6530720b27502e1469b2ee9" "458862745cff1f4cd5760ef83df57841e9e5a138" "26ab03ca281ea04da7238df964f7f2d8b07c3886" "1daf1bea13a1b789cef5c1b857a8dc4058f20ffb" "478fda65401c49d9a8814ddd694a79ed5e1ba4f4" "7d2c8e345a975f68cf202b5d5646113db8c1b89e" "89c6bc5c3505754b3f56925b13f25e8b33274aa4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="2414299b7e81089419033d46396b462520acc747"
+CROS_WORKON_TREE=("c7c0905a6b2404597933022decab6f4c5011aaf7" "2bbf53b0300ba923b6530720b27502e1469b2ee9" "458862745cff1f4cd5760ef83df57841e9e5a138" "26ab03ca281ea04da7238df964f7f2d8b07c3886" "1daf1bea13a1b789cef5c1b857a8dc4058f20ffb" "478fda65401c49d9a8814ddd694a79ed5e1ba4f4" "26ffacd93fe30a9756518567aec257a5b95ab848" "89c6bc5c3505754b3f56925b13f25e8b33274aa4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -42,7 +42,7 @@ COMMON_DEPEND="
 
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/ec-utils
-	iioservice? ( chromeos-base/libiioservice_ipc:= )
+	chromeos-base/libiioservice_ipc:=
 	powerd_manual_eventlog_add? ( sys-apps/coreboot-utils )
 	qrtr? ( net-libs/libqrtr:= )
 "
