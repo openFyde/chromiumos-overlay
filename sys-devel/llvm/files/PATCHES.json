@@ -4035,5 +4035,19 @@
             "from": 465103,
             "until": 466392
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[Driver] Remove Joined -X\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "cherry/7f8bd8ac0658b5e75049fd5c04fcf8c31352f397.patch",
+        "version_range": {
+            "from": 472596,
+            "until": 483835
+        }
     }
 ]
