@@ -799,9 +799,9 @@ index fd30dd3114..089be814d5 100644
 +syslog (int __pri, const char *const __clang_pass_object_size __fmt, ...)
 +{
 +  __gnuc_va_list __ap;
-+  va_start (__ap, __fmt);
++  __builtin_va_start (__ap, __fmt);
 +  __vsyslog_chk (__pri, __USE_FORTIFY_LEVEL - 1, __fmt, __ap);
-+  va_end (__ap);
++  __builtin_va_end (__ap);
 +}
 +#elif defined __va_arg_pack
  __fortify_function void
