@@ -23,5 +23,8 @@ IUSE="arcpp"
 
 COMMON_DEPEND="=sys-fs/fuse-2*
 	sys-libs/libcap:="
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}
+	dev-util/shflags
+"
 DEPEND="${COMMON_DEPEND}"
