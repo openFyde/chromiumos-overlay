@@ -36,6 +36,7 @@ S="${WORKDIR}/${OPENCL_CTS}"
 
 PATCHES=(
 	"${FILESDIR}/test_conversions.patch"
+	"${FILESDIR}/test_compiler.patch"
 )
 
 src_prepare() {
