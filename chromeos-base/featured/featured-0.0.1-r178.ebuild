@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="4645514a5adf3492bbf2ea5bab6bf23116ada6c2"
-CROS_WORKON_TREE=("0eb70fa4e48b2469fc9d4c70353280aa018568ad" "32b01675a699325361df67452789542c5eb5024a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="f23d7a09a082a3f22281790afd9beaae04b23f65"
+CROS_WORKON_TREE=("0eb70fa4e48b2469fc9d4c70353280aa018568ad" "5f005754494e51c6143bb3c8d33f043878ff3f80" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,11 +21,14 @@ KEYWORDS="*"
 IUSE="test"
 
 COMMON_DEPEND="
+	chromeos-base/bootlockbox-client:=
 	dev-libs/openssl:="
 
-RDEPEND="${COMMON_DEPEND}"
+RDEPEND="
+	${COMMON_DEPEND}"
 
-DEPEND="${COMMON_DEPEND}
+DEPEND="
+	${COMMON_DEPEND}
 	chromeos-base/session_manager-client:=
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
@@ -75,4 +78,5 @@ platform_pkg_test() {
 	platform_test "run" "${OUT}/feature_library_test"
 	platform_test "run" "${OUT}/hmac_test"
 	platform_test "run" "${OUT}/service_test"
+	platform_test "run" "${OUT}/store_impl_test"
 }
