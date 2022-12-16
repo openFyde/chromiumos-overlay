@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d9b35688d673fc3df047212a2ba0056d35870b95"
-CROS_WORKON_TREE=("232eeac462515f4e1460770a38b8ac52bef0adec" "0115f034b7363328f264048244adda75a2fdf805" "1daf1bea13a1b789cef5c1b857a8dc4058f20ffb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="c122e465032420020e7073e99a951fc11383cfae"
+CROS_WORKON_TREE=("232eeac462515f4e1460770a38b8ac52bef0adec" "28d384f5b65832b5476715e02383c94cbc537601" "1daf1bea13a1b789cef5c1b857a8dc4058f20ffb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -49,7 +49,6 @@ pkg_preinst() {
 src_install() {
 	platform_src_install
 
-	dosbin "${OUT}"/rollback_prepare_save
 	dosbin "${OUT}"/oobe_config_save
 	dosbin "${OUT}"/oobe_config_restore
 	dosbin "${OUT}"/rollback_cleanup
