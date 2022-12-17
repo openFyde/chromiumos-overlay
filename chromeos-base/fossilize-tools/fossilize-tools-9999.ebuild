@@ -24,6 +24,7 @@ VIDEO_CARDS="
 IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 
 DEPEND="
+	dev-util/vulkan-tools
 	media-libs/fossilize:=
 "
 
