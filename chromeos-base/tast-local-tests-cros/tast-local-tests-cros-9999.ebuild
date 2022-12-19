@@ -43,7 +43,6 @@ IUSE="arc chromeless_tty chromeless_tests cups"
 DEPEND="chromeos-base/tast-build-deps:="
 
 RDEPEND="
-	chromeos-base/policy-testserver
 	chromeos-base/tast-local-helpers-cros
 	chromeos-base/tast-tests-local-data
 	chromeos-base/virtual-usb-printer

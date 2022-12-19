@@ -31,7 +31,6 @@ RDEPEND="
 	chromeos-base/autotest-deps-policy
 	chromeos-base/autotest-deps-webgl-mpd
 	chromeos-base/chromeos-chrome
-	chromeos-base/policy-testserver
 	dev-python/grpcio
 	dev-python/mkvparse
 	shill? ( chromeos-base/shill-test-scripts )
