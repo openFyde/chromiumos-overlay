@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a14789debc21d8e75364f96ab79acaf96c7cc563"
+CROS_WORKON_COMMIT="0e75f553ce14a5aadc54add57c53b9d2f4505007"
 CROS_WORKON_TREE="a6b9eba4a61580a4d52c13a0af1e13f20b02d221"
 CROS_WORKON_PROJECT="chromiumos/platform/graphics"
 CROS_WORKON_LOCALNAME="platform/graphics"
@@ -26,6 +26,7 @@ VIDEO_CARDS="
 IUSE="$(printf 'video_cards_%s ' ${VIDEO_CARDS})"
 
 DEPEND="
+	dev-util/vulkan-tools
 	media-libs/fossilize:=
 "
 
