@@ -24,7 +24,5 @@ RDEPEND="
 src_install() {
 	insinto /etc/init
 	doins arc/vm/scripts/init/mount-media-dirs/arcvm-mount-myfiles.conf
-	doins arc/vm/scripts/init/mount-media-dirs/arcvm-mount-play-files.conf
 	doins arc/vm/scripts/init/mount-media-dirs/arcvm-mount-removable-media.conf
-	doins arc/vm/scripts/init/mount-media-dirs/arcvm-mount-sdcard-dir.conf
 }
