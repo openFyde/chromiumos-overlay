@@ -62,6 +62,7 @@ DEPEND="
 	dev-go/selinux
 	dev-go/subcommands
 	dev-go/sync
+	dev-go/tail
 	dev-go/tarm-serial
 	dev-go/uuid
 	dev-go/vnc2video
