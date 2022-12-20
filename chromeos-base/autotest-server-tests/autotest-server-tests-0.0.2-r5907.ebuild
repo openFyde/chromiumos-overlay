@@ -237,7 +237,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_PDResetSoft
 	+tests_firmware_PDTrySrc
 	+tests_firmware_PDVbusRequest
-	+tests_firmware_RecoveryButton
 	+tests_firmware_RecoveryCacheBootKeys
 	+tests_firmware_RollbackFirmware
 	+tests_firmware_RollbackKernel
