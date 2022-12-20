@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="7be960e2b84b5dfcbec44d3b722fb02d16b9eaf1"
-CROS_WORKON_TREE="ef12a78ebfea31de945ebbe2d56e405fea38258b"
+CROS_WORKON_COMMIT="ce5a5c90451cc1e3a4cb8b18d15be0acbc2b7061"
+CROS_WORKON_TREE="660cf7d5feaeb33e3ad049adbef2397f17affdef"
 CROS_WORKON_PROJECT="chromiumos/third_party/mmc-utils"
 
 inherit cros-workon toolchain-funcs cros-sanitizers
