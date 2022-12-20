@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9a26430019341c4434bbd6e8dfb144c793bddf8b"
-CROS_WORKON_TREE="4cf16faa7d004dcbb7e728a50fb5e0f8b1617ff5"
+CROS_WORKON_COMMIT="bdaea216452ecdfad2aae03e38f19df04fede586"
+CROS_WORKON_TREE="cec452d976e39b053bb403f799a473b4f952c957"
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
@@ -67,8 +67,8 @@ src_configure() {
 src_compile() {
 	# For lack of a better place to put this (since we want it to run when
 	# FEATURES=test is not enabled), verify licenses here.
-	"${S}/verify_licenses.py" \
-		--license-file="${S}/licenses_used.txt" \
+	"${S}/vendor_artifacts/verify_licenses.py" \
+		--license-file="${S}/vendor_artifacts/licenses_used.txt" \
 		--expected-licenses="${EXPECTED_LICENSES[*]}" \
 		|| die
 	einfo "License verification complete."
