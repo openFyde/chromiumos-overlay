@@ -91,6 +91,7 @@ chromeos-base/chromeos-ec		coreboot-sdk
 sys-firmware/optee_os			coreboot-sdk
 sys-firmware/optee_os_tadevkit			coreboot-sdk
 sys-firmware/optee-oemcrypto-ta	coreboot-sdk
+chromeos-base/hwsec-optee-ta		coreboot-sdk
 
 # clang doesn't recognize gcc pragmas, so libgcrypt needs to turn off -O flags.
 dev-libs/libgcrypt	o-flag-munging
