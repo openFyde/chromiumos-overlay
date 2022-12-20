@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="569acd1eb0e5ee39f1e4b50921a0856c0b30f137"
+CROS_WORKON_COMMIT="b82f1afff1b508e4120790c70c8d2b2c57ebb5c3"
 CROS_WORKON_TREE=("0c3a30cd50ce72094fbd880f2d16d449139646a2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 inherit base cros-workon platform unpacker
 
@@ -46,15 +46,6 @@ src_unpack() {
 	# Need to unpack the SRC_URI's into the platform2 dir
 	cd "${WORKDIR}/${PN}-${PV}/platform2"
 	unpacker_src_unpack
-}
-
-src_configure() {
-	if use x86 || use amd64; then
-		append-cppflags "-D_Float16=__fp16"
-		append-cxxflags "-Xclang -fnative-half-type"
-		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
-	fi
-	platform_src_configure
 }
 
 src_prepare() {

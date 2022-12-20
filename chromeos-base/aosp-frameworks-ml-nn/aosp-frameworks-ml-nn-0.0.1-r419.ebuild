@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("569acd1eb0e5ee39f1e4b50921a0856c0b30f137" "9a35b91efc215fca3dbbdda3e4a3511e6ba78a62" "c1a2213d4dd7f89103213a881c852ebaf4e806af")
+CROS_WORKON_COMMIT=("b82f1afff1b508e4120790c70c8d2b2c57ebb5c3" "9a35b91efc215fca3dbbdda3e4a3511e6ba78a62" "c1a2213d4dd7f89103213a881c852ebaf4e806af")
 CROS_WORKON_TREE=("0c3a30cd50ce72094fbd880f2d16d449139646a2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "202e1663abd7a2cd2303f37e49fa041491ad790a" "941247a6ea5f4906ed073e5679a09891c50369df")
 inherit cros-constants
 
@@ -67,11 +67,6 @@ DEPEND="
 src_configure() {
 	# This warning is triggered in tensorflow.
 	append-flags "-Wno-unused-but-set-variable"
-	if use x86 || use amd64; then
-		append-cppflags "-D_Float16=__fp16"
-		append-cxxflags "-Xclang -fnative-half-type"
-		append-cxxflags "-Xclang -fallow-half-arguments-and-returns"
-	fi
 	if use xnnpack; then
 		append-cppflags "-DNNAPI_USE_XNNPACK_DRIVER"
 	fi
