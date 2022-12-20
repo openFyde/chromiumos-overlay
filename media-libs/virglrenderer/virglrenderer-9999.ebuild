@@ -40,8 +40,7 @@ DEPEND="${RDEPEND}
 "
 
 PATCHES=(
-	"${FILESDIR}"/0001-vkr-add-support-for-globalFencing.patch
-	"${FILESDIR}"/0002-vrend-disable-GL_EXT_external_object_fd-path-on-GLES.patch
+	"${FILESDIR}"/0001-vrend-disable-GL_EXT_external_object_fd-path-on-GLES.patch
 )
 
 src_prepare() {
