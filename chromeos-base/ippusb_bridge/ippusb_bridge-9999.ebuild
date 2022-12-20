@@ -58,7 +58,7 @@ src_install() {
 
 	insinto /etc/init
 	newins "init/ippusb-bridge.conf" "ippusb-bridge.conf"
-	newins "init/paper-debug-cleanup.conf" "paper-debug-cleanup.conf"
+	newins "init/printscan-debug-cleanup.conf" "printscan-debug-cleanup.conf"
 
 	insinto /usr/share/ippusb_bridge
 	newins "init/ippusb-bridge-debug.conf" "ippusb-bridge-debug.conf"
