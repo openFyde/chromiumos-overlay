@@ -15,12 +15,15 @@
  
  # set ABCEXTERNAL = <abc-command> to use an external ABC instance
  # Note: The in-tree ABC (yosys-abc) will not be installed when ABCEXTERNAL is set.
-@@ -198,8 +198,6 @@ endif
+@@ -198,10 +198,8 @@ endif
  endif
  
  ifeq ($(CONFIG),clang)
 -CXX = clang
 -LD = clang++
  CXXFLAGS += -std=$(CXXSTD) -Os
- ABCMKARGS += ARCHFLAGS="-DABC_USE_STDINT_H -Wno-c++11-narrowing"
+-ABCMKARGS += ARCHFLAGS="-DABC_USE_STDINT_H -Wno-c++11-narrowing"
++ABCMKARGS += ARCHFLAGS="-DABC_USE_STDINT_H -Wno-c++11-narrowing -Wno-register"
  
+ ifneq ($(SANITIZER),)
+ $(info [Clang Sanitizer] $(SANITIZER))
