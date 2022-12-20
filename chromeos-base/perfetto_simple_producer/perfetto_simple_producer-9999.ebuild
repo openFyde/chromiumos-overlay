@@ -23,9 +23,3 @@ KEYWORDS="~*"
 
 DEPEND="
 	chromeos-base/perfetto:="
-
-src_install() {
-	platform_src_install
-
-	dobin "${OUT}"/perfetto_simple_producer
-}
