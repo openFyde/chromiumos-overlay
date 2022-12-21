@@ -26,6 +26,7 @@ PLATFORM2_PATHS=(
 	vm_tools/dbus
 	vm_tools/init
 	vm_tools/maitred/client.cc
+	vm_tools/modprobe
 	vm_tools/pstore_dump
 	vm_tools/seneschal
 	vm_tools/syslog
@@ -52,7 +53,7 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 # The crosvm-wl-dmabuf and crosvm-virtio-video USE flags
 # are used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan libglvnd crosvm_siblings virtgpu_native_context cross_domain_context iioservice"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan libglvnd crosvm_siblings virtgpu_native_context cross_domain_context iioservice vfio_gpu"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
@@ -157,6 +158,14 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
+
+	if use vfio_gpu; then
+		insinto /etc/modprobe.d
+		doins modprobe/vfio-dgpu.conf
+
+		exeinto /sbin
+		doexe modprobe/dgpu.sh
+	fi
 
 	insinto /usr/local/vms/etc
 	doins init/arcvm_dev.conf
