@@ -46,7 +46,7 @@ SRC_URI="
 "
 
 # The archives above live on Google maintained sites.
-RESTRICT="nomirror"
+RESTRICT="mirror"
 
 LICENSE="BSD-Google"
 SLOT="0/0"

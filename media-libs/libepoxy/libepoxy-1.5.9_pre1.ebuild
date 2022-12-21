@@ -19,7 +19,7 @@ fi
 
 # Uncomment the following line temporarily to update the manifest when updating
 # the pinned version via: ebuild $(equery w libepoxy) manifest
-#RESTRICT=nomirror
+#RESTRICT=mirror
 
 PYTHON_COMPAT=( python3_{6,7,8,9} )
 PYTHON_REQ_USE='xml(+)'

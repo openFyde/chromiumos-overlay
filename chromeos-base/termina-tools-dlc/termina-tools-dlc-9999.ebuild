@@ -28,7 +28,7 @@ else
 	"
 fi
 
-RESTRICT="nomirror"
+RESTRICT="mirror"
 
 LICENSE="BSD-Google"
 SLOT="0"
