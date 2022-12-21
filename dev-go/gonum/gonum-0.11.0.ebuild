@@ -20,6 +20,8 @@ CROS_GO_PACKAGES=(
 	"gonum.org/v1/gonum/lapack/gonum"
 	"gonum.org/v1/gonum/lapack/lapack64"
 	"gonum.org/v1/gonum/mat"
+	"gonum.org/v1/gonum/dsp/fourier"
+	"gonum.org/v1/gonum/dsp/fourier/internal/fftpack"
 )
 
 CROS_GO_TEST=(
