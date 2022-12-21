@@ -153,7 +153,7 @@ SRC="${MY_P}-src.tar.gz"
 # The version of rust-bootstrap that we're using to build our current Rust
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
-BOOTSTRAP_VERSION="1.64.0"
+BOOTSTRAP_VERSION="1.65.0"
 
 # If `CROS_RUSTC_BUILD_RAW_SOURCES` is nonempty, a full Rust source tree is
 # expected to be available here.
@@ -203,6 +203,7 @@ PATCHES=(
 	"${FILESDIR}/rust-disable-mutable-noalias.patch"
 	"${FILESDIR}/rust-add-armv7a-sanitizers.patch"
 	"${FILESDIR}/rust-Remove-LLVMGetAggregateElement.patch"
+	"${FILESDIR}/rust-bootstrap-use-CARGO_HOME.patch"
 )
 
 S="${CROS_RUSTC_SRC_DIR}/${MY_P}-src"
@@ -258,6 +259,12 @@ cros-rustc_setup_portage_dirs() {
 	mkdir -p "${CARGO_HOME}" || die
 	cat >> "${CARGO_HOME}/config.toml" <<EOF || die
 
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "${S}/vendor"
+
 [target.x86_64-unknown-linux-gnu]
 linker = "${CHOST}-clang"
 
@@ -267,10 +274,14 @@ EOF
 
 	# Mirror licenses, so Portage license tooling can find them easily.
 	local targ="${WORKDIR}/licenses"
+	local src="${CROS_RUSTC_SRC_DIR}"
+	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
+		src="${_CROS_RUSTC_RAW_SOURCES_ROOT}"
+	fi
 	mkdir -p "${targ}" || die
 	einfo "Mirroring licenses from ${CROS_RUSTC_SRC_DIR} into ${targ}..."
 	rsync -rl --include='*/' --include='LICENSE*' --exclude='*' \
-		--prune-empty-dirs "${CROS_RUSTC_SRC_DIR}" "${targ}" || die
+		--prune-empty-dirs "${src}" "${targ}" || die
 }
 
 cros-rustc_src_unpack() {
@@ -331,6 +342,7 @@ cros-rustc_src_prepare() {
 	sed -e 's:"unknown":"cros":g' aarch64_unknown_linux_gnu.rs >aarch64_cros_linux_gnu.rs || die
 	popd || die
 
+	#sed -e 's:#include <stdlib.h>:void abort(void);:g' -i "${ECONF_SOURCE:-.}"/src/llvm-project/compiler-rt/lib/builtins/int_util.c
 	# The miri tool is built because of 'extended = true' in
 	# cros-config.toml, but the build is busted. See the upstream issue:
 	# [https://github.com/rust- lang/rust/issues/56576]. Because miri isn't
@@ -471,6 +483,11 @@ cros-rustc_src_configure() {
 		profiler = true
 		build-dir = "${CROS_RUSTC_BUILD_DIR}"
 		${bootstrap_compiler_info}
+
+		# We always want optimized builtins, and also we get linker
+		# errors when compiling for the aarch64-cros-linux-gnu target if
+		# this is not `true`.
+		optimized-compiler-builtins = true
 
 		[llvm]
 		ccache = ${use_ccache}
