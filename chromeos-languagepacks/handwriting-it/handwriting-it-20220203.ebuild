@@ -24,6 +24,9 @@ REQUIRED_USE="dlc ondevice_handwriting"
 # Allocate 4KB * 8750 = 35MB
 DLC_PREALLOC_BLOCKS="8750"
 
+# Enable scaled design.
+DLC_SCALED=true
+
 S="${WORKDIR}"
 src_unpack() {
 	local archive="${SRC_URI##*/}"

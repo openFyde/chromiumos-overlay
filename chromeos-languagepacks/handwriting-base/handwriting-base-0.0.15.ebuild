@@ -24,6 +24,9 @@ REQUIRED_USE="dlc ondevice_handwriting"
 # Allocate 4KB * 7500 = 30MB
 DLC_PREALLOC_BLOCKS="7500"
 
+# Enable scaled design.
+DLC_SCALED=true
+
 S="${WORKDIR}"
 
 src_install() {
