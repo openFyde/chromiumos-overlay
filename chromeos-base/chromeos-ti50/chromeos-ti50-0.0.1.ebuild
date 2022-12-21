@@ -5,7 +5,7 @@ EAPI="7"
 
 DESCRIPTION="Ebuild to support the Chrome OS TI50 device."
 
-LICENSE="BSD-Google"
+LICENSE="BSD-Google Apache-2.0 MIT"
 SLOT="0"
 KEYWORDS="*"
 IUSE="cros_host"
