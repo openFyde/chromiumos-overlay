@@ -1,7 +1,7 @@
 # Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -23,17 +23,20 @@ SERVER_IUSE_TESTS="
 	+tests_network_WiFi_BluetoothScanPerf
 	+tests_network_WiFi_BluetoothStreamPerf
 	+tests_network_WiFi_ChaosConfigFailure
+	+tests_network_WiFi_ChaosConfigSniffer
 	+tests_network_WiFi_ChaosConnectDisconnect
 	+tests_network_WiFi_ChaosLongConnect
-	!chromeless_tty (
-		!chromeless_tests (
+	!chromeless_tty? (
+		!chromeless_tests? (
 			+tests_cellular_ChromeEndToEnd
 			+tests_network_WiFi_ChromeEndToEnd
 		)
 	)
 	+tests_network_WiFi_Perf
-	+tests_network_WiFi_StressTest
-	+tests_network_WiFi_Throttle
+	+tests_network_WiFi_PerfNoisyEnv
+	+tests_network_WiFi_RoamEndToEnd
+	+tests_network_WiFi_RoamSuspendEndToEnd
+	+tests_network_WiFi_RoamSuspendTimeout
 	+tests_network_WiFi_UpdateRouter
 	+tests_network_WiFi_VerifyRouter
 "
