@@ -1,7 +1,7 @@
 # Copyright 2019 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
 # When the time comes to roll to a new version, download the new gn binary at
 # https://chrome-infra-packages.appspot.com/p/gn/gn/linux-amd64/+/
