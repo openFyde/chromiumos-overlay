@@ -163,11 +163,25 @@ src_install() {
 
 	# Copy compiler-rt files to a new clang version to handle llvm updates gracefully.
 	local llvm_version=$(llvm-config --version)
-	local clang_version=${llvm_version%svn*}
-	clang_version=${clang_version%git*}
-	local compiler_rt_version=${clang_version%%.*}
-	new_version="$((compiler_rt_version + 1)).0.0"
-	old_version="$((compiler_rt_version - 1)).0.0"
-	cp -r  "${D}${libdir}/clang/${clang_version}" "${D}${libdir}/clang/${new_version}"
-	cp -r  "${D}${libdir}/clang/${clang_version}" "${D}${libdir}/clang/${old_version}"
+	local clang_full_version=${llvm_version%svn*}
+	clang_full_version=${clang_full_version%git*}
+	local major_version=${clang_full_version%%.*}
+	local new_full_version="$((major_version + 1)).0.0"
+	local old_full_version="$((major_version - 1)).0.0"
+	local new_major_version="$((major_version + 1))"
+	local old_major_version="$((major_version - 1))"
+	# Upstream has moved to use major version instead of major.minor.sub format.
+	# So copy installed files to both (major+/-1) and (major+/-1).0.0 dirs.
+	local rt_install_path
+	if [[ -d "${D}${libdir}/clang/${clang_full_version}" ]]; then
+		rt_install_path="${D}${libdir}/clang/${clang_full_version}"
+	elif [[ -d "${D}${libdir}/clang/${major_version}" ]]; then
+		rt_install_path="${D}${libdir}/clang/${major_version}"
+	else
+		die "Could not find installed compiler-rt files."
+	fi
+	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${new_full_version}"
+	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${new_major_version}"
+	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${old_full_version}"
+	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${old_major_version}"
 }
