@@ -78,4 +78,8 @@ pkg_postinst() {
 	"${root_autotest_dir}/site_utils/control_file_preprocessor.py" \
 		-a "${root_autotest_dir}" \
 		-o "${root_autotest_dir}/test_suites/${SUITE_TO_CONTROL_MAP}" || die
+	PYTHONDONTWRITEBYTECODE=1 \
+	python3 "${root_autotest_dir}/utils/generate_metadata.py" \
+		-autotest_path "${root_autotest_dir}" \
+		-output_file="${root_autotest_dir}"/autotest_metadata.pb || die
 }
