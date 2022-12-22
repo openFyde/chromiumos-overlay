@@ -11,9 +11,10 @@ case "${EAPI:-0}" in
 7) ;;
 esac
 
-# Since we use CHROMEOS_KERNEL_CONFIG and CHROMEOS_KERNEL_SPLITCONFIG here,
-# it is not safe to reuse the kernel prebuilts across different boards. Inherit
-# the cros-board eclass to make sure that doesn't happen.
+# Since we use CHROMEOS_KERNEL_CONFIG, CHROMEOS_KERNEL_SPLITCONFIG, and
+# CHROMEOS_DTBS here, it is not safe to reuse the kernel prebuilts across
+# different boards. Inherit the cros-board eclass to make sure that doesn't
+# happen.
 inherit binutils-funcs cros-board cros-kernel-versions estack toolchain-funcs
 
 HOMEPAGE="http://www.chromium.org/"
@@ -66,6 +67,7 @@ IUSE="
 	+clang
 	-compilation_database
 	-device_tree
+	dt_choose_all
 	+dt_compression
 	+fit_compression_kernel_lz4
 	fit_compression_kernel_lzma
@@ -2557,8 +2559,21 @@ cros-kernel2_src_configure() {
 
 get_dtb_name() {
 	local dtb_dir=${1}
+	local dtb_glob="*.dtb"
+	local result
+
+	if ! use dt_choose_all && [[ -n "${CHROMEOS_DTBS}" ]]; then
+		dtb_glob="${CHROMEOS_DTBS}"
+	fi
+
 	# Add sort to stabilize the dtb ordering.
-	find "${dtb_dir}" -name "*.dtb" | LC_COLLATE=C sort
+	result="$(find "${dtb_dir}" -name "${dtb_glob}" | LC_COLLATE=C sort)"
+
+	if [[ -z "${result}" ]]; then
+		die "Found no dtb files matching glob ${dtb_glob} in ${dtb_dir}"
+	fi
+
+	echo "${result}"
 }
 
 gen_compilation_database() {
