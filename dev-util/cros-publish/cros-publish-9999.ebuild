@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test/publish"
+CROS_WORKON_SUBTREE="src/chromiumos/test/publish src/chromiumos/test/util"
 
 inherit cros-go cros-workon
 
