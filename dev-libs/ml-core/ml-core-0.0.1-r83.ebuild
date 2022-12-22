@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a03cc84f987e4ae46540c1504e642c1db9ab8c98"
+CROS_WORKON_COMMIT="36e3bfc1771457b18032707c427cd1e5aa6ebf21"
 CROS_WORKON_TREE=("0c3a30cd50ce72094fbd880f2d16d449139646a2" "852e3fb47c6c7bc3baf28d7cb71766ea4aeee96e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,15 +38,18 @@ src_install() {
 	platform_src_install
 	dolib.so "${OUT}"/lib/libcros_ml_core.so
 
-	insinto /etc/init
-	doins opencl_caching/init/opencl-cacher.conf
+	# TODO (b/263434835): re-enable once we're sure this doesn't
+	#                     interfere with the cros-camera service
+	#                     downloading DLC
+	# insinto /etc/init
+	# doins opencl_caching/init/opencl-cacher.conf
 
-	# Only on AMD64 for now
-	insinto /usr/share/policy
-	doins opencl_caching/seccomp_filter/opencl-cacher-amd64.policy
+	# # Only on AMD64 for now
+	# insinto /usr/share/policy
+	# doins opencl_caching/seccomp_filter/opencl-cacher-amd64.policy
 
-	insinto /etc/dbus-1/system.d
-	doins opencl_caching/dbus/opencl-cacher-dbus.conf
+	# insinto /etc/dbus-1/system.d
+	# doins opencl_caching/dbus/opencl-cacher-dbus.conf
 
 	local daemon_store="/etc/daemon-store/ml-core-effects"
 	dodir "${daemon_store}"
