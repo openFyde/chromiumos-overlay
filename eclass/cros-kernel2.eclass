@@ -2135,7 +2135,6 @@ _cros-kernel2_emit_its_script() {
 	cat <<-EOF >>"${its_out}"
 		};
 		configurations {
-			default = "conf@1";
 	EOF
 
 	local i
