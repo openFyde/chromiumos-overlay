@@ -14,7 +14,7 @@ EAPI="7"
 # Finally, run `FEATURES=-force-mirror ebuild <ebuild file name> manifest` to
 # download the archive & update the Manifest file.
 
-INSTANCE_ID="pn0ca-NeStGz-RNDkizra1sBBXinS0qK5jj_1KEPjosC"
+INSTANCE_ID="qVwpVE5YG1bB0_GSBjep9RiYmzt0TWsiNP6N5jSs3fEC"
 
 DESCRIPTION="GN (generate ninja) meta-build system"
 HOMEPAGE="https://gn.googlesource.com/gn/"
