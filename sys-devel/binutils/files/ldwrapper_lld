@@ -5,5 +5,5 @@
 
 # This files wraps lld.
 # Pass --hash-style=gnu to match gold/bfd wrappers.
-
-exec "$(dirname "$(readlink -f "$0")")"/ld.lld --hash-style=gnu -z nostart-stop-gc "$@"
+# Pass --undefined-version (b/263147806).
+exec "$(dirname "$(readlink -f "$0")")"/ld.lld --hash-style=gnu --undefined-version -z nostart-stop-gc "$@"
