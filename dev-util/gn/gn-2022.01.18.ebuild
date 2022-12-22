@@ -1,40 +1,35 @@
 # Copyright 2019 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
+# See https://crbug.com/386603 for why we download a prebuilt binary instead of
+# compiling it ourselves.
+
 EAPI="7"
 
 # When the time comes to roll to a new version, download the new gn binary at
 # https://chrome-infra-packages.appspot.com/p/gn/gn/linux-amd64/+/
 # and run `gn --version` to get the right version number for the ebuild.
-# Once you do so, push the gn binary to gs://chromeos-localmirror/distfiles
-# and be sure to mark it publicly visible:
-#  gsutil cp gn gs://chromeos-localmirror/distfiles/gn-<SHA1>.bin
-#  gsutil acl set public-read gs://chromeos-localmirror/distfiles/gn-<SHA1>.bin
 #
-# Then rename the PV of ebuild file to the date (YYYY.MM.DD) of the
-# corresponding commit of the upstream since the upstream doesn't have a
-# numeric version format currently.
-#
-# After that, update GN_X64_SHA1 below with the SHA1 of the gn binary.
-# Finally, run `ebuild <ebuild file name> manifest` to generate the Manifest
-# file.
-GN_X64_SHA1="26d72c1b8889438d29de0711880e0bddde97de1e"
+# After that, update INSTANCE_ID below with the new cipd version.
+# Finally, run `FEATURES=-force-mirror ebuild <ebuild file name> manifest` to
+# download the archive & update the Manifest file.
+
+INSTANCE_ID="pn0ca-NeStGz-RNDkizra1sBBXinS0qK5jj_1KEPjosC"
 
 DESCRIPTION="GN (generate ninja) meta-build system"
 HOMEPAGE="https://gn.googlesource.com/gn/"
-SRC_URI="http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/gn-${GN_X64_SHA1}.bin"
-RESTRICT="mirror"
+SRC_URI="cipd://gn/gn/linux-amd64:${INSTANCE_ID} -> ${P}-amd64.zip"
 
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="-* amd64"
 IUSE=""
 
-# See chromium:386603 for why we download a prebuilt binary instead of
-# compiling it ourselves.
+# We control the cipd infra, so it's fine to not require it to be mirrored.
+RESTRICT="mirror"
 
-S="${WORKDIR}"  # Otherwise emerge fails because $S doesn't exist.
+S="${WORKDIR}"
 
 src_install() {
-	newbin "${DISTDIR}/${A}" gn
+	dobin gn
 }
