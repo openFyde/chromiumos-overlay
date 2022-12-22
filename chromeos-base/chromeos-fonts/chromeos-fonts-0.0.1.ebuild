@@ -88,6 +88,11 @@ generate_font_cache() {
 	fi
 }
 
+# Determine whether $1 is an empty directory.
+emptydir() {
+	[[ -z "$(find "$1" -mindepth 1 -maxdepth 1 '!' -name .uuid)" ]]
+}
+
 # TODO(cjmcdonald): crbug/913317 These .uuid files need to exist when fc-cache
 #                   is run otherwise fontconfig tries to write them to the font
 #                   directories and generates portage sandbox violations.
@@ -96,11 +101,18 @@ generate_font_cache() {
 #                   installed as a binpkg. Remove this section once fontconfig
 #                   no longer uses these .uuid files.
 pkg_setup() {
-	local fontname
+	local fontdir fontname uuid
 	while read -r -d $'\0' fontname; do
-		uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" > \
-			"${SYSROOT}/usr/share/fonts/${fontname}/.uuid" || die
-	done < <(find "${SYSROOT}"/usr/share/fonts/ -mindepth 1 -type d -printf '%P\0')
+		fontdir="${SYSROOT}/usr/share/fonts/${fontname}"
+		uuid="${fontdir}/.uuid"
+		if emptydir "${fontdir}"; then
+			# Clean up old entries.
+			rm -fv "${uuid}"
+			rmdir -v "${fontdir}"
+		else
+			uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" > "${uuid}" || die
+		fi
+	done < <(find "${SYSROOT}"/usr/share/fonts/ -depth -mindepth 1 -type d -printf '%P\0')
 }
 
 src_compile() {
@@ -111,10 +123,13 @@ src_install() {
 	insinto /usr/share/cache/fontconfig
 	doins "${WORKDIR}"/out/*
 
-	local fontname
+	local fontdir fontname
 	while read -r -d $'\0' fontname; do
-		insinto "/usr/share/fonts/${fontname}"
-		(uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" || die) | \
-			newins - .uuid
+		# If the fontdir is empty, don't generate.
+		if ! emptydir "${SYSROOT}/usr/share/fonts/${fontname}"; then
+			insinto "/usr/share/fonts/${fontname}"
+			(uuidgen --sha1 -n @dns -N "$(usev cros_host)${fontname}" || die) | \
+				newins - .uuid
+		fi
 	done < <(find "${SYSROOT}"/usr/share/fonts/ -mindepth 1 -type d -printf '%P\0')
 }
