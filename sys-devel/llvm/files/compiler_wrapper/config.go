@@ -123,6 +123,7 @@ func crosCommonClangFlags() []string {
 		"-fdebug-default-version=5",
 		"-Wno-int-conversion",
 		"-Wno-incompatible-function-pointer-types",
+		"-D_LIBCPP_ENABLE_CXX17_REMOVED_FEATURES",
 	}
 }
 
@@ -175,7 +176,7 @@ var crosHardenedConfig = config{
 	),
 	clangPostFlags:    crosCommonClangPostFlags(),
 	cppFlags:          crosCommonCppFlags(),
-	newWarningsDir:    "/tmp/fatal_clang_warnings",
+	newWarningsDir:    "fatal_clang_warnings",
 	crashArtifactsDir: "/tmp/clang_crash_diagnostics",
 }
 
@@ -197,7 +198,7 @@ var crosNonHardenedConfig = config{
 	),
 	clangPostFlags:    crosCommonClangPostFlags(),
 	cppFlags:          crosCommonCppFlags(),
-	newWarningsDir:    "/tmp/fatal_clang_warnings",
+	newWarningsDir:    "fatal_clang_warnings",
 	crashArtifactsDir: "/tmp/clang_crash_diagnostics",
 }
 
@@ -227,7 +228,7 @@ var crosHostConfig = config{
 	// Temporarily disable Wdeprecated-copy. b/191479033
 	clangPostFlags:    crosCommonClangPostFlags(),
 	cppFlags:          crosCommonCppFlags(),
-	newWarningsDir:    "/tmp/fatal_clang_warnings",
+	newWarningsDir:    "fatal_clang_warnings",
 	crashArtifactsDir: "/tmp/clang_crash_diagnostics",
 }
 
