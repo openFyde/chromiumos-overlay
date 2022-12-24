@@ -1,0 +1,10 @@
+DEFINED_PHASES=install
+DESCRIPTION=GN (generate ninja) meta-build system
+EAPI=7
+HOMEPAGE=https://gn.googlesource.com/gn/
+KEYWORDS=-* amd64
+LICENSE=BSD-Google
+RESTRICT=mirror
+SLOT=0
+SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/gn-26d72c1b8889438d29de0711880e0bddde97de1e.bin
+_md5_=077a13adc1abdb5a8b22216abf4b46f4
