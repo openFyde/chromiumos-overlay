@@ -313,7 +313,7 @@ RDEPEND="${RDEPEND}
 	dev-util/codespell
 	dev-util/patchutils
 	dev-util/perf
-	dev-util/shfmt
+	dev-util/sh
 	net-analyzer/netperf
 	sys-apps/less
 	sys-apps/man-pages
