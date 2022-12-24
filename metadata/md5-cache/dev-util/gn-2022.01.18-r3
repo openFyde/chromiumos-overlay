@@ -6,5 +6,5 @@ KEYWORDS=-* amd64
 LICENSE=BSD-Google
 RESTRICT=mirror
 SLOT=0
-SRC_URI=http://commondatastorage.googleapis.com/chromeos-localmirror/distfiles/gn-26d72c1b8889438d29de0711880e0bddde97de1e.bin
-_md5_=077a13adc1abdb5a8b22216abf4b46f4
+SRC_URI=cipd://gn/gn/linux-amd64:pn0ca-NeStGz-RNDkizra1sBBXinS0qK5jj_1KEPjosC -> gn-2022.01.18-amd64.zip
+_md5_=d4562033dde13566408bd74d6696d46c
