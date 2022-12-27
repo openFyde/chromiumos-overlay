@@ -99,6 +99,7 @@ src_compile() {
 	if ! use fuzzer ; then
 		cd cras || die
 		args=(
+			"--override_repository=rules_rust=${S}/cras/rules_rust_stub"
 			"--//:hw_dependency"
 			"$(use cras-apm && echo "--//:apm")"
 			"$(use cras-ml && echo "--//:ml")"
