@@ -3,6 +3,7 @@
 # found in the LICENSE file.
 
 EAPI=7
+CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -13,10 +14,16 @@ inherit cros-unibuild systemd user
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
 bazel_external_uris="
+	http://ndevilla.free.fr/iniparser/iniparser-3.1.tar.gz -> iniparser-3.1.tar.gz
 	https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz
 	https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
 	https://github.com/google/benchmark/archive/refs/tags/v1.5.5.tar.gz -> google-benchmark-1.5.5.tar.gz
+	https://mirror.bazel.build/bazel_coverage_output_generator/releases/coverage_output_generator-v2.5.zip -> coverage_output_generator-v2.5.zip
+	https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz -> bazelbuild-rules_proto-7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz
+	https://mirror.bazel.build/openjdk/azul-zulu11.50.19-ca-jdk11.0.12/zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz -> bazel-zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz
+	https://mirror.bazel.build/bazel_java_tools/releases/java/v11.6/java_tools-v11.6.zip -> bazel-java_tools-v11.6.zip
+	https://mirror.bazel.build/bazel_java_tools/releases/java/v11.6/java_tools_linux-v11.6.zip -> bazel-java_tools_linux-v11.6.zip
 "
 SRC_URI="${bazel_external_uris}"
 LICENSE="BSD-Google"
@@ -54,13 +61,7 @@ DEPEND="
 
 adhd-bazel() {
 	bazel_setup_bazelrc
-
-	# Use different build folders for each multibuild variant.
-	local output_base="${BUILD_DIR:-${S}}"
-	output_base="${output_base%/}-bazel-base"
-	mkdir -p "${output_base}" || die
-
-	set -- bazel-5 --bazelrc="${T}/bazelrc" --output_base="${output_base}" "${@}"
+	set -- bazel-5 --bazelrc="${T}/bazelrc" --output_user_root="$(cros-workon_get_build_dir)" "$@"
 	echo "${*}" >&2
 	"$@" || die "adhd-bazel failed"
 }
@@ -76,71 +77,115 @@ src_unpack() {
 
 src_prepare() {
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
-	cd cras || die
 	sanitizers-setup-env
-	eautoreconf
 	default
 }
 
 src_configure() {
+	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
+
 	cros_optimize_package_for_speed
 	if use amd64 ; then
 		export FUZZER_LDFLAGS="-fsanitize=fuzzer"
 	fi
 
-	cd cras || die
-	# Disable external libraries for fuzzers.
-	if use fuzzer ; then
-		# Disable "gc-sections" for fuzzer builds, https://crbug.com/1026125 .
-		append-ldflags "-Wl,--no-gc-sections"
-		econf $(use_enable cras-apm webrtc-apm) \
-			$(use_enable cras-ml ml) \
-			--with-system-cras-rust \
-			$(use_enable featured) \
-			$(use_enable amd64 fuzzer)
+	common_bazel_args=(
+		# For libcras.pc generation only.
+		# cros-bazel.eclass gives /build/<board>/usr, which is not what we want.
+		# Restore the bazel.eclass behavior.
+		"--define=PREFIX=${EPREFIX%/}/usr"
+
+		"--config=clang-strict"
+		"--override_repository=rules_rust=${S}/cras/rules_rust_stub"
+		"--define=VCSID=${VCSID}"
+		"--//:hw_dependency"
+		"--//:system_cras_rust"
+		"--//:hats"
+		"--//:metrics"
+		"$(use_label cras-apm //:apm)"
+		"$(use_label cras-ml //:ml)"
+		"$(use_label dlc //:dlc)"
+		"$(use_label featured //:featured)"
+	)
+	if use fuzzer; then
+		common_bazel_args+=(
+			"--//:fuzzer"
+			# Selinux does not work with fuzzers.
+			"--no//:selinux"
+		)
 	else
-		econf $(use_enable selinux) \
-			$(use_enable cras-apm webrtc-apm) \
-			$(use_enable cras-ml ml) \
-			--enable-hats \
-			--enable-metrics \
-			--with-system-cras-rust \
-			$(use_enable dlc) \
-			$(use_enable featured)
+		common_bazel_args+=(
+			"$(use_label selinux //:selinux)"
+		)
+	fi
+	if use ubsan; then
+		common_bazel_args+=(
+			# Bazel links using C mode by default, which misses symbols.
+			# https://github.com/bazelbuild/bazel/issues/11122#issuecomment-896613570
+			"--linkopt=-fsanitize-link-c++-runtime"
+		)
+	fi
+	if [[ "${PV}" != "9999" ]]; then
+		common_bazel_args+=(
+			# Disable fancy output when not being "workon" to not spam CQ logs.
+			"--color=no"
+			"--curses=no"
+		)
 	fi
 }
 
 src_compile() {
-	emake CC="$(tc-getCC)" || die "Unable to build ADHD"
-	# Build cras_bench
-	if ! use fuzzer ; then
-		cd cras || die
-		args=(
-			"--override_repository=rules_rust=${S}/cras/rules_rust_stub"
-			"--//:hw_dependency"
-			"$(use_label cras-apm //:apm)"
-			"$(use_label cras-ml //:ml)"
-		)
-		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
-		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
-		bazel_setup_crosstool
-		adhd-bazel build //src/benchmark:cras_bench "${args[@]}"
-	fi
+	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
+
+	cd cras || die
+	# Prevent clang to access ubsan_blocklist.txt which is not supported by bazel.
+	filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
+	bazel_setup_crosstool
+
+	# Build and copy artifacts.
+	rm -rf "${T}/dist"
+	adhd-bazel run "${common_bazel_args[@]}" //dist -- "${T}/dist"
 }
 
 src_test() {
+	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
+
 	if ! use x86 && ! use amd64 ; then
 		elog "Skipping unit tests on non-x86 platform"
-	else
-		cd cras || die
-		# This is an ugly hack that happens to work, but should not be copied.
-		LD_LIBRARY_PATH="${SYSROOT}/usr/$(get_libdir)" \
-		emake check
+		return
 	fi
+	if use fuzzer ; then
+		elog "Skipping unit tests on fuzzer build"
+		return
+	fi
+
+	cd cras || die
+	args=(
+		"--test_output=errors"
+		"--keep_going"
+
+		# This is an ugly hack that happens to work, but should not be copied.
+		"--test_env=LD_LIBRARY_PATH=${SYSROOT}/$(get_libdir):${SYSROOT}/usr/$(get_libdir)"
+
+		# Pass sanitizer environment variables to the test executable.
+		# Also override log_path so errors are shown immediately after
+		# the test failure, instead of displayed by asan_death_hook
+		# at the bottom of emerge's output:
+		# https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/third_party/chromiumos-overlay/profiles/base/profile.bashrc;l=494;drc=14244882a39e40a61fdcdfeec156592bb00f3905
+		"--test_env=ASAN_OPTIONS=${ASAN_OPTIONS} log_path=stderr"
+		"--test_env=MSAN_OPTIONS=${MSAN_OPTIONS} log_path=stderr"
+		"--test_env=TSAN_OPTIONS=${TSAN_OPTIONS} log_path=stderr"
+		"--test_env=UBSAN_OPTIONS=${UBSAN_OPTIONS} log_path=stderr"
+		"--test_env=LSAN_OPTIONS"
+
+		"--"
+		"//..."
+	)
+	adhd-bazel test "${common_bazel_args[@]}" "${args[@]}"
 }
 
 src_install() {
-	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" install
+	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" BAZEL=yes install
 
 	# install common ucm config files.
 	insinto /usr/share/alsa/ucm
@@ -166,26 +211,37 @@ src_install() {
 	insinto /etc
 	doins "${FILESDIR}"/asound.conf
 
-	if use fuzzer ; then
+	if ! use fuzzer ; then
+		dobin "${T}/dist/bin/"*
+		doheader "${T}/dist/include"/*
+		dolib.so "${T}/dist/lib"/*.so
+
+		dosym libcras.so "/usr/$(get_libdir)/libcras.so.0"
+		dosym libcras.so "/usr/$(get_libdir)/libcras.so.0.0.0"
+
+		insinto "/usr/$(get_libdir)"
+		doins -r "${T}/dist/alsa-lib"
+
+		insinto "/usr/$(get_libdir)/pkgconfig"
+		doins "${T}/dist/pkgconfig"/*
+
+		# Install cras_bench into /usr/local for test image
+		into /usr/local
+		dobin "${T}/dist/extra_bin/"*
+	else
 		# Install example dsp.ini file for fuzzer
 		insinto /etc/cras
 		doins cras-config/dsp.ini.sample
 		# Install fuzzer binary
 		local fuzzer_component_id="890231"
-		fuzzer_install "${S}/OWNERS.fuzz" cras/src/cras_rclient_message_fuzzer \
+		fuzzer_install "${S}/OWNERS.fuzz" "${T}/dist/fuzzer"/cras_rclient_message_fuzzer \
 			--comp "${fuzzer_component_id}"
-		fuzzer_install "${S}/OWNERS.fuzz" cras/src/cras_hfp_slc_fuzzer \
+		fuzzer_install "${S}/OWNERS.fuzz" "${T}/dist/fuzzer"/cras_hfp_slc_fuzzer \
 			--dict "${S}/cras/src/fuzz/cras_hfp_slc.dict" \
 			--comp "${fuzzer_component_id}"
 		local fuzzer_component_id="769744"
-		fuzzer_install "${S}/OWNERS.fuzz" cras/src/cras_fl_media_fuzzer \
+		fuzzer_install "${S}/OWNERS.fuzz" "${T}/dist/fuzzer"/cras_fl_media_fuzzer \
 			--comp "${fuzzer_component_id}"
-	fi
-
-	if ! use fuzzer ; then
-		# Install cras_bench into /usr/local for test image
-		into /usr/local
-		dobin cras/bazel-bin/src/benchmark/cras_bench
 	fi
 }
 
