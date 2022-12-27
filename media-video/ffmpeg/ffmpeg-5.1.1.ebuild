@@ -337,6 +337,7 @@ S=${WORKDIR}/${P/_/-}
 PATCHES=(
 	"${FILESDIR}"/chromium-r1.patch
 	"${FILESDIR}"/ffmpeg-5.2-lavu-hwcontext_vaapi-Skip-vgem-driver.patch
+	"${FILESDIR}/FFmpeg-devel-v6-1-1-lavc-add-HWACCEL_CAP_RESET_WITHOUT_UNINIT-capacity-for-hwaccel.patch"
 )
 
 MULTILIB_WRAPPED_HEADERS=(
