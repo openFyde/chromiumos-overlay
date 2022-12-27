@@ -41,8 +41,8 @@ src_install() {
 
 	# Create and install a squashfs file.
 	mksquashfs "patts" "patts.squash" 			-all-root \
-		-noappend -no-recovery -no-exports -exit-on-error -comp lzo \
-		-b 1M -4k-align -root-mode 0755 -no-progress || die
+		-noappend -no-recovery -no-exports -exit-on-error -comp zstd \
+		-Xcompression-level 22 -b 1M -root-mode 0755 -no-progress || die
 
 	keepdir "${tts_path}"/patts
 	insinto "${tts_path}"
