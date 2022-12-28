@@ -13,7 +13,7 @@ CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="chaps"
 
-inherit cros-workon platform systemd user
+inherit cros-workon platform systemd tmpfiles user
 
 DESCRIPTION="PKCS #11 layer over TrouSerS"
 HOMEPAGE="http://www.chromium.org/developers/design-documents/chaps-technical-design"
@@ -74,8 +74,8 @@ src_install() {
 	if use systemd; then
 		systemd_dounit init/chapsd.service
 		systemd_enable_service boot-services.target chapsd.service
-		systemd_dotmpfilesd init/chapsd_directories.conf
 	fi
+	dotmpfiles init/chapsd_directories.conf
 
 	# Chaps keeps database inside the user's cryptohome.
 	local daemon_store="/etc/daemon-store/chaps"
