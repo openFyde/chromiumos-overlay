@@ -55,6 +55,13 @@ DEPEND="
 	${RDEPEND}
 "
 
+src_configure() {
+	# This warning is triggered in tensorflow.
+	# See this Tensorflow PR for a fix:
+	# https://github.com/tensorflow/tensorflow/pull/59040
+	append-flags "-Wno-unused-but-set-variable"
+	platform_src_configure
+}
 
 src_install() {
 	platform_src_install
