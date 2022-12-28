@@ -35,8 +35,8 @@ CROS_WORKON_MANUAL_UPREV="1"
 CROS_WORKON_COMMIT=(
 	"05d9f22315757117685ad2f5265148f900f18034" # tlslite
 	"8599944a086c503a4e31a95e226e967f5db560f7" # testserver
-	"cde5b9bdc704735307990f49f2ca792a7fb48799" # policy
-	"048727ec9c784c3411099a9153c0f547f3939075" # private_membership
+	"ce09973381128215d150d08f45f8ad9df449db47" # policy
+	"5002331b66116d528835c23acb74f8ccb3f15b3f" # private_membership
 	"50f6a7d2f163796ca07914e25b682c5bef864295" # shell-encryption
 )
 # Must define CROS_WORKON_* variables before inheriting cros-workon.
