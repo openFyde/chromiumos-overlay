@@ -21,7 +21,15 @@ SRC_URI="${WEBGL_AQUARIUM_URI}"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
+# TODO(b/263836581) We will propose to inline virtual packages when calculating
+# reverse dependency. We can remove duplicate dependencies, for example
+# chromeos-base/factory-board, if the proposal is accepted.
 DEPEND="virtual/chromeos-bsp-factory:=
+	|| (
+		chromeos-base/factory-board
+		chromeos-base/chromeos-factory-board
+	)
+	chromeos-base/factory-baseboard
 	virtual/chromeos-regions:=
 	dev-python/jsonrpclib:=
 	dev-python/pyyaml:=
