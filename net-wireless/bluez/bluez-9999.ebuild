@@ -133,7 +133,6 @@ src_install() {
 	if use systemd; then
 		systemd_dounit "${FILESDIR}/bluetoothd.service"
 		systemd_enable_service system-services.target bluetoothd.service
-		systemd_dotmpfilesd "${FILESDIR}/bluetoothd-directories.conf"
 	else
 		insinto /etc/init
 		newins "${FILESDIR}/${PN}-upstart.conf" bluetoothd.conf

@@ -44,7 +44,7 @@ src_install() {
 		if use systemd; then
 			systemd_dounit init/metrics-daemon.service
 			systemd_enable_service multi-user.target metrics-daemon.service
-			systemd_dotmpfilesd init/metrics.conf
+			dotmpfiles init/metrics.conf
 		else
 			dotmpfiles tmpfiles.d/metrics_daemon_dirs.conf
 			insinto /etc/init

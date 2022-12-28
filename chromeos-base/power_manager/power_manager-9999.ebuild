@@ -157,7 +157,7 @@ src_install() {
 		systemd_dounit init/systemd/*.service
 		systemd_enable_service boot-services.target powerd.service
 		systemd_enable_service system-services.target report-power-metrics.service
-		systemd_dotmpfilesd init/systemd/powerd_directories.conf
+		dotmpfiles init/systemd/powerd_directories.conf
 	else
 		insinto /etc/init
 		doins init/upstart/*.conf
