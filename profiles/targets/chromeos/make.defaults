@@ -83,6 +83,9 @@ USE="${USE} -berkdb"
 # Enable the diagnostics and telemetry daemon.
 USE="${USE} diagnostics"
 
+# Enable the pre-boot diagnostics (MiniDiag) related utilities.
+USE="${USE} diagnostics-minidiag"
+
 # Enable Perfetto daemons.
 USE="${USE} perfetto"
 

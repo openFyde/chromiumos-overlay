@@ -46,6 +46,10 @@ USE="${USE} -drivefs -fusebox -samba -smbprovider"
 # embedded devices.
 USE="${USE} -diagnostics"
 
+# Disable the pre-boot diagnostics (MiniDiag) related utilities on embedded
+# devices.
+USE="${USE} -diagnostics-minidiag"
+
 # Disable the missive. Features not evaluated on embedded devices.
 USE="${USE} -missive"
 

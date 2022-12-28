@@ -26,6 +26,7 @@ DEPEND="
 
 RDEPEND="
 	sys-apps/coreboot-utils:=
+	!<chromeos-base/chromeos-init-0.0.26
 "
 
 src_configure() {
