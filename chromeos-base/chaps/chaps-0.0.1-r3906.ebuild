@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="aee62015501b5cd861221714f392415261445e90"
+CROS_WORKON_COMMIT="164ef055e1598e43b02ec4faad86cf42053b2de6"
 CROS_WORKON_TREE=("d12eaa6a060046041408b6cf0c2444c7da2bce2b" "404e947d0fd65bbefd8352abb6355ff02bbc664e" "f5449c2a6e7673cc217eda5620c78ce1726e21b4" "df143cde88af1b7e2427d71c8519156768a0ef36" "7f496168bcd30526ff9d96c34c665b62d825d39f" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_USE_VCSID=1
@@ -15,7 +15,7 @@ CROS_WORKON_SUBTREE="common-mk chaps libhwsec libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="chaps"
 
-inherit cros-workon platform systemd user
+inherit cros-workon platform systemd tmpfiles user
 
 DESCRIPTION="PKCS #11 layer over TrouSerS"
 HOMEPAGE="http://www.chromium.org/developers/design-documents/chaps-technical-design"
@@ -76,8 +76,8 @@ src_install() {
 	if use systemd; then
 		systemd_dounit init/chapsd.service
 		systemd_enable_service boot-services.target chapsd.service
-		systemd_dotmpfilesd init/chapsd_directories.conf
 	fi
+	dotmpfiles init/chapsd_directories.conf
 
 	# Chaps keeps database inside the user's cryptohome.
 	local daemon_store="/etc/daemon-store/chaps"
