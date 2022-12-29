@@ -58,8 +58,11 @@ pkg_setup() {
 }
 
 multilib_src_configure() {
+	# CHROMIUM: Enable C++ exceptions
 	cros_enable_cxx_exceptions
 	local mycmakeargs=(
+		-DCMAKE_C_FLAGS="${CFLAGS} -DNDEBUG"
+		-DCMAKE_CXX_FLAGS="${CXXFLAGS} -DNDEBUG"
 		-DCMAKE_SKIP_RPATH=ON
 		-DBUILD_VULKANINFO=ON
 		-DBUILD_CUBE=$(usex cube)
@@ -73,7 +76,8 @@ multilib_src_configure() {
 		-DGLSLANG_INSTALL_DIR="${ESYSROOT}/usr"
 		-DCUBE_WSI_SELECTION=$(usex X XCB WAYLAND)
 	)
-
+	# CHROMIUM (b/201531268): Enable LFS.
+	append-lfs-flags
 	cmake_src_configure
 }
 

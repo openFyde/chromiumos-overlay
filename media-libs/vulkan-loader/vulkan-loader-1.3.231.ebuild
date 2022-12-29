@@ -36,8 +36,7 @@ DEPEND="
 PDEPEND="layers? ( media-libs/vulkan-layers:=[${MULTILIB_USEDEP}] )"
 
 PATCHES=(
-	"${FILESDIR}"/CHROMIUM-Fix-cross-compilation.patch
-	"${FILESDIR}"/CHROMIUM-Revert-db5e3d0f454f063db7b4505e4d08b759f1874bbb.patch
+	"${FILESDIR}"/UPSTREAM-875fa6f35c1b-write-gen_defines-asm.patch
 )
 
 multilib_src_configure() {
@@ -47,14 +46,17 @@ multilib_src_configure() {
 	fi
 
 	local mycmakeargs=(
+		-DCMAKE_C_FLAGS="${CFLAGS} -DNDEBUG"
+		-DCMAKE_CXX_FLAGS="${CXXFLAGS} -DNDEBUG"
 		-DCMAKE_SKIP_RPATH=ON
 		-DBUILD_TESTS=OFF
-		-DBUILD_LOADER=ON
 		-DBUILD_WSI_WAYLAND_SUPPORT=$(usex wayland)
 		-DBUILD_WSI_XCB_SUPPORT=$(usex X)
 		-DBUILD_WSI_XLIB_SUPPORT=$(usex X)
 		-DVULKAN_HEADERS_INSTALL_DIR="${ESYSROOT}/usr"
 	)
+	# CHROMIUM (b/201531268): Enable LFS.
+	append-lfs-flags
 	cmake_src_configure
 }
 

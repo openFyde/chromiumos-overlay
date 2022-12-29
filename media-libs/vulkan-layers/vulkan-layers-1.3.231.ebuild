@@ -25,6 +25,11 @@ LICENSE="Apache-2.0"
 SLOT="0"
 IUSE="wayland X"
 
+PATCHES=(
+	"${FILESDIR}/${P}-cmake-Cleanup-find_package-SPIRV-code.patch"
+	"${FILESDIR}/${P}-Make-BUILD_WERROR-actually-work.patch"
+)
+
 BDEPEND=">=dev-util/cmake-3.10.2"
 RDEPEND="~dev-util/spirv-tools-${PV}:=[${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}
@@ -41,15 +46,18 @@ DEPEND="${RDEPEND}
 
 multilib_src_configure() {
 	local mycmakeargs=(
+		-DCMAKE_C_FLAGS="${CFLAGS} -DNDEBUG"
+		-DCMAKE_CXX_FLAGS="${CXXFLAGS} -DNDEBUG"
 		-DCMAKE_SKIP_RPATH=ON
 		-DBUILD_LAYER_SUPPORT_FILES=ON
+		-DBUILD_WERROR=OFF
 		-DBUILD_WSI_WAYLAND_SUPPORT=$(usex wayland)
 		-DBUILD_WSI_XCB_SUPPORT=$(usex X)
 		-DBUILD_WSI_XLIB_SUPPORT=$(usex X)
 		-DBUILD_TESTS=OFF
-		-DGLSLANG_INSTALL_DIR="${ESYSROOT}/usr"
-		-DCMAKE_INSTALL_INCLUDEDIR="${EPREFIX}/usr/include/"
+		-DVulkanRegistry_DIR="${ESYSROOT}/usr/share/vulkan/registry"
 	)
+	# CHROMIUM (b/201531268): Enable LFS.
+	append-lfs-flags
 	cmake_src_configure
 }
-
