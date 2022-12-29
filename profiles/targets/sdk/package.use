@@ -31,13 +31,9 @@ virtual/target-chromium-os-sdk python_targets_python3_8
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux pcre2
 
-# mkfs.erofs needs selinux for SELinux context labeling.
-sys-fs/erofs-utils selinux
-
 # mksquashfs used in build_image requires lzo/lz4/zstd support.
 # Also include lzma compressor for flexibility.
-# For SELinux context labeling it also needs selinux.
-sys-fs/squashfs-tools lzo lz4 lzma selinux zstd
+sys-fs/squashfs-tools lzo lz4 lzma zstd
 
 # some prebuilt binaries created on Ubuntu like to link against libtinfo.
 sys-libs/ncurses tinfo
@@ -131,9 +127,6 @@ app-editors/vim -crypt
 # This behavior is not compatible with the -Cpanic=abort flag normally
 # added by cros-rust eclass. Disable this flag for cbindgen.
 dev-rust/cbindgen -panic-abort
-
-# Enable selinux feature in tar to allow stateful payload store context.
-app-arch/tar selinux
 
 # We don't need translated man pages.  b/248739853
 sys-apps/man-db -nls
