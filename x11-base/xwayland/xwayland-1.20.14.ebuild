@@ -58,6 +58,23 @@ PATCHES=(
 	"${FILESDIR}"/0004-xkb-proof-GetCountedString-against-request-length-at.patch
 	# CVE-2022-3551
 	"${FILESDIR}"/0005-xkb-fix-some-possible-memleaks-in-XkbGetKbdByName.patch
+
+	# CVE-2022-46340
+	"${FILESDIR}"/0001-Xtest-disallow-GenericEvents-in-XTestSwapFakeInput.patch
+	# related to CVE-2022-46344
+	"${FILESDIR}"/0002-Xi-return-an-error-from-XI-property-changes-if-verif.patch
+	# CVE-2022-46344
+	"${FILESDIR}"/0003-Xi-avoid-integer-truncation-in-length-check-of-ProcX.patch
+	# CVE-2022-46341
+	"${FILESDIR}"/0004-Xi-disallow-passive-grabs-with-a-detail-255.patch
+	# CVE-2022-46343
+	"${FILESDIR}"/0005-Xext-free-the-screen-saver-resource-when-replacing-i.patch
+	# CVE-2022-46342
+	"${FILESDIR}"/0006-Xext-free-the-XvRTVideoNotify-when-turning-off-from-.patch
+	# CVE-2022-46283
+	"${FILESDIR}"/0007-xkb-reset-the-radio_groups-pointer-to-NULL-after-fre.patch
+	# Fix for buggy patch to CVE-2022-46340
+	"${FILESDIR}"/0008-Xext-fix-invalid-event-type-mask-in-XTestSwapFakeInp.patch
 )
 
 src_prepare() {
