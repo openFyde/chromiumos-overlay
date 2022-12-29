@@ -2,6 +2,11 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
+# Filter sanitizer flags from dash, https://crbug.com/950356.
+cros_pre_src_prepare_filter_sanitizers() {
+	filter_sanitizers
+}
+
 cros_pre_src_prepare_patches() {
 	epatch "${BASHRC_FILESDIR}"/${PN}-0.5.9.1-noexec.patch || die
 
