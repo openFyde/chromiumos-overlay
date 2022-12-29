@@ -122,6 +122,28 @@ index b642c70..5af354c 100644
  #endif
  
  #if LLVM_VERSION_MAJOR < 12
+
+diff --git a/clang_delta/Transformation.cpp b/clang_delta/Transformation.cpp
+index 4d3aa4a0..ac04325a 100644
+--- a/clang_delta/Transformation.cpp
++++ b/clang_delta/Transformation.cpp
+@@ -842,8 +842,13 @@ const CXXRecordDecl *Transformation::getBaseDeclFromType(const Type *Ty)
+   }
+ 
+   case Type::TypeOf: {
+-    return getBaseDeclFromType(
+-      dyn_cast<TypeOfType>(Ty)->getUnderlyingType().getTypePtr());
++    return getBaseDeclFromType(dyn_cast<TypeOfType>(Ty)
++#if LLVM_VERSION_MAJOR >= 16
++      ->getUnmodifiedType()
++#else
++      ->getUnderlyingType()
++#endif
++      .getTypePtr());
+   }
+ 
+   default:
+
 -- 
 2.37.1.559.g78731f0fdb-goog
 

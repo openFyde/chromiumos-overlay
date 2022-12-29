@@ -1,0 +1,27 @@
+From 7f29981b15dce4e7758a023170104e5772ac8b8e Mon Sep 17 00:00:00 2001
+From: Martin Liska <mliska@suse.cz>
+Date: Sat, 15 Oct 2022 09:47:50 +0200
+Subject: [PATCH] Move to -std=c++17 as it will be required by LLVM 16.
+
+---
+ .github/workflows/build.yml | 4 ++++
+ CMakeLists.txt              | 4 ++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index ed01176..14dcc50 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -144,10 +144,10 @@ check_cxx_compiler_flag(
+ 
+ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU"
+     OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+-  # XXX figure out how to get "-std=c++14 -fno-rtti" from LLVM.  That's how we
++  # XXX figure out how to get "-std=c++17 -fno-rtti" from LLVM.  That's how we
+   # get those options in the Automake path...
+   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -fno-rtti -fno-strict-aliasing -Wall -Wextra -Wno-unused-parameter")
++  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fno-rtti -fno-strict-aliasing -Wall -Wextra -Wno-unused-parameter")
+   if(SUPPORTS_FVISIBILITY_INLINES_HIDDEN_FLAG)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility-inlines-hidden")
+   endif()

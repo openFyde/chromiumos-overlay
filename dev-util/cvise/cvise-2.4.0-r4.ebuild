@@ -45,6 +45,8 @@ pkg_setup() {
 	python-single-r1_pkg_setup
 }
 
+PATCHES=( "${FILESDIR}"/cvise-2.4-build-cxx17.patch )
+
 src_prepare() {
 	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-15.0_pre458507_p20220602-r1000"; then
 		eapply "${FILESDIR}/0001-refactors-so-that-the-project-is-LLVM-15-compatible.patch"
