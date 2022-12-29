@@ -26,7 +26,10 @@ IUSE="cfm cros_host cros_p2p dlc fuzzer hibernate hw_details -hwid_override lvm_
 COMMON_DEPEND="
 	app-arch/bzip2:=
 	chromeos-base/chromeos-ca-certificates:=
-	hw_details? ( chromeos-base/diagnostics:= )
+	hw_details? (
+		chromeos-base/mojo_service_manager:=
+		chromeos-base/diagnostics:=
+	)
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/vboot_reference:=
 	cros_p2p? ( chromeos-base/p2p:= )
