@@ -10,7 +10,7 @@ CROS_WORKON_SUBTREE="common-mk featured .gn"
 
 PLATFORM_SUBDIR="featured"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Chrome OS feature management service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/featured/"
@@ -65,6 +65,8 @@ src_install() {
 	insinto /etc/featured
 	fperms 0764 /etc/featured
 	doins share/platform-features.json
+
+	dotmpfiles tmpfiles.d/featured.conf
 
 	local fuzzer_component_id="1096648"
 	platform_fuzzer_install "${S}"/OWNERS \
