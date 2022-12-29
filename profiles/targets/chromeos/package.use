@@ -143,7 +143,7 @@ sys-libs/gdbm		berkdb
 sys-libs/ldb		ldap -python -lmdb
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux	pcre2
-sys-libs/ncurses	-cxx -unicode minimal tinfo
+sys-libs/ncurses	-cxx -unicode tinfo
 # Readline requires the unicode flag to match sys-libs/ncurses.
 sys-libs/readline	-unicode
 sys-libs/talloc		-python
