@@ -40,15 +40,6 @@ cros_target() {
 # Load all additional bashrc files we have for this package.
 cros_stack_bashrc() {
 	local cfg cfgd
-
-	# Old location.
-	cfgd="${CROS_ADDONS_TREE}/config/env"
-	for cfg in ${PN} ${PN}-${PV} ${PN}-${PV}-${PR} ; do
-		cfg="${cfgd}/${CATEGORY}/${cfg}"
-		[[ -f ${cfg} ]] && . "${cfg}"
-	done
-
-	# New location.
 	cfgd="/mnt/host/source/src/third_party/chromiumos-overlay/${CATEGORY}/${PN}"
 	export BASHRC_FILESDIR="${cfgd}/files"
 	for cfg in ${PN} ${P} ${PF} ; do
