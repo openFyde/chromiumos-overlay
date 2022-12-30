@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="aee62015501b5cd861221714f392415261445e90"
+CROS_WORKON_COMMIT="79fd96135cd81af8db2d112234e146f36782b717"
 CROS_WORKON_TREE=("d12eaa6a060046041408b6cf0c2444c7da2bce2b" "7f496168bcd30526ff9d96c34c665b62d825d39f" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -46,7 +46,7 @@ src_install() {
 		if use systemd; then
 			systemd_dounit init/metrics-daemon.service
 			systemd_enable_service multi-user.target metrics-daemon.service
-			systemd_dotmpfilesd init/metrics.conf
+			dotmpfiles init/metrics.conf
 		else
 			dotmpfiles tmpfiles.d/metrics_daemon_dirs.conf
 			insinto /etc/init
