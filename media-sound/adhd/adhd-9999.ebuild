@@ -52,6 +52,23 @@ DEPEND="
 	media-sound/cras_rust:=
 "
 
+adhd-bazel() {
+	bazel_setup_bazelrc
+
+	# Use different build folders for each multibuild variant.
+	local output_base="${BUILD_DIR:-${S}}"
+	output_base="${output_base%/}-bazel-base"
+	mkdir -p "${output_base}" || die
+
+	set -- bazel-5 --bazelrc="${T}/bazelrc" --output_base="${output_base}" "${@}"
+	echo "${*}" >&2
+	"$@" || die "adhd-bazel failed"
+}
+
+use_label() {
+	usex "$1" --"$2" --no"$2"
+}
+
 src_unpack() {
 	bazel_load_distfiles "${bazel_external_uris}"
 	cros-workon_src_unpack
@@ -101,13 +118,13 @@ src_compile() {
 		args=(
 			"--override_repository=rules_rust=${S}/cras/rules_rust_stub"
 			"--//:hw_dependency"
-			"$(use cras-apm && echo "--//:apm")"
-			"$(use cras-ml && echo "--//:ml")"
+			"$(use_label cras-apm //:apm)"
+			"$(use_label cras-ml //:ml)"
 		)
 		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
 		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
 		bazel_setup_crosstool
-		ebazel build //src/benchmark:cras_bench "${args[*]}"
+		adhd-bazel build //src/benchmark:cras_bench "${args[@]}"
 	fi
 }
 
