@@ -38,7 +38,6 @@ RDEPEND="
 	chromeos-base/telemetry
 	sys-apps/ethtool
 	vaapi? ( x11-libs/libva )
-	tests_graphics_WebGLAquarium? ( app-benchmarks/microbenchmarks dev-util/memory-eater-locked )
 	virtual/autotest-private-libs
 "
 
@@ -70,8 +69,6 @@ IUSE_TESTS=(
 	+tests_display_DisplayContainEdid
 	+tests_graphics_Chrome
 	+tests_graphics_VideoRenderingPower
-	+tests_graphics_WebGLAquarium
-	+tests_graphics_WebGLManyPlanetsDeep
 	+tests_logging_CrashServices
 	+tests_logging_FeedbackReport
 	+tests_login_CryptohomeIncognito
@@ -147,9 +144,6 @@ IUSE_TESTS_ARC="
 	+tests_graphics_Idle
 "
 
-IUSE_TESTS_ATOMIC="
-	drm_atomic? ( +tests_graphics_HwOverlays )
-"
 
 IUSE_TESTS_CHROMIUM="
 	+tests_chromium
@@ -162,7 +156,6 @@ IUSE_TESTS="
 	${IUSE_TESTS_CELLULAR}
 	${IUSE_TESTS_SHILL}
 	${IUSE_TESTS_ARC}
-	${IUSE_TESTS_ATOMIC}
 	${IUSE_TESTS_CHROMIUM}
 "
 
