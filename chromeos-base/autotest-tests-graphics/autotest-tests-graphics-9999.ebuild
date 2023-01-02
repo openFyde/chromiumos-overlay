@@ -23,14 +23,10 @@ IUSE="+autotest"
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 	chromeos-base/autotest-deps-graphics
-	tests_graphics_Gbm? ( media-libs/minigbm )
-	tests_graphics_GLBench? ( chromeos-base/glbench )
 "
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_graphics_Gbm
-	+tests_graphics_GLBench
 	+tests_graphics_KernelMemory
 	+tests_graphics_parallel_dEQP
 	+tests_graphics_Power
