@@ -42,6 +42,7 @@ DEPEND="
 # target runtime dependencies
 RDEPEND="
 	>=media-libs/clvk-0.0.1
+	>=dev-cpp/gtest-1.10.0
 "
 
 # host build dependencies
