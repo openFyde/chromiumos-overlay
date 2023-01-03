@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("68bb55b06ca1301083ddd012e1d8aae790ac746a" "8c6f9a411b5c1578c62b49bdfdd851f4f7640b83")
-CROS_WORKON_TREE=("ef2d860945c2bedad6c3ee79f425eb958638a952" "49bc5aec4ff976a8d3e3ab73b7bab022dc915f3d")
+CROS_WORKON_COMMIT=("928ad1956b2f862d3261380f0ace2142b814679b" "8c6f9a411b5c1578c62b49bdfdd851f4f7640b83")
+CROS_WORKON_TREE=("1e3e4bd670fafd9133c60a98ed7364d1ad22342d" "1e3e4bd670fafd9133c60a98ed7364d1ad22342d")
 CROS_WORKON_PROJECT=(
 	"aosp/platform/external/uwb"
 	"aosp/platform/external/uwb"
@@ -17,17 +17,17 @@ CROS_WORKON_DESTDIR=(
 	"${S}"
 	"${S}"
 )
-CROS_WORKON_SUBTREE=("src/rust/uwb_uci_packets" "src/rust/uwb_uci_packets")
+CROS_WORKON_SUBTREE=("src/rust/uwb_core" "src/rust/uwb_core")
 CROS_WORKON_EGIT_BRANCH=("main" "upstream/master")
 CROS_WORKON_OPTIONAL_CHECKOUT=(
 	"use !uwb_upstream"
 	"use uwb_upstream"
 )
-CROS_RUST_SUBDIR="src/rust/uwb_uci_packets"
+CROS_RUST_SUBDIR="src/rust/uwb_core"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="The UWB UCI packets library"
+DESCRIPTION="The UWB Core library"
 HOMEPAGE="https://chromium.googlesource.com/aosp/platform/external/uwb/"
 
 LICENSE="BSD-Google"
@@ -35,10 +35,8 @@ SLOT="0/0"
 KEYWORDS="*"
 IUSE="uwb_upstream"
 
-BDEPEND="
-	net-wireless/floss_tools
-"
 DEPEND="
 	dev-rust/third-party-crates-src:=
+	net-wireless/uwb_uci_packets:=
 "
 RDEPEND="${DEPEND}"
