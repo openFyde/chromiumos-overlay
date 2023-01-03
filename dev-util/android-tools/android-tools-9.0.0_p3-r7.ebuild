@@ -125,6 +125,10 @@ src_prepare() {
 }
 
 src_configure() {
+	# This warning is triggered in boringssl. It's fixed in newer versions
+	# of boringssl, but it seems difficult to upgrade.
+	append-flags "-Wno-unused-but-set-variable"
+
 	append-lfs-flags
 
 	local mycmakeargs=(
