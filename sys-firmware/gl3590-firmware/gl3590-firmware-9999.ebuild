@@ -16,8 +16,7 @@ HOMEPAGE="https://fwupd.org/downloads"
 KEYWORDS="~*"
 
 FILENAMES=(
-	"03e62779e44961cf3807ddc5c94c95e8bb7674998f072e86106a41c9707046c7-GenesysLogic_GL3590_64.14.cab"
-	"c6fc09dab559e56a562bc90703c647a0e807b6565eb71237ab7154bac5c13c5f-GenesysLogic_GL3590_64.16.cab"
+	"be2c9146ff4cfac5d647376c39ce0b78151e9f1a785a287e93ac3968aff2ed50-GenesysLogic_GL3590_64.17.cab"
 )
 SRC_URI="${FILENAMES[*]/#/${CROS_FWUPD_URL}/}"
 LICENSE="LVFS-Vendor-Agreement-v1"
