@@ -3,10 +3,10 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8710843fb1b1ae257bca13fbd1757fe01f84b50f"
-CROS_WORKON_TREE="4102922077fd08229329d8ceb7497033a448ee12"
+CROS_WORKON_COMMIT="a40dea17535be914370e4292fd9d14822827f198"
+CROS_WORKON_TREE="a06cb15cf49b74aba711a2b2039c9f8c85d4fbdb"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.6"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.8"
 
 inherit cros-workon linux-info meson udev user xdg cros-sanitizers
 
