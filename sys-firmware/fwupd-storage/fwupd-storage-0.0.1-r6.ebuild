@@ -24,6 +24,8 @@ IUSE="
 "
 declare -A dictfwcab=(
 	['samsung,PM991A']='ed7ddca0c1b983a9f2f8269de7abed89492bfadba04734568f02227e42553950-Samsung_PM991a_SSD_FW_26300039.cab'
+	['samsung,PM9B1-256G']='ea1dfa748eba53af904ebeebd9a8e168e08491ebeff7b98ce5ce03fd72aa8b25-SAMSUNG_PM9B1_SSD_FW_46303039.cab'
+	['samsung,PM9B1-512G']='ea1dfa748eba53af904ebeebd9a8e168e08491ebeff7b98ce5ce03fd72aa8b25-SAMSUNG_PM9B1_SSD_FW_46303039.cab'
 	['ssstc,CL1-3D128-Q11']='7649776aa1c1e98ca4ae99b05368135078960f1f381890532336f6229e0dc9ad-22301116.cab'
 	['ssstc,CL1-3D256-Q11']='7649776aa1c1e98ca4ae99b05368135078960f1f381890532336f6229e0dc9ad-22301116.cab'
 	['ssstc,CL1-3D512-Q11']='0790e805aa3cfaf9e08b003d7aaca0b2b9988160ef8928200b869e4820fa3963-22321116.cab'
@@ -47,6 +49,8 @@ declare -A dictfwcab=(
 )
 FILENAMES_WILCO=(
 	"${dictfwcab['samsung,PM991A']}"
+	"${dictfwcab['samsung,PM9B1-256G']}"
+	"${dictfwcab['samsung,PM9B1-512G']}"
 	"${dictfwcab['ssstc,CL1-3D128-Q11']}"
 	"${dictfwcab['ssstc,CL1-3D256-Q11']}"
 	"${dictfwcab['ssstc,CL1-3D512-Q11']}"
