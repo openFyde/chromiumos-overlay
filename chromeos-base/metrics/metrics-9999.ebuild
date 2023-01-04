@@ -48,7 +48,8 @@ src_install() {
 		else
 			dotmpfiles tmpfiles.d/metrics_daemon_dirs.conf
 			insinto /etc/init
-			doins init/metrics_library.conf init/metrics_daemon.conf
+			doins init/metrics_library.conf init/metrics_daemon.conf \
+				init/structured_metrics.conf
 		fi
 
 		if use metrics_uploader; then
