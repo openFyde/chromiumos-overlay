@@ -30,6 +30,7 @@ getpid: 1
 getrandom: 1
 getrusage: 1
 getsockname: 1
+gettid: 1
 gettimeofday: 1
 getuid: 1
 ioctl: 1
