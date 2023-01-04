@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="d92347efe59230c8b44ecd3213d8c53fd3a4ba43"
+CROS_WORKON_COMMIT="fc65262159de8d6b2913aca66242d164d07645f0"
 CROS_WORKON_TREE=("d12eaa6a060046041408b6cf0c2444c7da2bce2b" "8566fde2da84e8034c7111a898ea69bbbf5153f3" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -79,7 +79,7 @@ platform_pkg_test() {
 		elog "Skipping meson tests on non-x86 platform"
 	else
 		meson tmp_build_dir -Dgamepad=true -Dtracing=true -Dcommit_loop_fix=true \
-				-Dblack_screen_fix=true \
+				-Dblack_screen_fix=true -Dwith_tests=true \
 				|| die "Failed to configure meson build"
 		ninja -C tmp_build_dir || die "Failed to build sommelier with meson"
 		[ -f tmp_build_dir/sommelier ] || die "Target 'sommelier' was not built by meson"
