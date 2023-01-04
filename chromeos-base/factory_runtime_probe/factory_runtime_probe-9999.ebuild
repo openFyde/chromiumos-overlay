@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk chromeos-config libec runtime_probe .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config libcrossystem libec runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe/factory_runtime_probe"
 
@@ -27,9 +27,9 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-libs:=
 	chromeos-base/debugd-client:=
+	chromeos-base/libcrossystem:=
 	chromeos-base/libec:=
 	chromeos-base/shill-client:=
-	chromeos-base/vboot_reference:=
 	dev-libs/libpcre:=
 	media-libs/minigbm:=
 "
