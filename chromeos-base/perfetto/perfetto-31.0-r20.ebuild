@@ -21,7 +21,7 @@ DESCRIPTION="An open-source project for performance instrumentation and tracing.
 HOMEPAGE="https://perfetto.dev/"
 
 KEYWORDS="*"
-IUSE="cros-debug"
+IUSE="cros-debug test"
 LICENSE="Apache-2.0"
 SLOT="0"
 
@@ -31,6 +31,11 @@ BDEPEND="
 	dev-util/ninja
 	dev-libs/protobuf
 "
+# sqlite is used in building trace_processor_shell
+DEPEND="
+	test? ( dev-db/sqlite )
+"
+
 BUILD_OUTPUT="${WORKDIR}/out_cros/"
 
 src_configure() {
@@ -93,6 +98,14 @@ skip_buildtools_check=true
 perfetto_use_system_protobuf=true
 enable_perfetto_x64_cpu_opt=false
 "
+	# Extra args for trace_processor_shell.
+	use test && GN_ARGS+="
+perfetto_use_system_sqlite=true
+enable_perfetto_trace_processor_percentile=false
+enable_perfetto_trace_processor_linenoise=false
+enable_perfetto_llvm_demangle=false
+"
+
 	einfo "GN_ARGS = ${GN_ARGS}"
 	gn gen "${BUILD_OUTPUT}" --args="${GN_ARGS}" || die
 
@@ -133,6 +146,7 @@ extra_target_cxxflags=\"${CXXFLAGS}\"
 
 src_compile() {
 	eninja -C "${BUILD_OUTPUT}" traced traced_probes perfetto
+	use test && eninja -C "${BUILD_OUTPUT}" trace_processor_shell
 
 	# The SDK build folder is generated under ${S}/out/sdk_gen.
 	eninja -C "${S}/out/sdk_gen" libperfetto_client_experimental
@@ -142,6 +156,7 @@ src_install() {
 	dobin "${BUILD_OUTPUT}/traced"
 	dobin "${BUILD_OUTPUT}/traced_probes"
 	dobin "${BUILD_OUTPUT}/perfetto"
+	use test && dobin "${BUILD_OUTPUT}/trace_processor_shell"
 
 	dotmpfiles "${FILESDIR}"/tmpfiles.d/*.conf
 
