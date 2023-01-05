@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="72a6100a5e48ef289f9da5212c9b6e94e8c0711b"
-CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "a902328aecda9ecdd865e246f3d1fb2317ec5518" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="e53a47b828c449dd087042c3436a7e651c1e7984"
+CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "d77e43912d0bb32c7c16099d8ac4bd8d847f077b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -25,9 +25,3 @@ KEYWORDS="*"
 
 DEPEND="
 	chromeos-base/perfetto:="
-
-src_install() {
-	platform_src_install
-
-	dobin "${OUT}"/perfetto_simple_producer
-}
