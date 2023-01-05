@@ -11,12 +11,6 @@ cros_pre_src_prepare_patches() {
 	fi
 }
 
-cros_post_src_install_symlink() {
-	# The original location of systemd-tmpfiles was /bin.
-	# TODO(b/260832836) Drop this symlink after uses are migrated.
-	dosym ../usr/bin/systemd-tmpfiles /bin/systemd-tmpfiles
-}
-
 cros_pre_pkg_postinst_disable() {
 	# pkg_postinst() in upstream package will install files to
 	# /etc/runlevels which is masked. Don't let it do that.
