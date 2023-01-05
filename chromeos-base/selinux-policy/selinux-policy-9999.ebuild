@@ -138,19 +138,29 @@ has_arc() {
 
 gen_m4_flags() {
 	M4_COMMON_FLAGS=()
+	local arc_type="none"
 	local arc_version="none"
 	if use android-container-pi; then
+		arc_type="container"
 		arc_version="p"
-	elif use android-vm-rvc || use android-container-rvc; then
+	elif use android-container-rvc; then
+		arc_type="container"
+		arc_version="r"
+	elif use android-vm-rvc; then
+		arc_type="vm"
 		arc_version="r"
 	elif use android-vm-sc; then
+		arc_type="vm"
 		arc_version="s"
 	elif use android-vm-tm; then
+		arc_type="vm"
 		arc_version="t"
 	elif use android-vm-master; then
+		arc_type="vm"
 		arc_version="master"
 	fi
 	M4_COMMON_FLAGS+=(
+		"-Darc_type=${arc_type}"
 		"-Darc_version=${arc_version}"
 		"-Duse_selinux_develop=$(usex selinux_develop y n)"
 		"-Duse_arc_first_release_n=$(usex arc_first_release_n y n)"
