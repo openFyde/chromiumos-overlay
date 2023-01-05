@@ -81,47 +81,6 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dobin "${OUT}"/cros-disks
-
-	# Install USB device IDs file.
-	insinto /usr/share/cros-disks
-	doins usb-device-info
-
-	# We invoke systemd-tmpfiles explicitly from the upstart config
-	# since it needs to run when /sys/fs/cgroup is available.
-	insinto /usr/lib/tmpfiles.d/on-demand
-	doins tmpfiles.d/*.conf
-
-	# Install seccomp policy files.
-	insinto /usr/share/policy
-	use seccomp && newins "seccomp_policy/archivemount-seccomp-${ARCH}.policy" archivemount-seccomp.policy
-	use seccomp && newins "seccomp_policy/fusebox-seccomp-${ARCH}.policy"      fusebox-seccomp.policy
-	use seccomp && newins "seccomp_policy/mkfs-seccomp-${ARCH}.policy"         mkfs-seccomp.policy
-	use seccomp && newins "seccomp_policy/mount-zip-seccomp-${ARCH}.policy"    mount-zip-seccomp.policy
-	use seccomp && newins "seccomp_policy/rar2fs-seccomp-${ARCH}.policy"       rar2fs-seccomp.policy
-	use seccomp && newins "seccomp_policy/smbfs-seccomp-${ARCH}.policy"        smbfs-seccomp.policy
-
-	# Install upstart config file.
-	insinto /etc/init
-	doins cros-disks.conf
-	# Insert the --no-session-manager flag if needed.
-	if use chromeless_tty; then
-		sed -i -E "s/(CROS_DISKS_OPTS=')/\1--no_session_manager /" "${D}"/etc/init/cros-disks.conf || die
-	fi
-
-	# Install D-Bus config file.
-	insinto /etc/dbus-1/system.d
-	doins org.chromium.CrosDisks.conf
-
-	# Install setuid restrictions file.
-	insinto /usr/share/cros/startup/process_management_policies
-	doins setuid_restrictions/cros_disks_uid_allowlist.txt
-
-	# Install powerd prefs for FUSE freeze ordering.
-	insinto /usr/share/power_manager
-	doins powerd_prefs/suspend_freezer_deps_*
-
 	local fuzzers=(
 		filesystem_label_fuzzer
 		mount_info_fuzzer
@@ -135,21 +94,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local gtest_filter_qemu_common=""
-	gtest_filter_qemu_common+="DiskManagerTest.*"
-	gtest_filter_qemu_common+=":ExternalMounterTest.*"
-	gtest_filter_qemu_common+=":UdevDeviceTest.*"
-	gtest_filter_qemu_common+=":MountInfoTest.RetrieveFromCurrentProcess"
-	gtest_filter_qemu_common+=":GlibProcessTest.*"
-
-	local gtest_filter_user_tests="-*RunAsRoot*:"
-	! use x86 && ! use amd64 && gtest_filter_user_tests+="${gtest_filter_qemu_common}"
-
-	local gtest_filter_root_tests="*RunAsRoot*-"
-	! use x86 && ! use amd64 && gtest_filter_root_tests+="${gtest_filter_qemu_common}"
-
-	platform_test "run" "${OUT}/disks_testrunner" "1" \
-		"${gtest_filter_root_tests}"
-	platform_test "run" "${OUT}/disks_testrunner" "0" \
-		"${gtest_filter_user_tests}"
+	platform test_all
 }
