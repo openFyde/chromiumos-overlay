@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="72a6100a5e48ef289f9da5212c9b6e94e8c0711b"
+CROS_WORKON_COMMIT="033a5d9d2f9c4bf4762eb9d171632e1a6ef8a730"
 CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "02598ed62ece836533eaa58a0af6ff27157bd2e9" "4fdf0aaf1e9414b3fad0baa6de0dc31a35f5b5bf" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -68,6 +68,7 @@ IUSE="
 	ondevice_handwriting_dlc
 	ondevice_speech
 	ondevice_text_suggestions
+	ondevice_image_content_annotation
 	asan
 	ubsan
 "
@@ -87,6 +88,7 @@ RDEPEND="
 	>=dev-libs/libsuggest-0.0.9:=[ondevice_text_suggestions=]
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
+	internal? ( ondevice_image_content_annotation? ( dev-libs/libica:= ) )
 "
 
 DEPEND="
