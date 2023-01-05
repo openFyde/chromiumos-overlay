@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="72a6100a5e48ef289f9da5212c9b6e94e8c0711b"
-CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "4a6e4c4f4458a2479859e637c02b0ae6deb9ea16" "ca9bc85f6dad198a8b59f8bccb7f1e6eaeb402f1" "ce80b4f47cc83cd3e01acf3f1514fdeda9e16ea9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="d07068e5dc851750d12156dd3d486eeb2fd7f28a"
+CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "4a6e4c4f4458a2479859e637c02b0ae6deb9ea16" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "ca9bc85f6dad198a8b59f8bccb7f1e6eaeb402f1" "7ab6a17ae956a5b2d02abdb1db0203565677a9d5" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk chromeos-config libec runtime_probe .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config libcrossystem libec runtime_probe .gn"
 
 PLATFORM_SUBDIR="runtime_probe/factory_runtime_probe"
 
@@ -29,9 +29,9 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-libs:=
 	chromeos-base/debugd-client:=
+	chromeos-base/libcrossystem:=
 	chromeos-base/libec:=
 	chromeos-base/shill-client:=
-	chromeos-base/vboot_reference:=
 	dev-libs/libpcre:=
 	media-libs/minigbm:=
 "
