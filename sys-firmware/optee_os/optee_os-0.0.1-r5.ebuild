@@ -28,8 +28,6 @@ src_configure() {
 	export O="${WORKDIR}/out"
 	export CFG_ARM64_core="y"
 	export DEBUG="0"
-	# TODO(b/246343588): Remove this when it is determined at run time.
-	export CFG_DRAM_SIZE="0x200000000"
 
 	# CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS are set for userland, but those options
 	# don't apply properly to firmware so unset them.
