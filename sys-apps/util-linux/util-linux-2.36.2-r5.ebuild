@@ -80,8 +80,9 @@ S="${WORKDIR}/${MY_P}"
 
 PATCHES=(
 	"${FILESDIR}"/0001-lib-loopdev-fix-is_loopdev-to-be-usable-with-partiti.patch
-	"${FILESDIR}"/"${P}"-no-canonicalize.patch
+	"${FILESDIR}"/"${P}"-mount-no-canonicalize.patch
 	"${FILESDIR}"/"${P}"-nsenter-nofollow.patch
+	"${FILESDIR}"/"${P}"-umount-no-canonicalize.patch
 )
 
 src_prepare() {
