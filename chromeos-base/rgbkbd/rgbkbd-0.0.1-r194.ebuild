@@ -3,17 +3,17 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="72a6100a5e48ef289f9da5212c9b6e94e8c0711b"
-CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "ca9bc85f6dad198a8b59f8bccb7f1e6eaeb402f1" "4140d5610585b62265bf2874d8623aa034a506f2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="b98486f5148c43715b52196e73bb7868527a4f00"
+CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "4a6e4c4f4458a2479859e637c02b0ae6deb9ea16" "ca9bc85f6dad198a8b59f8bccb7f1e6eaeb402f1" "45ae306a2872f18d4af318e5431e3c9a27bbb9ac" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
-CROS_WORKON_SUBTREE="common-mk libec rgbkbd .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config libec rgbkbd .gn"
 CROS_WORKON_OUTOFTREE_BUILD=1
 
 PLATFORM_SUBDIR="rgbkbd"
 
-inherit cros-workon platform tmpfiles user udev
+inherit cros-workon cros-unibuild platform tmpfiles user udev
 
 DESCRIPTION="A daemon for controlling an RGB backlit keyboard."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/rgbkbd/"
@@ -26,8 +26,11 @@ RDEPEND=""
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/chromeos-config-tools:=
+	chromeos-base/libbrillo:=
 	chromeos-base/libec:=
 	chromeos-base/system_api:=
+	virtual/udev
 "
 
 pkg_preinst() {
