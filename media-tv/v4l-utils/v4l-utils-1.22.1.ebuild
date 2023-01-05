@@ -29,6 +29,7 @@ DEPEND="${RDEPEND}
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-clang-fixes.patch
+	epatch "${FILESDIR}"/${P}-uvc-compliance.patch
 	eautoreconf
 }
 

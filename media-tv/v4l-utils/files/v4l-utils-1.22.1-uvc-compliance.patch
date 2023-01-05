@@ -1,0 +1,161 @@
+From b949cffb419ce76e8a66f83d62f2011c682f94d9 Mon Sep 17 00:00:00 2001
+From: Ricardo Ribalda <ricardo.ribalda@gmail.com>
+Date: Sat, 13 Nov 2021 00:58:04 +0100
+Subject: v4l2-compliance: Let uvcvideo return -EACCES
+
+Setting a control while inactive is meant to work, but it might
+not be actually written to the hardware until control becomes active.
+
+v4l2-compliance should allow -EACCES as an error code, but only for
+the uvcdriver when an attempt is made to set inactive controls.
+
+The control framework is able to handle this case more elegantly:
+it will remember the last set inactive value, and when the control
+becomes active it will update the hardware. But that's really hard
+to model in uvc.
+
+Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ utils/v4l2-compliance/v4l2-compliance.cpp    |  2 ++
+ utils/v4l2-compliance/v4l2-compliance.h      |  1 +
+ utils/v4l2-compliance/v4l2-test-controls.cpp | 28 +++++++++++++++++++++-------
+ 3 files changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index 798c4221..4b8723e0 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -84,6 +84,7 @@ bool show_colors;
+ bool exit_on_fail;
+ bool exit_on_warn;
+ bool is_vivid;
++bool is_uvcvideo;
+ int media_fd = -1;
+ unsigned warnings;
+ 
+@@ -959,6 +960,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 	if (node.is_v4l2()) {
+ 		doioctl(&node, VIDIOC_QUERYCAP, &vcap);
+ 		driver = reinterpret_cast<const char *>(vcap.driver);
++		is_uvcvideo = driver == "uvcvideo";
+ 		is_vivid = driver == "vivid";
+ 		if (is_vivid)
+ 			node.bus_info = reinterpret_cast<const char *>(vcap.bus_info);
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 419d1498..e73ebdd3 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -54,6 +54,7 @@ extern bool no_progress;
+ extern bool exit_on_fail;
+ extern bool exit_on_warn;
+ extern bool is_vivid; // We're testing the vivid driver
++extern bool is_uvcvideo; // We're testing the uvc driver
+ extern int kernel_version;
+ extern int media_fd;
+ extern unsigned warnings;
+diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+index 22e8decc..8731c9eb 100644
+--- a/utils/v4l2-compliance/v4l2-test-controls.cpp
++++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+@@ -485,6 +485,8 @@ int testSimpleControls(struct node *node)
+ 		} else if (ret == EILSEQ) {
+ 			warn("s_ctrl returned EILSEQ\n");
+ 			ret = 0;
++		} else if (ret == EACCES && is_uvcvideo) {
++			ret = 0;
+ 		} else if (ret) {
+ 			return fail("s_ctrl returned an error (%d)\n", ret);
+ 		}
+@@ -498,7 +500,8 @@ int testSimpleControls(struct node *node)
+ 			ctrl.id = qctrl.id;
+ 			ctrl.value = qctrl.minimum - 1;
+ 			ret = doioctl(node, VIDIOC_S_CTRL, &ctrl);
+-			if (ret && ret != EIO && ret != EILSEQ && ret != ERANGE)
++			if (ret && ret != EIO && ret != EILSEQ && ret != ERANGE &&
++			    !(ret == EACCES && is_uvcvideo))
+ 				return fail("invalid minimum range check\n");
+ 			if (!ret && checkSimpleCtrl(ctrl, qctrl))
+ 				return fail("invalid control %08x\n", qctrl.id);
+@@ -508,7 +511,8 @@ int testSimpleControls(struct node *node)
+ 			ctrl.id = qctrl.id;
+ 			ctrl.value = qctrl.maximum + 1;
+ 			ret = doioctl(node, VIDIOC_S_CTRL, &ctrl);
+-			if (ret && ret != EIO && ret != EILSEQ && ret != ERANGE)
++			if (ret && ret != EIO && ret != EILSEQ && ret != ERANGE &&
++			    !(ret == EACCES && is_uvcvideo))
+ 				return fail("invalid maximum range check\n");
+ 			if (!ret && checkSimpleCtrl(ctrl, qctrl))
+ 				return fail("invalid control %08x\n", qctrl.id);
+@@ -521,7 +525,8 @@ int testSimpleControls(struct node *node)
+ 			if (ret == ERANGE)
+ 				warn("%s: returns ERANGE for in-range, but non-step-multiple value\n",
+ 						qctrl.name);
+-			else if (ret && ret != EIO && ret != EILSEQ)
++			else if (ret && ret != EIO && ret != EILSEQ &&
++				 !(ret == EACCES && is_uvcvideo))
+ 				return fail("returns error for in-range, but non-step-multiple value\n");
+ 		}
+ 
+@@ -539,6 +544,8 @@ int testSimpleControls(struct node *node)
+ 				ctrl.id = qctrl.id;
+ 				ctrl.value = i;
+ 				ret = doioctl(node, VIDIOC_S_CTRL, &ctrl);
++				if (valid && ret == EACCES && is_uvcvideo)
++					continue;
+ 				if (valid && ret)
+ 					return fail("could not set valid menu item %d\n", i);
+ 				if (!valid && !ret)
+@@ -551,15 +558,18 @@ int testSimpleControls(struct node *node)
+ 			ctrl.id = qctrl.id;
+ 			ctrl.value = qctrl.minimum;
+ 			ret = doioctl(node, VIDIOC_S_CTRL, &ctrl);
+-			if (ret && ret != EIO && ret != EILSEQ)
++			if (ret && ret != EIO && ret != EILSEQ &&
++			    !(ret == EACCES && is_uvcvideo))
+ 				return fail("could not set minimum value\n");
+ 			ctrl.value = qctrl.maximum;
+ 			ret = doioctl(node, VIDIOC_S_CTRL, &ctrl);
+-			if (ret && ret != EIO && ret != EILSEQ)
++			if (ret && ret != EIO && ret != EILSEQ &&
++			    !(ret == EACCES && is_uvcvideo))
+ 				return fail("could not set maximum value\n");
+ 			ctrl.value = qctrl.default_value;
+ 			ret = doioctl(node, VIDIOC_S_CTRL, &ctrl);
+-			if (ret && ret != EIO && ret != EILSEQ)
++			if (ret && ret != EIO && ret != EILSEQ &&
++			    !(ret == EACCES && is_uvcvideo))
+ 				return fail("could not set default value\n");
+ 		}
+ 	}
+@@ -731,6 +741,8 @@ int testExtendedControls(struct node *node)
+ 			} else if (ret == EILSEQ) {
+ 				warn("s_ext_ctrls returned EILSEQ\n");
+ 				ret = 0;
++			} else if (ret == EACCES && is_uvcvideo) {
++				ret = 0;
+ 			}
+ 			if (ret)
+ 				return fail("s_ext_ctrls returned an error (%d)\n", ret);
+@@ -807,6 +819,8 @@ int testExtendedControls(struct node *node)
+ 	} else if (ret == EILSEQ) {
+ 		warn("s_ext_ctrls returned EILSEQ\n");
+ 		ret = 0;
++	} else if (ret == EACCES && is_uvcvideo) {
++		ret = 0;
+ 	}
+ 	if (ret)
+ 		return fail("could not set all controls\n");
+@@ -837,7 +851,7 @@ int testExtendedControls(struct node *node)
+ 		warn("s_ext_ctrls returned EILSEQ\n");
+ 		ret = 0;
+ 	}
+-	if (ret && !multiple_classes)
++	if (ret && !(ret == EACCES && is_uvcvideo) && !multiple_classes)
+ 		return fail("could not set all controls of a specific class\n");
+ 	if (ret != EINVAL && multiple_classes)
+ 		return fail("should get EINVAL when setting mixed-class controls\n");
+-- 
+cgit v1.2.1
+
