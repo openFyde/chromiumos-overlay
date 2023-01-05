@@ -118,7 +118,6 @@ CLIENT_IUSE_TESTS="
 		+tests_logging_UserCrash
 	)
 	+tests_network_EthernetStressPlug
-	+tests_network_Ipv6SimpleNegotiation
 	+tests_platform_Crossystem
 	+tests_platform_DaemonsRespawn
 	encrypted_stateful? ( +tests_platform_EncryptedStateful )

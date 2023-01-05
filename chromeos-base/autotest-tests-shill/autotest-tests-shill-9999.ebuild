@@ -24,18 +24,8 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_network_DhcpClasslessStaticRoute
-	+tests_network_DhcpNak
-	+tests_network_DhcpNegotiationSuccess
-	+tests_network_DhcpNegotiationTimeout
-	+tests_network_DhcpNonAsciiParameter
-	+tests_network_DhcpRenew
-	+tests_network_DhcpStaticIP
-	+tests_network_DhcpWpadNegotiation
-	+tests_network_WiFiInvalidParameters
 	+tests_network_WiFiResume
 	+tests_network_WlanPresent
-	+tests_network_WlanHasIP
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
