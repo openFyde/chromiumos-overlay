@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="490ab6fa4c46b39780b4754cda3a7d788935ca2e"
-CROS_WORKON_TREE="1c4506a0bd63b43aec475a7feddfd0ac4deb28d3"
+CROS_WORKON_COMMIT="8484f90392a1981250b0c5a3bd73cf224a3f02de"
+CROS_WORKON_TREE="312700f5566dd9dca26e26f74d95a5ce4389b8a9"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -101,6 +101,7 @@ src_compile() {
 	if ! use fuzzer ; then
 		cd cras || die
 		args=(
+			"--override_repository=rules_rust=${S}/cras/rules_rust_stub"
 			"--//:hw_dependency"
 			"$(use cras-apm && echo "--//:apm")"
 			"$(use cras-ml && echo "--//:ml")"
