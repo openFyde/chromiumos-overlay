@@ -1,14 +1,16 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
+
+PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
 CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
 CROS_WORKON_LOCALNAME="llvm-project"
 CROS_WORKON_MANUAL_UPREV=1
 
-inherit cros-fuzzer cros-sanitizers cros-constants cmake-multilib cmake-utils git-2 cros-llvm cros-workon
+inherit cros-fuzzer cros-sanitizers cros-constants cmake-multilib cmake-utils git-2 cros-llvm cros-workon python-single-r1
 
 DESCRIPTION="C++ runtime stack unwinder from LLVM"
 HOMEPAGE="https://github.com/llvm-mirror/libunwind"
@@ -29,8 +31,9 @@ fi
 IUSE="cros_host debug llvm-next llvm-tot +static-libs +shared-libs +synth_libgcc +compiler-rt continue-on-patch-failure"
 RDEPEND="!${CATEGORY}/libunwind"
 
-DEPEND="${RDEPEND}
-	cros_host? ( sys-devel/llvm )"
+DEPEND="${RDEPEND}"
+
+BDEPEND="sys-devel/llvm"
 
 pkg_setup() {
 	# Setup llvm toolchain for cross-compilation
@@ -51,6 +54,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	python_setup
 	local failure_mode
 	failure_mode="$(usex continue-on-patch-failure continue fail)"
 	"${FILESDIR}"/patch_manager/patch_manager.py \
@@ -60,6 +64,7 @@ src_prepare() {
 		--src_path "${S}" || die
 
 	eapply_user
+	cmake-utils_src_prepare
 }
 
 should_enable_asserts() {
@@ -130,7 +135,7 @@ multilib_src_install_all() {
 	# Remove files that are installed by sys-libs/llvm-libunwind
 	# to avoid collision when installing cross-${TARGET}/llvm-libunwind.
 	if [[ ${CATEGORY} == cross-* ]]; then
-		rm -rf "${ED}"usr/share || die
+		rm -rf "${ED}"/usr/share || die
 	fi
 
 	# Install headers.
