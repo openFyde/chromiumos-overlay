@@ -45,7 +45,6 @@ IUSE="
 	disable_background_blur
 	disable_cros_video_decoder
 	disable_explicit_dma_fences
-	disable_libyuv_image_processor
 	disable_native_gpu_memory_buffers
 	disable_instant_tethering
 	disable_spectre_variant2_mitigation
@@ -90,7 +89,6 @@ IUSE="
 	pita
 	pita-camera
 	pita-microphone
-	prefer_libyuv_image_processor
 	reven_branding
 	rialto
 	scheduler_configuration_performance
