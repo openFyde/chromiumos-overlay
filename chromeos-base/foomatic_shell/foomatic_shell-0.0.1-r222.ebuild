@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="72a6100a5e48ef289f9da5212c9b6e94e8c0711b"
-CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "efac5edde47ff7fcfb03b917d8fb1de1ce7f4f54" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="993784368c1234ccd4070d0eb043130bac9aa640"
+CROS_WORKON_TREE=("6a36baaa49726ee92adcded5d7a9c28124985e9a" "efac5edde47ff7fcfb03b917d8fb1de1ce7f4f54" "1404983938f6b07e76e0346cc283f1081dd7a8fa" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk foomatic_shell .gn"
+CROS_WORKON_SUBTREE="common-mk foomatic_shell metrics .gn"
 
 PLATFORM_SUBDIR="foomatic_shell"
 
@@ -20,6 +20,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/foomatic
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+RDEPEND="chromeos-base/metrics:="
+DEPEND="${RDEPEND}"
 
 src_install() {
 	platform_src_install
