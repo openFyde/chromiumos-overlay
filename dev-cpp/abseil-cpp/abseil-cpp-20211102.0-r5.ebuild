@@ -64,6 +64,10 @@ src_prepare() {
 		sed -i 's/-Werror//g' \
 			"${WORKDIR}/googletest-${GTEST_COMMIT}"/googletest/cmake/internal_utils.cmake || die
 	fi
+
+	# ChromeOS (b/264420866): Enable a "hardened" build.
+	sed -i 's/^#define ABSL_OPTION_HARDENED 0/#define ABSL_OPTION_HARDENED 1/' \
+		absl/base/options.h || die
 }
 
 src_configure() {
