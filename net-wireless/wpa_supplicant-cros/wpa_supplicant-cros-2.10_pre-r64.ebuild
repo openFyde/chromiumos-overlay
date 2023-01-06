@@ -10,7 +10,7 @@ CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9.1" "wpa_supplicant-2.9.1")
 CROS_WORKON_DESTDIR=("${S}/wpa_supplicant-cros/current" "${S}/wpa_supplicant-cros/next")
 CROS_WORKON_OPTIONAL_CHECKOUT=("use !supplicant-next" "use supplicant-next")
 
-inherit cros-sanitizers cros-workon cros-fuzzer eutils flag-o-matic qmake-utils systemd toolchain-funcs user
+inherit cros-sanitizers cros-workon cros-fuzzer eutils flag-o-matic qmake-utils systemd tmpfiles toolchain-funcs user
 
 DESCRIPTION="IEEE 802.1X/WPA supplicant for secure wireless transfers"
 HOMEPAGE="https://w1.fi/wpa_supplicant/"
@@ -452,11 +452,11 @@ src_install() {
 		fi
 	fi
 	# Install the init scripts
+	dotmpfiles "${FILESDIR}/init/wpasupplicant-directories.conf"
 	if use systemd; then
 		insinto /usr/share
 		systemd_dounit "${FILESDIR}/init/wpasupplicant.service"
 		systemd_enable_service boot-services.target wpasupplicant.service
-		systemd_dotmpfilesd "${FILESDIR}/init/wpasupplicant-directories.conf"
 	else
 		insinto /etc/init
 		doins "${FILESDIR}/init/wpasupplicant.conf"
