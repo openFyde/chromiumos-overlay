@@ -3,7 +3,9 @@
 
 EAPI=7
 
-inherit cros-llvm cros-constants cros-rustc-directories git-r3
+PYTHON_COMPAT=( python3_{6..9} )
+
+inherit cros-llvm cros-constants cros-rustc-directories git-r3 python-single-r1
 
 LLVM_HASH="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
 LLVM_NEXT_HASH="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
@@ -45,6 +47,7 @@ src_unpack() {
 }
 
 src_prepare() {
+	python_setup
 	prepare_patches
 	eapply_user
 }
