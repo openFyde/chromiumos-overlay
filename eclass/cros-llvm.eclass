@@ -13,6 +13,7 @@ inherit multilib
 
 IUSE="continue-on-patch-failure"
 
+BDEPEND="dev-python/dataclasses"
 if [[ ${CATEGORY} == cross-* ]] ; then
 	DEPEND="
 		${CATEGORY}/binutils
