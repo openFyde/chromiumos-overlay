@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="843eb4be06e73fe35613d5a979ac271a29f75721"
-CROS_WORKON_TREE="1a41e022b0909d3c4617a56b8dcd618c36938c60"
+CROS_WORKON_COMMIT="e7c61baeb4dffba8e596fa66bd6be31e5be78d9c"
+CROS_WORKON_TREE="ff067aa9740db0aed2c12b8ed61ed77a7263377c"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -60,7 +60,7 @@ src_install() {
 
 	insinto /etc/init
 	newins "init/ippusb-bridge.conf" "ippusb-bridge.conf"
-	newins "init/paper-debug-cleanup.conf" "paper-debug-cleanup.conf"
+	newins "init/printscan-debug-cleanup.conf" "printscan-debug-cleanup.conf"
 
 	insinto /usr/share/ippusb_bridge
 	newins "init/ippusb-bridge-debug.conf" "ippusb-bridge-debug.conf"
