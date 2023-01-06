@@ -1,0 +1,27 @@
+From fc1b875c0442202cc9faafb1ec82185a622ab67c Mon Sep 17 00:00:00 2001
+From: Mike Gerow <gerow@google.com>
+Date: Wed, 1 Feb 2023 16:08:57 -0800
+Subject: [PATCH 3/8] [crosvm] remove RTC as a core protocol
+
+BUG=b:235855065
+---
+ MdeModulePkg/Core/Dxe/DxeMain/DxeProtocolNotify.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/MdeModulePkg/Core/Dxe/DxeMain/DxeProtocolNotify.c b/MdeModulePkg/Core/Dxe/DxeMain/DxeProtocolNotify.c
+index 3fe02940ed..765cb131c2 100644
+--- a/MdeModulePkg/Core/Dxe/DxeMain/DxeProtocolNotify.c
++++ b/MdeModulePkg/Core/Dxe/DxeMain/DxeProtocolNotify.c
+@@ -31,7 +31,8 @@ EFI_CORE_PROTOCOL_NOTIFY_ENTRY  mArchProtocols[] = {
+   { &gEfiCapsuleArchProtocolGuid,          (VOID **)NULL,            NULL, NULL, FALSE },
+   { &gEfiMonotonicCounterArchProtocolGuid, (VOID **)NULL,            NULL, NULL, FALSE },
+   { &gEfiResetArchProtocolGuid,            (VOID **)NULL,            NULL, NULL, FALSE },
+-  { &gEfiRealTimeClockArchProtocolGuid,    (VOID **)NULL,            NULL, NULL, FALSE },
++  // TODO(b/235855065): get the RTC working properly
++  //{ &gEfiRealTimeClockArchProtocolGuid,    (VOID **)NULL,            NULL, NULL, FALSE },
+   { NULL,                                  (VOID **)NULL,            NULL, NULL, FALSE }
+ };
+ 
+-- 
+2.39.1.456.gfc5497dd1b-goog
+
