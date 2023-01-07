@@ -28,6 +28,7 @@ IUSE="
 	biod
 	bluetooth
 	bootchart
+	cecservice
 	cellular
 	chargesplash
 	chrome_internal
@@ -427,6 +428,7 @@ RDEPEND="
 	lvm_stateful_partition? ( chromeos-base/lvmd )
 	ufs? ( chromeos-base/discod )
 	system_wide_scudo? ( sys-libs/scudo )
+	cecservice? ( sys-apps/cecservice )
 "
 
 ################################################################################
