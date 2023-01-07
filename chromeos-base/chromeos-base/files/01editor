@@ -1,1 +1,1 @@
-EDITOR=/bin/nano
+EDITOR=/usr/bin/vi
