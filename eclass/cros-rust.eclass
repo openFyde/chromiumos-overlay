@@ -616,7 +616,7 @@ cros-rust_update_cargo_lock() {
 		if [[ "${CROS_WORKON_INCREMENTAL_BUILD}" == "1" ]]; then
 			local previous_lockfile="${CARGO_TARGET_DIR}/Cargo.lock.prev"
 			local previous_rustc="${CARGO_TARGET_DIR}/rustc.ver"
-			local rustc_ver="$(rustc --version)"
+			local rustc_ver="$(rust-toolchain-version)"
 			# If any of the dependencies have changed, clear the incremental results.
 			if [[ ! -f "${previous_lockfile}" ]] ||
 					[[ ! -f "${previous_rustc}" ]] ||
