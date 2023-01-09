@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="3c2a4d79dc9c2736965d49fdcefde84a547db7eb"
-CROS_WORKON_TREE="c08f99b8c29f0227f1febda80a40ea4daa3fefe0"
+CROS_WORKON_COMMIT="03ba5b7282831f050fdd4eba1be6e3c2dcf6ade5"
+CROS_WORKON_TREE="edf3225cc841a7aadd9bf70e7f11d63888dc9b49"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -40,7 +40,6 @@ RDEPEND="
 	chromeos-base/telemetry
 	sys-apps/ethtool
 	vaapi? ( x11-libs/libva )
-	tests_graphics_WebGLAquarium? ( app-benchmarks/microbenchmarks dev-util/memory-eater-locked )
 	virtual/autotest-private-libs
 "
 
@@ -72,8 +71,6 @@ IUSE_TESTS=(
 	+tests_display_DisplayContainEdid
 	+tests_graphics_Chrome
 	+tests_graphics_VideoRenderingPower
-	+tests_graphics_WebGLAquarium
-	+tests_graphics_WebGLManyPlanetsDeep
 	+tests_logging_CrashServices
 	+tests_logging_FeedbackReport
 	+tests_login_CryptohomeIncognito
@@ -149,9 +146,6 @@ IUSE_TESTS_ARC="
 	+tests_graphics_Idle
 "
 
-IUSE_TESTS_ATOMIC="
-	drm_atomic? ( +tests_graphics_HwOverlays )
-"
 
 IUSE_TESTS_CHROMIUM="
 	+tests_chromium
@@ -164,7 +158,6 @@ IUSE_TESTS="
 	${IUSE_TESTS_CELLULAR}
 	${IUSE_TESTS_SHILL}
 	${IUSE_TESTS_ARC}
-	${IUSE_TESTS_ATOMIC}
 	${IUSE_TESTS_CHROMIUM}
 "
 
