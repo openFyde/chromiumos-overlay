@@ -105,6 +105,7 @@ src_prepare() {
 	# https://boringssl-review.googlesource.com/c/boringssl/+/37247
 	eapply "${FILESDIR}"/android-tools-clang-fallthru.patch
 	eapply "${FILESDIR}"/android-tools-9.0.0-fix-array-parameter.patch
+	eapply "${FILESDIR}"/android-tools-Remove-unused-variable.patch
 
 	cd "${S}" || die
 	default
