@@ -43,6 +43,7 @@ DEPEND="
 	dev-go/godebug
 	dev-go/golang-evdev
 	dev-go/golint
+	dev-go/gonum
 	dev-go/gopacket
 	dev-go/gopsutil
 	dev-go/goselect
