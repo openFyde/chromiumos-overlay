@@ -279,5 +279,19 @@
             "from": 465103,
             "until": 466392
         }
+    },
+    {
+        "metadata": {
+            "info": [],
+            "title": "Revert \"[compiler-rt][test] Heed COMPILER_RT_DEBUG when compiling unittests\""
+        },
+        "platforms": [
+            "chromiumos"
+        ],
+        "rel_patch_path": "68f4ceaf9b4e68c111e3cccc3cc09ea7783fdf0d.patch",
+        "version_range": {
+            "from": 475826,
+            "until": 475871
+        }
     }
 ]
