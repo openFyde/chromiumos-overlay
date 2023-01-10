@@ -96,6 +96,7 @@ IUSE="
 	kernel-5_4
 	kernel-5_10
 	kernel-5_15
+	kernel-6_1
 	kernel-upstream
 	kukui
 	kvm_host
