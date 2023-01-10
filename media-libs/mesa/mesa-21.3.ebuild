@@ -4,13 +4,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="813ee839be2ce7c3c804dc90cba5678323bcad7c"
-CROS_WORKON_TREE="4bb8e29b5d85ff2dad87951c52d8e89df00d1d09"
+CROS_WORKON_COMMIT="14d7da24640dadfb55769cfc93e13ab653996fed"
+CROS_WORKON_TREE="6cd66cdcdf150b835621e6be971503370cdef4d0"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="upstream/21.3"
+CROS_WORKON_EGIT_BRANCH="upstream/amber"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"

@@ -7,7 +7,7 @@ EAPI=7
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_MANUAL_UPREV="1"
-CROS_WORKON_EGIT_BRANCH="upstream/21.3"
+CROS_WORKON_EGIT_BRANCH="upstream/amber"
 
 if [[ ${PV} = 9999* ]]; then
 	GIT_ECLASS="git-2"
