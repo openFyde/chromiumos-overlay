@@ -20,6 +20,7 @@ RDEPEND="
 	net-print/cups-filters
 	net-print/dymo-cups-drivers
 	net-print/epson-inkjet-printer-escpr
+	net-print/pwgtocanonij
 	net-print/starcupsdrv
 	internal? (
 		net-print/fuji-xerox-printing-license
