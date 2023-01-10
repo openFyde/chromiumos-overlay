@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="23bed8501f2adb3511f5a0229df794050aa13698"
-CROS_WORKON_TREE="975e441b6176055cd6270a78e9ebcb298c01eb10"
+CROS_WORKON_COMMIT="b9ce62d54944fa600276d1e84f026377e8d0bb24"
+CROS_WORKON_TREE="7971871978c85336ef0f5c1e86731f3e09c4225e"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -120,7 +120,6 @@ CLIENT_IUSE_TESTS="
 		+tests_logging_UserCrash
 	)
 	+tests_network_EthernetStressPlug
-	+tests_network_Ipv6SimpleNegotiation
 	+tests_platform_Crossystem
 	+tests_platform_DaemonsRespawn
 	encrypted_stateful? ( +tests_platform_EncryptedStateful )
