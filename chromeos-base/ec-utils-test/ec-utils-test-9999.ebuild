@@ -7,6 +7,14 @@ CROS_WORKON_LOCALNAME="platform/ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
 PYTHON_COMPAT=( python3_{6..9} pypy3 )
 
+# This ebuild is upreved via PuPR, so disable the normal uprev process for
+# cros-workon ebuilds.
+#
+# To uprev manually, run:
+#    cros_mark_as_stable --force --overlay-type private --packages \
+#     chromeos-base/ec-utils-test commit
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon python-r1
 
 DESCRIPTION="Chrome OS EC Utility Helper"

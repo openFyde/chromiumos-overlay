@@ -5,6 +5,14 @@ EAPI=7
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 
+# This ebuild is upreved via PuPR, so disable the normal uprev process for
+# cros-workon ebuilds.
+#
+# To uprev manually, run:
+#    cros_mark_as_stable --force --overlay-type private --packages \
+#     chromeos-base/ec-utils commit
+CROS_WORKON_MANUAL_UPREV="1"
+
 inherit cros-workon user
 
 DESCRIPTION="Chrome OS EC Utility"
