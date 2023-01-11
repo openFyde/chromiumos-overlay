@@ -87,3 +87,4 @@ exit_group: 1
 rt_sigreturn: 1
 unlinkat: 1
 sysinfo: 1
+uname: 1

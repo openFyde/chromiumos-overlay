@@ -100,3 +100,4 @@ rt_sigreturn: 1
 sysinfo: 1
 unlink: 1
 unlinkat: 1
+uname: 1
