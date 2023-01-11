@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/net-misc/dhcpcd/dhcpcd-6.8.2.ebuild,v 1.1 2015/05/05 13:20:12 williamh Exp $
 
-EAPI=5
+EAPI=7
 
 MY_P="${P/_alpha/-alpha}"
 MY_P="${MY_P/_beta/-beta}"
@@ -26,30 +26,32 @@ RDEPEND="${COMMON_DEPEND}"
 
 src_prepare()
 {
-	epatch "${FILESDIR}"/patches/${P}-Optionally-ARP-for-gateway-IP-address.patch
-	epatch "${FILESDIR}"/patches/${P}-Teach-DHCP-client-to-do-unicast-ARP-for-gateway.patch
-	epatch "${FILESDIR}"/patches/${P}-Fix-dhcpcd-running-as-a-regular-user.patch
-	epatch "${FILESDIR}"/patches/${P}-Allow-lease-file-to-be-set-on-command-line.patch
-	epatch "${FILESDIR}"/patches/${P}-Be-more-permissive-on-NAKs.patch
-	epatch "${FILESDIR}"/patches/${P}-Accept-an-ACK-after-a-NAK.patch
-	epatch "${FILESDIR}"/patches/${P}-Track-and-validate-disputed-addresses.patch
-	epatch "${FILESDIR}"/patches/${P}-Fix-OOB-read-in-dhcpcd.patch
-	epatch "${FILESDIR}"/patches/${P}-Merge-in-DHCP-options-from-the-original-offer.patch
-	epatch "${FILESDIR}"/patches/${P}-Add-RPC-support-for-DHCPv4-client.patch
-	epatch "${FILESDIR}"/patches/${P}-Add-ability-to-disable-hook-scripts.patch
-	epatch "${FILESDIR}"/patches/${P}-Improve-debugability.patch
-	epatch "${FILESDIR}"/patches/${P}-Add-DBus-RPC-support.patch
-	epatch "${FILESDIR}"/patches/${P}-Ensure-gateway-probe-is-broadcast.patch
-	epatch "${FILESDIR}"/patches/${P}-Change-vendor_encapsulated_options-to-binhex.patch
-	epatch "${FILESDIR}"/patches/${P}-Handle-DHCP-iSNS-option.patch
-	epatch "${FILESDIR}"/patches/${P}-Add-more-ARP-related-info-to-logs.patch
-	epatch "${FILESDIR}"/patches/${P}-Stop-only-active-interfaces-via-DBus.patch
-	epatch "${FILESDIR}"/patches/${P}-Include-frame-header-in-buffer-length.patch
-	epatch "${FILESDIR}"/patches/${P}-Correct-length-check-in-BPF-ARP-filter.patch
-	epatch "${FILESDIR}"/patches/${P}-More-robust-checks-for-packet-reception.patch
-	epatch "${FILESDIR}"/patches/${P}-Additional-ARP-packet-checks.patch
-	epatch "${FILESDIR}"/patches/${P}-Fix-handling-of-hostname-argument.patch
-	epatch "${FILESDIR}"/patches/${P}-Drop-ARP-on-DHCP-drop.patch
+	eapply "${FILESDIR}"/patches/${P}-Optionally-ARP-for-gateway-IP-address.patch
+	eapply "${FILESDIR}"/patches/${P}-Teach-DHCP-client-to-do-unicast-ARP-for-gateway.patch
+	eapply "${FILESDIR}"/patches/${P}-Fix-dhcpcd-running-as-a-regular-user.patch
+	eapply "${FILESDIR}"/patches/${P}-Allow-lease-file-to-be-set-on-command-line.patch
+	eapply "${FILESDIR}"/patches/${P}-Be-more-permissive-on-NAKs.patch
+	eapply "${FILESDIR}"/patches/${P}-Accept-an-ACK-after-a-NAK.patch
+	eapply "${FILESDIR}"/patches/${P}-Track-and-validate-disputed-addresses.patch
+	eapply "${FILESDIR}"/patches/${P}-Fix-OOB-read-in-dhcpcd.patch
+	eapply "${FILESDIR}"/patches/${P}-Merge-in-DHCP-options-from-the-original-offer.patch
+	eapply "${FILESDIR}"/patches/${P}-Add-RPC-support-for-DHCPv4-client.patch
+	eapply "${FILESDIR}"/patches/${P}-Add-ability-to-disable-hook-scripts.patch
+	eapply "${FILESDIR}"/patches/${P}-Improve-debugability.patch
+	eapply "${FILESDIR}"/patches/${P}-Add-DBus-RPC-support.patch
+	eapply "${FILESDIR}"/patches/${P}-Ensure-gateway-probe-is-broadcast.patch
+	eapply "${FILESDIR}"/patches/${P}-Change-vendor_encapsulated_options-to-binhex.patch
+	eapply "${FILESDIR}"/patches/${P}-Handle-DHCP-iSNS-option.patch
+	eapply "${FILESDIR}"/patches/${P}-Add-more-ARP-related-info-to-logs.patch
+	eapply "${FILESDIR}"/patches/${P}-Stop-only-active-interfaces-via-DBus.patch
+	eapply "${FILESDIR}"/patches/${P}-Include-frame-header-in-buffer-length.patch
+	eapply "${FILESDIR}"/patches/${P}-Correct-length-check-in-BPF-ARP-filter.patch
+	eapply "${FILESDIR}"/patches/${P}-More-robust-checks-for-packet-reception.patch
+	eapply "${FILESDIR}"/patches/${P}-Additional-ARP-packet-checks.patch
+	eapply "${FILESDIR}"/patches/${P}-Fix-handling-of-hostname-argument.patch
+	eapply "${FILESDIR}"/patches/${P}-Drop-ARP-on-DHCP-drop.patch
+
+	default
 }
 
 src_configure()

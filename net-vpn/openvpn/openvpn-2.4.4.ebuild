@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 inherit autotools flag-o-matic user systemd linux-info
 
@@ -53,14 +53,14 @@ pkg_setup()  {
 }
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-external-cmocka.patch"
-	epatch "${FILESDIR}/${PN}-2.4.1-large-passwords.patch"
-	epatch "${FILESDIR}/${PN}-2.4.1-pkcs11-slot.patch"
-	epatch "${FILESDIR}/${PN}-2.4.1-redirect-gateway.patch"
-	epatch "${FILESDIR}/${PN}-2.4.4-fix-illegal-client-float-CVE-2020-11810.patch"
+	eapply "${FILESDIR}/${PN}-external-cmocka.patch"
+	eapply "${FILESDIR}/${PN}-2.4.1-large-passwords.patch"
+	eapply "${FILESDIR}/${PN}-2.4.1-pkcs11-slot.patch"
+	eapply "${FILESDIR}/${PN}-2.4.1-redirect-gateway.patch"
+	eapply "${FILESDIR}/${PN}-2.4.4-fix-illegal-client-float-CVE-2020-11810.patch"
 	# Temporary patch for the purpose of collecting cipher algorithm metrics.
 	# Can be removed after b/197839464 is done.
-	epatch "${FILESDIR}/${PN}-cipher-in-status.patch"
+	eapply "${FILESDIR}/${PN}-cipher-in-status.patch"
 
 	default
 	eautoreconf
