@@ -2425,6 +2425,8 @@ cros-kernel2_src_configure() {
 				sed -i -e 's/CONFIG_CPU_BIG_ENDIAN=y/# CONFIG_CPU_BIG_ENDIAN is not set/' "${build_cfg}"
 				;;
 		esac
+		# Disable CONFIG_FORTIFY_SOURCE for buildtest.  See b/265129193.
+		sed -i -e 's/CONFIG_FORTIFY_SOURCE=y/# CONFIG_FORTIFY_SOURCE is not set/' "${build_cfg}"
 		kmake olddefconfig
 		return 0
 	fi
