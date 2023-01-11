@@ -73,16 +73,24 @@ generate_font_cache() {
 	sed '/<cachedir>/ s:<cachedir>\(.*\)<\/cachedir>:<cachedir>'"${sysroot_out_path}"'<\/cachedir>:' \
 		"${SYSROOT}"/etc/fonts/fonts.conf > "${conf_path}" || die
 
+	# Per https://reproducible-builds.org/specs/source-date-epoch/, this
+	# should be the last modification time of the source (date +%s). In
+	# practice, we just need it to be older than the timestamp of anyone
+	# building this package, and greater than 0 (fontconfig ignores 0
+	# values).
+	local TIMESTAMP=1
 	if [[ "${ARCH}" == "amd64" ]]; then
 		# Special-case for amd64: the target ISA may not match our
 		# build host (so we can't run natively;
 		# https://crbug.com/856686), and we may not have QEMU support
 		# for the full ISA either. Just run the SDK binary instead.
 		FONTCONFIG_FILE="${conf_path}" \
+		SOURCE_DATE_EPOCH="${TIMESTAMP}" \
 			/usr/bin/fc-cache -f -v --sysroot "${SYSROOT:-/}" || die
 	else
 		"${CHROOT_SOURCE_ROOT}"/src/platform2/common-mk/platform2_test.py \
 			--env FONTCONFIG_FILE="${sysroot_conf_path}" \
+			--env SOURCE_DATE_EPOCH="${TIMESTAMP}" \
 			--sysroot "${SYSROOT}" \
 			-- /usr/bin/fc-cache -f -v || die
 	fi
