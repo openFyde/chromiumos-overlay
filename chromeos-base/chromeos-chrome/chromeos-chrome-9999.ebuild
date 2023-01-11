@@ -289,6 +289,8 @@ set_build_args() {
 		"use_goma_thin_lto=${use_goma_thin_lto}"
 		"is_cfi=$(usetf cfi)"
 		"use_dwarf5=$(usetf dwarf5)"
+		# Disable use of debian sysroot for host builds.
+		"use_sysroot=false"
 
 		# Assistant integration tests are only run on the Chromium bots,
 		# but they increase the size of libassistant.so by 1.3MB so we
