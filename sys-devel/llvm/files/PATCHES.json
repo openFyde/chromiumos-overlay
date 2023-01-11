@@ -3910,21 +3910,6 @@
   {
     "metadata": {
       "info": [],
-      "title": "Revert Enable IAS In Backend"
-    },
-    "platforms": [
-      "android",
-      "chromiumos"
-    ],
-    "rel_patch_path": "Revert-Enable-IAS-In-Backend.patch",
-    "version_range": {
-      "from": 463634,
-      "until": null
-    }
-  },
-  {
-    "metadata": {
-      "info": [],
       "title": "Support dlclose as a noop in DynamicLibraryTest"
     },
     "platforms": [
