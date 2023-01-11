@@ -4,11 +4,11 @@ DEPEND=>=dev-libs/expat-2.0.0 nls? ( sys-devel/gettext ) direncryption? ( sys-fs
 DESCRIPTION=An event-based replacement for the init daemon
 EAPI=7
 HOMEPAGE=http://upstart.ubuntu.com/
-IUSE=debug direncryption examples nls global_seccomp selinux udev_bridge -upstart_scripts cros_host cros_workon_tree_23ef99a53662e5ff72bd43a37f2b656bc08c1989
+IUSE=debug direncryption examples nls global_seccomp selinux udev_bridge -upstart_scripts cros_host cros_workon_tree_99824451e3a7044eac0a2b462e8c0c2d8e79f186
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=>=sys-apps/dbus-1.2.16 >=sys-libs/libnih-1.0.2 selinux? ( sys-libs/libselinux sys-libs/libsepol ) udev_bridge? ( >=virtual/libudev-146 ) direncryption? ( sys-apps/keyutils ) global_seccomp? ( chromeos-base/minijail ) dev-libs/json-c selinux? ( chromeos-base/selinux-policy )
 SLOT=0
 _eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	bf71cd1168b6441b64a8cdbc06c36eda	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-workon	c7b63b251ff3aa2399330f3176a66522	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=7a60c7582de898cd9912a571e6071105
+_md5_=3f0c28b76cd178b2815e6e8df7716bd4
