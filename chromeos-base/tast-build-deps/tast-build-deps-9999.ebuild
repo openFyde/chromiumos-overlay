@@ -31,6 +31,7 @@ DEPEND="
 	dev-go/cdp
 	dev-go/clock
 	dev-go/cmp
+	dev-go/crc8
 	dev-go/crypto
 	dev-go/dbus
 	dev-go/docker
