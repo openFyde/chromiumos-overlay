@@ -204,6 +204,7 @@ PATCHES=(
 	"${FILESDIR}/rust-add-armv7a-sanitizers.patch"
 	"${FILESDIR}/rust-Remove-LLVMGetAggregateElement.patch"
 	"${FILESDIR}/rust-bootstrap-use-CARGO_HOME.patch"
+	"${FILESDIR}/rust-ignore-version-in-mangling.patch"
 )
 
 S="${CROS_RUSTC_SRC_DIR}/${MY_P}-src"
