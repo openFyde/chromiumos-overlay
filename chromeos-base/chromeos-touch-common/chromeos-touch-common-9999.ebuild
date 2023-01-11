@@ -17,7 +17,8 @@ SLOT="0/0"
 KEYWORDS="~*"
 
 RDEPEND="
-	sys-apps/mosys
+	chromeos-base/chromeos-config-tools
+	chromeos-base/vboot_reference
 	!<chromeos-base/touch_updater-0.0.1-r167
 "
 
