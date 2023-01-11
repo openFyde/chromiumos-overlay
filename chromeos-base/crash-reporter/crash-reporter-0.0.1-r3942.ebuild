@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="136c3e114b65f2c6c5f026376c2e75c73c2478a3"
-CROS_WORKON_TREE=("eb1fe3bef742a865c350a9d742e224d4077efbd5" "5813efcc20ce0f6250af9402c5ca7ccb001c053c" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "1404983938f6b07e76e0346cc283f1081dd7a8fa" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="f86f84b53818aa787c3e14418c706d42501d99d9"
+CROS_WORKON_TREE=("eb1fe3bef742a865c350a9d742e224d4077efbd5" "043fc637e6e878c3018a55f2443386deb22a8cf2" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "1404983938f6b07e76e0346cc283f1081dd7a8fa" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -86,6 +86,9 @@ src_install() {
 		dosbin "${OUT}"/crash_sender
 	fi
 
+	into /usr/local
+	dobin "${OUT}"/bluetooth_devcd_parser
+
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.AnomalyEventService.conf
 
@@ -166,6 +169,11 @@ src_install() {
 
 	platform_fuzzer_install "${S}"/../metrics/OWNERS \
 		"${OUT}"/missed_crash_collector_fuzzer \
+		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/../metrics/OWNERS \
+		"${OUT}"/bluetooth_devcd_parser_fuzzer \
+		--dict "${S}"/bluetooth_devcd_parser_util_fuzzer.dict \
 		--comp "${fuzzer_component_id}"
 
 	# Install crash_serializer into /usr/local/sbin, which is only present
