@@ -54,6 +54,7 @@ IUSE="
 	enable_dsp_hotword
 	enable_heuristic_palm_detection_filter
 	enable_neural_palm_detection_filter
+	federated_service
 	force_breakpad
 	gpu_sandbox_allow_sysv_shm
 	gpu_sandbox_failures_not_fatal
