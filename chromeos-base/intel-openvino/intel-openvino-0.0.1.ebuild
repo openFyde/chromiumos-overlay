@@ -34,7 +34,6 @@ SLOT="0"
 S="${WORKDIR}/openvino"
 
 RDEPEND="
-	chromeos-base/intel-gnalib
 "
 
 DEPEND="

@@ -32,7 +32,6 @@ PLATFORM_SUBDIR="nn-hal-${NNHAL_GIT_HASH}"
 RDEPEND="
 	chromeos-base/aosp-frameworks-ml-nn
 	chromeos-base/intel-openvino
-	chromeos-base/intel-gnalib
 "
 
 DEPEND="
