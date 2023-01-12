@@ -125,6 +125,9 @@ multilib_src_configure() {
 	# We perform further cleanup in multilib_src_install_all().
 	myconf+=( "--with-components=cros-minimal" )
 
+	# Default pkgconfig path is /usr/lib, which isn't correct for 64-bit.
+	myconf+=( "--with-pkgconfpath=/usr/$(get_libdir)/pkgconfig" )
+
 	# The tests use googletest (C++), so make sure correct C++ version is
 	# enabled.
 	append-cxxflags -std=gnu++17
@@ -172,6 +175,7 @@ multilib_src_configure() {
 	sed -i -e "s:SERVERBIN.*:SERVERBIN = \"\$\(BUILDROOT\)${EPREFIX}/usr/libexec/cups\":" Makedefs || die
 	sed -i -e "s:#define CUPS_SERVERBIN.*:#define CUPS_SERVERBIN \"${EPREFIX}/usr/libexec/cups\":" config.h || die
 	sed -i -e "s:cups_serverbin=.*:cups_serverbin=\"${EPREFIX}/usr/libexec/cups\":" cups-config || die
+	sed -i -e "s:cups_serverbin=.*:cups_serverbin=\"${EPREFIX}/usr/libexec/cups\":" cups.pc || die
 }
 
 multilib_src_compile() {
