@@ -55,6 +55,7 @@ DEPEND="sys-libs/zlib
 	sys-devel/binutils"
 BDEPEND="${PYTHON_DEPS}
 	dev-lang/perl
+	sys-devel/llvm
 	sys-devel/gnuconfig
 	$(python_gen_any_dep 'dev-python/sphinx[${PYTHON_USEDEP}]')
 	>=dev-libs/libxml2-2.9.6
