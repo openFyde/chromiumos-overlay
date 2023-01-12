@@ -618,3 +618,7 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	!sys-apps/nih-dbus-tool
 	sys-libs/libnih"
+
+# Needed for cros-llvm.
+RDEPEND="${RDEPEND}
+	dev-python/dataclasses"
