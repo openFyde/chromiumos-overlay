@@ -33,6 +33,7 @@ fadvise64_64: 1
 fchmod: 1
 fchown: 1
 fcntl: 1
+flock: 1
 fstat: 1
 fstatfs: 1
 fstatfs64: 1
