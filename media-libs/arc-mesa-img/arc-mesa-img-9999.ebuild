@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI="6"
+EAPI="7"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa-img"
 CROS_WORKON_LOCALNAME="mesa-img"
@@ -11,7 +11,7 @@ CROS_WORKON_MANUAL_UPREV="1"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"

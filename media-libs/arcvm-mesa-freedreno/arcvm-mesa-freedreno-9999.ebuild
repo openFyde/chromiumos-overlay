@@ -7,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
 CROS_WORKON_EGIT_BRANCH="chromeos-freedreno"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -50,14 +50,6 @@ src_prepare() {
 	# workaround for cros-workon not preserving git metadata
 	if [[ ${PV} == 9999* && "${CROS_WORKON_INPLACE}" != "1" ]]; then
 		echo "#define MESA_GIT_SHA1 \"git-deadbeef\"" > src/git_sha1.h
-	fi
-
-	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
-		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
-		EPATCH_SUFFIX="patch" \
-		epatch
 	fi
 
 	default

@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit base cros-workon platform unpacker
+inherit cros-workon platform unpacker
 
 DESCRIPTION="Intel NNAPI HAL"
 HOMEPAGE="https://github.com/intel/nn-hal"

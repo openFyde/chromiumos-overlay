@@ -54,14 +54,6 @@ src_prepare() {
 		echo "#define MESA_GIT_SHA1 \"git-deadbeef\"" > src/git_sha1.h
 	fi
 
-	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
-		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
-		EPATCH_SUFFIX="patch" \
-		epatch
-	fi
-
 	default
 }
 

@@ -2,14 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI="6"
+EAPI="7"
 
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-arcvm"
 CROS_WORKON_EGIT_BRANCH="chromeos-arcvm"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build cros-sanitizers
+inherit meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build cros-sanitizers
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
@@ -88,13 +88,6 @@ src_prepare() {
 		echo "#define MESA_GIT_SHA1 \"git-deadbeef\"" > src/git_sha1.h
 	fi
 
-	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
-		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
-		EPATCH_SUFFIX="patch" \
-		epatch
-	fi
 	# FreeBSD 6.* doesn't have posix_memalign().
 	if [[ ${CHOST} == *-freebsd6.* ]]; then
 		sed -i \
@@ -105,16 +98,16 @@ src_prepare() {
 	# Restrict gles version based on USE flag. (See crbug.com/30202361, b/30202371, b/31041422, b:68023287)
 	if use android_gles32; then
 		einfo "Limiting android to gles32."
-		epatch "${FILESDIR}/gles32/0001-limit-gles-version.patch"
+		eapply "${FILESDIR}/gles32/0001-limit-gles-version.patch"
 	elif use android_gles31; then
 		einfo "Limiting android to gles31."
-		epatch "${FILESDIR}/gles31/0001-limit-gles-version.patch"
+		eapply "${FILESDIR}/gles31/0001-limit-gles-version.patch"
 	elif use android_gles30; then
 		einfo "Limiting android to gles30."
-		epatch "${FILESDIR}/gles30/0001-limit-gles-version.patch"
+		eapply "${FILESDIR}/gles30/0001-limit-gles-version.patch"
 	elif use android_gles2; then
 		einfo "Limiting android to gles2."
-		epatch "${FILESDIR}/gles2/0001-limit-gles-version.patch"
+		eapply "${FILESDIR}/gles2/0001-limit-gles-version.patch"
 	fi
 
 	default

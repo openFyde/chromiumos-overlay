@@ -1,9 +1,7 @@
 # Copyright 2011 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
-
-inherit base
+EAPI=7
 
 DESCRIPTION="To record and replay data from kernel evdev devices"
 HOMEPAGE="http://bitmath.org/code/evemu/"

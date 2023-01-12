@@ -2,13 +2,13 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-iris"
 CROS_WORKON_EGIT_BRANCH="chromeos-iris"
 
-inherit base meson multilib-minimal flag-o-matic cros-workon arc-build
+inherit meson multilib-minimal flag-o-matic cros-workon arc-build
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"

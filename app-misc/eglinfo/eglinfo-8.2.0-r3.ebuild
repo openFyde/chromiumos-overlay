@@ -1,7 +1,7 @@
 # Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
 MY_PN=mesa-demos
 MY_P=${MY_PN}-${PV}
@@ -12,15 +12,11 @@ if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
 fi
 
-inherit base toolchain-funcs ${GIT_ECLASS}
+inherit toolchain-funcs ${GIT_ECLASS}
 
 DESCRIPTION="eglinfo from Mesa demos"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
-if [[ ${PV} == 9999* ]]; then
-	SRC_URI=""
-else
-	SRC_URI="ftp://ftp.freedesktop.org/pub/${MY_PN/-//}/${PV}/${MY_P}.tar.bz2"
-fi
+SRC_URI="ftp://ftp.freedesktop.org/pub/${MY_PN/-//}/${PV}/${MY_P}.tar.bz2"
 
 LICENSE="LGPL-2"
 SLOT="0"

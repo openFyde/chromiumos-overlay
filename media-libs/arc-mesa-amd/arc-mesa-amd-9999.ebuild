@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
-EAPI="6"
+EAPI="7"
 
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-amd"
 CROS_WORKON_EGIT_BRANCH="chromeos-amd"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"

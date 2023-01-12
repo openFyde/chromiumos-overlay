@@ -18,21 +18,13 @@ if [[ ${PV} = 9999* ]]; then
 	EXPERIMENTAL="true"
 fi
 
-inherit base multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
+inherit multilib flag-o-matic meson toolchain-funcs ${GIT_ECLASS} cros-workon
 
 FOLDER="${PV/_rc*/}"
 [[ ${PV/_rc*/} == "${PV}" ]] || FOLDER+="/RC"
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
-
-#SRC_PATCHES="mirror://gentoo/${P}-gentoo-patches-01.tar.bz2"
-if [[ ${PV} = 9999* ]] || [[ -n ${CROS_WORKON_COMMIT} ]]; then
-	SRC_URI="${SRC_PATCHES}"
-else
-	SRC_URI="ftp://ftp.freedesktop.org/pub/mesa/${FOLDER}/${P}.tar.bz2
-		${SRC_PATCHES}"
-fi
 
 # Most of the code is MIT/X11.
 # ralloc is LGPL-3
@@ -99,13 +91,6 @@ driver_list() {
 }
 
 src_prepare() {
-	# apply patches
-	if [[ ${PV} != 9999* && -n ${SRC_PATCHES} ]]; then
-		EPATCH_FORCE="yes" \
-		EPATCH_SOURCE="${WORKDIR}/patches" \
-		EPATCH_SUFFIX="patch" \
-		epatch
-	fi
 	# FreeBSD 6.* doesn't have posix_memalign().
 	if [[ ${CHOST} == *-freebsd6.* ]]; then
 		sed -i \
