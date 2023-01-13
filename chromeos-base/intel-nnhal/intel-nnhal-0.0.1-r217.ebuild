@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bb50e408234f67b356c782c8cac6497208d1697"
+CROS_WORKON_COMMIT="d6a3bae39c0d766578f048053a081f552508ef76"
 CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 inherit base cros-workon platform unpacker
 
@@ -34,7 +34,6 @@ PLATFORM_SUBDIR="nn-hal-${NNHAL_GIT_HASH}"
 RDEPEND="
 	chromeos-base/aosp-frameworks-ml-nn
 	chromeos-base/intel-openvino
-	chromeos-base/intel-gnalib
 "
 
 DEPEND="
