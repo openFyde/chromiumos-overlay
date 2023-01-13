@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("48789ca5aacf125a745b8d440593d435db01a928" "947016ba8881e7c5c5df7ad3d91552b9a1ed32dc")
-CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "4145f2ced83a179ed6e22619d7df6cbc6f844fd6" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "6d5df687cb7338f4049b6d2bc81779cf476c299c")
+CROS_WORKON_COMMIT=("6ef5383cca7d7906c813a45f87d355700a41d3ab" "35c8308b441270168936ce7a08500b422d7b0a0b")
+CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "2a53e330a2f20168132baf0921efe7eba161ce8a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "79ae1b4535583f2faa319692825fce5e23258615")
 CROS_WORKON_LOCALNAME=("platform2" "aosp/system/update_engine")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "aosp/platform/system/update_engine")
 CROS_WORKON_EGIT_BRANCH=("main" "master")
@@ -28,7 +28,10 @@ IUSE="cfm cros_host cros_p2p dlc fuzzer hibernate hw_details -hwid_override lvm_
 COMMON_DEPEND="
 	app-arch/bzip2:=
 	chromeos-base/chromeos-ca-certificates:=
-	hw_details? ( chromeos-base/diagnostics:= )
+	hw_details? (
+		chromeos-base/mojo_service_manager:=
+		chromeos-base/diagnostics:=
+	)
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/vboot_reference:=
 	cros_p2p? ( chromeos-base/p2p:= )
