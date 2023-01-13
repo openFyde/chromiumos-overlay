@@ -1,6 +1,6 @@
-From 4a50202b38027a04d9458bd295761571bf1acdd7 Mon Sep 17 00:00:00 2001
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Thu, 14 Apr 2022 13:02:31 +0800
+From 4a50202b38027a04d9458bd295761571bf1acdd7 Fri Jan 13 00:00:00 2023
+From: Steve Cho <stevecho@chromium.org>
+Date: Fri, 13 Jan 2023 10:57:59 -0800
 Subject: [PATCH] CHROMIUM: v4l2: add upstream work-in-progress V4L2 AV1
  stateless controls
 
@@ -10,8 +10,8 @@ This design is based on currently available AV1 API implementations and
 aims to support the development of AV1 V4L2 stateless video codecs
 on Linux.
 
-This is extracted from RFC v3 patch by Daniel Almeida [1] and may not be
-the final version.
+This is extracted from v4 patch by Daniel Almeida [1] and may not be the
+final version.
 
 The definitions are kept in this separate file instead of merged into
 `include/uapi/linux/videodev2.h` and `include/uapi/linux/v4l2-controls.h`
@@ -19,27 +19,31 @@ to avoid possible conflicts with the other header file changes. A
 separate file also provides an easier migration path for components
 using these definitions.
 
-[1] https://lore.kernel.org/linux-media/20220825225312.564619-1-daniel.almeida@collabora.com/
+Fallbacks for V4L2_STATELESS_AV1_PROFILE_* identifiers that were available
+in the previous uAPI version and used in application code are added to ease
+transition.
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+[1] https://lore.kernel.org/linux-media/20230103154832.6982-1-daniel.almeida@collabora.com/
+
+Signed-off-by: Steve Cho <stevecho@chromium.org>
 Change-Id: Ie8a66f15b6957383776ffcfdeaaa61ff800afd3e
 ---
- include/uapi/linux/media/av1-ctrls.h | 750 +++++++++++++++++++++++++++
- 1 file changed, 750 insertions(+)
+ include/uapi/linux/media/av1-ctrls.h | 756 +++++++++++++++++++++++++++
+ 1 file changed, 751 insertions(+)
  create mode 100644 include/uapi/linux/media/av1-ctrls.h
 
 diff --git a/include/uapi/linux/media/av1-ctrls.h b/include/uapi/linux/media/av1-ctrls.h
 new file mode 100644
-index 0000000000000..4d9b1cf610855
+index 000000000000..a2c2244d5987
 --- /dev/null
 +++ b/include/uapi/linux/media/av1-ctrls.h
-@@ -0,0 +1,750 @@
+@@ -0,0 +1,756 @@
 +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
 +/*
 + * These are the AV1 state controls for use with stateless AV1 codec drivers.
 + *
-+ * This is extracted from RFC v2 patch by Daniel Almeida [1] and may not be
-+ * the final version.
++ * This is extracted from v4 patch by Daniel Almeida [1] and may not be the
++ * final version.
 + *
 + * The definitions are kept in this separate file instead of merged into
 + * `include/uapi/linux/videodev2.h` and `include/uapi/linux/v4l2-controls.h`
@@ -47,7 +51,7 @@ index 0000000000000..4d9b1cf610855
 + * file also provides an easier migration path for components using these
 + * definitions.
 + *
-+ * [1] https://lore.kernel.org/all/20220322160101.620748-1-daniel.almeida@collabora.com/
++ * [1] https://lore.kernel.org/linux-media/20230103154832.6982-1-daniel.almeida@collabora.com/
 + */
 +
 +#ifndef __LINUX_MEDIA_AV1_CTRLS_H
@@ -55,7 +59,98 @@ index 0000000000000..4d9b1cf610855
 +
 +#include <linux/videodev2.h>
 +
++/* V4L2_CID_CODEC_BASE used to be called V4L2_CID_MPEG_BASE */
++#ifndef V4L2_CID_CODEC_BASE
++#define V4L2_CID_CODEC_BASE V4L2_CID_MPEG_BASE
++#endif
++
 +#define V4L2_PIX_FMT_AV1_FRAME	v4l2_fourcc('A', 'V', '1', 'F') /* AV1 parsed frame */
++
++/**
++ * enum v4l2_mpeg_video_av1_profile - AV1 profiles
++ *
++ * @V4L2_MPEG_VIDEO_AV1_PROFILE_MAIN: compliant decoders must be able to decode
++ * streams with seq_profile equal to 0.
++ * @V4L2_MPEG_VIDEO_PROFILE_HIGH: compliant decoders must be able to decode
++ * streams with seq_profile equal to 0.
++ * @V4L2_MPEG_VIDEO_PROFILE_PROFESSIONAL: compliant decoders must be able to
++ * decode streams with seq_profile equal to 0.
++ *
++ * Conveys the highest profile a decoder can work with.
++ */
++#define V4L2_CID_MPEG_VIDEO_AV1_PROFILE (V4L2_CID_CODEC_BASE + 655)
++enum v4l2_mpeg_video_av1_profile {
++	V4L2_MPEG_VIDEO_AV1_PROFILE_MAIN = 0,
++	V4L2_MPEG_VIDEO_AV1_PROFILE_HIGH = 1,
++	V4L2_MPEG_VIDEO_AV1_PROFILE_PROFESSIONAL = 2,
++};
++
++/* Macros for backward compatibility */
++#define V4L2_STATELESS_AV1_PROFILE_MAIN	V4L2_MPEG_VIDEO_AV1_PROFILE_MAIN
++#define V4L2_STATELESS_AV1_PROFILE_HIGH	V4L2_MPEG_VIDEO_AV1_PROFILE_HIGH
++#define V4L2_STATELESS_AV1_PROFILE_PROFESSIONAL	V4L2_MPEG_VIDEO_AV1_PROFILE_PROFESSIONAL
++
++/**
++ * enum v4l2_stateless_av1_level - AV1 levels
++ *
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_2_0: Level 2.0.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_2_1: Level 2.1.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_2_2: Level 2.2.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_2_3: Level 2.3.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_3_0: Level 3.0.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_3_1: Level 3.1.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_3_2: Level 3.2.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_3_3: Level 3.3.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_4_0: Level 4.0.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_4_1: Level 4.1.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_4_2: Level 4.2.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_4_3: Level 4.3.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_5_0: Level 5.0.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_5_1: Level 5.1.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_5_2: Level 5.2.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_5_3: Level 5.3.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_6_0: Level 6.0.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_6_1: Level 6.1.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_6_2: Level 6.2.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_6_3: Level 6.3.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_7_0: Level 7.0.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_7_2: Level 7.2.
++ * @V4L2_MPEG_VIDEO_AV1_LEVEL_7_3: Level 7.3.
++ *
++ * Conveys the highest level a decoder can work with.
++ */
++#define V4L2_CID_MPEG_VIDEO_AV1_LEVEL (V4L2_CID_CODEC_BASE+ 656)
++enum v4l2_mpeg_video_av1_level {
++	V4L2_MPEG_VIDEO_AV1_LEVEL_2_0 = 0,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_2_1 = 1,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_2_2 = 2,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_2_3 = 3,
++
++	V4L2_MPEG_VIDEO_AV1_LEVEL_3_0 = 4,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_3_1 = 5,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_3_2 = 6,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_3_3 = 7,
++
++	V4L2_MPEG_VIDEO_AV1_LEVEL_4_0 = 8,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_4_1 = 9,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_4_2 = 10,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_4_3 = 11,
++
++	V4L2_MPEG_VIDEO_AV1_LEVEL_5_0 = 12,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_5_1 = 13,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_5_2 = 14,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_5_3 = 15,
++
++	V4L2_MPEG_VIDEO_AV1_LEVEL_6_0 = 16,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_6_1 = 17,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_6_2 = 18,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_6_3 = 19,
++
++	V4L2_MPEG_VIDEO_AV1_LEVEL_7_0 = 20,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_7_1 = 21,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_7_2 = 22,
++	V4L2_MPEG_VIDEO_AV1_LEVEL_7_3 = 23
++};
 +
 +#define V4L2_CTRL_TYPE_AV1_SEQUENCE	    0x280
 +#define V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY 0x281
@@ -189,7 +284,6 @@ index 0000000000000..4d9b1cf610855
 + * @V4L2_AV1_REF_BWDREF_FRAME: BWD Reference Frame
 + * @V4L2_AV1_REF_ALTREF2_FRAME: Alternative2 Reference Frame
 + * @V4L2_AV1_REF_ALTREF_FRAME: Alternative Reference Frame
-+ * @V4L2_AV1_NUM_REF_FRAMES: Total Reference Frame Number
 + */
 +enum v4l2_av1_reference_frame {
 +	V4L2_AV1_REF_INTRA_FRAME = 0,
@@ -200,7 +294,6 @@ index 0000000000000..4d9b1cf610855
 +	V4L2_AV1_REF_BWDREF_FRAME = 5,
 +	V4L2_AV1_REF_ALTREF2_FRAME = 6,
 +	V4L2_AV1_REF_ALTREF_FRAME = 7,
-+	V4L2_AV1_NUM_REF_FRAMES,
 +};
 +
 +#define V4L2_AV1_GLOBAL_MOTION_IS_INVALID(ref) (1 << (ref))
@@ -226,7 +319,7 @@ index 0000000000000..4d9b1cf610855
 +struct v4l2_av1_global_motion {
 +	__u8 flags[V4L2_AV1_TOTAL_REFS_PER_FRAME];
 +	enum v4l2_av1_warp_model type[V4L2_AV1_TOTAL_REFS_PER_FRAME];
-+	__u32 params[V4L2_AV1_TOTAL_REFS_PER_FRAME][6];
++	__s32 params[V4L2_AV1_TOTAL_REFS_PER_FRAME][6];
 +	__u8 invalid;
 +};
 +
@@ -514,7 +607,7 @@ index 0000000000000..4d9b1cf610855
 +#define V4L2_AV1_FRAME_FLAG_ALLOW_WARPED_MOTION		 0x00002000
 +#define V4L2_AV1_FRAME_FLAG_REFERENCE_SELECT		 0x00004000
 +#define V4L2_AV1_FRAME_FLAG_REDUCED_TX_SET		 0x00008000
-+#define V4L2_AV1_FRAME_FLAG_SKIP_MODE_ALLOWED 		 0x00010000
++#define V4L2_AV1_FRAME_FLAG_SKIP_MODE_ALLOWED		 0x00010000
 +#define V4L2_AV1_FRAME_FLAG_SKIP_MODE_PRESENT		 0x00020000
 +#define V4L2_AV1_FRAME_FLAG_FRAME_SIZE_OVERRIDE		 0x00040000
 +#define V4L2_AV1_FRAME_FLAG_BUFFER_REMOVAL_TIME_PRESENT	 0x00080000
@@ -558,10 +651,10 @@ index 0000000000000..4d9b1cf610855
 + * @refresh_frame_flags: contains a bitmask that specifies which reference frame
 + * slots will be updated with the current frame after it is decoded.
 + * @order_hints: specifies the expected output order hint for each reference
-+ * frame.
-+ * @last_frame_idx: specifies the reference frame to use for LAST_FRAME.
-+ * @gold_frame_idx: specifies the reference frame to use for GOLDEN_FRAME.
-+ * refs
++ * frame. This field corresponds to the OrderHints variable from the
++ * specification (section 5.9.2. Uncompressed header syntax). As such, this is
++ * only used for non-intra frames and ignored otherwise. order_hints[0] is
++ * always ignored.
 + * @reference_frame_ts: the V4L2 timestamp of the reference frame slots.
 + * @ref_frame_idx: used to index into @reference_frame_ts when decoding
 + * inter-frames. The meaning of this array is the same as in the specification.
@@ -594,93 +687,10 @@ index 0000000000000..4d9b1cf610855
 +	__u8 primary_ref_frame;
 +	__u32 buffer_removal_time[V4L2_AV1_MAX_OPERATING_POINTS];
 +	__u8 refresh_frame_flags;
-+	__u32 order_hints[V4L2_AV1_NUM_REF_FRAMES];
-+	__s8 last_frame_idx;
-+	__s8 gold_frame_idx;
++	__u32 order_hints[V4L2_AV1_TOTAL_REFS_PER_FRAME];
 +	__u64 reference_frame_ts[V4L2_AV1_TOTAL_REFS_PER_FRAME];
-+	__u8 ref_frame_idx[V4L2_AV1_REFS_PER_FRAME];
++	__s8 ref_frame_idx[V4L2_AV1_REFS_PER_FRAME];
 +	__u8 skip_mode_frame[2];
-+};
-+
-+/**
-+ * enum v4l2_stateless_av1_profile - AV1 profiles
-+ *
-+ * @V4L2_STATELESS_AV1_PROFILE_MAIN: compliant decoders must be able to decode
-+ * streams with seq_profile equal to 0.
-+ * @V4L2_STATELESS_PROFILE_HIGH: compliant decoders must be able to decode
-+ * streams with seq_profile equal to 0.
-+ * @V4L2_STATELESS_PROFILE_PROFESSIONAL: compliant decoders must be able to
-+ * decode streams with seq_profile equal to 0.
-+ *
-+ * Conveys the highest profile a decoder can work with.
-+ */
-+#define V4L2_CID_STATELESS_AV1_PROFILE (V4L2_CID_CODEC_STATELESS_BASE + 503)
-+enum v4l2_stateless_av1_profile {
-+	V4L2_STATELESS_AV1_PROFILE_MAIN = 0,
-+	V4L2_STATELESS_AV1_PROFILE_HIGH = 1,
-+	V4L2_STATELESS_AV1_PROFILE_PROFESSIONAL = 2,
-+};
-+
-+/**
-+ * enum v4l2_stateless_av1_level - AV1 levels
-+ *
-+ * @V4L2_STATELESS_AV1_LEVEL_2_0: Level 2.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_2_1: Level 2.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_2_2: Level 2.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_2_3: Level 2.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_0: Level 3.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_1: Level 3.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_2: Level 3.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_3_3: Level 3.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_0: Level 4.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_1: Level 4.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_2: Level 4.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_4_3: Level 4.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_0: Level 5.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_1: Level 5.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_2: Level 5.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_5_3: Level 5.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_0: Level 6.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_1: Level 6.1.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_2: Level 6.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_6_3: Level 6.3.
-+ * @V4L2_STATELESS_AV1_LEVEL_7_0: Level 7.0.
-+ * @V4L2_STATELESS_AV1_LEVEL_7_2: Level 7.2.
-+ * @V4L2_STATELESS_AV1_LEVEL_7_3: Level 7.3.
-+ *
-+ * Conveys the highest level a decoder can work with.
-+ */
-+#define V4L2_CID_STATELESS_AV1_LEVEL (V4L2_CID_CODEC_STATELESS_BASE + 504)
-+enum v4l2_stateless_av1_level {
-+	V4L2_STATELESS_AV1_LEVEL_2_0 = 0,
-+	V4L2_STATELESS_AV1_LEVEL_2_1 = 1,
-+	V4L2_STATELESS_AV1_LEVEL_2_2 = 2,
-+	V4L2_STATELESS_AV1_LEVEL_2_3 = 3,
-+
-+	V4L2_STATELESS_AV1_LEVEL_3_0 = 4,
-+	V4L2_STATELESS_AV1_LEVEL_3_1 = 5,
-+	V4L2_STATELESS_AV1_LEVEL_3_2 = 6,
-+	V4L2_STATELESS_AV1_LEVEL_3_3 = 7,
-+
-+	V4L2_STATELESS_AV1_LEVEL_4_0 = 8,
-+	V4L2_STATELESS_AV1_LEVEL_4_1 = 9,
-+	V4L2_STATELESS_AV1_LEVEL_4_2 = 10,
-+	V4L2_STATELESS_AV1_LEVEL_4_3 = 11,
-+
-+	V4L2_STATELESS_AV1_LEVEL_5_0 = 12,
-+	V4L2_STATELESS_AV1_LEVEL_5_1 = 13,
-+	V4L2_STATELESS_AV1_LEVEL_5_2 = 14,
-+	V4L2_STATELESS_AV1_LEVEL_5_3 = 15,
-+
-+	V4L2_STATELESS_AV1_LEVEL_6_0 = 16,
-+	V4L2_STATELESS_AV1_LEVEL_6_1 = 17,
-+	V4L2_STATELESS_AV1_LEVEL_6_2 = 18,
-+	V4L2_STATELESS_AV1_LEVEL_6_3 = 19,
-+
-+	V4L2_STATELESS_AV1_LEVEL_7_0 = 20,
-+	V4L2_STATELESS_AV1_LEVEL_7_1 = 21,
-+	V4L2_STATELESS_AV1_LEVEL_7_2 = 22,
-+	V4L2_STATELESS_AV1_LEVEL_7_3 = 23
 +};
 +
 +#define V4L2_AV1_FILM_GRAIN_FLAG_APPLY_GRAIN 0x1
@@ -690,7 +700,7 @@ index 0000000000000..4d9b1cf610855
 +#define V4L2_AV1_FILM_GRAIN_FLAG_CLIP_TO_RESTRICTED_RANGE 0x10
 +
 +/**
-+ * struct v4l2_av1_film_grain - AV1 Film Grain parameters.
++ * struct v4l2_ctrl_av1_film_grain - AV1 Film Grain parameters.
 + *
 + * Film grain parameters as specified by section 6.8.20 of the AV1
 +   Specification.
