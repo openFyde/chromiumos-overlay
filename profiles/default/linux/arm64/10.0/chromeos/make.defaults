@@ -14,3 +14,6 @@ USE="${USE} -federated_service"
 # Remove mosys_platform_generic from boards that inherit arm64 support to
 # prevent multiple mosys_platform USE flags.
 USE="${USE} -mosys_platform_generic"
+
+# Use AFDO profiles from arm.
+AFDO_PROFILE_SOURCE="arm"
