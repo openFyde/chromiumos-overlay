@@ -11,14 +11,14 @@ CROS_WORKON_SUBTREE="common-mk diagnostics/cros_minidiag metrics .gn"
 
 PLATFORM_SUBDIR="diagnostics/cros_minidiag"
 
-inherit cros-workon platform
+inherit cros-fuzzer cros-sanitizers cros-workon platform
 
 DESCRIPTION="User space utilities related to MiniDiag"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnostics/cros_minidiag"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE=""
+IUSE="fuzzer"
 
 DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -27,6 +27,20 @@ DEPEND="
 RDEPEND="
 	sys-apps/coreboot-utils:=
 "
+
+src_configure() {
+	sanitizers-setup-env
+	platform_src_configure
+}
+
+src_install() {
+	platform_src_install
+
+	# Install fuzzers.
+	local fuzzer_component_id="982097"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/minidiag_utils_fuzzer \
+		--comp "${fuzzer_component_id}"
+}
 
 platform_pkg_test() {
 	platform test_all

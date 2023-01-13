@@ -40,6 +40,7 @@ RDEPEND="
 	chromeos-base/cups-fuzz[fuzzer]
 	chromeos-base/debugd[fuzzer]
 	chromeos-base/diagnostics[fuzzer]
+	chromeos-base/diagnostics-minidiag[fuzzer]
 	chromeos-base/dlcservice[fuzzer]
 	chromeos-base/dlp[fuzzer]
 	chromeos-base/dns-proxy[fuzzer]
