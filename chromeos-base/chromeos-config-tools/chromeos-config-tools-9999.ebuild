@@ -39,7 +39,9 @@ GTEST_METADATA=(
 
 GTEST_TEST_INSTALL_DIR="/usr/local/gtest/cros_config"
 
-RDEPEND=""
+RDEPEND="
+	!unibuild? ( sys-apps/mosys )
+"
 
 DEPEND="${RDEPEND}"
 
