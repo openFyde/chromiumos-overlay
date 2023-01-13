@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="32259cd954f1d0dba6762723bd1fdc27a7765fdc"
-CROS_WORKON_TREE="6dbdfcbbba70659f56dff0e8e7ae1ed21e5ff2bb"
+CROS_WORKON_COMMIT="fb2413a223d1a59b3055c22ff354b48a8a34756c"
+CROS_WORKON_TREE="903ef555da9bc5f7e9a690a96f0552883a2dbbee"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_USE_VCSID=1
@@ -53,6 +53,23 @@ DEPEND="
 	dev-libs/libpthread-stubs:=
 	media-sound/cras_rust:=
 "
+
+adhd-bazel() {
+	bazel_setup_bazelrc
+
+	# Use different build folders for each multibuild variant.
+	local output_base="${BUILD_DIR:-${S}}"
+	output_base="${output_base%/}-bazel-base"
+	mkdir -p "${output_base}" || die
+
+	set -- bazel-5 --bazelrc="${T}/bazelrc" --output_base="${output_base}" "${@}"
+	echo "${*}" >&2
+	"$@" || die "adhd-bazel failed"
+}
+
+use_label() {
+	usex "$1" --"$2" --no"$2"
+}
 
 src_unpack() {
 	bazel_load_distfiles "${bazel_external_uris}"
@@ -103,13 +120,13 @@ src_compile() {
 		args=(
 			"--override_repository=rules_rust=${S}/cras/rules_rust_stub"
 			"--//:hw_dependency"
-			"$(use cras-apm && echo "--//:apm")"
-			"$(use cras-ml && echo "--//:ml")"
+			"$(use_label cras-apm //:apm)"
+			"$(use_label cras-ml //:ml)"
 		)
 		# Prevent clang to access  ubsan_blocklist.txt which is not supported by bazel.
 		filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
 		bazel_setup_crosstool
-		ebazel build //src/benchmark:cras_bench "${args[*]}"
+		adhd-bazel build //src/benchmark:cras_bench "${args[@]}"
 	fi
 }
 
