@@ -17,7 +17,7 @@ inherit cros-workon platform user
 DESCRIPTION="Daemon to manage TPM ownership."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm_manager/"
 
-LICENSE="Apache-2.0"
+LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 IUSE="cr50_onboard double_extend_pcr_issue pinweaver_csme profiling test tpm tpm_dynamic

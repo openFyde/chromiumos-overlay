@@ -16,7 +16,7 @@ inherit cros-workon libchrome platform user
 DESCRIPTION="Virtual TPM service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vtpm/"
 
-LICENSE="Apache-2.0"
+LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="profiling test"
 

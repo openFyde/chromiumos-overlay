@@ -16,7 +16,7 @@ inherit cros-workon platform user
 DESCRIPTION="Trunks service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/trunks/"
 
-LICENSE="Apache-2.0"
+LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
 	cr50_onboard

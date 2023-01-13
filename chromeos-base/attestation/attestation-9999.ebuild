@@ -18,7 +18,7 @@ inherit cros-workon libchrome platform user
 DESCRIPTION="Attestation service for Chromium OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestation/"
 
-LICENSE="Apache-2.0"
+LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="generic_tpm2 profiling test ti50_onboard tpm tpm_dynamic tpm2 tpm2_simulator"
 
