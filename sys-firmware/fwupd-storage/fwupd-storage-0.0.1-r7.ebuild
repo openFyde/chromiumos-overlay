@@ -73,6 +73,7 @@ FILENAMES_WILCO=(
 	"${dictfwcab['wdc,SN740']}"
 )
 FILENAMES_SKYRIM=(
+	"${dictfwcab['samsung,PM9B1-256G']}"
 	"${dictfwcab['ssstc,CL4-3D256-Q11']}"
 	"${dictfwcab['hynix,BC901-256G']}"
 	"${dictfwcab['wdc,SN740']}"
@@ -99,6 +100,7 @@ src_install() {
 	if use skyrim; then
 		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-hynix.rules"
 		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-liteon.rules"
+		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-samsung.rules"
 		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-wdc.rules"
 	fi
 	cros-fwupd_src_install
