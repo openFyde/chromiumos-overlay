@@ -7,5 +7,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=!<chromeos-base/chromeos-sshd-init-0.0.2 chromeos-base/minijail sys-apps/baselayout
 SLOT=0
-_eclasses_=user	d2a27cd5630eb4386546b10e6140ad60
+_eclasses_=user	189725c9f2f0a26375ed1283ce13a3ca
 _md5_=b1743d3c4764924f00690211b0092d46
