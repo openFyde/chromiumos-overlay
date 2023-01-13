@@ -39,7 +39,9 @@ IUSE="
 
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
-RDEPEND=""
+RDEPEND="
+	tests_firmware_Mosys? ( sys-apps/mosys )
+"
 DEPEND="${RDEPEND}
 	!<chromeos-base/autotest-0.0.2
 "

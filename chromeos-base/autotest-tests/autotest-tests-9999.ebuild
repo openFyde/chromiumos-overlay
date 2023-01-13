@@ -42,6 +42,7 @@ RDEPEND="${RDEPEND}
 	tests_hardware_MemoryLatency? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryThroughput? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryZRAMThroughput? ( app-benchmarks/microbenchmarks )
+	tests_platform_MemCheck? ( sys-apps/mosys )
 	tests_xfsFilesystemTestSuite? ( app-benchmarks/xfstests )
 "
 
