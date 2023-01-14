@@ -19,11 +19,11 @@ SLOT="0"
 KEYWORDS="-* amd64"
 IUSE=""
 
-RDEPEND="sys-libs/ncurses:5"
+RDEPEND="sys-libs/ncurses:5
+	sys-libs/readline:6"
 
 S="${WORKDIR}"
 INSTALL_DIR="/opt/android-master"
-
 
 # These prebuilts are already properly stripped.
 RESTRICT="strip"
