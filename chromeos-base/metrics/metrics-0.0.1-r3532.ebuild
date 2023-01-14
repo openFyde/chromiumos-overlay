@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5bb50e408234f67b356c782c8cac6497208d1697"
+CROS_WORKON_COMMIT="3eb605cfb81c5c21432362ce042dcb080f06c9e6"
 CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "1404983938f6b07e76e0346cc283f1081dd7a8fa" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -69,6 +69,12 @@ src_install() {
 	fperms 0774 "${daemon_store}"
 	fowners chronos:chronos-access "${daemon_store}"
 
+	local appsync_daemon_store="/etc/daemon-store/appsync-optin"
+	dodir "${appsync_daemon_store}"
+	fperms 0774 "${appsync_daemon_store}"
+	fowners chronos:chronos-access "${appsync_daemon_store}"
+
+	# TODO(chromium:1193485) remove on 2024-01-30
 	local appsync_daemon_store="/etc/daemon-store/appsync-consent"
 	dodir "${appsync_daemon_store}"
 	fperms 0774 "${appsync_daemon_store}"
