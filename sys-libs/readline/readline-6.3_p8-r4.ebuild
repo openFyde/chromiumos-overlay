@@ -1,9 +1,11 @@
 # Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+# Install old SONAME library for old prebuilt binaries.
 
-inherit eutils multilib toolchain-funcs flag-o-matic multilib-minimal preserve-libs usr-ldscript
+EAPI=7
+
+inherit eutils multilib toolchain-funcs flag-o-matic multilib-minimal
 
 # Official patches
 # See ftp://ftp.cwru.edu/pub/bash/readline-6.3-patches/
@@ -32,11 +34,12 @@ HOMEPAGE="https://tiswww.case.edu/php/chet/readline/rltop.html"
 SRC_URI="mirror://gnu/${PN}/${MY_P}.tar.gz $(patches)"
 
 LICENSE="GPL-3"
-SLOT="0"
+SLOT="6"
 KEYWORDS="*"
-IUSE="static-libs utils"
+IUSE=""
 
-RDEPEND=">=sys-libs/ncurses-5.9-r3:0=[${MULTILIB_USEDEP}]"
+RDEPEND=">=sys-libs/ncurses-5.9-r3:0=[${MULTILIB_USEDEP}]
+	!<=sys-libs/readline-8.1_p1-r1"
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
@@ -54,8 +57,8 @@ src_unpack() {
 }
 
 src_prepare() {
-	[[ ${PLEVEL} -gt 0 ]] && epatch $(patches -s)
-	epatch "${PATCHES[@]}"
+	[[ ${PLEVEL} -gt 0 ]] && eapply -p0 $(patches -s)
+	default
 
 	# Force ncurses linking. #71420
 	# Use pkg-config to get the right values. #457558
@@ -108,56 +111,10 @@ multilib_src_configure() {
 		--cache-file="${BUILD_DIR}"/config.cache \
 		--docdir='$(datarootdir)'/doc/${PF} \
 		--with-curses \
-		$(use_enable static-libs static)
-
-	if use utils && multilib_is_native_abi && ! tc-is-cross-compiler ; then
-		# code is full of AC_TRY_RUN()
-		mkdir -p examples/rlfe || die
-		cd examples/rlfe || die
-		ECONF_SOURCE=${S}/examples/rlfe \
-		econf --cache-file="${BUILD_DIR}"/config.cache
-	fi
-}
-
-multilib_src_compile() {
-	emake
-
-	if use utils && multilib_is_native_abi && ! tc-is-cross-compiler ; then
-		# code is full of AC_TRY_RUN()
-		cd examples/rlfe || die
-		local l
-		for l in readline history ; do
-			ln -s ../../shlib/lib${l}$(get_libname)* lib${l}$(get_libname)
-			ln -sf ../../lib${l}.a lib${l}.a
-		done
-		emake
-	fi
+		--disable-static
 }
 
 multilib_src_install() {
-	default
-
-	if multilib_is_native_abi ; then
-		gen_usr_ldscript -a readline history #4411
-
-		if use utils && ! tc-is-cross-compiler; then
-			dobin examples/rlfe/rlfe
-		fi
-	fi
-}
-
-multilib_src_install_all() {
-	einstalldocs
-	dodoc USAGE
-	dohtml -r doc/.
-	docinto ps
-	dodoc doc/*.ps
-}
-
-pkg_preinst() {
-	preserve_old_lib /$(get_libdir)/lib{history,readline}.so.{4,5} #29865
-}
-
-pkg_postinst() {
-	preserve_old_lib_notify /$(get_libdir)/lib{history,readline}.so.{4,5}
+	dolib.so shlib/libreadline.so.6.3
+	dosym  libreadline.so.6.3 "/usr/$(get_libdir)/libreadline.so.6"
 }
