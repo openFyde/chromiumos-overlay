@@ -43,10 +43,9 @@ LICENSE="GPL-3"
 SLOT="0"  # subslot was removed to avoid breaking update_chroot.
 [[ "${PV}" == *_rc* ]] || \
 KEYWORDS="*"
-IUSE="cros_host static-libs +unicode utils"
+IUSE="static-libs +unicode utils"
 
-RDEPEND=">=sys-libs/ncurses-5.9-r3:=[static-libs?,unicode(+)?,${MULTILIB_USEDEP}]
-	cros_host? ( sys-libs/readline:6 )"
+RDEPEND=">=sys-libs/ncurses-5.9-r3:=[static-libs?,unicode(+)?,${MULTILIB_USEDEP}]"
 DEPEND="${RDEPEND}"
 BDEPEND="virtual/pkgconfig"
 
