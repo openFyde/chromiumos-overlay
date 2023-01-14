@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=5
+EAPI="7"
 
 DESCRIPTION="Ebuild for Android toolchain (compilers, linker, libraries, headers)."
 
@@ -18,6 +18,8 @@ LICENSE="GPL-3 LGPL-3 GPL-3 libgcc libstdc++ gcc-runtime-library-exception-3.1 F
 SLOT="0"
 KEYWORDS="-* amd64"
 IUSE=""
+
+RDEPEND="sys-libs/ncurses:5"
 
 S="${WORKDIR}"
 INSTALL_DIR="/opt/android-r"

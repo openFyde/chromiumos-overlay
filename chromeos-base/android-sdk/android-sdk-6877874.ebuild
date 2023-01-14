@@ -26,6 +26,7 @@ RDEPEND="
 	<=virtual/jdk-9
 	>=virtual/jdk-9
 	>=dev-java/ant-core-1.6.5
+	sys-libs/ncurses:5
 	sys-libs/zlib"
 BDEPEND=""
 
