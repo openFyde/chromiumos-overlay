@@ -18,6 +18,7 @@ DEPEND="dev-libs/openssl:0=
 	dev-libs/protobuf:=
 	dev-libs/libffi
 	sys-devel/llvm
+	sys-libs/ncurses:0=
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
@@ -41,12 +42,10 @@ src_configure() {
 }
 
 src_compile() {
-	cmake_src_compile create_llvm_prof
+	cmake_src_compile create_llvm_prof profile_merger sample_merger
 }
 
 src_install() {
-	AFDO_BUILD_DIR="${WORKDIR}/${P}_build"
-	cmake_src_install
-	dobin "${AFDO_BUILD_DIR}"/create_llvm_prof "${AFDO_BUILD_DIR}"/profile_merger \
-		"${AFDO_BUILD_DIR}"/sample_merger
+	dobin "${BUILD_DIR}"/create_llvm_prof "${BUILD_DIR}"/profile_merger \
+		"${BUILD_DIR}"/sample_merger
 }
