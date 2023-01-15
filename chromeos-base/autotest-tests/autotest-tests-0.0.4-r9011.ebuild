@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="f2132f9d8bd85894271fbace9eb743448fb2ec15"
-CROS_WORKON_TREE="ca0bdd992a3e510a7f0fe0adef948e266df75eb1"
+CROS_WORKON_COMMIT="70c313283324e502ede71ca8447b9a06b24aa11d"
+CROS_WORKON_TREE="a8f6fb4b951140758abcd68511700fa5202855bb"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -44,6 +44,7 @@ RDEPEND="${RDEPEND}
 	tests_hardware_MemoryLatency? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryThroughput? ( app-benchmarks/lmbench )
 	tests_hardware_MemoryZRAMThroughput? ( app-benchmarks/microbenchmarks )
+	tests_platform_MemCheck? ( sys-apps/mosys )
 	tests_xfsFilesystemTestSuite? ( app-benchmarks/xfstests )
 "
 

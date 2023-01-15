@@ -315,6 +315,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	sys-apps/file
 	sys-apps/findutils
 	sys-apps/kbd
+	sys-apps/mosys
 	sys-apps/shadow
 	sys-devel/binutils
 	sys-process/iotop
