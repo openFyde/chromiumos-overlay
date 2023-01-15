@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="5bb50e408234f67b356c782c8cac6497208d1697"
-CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "3cb7d35d0cab3c6e0e7a7b5f2632db4c127d8160" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="79f4bb4da7e3652f84bcd2870995270cc93e9923"
+CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "158c6ad77d22328325ea592ec2167986ad33f023" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -12,7 +12,7 @@ CROS_WORKON_SUBTREE="common-mk featured .gn"
 
 PLATFORM_SUBDIR="featured"
 
-inherit cros-workon platform user
+inherit cros-workon platform tmpfiles user
 
 DESCRIPTION="Chrome OS feature management service"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/featured/"
@@ -67,6 +67,8 @@ src_install() {
 	insinto /etc/featured
 	fperms 0764 /etc/featured
 	doins share/platform-features.json
+
+	dotmpfiles tmpfiles.d/featured.conf
 
 	local fuzzer_component_id="1096648"
 	platform_fuzzer_install "${S}"/OWNERS \
