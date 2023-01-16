@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1f1db35b65fd28efb5acf58a0f8fb6b7c6366885"
+CROS_WORKON_COMMIT="cf42616e31ef51b8cf593c328e19ed5c0c9c2dd6"
 CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "53acf545697b5d97724bd2bc8d02fcc601be8a90" "860f25658787551285e89ac874d829f23b92377d" "831310e7c9b52614ee5e861cb67bb85beca8e69e" "b3977551146074b3965fd03ffbae4b555bff1ec7" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -43,6 +43,7 @@ COMMON_DEPEND="
 	chromeos-base/cbor:=
 	chromeos-base/chaps:=
 	chromeos-base/chromeos-config-tools:=
+	chromeos-base/featured:=
 	chromeos-base/libhwsec:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/shill-client:=
