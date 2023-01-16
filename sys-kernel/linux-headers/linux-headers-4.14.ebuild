@@ -1,7 +1,7 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 # shellcheck disable=SC2034
 ETYPE="headers"
@@ -13,19 +13,20 @@ detect_version
 PATCH_VER="1"
 SRC_URI="mirror://gentoo/gentoo-headers-base-${PV}.tar.xz
 	${PATCH_VER:+mirror://gentoo/gentoo-headers-${PV}-${PATCH_VER}.tar.xz}"
+S="${WORKDIR}/gentoo-headers-base-${PV}"
 
 KEYWORDS="*"
 
-DEPEND="app-arch/xz-utils
+BDEPEND="
+	app-arch/xz-utils
 	dev-lang/perl"
-RDEPEND="!!media-sound/alsa-headers"
 
-S=${WORKDIR}/gentoo-headers-base-${PV}
+[[ -n ${PATCH_VER} ]] && PATCHES=( "${WORKDIR}"/${PV} )
 
 #
 # NOTE: All the patches must be applicable using patch -p1.
 #
-PATCHES=(
+PATCHES+=(
 	"${FILESDIR}/0001-CHROMIUM-media-headers-Import-V4L2-headers-from-Chro.patch"
 	"${FILESDIR}/0002-CHROMIUM-v4l-Add-VP8-low-level-decoder-API-controls.patch"
 	"${FILESDIR}/0004-CHROMIUM-v4l-Add-VP9-low-level-decoder-API-controls.patch"
@@ -83,22 +84,21 @@ PATCHES=(
 )
 
 src_unpack() {
-	# shellcheck disable=SC2086
-	unpack ${A}
+	# avoid kernel-2_src_unpack
+	default
 }
 
 src_prepare() {
-	[[ -n ${PATCH_VER} ]] && EPATCH_SUFFIX="patch" epatch "${WORKDIR}"/${PV}
-
+	# avoid kernel-2_src_prepare
 	default
 }
 
 src_install() {
 	kernel-2_src_install
 
-	# hrm, build system sucks
-	find "${ED}" '(' -name '.install' -o -name '*.cmd' ')' -delete
-	find "${ED}" -depth -type d -delete 2>/dev/null
+	find "${ED}" \( -name '.install' -o -name '*.cmd' \) -delete || die
+	# delete empty directories
+	find "${ED}" -empty -type d -delete || die
 }
 
 src_test() {
