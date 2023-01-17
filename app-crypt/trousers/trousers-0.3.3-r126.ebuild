@@ -3,13 +3,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-EAPI="5"
+EAPI="7"
 CROS_WORKON_COMMIT="fa0dc2c0271bf58426983bc62a76688cb6698e29"
 CROS_WORKON_TREE="2e6422939d82cc5417cdf3ba4575da55944d404d"
 CROS_WORKON_PROJECT="chromiumos/third_party/trousers"
 CROS_WORKON_EGIT_BRANCH="chromeos-0.3.13"
 
-inherit autotools base cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd tmpfiles user
+inherit autotools cros-debug cros-sanitizers cros-workon flag-o-matic libchrome systemd tmpfiles user
 
 DESCRIPTION="An open-source TCG Software Stack (TSS) v1.1 implementation"
 HOMEPAGE="http://trousers.sf.net"
@@ -37,11 +37,11 @@ pkg_setup() {
 }
 
 src_prepare() {
-	base_src_prepare
-
 	sed -e "s/-Werror //" -i configure.in
 	export FUZZER="$(usev fuzzer)"
 	eautoreconf
+
+	default
 }
 
 src_configure() {
