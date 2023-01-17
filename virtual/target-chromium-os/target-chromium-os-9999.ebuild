@@ -379,6 +379,7 @@ RDEPEND="
 		chromeos-base/crostini_client
 		chromeos-base/vm_host_tools
 		chromeos-base/termina-dlc
+		chromeos-base/termina-tools-dlc
 	)
 	sys-kernel/linux-firmware
 	virtual/chromeos-bsp
