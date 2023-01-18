@@ -28,6 +28,7 @@ DEPEND="
 	!vm_borealis? ( media-libs/mesa )
 	!vm_borealis? ( x11-apps/xkbcomp )
 	!vm_borealis? ( x11-base/xwayland )
+	!vm_borealis? ( chromeos-base/crostini-metric-reporter )
 "
 
 src_install() {
@@ -53,6 +54,7 @@ src_install() {
 			"/usr/bin/Xwayland"
 			"/usr/bin/x11_demo"
 			"/usr/bin/xkbcomp"
+			"/usr/bin/crostini_metric_reporter"
 		)
 	fi
 	"${CHROMITE_BIN_DIR}"/lddtree --root="${SYSROOT}" --bindir=/bin \

@@ -59,6 +59,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	vm-containers? (
 		chromeos-base/crash-reporter
+		chromeos-base/crostini-metric-reporter
 	)
 	!fuzzer? (
 		chromeos-base/sommelier
