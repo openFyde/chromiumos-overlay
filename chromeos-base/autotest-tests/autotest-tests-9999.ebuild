@@ -87,6 +87,7 @@ CLIENT_IUSE_TESTS="
 	+tests_firmware_SetFWMP
 	+tests_firmware_VbootCrypto
 	+tests_flaky_test
+	+tests_fwupd_FirmwareUpdate
 	+tests_hardware_Badblocks
 	+tests_hardware_DiskSize
 	+tests_hardware_EC
