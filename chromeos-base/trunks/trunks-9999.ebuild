@@ -74,13 +74,6 @@ src_install() {
 	insinto /etc/dbus-1/system.d
 	doins org.chromium.Trunks.conf
 
-	insinto /etc/init
-	if use cr50_onboard || use ti50_onboard; then
-		newins trunksd.conf.cr50 trunksd.conf
-	else
-		doins trunksd.conf
-	fi
-
 	if use tpm_dynamic; then
 		sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
 			"${D}/etc/init/trunksd.conf" ||
