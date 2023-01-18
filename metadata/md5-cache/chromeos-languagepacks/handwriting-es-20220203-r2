@@ -9,4 +9,4 @@ REQUIRED_USE=dlc ondevice_handwriting
 SLOT=0
 SRC_URI=gs://chromeos-localmirror/distfiles/languagepack-handwriting-es-20220203.tar.xz
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	dlc	47ecb7815b52e738005f6feab1294a42
-_md5_=e260a2f8598e1f03f27032b2293f6bc8
+_md5_=4445034e2c5b89820237b5a95854c826
