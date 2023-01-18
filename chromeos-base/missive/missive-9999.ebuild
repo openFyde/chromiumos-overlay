@@ -48,7 +48,6 @@ src_install() {
 	dolib.a "${OUT}/libmissiveprotointerface.a"
 	dolib.a "${OUT}/libmissiveprotorecord.a"
 	dolib.a "${OUT}/libmissiveprotorecordconstants.a"
-	dolib.a "${OUT}/libmissiveprotosecurityxdrevents.a"
 	dolib.a "${OUT}/libmissiveprotostatus.a"
 	dolib.a "${OUT}/libmissiveclienttestlib.a"
 
@@ -72,7 +71,6 @@ src_install() {
 		"${OUT}/gen/include/missive/proto/health.pb.h"
 		"${OUT}/gen/include/missive/proto/record.pb.h"
 		"${OUT}/gen/include/missive/proto/record_constants.pb.h"
-		"${OUT}/gen/include/missive/proto/security_xdr_events.pb.h"
 		"${OUT}/gen/include/missive/proto/status.pb.h"
 	)
 	local f

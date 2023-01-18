@@ -5,7 +5,6 @@ EAPI=7
 
 CROS_GO_PACKAGES=(
 	"chromiumos/reporting/..."
-	"chromiumos/xdr/reporting/..."
 )
 
 CROS_WORKON_LOCALNAME="platform2"
