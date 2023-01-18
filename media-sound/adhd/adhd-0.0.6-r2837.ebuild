@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="475ab17455dfa075d4319b2f4af8316ce583d4e5"
-CROS_WORKON_TREE="131d84d6b96ebcdb3072407234b168330d66995f"
+CROS_WORKON_COMMIT="7a450012c5e7af4a366d64a82c14c363775ff019"
+CROS_WORKON_TREE="b2197093b1e6ba3d1f93ce2f27d8e63209d53cd9"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
@@ -21,6 +21,7 @@ bazel_external_uris="
 	https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
 	https://github.com/google/benchmark/archive/refs/tags/v1.5.5.tar.gz -> google-benchmark-1.5.5.tar.gz
+	https://github.com/hedronvision/bazel-compile-commands-extractor/archive/0197fc673a1a6035078ac7790318659d7442e27e.tar.gz -> hedron_compile_commands-0197fc673a1a6035078ac7790318659d7442e27e.tar.gz
 	https://mirror.bazel.build/bazel_coverage_output_generator/releases/coverage_output_generator-v2.5.zip -> coverage_output_generator-v2.5.zip
 	https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz -> bazelbuild-rules_proto-7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz
 	https://mirror.bazel.build/openjdk/azul-zulu11.50.19-ca-jdk11.0.12/zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz -> bazel-zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz
