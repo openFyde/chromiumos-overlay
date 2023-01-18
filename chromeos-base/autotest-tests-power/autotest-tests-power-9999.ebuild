@@ -40,6 +40,7 @@ IUSE_TESTS="
 	+tests_power_Dummy
 	+tests_power_HotCPUSuspend
 	+tests_power_KernelSuspend
+	+tests_power_KeyboardBacklight
 	+tests_power_ProbeDriver
 	shill? ( +tests_power_Resume )
 	+tests_power_Standby
