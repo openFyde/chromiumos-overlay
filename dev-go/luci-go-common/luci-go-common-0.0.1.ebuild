@@ -3,20 +3,29 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci f21543fed307ddf4ed3c9ceb09afbfb52b680d54"
+CROS_GO_SOURCE=(
+	"github.com/op/go-logging v1"
+	"chromium.googlesource.com/infra/luci/luci-go:go.chromium.org/luci bb5c956c102667351c391afaf5389f3b588358ad"
+)
 
 CROS_GO_PACKAGES=(
+	"github.com/op/go-logging"
 	"go.chromium.org/luci/buildbucket/proto"
 	"go.chromium.org/luci/common/bq/pb"
 	"go.chromium.org/luci/common/clock"
 	"go.chromium.org/luci/common/data/cmpbin"
+	"go.chromium.org/luci/common/data/rand/mathrand"
+	"go.chromium.org/luci/common/data/sortby"
 	"go.chromium.org/luci/common/data/stringset"
 	"go.chromium.org/luci/common/data/strpair"
 	"go.chromium.org/luci/common/data/text/indented"
 	"go.chromium.org/luci/common/errors"
 	"go.chromium.org/luci/common/flag"
+	"go.chromium.org/luci/common/gcloud/googleoauth"
+	"go.chromium.org/luci/common/gcloud/iam"
 	"go.chromium.org/luci/common/iotools"
 	"go.chromium.org/luci/common/logging"
+	"go.chromium.org/luci/common/logging/gologger"
 	"go.chromium.org/luci/common/logging/memlogger"
 	"go.chromium.org/luci/common/proto"
 	"go.chromium.org/luci/common/proto/structmask"
@@ -26,6 +35,10 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/luci/common/runtime/goroutine"
 	"go.chromium.org/luci/common/runtime/paniccatcher"
 	"go.chromium.org/luci/common/sync/parallel"
+	"go.chromium.org/luci/common/sync/promise"
+	"go.chromium.org/luci/common/system/environ"
+	"go.chromium.org/luci/common/system/signals"
+	"go.chromium.org/luci/common/system/terminal"
 	"go.chromium.org/luci/gae/internal/zstd"
 	"go.chromium.org/luci/gae/service/blobstore"
 	"go.chromium.org/luci/gae/service/datastore"
