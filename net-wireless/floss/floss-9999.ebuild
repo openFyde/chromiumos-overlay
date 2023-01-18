@@ -81,10 +81,10 @@ DOCS=( README.md )
 src_unpack() {
 	platform_src_unpack
 
-	# TODO(b/261541399) - Limit number of jobs on arm test builds. This
+	# TODO(b/261541399) - Limit number of jobs on test builds. This
 	# specific scenario is causing OOM failures.
 	local local_makeopts="${MAKEOPTS}"
-	if use test && (use arm || use arm64); then
+	if use test; then
 		local_makeopts="${local_makeopts} --jobs 4"
 	fi
 
@@ -122,10 +122,10 @@ src_configure() {
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
 
-	# TODO(b/261541399) - Building generated code for arm for unit-tests
+	# TODO(b/261541399) - Building generated code for unit-tests
 	# seems to fail due to OOM issues. Reduce opt-level to reduce memory
 	# usage.
-	use test && (use arm || use arm64) && rustflags+=( '-C opt-level=0' )
+	use test && rustflags+=( '-C opt-level=0' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
