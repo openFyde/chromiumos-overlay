@@ -1,16 +1,16 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.8"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.9"
 
-inherit cros-workon linux-info meson udev user xdg cros-sanitizers
+inherit cros-workon linux-info meson udev user cros-sanitizers
 
 DESCRIPTION="Aims to make updating firmware on Linux automatic, safe and reliable"
 HOMEPAGE="https://fwupd.org"
-#SRC_URI="https://github.com/${PN}/${PN}/archive/${PV}.tar.gz -> ${P}.tar.gz"
+#SRC_URI="https://github.com/${PN}/${PN}/releases/download/${PV}/${P}.tar.xz"
 
 LICENSE="LGPL-2.1+"
 SLOT="0"
@@ -25,7 +25,7 @@ if [[ ${PV} == "9998" ]] ; then
 	KEYWORDS="*"
 fi
 
-IUSE="agent +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test uefi"
+IUSE="agent amt +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test uefi"
 REQUIRED_USE="
 	dell? ( uefi )
 	fastboot? ( gusb )
@@ -34,13 +34,14 @@ REQUIRED_USE="
 	modemmanager? ( gusb )
 	spi? ( lzma )
 	synaptics? ( gnutls )
+	test? ( gusb )
 	uefi? ( gnutls )
 "
 
 BDEPEND="
 	>=dev-util/meson-0.60.0
 	virtual/pkgconfig
-	gtk-doc? ( dev-util/gtk-doc )
+	gtk-doc? ( >=dev-util/gi-docgen-2021.1 )
 	bash-completion? ( >=app-shells/bash-completion-2.0 )
 	introspection? ( dev-libs/gobject-introspection )
 	man? (
@@ -54,12 +55,11 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.58:2
 	dev-libs/json-glib
 	dev-libs/libgudev:=
-	>=dev-libs/libjcat-0.1.0[gpg?,pkcs7?]
+	>=dev-libs/libjcat-0.1.4[gpg?,pkcs7?]
 	>=dev-libs/libxmlb-0.1.13:=[introspection?]
-	>=net-libs/libsoup-2.51.92:2.4[introspection?]
 	net-misc/curl
 	archive? ( app-arch/libarchive:= )
-	cbor? ( dev-libs/libcbor )
+	cbor? ( dev-libs/libcbor:= )
 	dell? (
 		>=app-crypt/tpm2-tss-2.0
 		>=sys-libs/libsmbios-2.4.0
@@ -103,8 +103,9 @@ src_prepare() {
 	sed -e "/test('thunderbolt-self-test', e, env: test_env, timeout : 120)/d" \
 		-i plugins/thunderbolt/meson.build || die
 
-	sed -e '/platform-integrity/d' \
-		-i plugins/meson.build || die #753521
+	sed -e "/install_dir.*'doc'/s/doc/gtk-doc/" \
+		-i docs/meson.build || die
+
 	if ! use nls ; then
 		echo > po/LINGUAS || die
 	fi
@@ -119,11 +120,13 @@ src_configure() {
 		-Dplugin_pixart_rf="enabled"
 		-Dplugin_powerd="enabled"
 		-Dplugin_realtek_mst="enabled"
+		$(meson_feature amt plugin_intel_me)
 		$(meson_feature dell plugin_dell)
 		$(meson_feature fastboot plugin_fastboot)
 		$(meson_use dummy plugin_dummy)
 		$(meson_feature flashrom plugin_flashrom)
 		$(meson_feature gpio plugin_gpio)
+		$(meson_feature gusb plugin_uf2)
 		$(meson_feature logitech plugin_logitech_bulkcontroller)
 		$(meson_feature modemmanager plugin_modem_manager)
 		$(meson_feature nvme plugin_nvme)
@@ -141,7 +144,6 @@ src_configure() {
 		-Dbuild="$(usex minimal standalone all)"
 		-Dcompat_cli="$(usex agent true false)"
 		-Dcurl="enabled"
-		-Ddocs="$(usex gtk-doc gtkdoc none)"
 		-Defi_binary="false"
 		-Dgudev="enabled"
 		-Dsupported_build="enabled"
@@ -152,6 +154,7 @@ src_configure() {
 		$(meson_feature cbor)
 		$(meson_feature elogind)
 		$(meson_feature gnutls)
+		$(meson_feature gtk-doc docs)
 		$(meson_feature gusb)
 		$(meson_feature lzma)
 		$(meson_use man)
@@ -166,6 +169,10 @@ src_configure() {
 	use uefi && emesonargs+=( -Defi_os_dir="gentoo" )
 	export CACHE_DIRECTORY="${T}"
 	meson_src_configure
+}
+
+src_test() {
+	LC_ALL="C" meson_src_test
 }
 
 src_install() {
