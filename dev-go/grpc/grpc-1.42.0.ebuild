@@ -76,7 +76,7 @@ DEPEND="
 	dev-go/protobuf-legacy-api
 	dev-go/uuid
 	dev-go/xxhash
-	dev-go/yaml:0
+	dev-go/yaml:3
 "
 RDEPEND="
 	${DEPEND}
