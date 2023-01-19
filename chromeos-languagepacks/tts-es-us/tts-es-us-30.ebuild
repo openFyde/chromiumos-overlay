@@ -19,6 +19,9 @@ REQUIRED_USE="dlc"
 # ALlocate 1.5x the 4 KiB blocks needed for the initial version.
 DLC_PREALLOC_BLOCKS="2425"
 
+# Enable scaled design.
+DLC_SCALED=true
+
 # Override S, as we store everything in the root directory of the archive.
 S="${WORKDIR}"
 
