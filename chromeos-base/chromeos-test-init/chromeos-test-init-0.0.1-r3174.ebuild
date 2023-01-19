@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="6"
-CROS_WORKON_COMMIT="b20884b171cf2fd59f17365f8524aff9233bb57d"
-CROS_WORKON_TREE="3d528cbb8171f516ab78e8a97fa4c814ab698ce0"
+CROS_WORKON_COMMIT="0b65b21142fde9fe6c04e60195a0192859908d5f"
+CROS_WORKON_TREE="9b2fae947955b9e649643c2f7f79e9fdfbc06cd2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}"
@@ -33,13 +33,10 @@ src_install() {
 	doins upstart/test-init/*.conf
 
 	insinto /usr/share/cros
-	doins upstart/test-init/*_utils.sh
+	doins upstart/test-init/factory_utils.sh
 
 	if use encrypted_stateful && use tpm2; then
 		insinto /etc/init
 		doins upstart/test-init/encrypted_stateful/create-system-key.conf
-
-		insinto /usr/share/cros
-		doins upstart/test-init/encrypted_stateful/system_key_utils.sh
 	fi
 }
