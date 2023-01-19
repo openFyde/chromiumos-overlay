@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("d88019adeef7e0aec36422d158be6404910ecf5e" "ee8058c433398f85a641faf2fa7a900906d21c3a" "13fd81f0ccfc30666246b13164fa204c6f3d75ba" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "c254238d94712cffbecaee57819372be8976961a")
-CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "0ba5efc51be96ec869aaef5c0bc450ce79efca3e" "5163dbaef10ed9d5d13d8b979cce671785ce8331" "c3473ab29243f136628d4c8708ab647c15f6a411" "8dea31dc55936132c55b3531017f4477a33cf383")
+CROS_WORKON_COMMIT=("03e9b942fed05dee7374cca8dbbace64680244a0" "ee8058c433398f85a641faf2fa7a900906d21c3a" "edcfbb25136d7fb5b581267fa8804e7b694f394e" "68b356f2e7a8c6103eff9662d1d37d52a0f49305" "c254238d94712cffbecaee57819372be8976961a")
+CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "0ba5efc51be96ec869aaef5c0bc450ce79efca3e" "ea5cecec16bfa6686caaf8ef5edd6b025c010657" "c3473ab29243f136628d4c8708ab647c15f6a411" "8dea31dc55936132c55b3531017f4477a33cf383")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/packages/modules/Bluetooth"
@@ -83,10 +83,10 @@ DOCS=( README.md )
 src_unpack() {
 	platform_src_unpack
 
-	# TODO(b/261541399) - Limit number of jobs on arm test builds. This
+	# TODO(b/261541399) - Limit number of jobs on test builds. This
 	# specific scenario is causing OOM failures.
 	local local_makeopts="${MAKEOPTS}"
-	if use test && (use arm || use arm64); then
+	if use test; then
 		local_makeopts="${local_makeopts} --jobs 4"
 	fi
 
@@ -124,10 +124,10 @@ src_configure() {
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
 
-	# TODO(b/261541399) - Building generated code for arm for unit-tests
+	# TODO(b/261541399) - Building generated code for unit-tests
 	# seems to fail due to OOM issues. Reduce opt-level to reduce memory
 	# usage.
-	use test && (use arm || use arm64) && rustflags+=( '-C opt-level=0' )
+	use test && rustflags+=( '-C opt-level=0' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
