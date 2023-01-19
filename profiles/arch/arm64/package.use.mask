@@ -37,8 +37,3 @@ media-plugins/gst-plugins-meta lame taglib
 # David Hendricks <dhendrix@chromium.org> (10 Oct 2011)
 # libpci will cause program to exit(1) during init if PCI not present in system
 sys-apps/flashrom drkaiser gfxnvidia nicintel nicintel_spi nicrealtek ogp_spi satasii
-
-# Pixman @HEAD supports two different flags - neon and a64_neon.
-# The version currently (28 Oct 2021) in portage only supports the neon flag,
-# which will fail because it only detects neon on arm32.
-x11-libs/pixman cpu_flags_arm_neon
