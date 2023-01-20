@@ -14,9 +14,10 @@ KEYWORDS="*"
 IUSE="test"
 
 # Many files provided by this package used to be part of trace-cmd prior to version 3.0.0
-RDEPEND="!<dev-util/trace-cmd-3.0.0"
-DEPEND="${RDEPEND}
+RDEPEND="!<dev-util/trace-cmd-3.0.0
 	dev-libs/libtraceevent:=
+"
+DEPEND="${RDEPEND}
 	test? ( dev-util/cunit )
 "
 
