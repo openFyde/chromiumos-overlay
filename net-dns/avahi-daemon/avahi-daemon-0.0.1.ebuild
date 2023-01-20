@@ -1,7 +1,9 @@
 # Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="4"
+EAPI="7"
+
+inherit tmpfiles
 
 DESCRIPTION="Install the upstart job that launches avahi."
 HOMEPAGE="http://www.chromium.org/"
@@ -24,4 +26,5 @@ src_install() {
 		newins "${FILESDIR}"/init/manual.conf avahi.conf
 	fi
 	newins "${FILESDIR}"/init/cgroup.conf avahi-cgroup.conf
+	newtmpfiles "${FILESDIR}/tmpfiles.conf" avahi.conf
 }
