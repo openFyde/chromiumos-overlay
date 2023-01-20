@@ -66,6 +66,10 @@ source /mnt/host/source/src/third_party/chromiumos-overlay/chromeos/config/make.
 # Recommended MARCH_TUNE, CFLAGS, etc.
 MARCH_TUNE=""
 
+# We maintain the list of SDK packages explicitly and update them in parallel.
+# Disable BDEPEND support when building for boards to speed things up.
+EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdepends=n"
+
 # Allow a board to override or define additional settings.
 source make.conf.board
 
@@ -82,10 +86,6 @@ COMMON_COMPILER_FLAGS=""
 LDFLAGS="${LDFLAGS} -Wl,--gc-sections -Wl,--icf=all"
 
 CROS_BASE_RUSTFLAGS="${BOARD_RUSTFLAGS}"
-
-# We maintain the list of SDK packages explicitly and update them in parallel.
-# Disable BDEPEND support when building for boards to speed things up.
-EMERGE_DEFAULT_OPTS="${EMERGE_DEFAULT_OPTS} --with-bdepends=n"
 
 # Allow the user to override or define additional settings.
 source make.conf.user
