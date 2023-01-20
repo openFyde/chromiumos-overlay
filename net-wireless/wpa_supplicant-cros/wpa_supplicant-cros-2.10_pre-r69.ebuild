@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("781f160b8393cbc3ebeb2c3cc3a09685c0f5a864" "781f160b8393cbc3ebeb2c3cc3a09685c0f5a864")
-CROS_WORKON_TREE=("8309db8239e1d69cdf36e4f109ab1c10acc0c789" "8309db8239e1d69cdf36e4f109ab1c10acc0c789")
+CROS_WORKON_COMMIT=("1721111613d68e287f8cf5de060364f68574f167" "1721111613d68e287f8cf5de060364f68574f167")
+CROS_WORKON_TREE=("56e4ba1e72fcf1e327f80594b9a5d961eb73b472" "56e4ba1e72fcf1e327f80594b9a5d961eb73b472")
 CROS_WORKON_PROJECT=("chromiumos/third_party/hostap" "chromiumos/third_party/hostap")
 CROS_WORKON_LOCALNAME=("../third_party/wpa_supplicant-cros/current" "../third_party/wpa_supplicant-cros/next")
 CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9.1" "wpa_supplicant-2.9.1")
