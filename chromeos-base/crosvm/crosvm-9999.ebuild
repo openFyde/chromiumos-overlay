@@ -98,6 +98,12 @@ src_compile() {
 	export CROSVM_BUILD_VARIANT="chromeos"
 
 	local features=(
+		"audio"
+		"balloon"
+		"config-file"
+		"qcow"
+		"usb"
+		$(usex crosvm-gpu gpu "")
 		$(usex crosvm-gpu virgl_renderer "")
 		$(usex crosvm-gpu virgl_renderer_next "")
 		$(usex crosvm-plugin plugin "")
@@ -128,6 +134,7 @@ src_compile() {
 
 	for pkg in "${packages[@]}"; do
 		ecargo_build -v \
+		 	--no-default-features \
 			--features="${features[*]}" \
 			-p "${pkg}" ||
 			die "cargo build failed"
@@ -135,7 +142,8 @@ src_compile() {
 
 	if use crosvm-direct; then
 		ecargo_build -v \
-			--no-default-features --features="direct,chromeos" \
+			--no-default-features \
+			--features="direct,chromeos" \
 			-p "crosvm" --bin crosvm-direct ||
 			die "cargo build failed"
 	fi
