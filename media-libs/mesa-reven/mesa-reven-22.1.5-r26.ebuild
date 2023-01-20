@@ -9,7 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_EGIT_BRANCH="chromeos-reven"
 CROS_WORKON_LOCALNAME="mesa-reven"
 
-inherit base flag-o-matic meson toolchain-funcs cros-workon
+inherit flag-o-matic meson toolchain-funcs cros-workon
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"

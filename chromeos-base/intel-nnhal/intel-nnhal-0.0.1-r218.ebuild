@@ -3,9 +3,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d6a3bae39c0d766578f048053a081f552508ef76"
+CROS_WORKON_COMMIT="1a1324ad51779d63feab1aa0b2c2c752c84c5d8d"
 CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
-inherit base cros-workon platform unpacker
+inherit cros-workon platform unpacker
 
 DESCRIPTION="Intel NNAPI HAL"
 HOMEPAGE="https://github.com/intel/nn-hal"

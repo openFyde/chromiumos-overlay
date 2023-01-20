@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 
-EAPI=6
+EAPI=7
 
 CROS_WORKON_COMMIT="236e1db1ec5fa58a5bab19aa8f757dbd9755d39f"
 CROS_WORKON_TREE="b2295a841572b35cb1b63175fad7d7e3a92eca5e"
@@ -10,7 +10,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
 CROS_WORKON_EGIT_BRANCH="chromeos-freedreno"
 
-inherit base meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
+inherit meson multilib-minimal flag-o-matic toolchain-funcs cros-workon arc-build
 
 DESCRIPTION="OpenGL-like graphic library for Linux"
 HOMEPAGE="http://mesa3d.sourceforge.net/"
