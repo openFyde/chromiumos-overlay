@@ -12,7 +12,7 @@ DESCRIPTION="Tests Effects Stream Manipulator"
 
 PLATFORM_SUBDIR="camera/features/effects/tests"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-cros_effects_test_assets-0.0.3.tar.xz"
+SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-cros_effects_test_assets-0.0.4.tar.xz"
 RESTRICT="mirror"
 
 inherit cros-workon unpacker platform
