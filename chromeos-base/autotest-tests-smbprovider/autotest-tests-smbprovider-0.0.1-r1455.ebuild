@@ -1,33 +1,34 @@
-# Copyright 2014 The ChromiumOS Authors
+# Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="b9ce62d54944fa600276d1e84f026377e8d0bb24"
-CROS_WORKON_TREE="7971871978c85336ef0f5c1e86731f3e09c4225e"
+
+CROS_WORKON_COMMIT="8ef44a046cd6b1c36e10716d6680a8ed8fda135e"
+CROS_WORKON_TREE="089a0a0801d97413593448684334f74997f7bfaf"
+PYTHON_COMPAT=( python3_{6..9} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="shill autotests"
+DESCRIPTION="SmbProvider Autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
-
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 # Enable autotest by default.
-IUSE="+autotest +tpm tpm2"
+IUSE="${IUSE} +autotest"
 
 RDEPEND="
-	!<chromeos-base/autotest-tests-0.0.3
-	chromeos-base/shill-test-scripts
+	chromeos-base/chromeos-chrome
+	chromeos-base/autotest-chrome
 "
+
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_network_WiFiResume
-	+tests_network_WlanPresent
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
