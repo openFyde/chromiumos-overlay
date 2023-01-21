@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install nofetch postinst test unpack
-DEPEND=dev-go/crypto dev-go/xerrors dev-go/yaml:0 dev-lang/go
+DEPEND=dev-go/crypto dev-go/xerrors dev-go/yaml:3 dev-lang/go
 DESCRIPTION=packages for writing tools that work directly with Go module mechanics
 EAPI=7
 HOMEPAGE=https://golang.org/x/mod
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=dev-go/crypto dev-go/xerrors dev-go/yaml:0
+RDEPEND=dev-go/crypto dev-go/xerrors dev-go/yaml:3
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://go.googlesource.com/mod/+archive/v0.5.1.tar.gz -> go.googlesource.com-mod-v0.5.1.tar.gz
 _eclasses_=cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=aaca925839a3569f0a085ff6ce8840c9
+_md5_=992a4f1ca14015118a61d943b6e590ac
