@@ -71,7 +71,6 @@ multilib_src_configure() {
 		-Dgles1=enabled
 		-Dgles2=enabled
 		-Dshared-glapi=enabled
-		-Ddri-drivers=
 		-Dgallium-drivers=iris
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled

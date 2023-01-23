@@ -182,7 +182,6 @@ src_configure() {
 		$(meson_feature gles2)
 		$(meson_feature zstd)
 		$(meson_use selinux)
-		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
@@ -207,15 +206,6 @@ src_install() {
 			doins "${S}/$(get_libdir)/gallium/${x}"
 		fi
 	done
-}
-
-# $1 - VIDEO_CARDS flag (check skipped for "--")
-# other args - names of DRI drivers to enable
-dri_driver_enable() {
-	if [[ $1 == -- ]] || use "$1"; then
-		shift
-		DRI_DRIVERS+=("$@")
-	fi
 }
 
 gallium_enable() {

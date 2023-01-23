@@ -55,9 +55,6 @@ src_configure() {
 
 	cros_optimize_package_for_speed
 
-	# Intel code
-	dri_driver_enable video_cards_intel i965
-
 	gallium_enable video_cards_llvmpipe swrast
 
 	# ATI code
@@ -87,7 +84,6 @@ src_configure() {
 		-Dgles1=disabled
 		-Dgles2=enabled
 		$(meson_feature zstd)
-		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
 		--buildtype $(usex debug debug release)
@@ -108,15 +104,6 @@ src_install() {
 	# Set driconf option to enable S3TC hardware decompression
 	insinto "/etc/"
 	doins "${FILESDIR}"/drirc
-}
-
-# $1 - VIDEO_CARDS flag (check skipped for "--")
-# other args - names of DRI drivers to enable
-dri_driver_enable() {
-	if [[ $1 == -- ]] || use $1; then
-		shift
-		DRI_DRIVERS+=("$@")
-	fi
 }
 
 gallium_enable() {

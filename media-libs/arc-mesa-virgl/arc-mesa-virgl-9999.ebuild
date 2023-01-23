@@ -195,7 +195,6 @@ multilib_src_configure() {
 		$(meson_use gles2)
 		$(meson_use selinux)
 		$(meson_use shared-glapi)
-		-Ddri-drivers=
 		-Dgallium-drivers="${GALLIUM_DRIVERS}"
 		-Dvulkan-drivers="${VULKAN_DRIVERS}"
 		--buildtype $(usex debug debug release)

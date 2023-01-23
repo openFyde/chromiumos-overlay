@@ -64,7 +64,6 @@ src_configure() {
 		-Dgles1=disabled
 		-Dgles2=enabled
 		-Dshared-glapi=enabled
-		-Ddri-drivers=
 		-Dgallium-drivers=iris
 		-Dgallium-vdpau=disabled
 		-Dgallium-xa=disabled

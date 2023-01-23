@@ -54,9 +54,6 @@ src_configure() {
 multilib_src_configure() {
 	tc-getPROG PKG_CONFIG pkg-config
 
-	# Intel code
-	dri_driver_enable video_cards_intel i965
-
 	gallium_enable video_cards_llvmpipe swrast
 
 	# ATI code
@@ -100,7 +97,6 @@ multilib_src_configure() {
 		-Dgles1=enabled
 		-Dgles2=enabled
 		-Dshared-glapi=enabled
-		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dvideo-codecs=h264dec,h264enc,h265dec
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
 		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
@@ -189,15 +185,6 @@ multilib_src_install_all() {
 	# Install the dri header for arc-cros-gralloc
 	insinto "${ARC_PREFIX}/vendor/include/"
 	doins -r "${S}/include/GL/"
-}
-
-# $1 - VIDEO_CARDS flag (check skipped for "--")
-# other args - names of DRI drivers to enable
-dri_driver_enable() {
-	if [[ $1 == -- ]] || use "$1"; then
-		shift
-		DRI_DRIVERS+=("$@")
-	fi
 }
 
 gallium_enable() {

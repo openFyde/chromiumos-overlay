@@ -93,7 +93,6 @@ multilib_src_configure() {
 		-Dgles2=enabled
 		-Dshared-glapi=enabled
 		$(meson_use selinux)
-		-Ddri-drivers=
 		-Dgallium-drivers="virgl,freedreno"
 		-Dvulkan-drivers=
 		--buildtype $(usex debug debug release)

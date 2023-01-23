@@ -128,7 +128,6 @@ src_configure() {
 		$(meson_feature gles2)
 		$(meson_feature zstd)
 		$(meson_use selinux)
-		-Ddri-drivers="$(driver_list "${DRI_DRIVERS[*]}")"
 		-Dgallium-drivers="$(driver_list "${GALLIUM_DRIVERS[*]}")"
 		-Dvulkan-drivers="$(driver_list "${VULKAN_DRIVERS[*]}")"
 		--buildtype $(usex debug debug release)
