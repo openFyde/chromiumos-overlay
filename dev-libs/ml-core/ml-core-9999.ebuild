@@ -32,29 +32,6 @@ src_configure() {
 	platform_src_configure
 }
 
-src_install() {
-	platform_src_install
-	dolib.so "${OUT}"/lib/libcros_ml_core.so
-
-	# TODO (b/263434835): re-enable once we're sure this doesn't
-	#                     interfere with the cros-camera service
-	#                     downloading DLC
-	# insinto /etc/init
-	# doins opencl_caching/init/opencl-cacher.conf
-
-	# # Only on AMD64 for now
-	# insinto /usr/share/policy
-	# doins opencl_caching/seccomp_filter/opencl-cacher-amd64.policy
-
-	# insinto /etc/dbus-1/system.d
-	# doins opencl_caching/dbus/opencl-cacher-dbus.conf
-
-	local daemon_store="/etc/daemon-store/ml-core-effects"
-	dodir "${daemon_store}"
-	fperms 0770 "${daemon_store}"
-	fowners ml-core:ml-core "${daemon_store}"
-}
-
 platform_pkg_test() {
 	platform test_all
 }
