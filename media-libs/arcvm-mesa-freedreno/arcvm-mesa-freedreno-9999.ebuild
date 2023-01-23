@@ -77,11 +77,11 @@ multilib_src_configure() {
 		--prefix="${ARC_VM_PREFIX}/vendor"
 		--sysconfdir=/system/vendor/etc
 		-Ddri-search-path="/system/$(get_libdir)/dri:/system/vendor/$(get_libdir)/dri"
-		-Dgallium-va=false
-		-Dgallium-vdpau=false
+		-Dgallium-va=disabled
+		-Dgallium-vdpau=disabled
 		-Dgallium-omx=disabled
 		-Dglx=disabled
-		-Ddri3=false
+		-Ddri3=disabled
 		-Dgles-lib-suffix=_mesa
 		-Degl-lib-suffix=_mesa
 		-Dfreedreno-virtio=true

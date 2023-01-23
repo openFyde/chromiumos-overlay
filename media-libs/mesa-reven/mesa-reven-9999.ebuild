@@ -103,7 +103,7 @@ src_configure() {
 
 	LLVM_ENABLE=false
 	if use llvm; then
-		emesonargs+=( -Dshared-llvm=false )
+		emesonargs+=( -Dshared-llvm=disabled )
 		export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 		LLVM_ENABLE=true
 	fi

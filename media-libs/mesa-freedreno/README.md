@@ -194,9 +194,9 @@ Vulkan drivers using:
 
 ```bash
 $ meson --buildtype debug --wrap-mode nodownload --cross-file meson.armv7a-cros-linux-gnueabihf \
-    -Dllvm=false -Ddri3=false -Dglx=disabled -Degl=true -Dgbm=false -Dgles1=false -Dgles2=true \
-	-Dshared-glapi=true -Ddri-drivers= -Dgallium-drivers=freedreno -Dgallium-vdpau=false \
-	-Dgallium-xa=false -Dplatforms=surfaceless -Dvulkan-drivers=freedreno -DI-love-half-baked-turnips=true . build-debug
+    -Dllvm=disabled -Ddri3=disabled -Dglx=disabled -Degl=enabled -Dgbm=disabled -Dgles1=disabled -Dgles2=enabled \
+	-Dshared-glapi=enabled -Ddri-drivers= -Dgallium-drivers=freedreno -Dgallium-vdpau=disabled \
+	-Dgallium-xa=disabled -Dplatforms=surfaceless -Dvulkan-drivers=freedreno -DI-love-half-baked-turnips=true . build-debug
 ```
 
 ### Building
