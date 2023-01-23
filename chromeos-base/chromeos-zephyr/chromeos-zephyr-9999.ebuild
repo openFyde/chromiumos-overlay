@@ -14,7 +14,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"third_party/zephyr/main/"
+	"third_party/zephyr/main"
 	"third_party/zephyr/cmsis"
 	"third_party/zephyr/hal_stm32"
 	"third_party/zephyr/nanopb"
