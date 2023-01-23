@@ -65,11 +65,12 @@ cros_pre_src_prepare_cross() {
 			# No need to cross compile for this case.
 			;;
 		"arm" | "arm64")
+			cp "${BASHRC_FILESDIR}/${ARCH}_waf_config_answers" "${T}" || die
 			local waf="${T}/waf"
 			cat<<EOF>"${waf}"
 			#!/bin/sh
 			# WAF_BINARY must be set from the ebuild.
-			exec "${WAF_BINARY}" "\$@" --cross-compile --cross-answers="${BASHRC_FILESDIR}/${ARCH}_waf_config_answers"
+			exec "${WAF_BINARY}" "\$@" --cross-compile --cross-answers="${T}/${ARCH}_waf_config_answers"
 EOF
 
 			chmod a+rx "${waf}"

@@ -5,7 +5,7 @@ EAPI=7
 
 PYTHON_COMPAT=( python3_{6..9} )
 PYTHON_REQ_USE="threads(+),xml(+)"
-inherit python-single-r1 waf-utils multilib-minimal linux-info systemd pam tmpfiles
+inherit flag-o-matic python-single-r1 waf-utils multilib-minimal linux-info systemd pam tmpfiles
 
 DESCRIPTION="Samba Suite Version 4"
 HOMEPAGE="https://samba.org/"
@@ -23,12 +23,12 @@ S="${WORKDIR}/${MY_P}"
 LICENSE="GPL-3"
 SLOT="0"
 IUSE="acl addc ads ceph client cluster cpu_flags_x86_aes cups debug fam
-glusterfs gpg iprint json ldap pam profiling-data python quota regedit selinux
-snapper spotlight syslog system-heimdal +system-mitkrb5 systemd test winbind
+glusterfs gpg iprint json ldap llvm-libunwind pam profiling-data -python quota regedit selinux
+snapper spotlight syslog system-heimdal +system-mitkrb5 systemd test unwind winbind
 zeroconf"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
-	addc? ( python json winbind )
+	addc? ( python json !system-mitkrb5 winbind )
 	ads? ( acl ldap winbind )
 	cluster? ( ads )
 	gpg? ( addc )
@@ -67,7 +67,7 @@ COMMON_DEPEND="
 		>=sys-fs/e2fsprogs-1.46.4-r51[${MULTILIB_USEDEP}]
 		sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
 	)
-	>=sys-libs/ldb-2.4.1[ldap(+)?,${MULTILIB_USEDEP}]
+	>=sys-libs/ldb-2.4.4[ldap(+)?,${MULTILIB_USEDEP}]
 	<sys-libs/ldb-2.5.0[ldap(+)?,${MULTILIB_USEDEP}]
 	sys-libs/libcap[${MULTILIB_USEDEP}]
 	sys-libs/ncurses:0=
@@ -86,11 +86,11 @@ COMMON_DEPEND="
 	fam? ( virtual/fam )
 	gpg? ( app-crypt/gpgme:= )
 	json? ( dev-libs/jansson:= )
-	ldap? ( net-nds/openldap[${MULTILIB_USEDEP}] )
+	ldap? ( net-nds/openldap:=[${MULTILIB_USEDEP}] )
 	pam? ( sys-libs/pam )
 	snapper? ( sys-apps/dbus )
 	system-heimdal? ( >=app-crypt/heimdal-1.5[-ssl,${MULTILIB_USEDEP}] )
-	system-mitkrb5? ( >=app-crypt/mit-krb5-1.15.1[${MULTILIB_USEDEP}] )
+	system-mitkrb5? ( >=app-crypt/mit-krb5-1.19[${MULTILIB_USEDEP}] )
 	systemd? ( sys-apps/systemd:0= )
 	zeroconf? ( net-dns/avahi[dbus] )
 "
@@ -103,7 +103,6 @@ DEPEND="${COMMON_DEPEND}
 	)
 	spotlight? ( dev-libs/glib )
 	test? (
-		$(python_gen_cond_dep "dev-python/subunit[\${PYTHON_USEDEP},${MULTILIB_USEDEP}]" )
 		!system-mitkrb5? (
 			>=net-dns/resolv_wrapper-1.1.4
 			>=net-libs/socket_wrapper-1.1.9
@@ -114,10 +113,9 @@ DEPEND="${COMMON_DEPEND}
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chrome-icu:=
 	client? ( net-fs/cifs-utils[ads?] )
-	python? ( ${PYTHON_DEPS} )
 	selinux? ( sec-policy/selinux-samba )
 "
-BDEPEND="${PYTHON_DEPS}
+BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
 	virtual/pkgconfig
@@ -125,6 +123,9 @@ BDEPEND="${PYTHON_DEPS}
 
 PATCHES=(
 	"${FILESDIR}/${PN}-4.4.0-pam.patch"
+	"${FILESDIR}/ldb-2.5.2-skip-wav-tevent-check.patch"
+	"${FILESDIR}/${PN}-4.15.9-libunwind-automagic.patch"
+	"${FILESDIR}/${PN}-4.15.12-configure-clang16.patch"
 
 	# Chrome OS specific patches that aren't upstream
 	"${FILESDIR}/${PN}-4.11.13-machinepass_stdin.patch"
@@ -182,6 +183,9 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# ChromeOS: enable LFS support.
+	append-lfs-flags
+
 	# when specifying libs for samba build you must append NONE to the end to
 	# stop it automatically including things
 	local bundled_libs="NONE"
@@ -224,6 +228,7 @@ multilib_src_configure() {
 		$(multilib_native_use_with syslog)
 		$(multilib_native_use_with systemd)
 		--with-systemddir="$(systemd_get_systemunitdir)"
+		$(multilib_native_use_with unwind libunwind)
 		$(multilib_native_use_with winbind)
 		$(multilib_native_usex python '' '--disable-python')
 		$(multilib_native_use_enable zeroconf avahi)
@@ -333,17 +338,4 @@ multilib_src_test() {
 
 pkg_postinst() {
 	tmpfiles_process samba.conf
-
-	if [[ -z ${REPLACING_VERSIONS} ]] ; then
-		elog "Be aware that this release contains the best of all of Samba's"
-		elog "technology parts, both a file server (that you can reasonably expect"
-		elog "to upgrade existing Samba 3.x releases to) and the AD domain"
-		elog "controller work previously known as 'samba4'."
-		elog
-	fi
-	if [[ "${PV}" != *_rc* ]] ; then
-		elog "For further information and migration steps make sure to read "
-		elog "https://samba.org/samba/history/${P}.html "
-		elog "https://wiki.samba.org/index.php/Samba4/HOWTO "
-	fi
 }
