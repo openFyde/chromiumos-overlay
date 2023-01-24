@@ -6,5 +6,5 @@ KEYWORDS=*
 LICENSE=BSD-Google
 RDEPEND=chromeos-base/chromeos-base dev-util/android-tools sys-apps/baselayout
 SLOT=0
-_eclasses_=user	1b888a245e4633b8646748a93a000b36
+_eclasses_=user	4e2ffee100481639425c80355dd60c7b
 _md5_=bd4ec70dfe8e51b25c390ef69163f78a

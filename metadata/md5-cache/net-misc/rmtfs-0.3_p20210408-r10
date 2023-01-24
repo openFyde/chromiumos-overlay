@@ -9,5 +9,5 @@ LICENSE=BSD
 RDEPEND=net-libs/libqrtr:= virtual/udev:= sys-apps/baselayout
 SLOT=0
 SRC_URI=https://github.com/andersson/rmtfs/archive/293ab8babb27ac0f24247bb101fed9420c629c29.tar.gz -> rmtfs-0.3_p20210408.tar.gz
-_eclasses_=cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	1b888a245e4633b8646748a93a000b36
+_eclasses_=cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
 _md5_=9126b568e8e3995f2567e5433d1fe9b2
