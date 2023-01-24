@@ -891,6 +891,11 @@ cros-rust_publish() {
 		rm -f Cargo.toml.orig || die
 	fi
 
+	if [[ -n "${CROS_WORKON_PROJECT}" ]]; then
+		[[ -e "${FILESDIR}/chromeos-version.sh" ]] || die \
+			"Missing chromeos-version.sh. Please add one for installation to work properly."
+	fi
+
 	# Create the .crate file.
 	ecargo package --allow-dirty --no-metadata --no-verify --offline || die
 
