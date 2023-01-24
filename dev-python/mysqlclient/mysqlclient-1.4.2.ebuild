@@ -1,15 +1,15 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI="7"
 
-PYTHON_COMPAT=( python2_7 python3_{5,6,7} pypy )
+PYTHON_COMPAT=( python3_{6..8} )
 
 inherit distutils-r1
 
 DESCRIPTION="Fork of MySQL-python"
 HOMEPAGE="https://pypi.org/project/mysqlclient/ https://github.com/PyMySQL/mysqlclient-python"
-SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.post1.tar.gz -> ${PF}.tar.gz"
+SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${P}.post1.tar.gz -> ${P}-r2.tar.gz"
 S="${WORKDIR}/${P}.post1"
 
 SLOT="0"
