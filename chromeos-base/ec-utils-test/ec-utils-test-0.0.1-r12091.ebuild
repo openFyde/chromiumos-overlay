@@ -2,12 +2,20 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d93ce30aabb04d96f1b632dda847aac992f5a562"
-CROS_WORKON_TREE="f0a573c24fcba530c543ffdf62e640f34020db48"
+CROS_WORKON_COMMIT="964e9e398a160c46dfe1a07cc6ef555e358a21b0"
+CROS_WORKON_TREE="5bb44ebf7ac3b48f4460cb5c60a8702ec300d9d5"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 CROS_WORKON_INCREMENTAL_BUILD=1
 PYTHON_COMPAT=( python3_{6..9} pypy3 )
+
+# This ebuild is upreved via PuPR, so disable the normal uprev process for
+# cros-workon ebuilds.
+#
+# To uprev manually, run:
+#    cros_mark_as_stable --force --overlay-type private --packages \
+#     chromeos-base/ec-utils-test commit
+CROS_WORKON_MANUAL_UPREV="1"
 
 inherit cros-workon python-r1
 
