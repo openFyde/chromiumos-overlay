@@ -3,10 +3,9 @@
 
 EAPI="6"
 
-PYTHON_COMPAT=( python2_7 python3_{4,5,6,7} )
 CMAKE_MAKEFILE_GENERATOR="ninja"
 
-inherit flag-o-matic bash-completion-r1 ninja-utils toolchain-funcs cmake-utils python-r1 python-utils-r1
+inherit flag-o-matic bash-completion-r1 ninja-utils toolchain-funcs cmake-utils
 
 MY_PV="${PV/_p/_r}"
 MY_P=${PN}-${MY_PV}
@@ -32,14 +31,13 @@ SRC_URI="https://git.archlinux.org/svntogit/community.git/snapshot/community-0ff
 LICENSE="Apache-2.0 BSD-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="python"
+IUSE=""
 
 DEPEND="sys-libs/zlib:=
 	dev-libs/libpcre2:=
 	dev-libs/openssl:=
 	virtual/libusb:1="
-RDEPEND="${DEPEND}
-	python? ( ${PYTHON_DEPS} )"
+RDEPEND="${DEPEND}"
 DEPEND+="
 	dev-lang/go"
 
@@ -149,6 +147,5 @@ src_compile() {
 src_install() {
 	dobin adb e2fsdroid ext2simg fastboot mke2fs.android
 	dodoc core/adb/*.{txt,TXT} core/fastboot/README.md
-	use python && python_foreach_impl python_doexe core/mkbootimg/mkbootimg
 	newbashcomp arch/trunk/bash_completion.fastboot fastboot
 }
