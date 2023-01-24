@@ -17,6 +17,10 @@ SRC_URI="
 	https://github.com/YosysHQ/nextpnr/archive/${GIT_REV}.tar.gz -> nextpnr-${GIT_REV}.tar.gz
 	https://github.com/YosysHQ/nextpnr-tests/archive/${TESTS_GIT_REV}.tar.gz -> nextpnr-tests-${TESTS_GIT_REV}.tar.gz
 "
+PATCHES=(
+	# https://github.com/YosysHQ/nextpnr/pull/1081
+	"${FILESDIR}/0001-use-eigen-as-an-IMPORTED-target-in-CMake.patch"
+)
 
 LICENSE="ISC"
 SLOT="0"
