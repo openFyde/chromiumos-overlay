@@ -4,7 +4,7 @@
 EAPI=7
 
 # python_requires='>=3.5'
-PYTHON_COMPAT=( python3_{5..9} )
+PYTHON_COMPAT=( python3_{6..9} )
 inherit distutils-r1
 
 DESCRIPTION="Python module containing data files for Ethernet TAP Config misc."

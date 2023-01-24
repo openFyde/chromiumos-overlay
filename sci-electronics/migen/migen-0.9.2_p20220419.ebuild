@@ -4,7 +4,7 @@
 EAPI=7
 
 # setup.py: "You need Python 3.3+"
-PYTHON_COMPAT=( python3_{3..9} )
+PYTHON_COMPAT=( python3_{6..9} )
 inherit distutils-r1
 
 DESCRIPTION="Python toolbox for building complex digital hardware."
