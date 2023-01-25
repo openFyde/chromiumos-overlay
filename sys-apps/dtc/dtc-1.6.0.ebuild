@@ -1,9 +1,9 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI="7"
 
-PYTHON_COMPAT=( python3_6 python3_7 python3_8 )
+PYTHON_COMPAT=( python3_{6..9} )
 DISTUTILS_OPTIONAL="1"
 inherit multilib toolchain-funcs eutils distutils-r1
 
@@ -38,8 +38,7 @@ DOCS="
 "
 
 src_prepare() {
-	# patch -p0 does not work when creating files, so force -p1.
-	EPATCH_OPTS="-p1" epatch "${FILESDIR}"/*.patch
+	eapply "${FILESDIR}"/*.patch
 
 	default
 
@@ -53,7 +52,7 @@ src_prepare() {
 		Makefile || die
 
 	if use python ; then
-		cd pylibfdt
+		cd pylibfdt || die
 		distutils-r1_src_prepare
 	fi
 }
@@ -63,7 +62,7 @@ src_configure() {
 	export V=1
 
 	if use python ; then
-		cd pylibfdt
+		cd pylibfdt || die
 		distutils-r1_src_configure
 	fi
 }
@@ -72,7 +71,7 @@ src_compile() {
 	emake NO_PYTHON=1
 
 	if use python ; then
-		cd pylibfdt
+		cd pylibfdt || die
 		distutils-r1_src_compile
 	fi
 }
@@ -83,7 +82,7 @@ src_install() {
 	use static-libs || find "${ED}" -name '*.a' -delete
 
 	if use python ; then
-		cd pylibfdt
+		cd pylibfdt || die
 		distutils-r1_src_install
 	fi
 }
