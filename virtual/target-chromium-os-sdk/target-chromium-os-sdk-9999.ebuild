@@ -622,3 +622,7 @@ RDEPEND="${RDEPEND}
 # Needed for cros-llvm.
 RDEPEND="${RDEPEND}
 	dev-python/dataclasses"
+
+# Needed for app-metrics/node_exporter.
+RDEPEND="${RDEPEND}
+	dev-util/promu"
