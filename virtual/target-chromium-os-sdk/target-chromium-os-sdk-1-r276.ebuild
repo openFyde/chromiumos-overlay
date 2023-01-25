@@ -254,6 +254,7 @@ RDEPEND="${RDEPEND}
 # other slots correspond to LTS releases packaged by us.
 RDEPEND="${RDEPEND}
 	dev-util/bazel:0
+	dev-util/bazel:5
 	"
 
 # Various fonts are needed in order to generate messages for the
