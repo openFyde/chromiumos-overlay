@@ -1,1 +1,1 @@
-include chromiumos/third_party/hostap:master:/OWNERS
+include chromiumos/third_party/hostap:wpa_supplicant-2.9.1:/OWNERS
