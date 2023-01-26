@@ -17,7 +17,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~*"
 
-VIDEO_CARDS="intel amdgpu radeon freedreno llvmpipe"
+VIDEO_CARDS="intel amdgpu r300 r600 freedreno llvmpipe"
 for card in ${VIDEO_CARDS}; do
 	IUSE_VIDEO_CARDS+=" video_cards_${card}"
 done
@@ -57,8 +57,9 @@ src_configure() {
 
 	gallium_enable video_cards_llvmpipe swrast
 
-	# ATI code
-	gallium_enable video_cards_radeon r300 r600
+	# AMD code
+	gallium_enable video_cards_r300 r300
+	gallium_enable video_cards_r600 r600
 	gallium_enable video_cards_amdgpu radeonsi
 
 	# Freedreno code
@@ -84,12 +85,12 @@ src_configure() {
 		-Dgles1=disabled
 		-Dgles2=enabled
 		$(meson_feature zstd)
-		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
-		-Dvulkan-drivers=$(driver_list "${VULKAN_DRIVERS[*]}")
+		-Dgallium-drivers="$(driver_list "${GALLIUM_DRIVERS[*]}")"
+		-Dvulkan-drivers="$(driver_list "${VULKAN_DRIVERS[*]}")"
 		--buildtype $(usex debug debug release)
 		-Dgallium-va=enabled
 		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
-		-Dvideo-codecs=h264dec,h264enc,h265dec,h265enc,vc1dec
+		-Dvideo-codecs="h264dec,h264enc,h265dec,h265enc,vc1dec"
 	)
 
 	meson_src_configure
@@ -107,14 +108,14 @@ src_install() {
 }
 
 gallium_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1" ; then
 		shift
 		GALLIUM_DRIVERS+=("$@")
 	fi
 }
 
 vulkan_enable() {
-	if [[ $1 == -- ]] || use $1; then
+	if [[ $1 == -- ]] || use "$1" ; then
 		shift
 		VULKAN_DRIVERS+=("$@")
 	fi
