@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("7f6228a9191ef75553cef1bfe965a3ad18137133" "987f3dd3b54c77f18de024f930385c16eca82baf")
+CROS_WORKON_COMMIT=("676c7b00721d4ad1a0a8562765e00cab45feba17" "987f3dd3b54c77f18de024f930385c16eca82baf")
 CROS_WORKON_TREE=("6836462cc3ac7e9ff3ce4e355c68c389eb402bff" "7a2b467a60d0af2fdacb9e9d703f88d59d045efc")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -32,33 +32,16 @@ PLATFORM_NAMES=(
 	"Asuka"
 	"Asurada"
 	"Caroline"
-	"Cave"
 	"Chell"
 	"Cherry"
-	"Coral"
 	"Corsola"
-	"Dedede"
-	"Fizz"
 	"Generic"
-	"Glados"
 	"Gru"
-	"Grunt"
-	"Hatch"
 	"Herobrine"
-	"Kalista"
 	"Kukui"
-	"Lars"
 	"Oak"
-	"Octopus"
-	"Poppy"
-	"Puff"
-	"Reef"
 	"Sarien"
-	"Sentry"
-	"Strago"
 	"Trogdor"
-	"Volteer"
-	"Zork"
 )
 PLATFORM_NAME_USE_FLAGS=()
 for platform_name in "${PLATFORM_NAMES[@]}"; do
