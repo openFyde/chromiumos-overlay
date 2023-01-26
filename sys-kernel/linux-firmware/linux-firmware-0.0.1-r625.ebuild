@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="92fcfeaa629ebd7a199dad8d3f670c0a5fc3a825"
-CROS_WORKON_TREE="a58576b6c74e43caf19173911a151d142246b0ae"
+CROS_WORKON_COMMIT="3a32252ddaf265c3cadd7c059225f93431af74b2"
+CROS_WORKON_TREE="aa9c06be1d58f5b93a8f24b73eb682f45ae76d11"
 CROS_WORKON_PROJECT="chromiumos/third_party/linux-firmware"
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_EGIT_BRANCH="master"
@@ -348,9 +348,9 @@ install_iwlwifi() {
 			;;
 		iwlwifi-so)
 			case "${kernel}" in
-			kernel-5_15)     doins "${x}-a0-gf-a0-77.ucode" ;;
+			kernel-5_15)     doins "${x}-a0-gf-a0-79.ucode" ;;
 			kernel-upstream) doins "${x}-a0-gf-a0-72.ucode" ;;
-			*)               doins "${x}-a0-gf-a0-77.ucode" ;;
+			*)               doins "${x}-a0-gf-a0-79.ucode" ;;
 			esac
 			doins "${x}-a0-gf-a0.pnvm" ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
