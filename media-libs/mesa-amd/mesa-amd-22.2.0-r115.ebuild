@@ -81,13 +81,13 @@ src_configure() {
 		-Dglvnd=$(usex libglvnd true false)
 		-Dshader-cache-default=false
 		-Dglx=disabled
-		-Dllvm=true
-		-Dshared-llvm=false
+		-Dllvm=enabled
+		-Dshared-llvm=disabled
 		-Dplatforms=
-		-Degl=true
-		-Dgbm=false
-		-Dgles1=false
-		-Dgles2=true
+		-Degl=enabled
+		-Dgbm=disabled
+		-Dgles1=disabled
+		-Dgles2=enabled
 		$(meson_feature zstd)
 		-Ddri-drivers=$(driver_list "${DRI_DRIVERS[*]}")
 		-Dgallium-drivers=$(driver_list "${GALLIUM_DRIVERS[*]}")
