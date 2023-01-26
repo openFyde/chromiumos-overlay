@@ -88,6 +88,9 @@ CLIENT_IUSE_TESTS="
 	+tests_firmware_VbootCrypto
 	+tests_flaky_test
 	+tests_fwupd_FirmwareUpdate
+	+tests_fwupd_FirmwareDowngrade
+	+tests_fwupd_FirmwareInstallVersion
+	+tests_fwupd_FirmwareInstallFile
 	+tests_hardware_Badblocks
 	+tests_hardware_DiskSize
 	+tests_hardware_EC
