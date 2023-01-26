@@ -139,8 +139,8 @@ app-misc/editor-wrapper-4
 dev-util/boost-build-1.65.0
 
 # We don't need the toolchain itself in the target board.
-dev-lang/rust-1.66.1
-dev-lang/rust-host-1.66.1
+dev-lang/rust-1.67.1
+dev-lang/rust-host-1.67.1
 
 # We don't need code generators on the target board.
 dev-rust/bindgen-0.56.0-r2

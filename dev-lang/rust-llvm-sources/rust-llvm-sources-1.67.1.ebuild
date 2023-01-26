@@ -13,8 +13,9 @@ LLVM_NEXT_HASH="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
 EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 EGIT_BRANCH=main
-EGIT_CHECKOUT_DIR=${CROS_RUSTC_LLVM_SRC_DIR}
-S=${CROS_RUSTC_LLVM_SRC_DIR}
+# shellcheck disable=SC2154 # defined by cros-rustc-directories
+EGIT_CHECKOUT_DIR="${CROS_RUSTC_LLVM_SRC_DIR}"
+S="${CROS_RUSTC_LLVM_SRC_DIR}"
 
 LICENSE="UoI-NCSA"
 SLOT="8"
@@ -23,6 +24,7 @@ KEYWORDS="-* amd64"
 IUSE="llvm-next llvm-tot"
 
 pkg_setup() {
+	# shellcheck disable=SC2154 # defined by cros-rustc-directories
 	addwrite "${CROS_RUSTC_DIR}"
 	if ! [[ -e "${CROS_RUSTC_DIR}" ]]; then
 		# shellcheck disable=SC2174

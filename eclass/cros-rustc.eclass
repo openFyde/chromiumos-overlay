@@ -153,7 +153,7 @@ SRC="${MY_P}-src.tar.gz"
 # The version of rust-bootstrap that we're using to build our current Rust
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
-BOOTSTRAP_VERSION="1.65.0"
+BOOTSTRAP_VERSION="1.66.0"
 
 # If `CROS_RUSTC_BUILD_RAW_SOURCES` is nonempty, a full Rust source tree is
 # expected to be available here.
@@ -162,7 +162,8 @@ _CROS_RUSTC_RAW_SOURCES_ROOT="${FILESDIR}/rust"
 HOMEPAGE="https://www.rust-lang.org/"
 
 if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
-	SRC_URI="https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz
+	SRC_URI="
+		https://static.rust-lang.org/dist/${SRC} -> rustc-${PV}-src.tar.gz
 		rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-frontend${PROFDATA_SUFFIX}.profdata.xz )
 		rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-${PV}-llvm${PROFDATA_SUFFIX}.profdata.xz )
 	"
@@ -207,9 +208,11 @@ PATCHES=(
 	"${FILESDIR}/rust-ignore-version-in-mangling.patch"
 )
 
+# shellcheck disable=SC2154 # defined by cros-rustc-directories
 S="${CROS_RUSTC_SRC_DIR}/${MY_P}-src"
 
 _CROS_RUSTC_PREPARED_STAMP="${CROS_RUSTC_SRC_DIR}/cros-rust-prepared"
+# shellcheck disable=SC2154 # defined by cros-rustc-directories
 _CROS_RUSTC_STAGE1_EXISTS_STAMP="${CROS_RUSTC_BUILD_DIR}/cros-rust-has-stage1-build"
 
 CROS_RUSTC_PGO_LOCAL_BASE='/tmp/rust-pgo'
@@ -232,9 +235,10 @@ cros-rustc_pkg_setup() {
 	python-any-r1_pkg_setup
 
 	if [[ ${MERGE_TYPE} != "binary" ]]; then
+		# shellcheck disable=SC2154 # defined by cros-rustc-directories
 		addwrite "${CROS_RUSTC_DIR}"
-		# Disable warnings about 755 only applying to the deepest directory; that's
-		# fine.
+		# Disable warnings about 755 only applying to the deepest
+		# directory; that's fine.
 		# shellcheck disable=SC2174
 		mkdir -p -m 755 "${CROS_RUSTC_DIR}"
 		chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" "${CROS_RUSTC_DIR}"
@@ -294,6 +298,8 @@ cros-rustc_src_unpack() {
 		if [[ -e "${S}" && ! -L "${S}" ]]; then
 			rm -rf "${S}" || die
 		fi
+		# It's OK if 755 applies to the deepest directory.
+		# shellcheck disable=SC2174
 		mkdir -p -m 755 "${CROS_RUSTC_SRC_DIR}"
 		ln -sf "$(readlink -m "${_CROS_RUSTC_RAW_SOURCES_ROOT}")" "${S}" || die
 		default
@@ -307,8 +313,8 @@ cros-rustc_src_unpack() {
 		rm -rf "${dirs[@]}"
 	fi
 
-	# Disable warnings about 755 only applying to the deepest directory; that's
-	# fine.
+	# Disable warnings about 755 only applying to the deepest directory;
+	# that's fine.
 	# shellcheck disable=SC2174
 	mkdir -p -m 755 "${dirs[@]}"
 	(cd "${CROS_RUSTC_SRC_DIR}" && default)
@@ -318,6 +324,7 @@ cros-rustc_src_unpack() {
 
 cros-rustc_llvm-description() {
 	if use rust_cros_llvm; then
+		# shellcheck disable=SC2154 # defined by cros-rustc-directories
 		git -C "${CROS_RUSTC_LLVM_SRC_DIR}" rev-parse HEAD || die
 	else
 		echo "default"
@@ -484,11 +491,6 @@ cros-rustc_src_configure() {
 		profiler = true
 		build-dir = "${CROS_RUSTC_BUILD_DIR}"
 		${bootstrap_compiler_info}
-
-		# We always want optimized builtins, and also we get linker
-		# errors when compiling for the aarch64-cros-linux-gnu target if
-		# this is not `true`.
-		optimized-compiler-builtins = true
 
 		[llvm]
 		ccache = ${use_ccache}
