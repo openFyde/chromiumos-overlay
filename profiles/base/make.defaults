@@ -22,7 +22,8 @@ USE_EXPAND="ABI_ARM ABI_MIPS ABI_PPC ABI_S390 ABI_X86 ALSA_CARDS APACHE2_MODULES
 USE_EXPAND_HIDDEN="USERLAND KERNEL ELIBC ABI_ARM ABI_MIPS ABI_PPC ABI_S390 ABI_X86 CPU_FLAGS_X86"
 
 # Basic CONFIG_PROTECT is defined by portage make.globals in /usr/share. That is really bad, kill it here.
-CONFIG_PROTECT="-/etc"
+# Leave one (fake) path in to avoid portage warning the value is empty.
+CONFIG_PROTECT="-/etc /fake-file"
 CONFIG_PROTECT_MASK="/etc/env.d /etc/gconf"
 
 # Variables that are set exclusively by the profile
