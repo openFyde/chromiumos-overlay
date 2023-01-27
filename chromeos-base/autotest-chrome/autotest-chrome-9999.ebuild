@@ -87,6 +87,7 @@ IUSE_TESTS=(
 	+tests_platform_LogoutPerf
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
+	+tests_power_BasicBrowsing
 	+tests_power_BatteryDrain
 	+tests_power_CellularIdle
 	+tests_power_Display
