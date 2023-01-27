@@ -4203,5 +4203,19 @@
       "from": 486419,
       "until": 486533
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "[InlineCost] model calls to llvm.objectsize.*"
+    },
+    "platforms": [
+      "chromeos"
+    ],
+    "rel_patch_path": "cherry/f1764d5b594ff6edbf8d17d196eb0b7a653ac0fc.patch",
+    "version_range": {
+      "from": 475826,
+      "until": 487630
+    }
   }
 ]
