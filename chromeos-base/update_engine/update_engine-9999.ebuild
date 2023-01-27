@@ -12,6 +12,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE=("common-mk diagnostics .gn" "")
 
 PLATFORM_SUBDIR="update_engine"
+# Tests use /dev/loop*.
+PLATFORM_HOST_DEV_TEST="yes"
 
 inherit cros-debug cros-workon platform systemd
 

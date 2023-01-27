@@ -10,6 +10,8 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_SUBTREE="common-mk init metrics .gn"
 
 PLATFORM_NATIVE_TEST="yes"
+# Tests probe the root device.
+PLATFORM_HOST_DEV_TEST="yes"
 PLATFORM_SUBDIR="init"
 
 inherit tmpfiles cros-workon platform user

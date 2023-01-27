@@ -30,6 +30,12 @@
 # If set to yes, run the test only for amd64 and x86.
 : "${PLATFORM_NATIVE_TEST:=no}"
 
+# @ECLASS-VARIABLE: PLATFORM_HOST_DEV_TEST
+# @DESCRIPTION:
+# If set to yes, make the full host's /dev available.  This is needed for tests
+# that interact with e.g. /dev/loop nodes.
+: "${PLATFORM_HOST_DEV_TEST:=no}"
+
 # @ECLASS-VARIABLE: PLATFORM_BUILD
 # @DESCRIPTION:
 # Indicates whether this is a platform build by setting a non-empty value.
@@ -184,6 +190,9 @@ platform_test() {
 	if use cros_host; then
 		cmd+=( --host )
 	fi
+	if [[ "${PLATFORM_HOST_DEV_TEST}" == "yes" ]]; then
+		cmd+=( --bind-mount-dev )
+	fi
 	if [[ "${run_as_root}" == "1" ]]; then
 		cmd+=( --run_as_root )
 	fi
@@ -254,6 +263,8 @@ platform_src_test() {
 	[[ "${PLATFORM_NATIVE_TEST}" == "yes" ]] && ! platform_is_native &&
 		ewarn "Skipping unittests for non-x86: ${PN}" && return 0
 
+	# Make sure this is available to platform2_test.py when run via platform2.py.
+	export PLATFORM_HOST_DEV_TEST
 	[[ "$(type -t platform_pkg_test)" == "function" ]] && platform_pkg_test
 	platform_test "post_test"
 }

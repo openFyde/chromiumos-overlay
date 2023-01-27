@@ -10,6 +10,8 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
 CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libec libmems metrics mojo_service_manager rmad .gn"
 
+# Tests use /dev/loop*.
+PLATFORM_HOST_DEV_TEST="yes"
 PLATFORM_SUBDIR="rmad"
 
 inherit cros-workon cros-unibuild platform tmpfiles user

@@ -10,6 +10,8 @@ CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_SUBTREE="common-mk cros-disks metrics .gn"
 
 PLATFORM_SUBDIR="cros-disks"
+# Tests use /dev/loop*.
+PLATFORM_HOST_DEV_TEST="yes"
 
 inherit cros-workon platform user
 
