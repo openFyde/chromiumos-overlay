@@ -12,17 +12,23 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
  
  SUMMARY = """
  Python is an interpreted, interactive, object-oriented programming
-@@ -126,6 +128,9 @@ def sysroot_paths(make_vars, subdirs):
+@@ -126,6 +128,15 @@ def sysroot_paths(make_vars, subdirs):
        headers or libraries.
      """
  
 +    if GENTOO_SYSROOT:
-+        return [GENTOO_SYSROOT]
++        dirs = []
++        for subdir in subdirs:
++            subdir.lstrip(os.sep)
++            path = os.path.join(GENTOO_SYSROOT, subdir)
++            if os.path.isdir(path):
++                dirs.append(path)
++        return dirs
 +
      dirs = []
      for var_name in make_vars:
          var = sysconfig.get_config_var(var_name)
-@@ -653,8 +658,8 @@ class PyBuildExt(build_ext):
+@@ -653,8 +664,8 @@ class PyBuildExt(build_ext):
          # directories (i.e. '.' and 'Include') must be first.  See issue
          # 10520.
          if not CROSS_COMPILING:
@@ -33,7 +39,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
          # only change this for cross builds for 3.3, issues on Mageia
          if CROSS_COMPILING:
              self.add_cross_compiling_paths()
-@@ -670,9 +675,9 @@ class PyBuildExt(build_ext):
+@@ -670,9 +681,9 @@ class PyBuildExt(build_ext):
              # building a framework with different architectures than
              # the one that is currently installed (issue #7473)
              add_dir_to_list(self.compiler.library_dirs,
@@ -45,7 +51,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
  
          system_lib_dirs = ['/@@GENTOO_LIBDIR@@', '/usr/@@GENTOO_LIBDIR@@']
          system_include_dirs = ['/usr/include']
-@@ -957,11 +962,11 @@ class PyBuildExt(build_ext):
+@@ -957,11 +968,11 @@ class PyBuildExt(build_ext):
              elif curses_library:
                  readline_libs.append(curses_library)
              elif self.compiler.find_library_file(self.lib_dirs +
@@ -59,7 +65,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
                                 extra_link_args=readline_extra_link_args,
                                 libraries=readline_libs))
          else:
-@@ -975,7 +980,7 @@ class PyBuildExt(build_ext):
+@@ -975,7 +986,7 @@ class PyBuildExt(build_ext):
          if curses_library == 'ncursesw':
              curses_defines.append(('HAVE_NCURSESW', '1'))
              if not CROSS_COMPILING:
@@ -68,7 +74,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
              # Bug 1464056: If _curses.so links with ncursesw,
              # _curses_panel.so must link with panelw.
              panel_library = 'panelw'
-@@ -1127,6 +1132,7 @@ class PyBuildExt(build_ext):
+@@ -1127,6 +1138,7 @@ class PyBuildExt(build_ext):
              db_inc_paths.append('/usr/local/include/db3%d' % x)
              db_inc_paths.append('/pkg/db-3.%d/include' % x)
              db_inc_paths.append('/opt/db-3.%d/include' % x)
@@ -76,7 +82,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
  
          if CROSS_COMPILING:
              db_inc_paths = []
-@@ -1373,7 +1379,7 @@ class PyBuildExt(build_ext):
+@@ -1373,7 +1385,7 @@ class PyBuildExt(build_ext):
              sysroot = macosx_sdk_root()
  
          for d_ in self.inc_dirs + sqlite_inc_paths:
@@ -85,7 +91,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
              if MACOS and is_macosx_sdk_path(d):
                  d = os.path.join(sysroot, d[1:])
  
-@@ -1684,7 +1684,7 @@
+@@ -1678,7 +1690,7 @@ class PyBuildExt(build_ext):
  
      def detect_uuid(self):
          # Build the _uuid module if possible
@@ -94,7 +100,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
          if uuid_incs is not None:
              if self.compiler.find_library_file(self.lib_dirs, 'uuid'):
                  uuid_libs = ['uuid']
-@@ -1803,7 +1809,7 @@ class PyBuildExt(build_ext):
+@@ -1803,7 +1815,7 @@ class PyBuildExt(build_ext):
          # For 8.4a2, the X11 headers are not included. Rather than include a
          # complicated search, this is a hard-coded path. It could bail out
          # if X11 libs are not found...
@@ -103,7 +109,7 @@ This is needed to build the installed standard modules (e.g. readline & zlib).
          frameworks = ['-framework', 'Tcl', '-framework', 'Tk']
  
          # All existing framework builds of Tcl/Tk don't support 64-bit
-@@ -1917,8 +1923,8 @@ class PyBuildExt(build_ext):
+@@ -1917,8 +1929,8 @@ class PyBuildExt(build_ext):
              added_lib_dirs.append('/usr/X11R5/@@GENTOO_LIBDIR@@')
          else:
              # Assume default location for X11
