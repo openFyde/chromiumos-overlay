@@ -26,6 +26,11 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
+PATCHES=(
+	# Make --mount-point option generally available.
+	"${FILESDIR}"/erofs-utils-1.5-mount-point.patch
+)
+
 src_prepare() {
 	default
 	eautoreconf

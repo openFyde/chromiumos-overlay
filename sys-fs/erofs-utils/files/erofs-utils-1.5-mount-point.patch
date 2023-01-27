@@ -1,0 +1,96 @@
+From a8e246d8405f569774735dd20652e7bed9d64f93 Mon Sep 17 00:00:00 2001
+From: Kelvin Zhang <zhangkelvin@google.com>
+Date: Thu, 7 Jul 2022 10:40:58 -0700
+Subject: erofs-utils: Make --mount-point option generally available
+
+This option does not have any android specific dependencies. It is also
+useful for all selinux enabled fs images, so move it out of android
+specific feature sets.
+
+e.g. mkfs.erofs --file-contexts=selinux_context_file
+--mount_point=/product product.img your_product_out_dir
+
+Signed-off-by: Kelvin Zhang <zhangkelvin@google.com>
+Reviewed-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+Link: https://lore.kernel.org/r/20220707174058.1577159-1-zhangkelvin@google.com
+Signed-off-by: Gao Xiang <hsiangkao@linux.alibaba.com>
+---
+ include/erofs/config.h | 2 +-
+ lib/xattr.c            | 2 --
+ mkfs/main.c            | 6 +++---
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/include/erofs/config.h b/include/erofs/config.h
+index 0d0916c..2daf46c 100644
+--- a/include/erofs/config.h
++++ b/include/erofs/config.h
+@@ -67,8 +67,8 @@ struct erofs_configure {
+ 	u32 c_dict_size;
+ 	u64 c_unix_timestamp;
+ 	u32 c_uid, c_gid;
++	const char *mount_point;
+ #ifdef WITH_ANDROID
+-	char *mount_point;
+ 	char *target_out_path;
+ 	char *fs_config_file;
+ 	char *block_list_file;
+diff --git a/lib/xattr.c b/lib/xattr.c
+index 71ffe3e..c8ce278 100644
+--- a/lib/xattr.c
++++ b/lib/xattr.c
+@@ -210,12 +210,10 @@ static struct xattr_item *erofs_get_selabel_xattr(const char *srcpath,
+ 		unsigned int len[2];
+ 		char *kvbuf, *fspath;
+
+-#ifdef WITH_ANDROID
+ 		if (cfg.mount_point)
+ 			ret = asprintf(&fspath, "/%s/%s", cfg.mount_point,
+ 				       erofs_fspath(srcpath));
+ 		else
+-#endif
+ 			ret = asprintf(&fspath, "/%s", erofs_fspath(srcpath));
+ 		if (ret <= 0)
+ 			return ERR_PTR(-ENOMEM);
+diff --git a/mkfs/main.c b/mkfs/main.c
+index d2c9830..deb8e1f 100644
+--- a/mkfs/main.c
++++ b/mkfs/main.c
+@@ -51,8 +51,8 @@ static struct option long_options[] = {
+ 	{"blobdev", required_argument, NULL, 13},
+ 	{"ignore-mtime", no_argument, NULL, 14},
+ 	{"preserve-mtime", no_argument, NULL, 15},
+-#ifdef WITH_ANDROID
+ 	{"mount-point", required_argument, NULL, 512},
++#ifdef WITH_ANDROID
+ 	{"product-out", required_argument, NULL, 513},
+ 	{"fs-config-file", required_argument, NULL, 514},
+ 	{"block-list-file", required_argument, NULL, 515},
+@@ -105,9 +105,9 @@ static void usage(void)
+ #ifndef NDEBUG
+ 	      " --random-pclusterblks randomize pclusterblks for big pcluster (debugging only)\n"
+ #endif
++	      " --mount-point=X       X=prefix of target fs path (default: /)\n"
+ #ifdef WITH_ANDROID
+ 	      "\nwith following android-specific options:\n"
+-	      " --mount-point=X       X=prefix of target fs path (default: /)\n"
+ 	      " --product-out=X       X=product_out directory\n"
+ 	      " --fs-config-file=X    X=fs_config file\n"
+ 	      " --block-list-file=X   X=block_list file\n"
+@@ -323,7 +323,6 @@ static int mkfs_parse_options_cfg(int argc, char *argv[])
+ 		case 10:
+ 			cfg.c_compress_hints_file = optarg;
+ 			break;
+-#ifdef WITH_ANDROID
+ 		case 512:
+ 			cfg.mount_point = optarg;
+ 			/* all trailing '/' should be deleted */
+@@ -331,6 +330,7 @@ static int mkfs_parse_options_cfg(int argc, char *argv[])
+ 			if (opt && optarg[opt - 1] == '/')
+ 				optarg[opt - 1] = '\0';
+ 			break;
++#ifdef WITH_ANDROID
+ 		case 513:
+ 			cfg.target_out_path = optarg;
+ 			break;
+--
+cgit
