@@ -49,25 +49,21 @@ BAZEL_CC_BUILD='package(default_visibility = ["//visibility:public"])
 
 filegroup(name = "empty")
 
-# We should really be using @platforms//cpu:x86_64 and friends, but
-# to keep this compatible with Bazel 0.24.1, we need to use the legacy
-# definitions.
-# TODO(crbug/1102798): Once Bazel is uprevved, change these to the @platforms defs.
 amd64_constraints = [
-	"@bazel_tools//platforms:x86_64",
-	"@bazel_tools//platforms:linux",
+	"@platforms//cpu:x86_64",
+	"@platforms//os:linux",
 ]
 
 k8_constraints = amd64_constraints
 
 arm_constraints = [
-	"@bazel_tools//platforms:arm",
-	"@bazel_tools//platforms:linux",
+	"@platforms//cpu:arm",
+	"@platforms//os:linux",
 ]
 
 aarch64_constraints = [
-	"@bazel_tools//platforms:aarch64",
-	"@bazel_tools//platforms:linux",
+	"@platforms//cpu:aarch64",
+	"@platforms//os:linux",
 ]
 
 arm64_constraints = aarch64_constraints
