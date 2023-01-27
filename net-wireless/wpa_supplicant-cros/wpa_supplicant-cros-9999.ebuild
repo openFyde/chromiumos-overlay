@@ -4,7 +4,7 @@
 EAPI=7
 CROS_WORKON_PROJECT=("chromiumos/third_party/hostap" "chromiumos/third_party/hostap")
 CROS_WORKON_LOCALNAME=("../third_party/wpa_supplicant-cros/current" "../third_party/wpa_supplicant-cros/next")
-CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9.1" "wpa_supplicant-2.9.1")
+CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9.1" "wpa_supplicant-2.10.0")
 CROS_WORKON_DESTDIR=("${S}/wpa_supplicant-cros/current" "${S}/wpa_supplicant-cros/next")
 CROS_WORKON_OPTIONAL_CHECKOUT=("use !supplicant-next" "use supplicant-next")
 
