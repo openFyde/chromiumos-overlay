@@ -177,13 +177,17 @@ src_install() {
 	local rt_install_path
 	if [[ -d "${D}${libdir}/clang/${clang_full_version}" ]]; then
 		rt_install_path="${D}${libdir}/clang/${clang_full_version}"
+		# Copy files from /path/<num>.0.0 to /path/<num>.
+		cp -r "${rt_install_path}" "${D}${libdir}/clang/${major_version}" || die
 	elif [[ -d "${D}${libdir}/clang/${major_version}" ]]; then
 		rt_install_path="${D}${libdir}/clang/${major_version}"
+		# Copy files from /path/<num> to /path/<num>.0.0 .
+		cp -r "${rt_install_path}" "${D}${libdir}/clang/${clang_full_version}" || die
 	else
 		die "Could not find installed compiler-rt files."
 	fi
-	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${new_full_version}"
-	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${new_major_version}"
-	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${old_full_version}"
-	cp -r  "${rt_install_path}" "${D}${libdir}/clang/${old_major_version}"
+	cp -r "${rt_install_path}" "${D}${libdir}/clang/${new_full_version}" || die
+	cp -r "${rt_install_path}" "${D}${libdir}/clang/${new_major_version}" || die
+	cp -r "${rt_install_path}" "${D}${libdir}/clang/${old_full_version}" || die
+	cp -r "${rt_install_path}" "${D}${libdir}/clang/${old_major_version}" || die
 }
