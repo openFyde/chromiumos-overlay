@@ -39,9 +39,6 @@ IUSE="
 
 REQUIRED_USE="?? ( has-kernelnext is-kernelnext )"
 
-RDEPEND="
-	tests_firmware_Mosys? ( sys-apps/mosys )
-"
 DEPEND="${RDEPEND}
 	!<chromeos-base/autotest-0.0.2
 "
@@ -228,7 +225,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_MiniDiag
 	+tests_firmware_MiniosMenu
 	+tests_firmware_MiniosPriority
-	+tests_firmware_Mosys
 	+tests_firmware_PDConnect
 	+tests_firmware_PDDataSwap
 	+tests_firmware_PDPowerSwap
