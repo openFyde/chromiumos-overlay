@@ -112,6 +112,7 @@ src_prepare() {
 
 multilib_src_configure() {
 	sanitizers-setup-env
+	append-lfs-flags
 
 	export DSOFLAGS="${LDFLAGS}"
 
@@ -129,6 +130,9 @@ multilib_src_configure() {
 
 	# Default pkgconfig path is /usr/lib, which isn't correct for 64-bit.
 	myconf+=( "--with-pkgconfpath=/usr/$(get_libdir)/pkgconfig" )
+
+	# Allow non-root to run cupsd so the launcher can access it.
+	myconf+=( "--with-cupsd-file-perm=0555" )
 
 	# The tests use googletest (C++), so make sure correct C++ version is
 	# enabled.
@@ -191,6 +195,12 @@ multilib_src_compile() {
 	else
 		emake libs
 	fi
+
+	# Suppress warning for quoting because we want these to expand into
+	# multiple arguments.
+	# shellcheck disable=SC2086
+	"$(tc-getCC)" ${CFLAGS} ${CPPFLAGS} ${LDFLAGS} -o cups_launcher \
+		"${S}/chromeos/cups_launcher.c"
 }
 
 multilib_src_test() {
@@ -223,6 +233,7 @@ multilib_src_install() {
 		emake BUILDROOT="${D}" STRIPPROG=true install-libs install-headers
 		dobin cups-config
 	fi
+	dosbin cups_launcher
 }
 
 multilib_src_install_all() {
@@ -303,7 +314,6 @@ multilib_src_install_all() {
 	doins "${FILESDIR}"/{cupsd,cupsd-debug,cups-files}.conf
 	if use upstart; then
 		insinto /etc/init
-		doins "${FILESDIR}"/init/cups-post-upstart-socket-bridge.conf
 		doins "${FILESDIR}"/init/cupsd.conf
 	fi
 
