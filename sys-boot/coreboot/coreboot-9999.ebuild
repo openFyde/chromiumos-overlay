@@ -64,7 +64,7 @@ IUSE="amd_cpu intel_cpu"
 # GSC
 IUSE="${IUSE} mocktpm ti50_onboard"
 # AMD chipsets
-IUSE="${IUSE} chipset_cezanne chipset_stoneyridge"
+IUSE="${IUSE} chipset_cezanne chipset_mendocino chipset_stoneyridge"
 # Debug
 IUSE="${IUSE} fw_debug intel_debug intel-compliance-test-mode"
 # Qualcomm ramdump
@@ -107,6 +107,7 @@ DEPEND="
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
+	chipset_mendocino? ( sys-boot/amd-mendocino-fsp:= )
 	chromeos-base/chromeos-config:=
 	"
 
