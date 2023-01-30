@@ -27,6 +27,10 @@ RDEPEND="${DEPEND}"
 # CONTRIBUTING.md and README.md are available only in .tar.gz tarballs and in git
 DOCS=( NEWS CONTRIBUTING.md README.md )
 
+PATCHES=(
+        "${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
+)
+
 src_prepare() {
 	default
 	sed -e 's/-Werror//' -i test/Makefile.am || die
