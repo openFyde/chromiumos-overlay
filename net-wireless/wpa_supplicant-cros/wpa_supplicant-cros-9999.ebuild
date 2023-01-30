@@ -38,7 +38,7 @@ CDEPEND="
 	)
 	!libressl? ( dev-libs/openssl:0=[bindist=] )
 	libressl? ( dev-libs/libressl:0= )
-	smartcard? ( dev-libs/engine_pkcs11 )
+	smartcard? ( dev-libs/libp11 )
 "
 DEPEND="${CDEPEND}
 	virtual/pkgconfig
