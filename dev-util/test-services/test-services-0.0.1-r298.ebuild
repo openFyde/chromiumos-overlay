@@ -19,6 +19,7 @@ KEYWORDS="*"
 IUSE=""
 
 DEPEND="
+	dev-util/android-provision
 	dev-util/cros-dut
 	dev-util/cros-provision
 	dev-util/cros-publish
