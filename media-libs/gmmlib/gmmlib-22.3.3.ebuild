@@ -18,6 +18,10 @@ SLOT="0/12.1"
 IUSE="+custom-cflags test"
 RESTRICT="!test? ( test )"
 
+PATCHES=(
+        "${FILESDIR}"/${PN}-20.2.2_conditional_testing.patch
+)
+
 src_configure() {
 	local mycmakeargs=(
 		-DBUILD_TESTING="$(usex test)"
