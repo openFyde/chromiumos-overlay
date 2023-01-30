@@ -24,6 +24,8 @@ RDEPEND="${DEPEND}"
 PATCHES=(
         "${FILESDIR}"/${PN}-21.4.2-Remove-unwanted-CFLAGS.patch
 	"${FILESDIR}"/${PN}-20.4.5_testing_in_src_test.patch
+
+	"${FILESDIR}"/0001-Disable-IPC-usage.patch
 )
 
 src_configure() {
