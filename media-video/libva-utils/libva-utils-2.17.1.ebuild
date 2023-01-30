@@ -24,12 +24,6 @@ DEPEND="
 "
 RDEPEND="${DEPEND}"
 
-PATCHES=(
-	"${FILESDIR}"/0001-Add-a-flag-to-build-vendor.patch
-	"${FILESDIR}"/0002-renderD129.patch
-	"${FILESDIR}"/0003-test-test_va_api_query_config-Changed-default-initia.patch
-)
-
 # CONTRIBUTING.md and README.md are available only in .tar.gz tarballs and in git
 DOCS=( NEWS CONTRIBUTING.md README.md )
 
