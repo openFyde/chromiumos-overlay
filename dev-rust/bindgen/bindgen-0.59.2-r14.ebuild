@@ -1,1 +1,0 @@
-bindgen-0.59.2.ebuild

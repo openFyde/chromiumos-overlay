@@ -3,6 +3,7 @@
 
 EAPI="7"
 
+CROS_RUST_CRATE_NAME=bindgen-cli
 CROS_RUST_PREINSTALLED_REGISTRY_CRATE=1
 
 inherit cros-rust
