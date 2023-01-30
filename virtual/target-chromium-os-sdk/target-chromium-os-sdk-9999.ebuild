@@ -107,6 +107,7 @@ RDEPEND="${RDEPEND}
 	sys-boot/syslinux
 	sys-devel/crossdev
 	sys-fs/dosfstools
+	sys-fs/erofs-utils
 	sys-fs/squashfs-tools
 	sys-fs/mtd-utils
 	"
