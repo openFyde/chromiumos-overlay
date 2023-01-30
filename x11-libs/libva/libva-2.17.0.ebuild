@@ -32,10 +32,10 @@ PDEPEND="
 			internal? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
 			!internal? (
 				intel_ihd_pavp? ( x11-libs/libva-intel-media-driver-pavp[${MULTILIB_USEDEP}] )
-				!intel_ihd_pavp? ( ~x11-libs/libva-intel-media-driver-22.4.4[${MULTILIB_USEDEP}] )
+				!intel_ihd_pavp? ( ~x11-libs/libva-intel-media-driver-22.6.6[${MULTILIB_USEDEP}] )
 			)
 		)
-		!intel_oemcrypto? ( ~x11-libs/libva-intel-media-driver-22.4.4[${MULTILIB_USEDEP}] )
+		!intel_oemcrypto? ( ~x11-libs/libva-intel-media-driver-22.6.6[${MULTILIB_USEDEP}] )
 	)
 	video_cards_amdgpu? ( virtual/opengles[${MULTILIB_USEDEP}] )
 	utils? ( media-video/libva-utils )
