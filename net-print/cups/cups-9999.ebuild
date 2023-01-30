@@ -132,6 +132,10 @@ multilib_src_configure() {
 	# Allow non-root to run cupsd so the launcher can access it.
 	myconf+=( "--with-cupsd-file-perm=0555" )
 
+	# Enable compiling extra debug messages.  Only printed when the cupsd
+	# debug level is increased.
+	myconf+=( "--enable-debug-printfs" )
+
 	# The tests use googletest (C++), so make sure correct C++ version is
 	# enabled.
 	append-cxxflags -std=gnu++17
