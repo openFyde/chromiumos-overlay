@@ -1,0 +1,50 @@
+# Copyright 2021 The ChromiumOS Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="9ea7c7658291878bf488dcff635f5adf3e625226"
+CROS_WORKON_TREE=("5a857fb996a67f6c9781b916ba2d6076e9dcd0a6" "b7465773239f891cff0dcb3bbd6833f772f0f3e9" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "3315ca035b4671df021c670123003fac297b7a13" "83a5a22af215681f2f876a0c1de1caa4b709a898" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_INCREMENTAL_BUILD=1
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk chromeos-config libcrossystem libec runtime_probe .gn"
+
+PLATFORM_SUBDIR="runtime_probe/factory_runtime_probe"
+
+inherit cros-workon cros-unibuild platform
+
+DESCRIPTION="Device component probe tool **for factory environment**."
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/runtime_probe/"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="cros-debug"
+
+# TODO(yhong): Extract common parts with runtime_probe-9999.ebuild to a shared
+#     eclass.
+
+COMMON_DEPEND="
+	chromeos-base/chromeos-config-tools:=
+	chromeos-base/cros-camera-libs:=
+	chromeos-base/debugd-client:=
+	chromeos-base/libcrossystem:=
+	chromeos-base/libec:=
+	chromeos-base/shill-client:=
+	dev-libs/libpcre:=
+	media-libs/minigbm:=
+"
+
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/ec-utils
+"
+
+DEPEND="${COMMON_DEPEND}
+	chromeos-base/system_api:=[fuzzer?]
+"
+
+platform_pkg_test() {
+	platform test_all
+}
