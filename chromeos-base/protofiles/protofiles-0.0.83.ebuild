@@ -61,13 +61,13 @@ CROS_WORKON_MANUAL_UPREV=1
 #   packages that rely on the new policies. If you added new device
 #   policy encodings above that will at least be authpolicy.
 CROS_WORKON_COMMIT=(
-	"0a335b307b97779589a6828946c658f9b0ba22e4" # policy
+	"3dcd79bfc149d6a0a5d8f2f40ab940537e7b1bd8" # policy
 	"5002331b66116d528835c23acb74f8ccb3f15b3f" # private_membership
 	"440551151d85692470264b74e7489793d60ce665" # shell-encryption
 )
 # git rev-parse $HASH:./
 CROS_WORKON_TREE=(
-	"f3c5e24df2fb1c5dd1e6cb5732c325d72ff687c3" # policy
+	"601d498a0e9c905df60246bb361c79b54d050ef9" # policy
 	"a83f4104face8b61cabf507a1b40cbec984e8672" # private_membership
 	"cb14a218c5ab69221281d6f5f4a252c9de7ceb29" # shell-encryption
 )
