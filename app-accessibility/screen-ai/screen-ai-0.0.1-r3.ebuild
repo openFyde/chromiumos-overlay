@@ -50,28 +50,51 @@ src_install() {
 	# Install Main Content Extraction model files.
 	doins screen2x_config.pbtxt screen2x_model.tflite
 
-	# Install Layout Extraction model files.
-	# We need to put Layout Extraction model files in the same directory
+	# Install OCR model files.
+	# We need to put OCR model files in the same directory
 	# structure as their Google3 locations. This requierment will be removed
 	# after we update the file handling so that the files would be loaded in
 	# Chrome and passed to the binary.
-	doins taser_tflite_latinscreen_scriptid_mobile_engine_ti.binarypb
-	doins taser_tflite_latinscreen_scriptid_mobile_recognizer.binarypb
+	doins \
+		taser_tflite_gocrlatinconvnext320_mbv2_scriptid_aksara_layout_gro_mobile_engine_ti.binarypb
+	doins \
+		taser_tflite_gocrlatinconvnext320_mbv2_scriptid_aksara_layout_gro_mobile_recognizer.binarypb
+	insinto "$(dlc_add_path /aksara)"
+	doins \
+		aksara/aksara_page_layout_analysis_ti_rpn_gro.binarypb
+	insinto "$(dlc_add_path /gocr)"
+	insinto "$(dlc_add_path /gocr/gocr_models)"
+	insinto \
+		"$(dlc_add_path /gocr/gocr_models/line_recognition_mobile_convnext320)"
+	doins \
+		gocr/gocr_models/line_recognition_mobile_convnext320/tflite_langid.tflite
+	doins \
+		gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc_cpu.binarypb
+	insinto \
+		"$(dlc_add_path /gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc)"
+	insinto \
+		"$(dlc_add_path /gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical)"
+	doins \
+		gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical/LabelMap.pb
+	doins \
+		gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical/model.fb
+	insinto "$(dlc_add_path /layout)"
+	insinto "$(dlc_add_path /gocr/layout/line_splitting_custom_ops)"
+	doins gocr/layout/line_splitting_custom_ops/model.tflite
+	insinto "$(dlc_add_path /gocr/layout/cluster_sort_custom_ops)"
+	doins gocr/layout/cluster_sort_custom_ops/model.tflite
 	insinto "$(dlc_add_path /taser)"
-	doins taser/rpn_text_detection_tflite_screen_mobile.binarypb
-	doins taser/taser_page_layout_analysis_ti_mobile.binarypb
+	doins taser/rpn_text_detection_tflite_mobile_mbv2.binarypb
 	doins taser/taser_script_identification_tflite_mobile.binarypb
+	insinto "$(dlc_add_path /taser/detector)"
+	doins \
+		taser/detector/region_proposal_text_detector_tflite_vertical_mbv2_v1.bincfg
+	doins \
+		taser/detector/rpn_text_detector_mobile_space_to_depth_quantized_mbv2_v1.tflite
 	insinto "$(dlc_add_path /taser/segmenter)"
-	doins taser/segmenter/tflite_lstm_recognizer_latin_0.3.class_lst
-	doins taser/segmenter/tflite_screen_recognizer_latin.bincfg
-	doins taser/segmenter/tflite_screen_recognizer_latin.conv_model
 	doins taser/segmenter/tflite_script_detector_0.3.bincfg
 	doins taser/segmenter/tflite_script_detector_0.3.conv_model
 	doins taser/segmenter/tflite_script_detector_0.3.lstm_model
-	insinto "$(dlc_add_path /taser/detector)"
-	doins taser/detector/region_proposal_text_detector_tflite_screen.bincfg
-	doins \
-		taser/detector/rpn_text_detector_mobile_space_to_depth_quantized_v2.tflite
 
 	dlc_src_install
 }
