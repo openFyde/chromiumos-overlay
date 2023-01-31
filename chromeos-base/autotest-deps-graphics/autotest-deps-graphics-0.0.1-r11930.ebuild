@@ -1,34 +1,28 @@
-# Copyright 2018 The ChromiumOS Authors
+# Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="7a4a6336ffe2f4c82c3d0ec8834909beb7cd98c1"
-CROS_WORKON_TREE="79b22400a58502b1ef161a738ba1eb2be23ec7f1"
+EAPI=4
+CROS_WORKON_COMMIT="6efe5a752084dbb9eb1c94d8acf1c41f638baebb"
+CROS_WORKON_TREE="b8a9309292fdc00767a9328a97f0572bf1e7b111"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest-deponly
 
-DESCRIPTION="Autotest D-Bus deps"
+DESCRIPTION="Dependencies for graphics autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
-LICENSE="BSD-Google"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 
 # Autotest enabled by default.
 IUSE="+autotest"
 
-AUTOTEST_DEPS_LIST="dbus_protos"
+AUTOTEST_DEPS_LIST="graphics"
 
 # NOTE: For deps, we need to keep *.a
 AUTOTEST_FILE_MASK="*.tar.bz2 *.tbz2 *.tgz *.tar.gz"
 
-DEPEND="chromeos-base/system_api
-	dev-libs/protobuf:=
-"
-
-# Calling this here, so tests using this dep don't have to call setup_dep().
-src_prepare() {
-	autotest-deponly_src_prepare
-}
+RDEPEND="!<chromeos-base/autotest-deps-0.0.4"
+DEPEND="${RDEPEND}"
