@@ -1,12 +1,12 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 # Ninja provides better scalability and cleaner verbose output, and is used
 # throughout all LLVM projects.
 : "${CMAKE_MAKEFILE_GENERATOR:=ninja}"
-PYTHON_COMPAT=( python3_6 )
+PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_REPO="${CROS_GIT_HOST_URL}"
 CROS_WORKON_PROJECT="external/github.com/llvm/llvm-project"
@@ -42,9 +42,8 @@ RDEPEND="
 	libunwind? ( ${CATEGORY}/llvm-libunwind )
 	libcxxrt? ( ${CATEGORY}/libcxxrt[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
 	!cros_host? ( sys-libs/gcc-libs )"
-DEPEND="${RDEPEND}
-	cros_host? ( sys-devel/llvm )
-	app-arch/xz-utils"
+DEPEND="${RDEPEND}"
+BDEPEND="sys-devel/llvm"
 
 python_check_deps() {
 	has_version "dev-python/lit[${PYTHON_USEDEP}]"
@@ -74,6 +73,7 @@ src_prepare() {
 		--src_path "${S}" || die
 
 	eapply_user
+	cmake-utils_src_prepare
 }
 
 pkg_setup() {
