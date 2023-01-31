@@ -100,6 +100,7 @@ IUSE="
 	sirenia
 	smbprovider
 	spaced
+	swap_management
 	+syslog
 	+system_locales
 	system_proxy
@@ -366,6 +367,7 @@ RDEPEND="
 	watchdog? ( sys-apps/daisydog )
 	mtd? ( sys-fs/mtd-utils )
 	cups? ( virtual/chromium-os-printing )
+	swap_management? ( chromeos-base/swap_management )
 	system_locales? ( chromeos-base/system-locales )
 	system_proxy? ( chromeos-base/system-proxy )
 	eclog? ( chromeos-base/timberslide )
