@@ -27,5 +27,6 @@ IUSE=""
 DEPEND="
 	dev-go/crypto:=
 	dev-go/gapi:=
+	dev-go/exp:=
 "
 RDEPEND=""
