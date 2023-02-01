@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -8,12 +8,11 @@ QA_PKGCONFIG_VERSION="$(ver_cut 1-3)"
 
 inherit autotools multilib-minimal libtool flag-o-matic
 
+MY_P="${P/_rc/rc}"
 DESCRIPTION="Tag Image File Format (TIFF) library"
 HOMEPAGE="http://libtiff.maptools.org"
-MY_COMMIT="db1d2127862bb70df6b9d145c15ee592ee29bb7b"
-MY_P="libtiff-${MY_COMMIT}"
-SRC_URI="https://gitlab.com/libtiff/libtiff/-/archive/${MY_COMMIT}/${MY_P}.tar.gz"
-S="${WORKDIR}/${MY_P}"
+SRC_URI="https://download.osgeo.org/libtiff/${MY_P}.tar.xz"
+S="${WORKDIR}/${PN}-$(ver_cut 1-3)"
 
 LICENSE="libtiff"
 SLOT="0"
@@ -38,6 +37,11 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/tiffconf.h
 )
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-4.5.0_rc1-skip-tools-tests-multilib.patch
+	"${FILESDIR}"/${PN}-4.5.0-ChromeOS-fix-paste-error.patch
+)
+
 src_prepare() {
 	default
 	# ChromeOS: generate configure script since we aren't using the pre-configured tar.gz
@@ -46,7 +50,10 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	append-lfs-flags
+
 	local myeconfargs=(
+		--disable-sphinx
 		--without-x
 		--with-docdir="${EPREFIX}"/usr/share/doc/${PF}
 		$(use_enable cxx)
@@ -65,7 +72,6 @@ multilib_src_configure() {
 		myeconfargs+=( --bindir="${EPREFIX}/usr/local/bin" )
 	fi
 
-	append-lfs-flags
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
 
 	# Remove components (like tools) that are irrelevant for the multilib
