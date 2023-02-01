@@ -208,6 +208,7 @@ RDEPEND="
 	compupdates? ( chromeos-base/imageloader )
 	dlc? (
 		app-accessibility/pumpkin
+		app-accessibility/screen-ai
 		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
 		chromeos-base/scaled-dlc
