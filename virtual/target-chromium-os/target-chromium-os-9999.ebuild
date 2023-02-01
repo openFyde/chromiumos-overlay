@@ -79,7 +79,6 @@ IUSE="
 	hps
 	mtd
 	+network_time
-	nfc
 	ondevice_handwriting
 	os_install_service
 	pam
@@ -362,7 +361,6 @@ RDEPEND="
 	trim_supported? ( chromeos-base/chromeos-trim )
 	network_time? ( net-misc/tlsdate )
 	iwlwifi_rescan? ( net-wireless/iwlwifi_rescan )
-	nfc? ( net-wireless/neard chromeos-base/neard-configs )
 	readahead? ( sys-apps/ureadahead )
 	pam? ( sys-auth/pam_pwdfile )
 	watchdog? ( sys-apps/daisydog )
