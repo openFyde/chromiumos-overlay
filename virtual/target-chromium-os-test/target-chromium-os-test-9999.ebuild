@@ -204,6 +204,7 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	app-benchmarks/microbenchmarks
 	app-benchmarks/pjdfstest
 	app-benchmarks/xfstests
+	app-metrics/node_exporter
 	opengles? ( app-misc/eglinfo )
 	app-misc/tmux
 	app-misc/utouch-evemu
