@@ -19,12 +19,14 @@ RDEPEND="sys-apps/fwupd"
 IUSE="
 	wilco
 	skyrim
+	hatch
 "
 declare -A dictfwcab=(
 	['samsung,PM991A']='ed7ddca0c1b983a9f2f8269de7abed89492bfadba04734568f02227e42553950-Samsung_PM991a_SSD_FW_26300039.cab'
 	['samsung,PM9B1-256G']='ea1dfa748eba53af904ebeebd9a8e168e08491ebeff7b98ce5ce03fd72aa8b25-SAMSUNG_PM9B1_SSD_FW_46303039.cab'
 	['samsung,PM9B1-512G']='ea1dfa748eba53af904ebeebd9a8e168e08491ebeff7b98ce5ce03fd72aa8b25-SAMSUNG_PM9B1_SSD_FW_46303039.cab'
 	['ssstc,CL1-3D128-Q11']='7649776aa1c1e98ca4ae99b05368135078960f1f381890532336f6229e0dc9ad-22301116.cab'
+	['ssstc,CL1-3D256']='eaddc94bfa29ebc8ef2e843ac177950d11c9575c3caa5d84a31705ab1c8835e8-CR22002_428.cab'
 	['ssstc,CL1-3D256-Q11']='7649776aa1c1e98ca4ae99b05368135078960f1f381890532336f6229e0dc9ad-22301116.cab'
 	['ssstc,CL1-3D512-Q11']='0790e805aa3cfaf9e08b003d7aaca0b2b9988160ef8928200b869e4820fa3963-22321116.cab'
 	['ssstc,CL4-3D256-Q11']='cbdb8b53779229764f678eb84236dc72dcc98af7f62e8f239c848c47d193c007-25301111.cab'
@@ -76,10 +78,15 @@ FILENAMES_SKYRIM=(
 	"${dictfwcab['hynix,BC901-256G']}"
 	"${dictfwcab['wdc,SN740']}"
 )
+# b/141010782, b/264579155: Liteon & SSSTC share the same cabinet file.
+FILENAMES_HATCH=(
+	"${dictfwcab['ssstc,CL1-3D256']}"
+)
 
 SRC_URI="
 	wilco?  ( ${FILENAMES_WILCO[*]/#/${CROS_FWUPD_URL}/} )
 	skyrim? ( ${FILENAMES_SKYRIM[*]/#/${CROS_FWUPD_URL}/} )
+	hatch? ( ${FILENAMES_HATCH[*]/#/${CROS_FWUPD_URL}/} )
 "
 install_rules() {
 	local ufile="${1}"
@@ -100,6 +107,10 @@ src_install() {
 		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-liteon.rules"
 		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-samsung.rules"
 		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-wdc.rules"
+	fi
+	if use hatch; then
+		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-liteon.rules"
+		install_rules "${FILESDIR}/optional/91-fwupdtool-storage-ssstc.rules"
 	fi
 	cros-fwupd_src_install
 }
