@@ -100,8 +100,8 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_ini_parse_util_fuzzer
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/garcon_mime_types_parser_fuzzer
 
-	into /
-	newsbin "${OUT}"/maitred init
+	dobin "${OUT}"/maitred
+	dosym /usr/bin/maitred /sbin/init
 
 	# Create a folder for process configs to be launched at VM startup.
 	dodir /etc/maitred/
