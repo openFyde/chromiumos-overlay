@@ -1,9 +1,6 @@
 # Initial value just for style purposes.
 USE=""
 
-# No ime addons (requires handwriting library).
-USE="${USE} -ime_addons"
-
 # TODO(b/261258401): Federated service is not tested on ARM yet.
 USE="${USE} -federated_service"
 
