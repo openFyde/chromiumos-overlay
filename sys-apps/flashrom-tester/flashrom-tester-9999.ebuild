@@ -43,7 +43,7 @@ src_compile() {
 }
 
 src_test() {
-	cros-rust_src_test --workspace
+	cros-rust_src_test --workspace -- --test-threads=1
 }
 
 src_install() {
