@@ -1,0 +1,39 @@
+# Copyright 2021 The ChromiumOS Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+CROS_WORKON_COMMIT=("3f7430e1e5e13c12542aa152965cdfee13955c62" "130508a9793c5f801f8d8d93202b58cc4d47f269")
+CROS_WORKON_TREE=("d536f970c449c1be2af25f610e1c4b39dfc0ca95" "0aecc54d68802deade3551a9f58695dcbc26b782" "2d31603031a4273d74b9019b71a6893a585badee" "8c3558ab62e25bc9a9e800974e0f3090a11624a4" "06444335376f8165c3d7765ae1040d099eef806c")
+CROS_WORKON_PROJECT=("chromiumos/platform/factory" "chromiumos/chromite")
+CROS_WORKON_LOCALNAME=("platform/factory" "../chromite")
+CROS_WORKON_SUBTREE=("py" "lib bin scripts PRESUBMIT.cfg")
+CROS_WORKON_DESTDIR=("${S}" "${S}/chromite")
+
+inherit cros-workon
+
+DESCRIPTION="Chrome OS HWID Extractor"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
+SRC_URI=""
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE="cros_host"
+
+RDEPEND="chromeos-base/vboot_reference
+	chromeos-base/vpd
+	dev-python/pyserial
+	dev-util/hdctools
+	sys-apps/flashrom
+"
+
+src_install() {
+	local lib="/usr/local"
+	if use cros_host; then
+		lib="/usr/lib"
+	fi
+	emake -C py/hwid_extractor \
+		DESTDIR="${D}" \
+		LIB_DIR="${lib}" \
+		CHROMITE_PATH="${S}/chromite" \
+		CHROMITE_SRC_PATH="${S}/chromite/lib" \
+		install
+}
