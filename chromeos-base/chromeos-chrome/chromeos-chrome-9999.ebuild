@@ -724,6 +724,7 @@ setup_test_lists() {
 		sandbox_linux_unittests
 		wayland_client_integration_tests
 		wayland_client_perftests
+		wayland_hdr_client
 	)
 
 	TEST_FILES+=( ppapi/examples/video_decode )
