@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f66c948cb949214f863df681dd82d570c00afa59"
-CROS_WORKON_TREE="2f528c71132650525f739c90169a6a47ceb98ade"
+CROS_WORKON_COMMIT="dd9eb4eba3cacbdbd4d17df8999d58af1f52ea17"
+CROS_WORKON_TREE="a0d446e95ffe05f80376a1e4db19bffc75d59d50"
 CROS_WORKON_PROJECT="chromiumos/platform/crostestutils"
 CROS_WORKON_LOCALNAME="platform/crostestutils"
 

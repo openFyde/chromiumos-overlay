@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5b36100382fcd308dd992af0017dee8c95b6ef41"
-CROS_WORKON_TREE="b53f660bd5102373e672baf10d14f48926ec806d"
+CROS_WORKON_COMMIT="43733a971b5ec3251aa84c30114d951608e4cd27"
+CROS_WORKON_TREE="c0f3170c506e0757462e3f63049b747515c62095"
 CROS_WORKON_PROJECT="chromiumos/third_party/cups"
 CROS_WORKON_EGIT_BRANCH="chromeos"
 
@@ -133,6 +133,10 @@ multilib_src_configure() {
 
 	# Allow non-root to run cupsd so the launcher can access it.
 	myconf+=( "--with-cupsd-file-perm=0555" )
+
+	# Enable compiling extra debug messages.  Only printed when the cupsd
+	# debug level is increased.
+	myconf+=( "--enable-debug-printfs" )
 
 	# The tests use googletest (C++), so make sure correct C++ version is
 	# enabled.
