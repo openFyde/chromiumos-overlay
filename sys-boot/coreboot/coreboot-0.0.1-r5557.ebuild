@@ -110,7 +110,6 @@ DEPEND="
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
 	chromeos-base/chromeos-config:=
-	sys-apps/flashrom
 	"
 
 # While this package is never actually executed, we still need to specify
@@ -238,8 +237,8 @@ EOF
 	fi
 
 	if use private_fsp_headers; then
-		local fspsocname=$(cat ${CONFIG} | grep "CONFIG_FSP_M_FILE" | cut -d '"' -f2 | cut -d '/' -f4)
-		echo "CONFIG_FSP_HEADER_PATH=\"3rdparty/blobs/intel/"${fspsocname}"/fsp/PartialHeader/Include\"" >> "${CONFIG}"
+		local fspsocname=$(grep "CONFIG_FSP_M_FILE" "${CONFIG}" | cut -d '"' -f2 | cut -d '/' -f4)
+		echo "CONFIG_FSP_HEADER_PATH=\"3rdparty/blobs/intel/${fspsocname}/fsp/PartialHeader/Include\"" >> "${CONFIG}"
 	fi
 	cp "${CONFIG}" "${CONFIG_SERIAL}"
 	file="${FILESDIR}/configs/fwserial.${board}"
@@ -361,6 +360,7 @@ add_fw_blobs() {
 
 	local blob
 	local cbname
+	# shellcheck disable=SC2154 # FW_BLOBS may be provided by overlays.
 	for blob in ${FW_BLOBS}; do
 		local blobfile="${fblobroot}/${blob}"
 
@@ -384,6 +384,7 @@ src_compile() {
 	# number followed by a dot and the first seven characters of the git
 	# hash. The name is confusing but consistent with the coreboot
 	# Makefile.
+	# shellcheck disable=SC2154 # VCSID is provided by cros-workon.eclass.
 	local sha1v="${VCSID/*-/}"
 	export KERNELREVISION=".${PV}.${sha1v:0:7}"
 
