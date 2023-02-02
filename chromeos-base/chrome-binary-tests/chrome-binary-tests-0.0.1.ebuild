@@ -38,6 +38,7 @@ src_install() {
 	doexe "${BINARY_DIR}/sandbox_linux_unittests"
 	doexe "${BINARY_DIR}/wayland_client_integration_tests"
 	doexe "${BINARY_DIR}/wayland_client_perftests"
+	doexe "${BINARY_DIR}/wayland_hdr_client"
 
 	if use vaapi || use v4l2_codec; then
 		doexe "${BINARY_DIR}/image_processor_test"
