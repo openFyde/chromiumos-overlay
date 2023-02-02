@@ -36,6 +36,7 @@ src_install() {
 		"/usr/bin/chunnel"
 		"/usr/bin/garcon"
 		"/usr/bin/guest_service_failure_notifier"
+		"/usr/bin/maitred"
 		"/usr/bin/notificationd"
 		"/usr/sbin/vshd"
 	)
