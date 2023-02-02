@@ -21,6 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/setu
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE="
+	arc_erofs
 	arc_hw_oemcrypto
 	arcpp
 	arcvm
