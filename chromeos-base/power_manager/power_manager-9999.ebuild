@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/ml-client:=
 	chromeos-base/mojo_service_manager:=
+	chromeos-base/power_manager-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=
@@ -79,6 +80,7 @@ src_install() {
 	fperms 4750 /usr/bin/powerd_setuid_helper
 
 	# Binaries for testing and debugging
+	dobin "${OUT}"/battery_saver
 	dobin "${OUT}"/check_powerd_config
 	use amd64 && dobin "${OUT}"/dump_intel_rapl_consumption
 	dobin "${OUT}"/inject_powerd_input_event
@@ -182,6 +184,7 @@ platform_pkg_test() {
 		power_manager_daemon_test
 		power_manager_policy_test
 		power_manager_system_test
+		power_manager_tools_battery_saver_test
 		power_manager_util_test
 	)
 
