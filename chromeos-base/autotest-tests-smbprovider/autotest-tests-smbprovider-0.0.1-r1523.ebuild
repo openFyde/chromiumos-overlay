@@ -1,40 +1,36 @@
-# Copyright 2013 The ChromiumOS Authors
+# Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=5
 
-CROS_WORKON_COMMIT="78cd21aa54359da7727c5dc5d264fbc9115e85a0"
-CROS_WORKON_TREE="6b485afe1c6b4ff36195f0cfdc3350eef993d950"
+CROS_WORKON_COMMIT="645cf8441e4481049521b77ea84b07eb9bb6e6d9"
+CROS_WORKON_TREE="fd669c9a27eacba7567623a2b4f1ca6f606fee21"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
+CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
 inherit cros-workon autotest python-any-r1
 
-DESCRIPTION="touchpad autotest"
+DESCRIPTION="SmbProvider Autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
+SRC_URI=""
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-
+# Enable autotest by default.
 IUSE="${IUSE} +autotest"
 
 RDEPEND="
-	chromeos-base/autotest-deps-touchpad
+	chromeos-base/chromeos-chrome
+	chromeos-base/autotest-chrome
 "
 
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_platform_GesturesRegressionTest
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
-
-CROS_WORKON_LOCALNAME="third_party/autotest/files"
-
-AUTOTEST_DEPS_LIST=""
-AUTOTEST_CONFIG_LIST=""
-AUTOTEST_PROFILERS_LIST=""
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
