@@ -33,23 +33,6 @@ DEPEND="
 src_install() {
 	platform_src_install
 
-	# Install our binary.
-	dosbin "${OUT}"/crosdns
-
-	# Install D-Bus configuration.
-	insinto /etc/dbus-1/system.d
-	doins dbus_permissions/org.chromium.CrosDns.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	if use seccomp; then
-		newins "init/crosdns-seccomp-${ARCH}.policy" crosdns-seccomp.policy
-	fi
-
-	# Install the init script.
-	insinto /etc/init
-	doins init/crosdns.conf
-
 	dotmpfiles tmpfiles.d/*.conf
 
 	# fuzzer_component_id is unknown/unlisted
@@ -57,7 +40,7 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/run_tests"
+	platform test_all
 }
 
 pkg_preinst() {
