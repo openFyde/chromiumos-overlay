@@ -25,10 +25,10 @@ SRC_URI="https://commondatastorage.googleapis.com/chromeos-localmirror/distfiles
 # https://github.com/rust-lang/rust at ${RUST_SHA}, using
 # ${FILESDIR}/pack_git_tarball.py with |--post-copy-command 'cargo vendor'|.
 BOOTSTRAP_HOST_TRIPLE="x86_64-unknown-linux-gnu"
-RUST_SHA="7737e0b5c410"
+RUST_SHA="90743e7298ac"
 # See https://github.com/rust-lang/rust/tree/${RUST_SHA}/src/stage0.json
-RUST_STAGE0_DATE="2022-02-24"
-RUST_STAGE0_VERSION="1.59.0"
+RUST_STAGE0_DATE="2022-11-03"
+RUST_STAGE0_VERSION="1.65.0"
 
 RUST_PREFIX="rust-${RUST_SHA}"
 RUST_SRC_TARBALL_NAME="rustc-${RUST_SHA}-src"
@@ -80,9 +80,13 @@ src_unpack() {
 }
 
 src_prepare() {
+	einfo "Applying Clang patches..."
 	cd "${SRC_ROOT}/llvm" || die
 	eapply "${FILESDIR}/llvm15-23112022-soteria.patch"
 
+	einfo "Applying Rust patches..."
+	# Rust rules are mostly taken from:
+	# http://cs/chromeos_public/src/third_party/chromiumos-overlay/eclass/cros-rustc.eclass
 	cd "${SRC_ROOT}/rustc" || die
 
 	# Copy "unknown" vendor targets to create cros_sdk target triples applied later.
@@ -91,14 +95,31 @@ src_prepare() {
 		> "${spec_dir}/x86_64_pc_linux_gnu.rs" \
 		|| die
 
+	sed -e 's:"unknown":"cros":g' "${spec_dir}/x86_64_unknown_linux_gnu.rs" \
+		>"${spec_dir}/x86_64_cros_linux_gnu.rs" \
+		|| die
+
 	eapply "${FILESDIR}/rust-add-cros-targets.patch"
+	eapply "${FILESDIR}/rust-fix-rpath.patch"
+	eapply "${FILESDIR}/rust-cc.patch"
+	eapply "${FILESDIR}/rust-ld-argv0.patch"
+	eapply "${FILESDIR}/rust-Handle-sparse-git-repo-without-erroring.patch"
+	eapply "${FILESDIR}/rust-bootstrap-use-CARGO_HOME.patch"
+	eapply "${FILESDIR}/rust-ignore-version-in-mangling.patch"
+	# For the rustc_llvm module, the build will link with -nodefaultlibs and
+	# manually choose the std C++ library. For x86_64 Linux, the build
+	# script always chooses libstdc++ which will not work if LLVM was built
+	# with USE="default-libcxx". This snippet changes that choice to libc++
+	# in the case that clang++ defaults to libc++.
 	sed -i 's|"stdc++"|"c++"|g' "compiler/rustc_llvm/build.rs" || die
 
-	cd "${SRC_ROOT}/rustc/src/llvm-project/lld" || die
-	eapply "${FILESDIR}/D100835.patch" # Linker relaxation patch
+	# Apply Dauntless specific instructions patch
+	cd "${SRC_ROOT}/rustc/src/llvm-project" || die
+	eapply "${FILESDIR}/llvm15-23112022-soteria.patch"
 
 	cd "${SRC_ROOT}" || die
 	eapply_user
+	einfo "Rust patch application completed successfully."
 }
 
 # src_configure is elided, since this package is actually building a few things
@@ -107,7 +128,9 @@ src_prepare() {
 # self-contained as possible for the moment.
 
 src_compile() {
-	tc-export PKG_CONFIG
+	CC=/usr/bin/x86_64-pc-linux-gnu-clang
+	BUILD_CC=/usr/bin/x86_64-pc-linux-gnu-clang
+	tc-export CC PKG_CONFIG BUILD_CC
 
 	# In iterative development via `ebuild compile`, our clang toolchain
 	# might already be fully built. Don't rebuild it if that's the case.
