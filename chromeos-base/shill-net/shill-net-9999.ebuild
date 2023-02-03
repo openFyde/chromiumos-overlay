@@ -46,8 +46,6 @@ src_install() {
 	local platform_wifi_component_id="893827"
 
 	# These each have different listed component ids.
-	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/arp_client_fuzzer" \
-		--comp "${platform_network_component_id}"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/ip_address_fuzzer" \
 		--comp "${platform_network_component_id}"
 	platform_fuzzer_install "${S}"/../OWNERS "${OUT}/netlink_attribute_list_fuzzer" \
