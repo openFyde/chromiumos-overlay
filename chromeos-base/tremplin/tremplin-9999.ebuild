@@ -23,7 +23,6 @@ KEYWORDS="~*"
 IUSE=""
 
 COMMON_DEPEND="
-	app-emulation/lxd:0
 	app-emulation/lxd:4
 "
 
