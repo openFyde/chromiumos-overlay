@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="f6044e98f82deda29fedaaa8123360e1c57d5c54"
+CROS_WORKON_COMMIT="269dcd5a9180f05cef566b5807cf01e73453e964"
 CROS_WORKON_TREE=("a2e35355df13a962f0694777bfc363cd5acbd766" "4b50eae180b046663625ef84698c88a1d175fcd7" "30be527243b50817fe644449d8e15bc80e788a8e" "c04550ef011bb57a00c416b87cf8bca1740c67f8")
 CROS_RUST_SUBDIR="util/flashrom_tester"
 
@@ -45,7 +45,7 @@ src_compile() {
 }
 
 src_test() {
-	cros-rust_src_test --workspace
+	cros-rust_src_test --workspace -- --test-threads=1
 }
 
 src_install() {
