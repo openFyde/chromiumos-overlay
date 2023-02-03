@@ -10,7 +10,7 @@ CROS_WORKON_TREE="776139a53bc86333de8672a51ed7879e75909ac9"
 CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
 CROS_WORKON_LOCALNAME="platform/empty-project"
 
-inherit cros-workon user udev
+inherit cros-workon user udev tmpfiles
 
 DESCRIPTION="ChromeOS specific system setup"
 HOMEPAGE="https://dev.chromium.org/"
@@ -161,6 +161,9 @@ src_install() {
 		# Install all the udev rules.
 		udev_dorules "${FILESDIR}"/udev-rules/*.rules
 		use vtconsole && udev_dorules "${FILESDIR}"/60-X-tty1-tty2-group-rw.rules
+
+		# Install all the tmpfiles.d configs.
+		dotmpfiles "${FILESDIR}/tmpfiles.d"/*.conf
 
 		# b/212196481 : only chromeos kernels v4.14 (and newer) r8152 driver
 		# have support for RTL8153C and RTL8153D. Older kernels should
