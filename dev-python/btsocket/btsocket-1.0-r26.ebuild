@@ -1,7 +1,7 @@
 # Copyright 2013 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 CROS_WORKON_COMMIT="d52a38ffface8988da342133161c8a6b462437a0"
 CROS_WORKON_TREE="452823ccec67536342fff3d263a6a3d1be44a0ce"
 CROS_WORKON_PROJECT="chromiumos/platform/btsocket"
