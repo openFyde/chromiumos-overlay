@@ -110,7 +110,7 @@ src_configure() {
 	)
 	if use fuzzer; then
 		common_bazel_args+=(
-			"--//:fuzzer"
+			"--config=fuzzer"
 			# Selinux does not work with fuzzers.
 			"--no//:selinux"
 		)
