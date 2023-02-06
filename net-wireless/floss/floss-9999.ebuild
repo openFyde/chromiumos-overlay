@@ -8,29 +8,25 @@ CROS_WORKON_PROJECT=(
 	"aosp/platform/packages/modules/Bluetooth"
 	"aosp/platform/packages/modules/Bluetooth"
 	"aosp/platform/frameworks/proto_logging"
-	"chromiumos/third_party/rust_crates"
 )
 CROS_WORKON_LOCALNAME=(
 	"../platform2"
 	"../aosp/packages/modules/Bluetooth/local"
 	"../aosp/packages/modules/Bluetooth/upstream"
 	"../aosp/frameworks/proto_logging"
-	"../third_party/rust_crates"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform2"
 	"${S}/platform2/bt"
 	"${S}/platform2/bt"
 	"${S}/platform2/external/proto_logging"
-	"${S}/platform2/external/rust"
 )
-CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "" "")
-CROS_WORKON_EGIT_BRANCH=("main" "main" "upstream/master" "master" "main")
+CROS_WORKON_SUBTREE=("common-mk .gn" "" "" "")
+CROS_WORKON_EGIT_BRANCH=("main" "main" "upstream/master" "master")
 CROS_WORKON_OPTIONAL_CHECKOUT=(
 	""
 	"use !floss_upstream"
 	"use floss_upstream"
-	""
 	""
 )
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -44,11 +40,7 @@ DESCRIPTION="Bluetooth Tools and System Daemons for Linux"
 HOMEPAGE="https://android.googlesource.com/platform/packages/modules/Bluetooth"
 
 # Apache-2.0 for system/bt
-# All others from rust crates
-LICENSE="
-	Apache-2.0
-	MIT BSD ISC
-"
+LICENSE="Apache-2.0"
 
 KEYWORDS="~*"
 
@@ -91,17 +83,6 @@ src_unpack() {
 	# Cros rust unpack should come after platform unpack otherwise platform
 	# unpack will fail.
 	MAKEOPTS="${local_makeopts}" cros-rust_src_unpack
-
-	# In order to be compatible with cros-rust.eclass while also using our
-	# own vendored crates, we re-use the existing config but add a floss
-	# source and replace source.crates-io with it.
-	# shellcheck disable=SC2154 # ECARGO_HOME is defined in cros-rust.eclass
-	sed -i 's/replace-with = "chromeos"/replace-with = "floss"/' "${ECARGO_HOME}/config"
-	cat <<- EOF >> "${ECARGO_HOME}/config"
-
-	[source.floss]
-	directory = "${S}/../external/rust/vendor"
-	EOF
 }
 
 src_configure() {
