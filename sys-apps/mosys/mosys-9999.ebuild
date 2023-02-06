@@ -38,7 +38,6 @@ PLATFORM_NAMES=(
 	"Herobrine"
 	"Kukui"
 	"Oak"
-	"Sarien"
 	"Trogdor"
 )
 PLATFORM_NAME_USE_FLAGS=()
