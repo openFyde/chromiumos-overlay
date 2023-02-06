@@ -3,8 +3,8 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="75d54ee321478eaf7f3fc8c52902b3d4d2aeed1a"
-CROS_WORKON_TREE="b926bfd5cb209fc261a7215a06f4646ec391d932"
+CROS_WORKON_COMMIT="8864cf09a0c6c549ef0e79ff8c3fd0febe360fa9"
+CROS_WORKON_TREE="f7799a9d7773928973af078e850ba1f889ce20f7"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -90,6 +90,9 @@ CLIENT_IUSE_TESTS="
 	+tests_firmware_VbootCrypto
 	+tests_flaky_test
 	+tests_fwupd_FirmwareUpdate
+	+tests_fwupd_FirmwareDowngrade
+	+tests_fwupd_FirmwareInstallVersion
+	+tests_fwupd_FirmwareInstallFile
 	+tests_hardware_Badblocks
 	+tests_hardware_DiskSize
 	+tests_hardware_EC
