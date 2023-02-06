@@ -30,6 +30,13 @@ RDEPEND="sys-apps/dbus:="
 src_install() {
 	dobin "$(cros-rust_get_build_dir)/shadercached"
 
+	# create a directory in /etc so that /run/daemon-store is created and mounted
+	# by cryptohome
+	local daemon_store="/etc/daemon-store/shadercached"
+	dodir "${daemon_store}"
+	fperms 0750 "${daemon_store}"
+	fowners shadercached:shadercached "${daemon_store}"
+
 	# D-Bus configuration.
 	insinto /etc/dbus-1/system.d
 	doins dbus/org.chromium.ShaderCache.conf
@@ -39,9 +46,10 @@ src_install() {
 	doins init/shadercached.conf
 }
 
-pkg_preinst() {
+pkg_setup() {
+	# enewuser/group has to be done in pkg_setup() instead of pkg_preinst() since
+	# src_install() needs shadercached user and group
 	enewuser shadercached
 	enewgroup shadercached
-
-	cros-rust_pkg_preinst
+	cros-workon_pkg_setup
 }
