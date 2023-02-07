@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8c3fe6d6738235828851d67fbb8129a006589a94"
-CROS_WORKON_TREE="963090aa4da934568f51f7778dc4d03ebc3f9169"
+CROS_WORKON_COMMIT="922a5bfd2c2b08ea9366161566260e6bec98df7f"
+CROS_WORKON_TREE="c1945ede15cced4e25af4f8236241c44055f46c0"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -42,6 +42,7 @@ IUSE_TESTS="
 	+tests_power_Dummy
 	+tests_power_HotCPUSuspend
 	+tests_power_KernelSuspend
+	+tests_power_KeyboardBacklight
 	+tests_power_ProbeDriver
 	shill? ( +tests_power_Resume )
 	+tests_power_Standby
