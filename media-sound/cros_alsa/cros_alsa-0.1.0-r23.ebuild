@@ -1,12 +1,10 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2020 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fa3d2e30df87d0ad1e55ca518a4232843dc9668f"
-CROS_WORKON_TREE="7ba2205388254c5df295c56cbad11a6d55b5a5a1"
-CROS_RUST_SUBDIR="cros_alsa/cros_alsa_derive"
-
+CROS_WORKON_COMMIT="5d847ac5f54e6f9c1d110bb73fa48c1fd7782041"
+CROS_WORKON_TREE="113766d20eeaa0d04d04f431f63b4caf5151e8e0"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -16,7 +14,7 @@ CROS_WORKON_SUBTREE="cros_alsa"
 
 inherit cros-workon cros-rust
 
-DESCRIPTION="Derive macros of cros_alsa"
+DESCRIPTION="Rust version alsa-lib"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/cros_alsa"
 
 LICENSE="BSD-Google"
@@ -25,6 +23,8 @@ IUSE="test"
 
 DEPEND="
 	dev-rust/third-party-crates-src:=
+	media-sound/cros_alsa_derive:=
+	>=media-libs/alsa-lib-1.1.8-r3:= <media-libs/alsa-lib-2.0.0
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
