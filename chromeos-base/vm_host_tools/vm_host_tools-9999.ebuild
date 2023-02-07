@@ -35,6 +35,9 @@ PLATFORM2_PATHS=(
 
 	# Required by the fuzzer
 	vm_tools/OWNERS
+
+	# Required by the vm_concierge
+	chromeos-config
 )
 CROS_WORKON_SUBTREE="${PLATFORM2_PATHS[*]}"
 
@@ -56,6 +59,7 @@ COMMON_DEPEND="
 	app-arch/libarchive:=
 	!!chromeos-base/vm_tools
 	chromeos-base/chunnel:=
+	chromeos-base/chromeos-config-tools:=
 	chromeos-base/crosvm:=
 	chromeos-base/libcrossystem:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
