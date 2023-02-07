@@ -43,6 +43,7 @@ IUSE="
 	cups
 	+debugd
 	diagnostics
+	diagnostics-minidiag
 	dlc
 	dlc_test
 	dlp
@@ -256,6 +257,7 @@ RDEPEND="
 	cros_disks? ( chromeos-base/cros-disks )
 	debugd? ( chromeos-base/debugd )
 	diagnostics? ( chromeos-base/diagnostics )
+	diagnostics-minidiag? ( chromeos-base/diagnostics-minidiag )
 	dlp? ( chromeos-base/dlp )
 	kerberos_daemon? ( chromeos-base/kerberos )
 	scanner? ( chromeos-base/lorgnette )
