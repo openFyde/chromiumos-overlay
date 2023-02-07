@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="91573e3a14b87607fb0b4480ec040ea0c713e115"
-CROS_WORKON_TREE="c6acb773e8e159356feca0ad8fe53f07837db95d"
+CROS_WORKON_COMMIT="a64f2807880e9e1fb65f5c5f81d3808b943ec4e9"
+CROS_WORKON_TREE="1a0e3592ff40ead595313304812d793138ba1dd2"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
@@ -112,7 +112,7 @@ src_configure() {
 	)
 	if use fuzzer; then
 		common_bazel_args+=(
-			"--//:fuzzer"
+			"--config=fuzzer"
 			# Selinux does not work with fuzzers.
 			"--no//:selinux"
 		)
