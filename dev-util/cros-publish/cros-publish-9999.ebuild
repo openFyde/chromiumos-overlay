@@ -23,6 +23,7 @@ CROS_GO_BINARIES=(
 	"chromiumos/test/publish/cmd/gcs-publish"
 	"chromiumos/test/publish/cmd/tko-publish"
 	"chromiumos/test/publish/cmd/rdb-publish"
+	"chromiumos/test/publish/cmd/cpcon-publish"
 )
 
 CROS_GO_TEST=(
