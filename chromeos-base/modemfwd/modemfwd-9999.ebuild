@@ -37,6 +37,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	chromeos-base/vboot_reference:=
 "
 
 src_install() {
