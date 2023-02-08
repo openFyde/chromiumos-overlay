@@ -29,5 +29,8 @@ USE="${USE} -floss"
 # Disable extra Japanese fonts.
 USE="${USE} -extra_japanese_fonts"
 
+# Disable Google Sans Variable due to insufficient rootfs.
+USE="${USE} -gsans_variable_font"
+
 # Disable federated service.
 USE="${USE} -federated_service"

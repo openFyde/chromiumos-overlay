@@ -140,6 +140,9 @@ USE="${USE} ml_benchmark_drivers"
 # Enable extra Japanse fonts by default.
 USE="${USE} extra_japanese_fonts"
 
+# Enable Google Sans Variable by default.
+USE="${USE} gsans_variable_font"
+
 # Enable generic mosys platform by default.
 USE="${USE} mosys_platform_generic"
 
