@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="f4c4a1f1b7e396c9b5be33eaa6852b095e6360b8"
-CROS_WORKON_TREE="be39f6a361e90730fa1e0117a4cab1aa629813a4"
+CROS_WORKON_COMMIT="3aaeae7f0f481bc834ed471965bc8fc1cbd6ae5c"
+CROS_WORKON_TREE="21eea3eaf6dd1506e1ab6ec7be48b783d80f4f43"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
 CROS_WORKON_LOCALNAME="platform/crosvm"
 CROS_WORKON_EGIT_BRANCH="chromeos"
