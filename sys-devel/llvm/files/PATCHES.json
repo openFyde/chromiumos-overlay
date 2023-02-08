@@ -4207,15 +4207,46 @@
   {
     "metadata": {
       "info": [],
-      "title": "[InlineCost] model calls to llvm.objectsize.*"
+      "title": "[UPSTREAM] Revert \"[LoopVectorize] Enable integer Mul and Add as select reduction patterns\""
     },
     "platforms": [
-      "chromeos"
+      "android",
+      "chromiumos"
     ],
-    "rel_patch_path": "cherry/f1764d5b594ff6edbf8d17d196eb0b7a653ac0fc.patch",
+    "rel_patch_path": "cherry/4468e27d9fff153af9826eaf12e0044e67a701a8.patch",
     "version_range": {
-      "from": 475826,
-      "until": 487630
+      "from": 487747,
+      "until": 487849
+    }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "[UPSTREAM] [CMake] Support undefined LLVM_NATIVE_ARCH in llvm_map_components_to_libnames()."
+    },
+    "platforms": [
+      "android",
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/2e3153059c268700d4b399a8cbba28e9c2514e09.patch",
+    "version_range": {
+      "from": 487747,
+      "until": 487897
+    }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "[UPSTREAM] [RISCV] Allow mismatched SmallDataLimit and use Min for conflicting values"
+    },
+    "platforms": [
+      "android",
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/af128791464810123bcd60a6d9d0902b5c550aef.patch",
+    "version_range": {
+      "from": 487747,
+      "until": 489130
     }
   }
 ]
