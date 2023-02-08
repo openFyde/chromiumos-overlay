@@ -28,6 +28,7 @@ IUSE="
 	opengl
 	pam
 	+power_management
+	printscanmgr
 	+profile
 	python_targets_python3_6 python_targets_python3_8
 	+shill
@@ -124,6 +125,7 @@ RDEPEND="${RDEPEND}
 		chromeos-base/hps-tool
 	)
 	chromeos-base/policy_utils
+	printscanmgr? ( chromeos-base/printscanmgr )
 	chromeos-base/protofiles
 	!chromeless_tty? ( chromeos-base/screen-capture-utils www-apps/novnc )
 	shill? ( chromeos-base/shill-test-scripts )
