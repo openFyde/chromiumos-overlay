@@ -19,9 +19,6 @@ CONFIG_CPU_MICROCODE_CBFS_NONE=y
 CONFIG_HAVE_SPL_FILE=y
 CONFIG_SPL_TABLE_FILE="3rdparty/amd_blobs/mendocino/PSP/TypeId0x55_SplTableBl_MDN.sbin"
 
-CONFIG_HAVE_PSP_WHITELIST_FILE=y
-CONFIG_PSP_WHITELIST_FILE="3rdparty/amd_blobs/mendocino/PSP/mdn-whitelist.sbin"
-
 # Signed PSP verstage
 # CONFIG_PSP_VERSTAGE_FILE="3rdparty/blobs/mainboard/google/skyrim/frostflow_psp_verstage.signed.bin"
 # CONFIG_PSP_VERSTAGE_SIGNING_TOKEN="3rdparty/blobs/mainboard/google/skyrim/skyrim_shiraz.stkn"

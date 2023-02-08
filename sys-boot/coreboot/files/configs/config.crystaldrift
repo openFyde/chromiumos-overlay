@@ -15,6 +15,3 @@ CONFIG_VGA_BIOS_ID="1002,1506"
 CONFIG_VGA_BIOS_FILE="3rdparty/amd_blobs/mendocino/MdnGenericVbios.bin"
 CONFIG_RUN_FSP_GOP=y
 CONFIG_CPU_MICROCODE_CBFS_NONE=y
-
-CONFIG_HAVE_PSP_WHITELIST_FILE=y
-CONFIG_PSP_WHITELIST_FILE="3rdparty/amd_blobs/mendocino/PSP/mdn-whitelist.sbin"

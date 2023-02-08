@@ -16,9 +16,6 @@ CONFIG_VGA_BIOS_FILE="3rdparty/amd_blobs/mendocino/MdnGenericVbios.bin"
 CONFIG_RUN_FSP_GOP=y
 CONFIG_CPU_MICROCODE_CBFS_NONE=y
 
-CONFIG_HAVE_PSP_WHITELIST_FILE=y
-CONFIG_PSP_WHITELIST_FILE="3rdparty/amd_blobs/mendocino/PSP/mdn-whitelist.sbin"
-
 # Signed PSP verstage
 #CONFIG_PSP_VERSTAGE_FILE="3rdparty/blobs/mainboard/google/skyrim/skyrim_psp_verstage.signed.bin"
 #CONFIG_PSP_VERSTAGE_SIGNING_TOKEN="3rdparty/blobs/mainboard/google/skyrim/skyrim_shiraz.stkn"
