@@ -55,4 +55,5 @@ src_install() {
 pkg_preinst() {
 	enewuser "arc-camera"
 	enewgroup "arc-camera"
+	enewgroup "camera"
 }
