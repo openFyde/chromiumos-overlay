@@ -11,6 +11,12 @@
 # @DESCRIPTION:
 # See http://www.chromium.org/chromium-os/developer-guide/go-in-chromium-os for details.
 
+
+case ${EAPI} in
+[0-4]) die "${ECLASS}: EAPI ${EAPI} not supported" ;;
+*) ;;
+esac
+
 # @ECLASS-VARIABLE: CROS_GO_SOURCE
 # @PRE_INHERIT
 # @DESCRIPTION:
@@ -176,7 +182,11 @@ cros-go_out_dir() {
 
 inherit toolchain-funcs
 
-DEPEND="dev-lang/go"
+case ${EAPI} in
+# TODO(b/266979761): Migrate all ebuilds to EAPI 7 or later.
+5|6) DEPEND="dev-lang/go" ;;
+*) BDEPEND="dev-lang/go" ;;
+esac
 
 # @FUNCTION: cros-go_get
 # @USAGE: <source> [variables to extract]
