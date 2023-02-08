@@ -49,7 +49,6 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=
 	chromeos-base/tpm_manager-client:=
-	chromeos-base/vboot_reference:=
 "
 
 pkg_preinst() {
