@@ -14,7 +14,6 @@ IUSE="systemd"
 
 RDEPEND="
 	sys-apps/util-linux
-	sys-fs/cryptsetup
 	"
 
 S=${WORKDIR}
