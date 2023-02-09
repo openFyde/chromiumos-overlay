@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="d6d039500516434425e66edc3b63fac1e8eb1ffc"
-CROS_WORKON_TREE=("aaaaa3f7d8b4455b36eba6a9874fca10fefb836c" "647ddefe723a3bfd0109174805c78eb019551d35" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="a021ed0b34cf113a492ef3d1d5fcce1f25bee695"
+CROS_WORKON_TREE=("aaaaa3f7d8b4455b36eba6a9874fca10fefb836c" "154eedd8dc2fc73d407169b2709d8770143b1e28" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -35,23 +35,6 @@ DEPEND="
 src_install() {
 	platform_src_install
 
-	# Install our binary.
-	dosbin "${OUT}"/crosdns
-
-	# Install D-Bus configuration.
-	insinto /etc/dbus-1/system.d
-	doins dbus_permissions/org.chromium.CrosDns.conf
-
-	# Install seccomp policy file.
-	insinto /usr/share/policy
-	if use seccomp; then
-		newins "init/crosdns-seccomp-${ARCH}.policy" crosdns-seccomp.policy
-	fi
-
-	# Install the init script.
-	insinto /etc/init
-	doins init/crosdns.conf
-
 	dotmpfiles tmpfiles.d/*.conf
 
 	# fuzzer_component_id is unknown/unlisted
@@ -59,7 +42,7 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/run_tests"
+	platform test_all
 }
 
 pkg_preinst() {
