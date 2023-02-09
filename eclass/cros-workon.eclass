@@ -14,6 +14,9 @@
 # managed in the same way.  You've got a git tree and you want to build
 # it.  This automates a lot of that common stuff in one place.
 
+if [[ -z "${_ECLASS_CROS_WORKON}" ]]; then
+_ECLASS_CROS_WORKON=1
+
 case ${EAPI:-0} in
 0|1|2|3) die "Unsupported EAPI=${EAPI:-0} (too old) for ${ECLASS}" ;;
 *) ;;
@@ -971,3 +974,5 @@ cros-workon_pkg_info() {
 }
 
 EXPORT_FUNCTIONS pkg_setup src_unpack pkg_info
+
+fi
