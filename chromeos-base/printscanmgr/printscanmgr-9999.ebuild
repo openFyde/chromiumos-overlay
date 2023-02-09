@@ -17,7 +17,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/printsca
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-COMMON_DEPEND=""
+COMMON_DEPEND="
+	chromeos-base/minijail:=
+"
 
 RDEPEND="${COMMON_DEPEND}
 	"
