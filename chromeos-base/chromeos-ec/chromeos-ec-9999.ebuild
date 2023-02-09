@@ -13,7 +13,7 @@
 # Increment the "eclass bug workaround count" below when you change
 # "cros-ec.eclass" to work around https://issuetracker.google.com/201299127.
 #
-# eclass bug workaround count: 7
+# eclass bug workaround count: 8
 
 EAPI=7
 

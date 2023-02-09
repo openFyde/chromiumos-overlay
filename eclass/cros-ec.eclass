@@ -322,29 +322,6 @@ cros-ec_src_install() {
 	fi
 }
 
-# @FUNCTION: cros-ec_src_test
-# @DESCRIPTION:
-# Compile all boards, even if they're not listed in EC_BOARDS.
-cros-ec_src_test() {
-	debug-print-function "${FUNCNAME[0]}" "$@"
-
-	cros-ec_set_build_env
-
-	# Verify compilation of all boards.
-	emake "${EC_OPTS[@]}" buildall
-
-	# Verify compilation of the on-device unit test binaries.
-	# TODO(b/172501728) These should build  for all boards, but they've bit
-	# rotted, so we only build the ones that compile.
-	# NOTE: Any changes here must also be reflected in
-	# platform/ec/firmware_builder.py which is used for the ec cq
-	local -a unit_test_boards=("bloonchipper" "dartmonkey")
-	for board in "${unit_test_boards[@]}"; do
-		einfo "Building unit tests for ${board}"
-		BOARD=${board} emake "${EC_OPTS[@]}" tests
-	done
-}
-
-EXPORT_FUNCTIONS src_unpack src_prepare src_compile src_test src_install
+EXPORT_FUNCTIONS src_unpack src_prepare src_compile src_install
 
 fi  # _ECLASS_CROS_EC
