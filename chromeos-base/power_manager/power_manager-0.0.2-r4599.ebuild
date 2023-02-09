@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a26f785388e45db3a758408768ba673b398f742b"
-CROS_WORKON_TREE=("aaaaa3f7d8b4455b36eba6a9874fca10fefb836c" "2f3540fa4c17dc3093037123ea3921c49e87556f" "df8645a6dc39ee0ef0a05723a1b23bfacf27d16f" "526856404a3ae4f13c639028daf8a01fc945349a" "02e529d51b18b967f3e15ad3d2f21ae1ea3d1abf" "6df1cbd56008025f75967252b37c51cf894558cb" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "bf7cebd59433d701017adaf4ab80130b9a65ddab" "f77c9ad5c1a096c1efdd3cd6d4fc5d9fc226260b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="14421a8fafc4a357b696e92a8316e641689c1249"
+CROS_WORKON_TREE=("aaaaa3f7d8b4455b36eba6a9874fca10fefb836c" "2f3540fa4c17dc3093037123ea3921c49e87556f" "df8645a6dc39ee0ef0a05723a1b23bfacf27d16f" "526856404a3ae4f13c639028daf8a01fc945349a" "02e529d51b18b967f3e15ad3d2f21ae1ea3d1abf" "6df1cbd56008025f75967252b37c51cf894558cb" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "feffda797c126d3205ad2e049230b2880ad77449" "f77c9ad5c1a096c1efdd3cd6d4fc5d9fc226260b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -32,6 +32,7 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/ml-client:=
 	chromeos-base/mojo_service_manager:=
+	chromeos-base/power_manager-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/tpm_manager-client:=
 	dev-libs/libnl:=
@@ -81,6 +82,7 @@ src_install() {
 	fperms 4750 /usr/bin/powerd_setuid_helper
 
 	# Binaries for testing and debugging
+	dobin "${OUT}"/battery_saver
 	dobin "${OUT}"/check_powerd_config
 	use amd64 && dobin "${OUT}"/dump_intel_rapl_consumption
 	dobin "${OUT}"/inject_powerd_input_event
@@ -184,6 +186,7 @@ platform_pkg_test() {
 		power_manager_daemon_test
 		power_manager_policy_test
 		power_manager_system_test
+		power_manager_tools_battery_saver_test
 		power_manager_util_test
 	)
 
