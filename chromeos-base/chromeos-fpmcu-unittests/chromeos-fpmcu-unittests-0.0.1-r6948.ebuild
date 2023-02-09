@@ -67,8 +67,3 @@ src_install() {
 		doins build/"${target}"/*.bin
 	done
 }
-
-# Do not run cros-ec's tests.
-src_test() {
-	:
-}
