@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d6d039500516434425e66edc3b63fac1e8eb1ffc"
+CROS_WORKON_COMMIT="f8c95ac45a7b92455937d3deca26bd610b15831e"
 CROS_WORKON_TREE=("aaaaa3f7d8b4455b36eba6a9874fca10fefb836c" "2f3540fa4c17dc3093037123ea3921c49e87556f" "6df1cbd56008025f75967252b37c51cf894558cb" "ca0143ccd80696e416b1880a2cfaa8f6bdaf5247" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -39,6 +39,7 @@ DEPEND="${COMMON_DEPEND}
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=[fuzzer?]
 	fuzzer? ( dev-libs/libprotobuf-mutator:= )
+	chromeos-base/vboot_reference:=
 "
 
 src_install() {
