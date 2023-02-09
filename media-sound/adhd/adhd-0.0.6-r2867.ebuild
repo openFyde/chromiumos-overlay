@@ -25,8 +25,8 @@ bazel_external_uris="
 	https://mirror.bazel.build/bazel_coverage_output_generator/releases/coverage_output_generator-v2.5.zip -> coverage_output_generator-v2.5.zip
 	https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz -> bazelbuild-rules_proto-7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz
 	https://mirror.bazel.build/openjdk/azul-zulu11.50.19-ca-jdk11.0.12/zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz -> bazel-zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz
-	https://mirror.bazel.build/bazel_java_tools/releases/java/v11.6/java_tools-v11.6.zip -> bazel-java_tools-v11.6.zip
-	https://mirror.bazel.build/bazel_java_tools/releases/java/v11.6/java_tools_linux-v11.6.zip -> bazel-java_tools_linux-v11.6.zip
+	https://mirror.bazel.build/bazel_java_tools/releases/java/v11.6/java_tools-v11.7.1.zip
+	https://mirror.bazel.build/bazel_java_tools/releases/java/v11.6/java_tools_linux-v11.7.1.zip
 "
 SRC_URI="${bazel_external_uris}"
 LICENSE="BSD-Google"
