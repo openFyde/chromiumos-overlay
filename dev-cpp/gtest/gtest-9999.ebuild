@@ -6,21 +6,16 @@ EAPI="6"
 # Python is required for tests and some build tasks.
 PYTHON_COMPAT=( python3_{6..9} pypy )
 
-inherit cmake-multilib python-any-r1
+CROS_WORKON_PROJECT="external/github.com/google/googletest"
+CROS_WORKON_LOCALNAME="../third_party/googletest"
 
-if [[ ${PV} == "9999" ]]; then
-	inherit git-r3
-	EGIT_REPO_URI="https://github.com/google/googletest"
-else
-	SRC_URI="https://github.com/google/googletest/archive/v${PV}.tar.gz -> ${P}.tar.gz"
-	KEYWORDS="*"
-	S="${WORKDIR}"/googletest-${PV%.?}.x
-fi
+inherit cmake-multilib python-any-r1 cros-workon
 
 DESCRIPTION="Google C++ Testing Framework"
 HOMEPAGE="https://github.com/google/googletest"
 
 LICENSE="BSD"
+KEYWORDS="~*"
 SLOT="0"
 IUSE="doc examples test"
 
