@@ -24,6 +24,8 @@ LICENSE="Apache-2.0"
 SLOT="0"
 
 # protobuf dep is for using protoc at build-time to generate perfetto's headers.
+# It is included in DEPEND as a hack to trigger a rebuild when protoc is
+# upgraded.
 BDEPEND="
 	dev-util/gn
 	dev-util/ninja
@@ -32,6 +34,7 @@ BDEPEND="
 # sqlite is used in building trace_processor_shell
 DEPEND="
 	dev-db/sqlite
+	dev-libs/protobuf:=
 "
 
 BUILD_OUTPUT="${WORKDIR}/out_cros/"
