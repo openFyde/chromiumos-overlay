@@ -50,6 +50,7 @@ src_prepare()
 	eapply "${FILESDIR}"/patches/${P}-Additional-ARP-packet-checks.patch
 	eapply "${FILESDIR}"/patches/${P}-Fix-handling-of-hostname-argument.patch
 	eapply "${FILESDIR}"/patches/${P}-Drop-ARP-on-DHCP-drop.patch
+	eapply "${FILESDIR}"/patches/${P}-Implement-IPv6-Only-Preferred-option-RFC-8925.patch
 
 	default
 }
