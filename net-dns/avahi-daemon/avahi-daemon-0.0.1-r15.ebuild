@@ -1,9 +1,16 @@
-# Copyright 2014 The ChromiumOS Authors
+# Copyright 2023 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
 
-inherit tmpfiles
+CROS_WORKON_COMMIT="d2d95e8af89939f893b1443135497c1f5572aebc"
+CROS_WORKON_TREE="776139a53bc86333de8672a51ed7879e75909ac9"
+inherit tmpfiles cros-workon
+
+# "cros_workon info" expects these variables to be set, but we don't have a git
+# repo, so use the standard empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="../platform/empty-project"
 
 DESCRIPTION="Install the upstart job that launches avahi."
 HOMEPAGE="http://www.chromium.org/"
@@ -15,8 +22,6 @@ IUSE="wifi_bootstrapping zeroconf"
 RDEPEND="
 	net-dns/avahi
 "
-
-S=${WORKDIR}
 
 src_install() {
 	insinto /etc/init
