@@ -4,11 +4,12 @@
 EAPI=7
 
 CROS_WORKON_COMMIT="b957643161f239a09ef5dfd03d5794b5d0dfce78"
-CROS_WORKON_TREE="02262cb786f1a247cecca66aa746cbe0ec8af53c"
+CROS_WORKON_TREE=("16b0b47376104a22c6541c1f2f3e79290b7b5cb0" "9b6f03866a7ce5ab464adab687508dae7d82bb29")
 CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
 CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="vendor vendor_artifacts"
 
 PYTHON_COMPAT=( python3_{6..9} )
 
@@ -37,6 +38,7 @@ EXPECTED_LICENSES=(
 
 LICENSE="${EXPECTED_LICENSES[*]}"
 
+# shellcheck disable=SC2154 # this is defined by cros-rust
 CRATES_LISTING_INST_LOC="${CROS_RUST_REGISTRY_DIR}/third-party-crates-src-listing"
 
 pkg_setup() {
