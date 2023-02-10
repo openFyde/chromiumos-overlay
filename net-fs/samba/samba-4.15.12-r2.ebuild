@@ -148,8 +148,6 @@ pkg_setup() {
 	# Package fails to build with distcc
 	export DISTCC_DISABLE=1
 
-	PERLVER=$(/usr/bin/perl -e "\$_ = \$^V; s/v//; print")
-
 	python-single-r1_pkg_setup
 
 	SHAREDMODS="$(usex snapper '' '!')vfs_snapper"
@@ -248,16 +246,12 @@ multilib_src_configure() {
 	fi
 
 	KRB5_CONFIG="${CHOST}-krb5-config" \
-	PERL5LIB="${SYSROOT}/usr/$(get_libdir)/perl5/vendor_perl/${PERLVER}" \
-	YAPP="${SYSROOT}/usr/bin/yapp" \
 	CPPFLAGS="-I${SYSROOT}${EPREFIX}/usr/include/et ${CPPFLAGS}" \
 		waf-utils_src_configure "${myconf[@]}"
 }
 
 multilib_src_compile() {
-	PERL5LIB="${SYSROOT}/usr/$(get_libdir)/perl5/vendor_perl/${PERLVER}" \
-	YAPP="${SYSROOT}/usr/bin/yapp" \
-		waf-utils_src_compile
+	waf-utils_src_compile
 }
 
 multilib_src_install() {
