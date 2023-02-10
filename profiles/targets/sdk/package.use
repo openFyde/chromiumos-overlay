@@ -29,7 +29,10 @@ dev-python/certifi python_targets_pypy3
 virtual/target-chromium-os-sdk python_targets_python3_8
 
 # Enable Python 3.8 for select packages.
+dev-embedded/binman -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
+dev-embedded/patman -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
 dev-util/meson -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
+dev-vcs/dtoc -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
 
 # Use pcre2 rather than pcre as everything else has moved.
 sys-libs/libselinux pcre2
