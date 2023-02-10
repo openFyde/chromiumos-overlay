@@ -582,6 +582,10 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	net-wireless/floss_tools"
 
+# Needed to build net-fs/samba
+RDEPEND="${RDEPEND}
+	dev-perl/Parse-Yapp"
+
 # Needed to build cros-camera-hal-qti.
 RDEPEND="${RDEPEND}
 	dev-perl/XML-Simple"
