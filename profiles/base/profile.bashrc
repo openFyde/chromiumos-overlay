@@ -483,12 +483,14 @@ cros_post_src_unpack_asan_init() {
 
 # Check for & show ASAN failures when dying.
 asan_death_hook() {
+	# File(s) may not exist.
+	compgen -G "${T}/asan_logs/asan*" >/dev/null || return 0
+
 	# Find and fix permissions on the log files so that they can be read later.
 	find "${T}"/asan_logs/asan* '!' -user "${PORTAGE_USERNAME}" -exec sudo chown "${PORTAGE_USERNAME}:${PORTAGE_GRPNAME}" {} +
 
 	local l
 	for l in "${T}"/asan_logs/asan*; do
-		[[ ! -e ${l} ]] && return 0
 		echo
 		eerror "ASAN error detected:"
 		eerror "$(asan_symbolize.py -d -s "${SYSROOT}" < "${l}")"
