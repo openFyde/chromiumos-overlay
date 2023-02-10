@@ -1,26 +1,27 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-CROS_WORKON_COMMIT="d74e793afc71c1db36f718b33e70c1d8247b83a1"
-CROS_WORKON_TREE="d2938cffed5f23c9c21146e8dbe2039df225ffc2"
-CROS_WORKON_PROJECT="chromiumos/third_party/libqmi"
+CROS_WORKON_COMMIT="223b2be7795b6f24adb2e146c28a40932d65c04a"
+CROS_WORKON_TREE="48dbebd3fa8ece617d5aa53f435b539817a76bbe"
+CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
+CROS_WORKON_EGIT_BRANCH="master"
 
 inherit meson cros-sanitizers cros-workon udev cros-fuzzer cros-sanitizers
 
-DESCRIPTION="QMI modem protocol helper library"
-HOMEPAGE="http://cgit.freedesktop.org/libqmi/"
+DESCRIPTION="MBIM modem protocol helper library"
+HOMEPAGE="http://cgit.freedesktop.org/libmbim/"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
-IUSE="-asan mbim qrtr fuzzer"
+IUSE="-asan doc static-libs fuzzer"
 
 RDEPEND=">=dev-libs/glib-2.36
-	>=net-libs/libmbim-1.18.0
-	net-libs/libqrtr-glib"
+	virtual/libgudev"
 
 DEPEND="${RDEPEND}
+	doc? ( dev-util/gtk-doc )
 	virtual/pkgconfig"
 
 src_configure() {
@@ -28,7 +29,7 @@ src_configure() {
 
 	local emesonargs=(
 		--prefix='/usr'
-		-Dqmi_username='modem'
+		-Dmbim_username='modem'
 		-Dlibexecdir='/usr/libexec'
 		-Dudevdir='/lib/udev'
 		-Dintrospection=false
@@ -43,14 +44,14 @@ src_install() {
 	meson_src_install
 
 	if use fuzzer; then
-		local fuzzer_build_path="${BUILD_DIR}/src/libqmi-glib/test"
+		local fuzzer_build_path="${BUILD_DIR}/src/libmbim-glib/test"
 		cp "${fuzzer_build_path}/test-message-fuzzer" \
-			"${fuzzer_build_path}/test-qmi-message-fuzzer" || die
+			"${fuzzer_build_path}/test-mbim-message-fuzzer" || die
 
 		# ChromeOS/Platform/Connectivity/Cellular
 		local fuzzer_component_id="167157"
 		fuzzer_install "${S}/OWNERS" \
-			"${fuzzer_build_path}/test-qmi-message-fuzzer" \
+			"${fuzzer_build_path}/test-mbim-message-fuzzer" \
 			--comp "${fuzzer_component_id}"
 	fi
 }
