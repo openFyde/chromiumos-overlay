@@ -132,7 +132,7 @@ ARM_AFDO_VERSION=${ARM_AFDO_FROZEN_PROFILE_VERSION:-${ARM_AFDO_PROFILE_VERSION}}
 GS_PREFIX="gs://chromeos-prebuilt/afdo-job/cwp/kernel"
 if [[ -n "${AFDO_VERSION}" ]]; then
 	# Set AFDO_LOCATION if not already set.
-	: "${AFDO_LOCATION:="${GS_PREFIX}/${KERNEL_VERSION}"}"
+	: "${AFDO_LOCATION:="${GS_PREFIX}/amd64/${KERNEL_VERSION}"}"
 	AFDO_GCOV="${PN}-${AFDO_VERSION}.gcov"
 	AFDO_GCOV_COMPBINARY="${AFDO_GCOV}.compbinary.afdo"
 	SRC_URI+=" kernel_afdo? (
