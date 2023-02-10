@@ -7,6 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/rust_crates"
 CROS_WORKON_EGIT_BRANCH="main"
 CROS_WORKON_LOCALNAME="rust_crates"
 CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="vendor vendor_artifacts"
 
 PYTHON_COMPAT=( python3_{6..9} )
 
@@ -35,6 +36,7 @@ EXPECTED_LICENSES=(
 
 LICENSE="${EXPECTED_LICENSES[*]}"
 
+# shellcheck disable=SC2154 # this is defined by cros-rust
 CRATES_LISTING_INST_LOC="${CROS_RUST_REGISTRY_DIR}/third-party-crates-src-listing"
 
 pkg_setup() {
