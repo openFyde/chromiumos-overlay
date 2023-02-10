@@ -29,6 +29,7 @@ dev-python/certifi python_targets_pypy3
 virtual/target-chromium-os-sdk python_targets_python3_8
 
 # Enable Python 3.8 for select packages.
+chromeos-base/chromeos-config-host -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
 chromeos-base/zephyr-build-tools -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
 chromeos-base/chromeos-zephyr -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8
 dev-embedded/binman -python_targets_python3_6 -python_single_target_python3_6 python_single_target_python3_8

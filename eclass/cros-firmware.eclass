@@ -10,7 +10,10 @@ if [[ -z "${EBUILD}" ]]; then
 	die "This eclass needs EBUILD environment variable."
 fi
 
-inherit cros-workon cros-unibuild cros-constants
+PYTHON_COMPAT=( python3_{8..9} )
+unset PYTHON_COMPAT_OVERRIDE
+
+inherit cros-workon cros-unibuild cros-constants python-any-r1
 
 # @ECLASS-VARIABLE: CROS_FIRMWARE_BCS_OVERLAY
 # @DESCRIPTION: (Optional) Name of board overlay on Binary Component Server
@@ -291,7 +294,7 @@ cros-firmware_src_compile() {
 	else
 		einfo "Build ${BOARD_USE} BCS firmware updater to ${UPDATE_SCRIPT}:" \
 			"${image_cmd[*]} ${ext_cmd[*]}"
-		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
+		"${EPYTHON}" ./pack_firmware.py -o "${UPDATE_SCRIPT}" \
 			"${image_cmd[@]}" "${ext_cmd[@]}" ||
 			die "Cannot pack firmware updater."
 	fi
@@ -316,7 +319,7 @@ cros-firmware_src_compile() {
 	if [[ ! -f "${UPDATE_SCRIPT}" ]]; then
 		einfo "Build ${BOARD_USE} local updater to ${UPDATE_SCRIPT}:" \
 			"${local_image_cmd[*]} ${local_ext_cmd[*]}"
-		./pack_firmware.py -o "${UPDATE_SCRIPT}" \
+		"${EPYTHON}" ./pack_firmware.py -o "${UPDATE_SCRIPT}" \
 			"${local_image_cmd[@]}" "${local_ext_cmd[@]}" ||
 			die "Cannot pack local firmware updater."
 		if ! use tot_firmware; then
@@ -372,7 +375,7 @@ cros-firmware_src_test() {
 
 	for fname in *test.py; do
 		einfo "Running tests in ${fname}"
-		python3 "./${fname}" || die "Tests failed at ${fname} (py3)"
+		"${EPYTHON}" "./${fname}" || die "Tests failed at ${fname} (py3)"
 	done
 }
 

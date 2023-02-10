@@ -7,7 +7,10 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="chromeos-config/cros_config_host"
 
-inherit cros-unibuild cros-workon
+PYTHON_COMPAT=( python3_{8..9} )
+unset PYTHON_COMPAT_OVERRIDE
+
+inherit cros-unibuild cros-workon python-any-r1
 
 DESCRIPTION="Chromium OS-specific configuration"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
@@ -45,7 +48,7 @@ run_cros_config_tool() {
 	shift
 
 	PYTHONPATH="${S}/chromeos-config/cros_config_host" \
-		python3 -m "${tool}" "$@"
+		"${EPYTHON}" -m "${tool}" "$@"
 }
 
 # Merges all of the source YAML config files and generates the
