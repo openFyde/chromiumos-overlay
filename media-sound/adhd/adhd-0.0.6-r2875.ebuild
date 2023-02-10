@@ -140,7 +140,6 @@ src_configure() {
 src_compile() {
 	export JAVA_HOME=$(ROOT="${BROOT}" java-config --jdk-home)
 
-	cd cras || die
 	# Prevent clang to access ubsan_blocklist.txt which is not supported by bazel.
 	filter-flags -fsanitize-blacklist="${S}"/ubsan_blocklist.txt
 	bazel_setup_crosstool
@@ -162,7 +161,6 @@ src_test() {
 		return
 	fi
 
-	cd cras || die
 	args=(
 		"--test_output=errors"
 		"--keep_going"
