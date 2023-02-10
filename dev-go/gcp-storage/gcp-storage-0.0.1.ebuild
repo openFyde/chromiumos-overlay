@@ -5,7 +5,7 @@ EAPI=7
 
 # The dev-go/gcp* packages are all built from this repo. They should be updated
 # together.
-CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/go v${PV}"
+CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/go 06a54a16a5866cce966547c51e203b9e09a25bc0"
 
 CROS_GO_PACKAGES=(
 	"cloud.google.com/go/storage"

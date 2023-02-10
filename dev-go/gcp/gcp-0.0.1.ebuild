@@ -3,9 +3,11 @@
 
 EAPI=7
 
-# The dev-go/gcp* packages are all built from this repo.  They should
-# be updated together.
-CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/go v${PV}"
+# The dev-go/gcp* packages are versioned separately but all come from the same
+# repo to simplify updates we set them all to be the same ebuild version but
+# all should point to same git hash corresponding to a release and be update
+# together
+CROS_GO_SOURCE="github.com/GoogleCloudPlatform/google-cloud-go:cloud.google.com/go 06a54a16a5866cce966547c51e203b9e09a25bc0"
 
 CROS_GO_PACKAGES=(
 	"cloud.google.com/go/civil"
@@ -18,8 +20,7 @@ CROS_GO_PACKAGES=(
 	"cloud.google.com/go/internal/uid"
 	"cloud.google.com/go/internal/version"
 	"cloud.google.com/go/httpreplay/..."
-	"cloud.google.com/go/longrunning"
-	"cloud.google.com/go/longrunning/autogen"
+	"cloud.google.com/go/longrunning/..."
 )
 
 CROS_GO_TEST=(

@@ -17,6 +17,7 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/api/googleapi"
 	"google.golang.org/api/googleapi/transport"
 	"google.golang.org/api/iamcredentials/v1"
+	"google.golang.org/api/impersonate"
 	"google.golang.org/api/internal"
 	"google.golang.org/api/internal/gensupport"
 	"google.golang.org/api/internal/impersonate"

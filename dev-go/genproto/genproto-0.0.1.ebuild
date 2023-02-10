@@ -13,6 +13,8 @@ CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/api/label"
 	"google.golang.org/genproto/googleapis/api/metric"
 	"google.golang.org/genproto/googleapis/api/monitoredres"
+	"google.golang.org/genproto/googleapis/api/serviceconfig"
+	"google.golang.org/genproto/googleapis/cloud/bigquery/connection/v1"
 	"google.golang.org/genproto/googleapis/chromeos/uidetection/v1/..."
 	"google.golang.org/genproto/googleapis/devtools/cloudtrace/v2"
 	"google.golang.org/genproto/googleapis/iam/v1"
