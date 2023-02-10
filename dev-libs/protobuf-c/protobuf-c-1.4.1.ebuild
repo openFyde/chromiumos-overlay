@@ -1,7 +1,7 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 inherit autotools multilib-minimal
 
@@ -11,21 +11,27 @@ MY_P="${PN}-${MY_PV}"
 DESCRIPTION="Protocol Buffers implementation in C"
 HOMEPAGE="https://github.com/protobuf-c/protobuf-c"
 SRC_URI="https://github.com/${PN}/${PN}/releases/download/v${MY_PV}/${MY_P}.tar.gz"
+S="${WORKDIR}/${MY_P}"
 
 LICENSE="BSD-2"
 # Subslot == SONAME version
 SLOT="0/1.0.0"
 KEYWORDS="*"
 IUSE="static-libs test"
+RESTRICT="!test? ( test )"
 
-RDEPEND=">=dev-libs/protobuf-3:0=[${MULTILIB_USEDEP}]"
-DEPEND="${RDEPEND}
-	virtual/pkgconfig[${MULTILIB_USEDEP}]"
+BDEPEND=">=dev-libs/protobuf-3:0
+	virtual/pkgconfig"
+DEPEND=">=dev-libs/protobuf-3:0=[${MULTILIB_USEDEP}]"
+RDEPEND="${DEPEND}"
 
-S="${WORKDIR}/${MY_P}"
+PATCHES=(
+	"${FILESDIR}"/${PN}-1.4.0-include-path.patch
+)
 
 src_prepare() {
 	default
+
 	if ! use test; then
 		eapply "${FILESDIR}"/${PN}-1.3.0-no-build-tests.patch
 	fi
@@ -45,4 +51,9 @@ multilib_src_configure() {
 	fi
 
 	ECONF_SOURCE="${S}" econf "${myeconfargs[@]}"
+}
+
+multilib_src_install_all() {
+	find "${ED}" -name '*.la' -type f -delete || die
+	einstalldocs
 }
