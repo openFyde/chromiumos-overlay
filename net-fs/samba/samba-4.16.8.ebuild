@@ -1,18 +1,18 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
 PYTHON_COMPAT=( python3_{6..9} )
 PYTHON_REQ_USE="threads(+),xml(+)"
-inherit flag-o-matic python-single-r1 waf-utils multilib-minimal linux-info systemd pam tmpfiles
+inherit python-single-r1 flag-o-matic waf-utils multilib-minimal linux-info systemd pam tmpfiles
 
 DESCRIPTION="Samba Suite Version 4"
 HOMEPAGE="https://samba.org/"
 
 MY_PV="${PV/_rc/rc}"
 MY_P="${PN}-${MY_PV}"
-if [[ ${PV} = *_rc* ]]; then
+if [[ ${PV} == *_rc* ]]; then
 	SRC_URI="mirror://samba/rc/${MY_P}.tar.gz"
 else
 	SRC_URI="mirror://samba/stable/${MY_P}.tar.gz"
@@ -22,13 +22,16 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="GPL-3"
 SLOT="0"
-IUSE="acl addc ads ceph client cluster cpu_flags_x86_aes cups debug fam
-glusterfs gpg iprint json ldap llvm-libunwind pam profiling-data -python quota regedit selinux
-snapper spotlight syslog system-heimdal +system-mitkrb5 systemd test unwind winbind
-zeroconf"
+IUSE="acl addc ads ceph client cluster cpu_flags_x86_aes cups debug fam glusterfs gpg"
+IUSE+=" iprint json ldap llvm-libunwind pam profiling-data python quota regedit selinux"
+IUSE+=" snapper spotlight syslog system-heimdal +system-mitkrb5 systemd test unwind winbind"
+IUSE+=" zeroconf"
+
+# ChromeOS:
+IUSE+=" io-uring"
 
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
-	addc? ( python json !system-mitkrb5 winbind )
+	addc? ( json python !system-mitkrb5 winbind )
 	ads? ( acl ldap winbind )
 	cluster? ( ads )
 	gpg? ( addc )
@@ -55,26 +58,27 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/samba-4.0/ctdb_version.h
 )
 
+TALLOC_VERSION="2.3.3"
+TDB_VERSION="1.4.6"
+TEVENT_VERSION="0.11.0"
+
 COMMON_DEPEND="
-	>=app-arch/libarchive-3.1.2[${MULTILIB_USEDEP}]
-	dev-lang/perl:=
+	>=app-arch/libarchive-3.1.2:=[${MULTILIB_USEDEP}]
 	dev-libs/libbsd[${MULTILIB_USEDEP}]
-	dev-libs/libtasn1[${MULTILIB_USEDEP}]
+	dev-libs/libtasn1:=[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
 	dev-perl/Parse-Yapp
-	>=net-libs/gnutls-3.4.7[${MULTILIB_USEDEP}]
-	|| (
-		>=sys-fs/e2fsprogs-1.46.4-r51[${MULTILIB_USEDEP}]
-		sys-libs/e2fsprogs-libs[${MULTILIB_USEDEP}]
-	)
-	>=sys-libs/ldb-2.4.4[ldap(+)?,${MULTILIB_USEDEP}]
-	<sys-libs/ldb-2.5.0[ldap(+)?,${MULTILIB_USEDEP}]
+	>=net-libs/gnutls-3.4.7:=[${MULTILIB_USEDEP}]
+	>=sys-fs/e2fsprogs-1.46.4-r51[${MULTILIB_USEDEP}]
+	>=sys-libs/ldb-2.5.2:=[ldap(+)?,${MULTILIB_USEDEP}]
+	<sys-libs/ldb-2.6.0:=[ldap(+)?,${MULTILIB_USEDEP}]
 	sys-libs/libcap[${MULTILIB_USEDEP}]
-	sys-libs/ncurses:0=
-	sys-libs/readline:0=
-	>=sys-libs/talloc-2.3.3[${MULTILIB_USEDEP}]
-	>=sys-libs/tdb-1.4.4[${MULTILIB_USEDEP}]
-	>=sys-libs/tevent-0.11.0[${MULTILIB_USEDEP}]
+	io-uring? ( sys-libs/liburing:=[${MULTILIB_USEDEP}] )
+	sys-libs/ncurses:=
+	sys-libs/readline:=
+	>=sys-libs/talloc-${TALLOC_VERSION}[${MULTILIB_USEDEP}]
+	>=sys-libs/tdb-${TDB_VERSION}[${MULTILIB_USEDEP}]
+	>=sys-libs/tevent-${TEVENT_VERSION}[${MULTILIB_USEDEP}]
 	sys-libs/zlib[${MULTILIB_USEDEP}]
 	virtual/libcrypt:=[${MULTILIB_USEDEP}]
 	virtual/libiconv
@@ -91,18 +95,19 @@ COMMON_DEPEND="
 	snapper? ( sys-apps/dbus )
 	system-heimdal? ( >=app-crypt/heimdal-1.5[-ssl,${MULTILIB_USEDEP}] )
 	system-mitkrb5? ( >=app-crypt/mit-krb5-1.19[${MULTILIB_USEDEP}] )
-	systemd? ( sys-apps/systemd:0= )
+	systemd? ( sys-apps/systemd:= )
+	unwind? (
+		llvm-libunwind? ( sys-libs/llvm-libunwind:= )
+		!llvm-libunwind? ( sys-libs/libunwind:= )
+	)
 	zeroconf? ( net-dns/avahi[dbus] )
 "
 DEPEND="${COMMON_DEPEND}
-	>=dev-util/cmocka-1.1.3[${MULTILIB_USEDEP}]
 	net-libs/libtirpc[${MULTILIB_USEDEP}]
-	|| (
-		net-libs/rpcsvc-proto
-		<sys-libs/glibc-2.26[rpc(+)]
-	)
+	net-libs/rpcsvc-proto
 	spotlight? ( dev-libs/glib )
 	test? (
+		>=dev-util/cmocka-1.1.3[${MULTILIB_USEDEP}]
 		!system-mitkrb5? (
 			>=net-dns/resolv_wrapper-1.1.4
 			>=net-libs/socket_wrapper-1.1.9
@@ -123,6 +128,8 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}/${PN}-4.4.0-pam.patch"
+	"${FILESDIR}/${PN}-4.16.1-netdb-defines.patch"
+	"${FILESDIR}/${PN}-4.16.2-fix-musl-without-innetgr.patch"
 	"${FILESDIR}/ldb-2.5.2-skip-wav-tevent-check.patch"
 	"${FILESDIR}/${PN}-4.15.9-libunwind-automagic.patch"
 	"${FILESDIR}/${PN}-4.15.12-configure-clang16.patch"
@@ -137,11 +144,8 @@ PATCHES=(
 	"${FILESDIR}/${PN}-4.11.13-lib-gpo-Cope-with-Site-GPO-s-list-failure.patch"
 )
 
-#CONFDIR="${FILESDIR}/$(get_version_component_range 1-2)"
 CONFDIR="${FILESDIR}/4.4"
-
 WAF_BINARY="${S}/buildtools/bin/waf"
-
 SHAREDMODS=""
 
 pkg_setup() {
@@ -158,25 +162,50 @@ pkg_setup() {
 	fi
 }
 
+check_samba_dep_versions() {
+	actual_talloc_version=$(sed -En '/^VERSION =/{s/[^0-9.]//gp}' lib/talloc/wscript || die)
+	if [[ ${actual_talloc_version} != ${TALLOC_VERSION} ]] ; then
+		eerror "Source talloc version: ${TALLOC_VERSION}"
+		eerror "Ebuild talloc version: ${actual_talloc_version}"
+		die "Ebuild needs to fix TALLOC_VERSION!"
+	fi
+
+	actual_tdb_version=$(sed -En '/^VERSION =/{s/[^0-9.]//gp}' lib/tdb/wscript || die)
+	if [[ ${actual_tdb_version} != ${TDB_VERSION} ]] ; then
+		eerror "Source tdb version: ${TDB_VERSION}"
+		eerror "Ebuild tdb version: ${actual_tdb_version}"
+		die "Ebuild needs to fix TDB_VERSION!"
+	fi
+
+	actual_tevent_version=$(sed -En '/^VERSION =/{s/[^0-9.]//gp}' lib/tevent/wscript || die)
+	if [[ ${actual_tevent_version} != ${TEVENT_VERSION} ]] ; then
+		eerror "Source tevent version: ${TEVENT_VERSION}"
+		eerror "Ebuild tevent version: ${actual_tevent_version}"
+		die "Ebuild needs to fix TEVENT_VERSION!"
+	fi
+}
+
 src_prepare() {
 	default
 
-	# un-bundle dnspython
+	check_samba_dep_versions
+
+	# Unbundle dnspython
 	sed -i -e '/"dns.resolver":/d' "${S}"/third_party/wscript || die
 
-	# unbundle iso8601 unless tests are enabled
+	# Unbundle iso8601 unless tests are enabled
 	if ! use test ; then
 		sed -i -e '/"iso8601":/d' "${S}"/third_party/wscript || die
 	fi
 
-	## ugly hackaround for bug #592502
+	# Ugly hackaround for bug #592502
 	#cp /usr/include/tevent_internal.h "${S}"/lib/tevent/ || die
 
 	sed -e 's:<gpgme\.h>:<gpgme/gpgme.h>:' \
 		-i source4/dsdb/samdb/ldb_modules/password_hash.c \
 		|| die
 
-	# Friggin' WAF shit
+	# WAF
 	multilib_copy_sources
 }
 
@@ -189,6 +218,13 @@ multilib_src_configure() {
 	local bundled_libs="NONE"
 	if ! use system-heimdal && ! use system-mitkrb5 ; then
 		bundled_libs="heimbase,heimntlm,hdb,kdc,krb5,wind,gssapi,hcrypto,hx509,roken,asn1,com_err,NONE"
+	fi
+
+	# We "use" bundled cmocka when we're not running tests as we're
+	# not using it anyway. Means we avoid making users install it for
+	# no reason. bug #802531
+	if ! use test ; then
+		bundled_libs="cmocka,${bundled_libs}"
 	fi
 
 	local myconf=(
@@ -245,9 +281,10 @@ multilib_src_configure() {
 		myconf+=( "--with-shared-modules=DEFAULT !vfs_snapper" )
 	fi
 
-	KRB5_CONFIG="${CHOST}-krb5-config" \
-	CPPFLAGS="-I${SYSROOT}${EPREFIX}/usr/include/et ${CPPFLAGS}" \
-		waf-utils_src_configure "${myconf[@]}"
+	# ChromeOS: Fix include path.
+	append-cppflags "-I${ESYSROOT}/usr/include/et"
+
+	waf-utils_src_configure ${myconf[@]}
 }
 
 multilib_src_compile() {
@@ -259,31 +296,30 @@ multilib_src_install() {
 
 	# Make all .so files executable
 	find "${ED}" -type f -name "*.so" -exec chmod +x {} + || die
+	# smbspool_krb5_wrapper must only be accessible to root, bug #880739
+	find "${ED}" -type f -name "smbspool_krb5_wrapper" -exec chmod go-rwx {} + || die
 
-	# Install async dns plugin only for amd64 architecture for authpolicyd and kerberosd
-	if [[ "${ARCH}" == "amd64" ]]; then
-		insinto "/usr/$(get_libdir)/krb5/plugins/libkrb5/"
-		newins bin/default/nsswitch/libasync-dns-krb5-locator.inst.so libasync-dns-krb5-locator.so
-	fi
+	# Remove empty runtime dirs created by build system (bug #892341)
+	find "${ED}"/{run,var} -type d -empty -delete || die
 
 	if multilib_is_native_abi ; then
-		# install ldap schema for server (bug #491002)
+		# Install ldap schema for server (bug #491002)
 		if use ldap ; then
 			insinto /etc/openldap/schema
 			doins examples/LDAP/samba.schema
 		fi
 
-		# create symlink for cups (bug #552310)
+		# Create symlink for cups (bug #552310)
 		if use cups ; then
 			dosym ../../../bin/smbspool \
 				/usr/libexec/cups/backend/smb
 		fi
 
-		# install example config file
+		# Install example config file
 		insinto /etc/samba
 		doins examples/smb.conf.default
 
-		# Fix paths in example file (#603964)
+		# Fix paths in example file (bug #603964)
 		sed \
 			-e '/log file =/s@/usr/local/samba/var/@/var/log/samba/@' \
 			-e '/include =/s@/usr/local/samba/lib/@/etc/samba/@' \
@@ -297,6 +333,15 @@ multilib_src_install() {
 		newconfd "${CONFDIR}/samba4.confd" samba
 
 		dotmpfiles "${FILESDIR}"/samba.conf
+		if use systemd && ! use addc ; then
+			rm "${D}/$(systemd_get_systemunitdir)/samba.service" \
+				|| die
+		fi
+
+		# Preserve functionality for old gentoo-specific unit names
+		dosym nmb.service "$(systemd_get_systemunitdir)/nmbd.service"
+		dosym smb.service "$(systemd_get_systemunitdir)/smbd.service"
+		dosym winbind.service "$(systemd_get_systemunitdir)/winbindd.service"
 	fi
 
 	if use pam && use winbind ; then
@@ -306,6 +351,7 @@ multilib_src_install() {
 		doins examples/pam_winbind/pam_winbind.conf
 	fi
 
+	# ChromeOS:
 	# Prune directories that maintain state for the samba daemon. If you wish to
 	# use the daemon in tests you can pass the private dir as a directive.
 	rmdir "${D}"/var/run/samba
@@ -322,12 +368,6 @@ multilib_src_install() {
 	# https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/main/dev-install/README.md#Environments
 	into /usr/local
 	dosbin "${D}"/usr/sbin/smbd
-}
-
-multilib_src_test() {
-	if multilib_is_native_abi ; then
-		"${WAF_BINARY}" test || die "test failed"
-	fi
 }
 
 pkg_postinst() {
