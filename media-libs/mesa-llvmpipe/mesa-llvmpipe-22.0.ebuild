@@ -96,6 +96,10 @@ src_prepare() {
 			configure.ac || die
 	fi
 
+	eapply "${FILESDIR}"/UPSTREAM-egl-dri2-Use-primary-device-in-EGL-device-platform-f.patch
+	eapply "${FILESDIR}"/FROMLIST-egl-dri2-Don-t-filter-egl-devices-when-required.patch
+	eapply "${FILESDIR}"/FROMLIST-loader-Drop-master-when-possible.patch
+
 	default
 }
 
@@ -163,6 +167,7 @@ src_configure() {
 	fi
 
 	append-flags "-UENABLE_SHADER_CACHE"
+	append-flags "-DEGL_RETURN_ALL_DEVICES_FOR_QUERY"
 
 	if use kvm_guest; then
 		emesonargs+=( -Ddri-search-path=/opt/google/cros-containers/lib )
@@ -206,6 +211,11 @@ src_install() {
 			doins "${S}/$(get_libdir)/gallium/${x}"
 		fi
 	done
+
+	insinto "/usr/share/drirc.d"
+	insopts -m0644
+	doins "${FILESDIR}"/01-vkms.conf
+
 }
 
 # $1 - VIDEO_CARDS flag (check skipped for "--")
