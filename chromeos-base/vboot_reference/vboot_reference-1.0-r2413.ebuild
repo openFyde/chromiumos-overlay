@@ -5,8 +5,8 @@ EAPI=7
 
 # platform2 is used purely for the platform2_test.py wrapper
 
-CROS_WORKON_COMMIT=("03c8969b86187ac1a0dd93a5de5e4b60a0531783" "6592c7772e554b24fec10ec02b741044897fb299")
-CROS_WORKON_TREE=("b3ab97403bc3458a69552cd3062e555a3e45a782" "f6e687d95778aff2f019e7bfb54e40255774136d")
+CROS_WORKON_COMMIT=("ffb34f485c91c5817b07bb12942413bc3cff0d8d" "ef1050a3c115d15619eda19a01470ff55eb2ade3")
+CROS_WORKON_TREE=("5385babf29a8fd284f4652fc7ab180f9a68c228e" "f6e687d95778aff2f019e7bfb54e40255774136d")
 CROS_WORKON_PROJECT=("chromiumos/platform/vboot_reference" "chromiumos/platform2")
 CROS_WORKON_LOCALNAME=("platform/vboot_reference" "platform2")
 CROS_WORKON_SUBTREE=("" "common-mk")
