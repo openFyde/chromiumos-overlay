@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestat
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="generic_tpm2 profiling test ti50_onboard tpm tpm_dynamic tpm2 tpm2_simulator"
+IUSE="cr50_onboard generic_tpm2 profiling test ti50_onboard tpm tpm_dynamic tpm2 tpm2_simulator"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
