@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="61ade4a1e0cb519e329c45c88fd882dac2fd4d1a"
-CROS_WORKON_TREE=("ae86f5df566392fe332b298a7458a89d8a105f41" "8cdb03540cf4442d5c8669e0845906761867ab84")
+CROS_WORKON_COMMIT="ea548f0b9b0c94cd59aeaf041d61d2e40b0fbe50"
+CROS_WORKON_TREE=("eb3ed0b4699edc233c267f57980497565ee4beef" "c1ca99a9d549f98b92f9916203df03d7c8e0b583")
 CROS_RUST_SUBDIR="cras/client/cras-sys"
 # TODO(b/175640259) Fix tests for ARM.
 CROS_RUST_TEST_DIRECT_EXEC_ONLY="yes"
@@ -14,7 +14,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras-sys/Cargo.toml is
 # using "provided by ebuild" macro which supported by cros-rust.
 CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} cras/src/common"
+CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR} cras/include"
 
 inherit cros-workon cros-rust
 
