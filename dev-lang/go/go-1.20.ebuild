@@ -1,4 +1,4 @@
-# Copyright 2016 The ChromiumOS Authors
+# Copyright 2023 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
 EAPI=7
@@ -6,7 +6,7 @@ EAPI=7
 inherit eutils toolchain-funcs
 
 # Version used to bootstrap the build.
-BOOTSTRAP="go1.4-bootstrap-20170531"
+BOOTSTRAP="go1.17.13-bootstrap-20230206"
 
 DESCRIPTION="An expressive, concurrent, garbage-collected programming language"
 HOMEPAGE="http://golang.org/"
@@ -105,10 +105,6 @@ src_install() {
 
 	insinto "${goroot}/pkg"
 	doins -r "pkg/include"
-	doins -r "pkg/linux_$(get_goarch "${CTARGET}")"
-	if is_cross ; then
-		doins -r "pkg/linux_$(get_goarch "${CTARGET}")_shared"
-	fi
 
 	exeinto "${goroot}/${tooldir}"
 	doexe "${tooldir}/"{asm,cgo,compile,link,pack}
