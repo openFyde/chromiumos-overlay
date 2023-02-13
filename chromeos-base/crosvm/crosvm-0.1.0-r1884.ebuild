@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
 # 'Apache-2.0' and 'BSD-vmm_vhost' are for third_party/vmm_vhost.
 LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
 KEYWORDS="*"
-IUSE="test cros-debug crosvm-gpu crosvm-swap -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder -crosvm-video-ffmpeg +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master android-vm-tm arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu crosvm-swap -crosvm-trace-marker -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder -crosvm-video-ffmpeg +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master android-vm-tm arcvm_gce_l1"
 
 BDEPEND="dev-libs/protobuf"
 COMMON_DEPEND="
@@ -111,6 +111,7 @@ src_compile() {
 		$(usex crosvm-plugin plugin "")
 		$(usex crosvm-power-monitor-powerd power-monitor-powerd "")
 		$(usex crosvm-swap swap "")
+		$(usex crosvm-trace-marker trace_marker "")
 		$(usex crosvm-video-decoder video-decoder "")
 		$(usex crosvm-video-encoder video-encoder "")
 		$(usex crosvm-video-libvda libvda "")
