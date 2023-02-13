@@ -491,7 +491,7 @@ cros-rust_configure_cargo() {
 		${CROS_BASE_RUSTFLAGS}
 		# We want debug info even in release builds.
 		"-Cdebuginfo=2"
-		"-Zallow-features=sanitizer,backtrace"
+		"-Zallow-features=sanitizer"
 		# Remap source directories because of the following:
 		# * crashes from panics are grouped across different boards
 		# * the remapped strings are shorter resulting in smaller binaries
