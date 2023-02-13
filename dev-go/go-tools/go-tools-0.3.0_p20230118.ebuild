@@ -1,9 +1,9 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2023 The Chromium OS Authors. All rights reserved.
 # Distributed under the terms of the GNU General Public License v2.
 
 EAPI=7
 
-CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools v${PV}"
+CROS_GO_SOURCE="go.googlesource.com/tools:golang.org/x/tools 070db2996ebe3aa00667288f8e5749e867deeb39"
 
 CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/analysis"
@@ -17,7 +17,7 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/go/expect"
 	"golang.org/x/tools/go/gcexportdata"
 	"golang.org/x/tools/go/internal/cgo"
-	"golang.org/x/tools/go/internal/gcimporter"
+	"golang.org/x/tools/internal/gcimporter"
 	"golang.org/x/tools/go/internal/packagesdriver"
 	"golang.org/x/tools/go/loader"
 	"golang.org/x/tools/go/packages"
@@ -35,12 +35,11 @@ CROS_GO_PACKAGES=(
 	"golang.org/x/tools/internal/fastwalk"
 	"golang.org/x/tools/internal/gocommand"
 	"golang.org/x/tools/internal/gopathwalk"
-	"golang.org/x/tools/internal/lsp/bug"
-	"golang.org/x/tools/internal/lsp/fuzzy"
-	"golang.org/x/tools/internal/lsp/diff/..."
+	"golang.org/x/tools/internal/diff/..."
+	"golang.org/x/tools/internal/goroot"
 	"golang.org/x/tools/internal/packagesinternal"
+	"golang.org/x/tools/internal/pkgbits"
 	"golang.org/x/tools/internal/proxydir"
-	"golang.org/x/tools/internal/span"
 	"golang.org/x/tools/internal/testenv"
 	"golang.org/x/tools/internal/typesinternal"
 	"golang.org/x/tools/internal/typeparams"
