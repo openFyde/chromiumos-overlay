@@ -327,6 +327,7 @@ RDEPEND="${RDEPEND}
 # Host dependencies used by chromite on build servers
 RDEPEND="${RDEPEND}
 	dev-python/google-cloud-logging
+	dev-python/mysqlclient
 	dev-python/pyparsing
 	dev-python/virtualenv
 	"
