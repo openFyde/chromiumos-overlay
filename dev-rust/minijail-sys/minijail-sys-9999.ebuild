@@ -30,7 +30,6 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	chromeos-base/minijail:=
-	=dev-rust/bindgen-0.59*
 	sys-libs/libcap:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
