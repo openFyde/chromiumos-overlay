@@ -186,6 +186,7 @@ arc-build-select-clang() {
 		export CXX="${CXX} -stdlib=libc++"
 		append-cxxflags -stdlib=libc++
 	else
+		export CXX="${CXX} -nostdinc++ -I${ARC_SYSROOT}/usr/include/c++/4.9"
 		append-cxxflags -nostdinc++ -I${ARC_SYSROOT}/usr/include/c++/4.9
 	fi
 }
