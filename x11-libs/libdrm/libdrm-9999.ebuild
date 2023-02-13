@@ -53,6 +53,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/Add-back-VENDOR_NV-name.patch
 	eapply "${FILESDIR}"/CHROMIUM-add-resource-info-header.patch
 	eapply "${FILESDIR}"/UPSTREAM-intel-Add-support-for-RPLP.patch
+	eapply "${FILESDIR}"/UPSTREAM-tests-util-add-vkms-driver.patch
 
 	eapply_user
 }
