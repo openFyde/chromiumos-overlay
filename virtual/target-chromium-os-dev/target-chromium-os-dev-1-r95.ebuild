@@ -194,7 +194,6 @@ RDEPEND="${RDEPEND}
 	sys-apps/which
 	sys-block/fio
 	sys-devel/gdb
-	sys-fs/cryptsetup
 	sys-fs/fuse
 	sys-fs/lvm2
 	sys-fs/mtd-utils
