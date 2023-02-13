@@ -7,6 +7,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
+CROS_WORKON_MANUAL_UPREV=1
 
 inherit cros-workon autotest python-any-r1
 
