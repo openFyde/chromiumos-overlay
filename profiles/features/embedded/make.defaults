@@ -7,7 +7,7 @@ USE="${USE} -compupdates"
 USE="${USE} -ime"
 
 # Printing is not yet evaluated for embedded.
-USE="${USE} -cups"
+USE="${USE} -cups -printscanmgr"
 
 # Disable certain power management settings like device autosuspend or
 # WiFi powersave mode.

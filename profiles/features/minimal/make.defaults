@@ -49,7 +49,7 @@ USE="${USE} -drivefs -fusebox -samba -smbprovider"
 USE="${USE} -firmware_install"
 
 # Don't turn on printing; among the reasons: some cups filters require bash.
-USE="${USE} -cups"
+USE="${USE} -cups -printscanmgr"
 
 # No need for input-methods and app-i18n.
 USE="${USE} -ime"

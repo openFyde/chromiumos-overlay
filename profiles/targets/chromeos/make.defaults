@@ -159,6 +159,9 @@ USE="${USE} secagent"
 # Enable private computing daemon by default.
 USE="${USE} private_computing"
 
+# Enable the printing and scanning daemon by default.
+USE="${USE} printscanmgr"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
