@@ -138,6 +138,7 @@ src_install() {
 	if use cellular; then
 		insinto /usr/share/shill
 		doins "${OUT}"/serviceproviders.pbf
+		doins "${OUT}"/tethering_experimental.pbf
 		insinto /usr/share/protofiles
 		doins "${S}/mobile_operator_db/mobile_operator_db.proto"
 	fi
