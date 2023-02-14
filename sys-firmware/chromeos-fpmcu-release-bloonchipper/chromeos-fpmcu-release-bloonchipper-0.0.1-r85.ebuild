@@ -8,9 +8,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c453fd704268ef72de871b0c5ac7a989de662334" "6000ecca98bf9761ab5e6773ffff8cfce3c69f44" "0dd679081b9c8bfa2583d74e3a17a413709ea362")
-CROS_WORKON_TREE=("fcf6ce5810f9ff9e3c8cce434812dd75492269ed" "6aec62919bda84af1ff8637eb76bed986715f9e1" "d99abee3f825248f344c0638d5f9fcdce114b744")
-FIRMWARE_EC_BOARD="nocturne_fp"
+CROS_WORKON_COMMIT=("2bcf863b492fe7ed8105c853814dba6ed32ba719" "2fc62914f184b945edd1d070cce76b9b77863a9b" "0dd679081b9c8bfa2583d74e3a17a413709ea362")
+CROS_WORKON_TREE=("fcf6ce5810f9ff9e3c8cce434812dd75492269ed" "a75ed4d0677b520da8e5d183651827441328aa9d" "d99abee3f825248f344c0638d5f9fcdce114b744")
+FIRMWARE_EC_BOARD="bloonchipper"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-nocturne"
+	"../platform/release-firmware/fpmcu-bloonchipper"
 	"tpm2"
 	"cryptoc"
 )
@@ -32,13 +32,18 @@ CROS_WORKON_DESTDIR=(
 )
 
 CROS_WORKON_EGIT_BRANCH=(
-	"firmware-fpmcu-dartmonkey-release"
+	"firmware-fpmcu-bloonchipper-release"
 	"master"
 	"master"
 )
 
-inherit cros-workon cros-ec-release
+inherit cros-workon cros-ec-release cros-sanitizers
 
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 LICENSE="BSD-Google"
 KEYWORDS="*"
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
