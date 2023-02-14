@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libbrill
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="cros_host +dbus +device_mapper fuzzer -lvm_stateful_partition +udev usb"
+IUSE="cros_host +dbus +device_mapper enterprise_rollback_reven fuzzer -lvm_stateful_partition +udev usb"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
