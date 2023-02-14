@@ -1,13 +1,13 @@
 DEFINED_PHASES=compile install nofetch postinst test unpack
-DEPEND=dev-go/gax:0 dev-lang/go
+DEPEND=dev-go/gapi dev-go/genproto dev-go/go-tools dev-go/golint dev-go/grpc dev-go/net dev-go/protobuf dev-go/yaml:0 dev-lang/go
 DESCRIPTION=Google API Extensions for Go
 EAPI=7
 HOMEPAGE=https://github.com/googleapis/gax-go
 KEYWORDS=*
 LICENSE=BSD-Google
-RDEPEND=dev-go/gax:0
+RDEPEND=dev-go/gapi dev-go/genproto dev-go/go-tools dev-go/golint dev-go/grpc dev-go/net dev-go/protobuf dev-go/yaml:0
 RESTRICT=binchecks strip
-SLOT=1
+SLOT=0
 SRC_URI=https://github.com/googleapis/gax-go/archive/v2.7.0.tar.gz -> github.com-googleapis-gax-go-v2.7.0.tar.gz
 _eclasses_=cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=dc3f63320840231affe8183b0b44c959
+_md5_=97b769dbf39d7eae994e708768205f11
