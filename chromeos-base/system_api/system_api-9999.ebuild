@@ -82,6 +82,7 @@ src_install() {
 		shill
 		smbprovider
 		tpm_manager
+		u2f
 		update_engine
 		wilco_dtc_supportd
 	)
