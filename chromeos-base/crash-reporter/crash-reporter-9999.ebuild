@@ -24,6 +24,7 @@ IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest 
 COMMON_DEPEND="
 	chromeos-base/libcrossystem:=
 	chromeos-base/minijail:=
+	chromeos-base/redaction_tool:=
 	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:=
