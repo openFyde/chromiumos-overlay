@@ -31,10 +31,7 @@ CROS_WORKON_DESTDIR=(
 	"${S}/modules/ec"
 )
 
-PYTHON_COMPAT=( python3_{8..9} )
-unset PYTHON_COMPAT_OVERRIDE
-
-inherit cros-workon cros-unibuild coreboot-sdk toolchain-funcs python-any-r1
+inherit cros-workon cros-unibuild coreboot-sdk toolchain-funcs
 
 DESCRIPTION="Zephyr based Embedded Controller firmware"
 KEYWORDS="*"
@@ -62,7 +59,7 @@ echoit() {
 # Run zmake from the EC source directory, with default arguments for
 # modules and Zephyr base location for this ebuild.
 run_zmake() {
-	echoit env PYTHONPATH="${S}/modules/ec/zephyr/zmake" "${EPYTHON}" -m zmake -D \
+	echoit env PYTHONPATH="${S}/modules/ec/zephyr/zmake" python3 -m zmake -D \
 		--modules-dir="${S}/modules" \
 		--zephyr-base="${S}/zephyr-base" \
 		"$@"
