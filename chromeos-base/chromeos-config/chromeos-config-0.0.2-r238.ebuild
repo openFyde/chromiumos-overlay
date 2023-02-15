@@ -3,13 +3,16 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2659f620c407ec5aded18892b8b573db1962c3b8"
+CROS_WORKON_COMMIT="a203ec7ef7c00e9bc3064ac4743095670c7a38e7"
 CROS_WORKON_TREE="b41189c2285e021a604be1b80e6d24057fb6ae7b"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_SUBTREE="chromeos-config/cros_config_host"
 
-inherit cros-unibuild cros-workon
+PYTHON_COMPAT=( python3_{8..9} )
+unset PYTHON_COMPAT_OVERRIDE
+
+inherit cros-unibuild cros-workon python-any-r1
 
 DESCRIPTION="Chromium OS-specific configuration"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/config/"
@@ -47,7 +50,7 @@ run_cros_config_tool() {
 	shift
 
 	PYTHONPATH="${S}/chromeos-config/cros_config_host" \
-		python3 -m "${tool}" "$@"
+		"${EPYTHON}" -m "${tool}" "$@"
 }
 
 # Merges all of the source YAML config files and generates the
