@@ -24,7 +24,7 @@ cros-racc_src_compile() {
 		"${CMD_MINIFY_JSON[@]}" \
 			< "${FILESDIR}/${config}" > "${BUILD_ROOT}/${config}" ||
 			die "Failed to minify json file: ${config}"
-	done < <(cd "${FILESDIR}" && find "runtime_probe/" -name "probe_config.json" -maxdepth 2 -type f -print0 || die)
+	done < <(cd "${FILESDIR}" && find "runtime_probe/" -maxdepth 2 -name "*.json" -type f -print0 || die)
 }
 
 # @FUNCTION: cros-racc_src_install
