@@ -163,6 +163,10 @@ src_install() {
 	doins "${FILESDIR}/init/traced.conf"
 	doins "${FILESDIR}/init/traced_probes.conf"
 
+	# Install boot tracing config files.
+	insinto /usr/local/share/boottrace
+	doins "${FILESDIR}/boottrace/boottrace.pbtxt"
+
 	insinto /usr/share/policy
 	newins "${FILESDIR}/seccomp/traced-${ARCH}.policy" traced.policy
 	newins "${FILESDIR}/seccomp/traced_probes-${ARCH}.policy" traced_probes.policy
