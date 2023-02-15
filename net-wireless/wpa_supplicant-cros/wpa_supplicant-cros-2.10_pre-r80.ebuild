@@ -18,7 +18,7 @@ LICENSE="|| ( GPL-2 BSD )"
 
 SLOT="0"
 KEYWORDS="*"
-IUSE="+ap bindist dbus debug eap-sim fuzzer +hs2-0 libressl +mbo mesh p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd +tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
+IUSE="+ap bindist dbus debug eap-sim fuzzer +hs2-0 libressl +mbo mesh p2p ps3 qt5 readline +seccomp selinux smartcard supplicant-next systemd tdls uncommon-eap-types +wep wifi_hostap_test +wnm wps kernel_linux kernel_FreeBSD wimax"
 
 CDEPEND="
 	chromeos-base/minijail
@@ -273,6 +273,8 @@ src_configure() {
 
 	if use tdls ; then
 		Kconfig_style_config TDLS
+	else
+		Kconfig_style_config TDLS n
 	fi
 
 	if use kernel_linux ; then
