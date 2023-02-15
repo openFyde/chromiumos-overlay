@@ -27,3 +27,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
+
+platform_pkg_test() {
+	platform test_all
+}
