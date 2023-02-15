@@ -32,7 +32,9 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 CROS_WORKON_INCREMENTAL_BUILD=1
 PLATFORM_SUBDIR="bt"
 
-IUSE="bt_dynlib floss_upstream"
+# floss_upstream: Use AOSP upstream branch instead of default Chrome OS branch.
+# floss_strict: Treat warnings as errors
+IUSE="bt_dynlib floss_upstream floss_strict"
 
 inherit cros-workon toolchain-funcs cros-rust platform tmpfiles udev
 
@@ -89,12 +91,18 @@ src_configure() {
 		# Also ignore multiple definitions for now (added due to some
 		# shared library shenaningans)
 		"-C link-arg=-Wl,--allow-multiple-definition"
+
+		# Allow some warnings from generated code
+		"-A improper_ctypes_definitions -A improper_ctypes -A unknown_lints"
 	)
 
 	local bindgen_extra_clang_args=(
 		# Set sysroot so it looks in correct path
 		"--sysroot=${SYSROOT}"
 	)
+
+	# Treat warnings as errors if enabled.
+	use floss_strict && rustflags+=( '--deny warnings' )
 
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
