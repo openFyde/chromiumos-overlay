@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="855248a9bd9678de4f8b2a61eba2349e10289797"
+CROS_WORKON_COMMIT="a203ec7ef7c00e9bc3064ac4743095670c7a38e7"
 CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "609cee5e2bb51e6b84fb2e9f2579f62bc62d7fc9" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "6df1cbd56008025f75967252b37c51cf894558cb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -26,6 +26,7 @@ IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest 
 COMMON_DEPEND="
 	chromeos-base/libcrossystem:=
 	chromeos-base/minijail:=
+	chromeos-base/redaction_tool:=
 	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:=
