@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="855248a9bd9678de4f8b2a61eba2349e10289797"
-CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "dbc1b3e0828926c0b6237585ed9b924b0599b745" "6df1cbd56008025f75967252b37c51cf894558cb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "a0071c62ec95a11aae56ca570efdddffd0bddc54" "0e8e9bdaddd9eef29562a2d11fcb3664d1f49335" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "a26b0252ca4dd8384cc9ff4aec931dda6a1587c9" "e82c7c31c0bc2e79b067222b45989a4c69c4f7cf" "d007cc50043f4cd109280ce1f0b38bfc851da338" "57bfa87e92c3d6396b42d0239a2f8fb67be2a1b5" "08737780eea7279ec226ddb46f7efbc3939dd89a" "237c59961fc50759f97896875176d26a6937025d" "eec232373c927d016ec11f7e39d42415ed2d00e0" "ee7a391100d5bf60f65682988029562ee9c82798" "e7484fcabff8350254feec93c24db8c75bdc4965" "182364eb0c4af80afbd46329d144cad4a2278d6c" "8ca23bf32e36f4d9178bb4ab5d23d67cdf3dd4ec" "a18480f909e2245ab4a53fd0a090f1ffffb59a8f" "17f393726ed123668b98d3adff46d962184a3a18" "517e774519c4cd0765da3b5d93dc7fd2dd6a0da0" "0f8ac67491f7a52e0de6999644a3797b7fed364c" "fd2031f3c7dd64a1ca5f16ac2b2b9e52619c561c")
+CROS_WORKON_COMMIT="a203ec7ef7c00e9bc3064ac4743095670c7a38e7"
+CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "dbc1b3e0828926c0b6237585ed9b924b0599b745" "6df1cbd56008025f75967252b37c51cf894558cb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "a0071c62ec95a11aae56ca570efdddffd0bddc54" "0e8e9bdaddd9eef29562a2d11fcb3664d1f49335" "69e249a9871f10d4ab3a08a2d98eb3f12eb353a8" "a26b0252ca4dd8384cc9ff4aec931dda6a1587c9" "e82c7c31c0bc2e79b067222b45989a4c69c4f7cf" "d007cc50043f4cd109280ce1f0b38bfc851da338" "57bfa87e92c3d6396b42d0239a2f8fb67be2a1b5" "08737780eea7279ec226ddb46f7efbc3939dd89a" "237c59961fc50759f97896875176d26a6937025d" "eec232373c927d016ec11f7e39d42415ed2d00e0" "ee7a391100d5bf60f65682988029562ee9c82798" "647b4d5095422df33a76c4ea606af151468792a2" "e7484fcabff8350254feec93c24db8c75bdc4965" "182364eb0c4af80afbd46329d144cad4a2278d6c" "8ca23bf32e36f4d9178bb4ab5d23d67cdf3dd4ec" "a18480f909e2245ab4a53fd0a090f1ffffb59a8f" "17f393726ed123668b98d3adff46d962184a3a18" "517e774519c4cd0765da3b5d93dc7fd2dd6a0da0" "0f8ac67491f7a52e0de6999644a3797b7fed364c" "fd2031f3c7dd64a1ca5f16ac2b2b9e52619c561c")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -28,6 +28,7 @@ PLATFORM2_PATHS=(
 	vm_tools/dbus
 	vm_tools/init
 	vm_tools/maitred/client.cc
+	vm_tools/modprobe
 	vm_tools/pstore_dump
 	vm_tools/seneschal
 	vm_tools/syslog
@@ -54,7 +55,7 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 # The crosvm-wl-dmabuf and crosvm-virtio-video USE flags
 # are used when preprocessing concierge source.
-IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan libglvnd crosvm_siblings virtgpu_native_context cross_domain_context iioservice"
+IUSE="+kvm_host +seccomp +crosvm-wl-dmabuf fuzzer wilco +crosvm-virtio-video vulkan libglvnd crosvm_siblings virtgpu_native_context cross_domain_context iioservice vfio_gpu"
 REQUIRED_USE="kvm_host"
 
 COMMON_DEPEND="
@@ -159,6 +160,14 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins dbus/*.conf
+
+	if use vfio_gpu; then
+		insinto /etc/modprobe.d
+		doins modprobe/vfio-dgpu.conf
+
+		exeinto /sbin
+		doexe modprobe/dgpu.sh
+	fi
 
 	insinto /usr/local/vms/etc
 	doins init/arcvm_dev.conf
