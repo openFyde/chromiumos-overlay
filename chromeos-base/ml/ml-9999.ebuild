@@ -24,6 +24,7 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-search_ranker-20190923.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20211105.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-poncho_palm_rejection-test_quantized_20230213.tflite"
 )
 
 DOWNLOADABLE_MODELS=(
