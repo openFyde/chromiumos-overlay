@@ -14,6 +14,9 @@ if [[ $(cros_target) != "cros_host" ]]; then
 	unset openssh_mask
 fi
 
+PKG_INSTALL_MASK+=" /var/empty"
+INSTALL_MASK+=" /var/empty"
+
 cros_pre_src_configure_openssh_flags() {
 	# Use /mnt/empty instead of /var/empty as the privsep path so that the path
 	# doesn't need to be created at runtime and will already be read only.
