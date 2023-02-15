@@ -63,33 +63,11 @@ platform_pkg_test() {
 src_install() {
 	platform_src_install
 
-	dobin "${OUT}"/cros_installer
-	if use mtd ; then
-		dobin "${OUT}"/nand_partition
-	fi
-	dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
-	dosym usr/sbin/chromeos-postinst /postinst
-
-	# Enable lvm stateful partition.
-	if use lvm_stateful_partition; then
-		# We are replacing expansions in a shell file, and shellcheck thinks we want
-		# to expand those in this context. Ignore it.
-		# shellcheck disable=SC2016
-		sed -i '/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
-			"${D}/usr/sbin/chromeos-install" ||
-			die "Failed to set 'lvm_stateful' in chromeos-install"
-	fi
-
-	# Install init scripts.
+	# Install init scripts. Non-systemd case is defined in BUILD.gn.
 	if use systemd; then
 		systemd_dounit init/install-completed.service
 		systemd_enable_service boot-services.target install-completed.service
 		systemd_dounit init/crx-import.service
 		systemd_enable_service system-services.target crx-import.service
-	else
-		insinto /etc/init
-		doins init/*.conf
 	fi
-	exeinto /usr/share/cros/init
-	doexe init/crx-import.sh
 }
