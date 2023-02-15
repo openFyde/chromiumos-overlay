@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("0ac94c19ea06f3a25168db40cf5d2db3e9ac85d9" "29e9095867ac5933d86cf6fafc710229565f4954")
-CROS_WORKON_TREE=("ca701c9d121d31a9f3f9f95818a1b00bbc236013" "4ff996d977d10aa27a9fe9f7b65304b9785f3d27")
+CROS_WORKON_COMMIT=("4c8b668ddac8e97fb3d2babbc8066f0897ac24bb" "29e9095867ac5933d86cf6fafc710229565f4954")
+CROS_WORKON_TREE=("e0a8d0dd6de9c076d4e893d129f6eda8ed39acb9" "4ff996d977d10aa27a9fe9f7b65304b9785f3d27")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/tast-tests"
 	"chromiumos/platform/tast"
