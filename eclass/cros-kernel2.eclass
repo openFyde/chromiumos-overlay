@@ -296,6 +296,7 @@ CONFIG_FRAGMENTS=(
 	wifi_diag
 	x32
 	xen_guest
+	vpu_driver
 )
 
 acpi_ac_desc="Enable ACPI AC"
@@ -1250,6 +1251,11 @@ CONFIG_BUG_ON_DATA_CORRUPTION=y
 CONFIG_DEBUG_PI_LIST=y
 CONFIG_REFCOUNT_FULL=y
 CONFIG_DEBUG_KOBJECT_RELEASE=y
+"
+
+vpu_driver_desc="Driver for Intel VPU"
+vpu_driver_config="
+CONFIG_DRM_ACCEL_IVPU=m
 "
 
 # Firmware binaries selected by USE flags.  Selected firmware binaries will
