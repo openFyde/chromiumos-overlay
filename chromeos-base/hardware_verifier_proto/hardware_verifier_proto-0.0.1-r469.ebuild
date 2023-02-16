@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="855248a9bd9678de4f8b2a61eba2349e10289797"
+CROS_WORKON_COMMIT="ebc1c3fb9beb0c8683185d06f5aad21431d5c0c7"
 CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "6520bb92d189d85114c0e8ea36fb8467382f8a6f" "6df1cbd56008025f75967252b37c51cf894558cb" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"chromiumos/hardware_verifier/..."
@@ -27,7 +27,6 @@ KEYWORDS="*"
 DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/system_api:=
-	chromeos-base/vboot_reference:=
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
 "

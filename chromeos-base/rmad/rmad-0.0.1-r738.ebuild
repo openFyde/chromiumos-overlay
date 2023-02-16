@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="49dc05ff0a67ca79680118bc671beff11db46771"
+CROS_WORKON_COMMIT="ebc1c3fb9beb0c8683185d06f5aad21431d5c0c7"
 CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "e5afe5ae2828cbb19458d2bcce35c941fa511981" "6520bb92d189d85114c0e8ea36fb8467382f8a6f" "3d518da1ff6fb97aedeff8b1eabe2bf4a79dba30" "5b28008ef57b80321ffa3c70657574c1da17f8b9" "9edcaccb998f9f1dac82dd862beddc2491e8ab68" "6df1cbd56008025f75967252b37c51cf894558cb" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "dae1986a5f7de5bbf20c759d6c0513449f76c1b1" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -51,7 +51,6 @@ DEPEND="
 	chromeos-base/shill-client:=
 	chromeos-base/system_api:=
 	chromeos-base/tpm_manager-client:=
-	chromeos-base/vboot_reference:=
 "
 
 pkg_preinst() {
