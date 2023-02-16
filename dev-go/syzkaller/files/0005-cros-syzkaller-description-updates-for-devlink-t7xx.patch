@@ -1,7 +1,7 @@
-From 3e88e5735cf8e955f0459b37e2e4f789968c24a2 Mon Sep 17 00:00:00 2001
+From d0d4fc9050c095c7c34555fe52ef016282f9afb0 Mon Sep 17 00:00:00 2001
 From: Zubin Mithra <zsm@chromium.org>
 Date: Mon, 28 Feb 2022 16:52:30 -0800
-Subject: [PATCH] cros-syzkaller: description updates for devlink t7xx
+Subject: [PATCH 5/7] cros-syzkaller: description updates for devlink t7xx
 
 description updates for:
 * DEVLINK_CMD_FLASH_UPDATE
@@ -72,5 +72,5 @@ index f0271e32b..3daeddbb6 100644
 +DEVLINK_ATTR_REGION_CHUNK_LEN = 127
  __NR_sendmsg = 211, 386:s390x:370, amd64:46, arm:296, mips64le:5045, ppc64le:341
 -- 
-2.36.0.512.ge40c2bad7a-goog
+2.39.2.637.g21b0678d19-goog
 

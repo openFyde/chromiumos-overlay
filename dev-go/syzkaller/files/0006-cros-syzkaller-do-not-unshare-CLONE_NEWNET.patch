@@ -1,17 +1,17 @@
-From 128c602b47fe2c567943f06f1bbd4aa59c0fddf0 Mon Sep 17 00:00:00 2001
+From 017ca5eb4472c2f811eb357f5aff707fcb0c1b7c Mon Sep 17 00:00:00 2001
 From: Zubin Mithra <zsm@google.com>
-Date: Tue, 28 Jun 2022 09:06:57 -0700
-Subject: [PATCH 6/6] cros-syzkaller: do not unshare CLONE_NEWNET
+Date: Wed, 8 Feb 2023 10:14:49 -0800
+Subject: [PATCH 6/7] cros-syzkaller: do not unshare CLONE_NEWNET
 
 ---
- executor/common_linux.h | 29 ++---------------------------
- 1 file changed, 2 insertions(+), 27 deletions(-)
+ executor/common_linux.h | 31 ++-----------------------------
+ 1 file changed, 2 insertions(+), 29 deletions(-)
 
 diff --git a/executor/common_linux.h b/executor/common_linux.h
-index 48236ce3b..0959401fa 100644
+index e53a908ab..501e4df7a 100644
 --- a/executor/common_linux.h
 +++ b/executor/common_linux.h
-@@ -2950,6 +2950,7 @@ static volatile long syz_kvm_setup_cpu(volatile long a0, volatile long a1, volat
+@@ -3128,6 +3128,7 @@ static volatile long syz_kvm_setup_cpu(volatile long a0, volatile long a1, volat
  
  #include <linux/net.h>
  
@@ -19,7 +19,7 @@ index 48236ce3b..0959401fa 100644
  // checkpoint/reset_net_namespace partially resets net namespace to initial state
  // after each test. Currently it resets only ipv4 netfilter state.
  // Ideally, we just create a new net namespace for each test,
-@@ -3417,6 +3418,7 @@ static void reset_net_namespace(void)
+@@ -3595,6 +3596,7 @@ static void reset_net_namespace(void)
  	reset_iptables(ipv6_tables, sizeof(ipv6_tables) / sizeof(ipv6_tables[0]), AF_INET6, SOL_IPV6);
  }
  #endif
@@ -27,7 +27,7 @@ index 48236ce3b..0959401fa 100644
  
  #if SYZ_EXECUTOR || (SYZ_CGROUPS && (SYZ_SANDBOX_NONE || SYZ_SANDBOX_SETUID || SYZ_SANDBOX_NAMESPACE || SYZ_SANDBOX_ANDROID))
  #include <fcntl.h>
-@@ -3786,29 +3788,8 @@ static int do_sandbox_none(void)
+@@ -3989,31 +3991,8 @@ static int do_sandbox_none(void)
  		return wait_for_loop(pid);
  
  	setup_common();
@@ -42,6 +42,8 @@ index 48236ce3b..0959401fa 100644
 -	if (unshare(CLONE_NEWNET)) {
 -		debug("unshare(CLONE_NEWNET): %d\n", errno);
 -	}
+-	// Enable access to IPPROTO_ICMP sockets, must be done after CLONE_NEWNET.
+-	write_file("/proc/sys/net/ipv4/ping_group_range", "0 65535");
 -#if SYZ_EXECUTOR || SYZ_DEVLINK_PCI
 -	initialize_devlink_pci();
 -#endif
@@ -57,7 +59,7 @@ index 48236ce3b..0959401fa 100644
  	setup_binderfs();
  	loop();
  	doexit(1);
-@@ -4437,9 +4418,6 @@ static void setup_loop()
+@@ -4671,9 +4650,6 @@ static void setup_loop()
  #if SYZ_EXECUTOR || SYZ_CGROUPS
  	setup_cgroups_loop();
  #endif
@@ -67,7 +69,7 @@ index 48236ce3b..0959401fa 100644
  }
  #endif
  
-@@ -4456,9 +4434,6 @@ static void reset_loop()
+@@ -4690,9 +4666,6 @@ static void reset_loop()
  		close(loopfd);
  	}
  #endif
@@ -78,5 +80,5 @@ index 48236ce3b..0959401fa 100644
  #endif
  
 -- 
-2.37.0.rc0.161.g10f37bed90-goog
+2.39.2.637.g21b0678d19-goog
 

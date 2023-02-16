@@ -1,14 +1,14 @@
-From dcb1030720199b434aea5126789b113961cdc9fa Mon Sep 17 00:00:00 2001
+From c78e542d6c3f4229fbef535087efc99651744839 Mon Sep 17 00:00:00 2001
 From: Zubin Mithra <zsm@chromium.org>
 Date: Wed, 27 Jan 2021 10:19:31 -0800
-Subject: [PATCH] cros-syzkaller: use arm toolchain available within chroot
+Subject: [PATCH 3/7] cros-syzkaller: use arm toolchain available within chroot
 
 ---
  sys/targets/targets.go | 12 +++++++++---
  1 file changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/sys/targets/targets.go b/sys/targets/targets.go
-index 7255f7963..cfe234c35 100644
+index da701a7fd..13a4c26bc 100644
 --- a/sys/targets/targets.go
 +++ b/sys/targets/targets.go
 @@ -249,7 +249,7 @@ var List = map[string]map[string]*Target{
@@ -31,7 +31,7 @@ index 7255f7963..cfe234c35 100644
  			KernelArch:       "arm",
  			KernelHeaderArch: "arm",
  		},
-@@ -776,6 +776,12 @@ func (target *Target) setCompiler(clang bool) {
+@@ -803,6 +803,12 @@ func (target *Target) setCompiler(clang bool) {
  			target.CCompiler = target.Triple + "-" + target.CCompiler
  		}
  	}
@@ -45,5 +45,5 @@ index 7255f7963..cfe234c35 100644
  
  func (target *Target) replaceSourceDir(param *string, sourceDir string) {
 -- 
-2.34.1
+2.39.2.637.g21b0678d19-goog
 

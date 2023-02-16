@@ -1,6 +1,6 @@
-From 696a63036ee237812cfa09385e2acb2ae1863d17 Mon Sep 17 00:00:00 2001
+From b20e945da441dfe8bf11b2871cdcfcbc90b0c4db Mon Sep 17 00:00:00 2001
 From: Zubin Mithra <zsm@google.com>
-Date: Tue, 13 Sep 2022 19:19:55 -0700
+Date: Wed, 8 Feb 2023 10:21:41 -0800
 Subject: [PATCH 7/7] cros-syzkaller: add rawcover32 to syz-manager
 
 ---
@@ -10,10 +10,10 @@ Subject: [PATCH 7/7] cros-syzkaller: add rawcover32 to syz-manager
  3 files changed, 42 insertions(+), 1 deletion(-)
 
 diff --git a/pkg/cover/html.go b/pkg/cover/html.go
-index 98572b7f8..d9ef94a39 100644
+index 5b9b86731..fe9b85d7f 100644
 --- a/pkg/cover/html.go
 +++ b/pkg/cover/html.go
-@@ -166,8 +166,13 @@ func (rg *ReportGenerator) DoRawCoverFiles(w http.ResponseWriter, progs []Prog,
+@@ -175,8 +175,13 @@ func (rg *ReportGenerator) DoRawCoverFiles(w http.ResponseWriter, progs []Prog,
  
  func (rg *ReportGenerator) DoRawCover(w http.ResponseWriter, progs []Prog, coverFilter map[uint32]uint32) {
  	progs = fixUpPCs(rg.target.Arch, progs, coverFilter)
@@ -45,7 +45,7 @@ index bc8d48e10..90c159d80 100644
 +	return pcs
 +}
 diff --git a/syz-manager/html.go b/syz-manager/html.go
-index 6252f55fa..39aa20c8a 100644
+index 256355be7..f4ee43733 100644
 --- a/syz-manager/html.go
 +++ b/syz-manager/html.go
 @@ -21,6 +21,7 @@ import (
@@ -53,18 +53,18 @@ index 6252f55fa..39aa20c8a 100644
  
  	"github.com/google/syzkaller/pkg/cover"
 +	"github.com/google/syzkaller/pkg/cover/backend"
- 	"github.com/google/syzkaller/pkg/html"
+ 	"github.com/google/syzkaller/pkg/html/pages"
  	"github.com/google/syzkaller/pkg/log"
  	"github.com/google/syzkaller/pkg/osutil"
-@@ -49,6 +50,7 @@ func (mgr *Manager) initHTTP() {
- 	mux.HandleFunc("/file", mgr.httpFile)
- 	mux.HandleFunc("/report", mgr.httpReport)
- 	mux.HandleFunc("/rawcover", mgr.httpRawCover)
-+	mux.HandleFunc("/rawcover32", mgr.httpRawCover32)
- 	mux.HandleFunc("/rawcoverfiles", mgr.httpRawCoverFiles)
- 	mux.HandleFunc("/filterpcs", mgr.httpFilterPCs)
- 	mux.HandleFunc("/funccover", mgr.httpFuncCover)
-@@ -544,6 +546,32 @@ func (mgr *Manager) httpRawCover(w http.ResponseWriter, r *http.Request) {
+@@ -50,6 +51,7 @@ func (mgr *Manager) initHTTP() {
+ 	handle("/file", mgr.httpFile)
+ 	handle("/report", mgr.httpReport)
+ 	handle("/rawcover", mgr.httpRawCover)
++	handle("/rawcover32", mgr.httpRawCover32)
+ 	handle("/rawcoverfiles", mgr.httpRawCoverFiles)
+ 	handle("/filterpcs", mgr.httpFilterPCs)
+ 	handle("/funccover", mgr.httpFuncCover)
+@@ -545,6 +547,32 @@ func (mgr *Manager) httpRawCover(w http.ResponseWriter, r *http.Request) {
  	mgr.httpCoverCover(w, r, DoRawCover, false)
  }
  
@@ -98,5 +98,5 @@ index 6252f55fa..39aa20c8a 100644
  	mgr.httpCoverCover(w, r, DoRawCoverFiles, false)
  }
 -- 
-2.37.2.789.g6183377224-goog
+2.39.2.637.g21b0678d19-goog
 
