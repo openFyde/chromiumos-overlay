@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("4ea34ea6f6527abc9fb280b386b7ded1b4f3e07a" "d42a89d626b75511b057061cfc41e9dde8db623d")
-CROS_WORKON_TREE=("19a11ffc330a3d3cf06e757fad7d7edf464cc75d" "ce37714a81d02a71ccb4bddd36894d37ee038b7b")
+CROS_WORKON_COMMIT=("b91221ba3acab80517fb8f2a3f79039f58d10954" "d42a89d626b75511b057061cfc41e9dde8db623d")
+CROS_WORKON_TREE=("065cae3579ab59ff4fedd6a1a2f843deeeb6705a" "ce37714a81d02a71ccb4bddd36894d37ee038b7b")
 CROS_WORKON_PROJECT=("chromiumos/platform/crdyboot" "chromiumos/platform/vboot_reference")
 CROS_WORKON_LOCALNAME=("../platform/crdyboot" "../platform/vboot_reference")
 CROS_WORKON_DESTDIR=("${S}" "${S}/third_party/vboot_reference")
@@ -48,9 +48,6 @@ src_prepare() {
 }
 
 src_compile() {
-	local key_section=".vbpubk"
-	local key_path="${S}/third_party/vboot_reference/tests/devkeys/kernel_subkey.vbpubk"
-
 	# Set the appropriate linker for UEFI targets.
 	export RUSTFLAGS+=" -C linker=lld-link"
 
@@ -84,21 +81,6 @@ src_compile() {
 			--release \
 			--target="${uefi_target}" \
 			--package crdyboot
-
-		# CARGO_TARGET_DIR is defined in an eclass
-		# shellcheck disable=SC2154
-		local exe_path="${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi"
-
-		# Add the vboot test kernel subkey to a `.vbpubk`
-		# section of the PE executable. This allows the
-		# bootloader to work on unsigned builds. For signed
-		# builds, the signer will throw this section out and put
-		# in a different public key.
-		llvm-objcopy \
-			--add-section "${key_section}=${key_path}" \
-			--set-section-flags "${key_section}=data,readonly" \
-			"${exe_path}" \
-			"${exe_path}.with_pubkey"
 	done
 }
 
@@ -119,7 +101,7 @@ src_install() {
 	for uefi_target in "${UEFI_TARGETS[@]}"; do
 		# CARGO_TARGET_DIR is defined in an eclass
 		# shellcheck disable=SC2154
-		newins "${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi.with_pubkey" \
+		newins "${CARGO_TARGET_DIR}/${uefi_target}/release/crdyboot.efi" \
 			"crdyboot$(uefi_arch_suffix "${uefi_target}")"
 	done
 }
