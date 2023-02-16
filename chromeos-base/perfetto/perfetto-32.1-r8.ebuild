@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fe13d48bb2419e5a3a04d682dda7a40c378d16bf"
-CROS_WORKON_TREE="b27f4d743b8ae587209c721041dc7af4bd6cbca9"
+CROS_WORKON_COMMIT="26d1cc32add3565a693536d3db23fa4ea3acc4f8"
+CROS_WORKON_TREE="d8de42cb26848a240e2b68f46a9b1de98795675c"
 inherit cros-constants
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
@@ -26,6 +26,8 @@ LICENSE="Apache-2.0"
 SLOT="0"
 
 # protobuf dep is for using protoc at build-time to generate perfetto's headers.
+# It is included in DEPEND as a hack to trigger a rebuild when protoc is
+# upgraded.
 BDEPEND="
 	dev-util/gn
 	dev-util/ninja
@@ -34,6 +36,7 @@ BDEPEND="
 # sqlite is used in building trace_processor_shell
 DEPEND="
 	dev-db/sqlite
+	dev-libs/protobuf:=
 "
 
 BUILD_OUTPUT="${WORKDIR}/out_cros/"
