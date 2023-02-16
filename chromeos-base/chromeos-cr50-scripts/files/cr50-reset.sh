@@ -22,11 +22,10 @@ gbb_force_dev_mode() {
   # developer mode after RMA reset.
   flashrom -p host --wp-disable --wp-range 0,0 > /dev/null 2>&1
   local flags;
-  flags="$(/usr/share/vboot/bin/get_gbb_flags.sh 2>/dev/null \
-    | awk '/Chrome OS GBB set flags:/ {print $NF}')"
+  flags="$(/usr/bin/futility gbb --flash --get --flags 2>/dev/null | awk '/flags:/ {print $NF}')"
   local new_flags;
   new_flags="$(printf '0x%x' "$(( flags | 0x8 ))")"
-  /usr/share/vboot/bin/set_gbb_flags.sh "${new_flags}" > /dev/null 2>&1
+  /usr/bin/futility gbb --flash --set --flags="${new_flags}" > /dev/null 2>&1
 }
 
 cr50_reset() {

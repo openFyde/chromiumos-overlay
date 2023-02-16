@@ -14,6 +14,7 @@ IUSE="generic_tpm2 cr50_onboard ti50_onboard cr50_disable_sleep_in_suspend"
 
 RDEPEND="
 	chromeos-base/ec-utils
+	chromeos-base/vboot_reference:=
 	!<chromeos-base/chromeos-cr50-0.0.1-r38
 "
 
