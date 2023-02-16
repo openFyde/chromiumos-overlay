@@ -158,3 +158,10 @@ net-analyzer/wireshark -randpkt -randpktdump -reordercap -sharkd -text2pcap
 
 # We don't need or want su in the SDK. Use sudo instead.
 sys-apps/util-linux -su
+
+# Set minimal for perl and major packages.
+dev-lang/perl minimal
+dev-perl/libintl-perl minimal
+dev-perl/Try-Tiny minimal
+dev-perl/Net-HTTP minimal
+dev-perl/File-ShareDir minimal
