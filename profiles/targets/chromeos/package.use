@@ -117,7 +117,7 @@ sys-apps/fwupd		-gpg -man pkcs7 synaptics thunderbolt
 sys-apps/hwdata		-net -usb
 sys-apps/mawk		forced-sandbox
 sys-apps/sed		forced-sandbox
-sys-apps/smartmontools	minimal -daemon
+sys-apps/smartmontools	minimal -daemon -update-drivedb
 sys-apps/systemd-tmpfiles selinux
 sys-apps/systemd-utils -boot selinux -udev
 sys-apps/usbguard	-dbus
