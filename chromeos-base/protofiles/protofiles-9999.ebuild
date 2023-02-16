@@ -94,6 +94,7 @@ src_install() {
 	doins "${POLICY_DIR}"/proto/install_attributes.proto
 	doins "${POLICY_DIR}"/proto/policy_signing_key.proto
 	doins "${POLICY_DIR}"/proto/device_management_backend.proto
+	doins "${POLICY_DIR}"/test_support/remote_commands_service.proto
 	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership_rlwe.proto
 	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership.proto
 	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
@@ -102,6 +103,7 @@ src_install() {
 	doins "${POLICY_DIR}"/proto/policy_common_definitions.proto
 	doins "${POLICY_DIR}"/proto/device_management_backend.proto
 	doins "${POLICY_DIR}"/proto/chrome_extension_policy.proto
+	doins "${POLICY_DIR}"/test_support/remote_commands_service.proto
 	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership_rlwe.proto
 	doins "${PRIVATE_MEMBERSHIP_DIR}"/private_membership.proto
 	doins "${SHELL_ENCRYPTION_DIR}"/serialization.proto
