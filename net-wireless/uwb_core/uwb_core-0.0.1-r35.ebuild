@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("91aef4fc08dd99b0dd16bcdb56a4a140babdfa8e" "1b1656a92682ac11cc42be8962b022c9c2a89e7e")
-CROS_WORKON_TREE=("9b9eaff7043d9916631af10ec81c899f32fedbd5" "f223394db30e40f7290d733cc691446cb55f3fb6")
+CROS_WORKON_COMMIT=("91aef4fc08dd99b0dd16bcdb56a4a140babdfa8e" "73d63c7eb0135853a1f4f2609ebf91fe5635fd64")
+CROS_WORKON_TREE=("9b9eaff7043d9916631af10ec81c899f32fedbd5" "57836a599f0982ea65eea489e7bd721c5adf4228")
 CROS_WORKON_PROJECT=(
 	"aosp/platform/external/uwb"
 	"aosp/platform/external/uwb"
