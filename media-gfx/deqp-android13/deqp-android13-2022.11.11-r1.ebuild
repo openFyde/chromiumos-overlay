@@ -61,7 +61,9 @@ src_unpack() {
 }
 
 src_prepare() {
-	default
+	cros_enable_cxx_exceptions
+
+	cmake-utils_src_prepare
 }
 
 src_configure() {
