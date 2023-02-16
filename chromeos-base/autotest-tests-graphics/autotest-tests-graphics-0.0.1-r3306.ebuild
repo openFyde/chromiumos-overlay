@@ -2,14 +2,17 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
-CROS_WORKON_COMMIT="f8d1e376ab5cd5b31f4697117bad313a091b8a1c"
-CROS_WORKON_TREE="b408850d168bd9cbc77c6ba0bb7cfba306d46aee"
+
+CROS_WORKON_COMMIT="1c0e83994a3647b3a0b99b848f483bbbbf4a36ce"
+CROS_WORKON_TREE="dc2b1c21a3e4c5249ce672f0c8a46dfd1c27344c"
+PYTHON_COMPAT=( python3_{6..9} )
+
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest
+inherit cros-sanitizers cros-workon autotest python-any-r1
 
-DESCRIPTION="debugd autotests"
+DESCRIPTION="Graphics autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
@@ -21,11 +24,20 @@ IUSE="+autotest"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
+	chromeos-base/autotest-deps-graphics
 "
+DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
+	+tests_graphics_parallel_dEQP
+	+tests_graphics_Power
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
+
+src_configure() {
+	sanitizers-setup-env
+	default
+}
