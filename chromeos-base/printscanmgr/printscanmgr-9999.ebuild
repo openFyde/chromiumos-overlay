@@ -32,3 +32,7 @@ pkg_preinst() {
 	enewuser printscanmgr
 	enewgroup printscanmgr
 }
+
+platform_pkg_test() {
+	platform test_all
+}
