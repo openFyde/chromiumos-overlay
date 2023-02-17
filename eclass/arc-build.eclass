@@ -72,11 +72,6 @@ arc-build-select-clang() {
 
 	case ${ARCH} in
 	arm|arm64)
-		ARC_GCC_TUPLE_arm64=aarch64-linux-android
-		ARC_GCC_BASE_arm64="${ARC_BASE}/arc-gcc/aarch64/${ARC_GCC_TUPLE_arm64}-4.9"
-		ARC_GCC_TUPLE_arm=arm-linux-androideabi
-		ARC_GCC_BASE_arm="${ARC_BASE}/arc-gcc/arm/${ARC_GCC_TUPLE_arm}-4.9"
-
 		# multilib.eclass does not use CFLAGS_${DEFAULT_ABI}, but
 		# we need to add some flags valid only for arm/arm64, so we trick
 		# it to think that neither arm nor arm64 is the default.
@@ -92,16 +87,26 @@ arc-build-select-clang() {
 		CFLAGS_arm64="${CFLAGS_arm64} -I${ARC_SYSROOT}/usr/include/arch-arm64/include/"
 		CFLAGS_arm="${CFLAGS_arm} -I${ARC_SYSROOT}/usr/include/arch-arm/include/"
 
-		export CFLAGS_arm64="${CFLAGS_arm64} -target ${CHOST_arm64} --gcc-toolchain=${ARC_GCC_BASE_arm64}"
-		export CFLAGS_arm="${CFLAGS_arm} -target ${CHOST_arm} --gcc-toolchain=${ARC_GCC_BASE_arm}"
+		if (( ${ARC_VERSION_MAJOR} <= 11 )); then
+			# Add GCC toolchain for older Android branches
+			ARC_GCC_TUPLE_arm64=aarch64-linux-android
+			ARC_GCC_BASE_arm64="${ARC_BASE}/arc-gcc/aarch64/${ARC_GCC_TUPLE_arm64}-4.9"
+			ARC_GCC_TUPLE_arm=arm-linux-androideabi
+			ARC_GCC_BASE_arm="${ARC_BASE}/arc-gcc/arm/${ARC_GCC_TUPLE_arm}-4.9"
 
-		# Add Android related utilities location to ${PATH}.
-		export PATH="${ARC_GCC_BASE_arm64}/bin:${ARC_GCC_BASE_arm}/bin:${PATH}"
+			CFLAGS_arm64="${CFLAGS_arm64} --gcc-toolchain=${ARC_GCC_BASE_arm64}"
+			CFLAGS_arm="${CFLAGS_arm} --gcc-toolchain=${ARC_GCC_BASE_arm}"
+			export PATH="${ARC_GCC_BASE_arm64}/bin:${ARC_GCC_BASE_arm}/bin:${PATH}"
+		else
+			# For newer branches, ensure that the LLVM linker is used
+			CFLAGS_arm64="${CFLAGS_arm64} -fuse-ld=lld"
+			CFLAGS_arm="${CFLAGS_arm} -fuse-ld=lld"
+		fi
+
+		export CFLAGS_arm64="${CFLAGS_arm64} -target ${CHOST_arm64}"
+		export CFLAGS_arm="${CFLAGS_arm} -target ${CHOST_arm}"
 		;;
 	amd64)
-		ARC_GCC_TUPLE=x86_64-linux-android
-		ARC_GCC_BASE="${ARC_BASE}/arc-gcc/x86_64/${ARC_GCC_TUPLE}-4.9"
-
 		# Old versions of clang cannot recognize new CPU flags. Replace
 		# them with the latest Atom available on each version.
 		case ${ARC_VERSION_MAJOR} in
@@ -128,11 +133,22 @@ arc-build-select-clang() {
 		CFLAGS_amd64="${CFLAGS_amd64} -I${ARC_SYSROOT}/usr/include/arch-x86_64/include/"
 		CFLAGS_x86="${CFLAGS_x86} -I${ARC_SYSROOT}/usr/include/arch-x86/include/"
 
-		export CFLAGS_amd64="${CFLAGS_amd64} -target ${CHOST_amd64} --gcc-toolchain=${ARC_GCC_BASE}"
-		export CFLAGS_x86="${CFLAGS_x86} -target ${CHOST_x86} --gcc-toolchain=${ARC_GCC_BASE}"
+		if (( ${ARC_VERSION_MAJOR} <= 11 )); then
+			# Add GCC toolchain for older Android branches
+			ARC_GCC_TUPLE=x86_64-linux-android
+			ARC_GCC_BASE="${ARC_BASE}/arc-gcc/x86_64/${ARC_GCC_TUPLE}-4.9"
 
-		# Add Android related utilities location to ${PATH}.
-		export PATH="${ARC_GCC_BASE}/bin:${PATH}"
+			CFLAGS_amd64="${CFLAGS_amd64} --gcc-toolchain=${ARC_GCC_BASE}"
+			CFLAGS_x86="${CFLAGS_x86} --gcc-toolchain=${ARC_GCC_BASE}"
+			export PATH="${ARC_GCC_BASE}/bin:${PATH}"
+		else
+			# For newer branches, ensure that the LLVM linker is used
+			CFLAGS_amd64="${CFLAGS_amd64} -fuse-ld=lld"
+			CFLAGS_x86="${CFLAGS_x86} -fuse-ld=lld"
+		fi
+
+		export CFLAGS_amd64="${CFLAGS_amd64} -target ${CHOST_amd64}"
+		export CFLAGS_x86="${CFLAGS_x86} -target ${CHOST_x86}"
 		;;
 	esac
 
