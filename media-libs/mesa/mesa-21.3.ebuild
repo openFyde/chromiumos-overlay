@@ -65,7 +65,6 @@ RDEPEND="
 	)
 	llvm? ( virtual/libelf )
 	dev-libs/expat
-	dev-libs/libgcrypt
 	wayland? (
 		dev-libs/wayland:=
 	)
