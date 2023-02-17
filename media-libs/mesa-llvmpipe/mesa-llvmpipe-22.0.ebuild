@@ -71,7 +71,6 @@ RDEPEND="
 	!media-libs/mesa
 	dev-libs/expat
 	dev-libs/libgcrypt
-	virtual/udev
 	zstd? ( app-arch/zstd )
 	${LIBDRM_DEPSTRING}
 "
