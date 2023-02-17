@@ -215,7 +215,6 @@ CROS_RDEPEND="${CROS_RDEPEND}
 	chromeos-base/avtest_label_detect
 	chromeos-base/chrome-binary-tests
 	chromeos-base/cros-camera-tool
-	chromeos-base/croscomp
 	!chromeless_tty? ( !chromeless_tests? ( chromeos-base/drm-tests ) )
 	!no_factory_flow? ( chromeos-base/factory-mini )
 	chromeos-base/glbench
