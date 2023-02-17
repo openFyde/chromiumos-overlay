@@ -69,7 +69,6 @@ RDEPEND="
 	wayland? (
 		dev-libs/wayland:=
 	)
-	virtual/udev
 	zstd? ( app-arch/zstd )
 	${LIBDRM_DEPSTRING}
 "
