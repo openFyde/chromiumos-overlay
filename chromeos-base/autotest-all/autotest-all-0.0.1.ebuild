@@ -1,9 +1,11 @@
 # Copyright 2010 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-inherit cros-constants
+PYTHON_COMPAT=( python3_{6..9} )
+
+inherit cros-constants python-any-r1
 
 DESCRIPTION="Meta ebuild for all packages providing tests"
 HOMEPAGE="http://www.chromium.org"
@@ -69,16 +71,14 @@ src_install() {
 # Pre-processes control files and installs DEPENDENCIES info.
 pkg_postinst() {
 	local root_autotest_dir="${ROOT}${AUTOTEST_BASE}"
-	PYTHONDONTWRITEBYTECODE=1 \
-	"${root_autotest_dir}/site_utils/suite_preprocessor.py" \
+	export PYTHONDONTWRITEBYTECODE=1
+	"${EPYTHON}" "${root_autotest_dir}/site_utils/suite_preprocessor.py" \
 		-a "${root_autotest_dir}" \
 		-o "${root_autotest_dir}/test_suites/${SUITE_DEPENDENCIES_FILE}" || die
-	PYTHONDONTWRITEBYTECODE=1 \
-	"${root_autotest_dir}/site_utils/control_file_preprocessor.py" \
+	"${EPYTHON}" "${root_autotest_dir}/site_utils/control_file_preprocessor.py" \
 		-a "${root_autotest_dir}" \
 		-o "${root_autotest_dir}/test_suites/${SUITE_TO_CONTROL_MAP}" || die
-	PYTHONDONTWRITEBYTECODE=1 \
-	python3 "${root_autotest_dir}/utils/generate_metadata.py" \
+	"${EPYTHON}" "${root_autotest_dir}/utils/generate_metadata.py" \
 		-autotest_path "${root_autotest_dir}" \
 		-output_file="${root_autotest_dir}"/autotest_metadata.pb || die
 }
