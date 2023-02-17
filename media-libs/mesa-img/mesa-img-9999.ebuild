@@ -63,7 +63,6 @@ RDEPEND="
 	llvm? ( virtual/libelf )
 	dev-libs/expat
 	dev-libs/libgcrypt
-	virtual/udev
 	${LIBDRM_DEPSTRING}
 "
 
