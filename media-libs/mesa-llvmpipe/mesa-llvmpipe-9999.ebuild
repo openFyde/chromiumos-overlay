@@ -67,7 +67,6 @@ RDEPEND="
 	llvm? ( virtual/libelf )
 	!media-libs/mesa
 	dev-libs/expat
-	dev-libs/libgcrypt
 	zstd? ( app-arch/zstd )
 	${LIBDRM_DEPSTRING}
 "
