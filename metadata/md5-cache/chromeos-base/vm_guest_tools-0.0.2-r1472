@@ -1,0 +1,15 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install postinst preinst setup test unpack
+DEPEND=!!chromeos-base/vm_tools chromeos-base/minijail:= net-libs/grpc:= dev-libs/protobuf:= dev-go/protobuf-legacy-api:= dev-go/grpc:= dev-go/protobuf:= sys-kernel/linux-headers:= chromeos-base/vm_protos:= dev-lang/go >=chromeos-base/libchrome-0.0.1-r587:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2132:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:= sys-apps/baselayout
+DESCRIPTION=VM guest tools for Chrome OS
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/vm_tools
+IUSE=kvm_guest vm-containers fuzzer vm_borealis cros_host cros_workon_tree_f834e7e40228b458c4100226f262117a9d85cdb3_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6_a26b0252ca4dd8384cc9ff4aec931dda6a1587c9_61561ec69ca2e81072887f8239af4c30593d6b2c_d007cc50043f4cd109280ce1f0b38bfc851da338_f368627960e9d37dd0154fe8655e3370bd2bba38_dfeb84e94630e0c9852cf9d67005f852e2eb3cc5_0c5a113933f1222bcbe43f22d86e947ce021ba47_e1713fa2d283b8540b57a3fddc0f7a440842a69b_769fdd657083abc6af75c19de66f6daf21e6d3c6_1de560fb78b84e9c1283180fe303a16af40bf039_8ca23bf32e36f4d9178bb4ab5d23d67cdf3dd4ec_b43e886293a2377f871de47ee78cf83c596cdf4d_53d7146a8355184359434857b66bdadeb40b66a1_517e774519c4cd0765da3b5d93dc7fd2dd6a0da0_0f8ac67491f7a52e0de6999644a3797b7fed364c_a01dc69a1e1fa54805fe9b48ce5c278a7e70de0c cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=!!chromeos-base/vm_tools chromeos-base/minijail:= net-libs/grpc:= dev-libs/protobuf:= dev-go/protobuf-legacy-api:= vm-containers? ( chromeos-base/crash-reporter chromeos-base/crostini-metric-reporter ) !fuzzer? ( chromeos-base/sommelier ) >=chromeos-base/libchrome-0.0.1-r587:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2132:= sys-apps/baselayout
+REQUIRED_USE=kvm_guest
+SLOT=0/0.0.2-r1472
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	935023bc69e8c296bb9f3267de5b60d3	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	f156b63c6afb281c772a28e3f5d842b5	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
+_md5_=f53758ca879edba3dbd9de69b9aa7cd2
