@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e710219eb136ef9b7febb12f0a2060f4e4275f8c"
-CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "72a86b90b5590576acc67aa9a2a7ab7e116672c1" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="4e9032351c07e1591937c5aa00d672dd4886c901"
+CROS_WORKON_TREE=("f834e7e40228b458c4100226f262117a9d85cdb3" "365f8d339e69b52a2e8e5b9a360c0507eb4ffc05" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -84,6 +84,7 @@ src_install() {
 		shill
 		smbprovider
 		tpm_manager
+		u2f
 		update_engine
 		wilco_dtc_supportd
 	)
