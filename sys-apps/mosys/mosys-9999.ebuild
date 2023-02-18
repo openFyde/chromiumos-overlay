@@ -34,6 +34,7 @@ PLATFORM_NAMES=(
 	"Cherry"
 	"Corsola"
 	"Generic"
+	"Geralt"
 	"Gru"
 	"Herobrine"
 	"Kukui"
