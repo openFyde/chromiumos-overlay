@@ -162,6 +162,11 @@ USE="${USE} private_computing"
 # Enable the printing and scanning daemon by default.
 USE="${USE} printscanmgr"
 
+# Enable (ext4) fscrypt, all kernels support it.
+# Note that direncription_allow_v2 (using ioctl instead of manipulating the
+# keyring directly) # is only available on 5.4+ kernels.
+USE="${USE} direncryption"
+
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
