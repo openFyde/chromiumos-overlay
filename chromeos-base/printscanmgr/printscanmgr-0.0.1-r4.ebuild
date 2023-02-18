@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8ca0d5b8f65121ed558566f751a701f69f2e5544"
-CROS_WORKON_TREE=("8691d18b0a605890aebedfd216044cfc57d81571" "96daa8dbf7b0bf109539645db1d38fe188b9adb9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="70e2e58f11c6b8c8f989d147db017cd93521462e"
+CROS_WORKON_TREE=("8691d18b0a605890aebedfd216044cfc57d81571" "9917f8b0bbfefe1678eff595d8cf521a4e52ca32" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -19,7 +19,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/printsca
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-COMMON_DEPEND=""
+COMMON_DEPEND="
+	chromeos-base/minijail:=
+"
 
 RDEPEND="${COMMON_DEPEND}
 	"
