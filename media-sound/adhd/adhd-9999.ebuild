@@ -50,6 +50,7 @@ RDEPEND="
 	media-sound/alsa-utils
 	media-sound/audio_processor:=
 	dlc? ( media-sound/sr-bt-dlc:= )
+	dlc? ( virtual/chromeos-audio-nc-ap-dlc:= )
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
 	featured? ( chromeos-base/featured )
