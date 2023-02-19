@@ -31,8 +31,9 @@ chromeos {
       }
       path_regexp_excludes: "chromeos-base/chromeos-ec/.*"
       path_regexp_excludes: "chromeos-base/chromeos-zephyr/.*"
-      path_regexp_excludes: "media-gfx/sane-backends/.*"
       path_regexp_excludes: "media-gfx/sane-airscan/.*"
+      path_regexp_excludes: "media-gfx/sane-backends/.*"
+      path_regexp_excludes: "media-sound/.*"
       path_regexp_excludes: "sys-boot/chromeos-bmpblk/.*"
       path_regexp_excludes: "sys-boot/chromeos-bootimage/.*"
       path_regexp_excludes: "sys-boot/coreboot-private-files-null/.*"
