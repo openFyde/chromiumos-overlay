@@ -1,13 +1,9 @@
 # Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-# TODO(crbug.com/1007152): This is the last LTS release of cherrypy that
-#     supports both Python 2 & 3. Don't upgrade this package past this version
-#     until all users are migrated to Python 3.
-
 EAPI=7
 
-PYTHON_COMPAT=( python2_7 python3_{6..9} )
+PYTHON_COMPAT=( python3_{6..9} )
 
 inherit distutils-r1
 
