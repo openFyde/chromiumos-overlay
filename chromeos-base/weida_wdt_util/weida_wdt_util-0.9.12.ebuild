@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-
 inherit toolchain-funcs
 
 DESCRIPTION="A FW updating utility for Weida touchscreens"
