@@ -23,5 +23,5 @@ RDEPEND="
 	${RDEPEND}
 	!<=chromeos-base/arc-base-0.0.1-r349
 	!<=chromeos-base/arc-common-scripts-0.0.1-r132
-	chromeos-base/arcvm-mount-media-dirs
+	chromeos-base/arcvm-media-sharing-services
 "
