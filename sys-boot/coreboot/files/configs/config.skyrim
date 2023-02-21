@@ -22,5 +22,5 @@ CONFIG_ELOG_BOOT_COUNT=y
 CONFIG_ELOG_BOOT_COUNT_CMOS_OFFSET=144
 
 # Signed PSP verstage
-# CONFIG_PSP_VERSTAGE_FILE="3rdparty/blobs/mainboard/google/skyrim/skyrim_psp_verstage.signed.bin"
-# CONFIG_PSP_VERSTAGE_SIGNING_TOKEN="3rdparty/blobs/mainboard/google/skyrim/skyrim_shiraz.stkn"
+CONFIG_PSP_VERSTAGE_FILE="3rdparty/blobs/mainboard/google/skyrim/skyrim_psp_verstage.signed.bin"
+CONFIG_PSP_VERSTAGE_SIGNING_TOKEN="3rdparty/blobs/mainboard/google/skyrim/skyrim_shiraz.stkn"
