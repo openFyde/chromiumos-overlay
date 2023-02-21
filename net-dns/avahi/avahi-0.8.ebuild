@@ -73,6 +73,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.8-fix-timeouts-leak.patch"
 	"${FILESDIR}/${PN}-0.8-avoid-infinite-loop-by-handling-HUP-event.patch"
 	"${FILESDIR}/${PN}-0.8-fix-NULL-pointer-crashes-badly-formatted-hostnames.patch"
+	"${FILESDIR}/${PN}-0.8-coverity-use-after-free.patch"
 )
 
 pkg_preinst() {
