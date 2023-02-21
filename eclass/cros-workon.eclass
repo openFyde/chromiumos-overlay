@@ -252,6 +252,9 @@ fi
 # The default value is "true" meaning all projects are checked out.
 : ${CROS_WORKON_OPTIONAL_CHECKOUT:="true"}
 
+# Directory containing git tree artifacts.
+CROS_WORKON_TREE_CACHE="/var/cache/trees"
+
 # Join the tree commits to produce a unique identifier
 CROS_WORKON_TREE_COMPOSITE=$(IFS="_"; echo "${CROS_WORKON_TREE[*]}")
 IUSE="cros_host cros_workon_tree_$CROS_WORKON_TREE_COMPOSITE"
@@ -658,6 +661,7 @@ cros-workon_src_unpack() {
 	local repo=( "${CROS_WORKON_REPO[@]}" )
 	local project=( "${CROS_WORKON_PROJECT[@]}" )
 	local destdir=( "${CROS_WORKON_DESTDIR[@]}" )
+	local subtree=( "${CROS_WORKON_SUBTREE[@]}" )
 	local branch=( "${CROS_WORKON_EGIT_BRANCH[@]}" )
 	local path
 	get_paths
@@ -702,7 +706,21 @@ cros-workon_src_unpack() {
 	if [[ "${fetch_method}" == "git" ]] ; then
 		local creds_setup="false"
 
+		local -i tree_idx_base=0 prev_subtree_cnt=0
+
 		for (( i = 0; i < project_count; ++i )); do
+			local -a project_subtrees
+			local -i project_subtree_cnt
+			IFS=' ' read -ra project_subtrees <<< "${subtree[i]}"
+			if [[ "${#project_subtrees[@]}" -eq 0 ]]; then
+				project_subtrees=(".")
+			fi
+			project_subtree_cnt="${#project_subtrees[@]}"
+
+			# We do this here so the `continue`s below don't need to be modified.
+			tree_idx_base+="$prev_subtree_cnt"
+			prev_subtree_cnt="${project_subtree_cnt}"
+
 			if [[ -d "${path[i]}" ]]; then
 				# Looks like we have a local copy of the repository.
 				# Let's use it and checkout ${CROS_WORKON_COMMIT}.
@@ -749,6 +767,36 @@ cros-workon_src_unpack() {
 						continue
 					fi
 				fi
+			fi
+
+			# When building under bazel, bazel will inject the individual
+			# CROS_WORKON_TREE artifacts into the $CROS_WORKON_TREE_CACHE directory.
+			# If we happen to find the artifacts for a project then we can skip the
+			# git clone of the actual repository.
+			local -i found_trees=0 subtree_idx
+			for (( subtree_idx = 0; subtree_idx < "${project_subtree_cnt}"; ++subtree_idx )); do
+				local subtree_path="${project_subtrees[subtree_idx]}"
+				local tree_hash="${CROS_WORKON_TREE[tree_idx_base + subtree_idx]}"
+				local target_path="${destdir[i]}/${subtree_path}"
+
+				if [[ -f "${CROS_WORKON_TREE_CACHE}/${tree_hash}" ]]; then
+					mkdir -p "$(dirname "${target_path}")" || die
+					cp "${CROS_WORKON_TREE_CACHE}/${tree_hash}" "${target_path}" || die
+					found_trees+=1
+				elif [[ -f "${CROS_WORKON_TREE_CACHE}/${tree_hash}.tar.zst" ]]; then
+					mkdir -p "${target_path}" || die
+					tar -xf "${CROS_WORKON_TREE_CACHE}/${tree_hash}.tar.zst" -C "${target_path}"
+					found_trees+=1
+				fi
+			done
+
+			if [[ "${found_trees}" -gt 0 ]]; then
+				if [[ "${found_trees}" -ne "${project_subtree_cnt}" ]]; then
+					die "Only found ${found_trees}/${project_subtree_cnt} trees in ${CROS_WORKON_TREE_CACHE}"
+				fi
+
+				# destdir was setup using the tree cache
+				continue
 			fi
 
 			if [[ "${creds_setup}" == "false" ]]; then
