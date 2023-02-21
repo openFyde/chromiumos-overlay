@@ -71,6 +71,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-0.7-log-address-resolution.patch"
 	"${FILESDIR}/${PN}-0.7-cache-host-name-record-A.patch"
 	"${FILESDIR}/${PN}-0.8-fix-timeouts-leak.patch"
+	"${FILESDIR}/${PN}-0.8-avoid-infinite-loop-by-handling-HUP-event.patch"
 )
 
 pkg_preinst() {
