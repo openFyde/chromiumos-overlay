@@ -35,17 +35,16 @@ MULTILIB_WRAPPED_HEADERS=(
 	/usr/include/event2/event-config.h
 )
 
-PATCHES=(
-	# This patch is unique to Chromium OS until we can sort out:
-	# https://github.com/libevent/libevent/pull/142
-	#"${FILESDIR}"/${P}-libevent-shrink.patch
-)
-
 S=${WORKDIR}/${P/_/-}-stable
 
 src_prepare() {
 	default
 	eautoreconf
+
+	# This patch is unique to Chromium OS until we can sort out:
+	# https://github.com/libevent/libevent/pull/142
+	# NB: must come after eautoreconf.
+	eapply "${FILESDIR}"/${P}-libevent-shrink.patch
 }
 
 multilib_src_configure() {

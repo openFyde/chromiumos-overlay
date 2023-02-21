@@ -4,7 +4,7 @@ hack the build to generate a small libevent.so until we can sort out upstream
 
 --- a/Makefile.in
 +++ b/Makefile.in
-@@ -269,14 +269,14 @@ am__objects_11 = buffer.lo bufferevent.lo bufferevent_filter.lo \
+@@ -251,14 +251,14 @@ am__objects_11 = buffer.lo bufferevent.lo bufferevent_filter.lo \
  	evutil_time.lo listener.lo log.lo $(am__objects_10)
  am__objects_12 = evdns.lo event_tagging.lo evrpc.lo http.lo
  am_libevent_la_OBJECTS = $(am__objects_11) $(am__objects_12)
@@ -21,7 +21,7 @@ hack the build to generate a small libevent.so until we can sort out upstream
  @INSTALL_LIBEVENT_FALSE@am_libevent_la_rpath =
  @INSTALL_LIBEVENT_TRUE@am_libevent_la_rpath = -rpath $(libdir)
  libevent_core_la_DEPENDENCIES = @LTLIBOBJS@ $(am__DEPENDENCIES_1) \
-@@ -1156,7 +1156,7 @@ EXTRA_DIST = ChangeLog-1.4 ChangeLog-2.0 Doxyfile LICENSE \
+@@ -1099,7 +1099,7 @@ EXTRA_DIST = ChangeLog-1.4 ChangeLog-2.0 Doxyfile LICENSE \
  	test/regress.gen.c test/regress.gen.h test/regress.rpc \
  	test/rpcgen_wrapper.sh test/print-winsock-errors.c \
  	test/test.sh
