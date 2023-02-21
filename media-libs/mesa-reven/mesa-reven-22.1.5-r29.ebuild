@@ -35,9 +35,7 @@ REQUIRED_USE="video_cards_amdgpu? ( llvm )
 
 COMMON_DEPEND="
 	dev-libs/expat:=
-	dev-libs/libgcrypt:=
 	llvm? ( virtual/libelf:= )
-	virtual/udev:=
 	zstd? ( app-arch/zstd )
 	>=x11-libs/libdrm-2.4.60:=
 "
