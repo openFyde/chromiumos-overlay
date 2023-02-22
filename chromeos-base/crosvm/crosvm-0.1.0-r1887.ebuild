@@ -12,7 +12,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since crosvm/Cargo.toml is
 # using "# ignored by ebuild" macro which supported by cros-rust.
 
-inherit cros-fuzzer cros-rust cros-workon user
+inherit cros-fuzzer cros-rust cros-sanitizers cros-workon user
 
 DESCRIPTION="Utility for running VMs on Chrome OS"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
@@ -231,6 +231,18 @@ src_test() {
 		# cores. b/238787107
 		--skip "tsc::calibrate::tests"
 	)
+
+	# b/270167741: these tests directly call `libc::fork()` in a
+	# multithreaded process (cargo's test harness). This leads to undefined
+	# behavior. This UB leads to memory leaks, which breaks AddressSanitizer
+	# builds (which imply LeakSanitizer). No breakages related to this UB
+	# have been observed outside of LeakSanitizer complaints.
+	if use asan; then
+		skip_tests+=(
+			--skip "register_region_skip_obsolete_process"
+			--skip "unregister_region_skip_obsolete_process"
+		)
+	fi
 
 	# If syslog isn't available, skip the tests.
 	[[ -S /dev/log ]] || skip_tests+=(--skip "syslog")
