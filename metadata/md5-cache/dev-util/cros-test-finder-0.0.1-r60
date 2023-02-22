@@ -4,11 +4,11 @@ DEPEND=chromeos-base/tast-cmd:= chromeos-base/tast-proto dev-util/cros-test dev-
 DESCRIPTION=Test finder for find tests that match the specified test suite tags
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/test_finder
-IUSE=cros_host cros_workon_tree_379ddc8b0f80f69217eeef21aa4bbc1f4dfc77b6_45ab94459c8afbb76a27fe28f1267e71197c1ba1_8253f38680d77ee9f25173a65e985bd13c360767
+IUSE=cros_host cros_workon_tree_379ddc8b0f80f69217eeef21aa4bbc1f4dfc77b6_45ab94459c8afbb76a27fe28f1267e71197c1ba1_c93905bbecd968bdd6b495f9d175370cc8a5935e
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=chromeos-base/tast-cmd:= chromeos-base/tast-proto dev-util/cros-test dev-util/lro-server
-SLOT=0/0.0.1-r59
+SLOT=0/0.0.1-r60
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=531a2a63be1ffa2530b910ed75f73ccb
+_md5_=95e8acf1dd30a907b89c54a14fee89d4
