@@ -50,6 +50,7 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	media-sound/alsa-utils
+	media-sound/audio_processor:=
 	dlc? ( media-sound/sr-bt-dlc:= )
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
