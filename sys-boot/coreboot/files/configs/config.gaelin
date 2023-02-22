@@ -8,7 +8,7 @@ CONFIG_IFD_BIN_PATH="3rdparty/blobs/mainboard/google/brya/descriptor-gaelin.bin"
 CONFIG_ME_BIN_PATH="3rdparty/blobs/mainboard/google/brya/csme-gaelin.bin"
 CONFIG_SOC_INTEL_CSE_RW_FILE="3rdparty/blobs/mainboard/google/brya/me_rw-gaelin.bin"
 CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
-CONFIG_SOC_INTEL_CSE_RW_VERSION="16.1.25.2101"
+CONFIG_SOC_INTEL_CSE_RW_VERSION="16.1.25.2171"
 
 # FSP Blobs
 CONFIG_FSP_HEADER_PATH="3rdparty/blobs/intel/rpl/fsp/Include"
