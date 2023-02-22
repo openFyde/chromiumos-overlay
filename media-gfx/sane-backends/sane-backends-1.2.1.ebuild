@@ -179,11 +179,7 @@ src_prepare() {
 	# Add Fujitsu fi-8170.
 	eapply "${FILESDIR}/${PN}-1.1.1-fi8170.patch"
 
-	# Accepted upstream.  Drop once 1.1.2 is release.
-	eapply "${FILESDIR}/${PN}-1.1.1-xp2200.patch"
-
 	eapply "${FILESDIR}"/${PN}-1.0.24-saned_pidfile_location.patch
-	eapply "${FILESDIR}"/${PN}-1.0.29-genesys-test-headers.patch
 
 	# From Arch
 	eapply "${FILESDIR}"/${PN}-1.0.30-network.patch
@@ -211,6 +207,7 @@ src_configure() {
 	# genesys backend doesn't build without exceptions.
 	cros_enable_cxx_exceptions
 	append-flags -fno-strict-aliasing # From Fedora
+	append-lfs-flags
 
 	# enable link-time optimization to reduce size of genesys backend ~20%.
 	append-flags -flto
