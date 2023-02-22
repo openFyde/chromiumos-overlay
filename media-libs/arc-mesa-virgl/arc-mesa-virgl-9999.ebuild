@@ -30,7 +30,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	android_aep -android_gles2 -android_gles30
+	android_aep -android_gles2 -android_gles30 -roblox_force_gles
 	+android_gles31 -android_gles32 -android_vulkan_compute_0 -angle -swvulkan
 	+cheets classic debug dri +egl +gallium
 	-gbm +gles1 +gles2 -llvm +nptl pic selinux +shared-glapi -vulkan -X xlib-glx
@@ -108,6 +108,12 @@ src_prepare() {
 	elif use android_gles2; then
 		einfo "Limiting android to gles2."
 		eapply "${FILESDIR}/gles2/0001-limit-gles-version.patch"
+	fi
+
+	# Disable vulkan for Roblox based on USE flag. b/263535641
+	if use roblox_force_gles; then
+		einfo "Disable vulkan for roblox."
+		eapply "${FILESDIR}/CHROMIUM-Disable-vulkan-for-roblox.patch"
 	fi
 
 	default
