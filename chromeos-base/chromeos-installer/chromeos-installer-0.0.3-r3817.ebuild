@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="7782faf570c3301852585eee953558dba6d506eb"
-CROS_WORKON_TREE=("05fc07a8e14dcd189662efc576ac02ebef174e60" "92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "c5d39bf10b79854a0eebc4a809e7ce3625060811" "e1f223c8511c80222f764c8768942936a8de01e4" "564fb269910e51bbaacfa7c076b6dd9933bfc309" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="5d0f29b86d956a0a421b58d8471bfeb17596903b"
+CROS_WORKON_TREE=("05fc07a8e14dcd189662efc576ac02ebef174e60" "92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "0d8ee5127dc927ea92a561cad192722a293e5efb" "e1f223c8511c80222f764c8768942936a8de01e4" "564fb269910e51bbaacfa7c076b6dd9933bfc309" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_INCREMENTAL_BUILD=1
@@ -65,33 +65,11 @@ platform_pkg_test() {
 src_install() {
 	platform_src_install
 
-	dobin "${OUT}"/cros_installer
-	if use mtd ; then
-		dobin "${OUT}"/nand_partition
-	fi
-	dosbin chromeos-* encrypted_import "${OUT}"/evwaitkey
-	dosym usr/sbin/chromeos-postinst /postinst
-
-	# Enable lvm stateful partition.
-	if use lvm_stateful_partition; then
-		# We are replacing expansions in a shell file, and shellcheck thinks we want
-		# to expand those in this context. Ignore it.
-		# shellcheck disable=SC2016
-		sed -i '/DEFINE_boolean lvm_stateful "/s:\${FLAGS_FALSE}:\${FLAGS_TRUE}:' \
-			"${D}/usr/sbin/chromeos-install" ||
-			die "Failed to set 'lvm_stateful' in chromeos-install"
-	fi
-
-	# Install init scripts.
+	# Install init scripts. Non-systemd case is defined in BUILD.gn.
 	if use systemd; then
 		systemd_dounit init/install-completed.service
 		systemd_enable_service boot-services.target install-completed.service
 		systemd_dounit init/crx-import.service
 		systemd_enable_service system-services.target crx-import.service
-	else
-		insinto /etc/init
-		doins init/*.conf
 	fi
-	exeinto /usr/share/cros/init
-	doexe init/crx-import.sh
 }
