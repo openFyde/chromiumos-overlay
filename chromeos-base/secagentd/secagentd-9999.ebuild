@@ -18,7 +18,7 @@ DESCRIPTION="Enterprise security event reporting."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secagentd/"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="+secagentd_min_core_btf"
+IUSE="+secagentd_min_core_btf proto_force_optimize_speed"
 
 COMMON_DEPEND="
 	chromeos-base/attestation-client:=
