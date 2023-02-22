@@ -22,6 +22,12 @@ KEYWORDS="*"
 IUSE=""
 SYZKALLER_PATH="src/github.com/google/syzkaller"
 
+# Expect an arm64 bit kernel even when userspace is arm.
+TARGETVMARCH=${ARCH}
+if [ "${TARGETVMARCH}" == "arm" ] ; then
+	TARGETVMARCH="arm64"
+fi
+
 src_prepare() {
 	cd "${SYZKALLER_PATH}" || die "unable to cd to extracted syzkaller directory"
 	eapply "${FILESDIR}"/0001-cros-syzkaller-do-not-use-go.sum-and-go.mod.patch
@@ -38,13 +44,14 @@ src_prepare() {
 src_compile() {
 	cd "${SYZKALLER_PATH}" || die "unable to cd to extracted syzkaller directory"
 	# shellcheck disable=SC2154
-	CFLAGS="" GO111MODULE=off GOPATH="${GOPATH}:${S}" emake TARGETOS=linux TARGETARCH="${ARCH}" || die "syzkaller build failed"
+	CFLAGS="" GO111MODULE=off GOPATH="${GOPATH}:${S}" emake TARGETOS=linux TARGETARCH="${ARCH}" TARGETVMARCH="${TARGETVMARCH}" || die "syzkaller build failed"
 }
 
 src_install() {
 	local bin_path="${SYZKALLER_PATH}/bin"
 	dobin "${bin_path}"/syz-manager
-	dobin "${bin_path}"/linux_"${ARCH}"/syz-{fuzzer,executor,execprog}
+	dobin "${bin_path}"/linux_"${ARCH}"/syz-executor
+	dobin "${bin_path}"/linux_"${TARGETVMARCH}"/syz-{fuzzer,execprog}
 }
 
 # Overriding postinst for package github.com/google/syzkaller
