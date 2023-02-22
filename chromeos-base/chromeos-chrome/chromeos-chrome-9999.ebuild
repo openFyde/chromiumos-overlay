@@ -53,6 +53,7 @@ IUSE="
 	hibernate
 	hw_details
 	goma_thinlto
+	hevc_codec
 	+highdpi
 	iioservice
 	intel_oemcrypto
@@ -266,6 +267,7 @@ set_build_args() {
 		"use_arc_protected_media=$(usetf arc_hw_oemcrypto)"
 		"use_chromeos_protected_av1=${use_protected_av1}"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
+		"enable_hevc_parser_and_hw_decoder=$(usetf hevc_codec)"
 		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
 		"use_v4lplugin=$(usetf v4lplugin)"
