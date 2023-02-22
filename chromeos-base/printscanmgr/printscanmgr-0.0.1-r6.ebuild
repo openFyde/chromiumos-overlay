@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="db50fe0ee6a2e2756fd40d261155c240548ad26b"
-CROS_WORKON_TREE=("92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "9917f8b0bbfefe1678eff595d8cf521a4e52ca32" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="287405a3474f1874de084530cacca10fe567d892"
+CROS_WORKON_TREE=("92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "1919ca6b9f423c5b0dff627ebc247c2c06ab9ff1" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -18,6 +18,7 @@ DESCRIPTION="Chrome OS printing and scanning daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/printscanmgr/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
@@ -27,10 +28,23 @@ RDEPEND="${COMMON_DEPEND}
 	"
 
 DEPEND="${COMMON_DEPEND}
-	chromeos-base/system_api:=
+	chromeos-base/system_api:=[fuzzer?]
 	sys-apps/dbus:="
 
 pkg_preinst() {
 	enewuser printscanmgr
 	enewgroup printscanmgr
+}
+
+src_install() {
+	platform_src_install
+
+	# Install fuzzers.
+	local fuzzer_component_id="167231"
+	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/cups_uri_helper_utils_fuzzer \
+		--comp "${fuzzer_component_id}"
+}
+
+platform_pkg_test() {
+	platform test_all
 }

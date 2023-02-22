@@ -66,6 +66,7 @@ RDEPEND="
 	chromeos-base/patchpanel-client[fuzzer]
 	chromeos-base/permission_broker[fuzzer]
 	chromeos-base/power_manager[fuzzer]
+	chromeos-base/printscanmgr[fuzzer]
 	chromeos-base/rgbkbd[fuzzer]
 	chromeos-base/run_oci[fuzzer]
 	chromeos-base/runtime_probe[fuzzer]
