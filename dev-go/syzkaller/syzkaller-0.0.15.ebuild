@@ -31,6 +31,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/0005-cros-syzkaller-description-updates-for-devlink-t7xx.patch
 	eapply "${FILESDIR}"/0006-cros-syzkaller-do-not-unshare-CLONE_NEWNET.patch
 	eapply "${FILESDIR}"/0007-cros-syzkaller-add-rawcover32-to-syz-manager.patch
+	eapply "${FILESDIR}"/0008-cros-syzkaller-do-not-use-F-dev-null-for-SSH.patch
 	eapply_user
 }
 
