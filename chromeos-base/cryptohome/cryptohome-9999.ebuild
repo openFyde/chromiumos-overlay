@@ -205,6 +205,10 @@ src_install() {
 	platform_fuzzer_install "${S}"/OWNERS \
 		"${OUT}"/cryptohome_user_secret_stash_parser_fuzzer \
 		--comp "${fuzzer_component_id}"
+
+	platform_fuzzer_install "${S}"/OWNERS \
+		"${OUT}"/cryptohome_recovery_id_fuzzer \
+		--comp "${fuzzer_component_id}"
 }
 
 pkg_preinst() {
