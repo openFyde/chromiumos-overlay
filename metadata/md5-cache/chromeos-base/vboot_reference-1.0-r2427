@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/crosid:= app-arch/libarchive:= dev-libs/libzip:= dev-libs/openssl:= sys-apps/coreboot-utils:= flashrom? ( sys-apps/flashrom:= ) sys-apps/util-linux:= test? ( app-editors/vim-core app-shells/bash dev-libs/openssl sys-apps/coreutils sys-apps/diffutils sys-apps/grep sys-apps/sed sys-devel/bc virtual/awk )
+DESCRIPTION=Chrome OS verified boot tools
+EAPI=7
+IUSE=cros_host dev_debug_force fuzzer pd_sync test tpmtests tpm tpm_dynamic tpm2 tpm2_simulator vtpm_proxy +flashrom cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros_host cros_workon_tree_9a698f1351a1362d026ae35e96f2b9d721a40dcb_92a7718bfe5a15c594fcc6b0855e68b0981cd9a0
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/crosid:= app-arch/libarchive:= dev-libs/libzip:= dev-libs/openssl:= sys-apps/coreboot-utils:= flashrom? ( sys-apps/flashrom:= ) sys-apps/util-linux:=
+REQUIRED_USE=tpm_dynamic? ( tpm tpm2 ) !tpm_dynamic? ( ?? ( tpm tpm2 ) )
+SLOT=0/1.0-r2427
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=f01065ecc7bcad3365c0d8a15f9f5b0b
