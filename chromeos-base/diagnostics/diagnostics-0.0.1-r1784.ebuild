@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dbc94ca7cc2396fbc7f2b30049f6609d39061c9a"
-CROS_WORKON_TREE=("92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "05fc07a8e14dcd189662efc576ac02ebef174e60" "330c40a77529ced1c0adb7eaecc74fb5297cb594" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="3d130310a08a881ce6b58f17b03392a97baccffc"
+CROS_WORKON_TREE=("92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "05fc07a8e14dcd189662efc576ac02ebef174e60" "b15c5a5b947018953b892b265acb7719cfa1ac56" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -81,6 +81,9 @@ pkg_preinst() {
 	enewgroup healthd_fp
 	enewuser healthd_evdev
 	enewgroup healthd_evdev
+	enewuser healthd_psr
+	enewgroup healthd_psr
+	enewgroup mei-access
 
 	if use wilco; then
 		enewuser wilco_dtc
@@ -98,6 +101,7 @@ src_install() {
 
 	# Install udev rules.
 	udev_dorules udev/99-chown_dmi_dir.rules
+	udev_dorules udev/99-mei_driver_files.rules
 
 	# Install fuzzers.
 	local fuzzer_component_id="982097"
