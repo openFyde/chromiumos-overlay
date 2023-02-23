@@ -176,9 +176,6 @@ src_prepare() {
 	epkowa
 	EOF
 
-	# Add Fujitsu fi-8170.
-	eapply "${FILESDIR}/${PN}-1.1.1-fi8170.patch"
-
 	eapply "${FILESDIR}"/${PN}-1.0.24-saned_pidfile_location.patch
 
 	# From Arch
