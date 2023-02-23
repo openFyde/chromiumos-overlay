@@ -128,6 +128,7 @@ IUSE="
 	ondevice_text_suggestions
 	pinweaver_csme
 	pita
+	postscript
 	racc
 	rialto
 	rk3399
