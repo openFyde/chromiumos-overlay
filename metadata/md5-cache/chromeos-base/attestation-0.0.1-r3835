@@ -1,0 +1,15 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install preinst setup test unpack
+DEPEND=tpm? ( app-crypt/trousers:= ) tpm2? ( chromeos-base/trunks:= ) chromeos-base/chaps:= chromeos-base/libhwsec:=[test?] chromeos-base/libhwsec-foundation:= chromeos-base/system_api:=[fuzzer?] >=chromeos-base/metrics-0.0.1-r3152:= chromeos-base/minijail:= chromeos-base/tpm_manager:= chromeos-base/attestation-client chromeos-base/vboot_reference:= tpm2? ( chromeos-base/trunks:=[test?] chromeos-base/chromeos-ec-headers:= ) >=chromeos-base/libchrome-0.0.1-r591:0=[cros-debug=] >=chromeos-base/libchrome-0.0.1-r591:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2134:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:= sys-apps/baselayout
+DESCRIPTION=Attestation service for Chromium OS
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/attestation/
+IUSE=cr50_onboard generic_tpm2 profiling test ti50_onboard tpm tpm_dynamic tpm2 tpm2_simulator cros_host cros_workon_tree_55939c6ae7e4e501ab2d3534ef3c746607fcc2cd_2aabde35b9ab6f951da6d26da097a679aa42edf8_1e58dc0ba3be639541424027494f999cd3f24f49_f6551f3dde891a75473f1b97fb7d0c5829e6be91_c1195005f152ed453ed87250e60e2dfa9502a6c4_e1f223c8511c80222f764c8768942936a8de01e4_d260dea390c888b42d26362d30dfb99591d69489_4009d6eb6c6d27c7d2a35604226089fd0190d345_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=tpm? ( app-crypt/trousers:= ) tpm2? ( chromeos-base/trunks:= ) chromeos-base/chaps:= chromeos-base/libhwsec:=[test?] chromeos-base/libhwsec-foundation:= chromeos-base/system_api:=[fuzzer?] >=chromeos-base/metrics-0.0.1-r3152:= chromeos-base/minijail:= chromeos-base/tpm_manager:= chromeos-base/attestation-client >=chromeos-base/libchrome-0.0.1-r591:0=[cros-debug=] >=chromeos-base/libchrome-0.0.1-r591:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2134:= sys-apps/baselayout
+REQUIRED_USE=tpm_dynamic? ( tpm tpm2 ) !tpm_dynamic? ( ?? ( tpm tpm2 ) )
+SLOT=0/0.0.1-r3835
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	4fbbddf887b6fc02c6093cdf5dcba17b	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	f156b63c6afb281c772a28e3f5d842b5	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
+_md5_=da8c5f1fd141a2cf84494e095cf62c4f
