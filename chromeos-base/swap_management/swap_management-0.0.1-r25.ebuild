@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="db50fe0ee6a2e2756fd40d261155c240548ad26b"
-CROS_WORKON_TREE=("92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "a0692478cafb0f282147b3a691be5acd7e2ee427" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="992f2fa0bd8811127b50473aa291fadfee0226a6"
+CROS_WORKON_TREE=("92a7718bfe5a15c594fcc6b0855e68b0981cd9a0" "f19a13193a6f2b8fdd4328bb9b5fe7b988b0854f" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,3 +29,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=
 	sys-apps/dbus:="
+
+platform_pkg_test() {
+	platform test_all
+}
