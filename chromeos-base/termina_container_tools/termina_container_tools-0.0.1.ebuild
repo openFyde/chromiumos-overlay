@@ -43,7 +43,6 @@ src_install() {
 	if use vm_borealis; then
 		tools+=(
 			"/sbin/crash_reporter"
-			"/sbin/init"
 			"/usr/bin/core2md"
 			"/usr/bin/vm_syslog"
 		)
