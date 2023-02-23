@@ -126,14 +126,15 @@ src_install() {
 
 src_test() {
 	# Run the autotest unit tests.
-	python3 ./utils/unittest_suite.py --debug --py_version=3 || die "Autotest unit tests failed in Python 3."
-
+	"${EPYTHON}" ./utils/unittest_suite.py --debug --py_version=3 \
+		|| die "Autotest unit tests failed with ${EPYTHON}."
 }
 
 # Packages client.
 pkg_postinst() {
 	local root_autotest_dir="${ROOT}${AUTOTEST_BASE}"
+	export PYTHONDONTWRITEBYTECODE=1
 	flock "${root_autotest_dir}/packages" \
-			-c "PYTHONDONTWRITEBYTECODE=1 ${root_autotest_dir}/utils/packager.py \
-				-r ${root_autotest_dir}/packages --client -a upload"
+		"${EPYTHON}" "${root_autotest_dir}/utils/packager.py" \
+		-r "${root_autotest_dir}/packages" --client -a upload
 }
