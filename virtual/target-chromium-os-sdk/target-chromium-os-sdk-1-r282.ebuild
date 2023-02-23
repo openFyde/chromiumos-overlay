@@ -489,10 +489,6 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	media-sound/alsa-utils"
 
-# Host dependency for dev-libs/boost package
-RDEPEND="${RDEPEND}
-	dev-util/boost-build"
-
 # Host dependency for managing SELinux
 RDEPEND="${RDEPEND}
 	chromeos-base/sepolicy-analyze
