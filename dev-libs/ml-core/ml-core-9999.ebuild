@@ -16,7 +16,10 @@ inherit cros-workon platform user
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="internal local_ml_core_internal"
+
+# camera_feature_effects needed as `use.camera_feature_effects` is
+# referenced in BUILD.gn
+IUSE="internal local_ml_core_internal camera_feature_effects"
 
 RDEPEND="
 	chromeos-base/dlcservice-client:=

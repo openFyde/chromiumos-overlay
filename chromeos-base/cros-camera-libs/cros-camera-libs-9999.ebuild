@@ -44,7 +44,7 @@ RDEPEND="
 	${CONFLICTING_PACKAGES}
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/cros-camera-android-deps:=
-	camera_feature_effects? ( dev-libs/ml-core:= )
+	dev-libs/ml-core:=
 	media-libs/cros-camera-libfs:=
 	media-libs/libexif:=
 	media-libs/libsync:=

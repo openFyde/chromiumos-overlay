@@ -14,6 +14,9 @@ PLATFORM_SUBDIR="ml_core/tests"
 
 inherit cros-workon platform
 
+# camera_feature_effects needed as `use.camera_feature_effects` is
+# referenced in BUILD.gn
+IUSE="camera_feature_effects"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
