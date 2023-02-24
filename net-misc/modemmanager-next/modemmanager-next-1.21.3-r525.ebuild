@@ -99,6 +99,7 @@ src_configure() {
 		-Dsystemd_journal=false
 		-Dsystemd_suspend_resume=false
 		-Dsystemdsystemunitdir="no"
+		-Dbuiltin_plugins=true
 		$(meson_use bash-completion bash_completion)
 		$(meson_use mbim)
 		$(meson_use qmi)
