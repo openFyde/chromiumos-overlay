@@ -240,18 +240,24 @@ EOF
 		local fspsocname=$(grep "CONFIG_FSP_M_FILE" "${CONFIG}" | cut -d '"' -f2 | cut -d '/' -f4)
 		echo "CONFIG_FSP_HEADER_PATH=\"3rdparty/blobs/intel/${fspsocname}/fsp/PartialHeader/Include\"" >> "${CONFIG}"
 	fi
-	cp "${CONFIG}" "${CONFIG_SERIAL}"
-	file="${FILESDIR}/configs/fwserial.${board}"
-	if [[ ! -f "${file}" && -n "${base_board}" ]]; then
-		file="${FILESDIR}/configs/fwserial.${base_board}"
-	fi
-	if [[ ! -f "${file}" ]]; then
-		file="${FILESDIR}/configs/fwserial.default"
-	fi
-	cat "${file}" >> "${CONFIG_SERIAL}" || die
-	# handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
-	echo >> "${CONFIG_SERIAL}"
 
+	# Serial config
+	cp "${CONFIG}" "${CONFIG_SERIAL}"
+	local board_fwserial="${FILESDIR}/configs/fwserial.${board}"
+	if [[ ! -f "${board_fwserial}" && -n "${base_board}" ]]; then
+		board_fwserial="${FILESDIR}/configs/fwserial.${base_board}"
+	fi
+
+	cat "${FILESDIR}/configs/fwserial.default" >> "${CONFIG_SERIAL}" || die
+	# Handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
+	echo >> "${CONFIG_SERIAL}"
+	if [[ -s "${board_fwserial}" ]]; then
+		cat "${board_fwserial}" >> "${CONFIG_SERIAL}" || die
+		# Handle the case when "${CONFIG_SERIAL}" does not have a newline in the end.
+		echo >> "${CONFIG_SERIAL}"
+	fi
+
+	# Netboot config
 	cp "${CONFIG_SERIAL}" "${CONFIG_NETBOOT}"
 	# Unlock management engine in netboot firmware for Intel platform.
 	sed -E -i 's/(CONFIG_LOCK_MANAGEMENT_ENGINE=)y/\1n/g' "${CONFIG_NETBOOT}"
