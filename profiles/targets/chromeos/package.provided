@@ -112,12 +112,17 @@ sys-apps/lsb-release-1.4
 
 sys-apps/texinfo-4.13
 
-sys-devel/autoconf-2.63-r1
-sys-devel/automake-1.10.2
-sys-devel/bison-2.3
-sys-devel/gettext-0.19.9999
-sys-devel/gnuconfig-20090203
-sys-devel/m4-1.4.12
+sys-devel/autoconf-2.69
+sys-devel/automake-1.10.3
+sys-devel/automake-1.11.6
+sys-devel/automake-1.12.6
+sys-devel/automake-1.13.4
+sys-devel/automake-1.14.1
+sys-devel/automake-1.15.1
+sys-devel/bison-3.7.3
+sys-devel/gettext-0.21
+sys-devel/gnuconfig-20230101
+sys-devel/m4-1.4.19
 
 sys-kernel/gentoo-sources-2.6.30-r6
 
