@@ -89,6 +89,16 @@ pkg_preinst() {
 	fi
 }
 
+src_configure() {
+	# b/261541399: on its own, this ebuild can consume up to 13GB of RAM
+	# when built with `FEATURES=test`. This is quite a lot for a single
+	# ebuild, so we limit it to 16 jobs, which brings the cap nearer 8GB.
+	if use test && [[ $(makeopts_jobs) -gt 16 ]]; then
+		export MAKEOPTS="${MAKEOPTS} --jobs 16"
+	fi
+	platform_src_configure
+}
+
 src_install() {
 	platform_src_install
 
