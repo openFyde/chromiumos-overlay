@@ -436,7 +436,6 @@ RDEPEND="${RDEPEND}
 RDEPEND="${RDEPEND}
 	dev-libs/closure-library
 	dev-libs/closure_linter
-	dev-python/autopep8
 	dev-python/crcmod
 	dev-python/django
 	dev-python/jsonrpclib
