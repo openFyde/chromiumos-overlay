@@ -8,7 +8,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation libtpmcrypto metrics tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation metrics tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="tpm_manager"
 
@@ -40,7 +40,6 @@ RDEPEND="
 	chromeos-base/minijail
 	chromeos-base/libhwsec[test?]
 	chromeos-base/libhwsec-foundation
-	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client
 	"
