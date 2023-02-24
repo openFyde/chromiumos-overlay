@@ -49,7 +49,8 @@ src_configure() {
 }
 
 src_install() {
-	default
+	# Disable install-sh stripping so we can rely on portage split debug.
+	emake DESTDIR="${D}" STRIPPROG=true install
 
 	# Install ippserver test prerequisites.
 	insinto /usr/local/share/ippsample
