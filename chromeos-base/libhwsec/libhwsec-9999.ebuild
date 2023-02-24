@@ -47,6 +47,21 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}"
 DEPEND="${COMMON_DEPEND}"
 
+src_configure() {
+	if use test; then
+		# b/261541399: Many test files for libhwsec take 1-2GB of RAM to
+		# build each. If run on a bot (-j32) or dev machine (-j64+),
+		# this can lead to pretty huge memory consumption. Limit that.
+		#
+		# Non-`FEATURES=test` builds don't require nearly as much RAM,
+		# so those can use the standard job limit.
+		if [[ $(makeopts_jobs) -gt 8 ]]; then
+			export MAKEOPTS="${MAKEOPTS} --jobs 8"
+		fi
+	fi
+	platform_src_configure
+}
+
 platform_pkg_test() {
 	platform test_all
 }
