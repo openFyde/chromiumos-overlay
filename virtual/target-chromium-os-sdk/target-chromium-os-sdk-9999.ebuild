@@ -354,7 +354,6 @@ RDEPEND="${RDEPEND}
 	chromeos-base/verity
 	!dev-python/ahocorasick
 	dev-python/pyahocorasick
-	sys-fs/libfat
 	"
 
 # Host dependencies that are needed for cros_generate_update_payload.
