@@ -8,4 +8,4 @@ LICENSE=Apache-2.0
 SLOT=0
 SRC_URI=https://github.com/google/syzkaller/archive/cf8c2d3920e29515c91e0b0797b4b432369d1a7d.tar.gz -> github.com-google-syzkaller-cf8c2d3920e29515c91e0b0797b4b432369d1a7d.tar.gz
 _eclasses_=cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=ce76ccb88bf0428f2616401bcea7daa9
+_md5_=0e034d2dfd87155b2ef4dc4aa3e4fda2
