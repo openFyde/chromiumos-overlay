@@ -9,6 +9,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
 CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation libtpmcrypto trunks .gn"
+CROS_WORKON_MANUAL_UPREV=1
 
 PLATFORM_SUBDIR="libtpmcrypto"
 
