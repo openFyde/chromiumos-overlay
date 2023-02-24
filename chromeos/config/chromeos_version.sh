@@ -34,7 +34,7 @@ CHROMEOS_VERSION_STRING=\
 
 # Major version for Chrome.
 # shellcheck disable=SC2034
-CHROME_BRANCH=112
+CHROME_BRANCH=113
 # Set CHROME values (Used for releases) to pass to chromeos-chrome-bin ebuild
 # URL to chrome archive
 # shellcheck disable=SC2034
