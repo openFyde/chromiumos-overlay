@@ -52,5 +52,6 @@ src_install() {
 	doins "${dir_cr50}"/board/cr50/tpm2/virtual_nvmem.h
 	insinto /usr/include/chromeos/ec/
 	doins "${dir_ec}"/include/ec_commands.h
+	doins "${dir_ec}"/include/ec_cmd_api.h
 	doins "${dir_ec}"/util/cros_ec_dev.h
 }
