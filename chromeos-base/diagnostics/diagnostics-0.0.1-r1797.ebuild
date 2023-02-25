@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e97d4f7df91d66fa4cf8c4f9bfece8777d88d017"
+CROS_WORKON_COMMIT="944861de1ab41f0a24e8f2ae203f77f04f1116eb"
 CROS_WORKON_TREE=("ca7895485a50f354a0c396417657ff67fbbdf40f" "d1531884133da981fe6414dbcd67713d10efeef7" "9e5e0d3ea386786ff6fcb032437669ed5bf553a3" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -89,6 +89,16 @@ pkg_preinst() {
 		enewuser wilco_dtc
 		enewgroup wilco_dtc
 	fi
+}
+
+src_configure() {
+	# b/261541399: on its own, this ebuild can consume up to 13GB of RAM
+	# when built with `FEATURES=test`. This is quite a lot for a single
+	# ebuild, so we limit it to 16 jobs, which brings the cap nearer 8GB.
+	if use test && [[ $(makeopts_jobs) -gt 16 ]]; then
+		export MAKEOPTS="${MAKEOPTS} --jobs 16"
+	fi
+	platform_src_configure
 }
 
 src_install() {
