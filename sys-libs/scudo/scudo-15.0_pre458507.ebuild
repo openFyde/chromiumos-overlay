@@ -99,14 +99,4 @@ src_install() {
 	# Install the scudo_standalone .so
 	local libname="libclang_rt.scudo_standalone-${arch}.so"
 	dolib.so "${BUILD_DIR}/lib/linux/${libname}"
-
-	if use system_wide_scudo; then
-		# Install the ld.so.preload.d file to load this globally
-		# unconditionally.
-		# TODO(b/248085566): This is pretty hacky. We should consider not
-		# using the global preload in the first place, but some package has to
-		# own the true ld.so.preload.
-		insinto '/etc'
-		echo "/usr/$(get_libdir)/${libname}" | newins - 'ld.so.preload'
-	fi
 }
