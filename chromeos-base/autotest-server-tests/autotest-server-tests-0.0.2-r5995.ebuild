@@ -1,9 +1,9 @@
 # Copyright 2012 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
-CROS_WORKON_COMMIT="2146dac656932e26e427d6cce36803feac0fef96"
-CROS_WORKON_TREE="11f744b9b3ced2be8ab6e7f087e5106dca411f01"
+EAPI="7"
+CROS_WORKON_COMMIT="7046d02235b758aaf34223813ab11c6e706c4c42"
+CROS_WORKON_TREE="660f8bca0fb73f90e6f09332720bb8df9caf70cc"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
@@ -265,7 +265,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_WriteProtectFunc
 	+tests_fleet_FirmwareUpdate
 	+tests_graphics_MultipleDisplays
-	+tests_graphics_PowerConsumption
 	+tests_hardware_DiskFirmwareUpgrade
 	+tests_hardware_MemoryIntegrity
 	+tests_hardware_StorageQual
