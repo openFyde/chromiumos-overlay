@@ -12,4 +12,4 @@ REQUIRED_USE=dhcp-tools? ( dhcp ) dnssec? ( !nettlehash ) lua? ( script ) libidn
 SLOT=0
 SRC_URI=http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.85.tar.xz
 _eclasses_=eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	5f4bb0758df2e483babf68cd517078ca	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
-_md5_=dd4f393448a193c21334fab900cef591
+_md5_=47781b2bb4397bf92dd5597f3111c460
