@@ -60,6 +60,8 @@ net-print/cups -python
 sys-apps/usbutils	-python
 # We don't use any of the python files this package installs.
 dev-util/boost-build	-python
+# We don't use libfdti's Python bindings.
+dev-embedded/libftdi -python
 # USE=doc is needed for basic `perf --help` output.
 # USE=coresight enables Arm's CoreSight trace decoding.
 dev-util/perf	audit coresight doc -python tui -unwind
