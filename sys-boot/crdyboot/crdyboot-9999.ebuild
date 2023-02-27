@@ -59,21 +59,6 @@ src_compile() {
 	export CC="x86_64-pc-linux-gnu-clang"
 
 	for uefi_target in "${UEFI_TARGETS[@]}"; do
-		if [[ "${uefi_target}" == "${UEFI_TARGET_I686}" ]]; then
-			# TODO(b/250047389): With safeseh enabled, we
-			# get errors like this for some objects from
-			# compiler-builtins:
-			#
-			#     lld-link: error: /safeseh: udivdi3.o is not
-			#     compatible with SEH
-			#
-			# Looks similar to
-			# https://github.com/rust-lang/rust/pull/96523,
-			# will hopefully be fixed with the next rustc
-			# upgrade.
-			export RUSTFLAGS+=" -C link-arg=/SAFESEH:NO"
-		fi
-
 		ecargo build \
 			--offline \
 			--release \
