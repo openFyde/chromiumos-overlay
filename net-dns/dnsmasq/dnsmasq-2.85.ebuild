@@ -103,6 +103,8 @@ src_prepare() {
 	if use dhcp-options; then
 		eapply "${FILESDIR}"/${PN}-2.72-Write-DHCP-request-options-to-lease-file.patch
 	fi
+	# Fix CVE-2022-0934
+	eapply "${FILESDIR}"/${PN}-2.87-Fix-write-after-free-error-in-DHCPv6-server-code.patch
 
 	eapply_user
 
