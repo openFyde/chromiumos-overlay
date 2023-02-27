@@ -262,7 +262,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_WriteProtect
 	+tests_firmware_WriteProtectFunc
 	+tests_fleet_FirmwareUpdate
-	+tests_graphics_MultipleDisplays
 	+tests_hardware_DiskFirmwareUpgrade
 	+tests_hardware_MemoryIntegrity
 	+tests_hardware_StorageQual
