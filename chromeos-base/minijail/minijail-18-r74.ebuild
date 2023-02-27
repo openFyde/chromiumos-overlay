@@ -17,7 +17,6 @@ PYTHON_COMPAT=( python3_{6..9} )
 CROS_COMMON_MK_NATIVE_TEST="yes"
 
 DISTUTILS_OPTIONAL=1
-DISTUTILS_SINGLE_IMPL=1
 
 inherit cros-debug cros-sanitizers cros-workon cros-common.mk toolchain-funcs distutils-r1
 
@@ -54,6 +53,7 @@ src_configure() {
 	export BLOCK_SYMLINKS_IN_BINDMOUNT_PATHS=yes
 	export BINDMOUNT_ALLOWED_PREFIXES=/dev,/sys,/var/log/power_manager
 	export BLOCK_SYMLINKS_IN_NONINIT_MOUNTNS_TMP=yes
+	use cros_host && distutils-r1_src_configure
 }
 
 # Use qemu-user to run the platform-specific dump_constants binary in order to
@@ -103,7 +103,7 @@ src_compile() {
 
 	cros-common.mk_src_compile "${minijail_targets[@]}"
 	if use cros_host ; then
-		BUILD_DIR="${OUT}" distutils-r1_python_compile
+		BUILD_DIR="${OUT}" distutils-r1_src_compile
 	else
 		generate_constants_json
 	fi
@@ -117,7 +117,7 @@ src_install() {
 	doman minijail0.[15]
 
 	if use cros_host ; then
-		distutils-r1_python_install
+		distutils-r1_src_install
 	else
 		insinto /build/share
 		doins "${OUT}"/constants.json
