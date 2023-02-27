@@ -1,7 +1,7 @@
 # Copyright 2011 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=4
+EAPI=7
 
 DESCRIPTION="Runtime configuration file for fakemodem (autotest dep)"
 
