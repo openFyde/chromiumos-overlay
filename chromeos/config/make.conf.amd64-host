@@ -11,6 +11,7 @@ source make.conf.board_setup
 # glibc ebuilds.
 PORTDIR_OVERLAY="
   /usr/local/portage/crossdev
+  /mnt/host/source/src/third_party/toolchains-overlay
   /mnt/host/source/src/third_party/chromiumos-overlay
   /mnt/host/source/src/third_party/eclass-overlay
 "
