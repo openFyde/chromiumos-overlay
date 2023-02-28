@@ -4262,5 +4262,20 @@
       "from": 487747,
       "until": 489130
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Revert [Driver] Allow target override containing . in executable name"
+    },
+    "platforms": [
+      "android",
+      "chromiumos"
+    ],
+    "rel_patch_path": "Revert-Driver-Allow-target-override-containing-.-in-executable-name.patch",
+    "version_range": {
+      "from": 477979,
+      "until": null
+    }
   }
 ]
