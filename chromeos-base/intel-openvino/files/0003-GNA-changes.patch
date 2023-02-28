@@ -1,0 +1,107 @@
+From 1aeebcf9612fd4677a78f5204b7038e694931274 Mon Sep 17 00:00:00 2001
+From: Anisha Kulkarni <anisha.dattatraya.kulkarni@intel.com>
+Date: Fri, 10 Feb 2023 22:16:39 -0800
+Subject: [PATCH] GNA changes
+
+---
+ cmake/dependencies.cmake                       | 13 ++++++++++---
+ src/plugins/intel_gna/CMakeLists.txt           |  2 ++
+ src/plugins/intel_gna/cmake/libGNAConfig.cmake | 13 +++++++++++--
+ 3 files changed, 23 insertions(+), 5 deletions(-)
+
+diff --git a/cmake/dependencies.cmake b/cmake/dependencies.cmake
+index 565584fa75..dd1e1f6426 100644
+--- a/cmake/dependencies.cmake
++++ b/cmake/dependencies.cmake
+@@ -298,7 +298,8 @@ else()
+ endif()
+ 
+ if(ENABLE_INTEL_GNA)
+-    reset_deps_cache(
++    if (NOT LINUX_OS_NAME STREQUAL "CHROMIUMOS")
++        reset_deps_cache(
+             GNA_EXT_DIR
+             GNA_PLATFORM_DIR
+             GNA_KERNEL_LIB_NAME
+@@ -323,8 +324,8 @@ if(ENABLE_INTEL_GNA)
+                 FILES_TO_EXTRACT FILES_TO_EXTRACT_LIST
+                 SHA256 ${GNA_HASH}
+                 USE_NEW_LOCATION TRUE)
+-    update_deps_cache(GNA_EXT_DIR "${GNA_EXT_DIR}" "Path to GNA root folder")
+-    debug_message(STATUS "gna=" ${GNA_EXT_DIR})
++        update_deps_cache(GNA_EXT_DIR "${GNA_EXT_DIR}" "Path to GNA root folder")
++        debug_message(STATUS "gna=" ${GNA_EXT_DIR})
+ 
+     if (WIN32)
+         set(GNA_PLATFORM_DIR win64 CACHE STRING "" FORCE)
+@@ -335,6 +336,12 @@ if(ENABLE_INTEL_GNA)
+     endif ()
+     set(GNA_LIB_DIR x64 CACHE STRING "" FORCE)
+     set(GNA_PATH ${GNA_EXT_DIR}/${GNA_PLATFORM_DIR}/${GNA_LIB_DIR} CACHE STRING "" FORCE)
++    else()
++        find_library(GNA_PATH gna)
++        if(NOT GNA_PATH)
++            message(FATAL_ERROR "GNA libraries not found")
++        endif()
++    endif()
+ 
+     if(NOT BUILD_SHARED_LIBS)
+         list(APPEND PATH_VARS "GNA_PATH")
+diff --git a/src/plugins/intel_gna/CMakeLists.txt b/src/plugins/intel_gna/CMakeLists.txt
+index 039699fe3f..9103e6e5a7 100644
+--- a/src/plugins/intel_gna/CMakeLists.txt
++++ b/src/plugins/intel_gna/CMakeLists.txt
+@@ -96,6 +96,7 @@ set_target_properties(${TARGET_NAME} ${TARGET_NAME}_test_static
+ file(GLOB_RECURSE gna_libraries "${libGNA_LIBRARIES_BASE_PATH}/*${CMAKE_SHARED_LIBRARY_SUFFIX}*")
+ set(gna_library_installed OFF)
+ 
++if (NOT LINUX_OS_NAME STREQUAL "CHROMIUMOS")
+ foreach(gna_lib IN LISTS gna_libraries)
+     # install only versioned files like libgna.so.N or libgna.so.N.M
+     # and don't install global symlink libgna.so. Exceptions:
+@@ -113,6 +114,7 @@ endforeach()
+ if(NOT gna_library_installed)
+     message(FATAL_ERROR "Failed to install GNA library (available libraries: ${gna_libraries})")
+ endif()
++endif()
+ 
+ # additional install rules for case of static libraries
+ 
+diff --git a/src/plugins/intel_gna/cmake/libGNAConfig.cmake b/src/plugins/intel_gna/cmake/libGNAConfig.cmake
+index 483a3518ee..16278d9a61 100644
+--- a/src/plugins/intel_gna/cmake/libGNAConfig.cmake
++++ b/src/plugins/intel_gna/cmake/libGNAConfig.cmake
+@@ -21,9 +21,13 @@ endforeach()
+ set(libGNA_LIBRARIES_BASE_PATH ${GNA_PATH} CACHE STRING "" FORCE)
+ 
+ if(libGNA_FIND_REQUIRED_KERNEL)
+-    find_library(GNA_KERNEL_LIBRARY ${GNA_KERNEL_LIB_NAME}
++    if(NOT LINUX_OS_NAME STREQUAL "CHROMIUMOS")
++        find_library(GNA_KERNEL_LIBRARY ${GNA_KERNEL_LIB_NAME}
+                  HINTS ${libGNA_LIBRARIES_BASE_PATH}
+                  NO_CMAKE_FIND_ROOT_PATH)
++    else()
++        find_library(GNA_KERNEL_LIBRARY ${GNA_KERNEL_LIB_NAME})
++    endif()
+ 
+     if(GNA_KERNEL_LIBRARY)
+         add_library(libGNA::KERNEL SHARED IMPORTED)
+@@ -35,9 +39,14 @@ if(libGNA_FIND_REQUIRED_KERNEL)
+ endif()
+ 
+ if(libGNA_FIND_REQUIRED_API)
+-    find_path(libGNA_INCLUDE_DIRS gna2-api.h
++    if(NOT LINUX_OS_NAME STREQUAL "CHROMIUMOS")
++        find_path(libGNA_INCLUDE_DIRS gna2-api.h
+               PATHS "${GNA_EXT_DIR}/include"
+               NO_CMAKE_FIND_ROOT_PATH)
++    else()
++        find_path(libGNA_INCLUDE_DIRS gna2-api.h)
++    endif()
++
+     if(libGNA_INCLUDE_DIRS)
+         add_library(libGNA::API INTERFACE IMPORTED)
+         set_target_properties(libGNA::API PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${libGNA_INCLUDE_DIRS})
+-- 
+2.34.1
+
