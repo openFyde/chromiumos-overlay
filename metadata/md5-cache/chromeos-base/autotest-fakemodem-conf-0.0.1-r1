@@ -1,7 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Runtime configuration file for fakemodem (autotest dep)
-EAPI=4
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_md5_=195dc3f489d27706d89a9964467f70c1

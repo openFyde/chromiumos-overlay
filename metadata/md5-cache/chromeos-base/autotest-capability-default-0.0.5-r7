@@ -1,7 +1,0 @@
-DEFINED_PHASES=install
-DESCRIPTION=Install the default autotest labels
-EAPI=5
-KEYWORDS=*
-LICENSE=BSD-Google
-SLOT=0
-_md5_=099ace6b761a43b62ba0660a4556306c
