@@ -39,6 +39,7 @@ IUSE="
 	biod
 	borealis_host
 	broken_24hours_wake
+	camera_feature_effects
 	cfm_enabled_device
 	cheets
 	clear_fast_ink_buffer
