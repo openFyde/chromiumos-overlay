@@ -1,9 +1,9 @@
 # Copyright 2013 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
-CROS_WORKON_COMMIT="eed88b687f0cdcaa49db761ca14b8ea238fc1b4d"
-CROS_WORKON_TREE="8f06c1c127f2471deb8343269be2bd50fd9b1a71"
+EAPI=7
+CROS_WORKON_COMMIT="5f42449f06f8ffe6aa5f6d0d3103a4ec2a77b5ad"
+CROS_WORKON_TREE="5431d1ce55f0560c46a975ca3c9b08d04b122e6f"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest

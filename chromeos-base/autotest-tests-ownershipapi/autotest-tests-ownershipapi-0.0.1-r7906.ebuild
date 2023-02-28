@@ -1,10 +1,10 @@
 # Copyright 2011 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 
-CROS_WORKON_COMMIT="bf07dfd698402ab985b8b12020b6d8fa00f88d11"
-CROS_WORKON_TREE="ada981fc0de4be6f657bd853e24ffa6adc3f7297"
+CROS_WORKON_COMMIT="5f42449f06f8ffe6aa5f6d0d3103a4ec2a77b5ad"
+CROS_WORKON_TREE="5431d1ce55f0560c46a975ca3c9b08d04b122e6f"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
