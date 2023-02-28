@@ -37,7 +37,7 @@ net-misc/socat		-ssl
 net-wireless/bluez	-consolekit
 sci-geosciences/gpsd	-cxx
 # verity and other packages link statically with libuuid.
-sys-apps/util-linux	-perl static-libs
+sys-apps/util-linux	-perl static-libs -su -suid
 sys-boot/grub       grub_platforms_pc grub_platforms_efi-64 grub_platforms_coreboot static
 sys-devel/gettext	-git
 # Remove dependency on libmix which is deprecated and unsupported.
@@ -56,7 +56,6 @@ sys-apps/pciutils	-udev
 # xz-utils includes liblzma, which is picked by bmpblk_utility (vboot_reference)
 # and may be executed outside chroot.
 app-arch/xz-utils	static-libs
-sys-apps/util-linux	-suid
 # We don't have any font with graphite table. Drop graphite from harfbuzz.
 # We don't need instrospection either.
 media-libs/harfbuzz	-graphite -introspection
