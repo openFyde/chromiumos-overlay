@@ -22,7 +22,3 @@
 =sys-devel/llvm-15.0_pre*
 =sys-devel/llvm-16.0_pre*
 =sys-devel/llvm-17.0_pre*
-
-# Don't build Python 3.8 for boards as it is initially introduced only for
-# the SDK.
->=dev-lang/python-3.8
