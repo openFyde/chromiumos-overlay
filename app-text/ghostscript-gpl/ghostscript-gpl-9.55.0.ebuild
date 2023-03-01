@@ -30,7 +30,7 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="
 	asan cups dbus fuzzer gtk idn internal linguas_de crosfonts static-libs
-	tiff unicode X
+	tiff unicode X msan
 "
 
 LANGS="ja ko zh_CN zh_TW"
@@ -151,6 +151,7 @@ src_prepare() {
 src_configure() {
 	sanitizers-setup-env
 	cros_gs_set_optimization
+	use msan && append-cppflags "-DPACIFY_VALGRIND"
 
 	local FONTPATH
 	for path in \
