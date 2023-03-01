@@ -1,0 +1,13 @@
+DEFINED_PHASES=compile configure install prepare
+DEPEND=>=dev-libs/openssl-1.0.2:0=[-bindist] !dev-libs/grpc dev-libs/protobuf:= net-dns/c-ares:= sys-libs/zlib:= systemtap? ( dev-util/systemtap ) !~net-libs/grpc-1.16.1:0 virtual/pkgconfig
+DESCRIPTION=Modern open source high performance RPC framework
+EAPI=7
+HOMEPAGE=https://www.grpc.io
+IUSE=examples doc systemtap static-libs fuzzer asan coverage fuzzer msan tsan ubsan
+KEYWORDS=*
+LICENSE=Apache-2.0
+RDEPEND=>=dev-libs/openssl-1.0.2:0=[-bindist] !dev-libs/grpc dev-libs/protobuf:= net-dns/c-ares:= sys-libs/zlib:= systemtap? ( dev-util/systemtap ) !~net-libs/grpc-1.16.1:0
+SLOT=1.16.1
+SRC_URI=https://github.com/grpc/grpc/archive/v1.16.1.tar.gz -> grpc-1.16.1.tar.gz
+_eclasses_=cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=9bb922566e69fe558c6535fe2edb7f16
