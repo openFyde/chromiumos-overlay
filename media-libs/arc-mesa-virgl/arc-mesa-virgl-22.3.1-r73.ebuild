@@ -4,8 +4,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="6a530ebe0c772ab9c1fa05dadf95754a69fe8a32"
-CROS_WORKON_TREE="f0bfca1107cd5c22ef28b499e69d00f3d6d95f50"
+CROS_WORKON_COMMIT="dec4bb7fc9e62b4cecaa3b44df0fa737e748e475"
+CROS_WORKON_TREE="a824e69f4b71b9fa77f93728358c6f704450d831"
 EGIT_REPO_URI="git://anongit.freedesktop.org/mesa/mesa"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-arcvm"
