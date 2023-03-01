@@ -43,7 +43,7 @@ esac
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile
 
 PYTHON_COMPAT=( python3_{6..9} )
-inherit python-any-r1 toolchain-funcs cros-rustc-directories
+inherit cros-constants cros-rustc-directories git-r3 python-any-r1 toolchain-funcs
 
 # It's intended that only a person upgrading the Rust version used in ChromeOS
 # needs to worry about these flags.
@@ -154,6 +154,9 @@ SRC="${MY_P}-src.tar.gz"
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
 BOOTSTRAP_VERSION="1.66.0"
+
+# THe commit we're using for our LLVM.
+LLVM_EGIT_COMMIT="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
 
 # If `CROS_RUSTC_BUILD_RAW_SOURCES` is nonempty, a full Rust source tree is
 # expected to be available here.
@@ -289,6 +292,39 @@ EOF
 		--prune-empty-dirs "${src}" "${targ}" || die
 }
 
+# TODO(b/271497348): These are essentially copied directly from
+# cros-llvm.eclass. On our next uprev, we should actually inherit `cros-llvm`
+# and use these from that.
+_cros-rustc_prepare_patches() {
+	"${FILESDIR}"/patch_manager/patch_manager.py \
+		--svn_version "$(_cros-rustc_get_most_recent_revision)" \
+		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
+		--failure_mode "fail" \
+		--src_path "${S}" || die
+}
+
+_cros-rustc_get_most_recent_revision() {
+	local subdir="${S}/llvm"
+	# Tries to get the revision ID of the most recent commit
+	"${FILESDIR}"/patch_manager/git_llvm_rev.py --llvm_dir "${subdir}" --sha "$(git -C "${subdir}" rev-parse HEAD)" | cut -d 'r' -f 2
+}
+
+_cros-rustc_unpack_llvm_sources() {
+	einfo "Unpacking LLVM sources..."
+
+	local EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
+		${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
+	local EGIT_BRANCH=main
+	# shellcheck disable=SC2154 # defined by cros-rustc-directories
+	local EGIT_CHECKOUT_DIR="${CROS_RUSTC_LLVM_SRC_DIR}"
+	local EGIT_COMMIT="${LLVM_EGIT_COMMIT}"
+	git-r3_src_unpack
+	# git-r3_src_unpack won't freshly unpack sources if they're already
+	# there, so we do the following to get to a clean state.
+	git -C "${EGIT_CHECKOUT_DIR}" reset --hard HEAD || die
+	git -C "${EGIT_CHECKOUT_DIR}" clean -fd || die
+}
+
 cros-rustc_src_unpack() {
 	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 		if [[ ! -d "${_CROS_RUSTC_RAW_SOURCES_ROOT}" ]]; then
@@ -307,6 +343,7 @@ cros-rustc_src_unpack() {
 		return
 	fi
 
+	use rust_cros_llvm && _cros-rustc_unpack_llvm_sources
 	local dirs=( "${CROS_RUSTC_BUILD_DIR}" "${CROS_RUSTC_SRC_DIR}" )
 	if [[ -e "${CROS_RUSTC_SRC_DIR}" || -e "${CROS_RUSTC_BUILD_DIR}" ]]; then
 		einfo "Removing old source/build directories..."
@@ -331,10 +368,17 @@ cros-rustc_llvm-description() {
 	fi
 }
 
+_cros-rustc_apply_llvm_patches() {
+	S="${CROS_RUSTC_LLVM_SRC_DIR}" _cros-rustc_prepare_patches
+}
+
 cros-rustc_src_prepare() {
 	if [[ -n "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
 		einfo "Synchronizing bootstrap compiler caches ..."
 		cp -avu "${_CROS_RUSTC_RAW_SOURCES_ROOT}/build/cache" "${CROS_RUSTC_BUILD_DIR}" || die
+	elif use rust_cros_llvm; then
+		einfo "Applying LLVM patches..."
+		_cros-rustc_apply_llvm_patches
 	fi
 
 	einfo "Applying Rust patches..."
