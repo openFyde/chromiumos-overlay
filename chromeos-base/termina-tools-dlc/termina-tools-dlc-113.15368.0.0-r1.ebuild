@@ -45,7 +45,7 @@ REQUIRED_USE="
 # VM tools image should be ~50MB, here we provide a generous buffer of 2x
 DLC_PREALLOC_BLOCKS="$((100 * 256))"
 
-DLC_PRELOAD=false
+DLC_PRELOAD=true
 
 # We need to inherit from cros-workon so people can do "cros-workon-${BOARD}
 # start termina-tools-dlc", but we don't want to actually run any of the cros-workon
