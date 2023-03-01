@@ -41,10 +41,6 @@ PORTAGE_BINPKG_TAR_OPTS="--checkpoint=1000"
 GENTOO_MIRRORS="https://commondatastorage.googleapis.com/chromeos-localmirror"
 GENTOO_MIRRORS="$GENTOO_MIRRORS https://commondatastorage.googleapis.com/chromeos-mirror/gentoo"
 
-# When building packages for the target, we need to search the target's
-# sysroot for additional m4 files.  The autotools.eclass uses this.
-AT_SYS_M4DIR="\${SYSROOT}/usr/share/aclocal"
-
 # Remove all .la files for non-plugin libraries.
 # Remove Gentoo init files since we use upstart.
 # Remove logrotate.d files since we don't use logrotate.
