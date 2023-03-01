@@ -564,6 +564,7 @@ cros-rustc_src_configure() {
 		llvm-libunwind = 'in-tree'
 		codegen-tests = false
 		new-symbol-mangling = true
+		lto = "thin"
 		${rust_options}
 
 	EOF
