@@ -29,7 +29,7 @@ bazel_external_uris="
 SRC_URI="${bazel_external_uris}"
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="asan +cras-apm cras-ml dlc featured fuzzer selinux systemd"
+IUSE="asan +cras-apm cras-debug cras-ml dlc featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
@@ -133,6 +133,11 @@ src_configure() {
 			# Disable fancy output when not being "workon" to not spam CQ logs.
 			"--color=no"
 			"--curses=no"
+		)
+	fi
+	if use cras-debug; then
+		common_bazel_args+=(
+			"--compilation_mode=dbg"
 		)
 	fi
 }
