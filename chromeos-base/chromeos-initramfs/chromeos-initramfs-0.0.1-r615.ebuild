@@ -118,7 +118,6 @@ HYPERVISOR_DEPENDS="
 		dev-util/turbostat
 		dev-util/perf
 		dev-util/trace-cmd
-		sys-process/htop
 		chromeos-base/perfetto
 	)
 	"
