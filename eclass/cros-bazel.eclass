@@ -422,6 +422,9 @@ bazel_populate_crosstool_target() {
 	# We call tc-getPROG directly for cpp, since we require a program that directly
 	# performs preprocessing (i.e. takes no flags), whereas tc-getCPP returns an
 	# invocation of the compiler for preprocessing (which uses flags).
+	#
+	# DWP is defined elsewhere; silence the shellcheck warning.
+	# shellcheck disable=SC2154
 	cpu_str="${cpu_str}" \
 	builtin_include_dirs="$(bazel_get_builtin_include_dirs "${comp}" || die)" \
 	env_sysroot="${env_sysroot}" \
@@ -429,7 +432,7 @@ bazel_populate_crosstool_target() {
 	env_ar="$(command -v "$("tc-get${env_prefix}AR")" || die)" \
 	env_ld="$(command -v "$("tc-get${env_prefix}LD")" || die)" \
 	env_cpp="$(command -v "$("tc-get${env_prefix}PROG" CPP cpp)" || die)" \
-	env_dwp="$(command -v "$("tc-get${env_prefix}DWP")" || die)" \
+	env_dwp="${DWP}" \
 	env_gcov="$(command -v "$("tc-get${env_prefix}GCOV")" || die)" \
 	env_nm="$(command -v "$("tc-get${env_prefix}NM")" || die)" \
 	env_objcopy="$(command -v "$("tc-get${env_prefix}OBJCOPY")" || die)" \
