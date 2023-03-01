@@ -157,7 +157,7 @@ multilib_src_configure() {
 		--with-cups-user=nobody \
 		--with-cups-group=cups \
 		--with-docdir="${EPREFIX}"/usr/share/cups/html \
-		--with-languages="${LINGUAS}" \
+		--with-languages=none \
 		--with-system-groups=lpadmin \
 		--with-xinetd=/etc/xinetd.d \
 		"$(multilib_native_use_enable acl)" \
@@ -174,7 +174,6 @@ multilib_src_configure() {
 		$(use_with upstart ondemand upstart) \
 		"$(multilib_native_use_enable usb libusb)" \
 		--without-dnssd \
-		--disable-localization \
 		"$(multilib_is_native_abi && echo --enable-libpaper || echo --disable-libpaper)" \
 		"${myconf[@]}"
 
