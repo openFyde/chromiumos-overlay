@@ -37,8 +37,8 @@ index b7436eb7b0..0ebcd81be8 100644
 +static bool
 +check_exec (int fd)
 +{
-+  struct statvfs buf;
-+  int stated = fstatvfs (fd, &buf);
++  struct statvfs64 buf;
++  int stated = __fstatvfs64 (fd, &buf);
 +  if (stated == 0)
 +    return !(buf.f_flag & ST_NOEXEC);
 +  /* Could not fstat the file.  */
