@@ -11,8 +11,8 @@ DESCRIPTION="Interpreter for the PostScript language and PDF"
 HOMEPAGE="https://ghostscript.com/"
 
 MY_P=${P/-gpl}
-PVM=$(get_version_component_range 1-3)
-PVM_S=$(replace_all_version_separators "" ${PVM})
+PVM="$(get_version_component_range 1-3)"
+PVM_S=$(replace_all_version_separators "" "${PVM}")
 
 SRC_URI="
 	https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${PVM_S}/${MY_P}.tar.xz
@@ -137,7 +137,7 @@ src_prepare() {
 		-e "s:exdir=.*:exdir=@datarootdir@/doc/${PF}/examples:" \
 		-e "s:docdir=.*:docdir=@datarootdir@/doc/${PF}/html:" \
 		-e "s:GS_DOCDIR=.*:GS_DOCDIR=@datarootdir@/doc/${PF}/html:" \
-		-e 's:-L$(BINDIR):& $(LDFLAGS):g' \
+		-e "s:-L\$(BINDIR):& \$(LDFLAGS):g" \
 		-i "${S}"/Makefile.in "${S}"/base/*.mak || die "sed failed"
 
 	# remove incorrect symlink, bug 590384
@@ -158,7 +158,7 @@ src_configure() {
 		/usr/share/fonts/Type1 \
 		/usr/share/fonts
 	do
-		FONTPATH="$FONTPATH${FONTPATH:+:}${EPREFIX}$path"
+		FONTPATH="${FONTPATH}${FONTPATH:+:}${EPREFIX}${path}"
 	done
 
 	tc-export_build_env BUILD_CC
@@ -193,7 +193,7 @@ src_configure() {
 		--enable-openjpeg \
 		$(use_enable crosfonts compile-inits) \
 		--with-drivers="$(printf %s, "${devices[@]}")" \
-		--with-fontpath="$FONTPATH" \
+		--with-fontpath="${FONTPATH}" \
 		--with-ijs \
 		--with-jbig2dec \
 		--with-libpaper \
@@ -231,7 +231,7 @@ src_install() {
 	cd "${S}/ijs" || die
 	emake DESTDIR="${D}" install
 
-	insinto /usr/share/ghostscript/${PVM}/Resource/Init
+	insinto "/usr/share/ghostscript/${PVM}/Resource/Init"
 
 	if ! use static-libs; then
 		find "${ED}" -name '*.la' -delete || die
