@@ -2,30 +2,27 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-CROS_WORKON_COMMIT="9b4eba5942b4e02802eb821eb18f2c7517012a19"
-CROS_WORKON_TREE="3e79cec99904ff9d05fa1aa3b48cfcbdceab89bd"
-PYTHON_COMPAT=( python3_{6..9} )
-
+CROS_WORKON_COMMIT="117d04a079763000f8efb9d36b534f467f181e4a"
+CROS_WORKON_TREE="ac97f2505a82fe3e0611e92bb631a0b2d14014c5"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest python-any-r1
+inherit cros-workon autotest
 
-DESCRIPTION="kvm host autotests"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
+DESCRIPTION="Autotest server tests for running Tast-based tests"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/tast/"
 SRC_URI=""
-
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
+
 IUSE="+autotest"
 
 RDEPEND=""
-DEPEND="${RDEPEND}"
+DEPEND=""
 
 IUSE_TESTS="
-	+tests_vm_CrosVmStart
+	+tests_tast
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
