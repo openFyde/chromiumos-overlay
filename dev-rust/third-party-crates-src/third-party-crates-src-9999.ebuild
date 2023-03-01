@@ -39,6 +39,14 @@ LICENSE="${EXPECTED_LICENSES[*]}"
 # shellcheck disable=SC2154 # this is defined by cros-rust
 CRATES_LISTING_INST_LOC="${CROS_RUST_REGISTRY_DIR}/third-party-crates-src-listing"
 
+# Some baremetal crates ship with prebuilt .o files that don't pass
+# QA_EXECSTACK. This is intended, so silence those warnings.
+_QA_EXECSTACK_ROOT="${CROS_RUST_REGISTRY_DIR:1}"
+QA_EXECSTACK="
+	${_QA_EXECSTACK_ROOT}/cortex-m-rt-*
+	${_QA_EXECSTACK_ROOT}/riscv-*
+"
+
 pkg_setup() {
 	python-single-r1_pkg_setup
 	# This handles calling cros-workon_pkg_setup for us.
