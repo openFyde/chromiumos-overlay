@@ -51,6 +51,7 @@ src_prepare()
 	eapply "${FILESDIR}"/patches/${P}-Fix-handling-of-hostname-argument.patch
 	eapply "${FILESDIR}"/patches/${P}-Drop-ARP-on-DHCP-drop.patch
 	eapply "${FILESDIR}"/patches/${P}-Implement-IPv6-Only-Preferred-option-RFC-8925.patch
+	eapply "${FILESDIR}"/patches/${P}-Notify-dbus-upon-receiving-RFC8925-option-108.patch
 
 	default
 }
