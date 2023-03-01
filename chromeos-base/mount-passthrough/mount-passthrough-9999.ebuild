@@ -28,3 +28,7 @@ RDEPEND="
 	dev-util/shflags
 "
 DEPEND="${COMMON_DEPEND}"
+
+platform_pkg_test() {
+	platform test_all
+}
