@@ -12,6 +12,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras/src/audio_processor is
 # using the `provided by ebuild` macro from the cros-rust eclass
 CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_MANUAL_UPREV=1
 
 inherit cros-workon cros-rust
 

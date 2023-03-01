@@ -9,7 +9,7 @@ CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras/src/server/rust is
 # using the `provided by ebuild` macro from the cros-rust eclass
-CROS_WORKON_SUBTREE="${CROS_RUST_SUBDIR}"
+CROS_WORKON_SUBTREE="cras/src"
 
 inherit cros-workon cros-rust
 
@@ -23,7 +23,6 @@ IUSE="dlc test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	dev-rust/system_api:=
-	media-sound/audio_processor:=
 	sys-apps/dbus:=
 "
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
@@ -34,10 +33,14 @@ src_compile() {
 	local features=(
 		$(usex dlc cras_dlc "")
 	)
-	cros-rust_src_compile -v --features="${features[*]}"
+	cros-rust_src_compile -v --features="${features[*]}" \
+		--package=cras_rust --package=audio_processor
 }
 
 src_install() {
 	dolib.a "$(cros-rust_get_build_dir)/libcras_rust.a"
-	cros-rust_src_install
+
+	# Install to /usr/local so they are stripped out of the release image.
+	into /usr/local
+	dobin "$(cros-rust_get_build_dir)/offline-pipeline"
 }

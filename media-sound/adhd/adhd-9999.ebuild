@@ -39,6 +39,7 @@ COMMON_DEPEND="
 	media-libs/ladspa-sdk:=
 	media-libs/sbc:=
 	media-libs/speex:=
+	media-sound/cras_rust:=
 	cras-ml? ( sci-libs/tensorflow:= )
 	>=sys-apps/dbus-1.4.12:=
 	selinux? ( sys-libs/libselinux:= )
@@ -48,7 +49,6 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	media-sound/alsa-utils
-	media-sound/audio_processor:=
 	dlc? ( media-sound/sr-bt-dlc:= )
 	dlc? ( virtual/chromeos-audio-nc-ap-dlc:= )
 	media-plugins/alsa-plugins
@@ -59,7 +59,6 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	dev-libs/libpthread-stubs:=
-	media-sound/cras_rust:=
 "
 
 adhd-bazel() {
