@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="f7b214486a9fe9e0ef12830dc0fb54fba658615e"
-CROS_WORKON_TREE="d70b53c2edc730b7b42fbf47a1892e1ecca309ae"
+CROS_WORKON_COMMIT="d5fa55a3ae244b6865be05c8c344cde56397385e"
+CROS_WORKON_TREE="ff2108ac84a81175930fb472af9d0cc242aef777"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 CROS_RUST_CRATE_NAME="factory_installer"
