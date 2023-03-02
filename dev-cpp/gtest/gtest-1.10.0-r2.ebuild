@@ -1,12 +1,12 @@
 # Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 # Python is required for tests and some build tasks.
 CROS_WORKON_COMMIT="703bd9caab50b139428cea1aaff9974ebee5742e"
 CROS_WORKON_TREE="1d4733d71941ad40050897c3a30919a488700f06"
-PYTHON_COMPAT=( python3_{6..9} pypy )
+PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="external/github.com/google/googletest"
 CROS_WORKON_LOCALNAME="../third_party/googletest"
