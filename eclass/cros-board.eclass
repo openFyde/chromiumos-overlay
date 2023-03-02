@@ -112,6 +112,7 @@ ALL_BOARDS=(
 	brask
 	#bruteus
 	brya
+	brya-arc-t
 	brya-hibernate
 	brya-lvm-stateful
 	brya-manatee
@@ -255,6 +256,7 @@ ALL_BOARDS=(
 	#hatch-arc-r-signed
 	hatch-arc-r-userdebug
 	hatch-arc-s
+	hatch-arc-t
 	hatch-connectivitynext
 	hatch-borealis
 	hatch-diskswap
