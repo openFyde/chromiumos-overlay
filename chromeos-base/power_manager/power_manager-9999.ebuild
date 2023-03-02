@@ -41,7 +41,6 @@ COMMON_DEPEND="
 	cellular? ( net-misc/modemmanager-next:= )"
 
 RDEPEND="${COMMON_DEPEND}
-	chromeos-base/ec-utils
 	chromeos-base/libiioservice_ipc:=
 	powerd_manual_eventlog_add? ( sys-apps/coreboot-utils )
 	qrtr? ( net-libs/libqrtr:= )
