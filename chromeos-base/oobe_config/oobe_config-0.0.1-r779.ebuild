@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="51de882c758cbb9ae92c7ade70469069d0ea6540"
-CROS_WORKON_TREE=("0f4044624c1fabe638a8289e62ec74756aa62176" "4111dfa92c6b02db199d4d139d54afd8dc71ba57" "e1f223c8511c80222f764c8768942936a8de01e4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="a3a147bd08542d086d0984df4c4b3103149700a1"
+CROS_WORKON_TREE=("0f4044624c1fabe638a8289e62ec74756aa62176" "c55e79a863821e5bb2f2cae4b3f814064da521dc" "e1f223c8511c80222f764c8768942936a8de01e4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -49,18 +49,7 @@ pkg_preinst() {
 src_install() {
 	platform_src_install
 
-	dosbin "${OUT}"/oobe_config_save
-	dosbin "${OUT}"/oobe_config_restore
-	dosbin "${OUT}"/rollback_cleanup
-
-	insinto /etc/dbus-1/system.d
-	doins etc/dbus-1/org.chromium.OobeConfigRestore.conf
-
-	insinto /etc/init
-	doins etc/init/oobe_config_restore.conf
-	doins etc/init/oobe_config_save.conf
-	doins etc/init/shill_stop_waiter.conf
-	doins etc/init/ui_stop_waiter.conf
+	# TODO(mpolzer): delete when tcsd dependency has been removed from conf files.
 	if use tpm2; then
 		sed -i 's/ and started tcsd//' \
 			"${D}/etc/init/oobe_config_restore.conf" ||
@@ -75,16 +64,6 @@ src_install() {
 			die "Can't remove /run/tcsd bind mount"
 	fi
 
-	insinto /usr/share/policy
-	newins seccomp_filters/oobe_config_restore-seccomp-"${ARCH}".policy \
-		oobe_config_restore-seccomp.policy
-	newins seccomp_filters/oobe_config_save-seccomp-"${ARCH}".policy \
-		oobe_config_save-seccomp.policy
-
-	insinto /usr/lib/tmpfiles.d/on-demand
-	doins tmpfiles.d/on-demand/oobe_config_restore.conf
-	doins tmpfiles.d/on-demand/oobe_config_save.conf
-
 	local fuzzer_component_id="1031231"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/load_oobe_config_rollback_fuzzer \
 		--comp "${fuzzer_component_id}"
@@ -93,11 +72,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	local tests=(
-		oobe_config_test
-	)
-	local test_bin
-	for test_bin in "${tests[@]}"; do
-		platform_test "run" "${OUT}/${test_bin}"
-	done
+	platform test_all
 }
