@@ -91,6 +91,21 @@ src_compile() {
 			GOROOT="${S}" \
 			"${S}/bin/go" install -v -buildmode=pie std || die
 	fi
+
+	# CHROMIUM (b/269512291): Workaround to install the standard library
+	# archives into ${goroot}
+	#
+	# Starting from Go 1.20, the distribution stops shipping the
+	# pre-compiled archives for the standard library, and we found that
+	# tools in /usr/lib/go/pkg/tool/ may break because of that.
+	# See https://tip.golang.org/doc/go1.20#go-command for details.
+	#
+	# To address that, we build and install the blobs into ${goroot} to
+	# restore the environment.
+	einfo "Building the standard library archives."
+	GOOS="linux" GOARCH="$(get_goarch "${CBUILD}")" GOROOT="${S}" \
+		GODEBUG=installgoroot=all \
+		"${S}/bin/go" install std || die
 }
 
 src_install() {
@@ -105,6 +120,7 @@ src_install() {
 
 	insinto "${goroot}/pkg"
 	doins -r "pkg/include"
+	doins -r "pkg/linux_$(get_goarch "${CBUILD}")"
 
 	exeinto "${goroot}/${tooldir}"
 	doexe "${tooldir}/"{asm,cgo,compile,link,pack}
