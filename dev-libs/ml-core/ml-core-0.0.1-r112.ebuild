@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="51de882c758cbb9ae92c7ade70469069d0ea6540"
-CROS_WORKON_TREE=("0f4044624c1fabe638a8289e62ec74756aa62176" "23cfffa30acecea70e6943db00f0f48222d8412b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="5e015c51961dd6785f65516a350885927932e69a"
+CROS_WORKON_TREE=("0f4044624c1fabe638a8289e62ec74756aa62176" "e7b277c902521ebce99b342283d0aa3f9ce48ac0" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -18,7 +18,10 @@ inherit cros-workon platform user
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="internal local_ml_core_internal"
+
+# camera_feature_effects needed as `use.camera_feature_effects` is
+# referenced in BUILD.gn
+IUSE="internal local_ml_core_internal camera_feature_effects"
 
 RDEPEND="
 	chromeos-base/dlcservice-client:=
