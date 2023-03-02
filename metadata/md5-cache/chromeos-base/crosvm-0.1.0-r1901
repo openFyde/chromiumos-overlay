@@ -1,0 +1,15 @@
+BDEPEND=dev-libs/protobuf dev-vcs/git
+DEFINED_PHASES=compile configure info install postinst preinst prepare prerm setup test unpack
+DEPEND=sys-apps/dtc:= sys-libs/libcap:= crosvm-video-ffmpeg? ( media-video/ffmpeg ) crosvm-video-libvda? ( chromeos-base/libvda ) chromeos-base/minijail:= dev-libs/wayland:= crosvm-gpu? ( media-libs/virglrenderer:= ) crosvm-wl-dmabuf? ( media-libs/minigbm:= ) dev-rust/libchromeos:= cros_host? ( dev-libs/protobuf:= ) dev-rust/third-party-crates-src:= dev-libs/wayland-protocols:= dev-rust/cros_fuzz:= dev-rust/minijail:= dev-rust/p9:= dev-rust/system_api:= media-sound/libcras:= sys-apps/dbus:= tpm2? ( chromeos-base/tpm2:= chromeos-base/trunks:= ) crosvm-power-monitor-powerd? ( chromeos-base/system_api ) >=virtual/rust-1.60.0:= virtual/rust-binaries:= sys-apps/baselayout
+DESCRIPTION=Utility for running VMs on Chrome OS
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/crosvm/
+IUSE=test cros-debug crosvm-gpu crosvm-swap -crosvm-trace-marker -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder -crosvm-video-ffmpeg +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master android-vm-tm arcvm_gce_l1 fuzzer cros-debug asan coverage fuzzer msan tsan ubsan asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan cros_host cros_workon_tree_8ef6173bb539c44afca692f7cf0837b73f24d5c2
+KEYWORDS=*
+LICENSE=BSD-Google Apache-2.0 BSD-vmm_vhost
+PROPERTIES=live
+RDEPEND=sys-apps/dtc:= sys-libs/libcap:= crosvm-video-ffmpeg? ( media-video/ffmpeg ) crosvm-video-libvda? ( chromeos-base/libvda ) chromeos-base/minijail:= dev-libs/wayland:= crosvm-gpu? ( media-libs/virglrenderer:= ) crosvm-wl-dmabuf? ( media-libs/minigbm:= ) dev-rust/libchromeos:= !chromeos-base/crosvm-bin crosvm-power-monitor-powerd? ( sys-apps/dbus ) tpm2? ( sys-apps/dbus ) virtual/rust-binaries:= sys-apps/baselayout
+REQUIRED_USE=?? ( asan lsan msan tsan )
+SLOT=0/0.1.0-r1901
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-rust	ef90b7ea805a295293bfcc33be0ce4d5	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
+_md5_=2bd15a11e192b35c25a9a30287374ebb
