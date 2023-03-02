@@ -112,6 +112,7 @@ sys-apps/lsb-release-1.4
 
 sys-apps/texinfo-4.13
 
+sys-apps/sandbox-2.30
 sys-devel/autoconf-2.69
 sys-devel/automake-1.10.3
 sys-devel/automake-1.11.6
