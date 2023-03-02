@@ -3,14 +3,14 @@
 
 EAPI="5"
 
-CROS_WORKON_COMMIT="dcf1f81cbd0f4ccb924343c349ccd764f150d43f"
-CROS_WORKON_TREE=("0f4044624c1fabe638a8289e62ec74756aa62176" "ded973c5bd166e209befa11fa10d21bdd361717a" "c1195005f152ed453ed87250e60e2dfa9502a6c4" "f04b4cdb00eb1881eeb6c35fc3400ee726299940" "e1f223c8511c80222f764c8768942936a8de01e4" "d260dea390c888b42d26362d30dfb99591d69489" "4009d6eb6c6d27c7d2a35604226089fd0190d345" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="afcfff0f5fda99b21f85b6d8c2da80d162893062"
+CROS_WORKON_TREE=("0f4044624c1fabe638a8289e62ec74756aa62176" "ded973c5bd166e209befa11fa10d21bdd361717a" "c1195005f152ed453ed87250e60e2dfa9502a6c4" "e1f223c8511c80222f764c8768942936a8de01e4" "8168e9a60fb8c912ca6353896b99654d06683e9a" "4009d6eb6c6d27c7d2a35604226089fd0190d345" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation libtpmcrypto metrics tpm_manager trunks .gn"
+CROS_WORKON_SUBTREE="common-mk libhwsec libhwsec-foundation metrics tpm_manager trunks .gn"
 
 PLATFORM_SUBDIR="tpm_manager"
 
@@ -42,7 +42,6 @@ RDEPEND="
 	chromeos-base/minijail
 	chromeos-base/libhwsec[test?]
 	chromeos-base/libhwsec-foundation
-	chromeos-base/libtpmcrypto
 	chromeos-base/system_api:=[fuzzer?]
 	chromeos-base/tpm_manager-client
 	"
