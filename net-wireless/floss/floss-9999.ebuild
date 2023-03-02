@@ -72,17 +72,9 @@ DOCS=( README.md )
 
 src_unpack() {
 	platform_src_unpack
-
-	# TODO(b/261541399) - Limit number of jobs on test builds. This
-	# specific scenario is causing OOM failures.
-	local local_makeopts="${MAKEOPTS}"
-	if use test; then
-		local_makeopts="${local_makeopts} --jobs 4"
-	fi
-
 	# Cros rust unpack should come after platform unpack otherwise platform
 	# unpack will fail.
-	MAKEOPTS="${local_makeopts}" cros-rust_src_unpack
+	cros-rust_src_unpack
 }
 
 src_configure() {
@@ -102,11 +94,6 @@ src_configure() {
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
-
-	# TODO(b/261541399) - Building generated code for unit-tests
-	# seems to fail due to OOM issues. Reduce opt-level to reduce memory
-	# usage.
-	use test && rustflags+=( '-C opt-level=0' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
