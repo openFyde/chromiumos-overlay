@@ -37,7 +37,7 @@ index 2e8c4b5..c2c3bd4 100644
      }
 +    bool get_poll_main_thread() const override final {
 +        if (!config.poll_main_thread.set) {
-+            return true;
++            return false;
 +        }
 +        return cvk_device_properties::get_poll_main_thread();
 +    }
