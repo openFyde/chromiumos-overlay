@@ -31,10 +31,7 @@ COMMON_DEPEND="
 	media-libs/minigbm:=
 "
 
-RDEPEND="
-	${COMMON_DEPEND}
-	chromeos-base/ec-utils
-"
+RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
 	chromeos-base/system_api:=[fuzzer?]
