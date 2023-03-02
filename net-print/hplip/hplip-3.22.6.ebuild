@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -86,6 +86,7 @@ PATCHES=(
 	"${FILESDIR}/${PN}-3.21.8-fix-tempbuffer-size-in-halftoner.patch"
 	"${FILESDIR}/${PN}-3.21.8-fix-bad-header-read.patch"
 	"${FILESDIR}/${PN}-3.22.6-gccver.patch"
+	"${FILESDIR}/${PN}-3.22.6-fix-ub-pointer-overflow.patch"
 )
 
 #DISABLE_AUTOFORMATTING="yes"
