@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="4a5d2254ba6c475fe5559067caa5edf190477924"
-CROS_WORKON_TREE="70d7cafd9e9f0a9b092b680b10d11c114e5f2735"
+CROS_WORKON_COMMIT="efeec33a0e099a839e0cdb7e22358ed1eb2a4b9c"
+CROS_WORKON_TREE="b64a2561457aad5ec1f54f5b35ce611b3776f523"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
@@ -41,6 +41,7 @@ COMMON_DEPEND="
 	media-libs/ladspa-sdk:=
 	media-libs/sbc:=
 	media-libs/speex:=
+	media-sound/cras_rust:=
 	cras-ml? ( sci-libs/tensorflow:= )
 	>=sys-apps/dbus-1.4.12:=
 	selinux? ( sys-libs/libselinux:= )
@@ -50,7 +51,6 @@ COMMON_DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 	media-sound/alsa-utils
-	media-sound/audio_processor:=
 	dlc? ( media-sound/sr-bt-dlc:= )
 	dlc? ( virtual/chromeos-audio-nc-ap-dlc:= )
 	media-plugins/alsa-plugins
@@ -61,7 +61,6 @@ RDEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	dev-libs/libpthread-stubs:=
-	media-sound/cras_rust:=
 "
 
 adhd-bazel() {
