@@ -431,7 +431,15 @@ set_build_args() {
 			"use_remoteexec=true"
 		)
 		BUILD_STRING_ARGS+=(
+			# reclient configs in CHROME_ROOT are for simplechrome only. So for
+			# ebuilds, instead we override GN args here to specify the correct
+			# rewrapper config to use.
 			"rbe_cc_cfg_file=${CHROME_ROOT}/src/buildtools/reclient_cfgs/rewrapper_chroot_compile.cfg"
+			"rbe_py_cfg_file=${CHROME_ROOT}/src/buildtools/reclient_cfgs/rewrapper_chroot_python.cfg"
+
+			# For chroot based builds, this is overridden to be  '/'
+			# (where we run our build actions).
+			"rbe_exec_root=/"
 		)
 	fi
 
@@ -1002,6 +1010,7 @@ chrome_make() {
 		-d "keeprsp"
 		"$@"
 	)
+
 	# If goma is used, log the command, cwd and env vars, which will be
 	# uploaded to the logging server.
 	if should_upload_build_logs; then
