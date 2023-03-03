@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("b42a33d0cf6ead171c0f8bf23e182e52d2487a05" "f2e482d55aac0389f1775547e29ccce7a348afca" "8b8b70f5b289a0b20d7c5fd9667e2d904c637624" "68b356f2e7a8c6103eff9662d1d37d52a0f49305")
-CROS_WORKON_TREE=("9fbedf15ae83a19c39fe0b7c1be5817d4d7c7c16" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "aeef07e30ce45b0e6886fce8c630367fdf6c2993" "405c265ecfbc1c474430b9f4c56ccf515d67de92" "c3473ab29243f136628d4c8708ab647c15f6a411")
+CROS_WORKON_COMMIT=("fd057cbcfde1aeae531be41da851bdcc1ae5d2ba" "f2e482d55aac0389f1775547e29ccce7a348afca" "2d7274bf122421fa7902fc3325b8683bcb933e6d" "68b356f2e7a8c6103eff9662d1d37d52a0f49305")
+CROS_WORKON_TREE=("9fbedf15ae83a19c39fe0b7c1be5817d4d7c7c16" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "aeef07e30ce45b0e6886fce8c630367fdf6c2993" "7b1babed5e4a36e53ef6ffd073ab800fd60a1d99" "c3473ab29243f136628d4c8708ab647c15f6a411")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"aosp/platform/packages/modules/Bluetooth"
@@ -74,17 +74,9 @@ DOCS=( README.md )
 
 src_unpack() {
 	platform_src_unpack
-
-	# TODO(b/261541399) - Limit number of jobs on test builds. This
-	# specific scenario is causing OOM failures.
-	local local_makeopts="${MAKEOPTS}"
-	if use test; then
-		local_makeopts="${local_makeopts} --jobs 4"
-	fi
-
 	# Cros rust unpack should come after platform unpack otherwise platform
 	# unpack will fail.
-	MAKEOPTS="${local_makeopts}" cros-rust_src_unpack
+	cros-rust_src_unpack
 }
 
 src_configure() {
@@ -104,11 +96,6 @@ src_configure() {
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
-
-	# TODO(b/261541399) - Building generated code for unit-tests
-	# seems to fail due to OOM issues. Reduce opt-level to reduce memory
-	# usage.
-	use test && rustflags+=( '-C opt-level=0' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
