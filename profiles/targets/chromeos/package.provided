@@ -124,6 +124,7 @@ sys-devel/bison-3.7.3
 sys-devel/gettext-0.21
 sys-devel/gnuconfig-20230101
 sys-devel/m4-1.4.19
+sys-devel/make-4.2.1-r4
 
 sys-kernel/gentoo-sources-2.6.30-r6
 
