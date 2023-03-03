@@ -56,12 +56,6 @@ patchpanel_header() {
 src_install() {
 	platform_src_install
 
-	# Main binary.
-	dobin "${OUT}"/patchpaneld
-
-	# Libraries.
-	dolib.so "${OUT}"/lib/libpatchpanel-util.so
-
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libpatchpanel-util.pc
@@ -81,12 +75,6 @@ src_install() {
 	patchpanel_header dns/dns_query.h
 	patchpanel_header dns/dns_response.h
 	patchpanel_header dns/io_buffer.h
-
-	insinto /etc/init
-	doins "${S}"/init/patchpanel.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/*.conf
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
