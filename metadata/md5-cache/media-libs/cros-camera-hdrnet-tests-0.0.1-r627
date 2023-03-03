@@ -1,0 +1,13 @@
+BDEPEND=virtual/pkgconfig dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/cros-camera-android-deps:= chromeos-base/cros-camera-libs:= dev-cpp/benchmark:= dev-cpp/gtest:= media-libs/cros-camera-libfs:= virtual/opengles:= x11-drivers/opengles-headers:= >=chromeos-base/libchrome-0.0.1-r600:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2140:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=Chrome OS camera HDRnet integration tests
+EAPI=7
+IUSE=ipu6 ipu6ep cros_host cros_workon_tree_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6_2ad8679ea3a8f3e8a2509b4b05585f22f2dc373b_937f885c56d0bfb7bc4891b953c66a38d53d5ea6_14f00dcafbef98a768f7f7be17cb697ac12dc529_f350915f69eba67849197cce3901bc104da7121a_c903b4b1306ec4d133d339b3d17d39f362513708_2ae3f5c18c4a966b50d7defcd4e5ecfc5d40d1d9_d1531884133da981fe6414dbcd67713d10efeef7_d13b09da7e45ae9123e9dbb3e10105e7e5c36737_5be17ba0d331df49cda26486f5a3e5d5db8b480a_6da0a978ba1edbe645822f82ddb2493d34ecf9f7_e7b277c902521ebce99b342283d0aa3f9ce48ac0 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/cros-camera-android-deps:= chromeos-base/cros-camera-libs:= dev-cpp/benchmark:= dev-cpp/gtest:= media-libs/cros-camera-libfs:= virtual/opengles:= >=chromeos-base/libchrome-0.0.1-r600:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2140:=
+SLOT=0/0.0.1-r627
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	b1e549476dce0e9110e8cd45ab6d66b2	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	f156b63c6afb281c772a28e3f5d842b5	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=009ed9a26b037bd3ff79841d97990f8e
