@@ -552,7 +552,15 @@ cros-rustc_src_configure() {
 		default-linker = "${CBUILD}-clang"
 		description = "Run /usr/bin/rust-toolchain-version for more detail"
 		channel = "nightly"
-		codegen-units = 0
+		# b/271569975: codegen-units feed into cargo's 'profile' for
+		# libraries. Differing 'profile's lead to incompatible build
+		# artifacts (since cargo's 'profile' generally consists of
+		# things like whether the build is debug/release/etc). We need
+		# _some_ consistent value here.
+		#
+		# Pick 32 because that's what we've been shipping from the SDK
+		# builder for a while.
+		codegen-units = 32
 		llvm-libunwind = 'in-tree'
 		codegen-tests = false
 		new-symbol-mangling = true
