@@ -9,7 +9,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 CROS_WORKON_PROJECT="external/github.com/google/googletest"
 CROS_WORKON_LOCALNAME="../third_party/googletest"
 
-inherit cmake-multilib python-any-r1 cros-workon
+inherit cmake-multilib python-any-r1 cros-workon flag-o-matic
 
 DESCRIPTION="Google C++ Testing Framework"
 HOMEPAGE="https://github.com/google/googletest"
@@ -35,6 +35,8 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	# TODO(http://b/271867448): Remove once fixed.
+	append-lfs-flags
 	# Building gtest with "-Os" breaks unit tests in asan builds,
 	# https://crbug.com/1069493
 	cros_optimize_package_for_speed
