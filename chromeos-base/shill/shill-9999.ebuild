@@ -230,5 +230,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/shill_unittest"
+	platform test_all
 }

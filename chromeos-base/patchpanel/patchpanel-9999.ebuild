@@ -103,5 +103,5 @@ pkg_preinst() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/patchpanel_testrunner"
+	platform test_all
 }

@@ -57,5 +57,5 @@ src_install() {
 }
 
 platform_pkg_test() {
-	platform_test "run" "${OUT}/shill_net_test"
+	platform test_all
 }
