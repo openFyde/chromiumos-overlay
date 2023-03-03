@@ -23,6 +23,7 @@ IUSE="internal local_ml_core_internal camera_feature_effects"
 
 RDEPEND="
 	chromeos-base/dlcservice-client:=
+	chromeos-base/session_manager-client:=
 	internal? ( chromeos-base/ml-core-internal:= )
 "
 DEPEND="${RDEPEND}
