@@ -91,12 +91,18 @@ src_configure() {
 		"-C link-arg=-Wl,--allow-multiple-definition"
 	)
 
+	local bindgen_extra_clang_args=(
+		# Set sysroot so it looks in correct path
+		"--sysroot=${SYSROOT}"
+	)
+
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
+	export BINDGEN_EXTRA_CLANG_ARGS="${bindgen_extra_clang_args[*]}"
 
 	cros-rust_src_configure
 	platform_src_configure "--target_os=chromeos"
