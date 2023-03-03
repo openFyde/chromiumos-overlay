@@ -1,4 +1,4 @@
-BDEPEND==dev-lang/rust-host-1.67.1 sys-devel/llvm
+BDEPEND==dev-lang/rust-host-1.67.1 sys-devel/llvm >=dev-vcs/git-1.8.2.1[curl]
 DEFINED_PHASES=compile configure install prepare setup unpack
 DEPEND=|| ( dev-lang/python:3.6 dev-lang/python:3.9 dev-lang/python:3.8 dev-lang/python:3.7 ) >=dev-libs/libxml2-2.9.6 >=dev-lang/perl-5.0 rust_cros_llvm? ( ~dev-lang/rust-llvm-sources-1.67.1:= ) dev-lang/rust-bootstrap:1.66.0
 EAPI=7
@@ -6,10 +6,11 @@ HOMEPAGE=https://www.rust-lang.org/
 IUSE=rust_profile_frontend_generate rust_profile_llvm_generate rust_profile_frontend_use_local rust_profile_llvm_use_local +rust_profile_frontend_use +rust_profile_llvm_use +rust_cros_llvm
 KEYWORDS=*
 LICENSE=|| ( MIT Apache-2.0 ) BSD-1 BSD-2 BSD-4 UoI-NCSA
+PROPERTIES=live
 RDEPEND==dev-lang/rust-host-1.67.1
 REQUIRED_USE=rust_profile_frontend_generate? ( !rust_profile_frontend_use !rust_profile_frontend_use_local !rust_profile_llvm_use !rust_profile_llvm_use_local ) rust_profile_llvm_generate? ( !rust_profile_frontend_use !rust_profile_frontend_use_local !rust_profile_llvm_use !rust_profile_llvm_use_local ) rust_profile_llvm_use? ( !rust_profile_llvm_use_local ) rust_profile_frontend_use? ( !rust_profile_frontend_use_local )
 RESTRICT=binchecks strip
 SLOT=stable/1.67
 SRC_URI=https://static.rust-lang.org/dist/rustc-1.67.1-src.tar.gz -> rustc-1.67.1-src.tar.gz rust_profile_frontend_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-1.67.1-frontend.profdata.xz ) rust_profile_llvm_use? ( gs://chromeos-localmirror/distfiles/rust-pgo-1.67.1-llvm.profdata.xz )
-_eclasses_=cros-rustc	934931848cd652c7e159cec79c81a8ca	cros-rustc-directories	08a80277af00ac678221123eb7ca5e5a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	f52456f22195477581cb3015a41f1556	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-rustc	c6fe4d033149a9b1c8d96259e621a5e3	cros-rustc-directories	08a80277af00ac678221123eb7ca5e5a	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-r3	c8f4649ab5a3c07ee2b75b12bc446f6a	multilib	2477ebe553d3e4d2c606191fe6c33602	python-any-r1	54a3178500786b0a7ede4a23b7f2a6ad	python-utils-r1	f52456f22195477581cb3015a41f1556	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=e05ed4ace774f670a520cb4a2b329eee
