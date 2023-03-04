@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("a64e7de43194aeddf53c2e9c427606248fe02ce6" "23114783515ffc61e978b94ea1d366d7313ed2e2" "50383a6fc570fdbe07c0fbdead9247dc8872ac6c" "68b356f2e7a8c6103eff9662d1d37d52a0f49305")
+CROS_WORKON_COMMIT=("fbc86a9504e983785a489960c11db773aa66f230" "23114783515ffc61e978b94ea1d366d7313ed2e2" "50383a6fc570fdbe07c0fbdead9247dc8872ac6c" "68b356f2e7a8c6103eff9662d1d37d52a0f49305")
 CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "7451094fff19e964f80c5f815fad915aa3781f31" "a342e0955295fb507e0af029d0c1cfa4bf8dad05" "c3473ab29243f136628d4c8708ab647c15f6a411")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -93,12 +93,18 @@ src_configure() {
 		"-C link-arg=-Wl,--allow-multiple-definition"
 	)
 
+	local bindgen_extra_clang_args=(
+		# Set sysroot so it looks in correct path
+		"--sysroot=${SYSROOT}"
+	)
+
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
 	use asan && rustflags+=( '-lc++' )
 
 	export EXTRA_RUSTFLAGS="${rustflags[*]}"
 	export TARGET_OS_VARIANT="chromeos"
+	export BINDGEN_EXTRA_CLANG_ARGS="${bindgen_extra_clang_args[*]}"
 
 	cros-rust_src_configure
 	platform_src_configure "--target_os=chromeos"
