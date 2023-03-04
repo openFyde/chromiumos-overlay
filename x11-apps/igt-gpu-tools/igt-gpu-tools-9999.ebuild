@@ -6,6 +6,7 @@ EGIT_REPO_URI="https://gitlab.freedesktop.org/drm/${PN}.git"
 GIT_ECLASS="git-r3"
 
 CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
+CROS_WORKON_EGIT_BRANCH="upstream/master"
 CROS_WORKON_MANUAL_UPREV=1
 
 inherit ${GIT_ECLASS} meson cros-workon
