@@ -4,7 +4,6 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/modemmanager-next"
-CROS_WORKON_EGIT_BRANCH="master"
 
 inherit meson cros-sanitizers cros-workon flag-o-matic udev user
 

@@ -3,7 +3,6 @@
 
 EAPI=7
 CROS_WORKON_PROJECT="chromiumos/third_party/libqrtr-glib"
-CROS_WORKON_EGIT_BRANCH="master"
 
 inherit meson cros-sanitizers cros-workon
 

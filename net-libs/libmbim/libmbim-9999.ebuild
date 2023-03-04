@@ -3,7 +3,6 @@
 
 EAPI=6
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
-CROS_WORKON_EGIT_BRANCH="master"
 
 inherit meson cros-sanitizers cros-workon udev cros-fuzzer cros-sanitizers
 
