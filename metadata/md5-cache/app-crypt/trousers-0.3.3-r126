@@ -1,6 +1,6 @@
 BDEPEND=>=app-portage/elt-patches-20170815 dev-vcs/git virtual/pkgconfig
 DEFINED_PHASES=configure info install postinst prepare setup unpack
-DEPEND=chromeos-base/libhwsec-foundation >=chromeos-base/metrics-0.0.1-r3152 >=dev-libs/openssl-0.9.7:0= !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 >=chromeos-base/libchrome-0.0.1-r600:0=[cros-debug=] sys-apps/baselayout
+DEPEND=chromeos-base/libhwsec-foundation >=chromeos-base/metrics-0.0.1-r3152 >=dev-libs/openssl-0.9.7:0= !<sys-devel/gettext-0.18.1.1-r3 || ( >=sys-devel/automake-1.16.1:1.16 >=sys-devel/automake-1.15.1:1.15 ) >=sys-devel/autoconf-2.69 >=sys-devel/libtool-2.4 >=chromeos-base/libchrome-0.0.1-r608:0=[cros-debug=] sys-apps/baselayout
 DESCRIPTION=An open-source TCG Software Stack (TSS) v1.1 implementation
 EAPI=7
 HOMEPAGE=http://trousers.sf.net
@@ -8,7 +8,7 @@ IUSE=asan doc mocktpm systemd tpm_dynamic tss_trace cros-debug asan coverage fuz
 KEYWORDS=*
 LICENSE=CPL-1.0
 PROPERTIES=live
-RDEPEND=chromeos-base/libhwsec-foundation >=chromeos-base/metrics-0.0.1-r3152 >=dev-libs/openssl-0.9.7:0= >=chromeos-base/libchrome-0.0.1-r600:0=[cros-debug=] virtual/tmpfiles sys-apps/baselayout
+RDEPEND=chromeos-base/libhwsec-foundation >=chromeos-base/metrics-0.0.1-r3152 >=dev-libs/openssl-0.9.7:0= >=chromeos-base/libchrome-0.0.1-r608:0=[cros-debug=] virtual/tmpfiles sys-apps/baselayout
 SLOT=0
-_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	b1e549476dce0e9110e8cd45ab6d66b2	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	5f4bb0758df2e483babf68cd517078ca	tmpfiles	216aa76c3a6fcb5d893c23a0de86048f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
+_eclasses_=autotools	d0e5375d47f4c809f406eb892e531513	cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	1fe30281e53cf3ce6610a08cfe019b48	libtool	f143db5a74ccd9ca28c1234deffede96	multilib	2477ebe553d3e4d2c606191fe6c33602	systemd	5f4bb0758df2e483babf68cd517078ca	tmpfiles	216aa76c3a6fcb5d893c23a0de86048f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
 _md5_=6de63c8fa205c44f25be9679ac6637d1
