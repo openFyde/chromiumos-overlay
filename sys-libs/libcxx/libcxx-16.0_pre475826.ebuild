@@ -42,7 +42,18 @@ RDEPEND="
 	libunwind? ( ${CATEGORY}/llvm-libunwind )
 	libcxxrt? ( ${CATEGORY}/libcxxrt[libunwind=,static-libs?,${MULTILIB_USEDEP}] )
 	!cros_host? ( sys-libs/gcc-libs )"
-DEPEND="${RDEPEND}"
+
+DEPEND="
+	sys-kernel/linux-headers
+	${RDEPEND}
+"
+
+if [[ "${CATEGORY}" == cross-*-linux* ]]; then
+	DEPEND+="
+		${CATEGORY}/linux-headers
+	"
+fi
+
 BDEPEND="sys-devel/llvm"
 
 python_check_deps() {
