@@ -50,7 +50,7 @@ https://storage.cloud.google.com/chromeos-localmirror/distfiles/${SPIRV_LLVM_TRA
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="debug clvk-perfetto"
+IUSE="debug +perfetto"
 
 # target build dependencies
 DEPEND="
@@ -163,7 +163,7 @@ src_configure() {
 
 		-DCLVK_ENABLE_ASSERTIONS=ON
 
-		-DCLVK_PERFETTO_ENABLE=$(usex clvk-perfetto ON OFF)
+		-DCLVK_PERFETTO_ENABLE=$(usex perfetto ON OFF)
 		-DCLVK_PERFETTO_LIBRARY=perfetto_sdk
 		-DCLVK_PERFETTO_BACKEND=System
 		-DCLVK_PERFETTO_SDK_DIR="${ESYSROOT}/usr/include/perfetto/"
