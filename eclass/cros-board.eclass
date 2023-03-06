@@ -485,8 +485,8 @@ ALL_BOARDS=(
 	trogdor
 	trogdor-arc-r
 	trogdor-kernelnext
-	trogdor64
-	trogdor64-manatee
+	#trogdor64
+	#trogdor64-manatee
 	ultima
 	#umaro
 	#urara
