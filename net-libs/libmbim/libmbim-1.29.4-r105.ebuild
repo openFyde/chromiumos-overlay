@@ -5,7 +5,6 @@ EAPI=6
 CROS_WORKON_COMMIT="efb711581fabcb68d7f00d667c8c5eac1b4e167f"
 CROS_WORKON_TREE="baecd93e63238a66477cd33325141040f2436b93"
 CROS_WORKON_PROJECT="chromiumos/third_party/libmbim"
-CROS_WORKON_EGIT_BRANCH="master"
 
 inherit meson cros-sanitizers cros-workon udev cros-fuzzer cros-sanitizers
 

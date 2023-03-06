@@ -5,7 +5,6 @@ EAPI=7
 CROS_WORKON_COMMIT="87084d72d466cc7b6089d56b7c553c4e2ded0f00"
 CROS_WORKON_TREE="3792c938b9ab462546a4620952b72cdb584c8896"
 CROS_WORKON_PROJECT="chromiumos/third_party/libqrtr-glib"
-CROS_WORKON_EGIT_BRANCH="master"
 
 inherit meson cros-sanitizers cros-workon
 
