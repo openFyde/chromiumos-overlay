@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnost
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer wilco mesa_reven diagnostics iioservice"
+IUSE="fuzzer wilco mesa_reven diagnostics"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
