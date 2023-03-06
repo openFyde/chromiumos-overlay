@@ -31,7 +31,16 @@ fi
 IUSE="cros_host debug llvm-next llvm-tot +static-libs +shared-libs +synth_libgcc +compiler-rt continue-on-patch-failure"
 RDEPEND="!${CATEGORY}/libunwind"
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	sys-kernel/linux-headers
+	${RDEPEND}
+"
+
+if [[ "${CATEGORY}" == cross-*-linux* ]]; then
+	DEPEND+="
+		${CATEGORY}/linux-headers
+	"
+fi
 
 BDEPEND="sys-devel/llvm"
 
