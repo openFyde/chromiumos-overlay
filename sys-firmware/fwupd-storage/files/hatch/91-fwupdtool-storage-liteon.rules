@@ -38,9 +38,10 @@ ATTR{model}=="CL4-3D512-Q11*", \
 ACTION=="add", \
 RUN+="/sbin/initctl emit fwupdtool-update PLUGIN=nvme GUID=690e40e2-2141-4710-93a6-8a2ba6890c99"
 
+# b/264579155: "CL1-3D256" contains its vendor name inside the model name.
 SUBSYSTEM=="nvme", \
 ATTRS{vendor}=="0x14a4", \
 ATTR{firmware_rev}!="CR22002", \
-ATTR{model}=="CL1-3D256", \
+ATTR{model}=="LITEON CL1-3D256", \
 ACTION=="add", \
 RUN+="/sbin/initctl emit fwupdtool-update PLUGIN=nvme GUID=c7ab5f4e-213d-52fe-b26e-7fdc0c2f3d1c"
