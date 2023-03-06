@@ -822,11 +822,13 @@ cros-workon_src_unpack() {
 		done
 
 		# TODO(zbehan): Support multiple projects for vcsid?
-		# We should run get_rev in destdir[0] because CROS_WORKON_COMMIT
-		# is only checked out there. Also, we can't use
-		# CROS_WORKON_COMMIT directly because it could be a named or
-		# abbreviated ref.
-		set_vcsid "$(get_rev "${destdir[0]}/.git")"
+		# If CROS_WORKON_COMMIT is a git SHA then we can use it directly, otherwise
+		# it could be a tag or abbreviated hash.
+		if [[ "${CROS_WORKON_COMMIT[0]}" =~ ^[a-z0-9]{40}$ ]]; then
+			set_vcsid "${CROS_WORKON_COMMIT[0]}"
+		else
+			set_vcsid "$(get_rev "${destdir[0]}/.git")"
+		fi
 		cros-workon_enforce_subtrees
 		return
 	fi
