@@ -28,7 +28,7 @@ KEYWORDS="*"
 
 DEPEND="
 	dev-cpp/eigen:3
-	dev-libs/boost
+	dev-libs/boost:=
 	nexus? ( sci-electronics/prjoxide )
 "
 RDEPEND="${DEPEND}
