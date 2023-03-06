@@ -31,16 +31,11 @@ RDEPEND="
 src_install() {
 	platform_src_install
 
-	# Install libshill-net library.
+	# Generate and install libshill-net pkgconfig.
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	./preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libshill-net.so"
 	doins "${OUT}/lib/libshill-net.pc"
-
-	# Install header files from libshill-net.
-	insinto /usr/include/shill/net
-	doins ./*.h
 
 	local platform_network_component_id="167325"
 	local platform_wifi_component_id="893827"
