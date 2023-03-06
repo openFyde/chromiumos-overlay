@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5dc3470c89d357e34cbd1ba04b1b2d5833ab7db5"
-CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "e1f223c8511c80222f764c8768942936a8de01e4" "6421088d3a26ce00e48254db9942650b1f5e9a0a" "540aa87685e67d40d584aef44b013af874759250" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="d840a1278d325f9baad197ae5909b3abcf9738e8"
+CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "e1f223c8511c80222f764c8768942936a8de01e4" "ff8bf2e10a3efbcdc69c14e6c2084adedd20ef84" "540aa87685e67d40d584aef44b013af874759250" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -58,12 +58,6 @@ patchpanel_header() {
 src_install() {
 	platform_src_install
 
-	# Main binary.
-	dobin "${OUT}"/patchpaneld
-
-	# Libraries.
-	dolib.so "${OUT}"/lib/libpatchpanel-util.so
-
 	"${S}"/preinstall.sh "${PV}" "/usr/include/chromeos" "${OUT}"
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	doins "${OUT}"/libpatchpanel-util.pc
@@ -83,12 +77,6 @@ src_install() {
 	patchpanel_header dns/dns_query.h
 	patchpanel_header dns/dns_response.h
 	patchpanel_header dns/io_buffer.h
-
-	insinto /etc/init
-	doins "${S}"/init/patchpanel.conf
-
-	insinto /etc/dbus-1/system.d
-	doins dbus/*.conf
 
 	local fuzzer
 	for fuzzer in "${OUT}"/*_fuzzer; do
