@@ -58,6 +58,7 @@ DEPEND="
 	>=dev-util/opencl-headers-2021.04.29
 	>=dev-util/spirv-tools-1.3.211
 	>=dev-util/spirv-headers-1.3.211-r1
+	>=chromeos-base/perfetto-31.0
 "
 
 # target runtime dependencies
@@ -78,6 +79,8 @@ if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
 	PATCHES+=("${FILESDIR}/clvk-01-sampledbuffer.patch")
+	# To be remove when updating clvk behond this point
+	PATCHES+=("${FILESDIR}/clvk-02-6d0ac6e-vendorID_deviceID.patch")
 
 	# TODO(b/259217927) : To be remove as soon as they are merged upstream
 	PATCHES+=("${FILESDIR}/clvk-10-main-thread-exec.patch")

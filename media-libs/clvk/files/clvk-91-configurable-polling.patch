@@ -1,3 +1,11 @@
+commit 12d9f6bd3331d5e5b6703e2cf18dd95bd85e5ddb
+Author: Romaric Jodin <rjodin@chromium.org>
+Date:   Mon Mar 6 16:42:55 2023 +0100
+
+    configurable-polling.patch
+    
+    Change-Id: I00a2011ebf961a31e42d9896cba80d8349675db8
+
 diff --git a/clvk/src/config.def b/clvk/src/config.def
 index fa33748..3c02867 100644
 --- a/clvk/src/config.def
@@ -13,10 +21,10 @@ index fa33748..3c02867 100644
  OPTION(std::string, clspv_options, "")
  #if !CLSPV_ONLINE_COMPILER
 diff --git a/clvk/src/device.hpp b/clvk/src/device.hpp
-index 5eebd12..35df17a 100644
+index e60580a..05fda39 100644
 --- a/clvk/src/device.hpp
 +++ b/clvk/src/device.hpp
-@@ -232,6 +232,10 @@ struct cvk_device : public _cl_device_id,
+@@ -233,6 +233,10 @@ struct cvk_device : public _cl_device_id,
          return m_clvk_properties->get_num_compute_units();
      }
  
@@ -28,24 +36,55 @@ index 5eebd12..35df17a 100644
          // There are only 20 different possible samplers in OpenCL 1.2, cap the
          // number of supported samplers to that to help with negative testing of
 diff --git a/clvk/src/device_properties.cpp b/clvk/src/device_properties.cpp
-index 2e8c4b5..c2c3bd4 100644
+index 1140497..412967f 100644
 --- a/clvk/src/device_properties.cpp
 +++ b/clvk/src/device_properties.cpp
-@@ -57,6 +57,12 @@ struct cvk_device_properties_intel : public cvk_device_properties {
+@@ -57,6 +57,23 @@ struct cvk_device_properties_intel : public cvk_device_properties {
      std::string get_compile_options() const override final {
          return "-hack-mul-extended";
      }
 +    bool get_poll_main_thread() const override final {
++        const uint32_t kabylakeDeviceID = 0x591e;
++        const uint32_t cometlakeDeviceID = 0x9b41;
++        const uint32_t geminilakeDeviceID = 0x3185;
 +        if (!config.poll_main_thread.set) {
-+            return false;
++            return m_deviceID == kabylakeDeviceID ||
++                   m_deviceID == cometlakeDeviceID ||
++                   m_deviceID == geminilakeDeviceID;
 +        }
 +        return cvk_device_properties::get_poll_main_thread();
 +    }
++
++    cvk_device_properties_intel(const uint32_t deviceID)
++        : m_deviceID(deviceID) {}
++
++private:
++    const uint32_t m_deviceID;
  };
  
- struct cvk_device_properties_amd : public cvk_device_properties {
+ static bool isIntelDevice(const char* name, const uint32_t vendorID) {
+@@ -85,6 +102,10 @@ struct cvk_device_properties_samsung_xclipse_920
+     cvk_info_fn(#x);                                                           \
+     return std::make_unique<x>();
+ 
++#define RETURN_DEVICEID(x, deviceID)                                           \
++    cvk_info_fn(#x);                                                           \
++    return std::make_unique<x>(deviceID);
++
+ std::unique_ptr<cvk_device_properties>
+ create_cvk_device_properties(const char* name, const uint32_t vendorID,
+                              const uint32_t deviceID) {
+@@ -118,7 +139,7 @@ create_cvk_device_properties(const char* name, const uint32_t vendorID,
+     } else if (strcmp(name, "Adreno (TM) 640") == 0) {
+         RETURN(cvk_device_properties_adreno_640);
+     } else if (isIntelDevice(name, vendorID)) {
+-        RETURN(cvk_device_properties_intel);
++        RETURN_DEVICEID(cvk_device_properties_intel, deviceID);
+     } else if (isAMDDevice(name, vendorID)) {
+         RETURN(cvk_device_properties_amd);
+     } else if (strcmp(name, "Samsung Xclipse 920") == 0) {
 diff --git a/clvk/src/device_properties.hpp b/clvk/src/device_properties.hpp
-index d5c837a..d9fd221 100644
+index 1271031..4a93fe8 100644
 --- a/clvk/src/device_properties.hpp
 +++ b/clvk/src/device_properties.hpp
 @@ -44,6 +44,10 @@ struct cvk_device_properties {
