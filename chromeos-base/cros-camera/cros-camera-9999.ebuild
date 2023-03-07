@@ -20,7 +20,7 @@ camera device. It uses unix domain socket to build a synchronous channel."
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="arc-camera1 cheets camera_feature_face_detection -libcamera"
+IUSE="cheets camera_feature_face_detection -libcamera"
 
 BDEPEND="virtual/pkgconfig"
 

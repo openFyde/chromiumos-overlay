@@ -28,7 +28,6 @@ IUSE="
 	android-vm-rvc
 	android-vm-tm
 	arc
-	arc-camera1
 	arc-camera3
 	arc-launched-32bit-abi
 	arcpp

@@ -21,7 +21,6 @@ KEYWORDS="~*"
 # Please see https://crrev.com/c/2776455 as an example instead.
 IUSE="
 	asan
-	arc-camera1
 	arc-camera3
 	biod
 	bluetooth
@@ -429,7 +428,6 @@ RDEPEND="
 	)
 	fuzzer? ( virtual/target-fuzzers )
 	!dev-python/socksipy
-	arc-camera1? ( chromeos-base/cros-camera )
 	arc-camera3? ( chromeos-base/cros-camera )
 	fwupd? (
 		sys-apps/fwupd
