@@ -4,12 +4,12 @@ DEPEND=dev-rust/third-party-crates-src:= dev-rust/system_api:= sys-apps/dbus:= >
 DESCRIPTION=Rust code which is used within cras
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/cras/src/server/rust
-IUSE=dlc test cros_host cros_workon_tree_e6f0bdd21e59f0d57acfa8d35550d18decc8682c cros-debug asan coverage fuzzer msan tsan ubsan asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
+IUSE=dlc test cros_host cros_workon_tree_812eb5cb3f845b95646ef138b44caf59e1ffe99e cros-debug asan coverage fuzzer msan tsan ubsan asan rust-coverage cros_host fuzzer lsan +lto msan +panic-abort sccache test tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-rust/third-party-crates-src:= dev-rust/system_api:= sys-apps/dbus:= virtual/rust-binaries:=
 REQUIRED_USE=?? ( asan lsan msan tsan )
-SLOT=0/0.1.0-r38
+SLOT=0/0.1.0-r39
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-rust	ef90b7ea805a295293bfcc33be0ce4d5	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=da57bc79d45be1fe4cf46fb6d4e956ce
+_md5_=2516ce9e053bdb5e7f1b6a5d8d0de295
