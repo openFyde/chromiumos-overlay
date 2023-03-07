@@ -31,6 +31,7 @@ PATCHES=(
 	"${FILESDIR}"/0004-Revert-Media-Common-fixed-regression-about-TGL-KBL-j.patch
 	"${FILESDIR}"/0005-Revert-Media-Common-Optimization-getimage.patch
 	"${FILESDIR}"/0006-Media-Common-VP-fix-object-capture-ffmpeg.patch
+	"${FILESDIR}"/0007-CP-Add-stale-protected-gem-context-check.patch
 )
 
 src_configure() {
