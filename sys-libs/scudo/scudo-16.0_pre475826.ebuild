@@ -15,8 +15,8 @@ EGIT_REPO_URI="${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project
 	${CROS_GIT_HOST_URL}/external/github.com/llvm/llvm-project"
 EGIT_BRANCH=main
 
-LLVM_HASH="a58d0af058038595c93de961b725f86997cf8d4a" # r458507
-LLVM_NEXT_HASH="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
+LLVM_HASH="11897708c0229c92802e747564e7c34b722f045f" # r475826
+LLVM_NEXT_HASH="11897708c0229c92802e747564e7c34b722f045f" # r475826
 
 DESCRIPTION="LLVM scudo_standalone memory allocator"
 HOMEPAGE="http://compiler-rt.llvm.org/"
