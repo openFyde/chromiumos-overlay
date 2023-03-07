@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("3b3011e040493f527b2bb959412dc7f876ffaab1" "23114783515ffc61e978b94ea1d366d7313ed2e2" "5e45403124ec8fb9ac20c9b0017242f1ec36c5aa" "265e0b9bebce688c1db6104442fecb49b47016a2")
+CROS_WORKON_COMMIT=("dbf912e97e87c8aad06e8a3c98cbcbf80a0f801e" "23114783515ffc61e978b94ea1d366d7313ed2e2" "5e45403124ec8fb9ac20c9b0017242f1ec36c5aa" "265e0b9bebce688c1db6104442fecb49b47016a2")
 CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "7451094fff19e964f80c5f815fad915aa3781f31" "a688032aba152f986badc1e504de12eb1a7cd79a" "9765e1ad086796b2b40554719ace57478bb0ef05")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -34,7 +34,9 @@ CROS_WORKON_OPTIONAL_CHECKOUT=(
 CROS_WORKON_INCREMENTAL_BUILD=1
 PLATFORM_SUBDIR="bt"
 
-IUSE="bt_dynlib floss_upstream"
+# floss_upstream: Use AOSP upstream branch instead of default Chrome OS branch.
+# floss_strict: Treat warnings as errors
+IUSE="bt_dynlib floss_upstream floss_strict"
 
 inherit cros-workon toolchain-funcs cros-rust platform tmpfiles udev
 
@@ -91,12 +93,18 @@ src_configure() {
 		# Also ignore multiple definitions for now (added due to some
 		# shared library shenaningans)
 		"-C link-arg=-Wl,--allow-multiple-definition"
+
+		# Allow some warnings from generated code
+		"-A improper_ctypes_definitions -A improper_ctypes -A unknown_lints"
 	)
 
 	local bindgen_extra_clang_args=(
 		# Set sysroot so it looks in correct path
 		"--sysroot=${SYSROOT}"
 	)
+
+	# Treat warnings as errors if enabled.
+	use floss_strict && rustflags+=( '--deny warnings' )
 
 	# When using clang + asan, we need to link C++ lib. The build defaults
 	# to using -lstdc++ which fails to link.
