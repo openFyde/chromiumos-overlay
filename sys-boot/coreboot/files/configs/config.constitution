@@ -16,7 +16,7 @@ CONFIG_FSP_M_FILE="3rdparty/blobs/intel/rpl/fsp/fspm.bin"
 CONFIG_FSP_S_FILE="3rdparty/blobs/intel/rpl/fsp/fsps.bin"
 
 # Video Blob
-CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt-brask.bin"
+CONFIG_INTEL_GMA_VBT_FILE="3rdparty/blobs/mainboard/google/brya/vbt-constitution.bin"
 
 # Microcode
 CONFIG_CPU_UCODE_BINARIES="3rdparty/blobs/mainboard/google/brya/ucode-constitution.bin"
