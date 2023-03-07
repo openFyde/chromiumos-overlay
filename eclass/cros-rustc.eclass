@@ -43,7 +43,12 @@ esac
 EXPORT_FUNCTIONS pkg_setup src_unpack src_prepare src_configure src_compile
 
 PYTHON_COMPAT=( python3_{6..9} )
-inherit cros-constants cros-rustc-directories git-r3 python-any-r1 toolchain-funcs
+inherit cros-llvm cros-constants git-r3 python-any-r1 toolchain-funcs
+
+CROS_RUSTC_DIR="${SYSROOT}/var/cache/portage/${CATEGORY}/rust-artifacts"
+CROS_RUSTC_BUILD_DIR="${CROS_RUSTC_DIR}/build"
+CROS_RUSTC_SRC_DIR="${CROS_RUSTC_DIR}/src"
+CROS_RUSTC_LLVM_SRC_DIR="${CROS_RUSTC_DIR}/llvm-project"
 
 # It's intended that only a person upgrading the Rust version used in ChromeOS
 # needs to worry about these flags.
@@ -187,9 +192,6 @@ RESTRICT="binchecks strip"
 DEPEND="${PYTHON_DEPS}
 	>=dev-libs/libxml2-2.9.6
 	>=dev-lang/perl-5.0
-	rust_cros_llvm? (
-		~dev-lang/rust-llvm-sources-${PV}:=
-	)
 "
 
 if [[ -z "${CROS_RUSTC_BUILD_RAW_SOURCES}" ]]; then
@@ -292,23 +294,6 @@ EOF
 		--prune-empty-dirs "${src}" "${targ}" || die
 }
 
-# TODO(b/271497348): These are essentially copied directly from
-# cros-llvm.eclass. On our next uprev, we should actually inherit `cros-llvm`
-# and use these from that.
-_cros-rustc_prepare_patches() {
-	"${FILESDIR}"/patch_manager/patch_manager.py \
-		--svn_version "$(_cros-rustc_get_most_recent_revision)" \
-		--patch_metadata_file "${FILESDIR}"/PATCHES.json \
-		--failure_mode "fail" \
-		--src_path "${S}" || die
-}
-
-_cros-rustc_get_most_recent_revision() {
-	local subdir="${S}/llvm"
-	# Tries to get the revision ID of the most recent commit
-	"${FILESDIR}"/patch_manager/git_llvm_rev.py --llvm_dir "${subdir}" --sha "$(git -C "${subdir}" rev-parse HEAD)" | cut -d 'r' -f 2
-}
-
 _cros-rustc_unpack_llvm_sources() {
 	einfo "Unpacking LLVM sources..."
 
@@ -369,7 +354,7 @@ cros-rustc_llvm-description() {
 }
 
 _cros-rustc_apply_llvm_patches() {
-	S="${CROS_RUSTC_LLVM_SRC_DIR}" _cros-rustc_prepare_patches
+	S="${CROS_RUSTC_LLVM_SRC_DIR}" prepare_patches
 }
 
 cros-rustc_src_prepare() {
