@@ -6,8 +6,8 @@
 # VERSION=REVBUMP-0.0.71
 
 EAPI=7
-CROS_WORKON_COMMIT=("b685a99117034c75f3183db582de4329eff538af" "1678bbb57249b6edd4cdebc3cbc33b04df8fa098" "d60470ec4a358af8090448299889d9dfa574f093" "7326f0313fdaa53d13004c5f5ece9dfa32cf83cd" "cf0d24a4e9f87d0bdea4dfb6c4681fbed951f37a" "ee319ae7bc59e88b60142f40a9ec1b46656de4db" "b7d5b2d6a6dd05874d86ee900ff441d261f9034c" "46a59cf56881a6d06cf44b0d9d87886f654e056d" "5ec392755dad0644817a72d1d9a379171012b89d")
-CROS_WORKON_TREE=("9e8e190996858e6bf5cc421acc7982cadd6244fe" "b9427f3e5c40b3b30536e3e8aafae73c508097ba" "19529d154b7443ee5b5c5605d5377cc1ea759ba9" "1ce37627335f5275d8b548f6df355531e1a620b8" "452dd3aae16116b38b890783cb6ec503f4d0716a" "45d22a8711f85c4310c0c2121d3dc8a72793d375" "c0433b88f972fa26dded401be022c1c026cd644e" "1a2d52d2659c49eabdb6830feb73a89c86b33990" "7fde8d90acf565a4612bd2520116163ccb52dc1f")
+CROS_WORKON_COMMIT=("b685a99117034c75f3183db582de4329eff538af" "1678bbb57249b6edd4cdebc3cbc33b04df8fa098" "d0c79c0a28fc6ea315269e183f8cd65c389a2369" "7326f0313fdaa53d13004c5f5ece9dfa32cf83cd" "cf0d24a4e9f87d0bdea4dfb6c4681fbed951f37a" "ee319ae7bc59e88b60142f40a9ec1b46656de4db" "b7d5b2d6a6dd05874d86ee900ff441d261f9034c" "46a59cf56881a6d06cf44b0d9d87886f654e056d" "5ec392755dad0644817a72d1d9a379171012b89d")
+CROS_WORKON_TREE=("9e8e190996858e6bf5cc421acc7982cadd6244fe" "b9427f3e5c40b3b30536e3e8aafae73c508097ba" "a58fbc2c8e845d353c648051eea1f9f3c457c98e" "1ce37627335f5275d8b548f6df355531e1a620b8" "452dd3aae16116b38b890783cb6ec503f4d0716a" "45d22a8711f85c4310c0c2121d3dc8a72793d375" "c0433b88f972fa26dded401be022c1c026cd644e" "1a2d52d2659c49eabdb6830feb73a89c86b33990" "7fde8d90acf565a4612bd2520116163ccb52dc1f")
 CROS_WORKON_PROJECT=(
 	"chromiumos/third_party/coreboot"
 	"chromiumos/third_party/arm-trusted-firmware"
@@ -66,7 +66,7 @@ IUSE="amd_cpu intel_cpu"
 # GSC
 IUSE="${IUSE} mocktpm ti50_onboard"
 # AMD chipsets
-IUSE="${IUSE} chipset_cezanne chipset_stoneyridge"
+IUSE="${IUSE} chipset_cezanne chipset_mendocino chipset_stoneyridge"
 # Debug
 IUSE="${IUSE} fw_debug intel_debug intel-compliance-test-mode"
 # Qualcomm ramdump
@@ -109,6 +109,7 @@ DEPEND="
 	bmpblk? ( sys-boot/chromeos-bmpblk:= )
 	chipset_stoneyridge? ( sys-boot/amd-firmware:= )
 	chipset_cezanne? ( sys-boot/amd-cezanne-fsp:= )
+	chipset_mendocino? ( sys-boot/amd-mendocino-fsp:= )
 	chromeos-base/chromeos-config:=
 	"
 
