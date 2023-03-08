@@ -1,11 +1,3 @@
-commit 12d9f6bd3331d5e5b6703e2cf18dd95bd85e5ddb
-Author: Romaric Jodin <rjodin@chromium.org>
-Date:   Mon Mar 6 16:42:55 2023 +0100
-
-    configurable-polling.patch
-    
-    Change-Id: I00a2011ebf961a31e42d9896cba80d8349675db8
-
 diff --git a/clvk/src/config.def b/clvk/src/config.def
 index fa33748..3c02867 100644
 --- a/clvk/src/config.def
@@ -36,7 +28,7 @@ index e60580a..05fda39 100644
          // There are only 20 different possible samplers in OpenCL 1.2, cap the
          // number of supported samplers to that to help with negative testing of
 diff --git a/clvk/src/device_properties.cpp b/clvk/src/device_properties.cpp
-index 1140497..412967f 100644
+index 1140497..f98edb7 100644
 --- a/clvk/src/device_properties.cpp
 +++ b/clvk/src/device_properties.cpp
 @@ -57,6 +57,23 @@ struct cvk_device_properties_intel : public cvk_device_properties {
@@ -44,11 +36,11 @@ index 1140497..412967f 100644
          return "-hack-mul-extended";
      }
 +    bool get_poll_main_thread() const override final {
-+        const uint32_t kabylakeDeviceID = 0x591e;
++        const uint32_t kabylakeDeviceID = 0x5900;
 +        const uint32_t cometlakeDeviceID = 0x9b41;
 +        const uint32_t geminilakeDeviceID = 0x3185;
 +        if (!config.poll_main_thread.set) {
-+            return m_deviceID == kabylakeDeviceID ||
++            return (m_deviceID & 0xff00) == kabylakeDeviceID ||
 +                   m_deviceID == cometlakeDeviceID ||
 +                   m_deviceID == geminilakeDeviceID;
 +        }
