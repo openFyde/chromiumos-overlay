@@ -13,7 +13,7 @@ third_party {
     mitigated_security_patch: "CVE-2022-2320"
     mitigated_security_patch: "CVE-2022-3550"
     mitigated_security_patch: "CVE-2022-3551"
-    mitigated_security_aptch: "CVE-2022-46340"
+    mitigated_security_patch: "CVE-2022-46340"
     mitigated_security_patch: "CVE-2022-46344"
     mitigated_security_patch: "CVE-2022-46341"
     mitigated_security_patch: "CVE-2022-46343"
