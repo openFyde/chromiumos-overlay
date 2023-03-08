@@ -51,5 +51,6 @@ src_install() {
 	insinto /usr/include/chromeos/ec/
 	doins "${dir_ec}"/include/ec_commands.h
 	doins "${dir_ec}"/include/ec_cmd_api.h
+	doins "${dir_ec}"/include/panic_defs.h
 	doins "${dir_ec}"/util/cros_ec_dev.h
 }
