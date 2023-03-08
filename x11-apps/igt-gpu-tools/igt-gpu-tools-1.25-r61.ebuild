@@ -2,12 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="ffe3f6670b91ab975f90799ab3fd0941b6eae019"
-CROS_WORKON_TREE="8c46405b263f90f729c9d42e92a15d61a4d87f0c"
+CROS_WORKON_COMMIT="fa6f387620663c9eae06d3e63e8bddebefec0746"
+CROS_WORKON_TREE="b1c91a09a7a3be18869990d1036caeb9c4de1214"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/drm/${PN}.git"
 GIT_ECLASS="git-r3"
 
 CROS_WORKON_PROJECT=chromiumos/third_party/igt-gpu-tools
+CROS_WORKON_EGIT_BRANCH="upstream/master"
 CROS_WORKON_MANUAL_UPREV=1
 
 inherit ${GIT_ECLASS} meson cros-workon
