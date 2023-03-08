@@ -74,7 +74,6 @@ src_install_cros_ec_utils() {
 		dobin "build/host/util/cbi-util"
 	else
 		dosbin "build/host/util/ectool"
-		dosbin "build/host/util/ec_parse_panicinfo"
 		dosbin "build/host/util/ec_sb_firmware_update"
 	fi
 }
