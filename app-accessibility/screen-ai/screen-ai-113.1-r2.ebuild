@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit cros-workon dlc
+inherit dlc
 
 DESCRIPTION='ScreenAI is a binary to provide AI based models to improve
 assistive technologies. The binary is written in C++ and is currently used by
@@ -20,14 +20,9 @@ fi
 
 LICENSE="BSD-Google"
 SLOT="0"
-KEYWORDS="~*"
+KEYWORDS="*"
 IUSE="dlc"
 REQUIRED_USE="dlc"
-
-# "cros_workon info" expects these variables to be set, so use the standard
-# empty project.
-CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
-CROS_WORKON_LOCALNAME="../platform/empty-project"
 
 # DLC variables.
 # 4KB * 5773 = ~23 MB
@@ -36,9 +31,6 @@ DLC_PRELOAD=false
 DLC_SCALED=true
 
 S="${WORKDIR}"
-src_unpack() {
-	default
-}
 
 src_install() {
 	# Install binary.
