@@ -544,7 +544,7 @@ cros-workon_on_die_rebase_check() {
 				eerror "A cros-workon package '${P}' failed to build above."
 				eerror "Local branch for '${path[i]}' has no upstream and may be out of sync."
 				eerror "You may need to run:"
-				eerror "git branch --set-upstream-to=m/main && git rebase --preserve-merges"
+				eerror "git branch --set-upstream-to=m/main && git rebase --rebase-merges"
 				eerror
 				exit
 			fi
@@ -554,7 +554,7 @@ cros-workon_on_die_rebase_check() {
 				eerror
 				eerror "A cros-workon package '${P}' failed to build above."
 				eerror "Local branch for '${path[i]}' is out of sync."
-				eerror "You may need to run: git rebase --preserve-merges"
+				eerror "You may need to run: git rebase --rebase-merges"
 				eerror
 			fi
 		)
