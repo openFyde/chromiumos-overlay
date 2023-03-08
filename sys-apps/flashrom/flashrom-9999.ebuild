@@ -57,7 +57,9 @@ IUSE="
 	+stlinkv3_spi
 	test
 	+usbblaster_spi
-	+wiki
+	wiki
+	manpages
+	docs
 "
 
 LIB_DEPEND="
@@ -124,6 +126,8 @@ src_configure() {
 		$(meson_feature cli classic_cli)
 		$(meson_feature ich_descriptors ich_descriptors_tool)
 		$(meson_feature wiki classic_cli_print_wiki)
+		$(meson_feature manpages man-pages)
+		$(meson_feature docs documentation)
 	)
 	sanitizers-setup-env
 	meson_src_configure
