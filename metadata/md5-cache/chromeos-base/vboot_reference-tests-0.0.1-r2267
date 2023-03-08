@@ -4,11 +4,11 @@ DEPEND=dev-libs/libzip:= dev-libs/openssl:= sys-apps/flashrom:= sys-apps/util-li
 DESCRIPTION=vboot tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/vboot_reference/
-IUSE=cros_host cros_workon_tree_19529d154b7443ee5b5c5605d5377cc1ea759ba9 asan coverage fuzzer msan tsan ubsan
+IUSE=cros_host cros_workon_tree_a58fbc2c8e845d353c648051eea1f9f3c457c98e asan coverage fuzzer msan tsan ubsan
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-libs/libzip:= dev-libs/openssl:= sys-apps/flashrom:= sys-apps/util-linux:=
-SLOT=0/0.0.1-r2266
+SLOT=0/0.0.1-r2267
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=d1c2934b0f5f92d75071225ade39d904
+_md5_=69742b57c4c5421e8e782b887418bde4
