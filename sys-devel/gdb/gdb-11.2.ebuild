@@ -50,7 +50,7 @@ if [[ ${PV} != 9999* ]] ; then
 	KEYWORDS="*"
 fi
 
-IUSE="cet guile lzma multitarget nls +python +server source-highlight test vanilla xml xxhash"
+IUSE="amd64 cet guile lzma multitarget nls +python +server source-highlight test vanilla xml xxhash"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 # In fact, gdb's test suite needs some work to get passing.
@@ -128,6 +128,9 @@ gdb_branding() {
 
 src_configure() {
 	strip-unsupported-flags
+	# We need to run gdb on both the host and devices, so compile for a
+	# base set of x86-64 instructions.
+	use amd64 && filter-flags "-march=*"
 
 	# See https://www.gnu.org/software/make/manual/html_node/Parallel-Output.html
 	# Avoid really confusing logs from subconfigure spam, makes logs far
