@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("c656da08b5954ce9a5968c10c01707a75225bdb8" "0990ce92812ff2d7c213f67274051c8d1a2ee1f9")
+CROS_WORKON_COMMIT=("82cfe41e74fef70c735c00deddc9d729fbf0a295" "0990ce92812ff2d7c213f67274051c8d1a2ee1f9")
 CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "b7b705de1ec9d21b5b791b460f1026dead33a41a")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
@@ -36,6 +36,7 @@ PLATFORM_NAMES=(
 	"Cherry"
 	"Corsola"
 	"Generic"
+	"Geralt"
 	"Gru"
 	"Herobrine"
 	"Kukui"
