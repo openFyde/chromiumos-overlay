@@ -252,6 +252,9 @@ set_build_args() {
 	# shellcheck disable=SC2119
 	# suppressing the false warning not to specify the optional argument of 'echotf".
 	use_protected_av1=$(use intel_oemcrypto || use protected_av1; echotf)
+	# shellcheck disable=SC2119
+	# suppressing the false warning not to specify the optional argument of 'echotf".
+	use_hevc_codec=$(use hevc_codec && (use chrome_internal || use chrome_media); echotf)
 	BUILD_ARGS=(
 		"is_chromeos_device=true"
 		# is_official_build sometimes implies extra optimizations (e.g. it will allow
@@ -267,7 +270,7 @@ set_build_args() {
 		"use_arc_protected_media=$(usetf arc_hw_oemcrypto)"
 		"use_chromeos_protected_av1=${use_protected_av1}"
 		"use_chromeos_protected_media=$(usetf cdm_factory_daemon)"
-		"enable_hevc_parser_and_hw_decoder=$(usetf hevc_codec)"
+		"enable_hevc_parser_and_hw_decoder=${use_hevc_codec}"
 		"use_iioservice=$(usetf iioservice)"
 		"use_v4l2_codec=$(usetf v4l2_codec)"
 		"use_v4lplugin=$(usetf v4lplugin)"
