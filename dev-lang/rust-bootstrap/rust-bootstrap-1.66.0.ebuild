@@ -1,1 +1,0 @@
-rust-bootstrap-1.67.0.ebuild

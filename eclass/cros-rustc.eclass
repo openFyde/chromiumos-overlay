@@ -158,7 +158,7 @@ SRC="${MY_P}-src.tar.gz"
 # The version of rust-bootstrap that we're using to build our current Rust
 # toolchain. This is generally the version released prior to the current one,
 # since Rust uses the beta compiler to build the nightly compiler.
-BOOTSTRAP_VERSION="1.66.0"
+BOOTSTRAP_VERSION="1.67.0"
 
 # THe commit we're using for our LLVM.
 LLVM_EGIT_COMMIT="db1978b67431ca3462ad8935bf662c15750b8252" # r465103
@@ -206,7 +206,6 @@ PATCHES=(
 	"${FILESDIR}/rust-revert-libunwind-build.patch"
 	"${FILESDIR}/rust-ld-argv0.patch"
 	"${FILESDIR}/rust-Handle-sparse-git-repo-without-erroring.patch"
-	"${FILESDIR}/rust-disable-mutable-noalias.patch"
 	"${FILESDIR}/rust-add-armv7a-sanitizers.patch"
 	"${FILESDIR}/rust-Remove-LLVMGetAggregateElement.patch"
 	"${FILESDIR}/rust-bootstrap-use-CARGO_HOME.patch"
