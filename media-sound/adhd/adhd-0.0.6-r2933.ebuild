@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="879fe7a51784eb07d1b85473d8927050fb000f87"
-CROS_WORKON_TREE="73e231b0b444749ff60f24474f81cb8a970a6f6e"
+CROS_WORKON_COMMIT="ada5bf5675e3fac0b53d00dadaa5db82fcc713f0"
+CROS_WORKON_TREE="f574efc7c47ed35959e1fdc2bbe4e871cc5fbe12"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
@@ -192,7 +192,7 @@ src_test() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" BAZEL=yes install
+	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" install
 
 	# install common ucm config files.
 	insinto /usr/share/alsa/ucm
