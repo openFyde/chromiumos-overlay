@@ -3,8 +3,8 @@
 # $Header: /var/cvsroot/gentoo-x86/sys-apps/flashrom/flashrom-0.9.4.ebuild,v 1.5 2011/09/20 16:03:21 nativemad Exp $
 
 EAPI=7
-CROS_WORKON_COMMIT="e55b8cb2eb47efd7e12ad30348d9bc5a9d559015"
-CROS_WORKON_TREE="d17dddf725882314488a767992a10223da07db21"
+CROS_WORKON_COMMIT="47fafc618ac8d5749c91463746547a1130c5cbc6"
+CROS_WORKON_TREE="ae51bcc447e37ceb6f0e5354235024ea84c0fd3d"
 CROS_WORKON_PROJECT="chromiumos/third_party/flashrom"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -59,7 +59,9 @@ IUSE="
 	+stlinkv3_spi
 	test
 	+usbblaster_spi
-	+wiki
+	wiki
+	manpages
+	docs
 "
 
 LIB_DEPEND="
@@ -126,6 +128,8 @@ src_configure() {
 		$(meson_feature cli classic_cli)
 		$(meson_feature ich_descriptors ich_descriptors_tool)
 		$(meson_feature wiki classic_cli_print_wiki)
+		$(meson_feature manpages man-pages)
+		$(meson_feature docs documentation)
 	)
 	sanitizers-setup-env
 	meson_src_configure
