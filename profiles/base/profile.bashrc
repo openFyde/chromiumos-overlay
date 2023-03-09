@@ -251,7 +251,6 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-kernel/raspberrypi-kernel:*|\
 		sys-kernel/ti-nokia-kernel:*|\
 		sys-kernel/upstream-kernel-*:*|\
-		sys-libs/efivar:37|\
 		x11-base/xwayland:1.20.8|\
 		x11-libs/arc-libdrm:*|\
 		x11-libs/cairo:1.17.4) return 1;;
@@ -310,8 +309,7 @@ cros_pre_src_prepare_build_toolchain_catch() {
 		sys-firmware/chromeos-fpmcu-release-nami:*|\
 		sys-firmware/chromeos-fpmcu-release-nocturne:*|\
 		sys-fs/mdadm:4.1*|\
-		sys-kernel/linux-headers:*|\
-		sys-libs/efivar:37) return 1;;
+		sys-kernel/linux-headers:*) return 1;;
 		esac
 	}
 	_board_build_filter_g++() {
