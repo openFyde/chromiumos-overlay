@@ -12,11 +12,11 @@ SRC_URI="https://github.com/rhinstaller/efivar/releases/download/${PV}/${P}.tar.
 LICENSE="GPL-2"
 SLOT="0/1"
 KEYWORDS="*"
-IUSE="test"
+IUSE="doc test"
 RESTRICT="!test? ( test )"
 
 BDEPEND="
-	app-text/mandoc
+	doc? ( app-text/mandoc )
 	test? ( sys-boot/grub:2 )
 "
 RDEPEND="
@@ -40,6 +40,13 @@ src_prepare() {
 
 		# Rejected upstream, keep this for ia64 support
 		"${FILESDIR}"/efivar-38-ia64-relro.patch
+
+		# Fix hardcoded pkg-config:
+		# https://github.com/rhboot/efivar/pull/236
+		"${FILESDIR}"/efivar-38-pkgconfig-fix.patch
+		# Allow disabling docs so we don't need mandoc
+		# https://github.com/rhboot/efivar/pull/241
+		"${FILESDIR}"/efivar-38-disable-docs.patch
 	)
 	default
 }
@@ -58,6 +65,11 @@ src_configure() {
 
 	# Avoid -Werror
 	export ERRORS=
+
+	if ! use doc; then
+		# Skip building the man pages.
+		export ENABLE_DOCS=0
+	fi
 
 	if [[ -n ${GCC_SPECS} ]]; then
 		# The environment overrides the command line.
