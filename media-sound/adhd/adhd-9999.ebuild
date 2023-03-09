@@ -190,7 +190,7 @@ src_test() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" BAZEL=yes install
+	emake DESTDIR="${D}" SYSTEMD="$(usex systemd)" install
 
 	# install common ucm config files.
 	insinto /usr/share/alsa/ucm
