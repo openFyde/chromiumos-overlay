@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="a0f5fa5daa3b50c399d6ca94f47f3086f1352d61"
-CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "45ff667d1d3ce9e6f8cdddfb35470149bc006df3" "26447c29efafb33069b4ef8c383e05c1f0bd78cc" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="7ae1dd14cc352d9752ea392520f99ad2bedbde26"
+CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "a8874f8cc43fe629e6948d23340a28c7ce77a0eb" "26447c29efafb33069b4ef8c383e05c1f0bd78cc" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,7 @@ DESCRIPTION="Enterprise security event reporting."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/secagentd/"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="+secagentd_min_core_btf"
+IUSE="+secagentd_min_core_btf proto_force_optimize_speed"
 
 COMMON_DEPEND="
 	chromeos-base/attestation-client:=

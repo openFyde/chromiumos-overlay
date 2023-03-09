@@ -213,17 +213,39 @@ RDEPEND="
 		chromeos-base/dlcservice
 		chromeos-base/sample-dlc
 		chromeos-base/scaled-dlc
+		chromeos-languagepacks/tts-bn-bd
+		chromeos-languagepacks/tts-cs-cz
+		chromeos-languagepacks/tts-da-dk
 		chromeos-languagepacks/tts-de-de
+		chromeos-languagepacks/tts-el-gr
+		chromeos-languagepacks/tts-en-au
+		chromeos-languagepacks/tts-en-gb
 		chromeos-languagepacks/tts-en-us
 		chromeos-languagepacks/tts-es-es
 		chromeos-languagepacks/tts-es-us
+		chromeos-languagepacks/tts-fi-fi
+		chromeos-languagepacks/tts-fil-ph
 		chromeos-languagepacks/tts-fr-fr
 		chromeos-languagepacks/tts-hi-in
+		chromeos-languagepacks/tts-hu-hu
+		chromeos-languagepacks/tts-id-id
 		chromeos-languagepacks/tts-it-it
 		chromeos-languagepacks/tts-ja-jp
+		chromeos-languagepacks/tts-km-kh
+		chromeos-languagepacks/tts-ko-kr
+		chromeos-languagepacks/tts-nb-no
+		chromeos-languagepacks/tts-ne-np
 		chromeos-languagepacks/tts-nl-nl
+		chromeos-languagepacks/tts-pl-pl
 		chromeos-languagepacks/tts-pt-br
+		chromeos-languagepacks/tts-si-lk
+		chromeos-languagepacks/tts-sk-sk
 		chromeos-languagepacks/tts-sv-se
+		chromeos-languagepacks/tts-th-th
+		chromeos-languagepacks/tts-tr-tr
+		chromeos-languagepacks/tts-uk-ua
+		chromeos-languagepacks/tts-vi-vn
+		chromeos-languagepacks/tts-yue-hk
 		chrome_internal? (
 			chromeos-base/assistant-dlc
 		)
