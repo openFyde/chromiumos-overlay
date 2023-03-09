@@ -1,0 +1,14 @@
+BDEPEND=dev-vcs/git
+DEFINED_PHASES=compile configure info install setup test unpack
+DEPEND=chromeos-base/libhwsec:= chromeos-base/session_manager-client:= >=chromeos-base/protofiles-0.0.43:= chromeos-base/system_api:= >=chromeos-base/libchrome-0.0.1-r608:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2146:= cros_host? ( dev-util/gn ) >=dev-cpp/gtest-1.10.0:=
+DESCRIPTION=U2FHID library used by the internal corp U2F library
+EAPI=7
+HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/u2fd/client/
+IUSE=fuzzer cr50_onboard ti50_onboard cros_host cros_workon_tree_3f8a9a04e17758df936e248583cfb92fc484e24c_bfe8062c9dc73fd763027d8dcace0cec1529f299_0da6813244ce2b1b6119bea74143530e6a6623e9_e1f223c8511c80222f764c8768942936a8de01e4_4009d6eb6c6d27c7d2a35604226089fd0190d345_136cf6afec83d9ac0e97448e0d8bae32c47e6f3f_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
+KEYWORDS=*
+LICENSE=BSD-Google
+PROPERTIES=live
+RDEPEND=chromeos-base/libhwsec:= chromeos-base/session_manager-client:= >=chromeos-base/libchrome-0.0.1-r608:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2146:=
+SLOT=0/0.0.1-r240
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	2f569e5c9238350f083e8c4169462787	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	1fe30281e53cf3ce6610a08cfe019b48	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	f156b63c6afb281c772a28e3f5d842b5	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=1ff2dc54ee3d1166c62f0a447814bae5
