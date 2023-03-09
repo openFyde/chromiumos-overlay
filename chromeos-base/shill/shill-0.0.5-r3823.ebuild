@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="82cfe41e74fef70c735c00deddc9d729fbf0a295"
-CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "4dffb2879185f6d4dd4c926e527f5e3573307f13" "083569b82e5bcbfefd8700a2cd52ea619e712f7a" "e1f223c8511c80222f764c8768942936a8de01e4" "e46a1b09b3471dd4db9a81f1b3d5a84ce0ab3c55" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="1e5a59c8adae5ead91787ab2e0a43c235d47d2aa"
+CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "4dffb2879185f6d4dd4c926e527f5e3573307f13" "083569b82e5bcbfefd8700a2cd52ea619e712f7a" "e1f223c8511c80222f764c8768942936a8de01e4" "9e7d3feaa6d81f1e07c73407b459edca6c762b8b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill .gn"
+CROS_WORKON_SUBTREE="common-mk chaps libpasswordprovider metrics shill .gn mojo_service_manager"
 
 PLATFORM_SUBDIR="shill"
 
@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/libpasswordprovider:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/mojo_service_manager:=
 	chromeos-base/nsswitch:=
 	chromeos-base/patchpanel-client:=
 	chromeos-base/shill-net:=
