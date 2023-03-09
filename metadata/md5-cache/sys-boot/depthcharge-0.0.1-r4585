@@ -4,13 +4,13 @@ DEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpaylo
 DESCRIPTION=coreboot's depthcharge payload
 EAPI=7
 HOMEPAGE=http://www.coreboot.org
-IUSE=fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery test intel-compliance-test-mode cros_host cros_workon_tree_790fb615f5234b57aa892b3781d22f674cbdca3f_a58fbc2c8e845d353c648051eea1f9f3c457c98e_30551d5882839789baa22b2da6b920c41219714a has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild asan coverage fuzzer msan tsan ubsan
+IUSE=fwconsole mocktpm pd_sync unibuild verbose debug physical_presence_power physical_presence_recovery test intel-compliance-test-mode cros_host cros_workon_tree_790fb615f5234b57aa892b3781d22f674cbdca3f_a58fbc2c8e845d353c648051eea1f9f3c457c98e_d53f2df1d53ed3c528e2192889897b89a08515f4 has_chromeos_config_bsp has_chromeos_config_bsp_private has_chromeos_config_bsp_baseboard has_chromeos_config_bsp_baseboard_private unibuild asan coverage fuzzer msan tsan ubsan
 KEYWORDS=*
 LICENSE=GPL-2
 PROPERTIES=live
 RDEPEND=sys-boot/coreboot:= chromeos-base/chromeos-ec-headers:= sys-boot/libpayload:= chromeos-base/chromeos-config:= has_chromeos_config_bsp? ( chromeos-base/chromeos-config-bsp:= ) has_chromeos_config_bsp_private? ( chromeos-base/chromeos-config-bsp-private:= ) has_chromeos_config_bsp_baseboard? ( chromeos-base/chromeos-config-bsp-baseboard:= ) has_chromeos_config_bsp_baseboard_private? ( chromeos-base/chromeos-config-bsp-baseboard-private:= ) unibuild? ( chromeos-base/chromeos-config:= )
 REQUIRED_USE=unibuild
 RESTRICT=binchecks strip
-SLOT=0/0.0.1-r4584
-_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-unibuild	b261de439eed1d0fcfbf854064a6ae53	cros-workon	127fa405ad62ff50241e4e7cd3255303	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=6a370b3c967a4929a1b9e979b50fef34
+SLOT=0/0.0.1-r4585
+_eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-unibuild	b261de439eed1d0fcfbf854064a6ae53	cros-workon	9b910522b0db8587b1cbe3c79fed7bca	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_md5_=787acb71a27b88675883d1f97b19b889
