@@ -23,7 +23,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	media-sound/audio_streams:=
-	media-sound/libcras:=
+	media-sound/cras-client:=
 	dev-rust/cros_async:=
 "
 

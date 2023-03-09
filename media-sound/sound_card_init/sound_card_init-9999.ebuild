@@ -23,7 +23,7 @@ DEPEND="
 	dev-rust/libchromeos:=
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
-	media-sound/libcras:=
+	media-sound/cras-client:=
 	media-sound/sof_sys:=
 "
 
