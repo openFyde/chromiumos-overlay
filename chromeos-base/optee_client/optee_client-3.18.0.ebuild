@@ -16,6 +16,7 @@ IUSE=""
 
 src_configure() {
 	export CFG_TEE_FS_PARENT_PATH="/var/lib/oemcrypto/tee-supplicant"
+	export LIBDIR="/usr/$(get_libdir)"
 }
 
 src_install() {

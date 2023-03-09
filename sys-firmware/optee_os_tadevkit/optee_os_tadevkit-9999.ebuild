@@ -27,6 +27,7 @@ src_configure() {
 	export CFG_ARM64_core="y"
 	export DEBUG="0"
 	export CFG_EARLY_TA="y"
+	export ARCH="arm"
 
 	# CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS are set for userland, but those options
 	# don't apply properly to firmware so unset them.
