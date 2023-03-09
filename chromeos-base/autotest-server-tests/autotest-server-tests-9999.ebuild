@@ -304,6 +304,7 @@ SERVER_IUSE_TESTS="
 	+tests_platform_SyncCrash
 	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_policy_DeviceServer
+	+tests_power_BatteryChargeControl
 	+tests_power_BrightnessResetAfterReboot
 	+tests_power_LW
 	+tests_power_ServoChargeStress
