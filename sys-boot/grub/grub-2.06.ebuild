@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-inherit bash-completion-r1 eutils toolchain-funcs multiprocessing
+inherit autotools bash-completion-r1 eutils toolchain-funcs multiprocessing
 
 DESCRIPTION="GNU GRUB boot loader"
 HOMEPAGE="https://www.gnu.org/software/grub/"
@@ -90,6 +90,13 @@ PATCHES=(
 	# git format-patch --start-number=52 a85714545~..a85714545
 	"${FILESDIR}/0052-video-readers-Add-artificial-limit-to-image-dimensio.patch"
 )
+
+BDEPEND="
+	>=sys-devel/flex-2.5.35
+	sys-devel/bison
+	sys-apps/help2man
+	app-arch/xz-utils
+"
 
 src_prepare() {
 	default
