@@ -46,14 +46,22 @@ src_prepare() {
 }
 
 src_configure() {
+	# TODO(b/273518305): llvm-objcopy doesn't support `--target
+	# efi-app-x86_64` or `--section-alignment` (see
+	# efi/generate_binary.py in the fwupd-efi source). For now use
+	# GNU binutils objcopy instead.
+	cros_allow_gnu_build_tools
+	export OBJCOPY="${CHOST}"-objcopy
+
 	local emesonargs=(
 		-Defi-ld="$(tc-getLD)"
-		-Defi-libdir="${EPREFIX}"/usr/$(get_libdir)
-		-Defi_sbat_distro_id="gentoo"
-		-Defi_sbat_distro_summary="Gentoo GNU/Linux"
+		-Defi-libdir="${SYSROOT}"/usr/"$(get_libdir)"
+		-Defi-includedir="${SYSROOT}"/usr/include/efi
+		-Defi_sbat_distro_id="chromeos"
+		-Defi_sbat_distro_summary="ChromeOS"
 		-Defi_sbat_distro_pkgname="${PN}"
 		-Defi_sbat_distro_version="${PVR}"
-		-Defi_sbat_distro_url="https://packages.gentoo.org/packages/${CATEGORY}/${PN}"
+		-Defi_sbat_distro_url="https://chromium.googlesource.com/chromiumos/overlays/chromiumos-overlay/+/HEAD/sys-apps/fwupd-efi/"
 	)
 
 	meson_src_configure
