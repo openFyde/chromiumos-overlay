@@ -148,7 +148,7 @@ IUSE_TESTS_ARC="
 IUSE_TESTS_CHROMIUM="
 	+tests_chromium
 	+tests_chromium_Telemetry
-	+tests_chromium_GPU
+	+tests_chromium_Graphics
 "
 
 IUSE_TESTS="
