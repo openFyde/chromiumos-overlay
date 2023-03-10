@@ -4,7 +4,7 @@
 EAPI=7
 
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.9"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.12"
 
 inherit cros-workon linux-info meson udev user cros-sanitizers
 
