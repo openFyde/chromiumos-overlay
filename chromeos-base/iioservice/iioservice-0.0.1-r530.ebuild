@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("88aa33bbf11a4611271adf0a12d189ff0598beba" "5e9a89d06c41edf5cf43da8acf5f26ed104887e6")
+CROS_WORKON_COMMIT=("00d79698c065a684f6ec65813263692e1972d74a" "5e9a89d06c41edf5cf43da8acf5f26ed104887e6")
 CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "db64a30d64ba283dced75969f433e87c924e50f5" "9edcaccb998f9f1dac82dd862beddc2491e8ab68" "3f8a9a04e17758df936e248583cfb92fc484e24c" "e1f223c8511c80222f764c8768942936a8de01e4" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "693bb2d63562c6eff050d04f75aab1e9251e6548")
 inherit cros-constants
 
@@ -42,7 +42,6 @@ KEYWORDS="*"
 IUSE="+seccomp"
 
 RDEPEND="
-	!chromeos-base/chromeos-accelerometer-init
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/libmems:=
