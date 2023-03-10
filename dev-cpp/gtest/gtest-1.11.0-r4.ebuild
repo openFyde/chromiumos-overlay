@@ -4,8 +4,8 @@
 EAPI="7"
 
 # Python is required for tests and some build tasks.
-CROS_WORKON_COMMIT="703bd9caab50b139428cea1aaff9974ebee5742e"
-CROS_WORKON_TREE="1d4733d71941ad40050897c3a30919a488700f06"
+CROS_WORKON_COMMIT="e2239ee6043f73722e7aa812a459f54a28552929"
+CROS_WORKON_TREE="8cf1e36614fc6ca89eb70fa2aeaad0b4ebf0c34a"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="external/github.com/google/googletest"
