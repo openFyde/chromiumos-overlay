@@ -207,6 +207,7 @@ platform_pkg_test() {
 		cicerone_test
 		concierge_test
 		syslog_forwarder_test
+		vsh_test
 	)
 	if use arcvm; then
 		tests+=(
