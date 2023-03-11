@@ -1,7 +1,7 @@
 # Copyright 2010 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
+EAPI="7"
 
 inherit bash-completion-r1 eutils toolchain-funcs multiprocessing
 
@@ -12,8 +12,6 @@ SRC_URI="ftp://ftp.gnu.org/gnu/grub/${P}.tar.xz"
 LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="-* amd64"
-
-export STRIP_MASK="*.img *.mod *.module"
 
 PLATFORMS=( "efi" )
 TARGETS=( "i386" "x86_64" )
@@ -153,6 +151,12 @@ src_install() {
 		for target in "${TARGETS[@]}" ; do
 			emake -C "${target}-${platform}-build" DESTDIR="${D}" \
 				install bashcompletiondir="$(get_bashcompdir)"
+
+			# Disable stripping for several file types,
+			# otherwise the image produced by grub-mkimage
+			# does not boot.
+			local -a modules=( "${D}/$(get_libdir)/grub/${target}-${platform}"/*.{img,mod,module} )
+			dostrip -x "${modules[@]#"${D}"}"
 		done
 	done
 }
