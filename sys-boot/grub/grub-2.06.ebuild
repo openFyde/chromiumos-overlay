@@ -5,9 +5,9 @@ EAPI="7"
 
 inherit bash-completion-r1 eutils toolchain-funcs multiprocessing
 
-DESCRIPTION="GNU GRUB 2 boot loader"
-HOMEPAGE="http://www.gnu.org/software/grub/"
-SRC_URI="ftp://ftp.gnu.org/gnu/grub/${P}.tar.xz"
+DESCRIPTION="GNU GRUB boot loader"
+HOMEPAGE="https://www.gnu.org/software/grub/"
+SRC_URI="mirror://gnu/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-3"
 SLOT="0"
