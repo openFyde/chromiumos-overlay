@@ -66,6 +66,8 @@ src_unpack() {
 src_prepare() {
 	cros_enable_cxx_exceptions
 
+	eapply "${FILESDIR}/dced98a4a-Prevent-warnings-from-Amber-failing-the-CTS-build.patch"
+
 	cmake-utils_src_prepare
 }
 
