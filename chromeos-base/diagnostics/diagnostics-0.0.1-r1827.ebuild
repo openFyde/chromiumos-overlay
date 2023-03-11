@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="c47207feed5f10373570c1f94dc511069bc91f19"
+CROS_WORKON_COMMIT="c4b7e7574e93201809ceb06666e6242ff796b492"
 CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "c938449e76217caf2e2b50666502efdd12fe98ca" "cbafbdfda1573d172bff47133c8bab0cab6ebc07" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/diagnost
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer wilco mesa_reven diagnostics iioservice"
+IUSE="fuzzer wilco mesa_reven diagnostics"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
