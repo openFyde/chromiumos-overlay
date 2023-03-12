@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7ae1dd14cc352d9752ea392520f99ad2bedbde26"
-CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "c938449e76217caf2e2b50666502efdd12fe98ca" "f3f402b411d54d6abf597b2b2200c3de14ca1556" "db64a30d64ba283dced75969f433e87c924e50f5" "3ecc45b650b7a37d61e1b070246e47666eac0082" "9edcaccb998f9f1dac82dd862beddc2491e8ab68" "e1f223c8511c80222f764c8768942936a8de01e4" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "bbe35a659159ff41125eeb148e6ec970fcd0da76" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="b59cc2a1e1f1722ea1f4ac6a649f1a79697bbf9a"
+CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "c938449e76217caf2e2b50666502efdd12fe98ca" "f3f402b411d54d6abf597b2b2200c3de14ca1556" "3ecc45b650b7a37d61e1b070246e47666eac0082" "9edcaccb998f9f1dac82dd862beddc2491e8ab68" "e1f223c8511c80222f764c8768942936a8de01e4" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "31cb71cf1694ca5e46aa6a7f2144fe25f7184c63" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier iioservice libec libmems metrics mojo_service_manager rmad .gn"
+CROS_WORKON_SUBTREE="common-mk chromeos-config hardware_verifier libec libmems metrics mojo_service_manager rmad .gn"
 
 # Tests use /dev/loop*.
 PLATFORM_HOST_DEV_TEST="yes"
@@ -34,6 +34,7 @@ RDEPEND="
 	${COMMON_DEPEND}
 	cr50_onboard? ( chromeos-base/chromeos-cr50 )
 	ti50_onboard? ( chromeos-base/chromeos-ti50 )
+	chromeos-base/iioservice
 	chromeos-base/croslog
 	chromeos-base/hardware_verifier
 	chromeos-base/libmems
