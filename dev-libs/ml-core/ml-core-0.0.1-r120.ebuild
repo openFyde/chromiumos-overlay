@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="3c7bb90bd8ffef531c92296e661ffe719aab342e"
-CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "487c9debc972e47326f13a8aacbe606e28287a47" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="8e9fd20b06b0426522bb3d863849e1bb707d08b3"
+CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "fb6368da756315dca470a76956c457fb2a606b6e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -14,7 +14,7 @@ DESCRIPTION="Chrome OS ML Core Feature Library"
 
 PLATFORM_SUBDIR="ml_core"
 
-inherit cros-workon platform user
+inherit cros-workon platform user unpacker
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -23,6 +23,8 @@ KEYWORDS="*"
 # referenced in BUILD.gn
 IUSE="internal local_ml_core_internal camera_feature_effects"
 
+SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-headers-20230313.tar.xz"
+
 RDEPEND="
 	chromeos-base/dlcservice-client:=
 	chromeos-base/session_manager-client:=
@@ -30,6 +32,15 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 "
+
+src_unpack() {
+	platform_src_unpack
+
+	# Unpack the headers into the srcdir
+	pushd "${S}" > /dev/null || die
+	unpacker
+	popd > /dev/null || die
+}
 
 src_configure() {
 	if use local_ml_core_internal; then
