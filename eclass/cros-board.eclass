@@ -352,6 +352,7 @@ ALL_BOARDS=(
 	#nefario
 	#newbie
 	ninja
+	nissa
 	nocturne
 	nocturne-kernelnext
 	novato
