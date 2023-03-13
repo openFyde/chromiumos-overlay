@@ -12,7 +12,7 @@ DESCRIPTION="Chrome OS ML Core Feature Library"
 
 PLATFORM_SUBDIR="ml_core"
 
-inherit cros-workon platform user
+inherit cros-workon platform user unpacker
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -21,6 +21,8 @@ KEYWORDS="~*"
 # referenced in BUILD.gn
 IUSE="internal local_ml_core_internal camera_feature_effects"
 
+SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-headers-20230313.tar.xz"
+
 RDEPEND="
 	chromeos-base/dlcservice-client:=
 	chromeos-base/session_manager-client:=
@@ -28,6 +30,15 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}
 "
+
+src_unpack() {
+	platform_src_unpack
+
+	# Unpack the headers into the srcdir
+	pushd "${S}" > /dev/null || die
+	unpacker
+	popd > /dev/null || die
+}
 
 src_configure() {
 	if use local_ml_core_internal; then
