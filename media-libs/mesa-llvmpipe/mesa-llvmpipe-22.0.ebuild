@@ -99,6 +99,7 @@ src_prepare() {
 	eapply "${FILESDIR}"/UPSTREAM-egl-dri2-Use-primary-device-in-EGL-device-platform-f.patch
 	eapply "${FILESDIR}"/FROMLIST-egl-dri2-Don-t-filter-egl-devices-when-required.patch
 	eapply "${FILESDIR}"/FROMLIST-loader-Drop-master-when-possible.patch
+	eapply "${FILESDIR}"/BACKPORT-nir-algebraic-insert-patterns-inside-optimizations-l.patch
 
 	default
 }
