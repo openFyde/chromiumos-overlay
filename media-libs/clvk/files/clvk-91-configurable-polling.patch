@@ -28,7 +28,7 @@ index e60580a..05fda39 100644
          // There are only 20 different possible samplers in OpenCL 1.2, cap the
          // number of supported samplers to that to help with negative testing of
 diff --git a/clvk/src/device_properties.cpp b/clvk/src/device_properties.cpp
-index 1140497..f98edb7 100644
+index 1140497..a4e0687 100644
 --- a/clvk/src/device_properties.cpp
 +++ b/clvk/src/device_properties.cpp
 @@ -57,6 +57,23 @@ struct cvk_device_properties_intel : public cvk_device_properties {
@@ -37,12 +37,12 @@ index 1140497..f98edb7 100644
      }
 +    bool get_poll_main_thread() const override final {
 +        const uint32_t kabylakeDeviceID = 0x5900;
-+        const uint32_t cometlakeDeviceID = 0x9b41;
-+        const uint32_t geminilakeDeviceID = 0x3185;
++        const uint32_t cometlakeDeviceID = 0x9b00;
++        const uint32_t geminilakeDeviceID = 0x3180;
 +        if (!config.poll_main_thread.set) {
 +            return (m_deviceID & 0xff00) == kabylakeDeviceID ||
-+                   m_deviceID == cometlakeDeviceID ||
-+                   m_deviceID == geminilakeDeviceID;
++                   (m_deviceID & 0xff00) == cometlakeDeviceID ||
++                   (m_deviceID & 0xfff0) == geminilakeDeviceID;
 +        }
 +        return cvk_device_properties::get_poll_main_thread();
 +    }
