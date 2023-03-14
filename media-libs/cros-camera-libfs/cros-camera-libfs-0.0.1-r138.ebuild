@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1c77f6728f1b4aabd016a79bdccabeba93680f9b"
+CROS_WORKON_COMMIT="8673706e6ed2ae4e5868a614d9bfa4005608c2f7"
 CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "2ad8679ea3a8f3e8a2509b4b05585f22f2dc373b" "ee46c272200c3bb842d0288afb22d9ebb36f02f7" "3f8a9a04e17758df936e248583cfb92fc484e24c")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="../platform2"
@@ -38,8 +38,8 @@ PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.09.06.tbz2"
 PACKAGE_DOCUMENT_SCANNING_PV="2023.01.11"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2023.01.11.tar.zst"
-PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2020.04.06-unstripped.tbz2"
-PACKAGE_PORTRAIT_PROCESSOR_ARM="portrait-processor-lib-armv7-2020.04.06-unstripped.tbz2"
+PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2023.03.14.tar.zst"
+PACKAGE_PORTRAIT_PROCESSOR_ARM="portrait-processor-lib-armv7-2023.03.14.tar.zst"
 
 SRC_URI="
 		camera_feature_auto_framing? (
