@@ -70,20 +70,22 @@ src_install() {
 	dobin "$(cros-rust_get_build_dir)/cras_tests"
 }
 
+# TODO(b/273483838): hardcode these versions to unbreak the CQ with a minimal
+# change. We should verify they're correct in a src_* function.
 pkg_preinst() {
 	for crate in "${export_crates[@]}"; do
-		cros-rust_pkg_preinst "${crate}" "$(cros-rust_get_crate_version "${S}/${crate}")"
+		cros-rust_pkg_preinst "${crate}" "0.1.0"
 	done
 }
 
 pkg_postinst() {
 	for crate in "${export_crates[@]}"; do
-		cros-rust_pkg_postinst "${crate}" "$(cros-rust_get_crate_version "${S}/${crate}")"
+		cros-rust_pkg_postinst "${crate}" "0.1.0"
 	done
 }
 
 pkg_prerm() {
 	for crate in "${export_crates[@]}"; do
-		cros-rust_pkg_prerm "${crate}" "$(cros-rust_get_crate_version "${S}/${crate}")"
+		cros-rust_pkg_prerm "${crate}" "0.1.0"
 	done
 }
