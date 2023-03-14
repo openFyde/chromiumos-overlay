@@ -36,8 +36,8 @@ PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.09.06.tbz2"
 PACKAGE_DOCUMENT_SCANNING_PV="2023.01.11"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2023.01.11.tar.zst"
-PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2020.04.06-unstripped.tbz2"
-PACKAGE_PORTRAIT_PROCESSOR_ARM="portrait-processor-lib-armv7-2020.04.06-unstripped.tbz2"
+PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2023.03.14.tar.zst"
+PACKAGE_PORTRAIT_PROCESSOR_ARM="portrait-processor-lib-armv7-2023.03.14.tar.zst"
 
 SRC_URI="
 		camera_feature_auto_framing? (
