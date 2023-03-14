@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="cc510dcbc58e3e330fdf83f54cc3a0068e400342"
-CROS_WORKON_TREE="fb67f0a8c4ee33eac14ae4ac060d7c4bd3429679"
+CROS_WORKON_COMMIT="a5a3d849f0642a1d8585963f9fbfd8b4fdcccacc"
+CROS_WORKON_TREE="5a0470c1ebe0185a66d1f9ec87564d7700741fa5"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
@@ -15,13 +15,21 @@ inherit cros-unibuild systemd user
 
 DESCRIPTION="Google A/V Daemon"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/"
+
+# The URIs are separated into two parts.
+# 1. Explicit dependencies listed in WORKSPACE.bazel.
+#    These can be generated with:
+#    bazel build //repositories/http_archive_deps:bazel_external_uris
+# 2. Implicit dependencies of Bazel. Manitained manually.
 bazel_external_uris="
 	http://ndevilla.free.fr/iniparser/iniparser-3.1.tar.gz -> iniparser-3.1.tar.gz
-	https://github.com/bazelbuild/bazel-skylib/releases/download/1.0.3/bazel-skylib-1.0.3.tar.gz -> bazel-skylib-1.0.3.tar.gz
-	https://github.com/bazelbuild/rules_cc/archive/01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip -> bazelbuild-rules_cc-01d4a48911d5e7591ecb1c06d3b8af47fe872371.zip
+	https://github.com/bazelbuild/bazel-skylib/releases/download/1.4.1/bazel-skylib-1.4.1.tar.gz -> bazelbuild-bazel-skylib-1.4.1.tar.gz
+	https://github.com/bazelbuild/rules_cc/releases/download/0.0.6/rules_cc-0.0.6.tar.gz -> bazelbuild-rules_cc-0.0.6.tar.gz
+	https://github.com/bazelbuild/rules_rust/releases/download/0.17.0/rules_rust-v0.17.0.tar.gz -> bazelbuild-rules_rust-v0.17.0.tar.gz
+	https://github.com/google/benchmark/archive/refs/tags/v1.7.1.tar.gz -> google-benchmark-v1.7.1.tar.gz
+	https://github.com/hedronvision/bazel-compile-commands-extractor/archive/0197fc673a1a6035078ac7790318659d7442e27e.tar.gz -> hedronvision-bazel-compile-commands-extractor-0197fc673a1a6035078ac7790318659d7442e27e.tar.gz
+
 	https://github.com/bazelbuild/rules_java/archive/7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip -> bazelbuild-rules_java-7cf3cefd652008d0a64a419c34c13bdca6c8f178.zip
-	https://github.com/google/benchmark/archive/refs/tags/v1.5.5.tar.gz -> google-benchmark-1.5.5.tar.gz
-	https://github.com/hedronvision/bazel-compile-commands-extractor/archive/0197fc673a1a6035078ac7790318659d7442e27e.tar.gz -> hedron_compile_commands-0197fc673a1a6035078ac7790318659d7442e27e.tar.gz
 	https://mirror.bazel.build/bazel_coverage_output_generator/releases/coverage_output_generator-v2.5.zip -> coverage_output_generator-v2.5.zip
 	https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz -> bazelbuild-rules_proto-7e4afce6fe62dbff0a4a03450143146f9f2d7488.tar.gz
 	https://mirror.bazel.build/openjdk/azul-zulu11.50.19-ca-jdk11.0.12/zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz -> bazel-zulu11.50.19-ca-jdk11.0.12-linux_x64.tar.gz
