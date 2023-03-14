@@ -36,7 +36,17 @@ src_unpack() {
 
 	# Unpack the headers into the srcdir
 	pushd "${S}" > /dev/null || die
-	unpacker
+	if use local_ml_core_internal; then
+		# Unpack local build.
+		local dev_tarball="/mnt/google3_staging/ml-core-libcros_ml_core_internal-dev.tar.xz"
+		echo "Checking for ${dev_tarball}"
+		[[ ! -f "${dev_tarball}" ]] && die "Couldn't find ${dev_tarball} used by local_ml_core_internal. Did you run chromeos/ml/build_dev.sh in google3?"
+		echo "Unpacking ${dev_tarball}"
+		unpack "${dev_tarball}"
+	else
+		# Unpack SRC_URI
+		unpacker
+	fi
 	popd > /dev/null || die
 }
 
