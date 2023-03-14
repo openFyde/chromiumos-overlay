@@ -57,8 +57,10 @@ DEPEND="
 # TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
 # it is very large. It is currently only a dependency of wilco as it is
 # currently the only client.
+# TODO(b/273184171): Remove chromeos-base/ec-utils once we don't rely on ectool.
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/ec-utils
 	chromeos-base/iioservice
 	dev-util/stressapptest
 	wilco? (
