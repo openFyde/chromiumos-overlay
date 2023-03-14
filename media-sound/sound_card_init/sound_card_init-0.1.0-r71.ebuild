@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5d847ac5f54e6f9c1d110bb73fa48c1fd7782041"
+CROS_WORKON_COMMIT="466d03afdc97b13724e95c6ce61818da82060366"
 CROS_WORKON_TREE="4d65c5feb5b91f6b9ba034a26a5c04038a3a7615"
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
@@ -25,7 +25,7 @@ DEPEND="
 	dev-rust/libchromeos:=
 	media-sound/audio_streams:=
 	media-sound/cros_alsa:=
-	media-sound/libcras:=
+	media-sound/cras-client:=
 	media-sound/sof_sys:=
 "
 

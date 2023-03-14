@@ -383,7 +383,7 @@ RDEPEND="
 	clvk? ( media-libs/clvk )
 	cras? (
 		media-sound/adhd
-		media-sound/cras_tests
+		media-sound/cras-client
 	)
 	trim_supported? ( chromeos-base/chromeos-trim )
 	network_time? ( net-misc/tlsdate )
