@@ -45,7 +45,6 @@ src_install() {
 	dir_cr50=${CROS_WORKON_DESTDIR[1]}
 
 	insinto /usr/include/trunks/cr50_headers/
-	doins "${dir_cr50}"/include/pinweaver_types.h
 	doins "${dir_cr50}"/include/u2f.h
 	doins "${dir_cr50}"/board/cr50/tpm2/virtual_nvmem.h
 	insinto /usr/include/chromeos/ec/
