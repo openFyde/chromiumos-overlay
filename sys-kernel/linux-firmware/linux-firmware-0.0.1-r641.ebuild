@@ -55,6 +55,7 @@ IUSE_IWLWIFI=(
 	iwlwifi-cc
 	iwlwifi-QuZ
 	iwlwifi-so
+	iwlwifi-ax203
 )
 IUSE_BRCMWIFI=(
 	brcmfmac-all
@@ -357,6 +358,7 @@ install_iwlwifi() {
 			*)               doins "${x}-a0-gf-a0-79.ucode" ;;
 			esac
 			doins "${x}-a0-gf-a0.pnvm" ;;
+		iwlwifi-ax203) doins iwlwifi-so-a0-hr-b0-79.ucode ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
 	done
