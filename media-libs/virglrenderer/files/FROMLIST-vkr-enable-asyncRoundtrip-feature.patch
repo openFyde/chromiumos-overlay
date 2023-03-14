@@ -1,0 +1,25 @@
+From 4a3411a9066a724f9bae8461b677d329872bd539 Mon Sep 17 00:00:00 2001
+From: Yiwei Zhang <zzyiwei@chromium.org>
+Date: Sun, 5 Mar 2023 00:35:45 -0800
+Subject: [PATCH 5/5] vkr: enable asyncRoundtrip feature
+
+Signed-off-by: Yiwei Zhang <zzyiwei@chromium.org>
+---
+ src/venus/vkr_transport.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/venus/vkr_transport.c b/src/venus/vkr_transport.c
+index 5ca1f2e7..99fc4271 100644
+--- a/src/venus/vkr_transport.c
++++ b/src/venus/vkr_transport.c
+@@ -316,6 +316,7 @@ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
+       .globalFencing = VK_FALSE,
+       .largeRing = VK_TRUE,
+       .syncFdFencing = VK_TRUE,
++      .asyncRoundtrip = VK_TRUE,
+    };
+ 
+    vn_replace_vkGetVenusExperimentalFeatureData100000MESA_args_handle(args);
+-- 
+2.37.3
+

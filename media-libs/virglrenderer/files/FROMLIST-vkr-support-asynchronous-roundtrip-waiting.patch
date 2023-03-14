@@ -1,0 +1,145 @@
+From de1040846bb176ebcae03f6d0deacf8ae3056909 Mon Sep 17 00:00:00 2001
+From: Yiwei Zhang <zzyiwei@chromium.org>
+Date: Fri, 3 Mar 2023 01:20:03 -0800
+Subject: [PATCH 3/5] vkr: support asynchronous roundtrip waiting
+
+Signed-off-by: Yiwei Zhang <zzyiwei@chromium.org>
+---
+ src/venus/vkr_common.h    |  1 +
+ src/venus/vkr_ring.c      | 34 ++++++++++++++++++++++++++++++++++
+ src/venus/vkr_ring.h      |  7 +++++++
+ src/venus/vkr_transport.c | 34 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+)
+
+diff --git a/src/venus/vkr_common.h b/src/venus/vkr_common.h
+index 410bb826..b3255e1f 100644
+--- a/src/venus/vkr_common.h
++++ b/src/venus/vkr_common.h
+@@ -20,6 +20,7 @@
+ 
+ #include "c11/threads.h"
+ #include "util/hash_table.h"
++#include "util/macros.h"
+ #include "util/os_file.h"
+ #include "util/os_misc.h"
+ #include "util/u_double_list.h"
+diff --git a/src/venus/vkr_ring.c b/src/venus/vkr_ring.c
+index aa4fd9f8..eb548de1 100644
+--- a/src/venus/vkr_ring.c
++++ b/src/venus/vkr_ring.c
+@@ -365,3 +365,37 @@ vkr_ring_write_extra(struct vkr_ring *ring, size_t offset, uint32_t val)
+ 
+    return true;
+ }
++
++void
++vkr_ring_submit_virtqueue_seqno(struct vkr_ring *ring, uint64_t seqno)
++{
++   mtx_lock(&ring->mutex);
++   ring->virtqueue_seqno = seqno;
++
++   /* There are 3 cases:
++    * 1. ring is not waiting on the cond thus no-op
++    * 2. ring is idle and then wakes up earlier
++    * 3. ring is waiting for roundtrip and then checks seqno again
++    */
++   cnd_signal(&ring->cond);
++   mtx_unlock(&ring->mutex);
++
++   {
++      TRACE_SCOPE("submit vq seqno done");
++   }
++}
++
++bool
++vkr_ring_wait_virtqueue_seqno(struct vkr_ring *ring, uint64_t seqno)
++{
++   TRACE_FUNC();
++
++   bool ok = true;
++
++   mtx_lock(&ring->mutex);
++   while (ok && ring->started && ring->virtqueue_seqno < seqno)
++      ok = cnd_wait(&ring->cond, &ring->mutex) == thrd_success;
++   mtx_unlock(&ring->mutex);
++
++   return ok;
++}
+diff --git a/src/venus/vkr_ring.h b/src/venus/vkr_ring.h
+index 6e58b5dd..c3209be6 100644
+--- a/src/venus/vkr_ring.h
++++ b/src/venus/vkr_ring.h
+@@ -98,6 +98,7 @@ struct vkr_ring {
+    thrd_t thread;
+    atomic_bool started;
+    atomic_bool pending_notify;
++   uint64_t virtqueue_seqno;
+ };
+ 
+ struct vkr_ring *
+@@ -120,4 +121,10 @@ vkr_ring_notify(struct vkr_ring *ring);
+ bool
+ vkr_ring_write_extra(struct vkr_ring *ring, size_t offset, uint32_t val);
+ 
++void
++vkr_ring_submit_virtqueue_seqno(struct vkr_ring *ring, uint64_t seqno);
++
++bool
++vkr_ring_wait_virtqueue_seqno(struct vkr_ring *ring, uint64_t seqno);
++
+ #endif /* VKR_RING_H */
+diff --git a/src/venus/vkr_transport.c b/src/venus/vkr_transport.c
+index 4c648913..59af81ec 100644
+--- a/src/venus/vkr_transport.c
++++ b/src/venus/vkr_transport.c
+@@ -261,6 +261,36 @@ vkr_dispatch_vkWriteRingExtraMESA(struct vn_dispatch_context *dispatch,
+       vkr_context_set_fatal(ctx);
+ }
+ 
++static void
++vkr_dispatch_vkSubmitVirtqueueSeqno100000MESA(
++   struct vn_dispatch_context *dispatch,
++   struct vn_command_vkSubmitVirtqueueSeqno100000MESA *args)
++{
++   struct vkr_context *ctx = dispatch->data;
++   struct vkr_ring *ring = lookup_ring(ctx, args->ring);
++   if (!ring) {
++      vkr_context_set_fatal(ctx);
++      return;
++   }
++
++   vkr_ring_submit_virtqueue_seqno(ring, args->seqno);
++}
++
++static void
++vkr_dispatch_vkWaitVirtqueueSeqno100000MESA(
++   struct vn_dispatch_context *dispatch,
++   struct vn_command_vkWaitVirtqueueSeqno100000MESA *args)
++{
++   struct vkr_context *ctx = dispatch->data;
++   /* this is for -Wgnu-statement-expression-from-macro-expansion */
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wpedantic"
++   struct vkr_ring *ring = container_of(dispatch, struct vkr_ring, dispatch);
++#pragma GCC diagnostic pop
++   if (!vkr_ring_wait_virtqueue_seqno(ring, args->seqno))
++      vkr_context_set_fatal(ctx);
++}
++
+ static void
+ vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA(
+    UNUSED struct vn_dispatch_context *dispatch,
+@@ -299,6 +329,10 @@ vkr_context_init_transport_dispatch(struct vkr_context *ctx)
+    dispatch->dispatch_vkDestroyRingMESA = vkr_dispatch_vkDestroyRingMESA;
+    dispatch->dispatch_vkNotifyRingMESA = vkr_dispatch_vkNotifyRingMESA;
+    dispatch->dispatch_vkWriteRingExtraMESA = vkr_dispatch_vkWriteRingExtraMESA;
++   dispatch->dispatch_vkSubmitVirtqueueSeqno100000MESA =
++      vkr_dispatch_vkSubmitVirtqueueSeqno100000MESA;
++   dispatch->dispatch_vkWaitVirtqueueSeqno100000MESA =
++      vkr_dispatch_vkWaitVirtqueueSeqno100000MESA;
+ 
+    dispatch->dispatch_vkGetVenusExperimentalFeatureData100000MESA =
+       vkr_dispatch_vkGetVenusExperimentalFeatureData100000MESA;
+-- 
+2.37.3
+
