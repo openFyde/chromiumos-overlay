@@ -4,7 +4,7 @@
 # This is a sample DLC used for testing new features in DLC. It does not really
 # build anything, it just creates a DLC image with random content.
 
-EAPI=6
+EAPI="7"
 
 inherit dlc
 
