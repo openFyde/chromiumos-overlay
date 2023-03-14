@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="81df099510940b642d4626adb9b6b711386cdc0d"
+CROS_WORKON_COMMIT="8ec5024fabecf896738b6b7077897dda82075081"
 CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "e2d936f5530be9fdd0daca1449370623d61d8c4a" "2067ca0c39b69fc628789808fe5cdb13c642acad" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -59,8 +59,10 @@ DEPEND="
 # TODO(crbug/1085169): Replace sys-block/fio dependency with an alternative as
 # it is very large. It is currently only a dependency of wilco as it is
 # currently the only client.
+# TODO(b/273184171): Remove chromeos-base/ec-utils once we don't rely on ectool.
 RDEPEND="
 	${COMMON_DEPEND}
+	chromeos-base/ec-utils
 	chromeos-base/iioservice
 	dev-util/stressapptest
 	wilco? (
