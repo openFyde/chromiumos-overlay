@@ -1,13 +1,15 @@
-From 59d9585f4fba362526f20d3747f021f913358471 Mon Sep 17 00:00:00 2001
+From 7ff066cfecc959ed043f603c36a0647e5c1417e7 Mon Sep 17 00:00:00 2001
 From: Rishabh Agrawal <rishabhagr@google.com>
 Date: Fri, 3 Mar 2023 22:20:41 +0000
 Subject: [PATCH] Paper IO scanning DLC patch
 
-Add the DLC directory path for the load function to include the dlc
-drivers
+Add the DLC directory path in the load function to include the dlc
+drivers. Add the DLC directory path for the config files to include dlc
+driver configs.
 ---
- backend/dll.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ backend/dll.c        | 19 ++++++++++++++++++-
+ sanei/sanei_config.c |  3 ++-
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/backend/dll.c b/backend/dll.c
 index bf34c4f6d..9cd70cdcb 100644
@@ -53,6 +55,20 @@ index bf34c4f6d..9cd70cdcb 100644
  
    if (path)
      {
+diff --git a/sanei/sanei_config.c b/sanei/sanei_config.c
+index 07c85c964..7343094bb 100644
+--- a/sanei/sanei_config.c
++++ b/sanei/sanei_config.c
+@@ -65,7 +65,8 @@
+ # define PATH_SEP	'/'
+ #endif
+ 
+-#define DEFAULT_DIRS	"." DIR_SEP STRINGIFY(PATH_SANE_CONFIG_DIR)
++#define DEFAULT_DIRS  "/run/imageloader/sane-airscan/package/root/etc/sane.d" \
++    DIR_SEP STRINGIFY(PATH_SANE_CONFIG_DIR)
+ 
+ #ifdef __BEOS__
+ #include <FindDirectory.h>
 -- 
-2.40.0.rc0.216.gc4246ad0f0-goog
+2.40.0.rc2.332.ga46443480c-goog
 
