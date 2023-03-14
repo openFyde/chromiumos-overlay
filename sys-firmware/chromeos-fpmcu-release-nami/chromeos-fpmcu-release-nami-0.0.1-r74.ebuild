@@ -8,9 +8,9 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("2bcf863b492fe7ed8105c853814dba6ed32ba719" "a7812539f4fdf7c0a042edb720ce24558ee59384" "0dd679081b9c8bfa2583d74e3a17a413709ea362")
-CROS_WORKON_TREE=("fcf6ce5810f9ff9e3c8cce434812dd75492269ed" "71a25a83d825c6a20fa50d11ae1423f24056c75e" "d99abee3f825248f344c0638d5f9fcdce114b744")
-FIRMWARE_EC_BOARD="bloonchipper"
+CROS_WORKON_COMMIT=("c453fd704268ef72de871b0c5ac7a989de662334" "302248e3d8bd39059235b827055195156bbb8175" "0dd679081b9c8bfa2583d74e3a17a413709ea362")
+CROS_WORKON_TREE=("fcf6ce5810f9ff9e3c8cce434812dd75492269ed" "0863f39408a3f136f0c594aa4df8ba5ad34aedec" "d99abee3f825248f344c0638d5f9fcdce114b744")
+FIRMWARE_EC_BOARD="nami_fp"
 FIRMWARE_EC_RELEASE_REPLACE_RO="yes"
 
 CROS_WORKON_PROJECT=(
@@ -20,7 +20,7 @@ CROS_WORKON_PROJECT=(
 )
 
 CROS_WORKON_LOCALNAME=(
-	"../platform/release-firmware/fpmcu-bloonchipper"
+	"../platform/release-firmware/fpmcu-nami"
 	"tpm2"
 	"cryptoc"
 )
@@ -32,18 +32,13 @@ CROS_WORKON_DESTDIR=(
 )
 
 CROS_WORKON_EGIT_BRANCH=(
-	"firmware-fpmcu-bloonchipper-release"
+	"firmware-fpmcu-dartmonkey-release"
 	"master"
 	"master"
 )
 
-inherit cros-workon cros-ec-release cros-sanitizers
+inherit cros-workon cros-ec-release
 
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/master/README.md"
 LICENSE="BSD-Google"
 KEYWORDS="*"
-
-src_configure() {
-	sanitizers-setup-env
-	default
-}
