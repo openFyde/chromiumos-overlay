@@ -53,7 +53,7 @@ pkg_setup() {
 }
 
 pkg_preinst() {
-	local mnt_dir="${ROOT}/mnt/hibernate"
+	local mnt_dir="${ROOT}/mnt/hibermeta"
 	[[ -d "{mnt_dir}" ]] || \
 		install -d --mode=0700 --owner=hiberman --group=hiberman "${mnt_dir}"
 }
