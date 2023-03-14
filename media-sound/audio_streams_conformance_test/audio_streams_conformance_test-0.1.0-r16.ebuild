@@ -4,7 +4,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="2ef4c36d46534b93a11eefafa6eb2588cc1ddf6c"
+CROS_WORKON_COMMIT="8b5b993ff5e0aba3d68603f8d1777c02ef096977"
 CROS_WORKON_TREE=("473980ec10874aee75c0482146e48e964da9013c" "3f7566e66e18811864939cb6835ed3e917afbc0c")
 CROS_WORKON_LOCALNAME="../platform/crosvm"
 CROS_WORKON_PROJECT="chromiumos/platform/crosvm"
@@ -25,7 +25,7 @@ IUSE="test"
 DEPEND="
 	dev-rust/third-party-crates-src:=
 	media-sound/audio_streams:=
-	media-sound/libcras:=
+	media-sound/cras-client:=
 	dev-rust/cros_async:=
 "
 

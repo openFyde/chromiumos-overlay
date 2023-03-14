@@ -51,7 +51,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-rust/minijail:=
 	dev-rust/p9:=
 	dev-rust/system_api:=
-	media-sound/libcras:=
+	media-sound/cras-client:=
 	sys-apps/dbus:=
 	tpm2? (
 		chromeos-base/tpm2:=
