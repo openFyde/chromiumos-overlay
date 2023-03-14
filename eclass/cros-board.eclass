@@ -154,6 +154,7 @@ ALL_BOARDS=(
 	#cmlrvp
 	#cnlrvp
 	cobblepot
+	constitution
 	coral
 	coral-arc-r
 	#coral-kernelnext
