@@ -18,9 +18,9 @@ _ECLASS_DLC="1"
 
 inherit cros-constants
 
-# Check for EAPI 6+.
+# Check for EAPI 7+.
 case "${EAPI:-0}" in
-[012345]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
+[0123456]) die "unsupported EAPI (${EAPI}) in eclass (${ECLASS})" ;;
 esac
 
 DLC_BUILD_DIR="build/rootfs/dlc"
