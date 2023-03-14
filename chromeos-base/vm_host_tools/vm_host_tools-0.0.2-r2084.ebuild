@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8f83d3152b663bf2e72f8fcbe01d8191f44b55a2"
+CROS_WORKON_COMMIT="81df099510940b642d4626adb9b6b711386cdc0d"
 CROS_WORKON_TREE=("3f8a9a04e17758df936e248583cfb92fc484e24c" "26447c29efafb33069b4ef8c383e05c1f0bd78cc" "e1f223c8511c80222f764c8768942936a8de01e4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "e1126a7bca529afdbaf1a59f6f0b8bae42321a02" "38f983ae23e512488aa823385f16b0400c88dd03" "4f69dce040c9bf4feac2c175de8d6d87f88df10e" "a26b0252ca4dd8384cc9ff4aec931dda6a1587c9" "696dbcb4fabc5182d75e7e1739c56bc14cf6e0eb" "83b0d0fca8e6c2d1ae472e9b6590344eb83f0f37" "5852251e47b16a2ea9b67f472edd3fafd95bd90b" "d0c51ba829908a3373486dd50b93ffca2cffcdfe" "0830dc7ffcbe4f21c9b24856eabf9b6b750648f0" "6ef59afcac5de4a2cc1400252caadaf46c5c143b" "ee7a391100d5bf60f65682988029562ee9c82798" "4f9e997c7cfc37f43a50de4fe1749cc5c93fa102" "e7484fcabff8350254feec93c24db8c75bdc4965" "d627d2791ec16eba0c89b461064006b8e1f5d462" "780211c6fe3bcc43023964e6bc852b20a94d7e7e" "08dd2cee50555db313567cb80db2308d6d4c376b" "03faffbc23b69e355517a98a808ec828367e82bc" "3a22fb1f7a73dad412508a68b8b2628adcd7be0d" "0f8ac67491f7a52e0de6999644a3797b7fed364c" "e2d936f5530be9fdd0daca1449370623d61d8c4a")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -167,6 +167,9 @@ src_install() {
 
 		exeinto /sbin
 		doexe modprobe/dgpu.sh
+
+		# Udev rules to bind dGPU to different modules.
+		udev_dorules udev/45-vfio-dgpu.rules
 	fi
 
 	insinto /usr/local/vms/etc
