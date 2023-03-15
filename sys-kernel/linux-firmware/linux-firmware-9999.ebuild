@@ -359,6 +359,10 @@ install_iwlwifi() {
 		iwlwifi-ax203) doins iwlwifi-so-a0-hr-b0-79.ucode ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
+		# At least with EAPI 7, it's ok to call 'doins' with the same
+		# file multiple times. So an overlay declaring multiple
+		# 'iwlwifi-*' USE flags (e.g. volteer) won't break the build.
+		doins "iwl-dbg-cfg.ini"
 	done
 }
 
