@@ -81,6 +81,8 @@ src_configure() {
 	append-flags -DSUPPORT_MBIM_IPV6_WITH_IPV4_ROAMING
 	append-flags -DMBIM_FIBOCOM_SAR_HACK
 
+	append-flags -DMM_DISABLE_DEPRECATED
+
 	local plugins=(
 		-Dplugin_fibocom="enabled"
 		-Dplugin_generic="enabled"
