@@ -26,6 +26,7 @@ IUSE="cros_host +dbus +device_mapper fuzzer -lvm_stateful_partition +udev usb"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
+	>=chromeos-base/protofiles-0.0.75:=
 	dbus? ( dev-libs/dbus-glib:= )
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
@@ -45,7 +46,6 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	>=chromeos-base/protofiles-0.0.75:=
 	dbus? ( chromeos-base/system_api:=[fuzzer?] )
 	dev-libs/modp_b64:=
 "
