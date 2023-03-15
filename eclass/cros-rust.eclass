@@ -160,6 +160,21 @@ CROS_RUST_REGISTRY_OWNER_DIR="${CROS_RUST_REGISTRY_BASE}/owners"
 # (https://github.com/rust-lang/rust/issues/41807).
 export ASAN_OPTIONS="detect_odr_violation=0"
 
+_cros-rust_flock_registry_with_diags() {
+	local args=( "$@" )
+	# 15 seconds of timeout is arbitrary, but should be large enough that
+	# folks don't see this message in error too many times.
+	flock --timeout=15 --conflict-exit-code=200 "${args[@]}"
+	local status=$?
+	if [[ "${status}" -ne 200 ]]; then
+		return "${status}"
+	fi
+
+	einfo "Acquiring the registry lock is taking a while. Full flock command: flock ${args[*]}"
+	einfo "If this command hangs indefinitely, you might have old processes hanging onto the lock."
+	flock "${args[@]}"
+}
+
 # @FUNCTION: cros-rust_get_reg_lock
 # @DESCRIPTION:
 # Return the path to the rust registry lock file used to prevent races. A
@@ -663,7 +678,7 @@ ecargo() {
 	addwrite Cargo.lock
 
 	# Acquire a shared (read only) lock since this does not modify the registry.
-	flock --shared "$(cros-rust_get_reg_lock)" cargo -v "$@"
+	_cros-rust_flock_registry_with_diags --shared "$(cros-rust_get_reg_lock)" cargo -v "$@"
 	local status="$?"
 
 	# This needs to be executed on both success and failure.
@@ -1043,7 +1058,7 @@ _cleanup_registry_link() {
 		(
 			local owner="${ROOT}${CROS_RUST_REGISTRY_OWNER_DIR}/${crate}"
 			local removed
-			flock --exclusive 100 || die
+			_cros-rust_flock_registry_with_diags --exclusive 100 || die
 			if [[ -n ${force} ]] || [[ $(< "${owner}") == "${PF}" ]]; then
 				rm -f "${link}" "${owner}" || die
 				removed=1
@@ -1095,7 +1110,7 @@ _create_registry_link() {
 		(
 			local dest="${registry_dir}/${crate}"
 			local owners="${owners_dir}/${crate}"
-			flock --exclusive 100 || die
+			_cros-rust_flock_registry_with_diags --exclusive 100 || die
 			if [[ ! -L "${dest}" ]]; then
 				ln -srT "${crate_dir}" "${dest}" || die
 			fi
@@ -1130,7 +1145,7 @@ cros-rust_cleanup_vendor_registry_links() {
 		local owned_files=()
 
 		cd "${owner_dir}" || die
-		flock --exclusive 100 || die
+		_cros-rust_flock_registry_with_diags --exclusive 100 || die
 		if [[ -n "${force}" ]]; then
 			owned_files=( "${remove_paths[@]}" )
 		else
@@ -1172,7 +1187,7 @@ cros-rust_create_vendor_registry_links() {
 		local crate_srcs="${ROOT}${CROS_RUST_REGISTRY_DIR}"
 		local crate crate_src
 		local crates_dne=()
-		flock --exclusive 100 || die
+		_cros-rust_flock_registry_with_diags --exclusive 100 || die
 		for crate in "${dirs[@]}"; do
 			crate_src="${crate_srcs}/${crate}"
 			# Ensure crates exist prior to creating links. These
