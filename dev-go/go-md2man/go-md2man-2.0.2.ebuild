@@ -10,6 +10,10 @@ CROS_GO_PACKAGES=(
 	"github.com/cpuguy83/go-md2man/v2/md2man"
 )
 
+CROS_GO_BINARIES=(
+	"github.com/cpuguy83/go-md2man/v2:/usr/bin/go-md2man"
+)
+
 inherit cros-go
 
 DESCRIPTION="Converts markdown into roff (man pages)."
@@ -20,7 +24,7 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="*"
 IUSE="test"
-RESTRICT="binchecks strip"
+RESTRICT="binchecks"
 DEPEND="
 	dev-go/blackfriday
 "
