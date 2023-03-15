@@ -4,8 +4,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b2c893485fc5017a4a440c4832e4a7fc17359af0" "036e26a7028f30b6957503b2bc6ac0973d335d54")
-CROS_WORKON_TREE=("94f3dba4e00f47a2faf9ce43822d0a4b3b594acf" "a88aae60cad1fd2c11780afbe33e28003434f58e")
+CROS_WORKON_COMMIT=("b68720a8a6492445555253308fbcae7ab53ecea1" "036e26a7028f30b6957503b2bc6ac0973d335d54")
+CROS_WORKON_TREE=("0810b3cc35177f80da044dfbbf6ec4eb1c96f38c" "a88aae60cad1fd2c11780afbe33e28003434f58e")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/platform/ec"
@@ -47,7 +47,6 @@ src_install() {
 	dir_cr50=${CROS_WORKON_DESTDIR[1]}
 
 	insinto /usr/include/trunks/cr50_headers/
-	doins "${dir_cr50}"/include/pinweaver_types.h
 	doins "${dir_cr50}"/include/u2f.h
 	doins "${dir_cr50}"/board/cr50/tpm2/virtual_nvmem.h
 	insinto /usr/include/chromeos/ec/
