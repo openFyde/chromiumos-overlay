@@ -24,6 +24,7 @@ IUSE=""
 DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	"
+RDEPEND="${DEPEND}"
 
 src_install() {
 	platform_src_install
