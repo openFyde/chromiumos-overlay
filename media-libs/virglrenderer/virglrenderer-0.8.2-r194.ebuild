@@ -3,8 +3,8 @@
 
 EAPI="6"
 
-CROS_WORKON_COMMIT="22da1a66535ea0dd5a9272495ec2c7e68a546f71"
-CROS_WORKON_TREE="13fb992918bacf3245ce4cff982ac14a7af9c054"
+CROS_WORKON_COMMIT="09f40577abfe9b7ecf6ed9413c1800c0ed9b6243"
+CROS_WORKON_TREE="b7945a5849a45146b49c3c9ea305c46c0c64b753"
 CROS_WORKON_PROJECT="chromiumos/third_party/virglrenderer"
 CROS_WORKON_EGIT_BRANCH="master"
 
@@ -43,11 +43,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-vrend-disable-GL_EXT_external_object_fd-path-on-GLES.patch
-	"${FILESDIR}"/FROMLIST-render_protocol-avoid-roundtrip-for-submit_cmd.patch
-	"${FILESDIR}"/FROMLIST-vkr-update-to-latest-protocol-for-asyncRoundtrip.patch
-	"${FILESDIR}"/FROMLIST-vkr-support-asynchronous-roundtrip-waiting.patch
-	"${FILESDIR}"/FROMLIST-vkr-support-asynchronous-ring-wait.patch
-	"${FILESDIR}"/FROMLIST-vkr-enable-asyncRoundtrip-feature.patch
 )
 
 src_prepare() {

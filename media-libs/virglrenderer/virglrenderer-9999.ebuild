@@ -41,11 +41,6 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-vrend-disable-GL_EXT_external_object_fd-path-on-GLES.patch
-	"${FILESDIR}"/FROMLIST-render_protocol-avoid-roundtrip-for-submit_cmd.patch
-	"${FILESDIR}"/FROMLIST-vkr-update-to-latest-protocol-for-asyncRoundtrip.patch
-	"${FILESDIR}"/FROMLIST-vkr-support-asynchronous-roundtrip-waiting.patch
-	"${FILESDIR}"/FROMLIST-vkr-support-asynchronous-ring-wait.patch
-	"${FILESDIR}"/FROMLIST-vkr-enable-asyncRoundtrip-feature.patch
 )
 
 src_prepare() {
