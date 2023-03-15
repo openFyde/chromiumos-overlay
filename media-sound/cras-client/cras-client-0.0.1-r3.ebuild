@@ -44,7 +44,29 @@ RDEPEND="${DEPEND}
 	!media-sound/libcras
 "
 
+# When installing this as a binpkg, we have to be able to specify the versions
+# of these crates without access to sources (e.g., we can't call
+# `cros-rust_get_crate_version` from `pkg_*inst` functions), so hardcode the
+# versions.
 export_crates=("cras-sys" "libcras")
+export_crate_versions=("0.1.0" "0.1.0")
+
+src_unpack() {
+	cros-rust_src_unpack
+
+	# Ensure `export_crate_versions` is still consistent.
+	if [[ "${#export_crates[@]}" != "${#export_crate_versions[@]}" ]]; then
+		die "export_crates and export_crate_versions must have the same number of elements"
+	fi
+
+	local crate_ver i
+	for i in "${!export_crates[@]}"; do
+		crate_ver="$(cros-rust_get_crate_version "${S}/${export_crates[${i}]}")" || die
+		if [[ "${crate_ver}" != "${export_crate_versions[${i}]}" ]]; then
+			die "Crate ${export_crates[${i}]} version ${crate_ver} doesn't match expected version: ${export_crate_versions[${i}]}"
+		fi
+	done
+}
 
 src_prepare() {
 	cros-rust_src_prepare
@@ -62,32 +84,35 @@ src_test() {
 }
 
 src_install() {
-	for crate in "${export_crates[@]}"; do
+	local crate i
+	for i in "${!export_crates[@]}"; do
+		crate="${export_crates[${i}]}"
 		(
 			cd "${crate}" || die
-			cros-rust_publish "${crate}" "$(cros-rust_get_crate_version .)"
+			cros-rust_publish "${crate}" "${export_crate_versions[${i}]}"
 		)
 	done
 
 	dobin "$(cros-rust_get_build_dir)/cras_tests"
 }
 
-# TODO(b/273483838): hardcode these versions to unbreak the CQ with a minimal
-# change. We should verify they're correct in a src_* function.
 pkg_preinst() {
-	for crate in "${export_crates[@]}"; do
-		cros-rust_pkg_preinst "${crate}" "0.1.0"
+	local i
+	for i in "${!export_crates[@]}"; do
+		cros-rust_pkg_preinst "${export_crates[${i}]}" "${export_crate_versions[${i}]}"
 	done
 }
 
 pkg_postinst() {
-	for crate in "${export_crates[@]}"; do
-		cros-rust_pkg_postinst "${crate}" "0.1.0"
+	local i
+	for i in "${!export_crates[@]}"; do
+		cros-rust_pkg_postinst "${export_crates[${i}]}" "${export_crate_versions[${i}]}"
 	done
 }
 
 pkg_prerm() {
-	for crate in "${export_crates[@]}"; do
-		cros-rust_pkg_prerm "${crate}" "0.1.0"
+	local i
+	for i in "${!export_crates[@]}"; do
+		cros-rust_pkg_prerm "${export_crates[${i}]}" "${export_crate_versions[${i}]}"
 	done
 }
