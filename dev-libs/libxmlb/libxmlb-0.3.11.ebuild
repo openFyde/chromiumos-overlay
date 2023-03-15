@@ -1,9 +1,9 @@
-# Copyright 1999-2021 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=( python3_{6..9} )
+PYTHON_COMPAT=( python3_9 )
 
 inherit meson python-any-r1
 
@@ -19,9 +19,11 @@ IUSE="doc introspection stemmer test"
 RESTRICT="!test? ( test )"
 
 RDEPEND="
+	app-arch/xz-utils
+	app-arch/zstd:=
 	dev-libs/glib:2
 	sys-apps/util-linux
-	stemmer? ( dev-libs/snowball-stemmer )
+	stemmer? ( dev-libs/snowball-stemmer:= )
 "
 
 DEPEND="
@@ -39,8 +41,12 @@ BDEPEND="
 	)
 "
 
+PATCHES=(
+	"${FILESDIR}"/${PN}-0.3.9-no_installed_tests.patch
+)
+
 python_check_deps() {
-	has_version -b "dev-python/setuptools[${PYTHON_USEDEP}]"
+	python_has_version -b "dev-python/setuptools[${PYTHON_USEDEP}]"
 }
 
 pkg_setup() {
@@ -49,10 +55,10 @@ pkg_setup() {
 
 src_configure() {
 	local emesonargs=(
-		-Dgtkdoc="$(usex doc true false)"
-		-Dintrospection="$(usex introspection true false)"
-		-Dstemmer="$(usex stemmer true false)"
-		-Dtests="$(usex test true false)"
+		$(meson_use doc gtkdoc)
+		$(meson_use introspection)
+		$(meson_use stemmer)
+		$(meson_use test tests)
 	)
 	meson_src_configure
 }
