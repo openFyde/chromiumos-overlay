@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7a7b1dd6e72bf117d45ebce5106d109bda394a4b"
-CROS_WORKON_TREE=("3ad7a81ced8374a286e1c564a6e9c929f971a655" "c55e79a863821e5bb2f2cae4b3f814064da521dc" "e1f223c8511c80222f764c8768942936a8de01e4" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="d8fcf196aa0ec3c21fcff08d7be50c2029f4f445"
+CROS_WORKON_TREE=("3ad7a81ced8374a286e1c564a6e9c929f971a655" "89c1899b1236d3056a89170fb3f4112cf71fd2ee" "e1f223c8511c80222f764c8768942936a8de01e4" "bfe8062c9dc73fd763027d8dcace0cec1529f299" "0da6813244ce2b1b6119bea74143530e6a6623e9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk oobe_config metrics .gn"
+CROS_WORKON_SUBTREE="common-mk oobe_config metrics libhwsec libhwsec-foundation .gn"
 
 PLATFORM_SUBDIR="oobe_config"
 
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_con
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="tpm tpm_dynamic tpm2 fuzzer"
+IUSE="test tpm tpm_dynamic tpm2 fuzzer"
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
 	!tpm_dynamic? ( ?? ( tpm tpm2 ) )
@@ -31,7 +31,10 @@ COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	sys-apps/dbus:=
 "
-RDEPEND="${COMMMON_DEPEND}"
+RDEPEND="
+	${COMMMON_DEPEND}
+	chromeos-base/libhwsec:=[test?]
+"
 DEPEND="
 	${COMMMON_DEPEND}
 	chromeos-base/power_manager-client:=
