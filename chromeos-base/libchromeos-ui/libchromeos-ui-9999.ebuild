@@ -20,8 +20,13 @@ LICENSE="BSD-Google"
 KEYWORDS="~*"
 IUSE=""
 
-RDEPEND="chromeos-base/bootstat"
-DEPEND=""
+
+COMMON_DEPEND="chromeos-base/chromeos-config-tools:="
+RDEPEND="
+	${COMMON_DEPEND}
+	chromeos-base/bootstat
+"
+DEPEND="${COMMON_DEPEND}"
 
 src_install() {
 	platform_src_install
