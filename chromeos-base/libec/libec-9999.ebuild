@@ -30,6 +30,21 @@ DEPEND="
 	chromeos-base/power_manager-client:=
 "
 
+src_install() {
+	platform_src_install
+
+	# Install fuzzers.
+	local fuzzer_component_id="782045"
+	local fuzz_targets=(
+		"libec_ec_panicinfo_fuzzer"
+	)
+	local fuzz_target
+	for fuzz_target in "${fuzz_targets[@]}"; do
+		platform_fuzzer_install "${S}"/OWNERS "${OUT}"/"${fuzz_target}" \
+			--comp "${fuzzer_component_id}"
+	done
+}
+
 platform_pkg_test() {
 	platform test_all
 }
