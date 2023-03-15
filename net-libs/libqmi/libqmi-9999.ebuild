@@ -34,6 +34,8 @@ src_configure() {
 		-Dintrospection=false
 		-Dman=false
 		-Dbash_completion=false
+		-Dudev=false
+		-Dfirmware_update=false
 		$(meson_use fuzzer)
 	)
 	meson_src_configure
