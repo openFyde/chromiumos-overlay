@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="7165346012bd7072a9f850f7af2122ba9aac479a"
-CROS_WORKON_TREE="832b1acc0251b2da1320408ff1368a7cfee19892"
+CROS_WORKON_COMMIT="c586a7740194659fade1c6fb0eaea300d2299a30"
+CROS_WORKON_TREE="70ff90ac2179b040638f81ce9fca4548fbb295bb"
 CROS_WORKON_PROJECT="chromiumos/platform/factory_installer"
 CROS_WORKON_LOCALNAME="platform/factory_installer"
 CROS_RUST_CRATE_NAME="factory_installer"
@@ -32,7 +32,7 @@ ALL_PORTS=(
 	tty{0..5}
 )
 IUSE_PORTS="${ALL_PORTS[*]/#/${USE_PREFIX}}"
-IUSE="${IUSE_PORTS} -asan test"
+IUSE="${IUSE_PORTS} -asan test cr50_onboard ti50_onboard tpm"
 
 # Factory install images operate by downloading content from a
 # server.  In some cases, the downloaded content contains programs
@@ -162,8 +162,18 @@ src_install() {
 	dosbin "$(cros-rust_get_build_dir)/factory_fai"
 	cd "${S}" || die
 
-	insinto /usr/share/factory_installer/tpm
-	doins tpm/*.sh
+	local tpm_dir="/usr/share/factory_installer/tpm"
+	local tpm_utils="stub.sh"
+	insinto "${tpm_dir}"
+
+	if use cr50_onboard || use ti50_onboard; then
+		tpm_utils=cros.sh
+	elif use tpm; then
+		tpm_utils=infineon.sh
+	fi
+
+	einfo "Installing ${tpm_dir}/${tpm_utils}"
+	newins tpm/"${tpm_utils}" "tpm_utils.sh"
 
 	insinto /usr/share/factory_installer/init
 	doins init/*.conf
