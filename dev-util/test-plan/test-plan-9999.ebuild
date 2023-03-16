@@ -30,13 +30,13 @@ CROS_GO_VET=(
 CROS_GO_VERSION="${PF}"
 
 DEPEND="
-	chromeos-base/cros-config-api
-	dev-go/glog
-	dev-go/infra-proto
-	dev-go/luci-go-common
-	dev-go/maruel-subcommands
-	dev-go/protobuf
-	dev-go/protobuf-legacy-api
+	chromeos-base/cros-config-api:=
+	dev-go/glog:=
+	dev-go/infra-proto:=
+	dev-go/luci-go-common:=
+	dev-go/maruel-subcommands:=
+	dev-go/protobuf:=
+	dev-go/protobuf-legacy-api:=
 "
 RDEPEND="${DEPEND}"
 
