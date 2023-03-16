@@ -621,3 +621,7 @@ RDEPEND="${RDEPEND}
 # Needed for app-metrics/node_exporter.
 RDEPEND="${RDEPEND}
 	dev-util/promu"
+
+# Needed for fwupd-efi>=1.4.
+RDEPEND="${RDEPEND}
+	dev-python/pefile"
