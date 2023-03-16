@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/media-libs/libv4l/libv4l-1.6.0-r1.ebuild,v 1.1 2014/11/14 03:25:09 vapier Exp $
 
-EAPI=5
+EAPI=7
 inherit autotools eutils linux-info multilib-minimal
 
 MY_P=v4l-utils-${PV}
@@ -36,10 +36,14 @@ pkg_setup() {
 	linux-info_pkg_setup
 }
 
+PATCHES=(
+	"${FILESDIR}"/${P}-clang-fixes.patch
+	"${FILESDIR}"/${P}-increase-v4l2-max-devices.patch
+	"${FILESDIR}"/${P}-remove-glob.patch
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-clang-fixes.patch
-	epatch "${FILESDIR}"/${P}-increase-v4l2-max-devices.patch
-	epatch "${FILESDIR}"/${P}-remove-glob.patch
+	default
 	eautoreconf
 }
 
@@ -66,5 +70,5 @@ multilib_src_install() {
 
 multilib_src_install_all() {
 	dodoc ChangeLog README.lib* TODO
-	prune_libtool_files --all
+	find "${D}" -name '*.la' -delete || die
 }

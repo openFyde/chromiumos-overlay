@@ -1,7 +1,7 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 inherit autotools eutils udev
 
 DESCRIPTION="Separate utilities ebuild from upstream v4l-utils package"
@@ -27,9 +27,13 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	virtual/pkgconfig"
 
+PATCHES=(
+	"${FILESDIR}"/${P}-clang-fixes.patch
+	"${FILESDIR}"/${P}-uvc-compliance.patch
+)
+
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-clang-fixes.patch
-	epatch "${FILESDIR}"/${P}-uvc-compliance.patch
+	default
 	eautoreconf
 }
 
