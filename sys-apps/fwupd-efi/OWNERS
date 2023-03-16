@@ -1,4 +1,1 @@
-eshimanovich@google.com
-jefferymiller@google.com
-nicholasbishop@google.com
-tbrandston@google.com
+include chromiumos/owners:v1:/device/OWNERS.reven_boot
