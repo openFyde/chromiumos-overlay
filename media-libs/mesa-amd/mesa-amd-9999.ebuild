@@ -1,6 +1,5 @@
 # Copyright 1999-2019 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/media-libs/mesa/mesa-7.9.ebuild,v 1.3 2010/12/05 17:19:14 arfrever Exp $
 
 EAPI=7
 
@@ -8,7 +7,7 @@ CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-amd"
 CROS_WORKON_EGIT_BRANCH="chromeos-amd"
 
-inherit flag-o-matic meson toolchain-funcs cros-workon
+inherit flag-o-matic meson cros-workon
 
 DESCRIPTION="The Mesa 3D Graphics Library"
 HOMEPAGE="http://mesa3d.org/"
@@ -17,15 +16,8 @@ LICENSE="MIT"
 SLOT="0"
 KEYWORDS="~*"
 
-VIDEO_CARDS="intel amdgpu r300 r600 freedreno llvmpipe"
-for card in ${VIDEO_CARDS}; do
-	IUSE_VIDEO_CARDS+=" video_cards_${card}"
-done
+IUSE="debug libglvnd vulkan zstd"
 
-IUSE="${IUSE_VIDEO_CARDS} debug libglvnd vulkan zstd"
-
-# keep correct libdrm and dri2proto dep
-# keep blocks in rdepend for binpkg
 RDEPEND="
 	libglvnd? ( media-libs/libglvnd )
 	!libglvnd? ( !media-libs/libglvnd )
@@ -37,44 +29,22 @@ RDEPEND="
 "
 
 DEPEND="${RDEPEND}
-	sys-devel/bison
-	sys-devel/flex
-	virtual/pkgconfig
-	x11-base/xorg-proto
 	x11-libs/libva
 	sys-devel/llvm
 "
 
-driver_list() {
-	local drivers="$(sort -u <<< "${1// /$'\n'}")"
-	echo "${drivers//$'\n'/,}"
-}
+BDEPEND="
+	sys-devel/bison
+	sys-devel/flex
+	virtual/pkgconfig
+"
 
 src_configure() {
-	tc-getPROG PKG_CONFIG pkg-config
-
-	cros_optimize_package_for_speed
-
-	gallium_enable video_cards_llvmpipe swrast
-
-	# AMD code
-	gallium_enable video_cards_r300 r300
-	gallium_enable video_cards_r600 r600
-	gallium_enable video_cards_amdgpu radeonsi
-
-	# Freedreno code
-	gallium_enable video_cards_freedreno freedreno
-
-	if use vulkan; then
-		vulkan_enable video_cards_intel intel
-		vulkan_enable video_cards_amdgpu amd
-	fi
-
 	export LLVM_CONFIG=${SYSROOT}/usr/lib/llvm/bin/llvm-config-host
 
 	emesonargs+=(
 		-Dexecmem=false
-		-Dglvnd=$(usex libglvnd true false)
+		$(meson_use libglvnd glvnd)
 		-Dshader-cache-default=false
 		-Dglx=disabled
 		-Dllvm=enabled
@@ -85,8 +55,8 @@ src_configure() {
 		-Dgles1=disabled
 		-Dgles2=enabled
 		$(meson_feature zstd)
-		-Dgallium-drivers="$(driver_list "${GALLIUM_DRIVERS[*]}")"
-		-Dvulkan-drivers="$(driver_list "${VULKAN_DRIVERS[*]}")"
+		-Dgallium-drivers=radeonsi
+		-Dvulkan-drivers=$(usex vulkan amd '')
 		--buildtype $(usex debug debug release)
 		-Dgallium-va=enabled
 		-Dva-libs-path="/usr/$(get_libdir)/va/drivers"
@@ -99,24 +69,11 @@ src_configure() {
 src_install() {
 	meson_src_install
 
-	# Remove redundant GLES headers
-	rm -f "${D}"/usr/include/{EGL,GLES2,GLES3,KHR}/*.h || die "Removing GLES headers failed."
+	# Keep the dri header for minigbm
+	rm -v -rf "${ED}"/usr/include/GL/*.h
+	rm -v -rf "${ED}"/usr/include/{EGL,GLES2,GLES3,KHR}
 
-	# Set driconf option to enable S3TC hardware decompression
+	# Set driconf option to disable PROTECTED bit check
 	insinto "/etc/"
 	doins "${FILESDIR}"/drirc
-}
-
-gallium_enable() {
-	if [[ $1 == -- ]] || use "$1" ; then
-		shift
-		GALLIUM_DRIVERS+=("$@")
-	fi
-}
-
-vulkan_enable() {
-	if [[ $1 == -- ]] || use "$1" ; then
-		shift
-		VULKAN_DRIVERS+=("$@")
-	fi
 }
