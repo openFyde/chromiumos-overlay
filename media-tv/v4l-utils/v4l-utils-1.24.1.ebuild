@@ -28,8 +28,8 @@ DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
 PATCHES=(
-	"${FILESDIR}"/${P}-clang-fixes.patch
-	"${FILESDIR}"/${P}-uvc-compliance.patch
+	"${FILESDIR}"/${PN}-1.22.1-clang-fixes.patch
+	"${FILESDIR}"/${PN}-1.24.1-Enable-large-file-support-flags.patch
 )
 
 src_prepare() {
@@ -38,6 +38,9 @@ src_prepare() {
 }
 
 src_configure() {
+	# v4l2-tracer uses exceptions, so they need to be enabled.
+	cros_enable_cxx_exceptions
+
 	# Hard disable the flags that apply only to the libs.
 	econf \
 		--disable-static \
@@ -52,7 +55,7 @@ src_install() {
 	emake -C utils DESTDIR="${D}" install
 	emake -C contrib DESTDIR="${D}" install
 
-	dodoc README
+	dodoc README.md
 	newdoc utils/libv4l2util/TODO TODO.libv4l2util
 	newdoc utils/libmedia_dev/README README.libmedia_dev
 	newdoc utils/dvb/README README.dvb

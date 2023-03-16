@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/media-libs/libv4l/libv4l-1.6.0-r1.ebuild,v 1.1 2014/11/14 03:25:09 vapier Exp $
 
 EAPI=7
-inherit autotools eutils linux-info multilib-minimal
+inherit autotools eutils linux-info multilib-minimal flag-o-matic
 
 MY_P=v4l-utils-${PV}
 
@@ -37,9 +37,9 @@ pkg_setup() {
 }
 
 PATCHES=(
-	"${FILESDIR}"/${P}-clang-fixes.patch
-	"${FILESDIR}"/${P}-increase-v4l2-max-devices.patch
-	"${FILESDIR}"/${P}-remove-glob.patch
+	"${FILESDIR}"/${PN}-1.22.1-clang-fixes.patch
+	"${FILESDIR}"/${PN}-1.22.1-increase-v4l2-max-devices.patch
+	"${FILESDIR}"/${PN}-1.22.1-remove-glob.patch
 )
 
 src_prepare() {
@@ -48,6 +48,7 @@ src_prepare() {
 }
 
 multilib_src_configure() {
+	append-lfs-flags
 	# Hard disable the flags that apply only to the utils.
 	ECONF_SOURCE=${S} \
 	econf \
