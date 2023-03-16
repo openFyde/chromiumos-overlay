@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="7a7b1dd6e72bf117d45ebce5106d109bda394a4b"
+CROS_WORKON_COMMIT="ae98269705c51b8863443c89ff04b907bfcf7ae8"
 CROS_WORKON_TREE=("3ad7a81ced8374a286e1c564a6e9c929f971a655" "fb6368da756315dca470a76956c457fb2a606b6e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -38,7 +38,17 @@ src_unpack() {
 
 	# Unpack the headers into the srcdir
 	pushd "${S}" > /dev/null || die
-	unpacker
+	if use local_ml_core_internal; then
+		# Unpack local build.
+		local dev_tarball="/mnt/google3_staging/ml-core-libcros_ml_core_internal-dev.tar.xz"
+		echo "Checking for ${dev_tarball}"
+		[[ ! -f "${dev_tarball}" ]] && die "Couldn't find ${dev_tarball} used by local_ml_core_internal. Did you run chromeos/ml/build_dev.sh in google3?"
+		echo "Unpacking ${dev_tarball}"
+		unpack "${dev_tarball}"
+	else
+		# Unpack SRC_URI
+		unpacker
+	fi
 	popd > /dev/null || die
 }
 
