@@ -20,7 +20,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptoho
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="tpm tpm_dynamic tpm2"
+IUSE="tpm tpm_dynamic tpm_insecure_fallback tpm2"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
