@@ -23,6 +23,7 @@ PLATFORM2_PATHS=(
 
 	vm_tools/cicerone
 	vm_tools/concierge
+	vm_tools/dbus_bindings
 	vm_tools/dbus
 	vm_tools/init
 	vm_tools/maitred/client.cc
