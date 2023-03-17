@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="chromium.googlesource.com/chromiumos/infra/proto:go.chromium.org/chromiumos/infra/proto 449bf06264884fee06f01772819d01f760f5ee5e"
+CROS_GO_SOURCE="chromium.googlesource.com/chromiumos/infra/proto:go.chromium.org/chromiumos/infra/proto 610a652909e31ec02870d61c1d0875ad43c03f2f"
 
 CROS_GO_PACKAGES=(
 	"go.chromium.org/chromiumos/infra/proto/go/chromite/api"
@@ -15,6 +15,9 @@ CROS_GO_PACKAGES=(
 	"go.chromium.org/chromiumos/infra/proto/go/testplans"
 	"go.chromium.org/chromiumos/infra/proto/go/test_platform"
 	"go.chromium.org/chromiumos/infra/proto/go/test_platform/execution"
+	"go.chromium.org/chromiumos/infra/proto/go/test_platform/common"
+	"go.chromium.org/chromiumos/infra/proto/go/test_platform/phosphorus"
+	"go.chromium.org/chromiumos/infra/proto/go/test_platform/skylab_test_runner"
 )
 
 inherit cros-go
