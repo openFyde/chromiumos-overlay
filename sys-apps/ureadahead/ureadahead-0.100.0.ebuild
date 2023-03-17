@@ -37,6 +37,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-no-debug-tracing.patch
 	"${FILESDIR}"/${P}-force-ssd-mode.patch
 	"${FILESDIR}"/${P}-tracefs.patch
+	"${FILESDIR}"/${P}-use-existing-trace-events.patch
 )
 
 src_configure() {
