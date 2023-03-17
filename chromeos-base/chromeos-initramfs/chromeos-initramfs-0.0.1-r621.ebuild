@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="769b466adf563ccb8c6f74fe6db847eee337193d"
-CROS_WORKON_TREE="ba25c7e2bf4c19d71aa7e997d666b663488b745b"
+CROS_WORKON_COMMIT="8cf158cc314cd86d5a47c49fb2ef851b2a379eb2"
+CROS_WORKON_TREE="97516ac991459fa29fa81ce6e74ddb8ee1ef952f"
 CROS_WORKON_PROJECT="chromiumos/platform/initramfs"
 CROS_WORKON_LOCALNAME="platform/initramfs"
 CROS_WORKON_OUTOFTREE_BUILD="1"
@@ -20,6 +20,7 @@ IUSE="+cros_ec_utils detachable device_tree +interactive_recovery"
 IUSE="${IUSE} legacy_firmware_ui -mtd +power_management"
 IUSE="${IUSE} unibuild +oobe_config no_factory_flow"
 IUSE="${IUSE} manatee_performance_tools nvme ufs"
+IUSE="${IUSE} cr50_onboard ti50_onboard tpm"
 
 # Build Targets
 TARGETS_IUSE="
@@ -171,11 +172,18 @@ src_compile() {
 	einfo "Building targets: ${targets[*]:-(only running tests)}"
 
 	if [[ ${#targets[@]} -gt 0 ]]; then
+		local tpm_type="default"
+		if use cr50_onboard || use ti50_onboard; then
+			tpm_type="cros"
+		elif use tpm; then
+			tpm_type="infineon"
+		fi
 		emake SYSROOT="${SYSROOT}" \
 			BOARD="$(get_current_board_with_variant)" \
 			DETACHABLE="$(usex detachable 1 0)" \
 			INCLUDE_ECTOOL="$(usex cros_ec_utils 1 0)" \
 			INCLUDE_FACTORY_UFS="$(usex ufs 1 0)" \
+			FACTORY_TPM_SCRIPT="${tpm_type}" \
 			INCLUDE_FIT_PICKER="$(usex device_tree 1 0)" \
 			INCLUDE_NVME_CLI="$(usex nvme 1 0)" \
 			LEGACY_UI="$(usex legacy_firmware_ui 1 0)" \
