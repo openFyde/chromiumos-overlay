@@ -18,13 +18,15 @@ cros-racc_src_compile() {
 	local CMD_MINIFY_JSON=("jq" "-c" ".")
 	local BUILD_ROOT="${WORKDIR}/build"
 	local config
-	# shellcheck disable=SC2015
-	while read -r -d $'\0' config; do
-		mkdir -p "$(dirname "${BUILD_ROOT}/${config}")"
-		"${CMD_MINIFY_JSON[@]}" \
-			< "${FILESDIR}/${config}" > "${BUILD_ROOT}/${config}" ||
-			die "Failed to minify json file: ${config}"
-	done < <(cd "${FILESDIR}" && find "runtime_probe/" -maxdepth 2 -name "*.json" -type f -print0 || die)
+	if [[ -d "${FILESDIR}/runtime_probe/" ]]; then
+		# shellcheck disable=SC2015
+		while read -r -d $'\0' config; do
+			mkdir -p "$(dirname "${BUILD_ROOT}/${config}")"
+			"${CMD_MINIFY_JSON[@]}" \
+				< "${FILESDIR}/${config}" > "${BUILD_ROOT}/${config}" ||
+				die "Failed to minify json file: ${config}"
+		done < <(cd "${FILESDIR}" && find "runtime_probe/" -maxdepth 2 -name "*.json" -type f -print0 || die)
+	fi
 }
 
 # @FUNCTION: cros-racc_src_install
@@ -34,9 +36,13 @@ cros-racc_src_compile() {
 cros-racc_src_install() {
 	einfo "cros-racc src_install"
 
-	insinto /etc/runtime_probe
-	doins -r "${WORKDIR}/build/runtime_probe/"*
+	if [[ -d "${WORKDIR}/build/runtime_probe/" ]]; then
+		insinto /etc/runtime_probe
+		doins -r "${WORKDIR}/build/runtime_probe/"*
+	fi
 
-	insinto /etc/hardware_verifier
-	doins "${FILESDIR}/hw_verification_spec.prototxt"
+	if [[ -e "${FILESDIR}/hw_verification_spec.prototxt" ]]; then
+		insinto /etc/hardware_verifier
+		doins "${FILESDIR}/hw_verification_spec.prototxt"
+	fi
 }
