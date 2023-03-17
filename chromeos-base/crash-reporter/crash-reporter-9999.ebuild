@@ -85,7 +85,7 @@ src_install() {
 		dosbin "${OUT}"/crash_sender
 	fi
 
-	into /usr/local
+	into /usr
 	dobin "${OUT}"/bluetooth_devcd_parser
 
 	insinto /etc/dbus-1/system.d
