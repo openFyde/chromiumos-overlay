@@ -27,6 +27,7 @@ MODELS_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-smart_dim-20190521-v3.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20211105.tflite"
 	"gs://chromeos-localmirror/distfiles/mlservice-model-poncho_palm_rejection-test_quantized_20230213.tflite"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20230314.tflite"
 )
 
 DOWNLOADABLE_MODELS=(
@@ -40,6 +41,7 @@ DOWNLOADABLE_MODELS=(
 # PREPROCESSOR_PB_FOR_TEST.
 PREPROCESSOR_PB_TO_INSTALL=(
 	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20211105-preprocessor.pb"
+	"gs://chromeos-localmirror/distfiles/mlservice-model-adaptive_charging-20230314-preprocessor.pb"
 )
 
 PREPROCESSOR_PB_FOR_TEST=(
