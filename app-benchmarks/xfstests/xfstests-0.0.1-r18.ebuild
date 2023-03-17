@@ -27,7 +27,11 @@ RDEPEND="sys-fs/e2fsprogs
 	sys-fs/xfsprogs
 "
 
+# util-linux for libuuid
+# xfsprogs for xfs/xfs.h header (it also transitively includes util-linux)
 DEPEND="sys-apps/acl
+	sys-apps/util-linux
+	sys-fs/xfsprogs
 	dev-libs/libaio
 "
 
