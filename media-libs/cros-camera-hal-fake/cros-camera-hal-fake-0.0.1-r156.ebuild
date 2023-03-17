@@ -1,0 +1,31 @@
+# Copyright 2022 The ChromiumOS Authors.
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="73b5031a6569fd5328b71e2ba7cd381d73be5374"
+CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "2ad8679ea3a8f3e8a2509b4b05585f22f2dc373b" "d5e67458f90f1b48f415dec5473521ad707e7927" "6691dc6fa8154a6f5b243558f4915b1e8d0e2bdb" "a107bda06bdcf45088d2aecf0d50b69804adfd69" "4346f7da65df359f08635a2031a3e6b5036731c1" "ef50bf4184c5fd9a70db57729617b66d9fc7ff59")
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_LOCALNAME="../platform2"
+# TODO(b/187784160): Avoid directly including headers from other packages.
+CROS_WORKON_SUBTREE=".gn camera/build camera/common camera/hal/fake camera/include camera/mojo common-mk"
+CROS_WORKON_OUTOFTREE_BUILD="1"
+CROS_WORKON_INCREMENTAL_BUILD="1"
+
+PLATFORM_SUBDIR="camera/hal/fake"
+
+inherit cros-camera cros-workon platform
+
+DESCRIPTION="ChromeOS fake camera HAL."
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+IUSE=""
+
+RDEPEND="
+	chromeos-base/cros-camera-android-deps:=
+	media-libs/libsync:=
+	media-libs/libyuv:="
+
+BDEPEND="${RDEPEND}
+	virtual/pkgconfig:="
