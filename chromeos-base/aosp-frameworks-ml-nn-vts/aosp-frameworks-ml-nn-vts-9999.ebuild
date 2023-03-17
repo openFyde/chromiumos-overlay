@@ -53,6 +53,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	dev-libs/libtextclassifier:=
 "
 
 src_configure() {
