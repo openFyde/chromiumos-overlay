@@ -4277,5 +4277,19 @@
       "from": 477979,
       "until": null
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Disable Cast Assert"
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "disable-cast-assert.patch",
+    "version_range": {
+      "from": 475826,
+      "until": null
+    }
   }
 ]
