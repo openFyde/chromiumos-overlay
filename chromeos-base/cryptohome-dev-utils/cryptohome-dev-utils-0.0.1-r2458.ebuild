@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="dff820747f6467c3fb93467beeaea9a41dcc7ea2"
-CROS_WORKON_TREE=("3ad7a81ced8374a286e1c564a6e9c929f971a655" "4dfd73e78dbb81ba78e4ac21a2c66d859393d042" "52e7a22177e5c933464f72ac14eb73d89b891e5b" "0da6813244ce2b1b6119bea74143530e6a6623e9" "585af077146f2e4daaaec14eb5814cd8507e862c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="c15a743af4ff11f742b846a0e9f4d04f6d8c60a8"
+CROS_WORKON_TREE=("3ad7a81ced8374a286e1c564a6e9c929f971a655" "129692049667cb39ba99216f08e85665424dd751" "52e7a22177e5c933464f72ac14eb73d89b891e5b" "0da6813244ce2b1b6119bea74143530e6a6623e9" "585af077146f2e4daaaec14eb5814cd8507e862c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -22,7 +22,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/cryptoho
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="tpm tpm_dynamic tpm2"
+IUSE="tpm tpm_dynamic tpm_insecure_fallback tpm2"
 
 REQUIRED_USE="
 	tpm_dynamic? ( tpm tpm2 )
