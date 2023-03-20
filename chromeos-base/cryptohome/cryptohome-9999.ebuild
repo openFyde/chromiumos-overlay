@@ -107,7 +107,6 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins etc/org.chromium.UserDataAuth.conf
-	doins etc/BootLockbox.conf
 
 	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-5_15 && use !kernel-6_1 && use !kernel-upstream) || use uprev-4-to-5); then
 		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
