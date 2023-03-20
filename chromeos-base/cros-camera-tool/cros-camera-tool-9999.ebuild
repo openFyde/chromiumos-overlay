@@ -22,6 +22,8 @@ RDEPEND="chromeos-base/cros-camera-libs:="
 
 BDEPEND="virtual/pkgconfig"
 
+DEPEND="${RDEPEND}"
+
 src_install() {
 	platform_src_install
 }
