@@ -6,11 +6,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <iostream>
 #include <cstddef>
 #include <cstdint>
+#include <iostream>
 
-#include "stdin_util.h"
+#include "./stdin_util.h"
 #include "prnt/hpcups/HPCupsFilter.h"
 
 // This PPD file has *hpPrinterLanguage set to pcl3gui.
@@ -19,11 +19,11 @@
 // values to increase code coverage.
 constexpr char ppdFile[] = "/usr/share/cups/model/hpcups.ppd";
 
-extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
+extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
   static cups_page_header2_t header;
   static bool once = true;
   if (once) {
-    ppd_file_t* file = ppdOpenFile(ppdFile);
+    ppd_file_t *file = ppdOpenFile(ppdFile);
     if (!file) {
       std::cerr << "ppdOpenFile() failed";
       abort();
@@ -54,22 +54,34 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t* data, size_t size) {
     abort();
   }
 
+  // Determine the max page size based on our cups header.
+  const size_t maxPageSize =
+      static_cast<size_t>(header.cupsHeight) * header.cupsBytesPerLine;
+
   // Writes the raster content to stdin for HPCupsFilter to consume.
   // Stdin is a memory-backed file.
-  cups_raster_t* raster = cupsRasterOpen(STDIN_FILENO, CUPS_RASTER_WRITE);
-  cupsRasterWriteHeader2(raster, &header);
-  cupsRasterWritePixels(raster, const_cast<uint8_t*>(data), size);
+  cups_raster_t *raster = cupsRasterOpen(STDIN_FILENO, CUPS_RASTER_WRITE);
+  size_t offset = 0;
+  while (size > 0) {
+    // Don't write more than the max size specified by our header.
+    const size_t numToWrite = std::min(size, maxPageSize);
+    cupsRasterWriteHeader2(raster, &header);
+    cupsRasterWritePixels(raster, const_cast<uint8_t *>(data + offset),
+                          numToWrite);
+    size -= numToWrite;
+    offset += numToWrite;
+  }
   cupsRasterClose(raster);
   fuzzer_rewind_stdin();
 
   HPCupsFilter filter;
-  const char* argv[] = {/*uri*/ "",         /*job id*/ "1",
+  const char *argv[] = {/*uri*/ "",         /*job id*/ "1",
                         /*user*/ "chronos", /*title*/ "Untitled",
                         /*copies*/ "1",     /*options*/ ""};
   // This command may fail and return a non-zero error code
   // if the input raster header is malformed.
   filter.StartPrintJob(sizeof(argv) / sizeof(argv[0]),
-                       const_cast<char**>(argv));
+                       const_cast<char **>(argv));
 
   return 0;
 }
