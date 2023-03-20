@@ -68,6 +68,7 @@ DEPEND="
 	dev-go/sync
 	dev-go/tail
 	dev-go/tarm-serial
+	dev-go/term
 	dev-go/uuid
 	dev-go/vnc2video
 	dev-go/vsock
