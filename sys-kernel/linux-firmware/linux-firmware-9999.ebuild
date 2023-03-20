@@ -53,7 +53,7 @@ IUSE_IWLWIFI=(
 	iwlwifi-cc
 	iwlwifi-QuZ
 	iwlwifi-so
-	iwlwifi-ax203
+	iwlwifi-so-a0-hr
 )
 IUSE_BRCMWIFI=(
 	brcmfmac-all
@@ -356,7 +356,7 @@ install_iwlwifi() {
 			*)               doins "${x}-a0-gf-a0-79.ucode" ;;
 			esac
 			doins "${x}-a0-gf-a0.pnvm" ;;
-		iwlwifi-ax203) doins iwlwifi-so-a0-hr-b0-79.ucode ;;
+		iwlwifi-so-a0-hr) doins "${x}-b0-79.ucode" ;;
 		iwlwifi-*) doins "${x}"-*.ucode ;;
 		esac
 		# At least with EAPI 7, it's ok to call 'doins' with the same
