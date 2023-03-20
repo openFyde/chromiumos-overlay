@@ -25,7 +25,6 @@ IUSE="
 	march_tigerlake
 	march_tremont
 	march_znver1
-	legacy_amd64_cpu_support
 "
 
 REQUIRED_USE="
@@ -125,7 +124,6 @@ cros-camera_generate_document_scanning_package_SRC_URI() {
 	# cros-camera_generate_conditional_SRC_URI (local -n).
 	# shellcheck disable=SC2034
 	local document_scanning_flag_src_mappings=(
-		"legacy_amd64_cpu_support ${prefix}-legacy_amd64_cpu_support-${suffix}"
 		"march_alderlake ${prefix}-x86_64-alderlake-${suffix}"
 		"march_armv8 ${prefix}-armv7-armv8-a+crc-${suffix}"
 		"march_bdver4 ${prefix}-x86_64-bdver4-${suffix}"

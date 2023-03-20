@@ -33,7 +33,7 @@ REQUIRED_USE="
 
 LOCAL_MIRROR="gs://chromeos-localmirror/distfiles"
 PACAKGE_AUTOFRAMING="chromeos-camera-libautoframing-2022.09.06.tbz2"
-PACKAGE_DOCUMENT_SCANNING_PV="2023.01.11"
+PACKAGE_DOCUMENT_SCANNING_PV="2023.03.20"
 PACAKGE_FACESSD="chromeos-facessd-lib-2021.10.27.tar.bz2"
 PACKAGE_GCAM="chromeos-camera-libgcam-2023.01.11.tar.zst"
 PACKAGE_PORTRAIT_PROCESSOR_AMD64="portrait-processor-lib-x86_64-2023.03.14.tar.zst"
