@@ -66,8 +66,7 @@ BDEPEND="
 # Force older versions to be removed first.
 RDEPEND="${RDEPEND}
 	!<sys-devel/llvm-${SLOT}"
-PDEPEND="sys-devel/llvm-common
-	gold? ( sys-devel/llvmgold )"
+PDEPEND="gold? ( sys-devel/llvmgold )"
 
 REQUIRED_USE="|| ( ${ALL_LLVM_TARGETS[*]} )"
 
