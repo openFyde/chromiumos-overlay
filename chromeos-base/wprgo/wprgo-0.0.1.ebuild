@@ -27,7 +27,9 @@ IUSE=""
 RDEPEND=""
 DEPEND="${RDEPEND}
 	dev-go/cli
-	dev-go/net"
+	dev-go/net
+	dev-go/go-md2man
+	dev-go/blackfriday"
 
 src_install() {
 	cros-go_src_install
