@@ -15,7 +15,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/userfeed
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="~*"
-IUSE="systemd X"
+IUSE="systemd"
 
 RDEPEND="chromeos-base/chromeos-init
 	chromeos-base/crash-reporter
@@ -26,8 +26,7 @@ RDEPEND="chromeos-base/chromeos-init
 	sys-apps/coreboot-utils
 	sys-apps/net-tools
 	sys-apps/pciutils
-	sys-apps/usbutils
-	X? ( x11-apps/setxkbmap )"
+	sys-apps/usbutils"
 
 DEPEND=""
 
