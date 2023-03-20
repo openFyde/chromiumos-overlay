@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="9d8f1338f7d064604e517ff697ea0be5c042254f"
-CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "0cf48a697d3b080b5908a3d625c5cd14bfbf2c27" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="413f98a31e9f6a7e47e9ead7d8491cb8449f166b"
+CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "0b6d8feaed45ae40dc2b7e3b84e4f5e8d5a8f975" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -33,16 +33,11 @@ RDEPEND="
 src_install() {
 	platform_src_install
 
-	# Install libshill-net library.
+	# Generate and install libshill-net pkgconfig.
 	insinto "/usr/$(get_libdir)/pkgconfig"
 	local v="$(libchrome_ver)"
 	./preinstall.sh "${OUT}" "${v}"
-	dolib.so "${OUT}/lib/libshill-net.so"
 	doins "${OUT}/lib/libshill-net.pc"
-
-	# Install header files from libshill-net.
-	insinto /usr/include/shill/net
-	doins ./*.h
 
 	local platform_network_component_id="167325"
 	local platform_wifi_component_id="893827"
