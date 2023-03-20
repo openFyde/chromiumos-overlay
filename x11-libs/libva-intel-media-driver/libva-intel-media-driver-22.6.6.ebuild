@@ -33,6 +33,7 @@ PATCHES=(
 	"${FILESDIR}"/0006-Media-Common-VP-fix-object-capture-ffmpeg.patch
 	"${FILESDIR}"/0007-CP-Add-stale-protected-gem-context-check.patch
 	"${FILESDIR}"/0008-Encode-Fix-surface-lock-segment-fault.patch
+	"${FILESDIR}"/0009-Encode-Fix-an-issue-that-GopPicSize-may-be-0.patch
 )
 
 src_configure() {
