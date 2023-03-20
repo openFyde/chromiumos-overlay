@@ -10,6 +10,15 @@ cros_pre_src_configure_imagemagick_local() {
 			--libdir=/usr/local/$(get_libdir)
 			--sysconfdir=/usr/local/etc
 		"
+
+		# Argument hack since we are installing to /usr/local
+		find() {
+			local args=( -maxdepth 1 -name "*.la" -delete )
+			if [[ "$*" == "${ED}/usr/$(get_libdir)/ ${args[*]}" ]]; then
+				set -- "${ED}/usr/local/$(get_libdir)/" "${args[@]}"
+			fi
+			$(type -P find) "$@"
+		}
 	fi
 }
 
