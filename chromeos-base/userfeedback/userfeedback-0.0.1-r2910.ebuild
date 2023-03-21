@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="a28cf6e42a1bd00986d656876fdcd9c9888cb19d"
+CROS_WORKON_COMMIT="7b0ebba0e34deadfef168f423dd41639bf1082ba"
 CROS_WORKON_TREE="05f133ee75c382303e7cd9c3d383ea82a47d1529"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
@@ -17,7 +17,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/userfeed
 LICENSE="BSD-Google"
 SLOT="0/0"
 KEYWORDS="*"
-IUSE="systemd X"
+IUSE="systemd"
 
 RDEPEND="chromeos-base/chromeos-init
 	chromeos-base/crash-reporter
@@ -28,8 +28,7 @@ RDEPEND="chromeos-base/chromeos-init
 	sys-apps/coreboot-utils
 	sys-apps/net-tools
 	sys-apps/pciutils
-	sys-apps/usbutils
-	X? ( x11-apps/setxkbmap )"
+	sys-apps/usbutils"
 
 DEPEND=""
 
