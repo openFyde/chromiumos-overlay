@@ -144,7 +144,10 @@ RDEPEND="${RDEPEND}
 	!app-emulation/qemu-kvm
 	!app-emulation/qemu-user
 	app-text/asciidoc
+	app-text/docbook-xml-dtd:4.1.2
 	app-text/docbook-xml-dtd:4.2
+	app-text/docbook-xml-dtd:4.3
+	app-text/docbook-xml-dtd:4.4
 	app-text/docbook-xml-dtd:4.5
 	app-text/docbook-xsl-stylesheets
 	app-text/texi2html
@@ -218,6 +221,7 @@ RDEPEND="${RDEPEND}
 	dev-util/hdctools
 	>=dev-util/gtk-doc-am-1.13
 	>=dev-util/intltool-0.30
+	dev-util/meson-format-array
 	dev-util/pahole
 	dev-util/scons
 	dev-util/test-services
@@ -623,3 +627,9 @@ RDEPEND="${RDEPEND}
 # Needed for fwupd-efi>=1.4.
 RDEPEND="${RDEPEND}
 	dev-python/pefile"
+
+# Needed for x11-libs/libxcb.
+RDEPEND+=" x11-base/xcb-proto"
+
+# Needed for dev-libs/boost.
+RDEPEND+=" dev-util/b2"
