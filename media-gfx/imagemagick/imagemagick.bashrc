@@ -30,11 +30,12 @@ cros_pre_src_install_imagemagick_single_install() {
 # modules at runtime.  So save all of the .la files in a tarball and
 # unpack them ourselves later on :x.
 
-LA_TARBALL="${PN}-la-files.tar.gz"
+LA_TARBALL="share/${PN}/la-files.tar.zst"
 
 cros_post_src_install_imagemagick_save_la() {
 	pushd "${ED}"/usr/local >/dev/null
-	tar zcf ${LA_TARBALL} $(find -name '*.la')
+	mkdir -p "share/${PN}"
+	tar -Izstdmt -cf ${LA_TARBALL} $(find -name '*.la')
 	popd >/dev/null
 }
 
