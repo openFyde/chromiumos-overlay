@@ -67,7 +67,6 @@ COMMON_DEPEND="
 	dev-libs/libbsd[${MULTILIB_USEDEP}]
 	dev-libs/libtasn1:=[${MULTILIB_USEDEP}]
 	dev-libs/popt[${MULTILIB_USEDEP}]
-	dev-perl/Parse-Yapp
 	>=net-libs/gnutls-3.4.7:=[${MULTILIB_USEDEP}]
 	>=sys-fs/e2fsprogs-1.46.4-r51[${MULTILIB_USEDEP}]
 	>=sys-libs/ldb-2.5.2:=[ldap(+)?,${MULTILIB_USEDEP}]
@@ -123,6 +122,7 @@ RDEPEND="${COMMON_DEPEND}
 BDEPEND="
 	app-text/docbook-xsl-stylesheets
 	dev-libs/libxslt
+	dev-perl/Parse-Yapp
 	virtual/pkgconfig
 "
 
