@@ -27,11 +27,11 @@ REQUIRED_USE="
 
 COMMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
+	chromeos-base/libhwsec:=[test?]
 	sys-apps/dbus:=
 "
 RDEPEND="
 	${COMMMON_DEPEND}
-	chromeos-base/libhwsec:=[test?]
 "
 DEPEND="
 	${COMMMON_DEPEND}
