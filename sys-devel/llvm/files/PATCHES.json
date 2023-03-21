@@ -4291,5 +4291,19 @@
       "from": 475826,
       "until": null
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "[1b/3][ASan][compiler-rt] API for annotating objects memory"
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/dd1b7b797a116eed588fd752fbe61d34deeb24e4.patch",
+    "version_range": {
+      "from": 475826,
+      "until": 478121
+    }
   }
 ]
