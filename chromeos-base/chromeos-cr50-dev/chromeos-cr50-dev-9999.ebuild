@@ -8,19 +8,23 @@ CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/tpm2"
 	"chromiumos/third_party/cryptoc"
+	"chromiumos/platform/pinweaver"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/cr50"
 	"third_party/tpm2"
 	"third_party/cryptoc"
+	"platform/pinweaver"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
+	"${S}/platform/pinweaver"
 )
 CROS_WORKON_EGIT_BRANCH=(
 	"cr50_stab"
+	"main"
 	"main"
 	"main"
 )
@@ -209,4 +213,3 @@ src_install() {
 
 	install_cr50_signer_aid
 }
-
