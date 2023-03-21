@@ -29,13 +29,13 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
+	direncryption? ( sys-apps/keyutils:= )
 	kvm_guest? ( net-libs/grpc:= )
 	net-misc/curl:=
 	sys-libs/zlib:=
 "
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ca-certificates
-	direncryption? ( sys-apps/keyutils:= )
 	cros_ec? ( chromeos-base/ec-utils )
 "
 DEPEND="
