@@ -6,7 +6,7 @@ CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk ml ml_benchmark .gn"
+CROS_WORKON_SUBTREE="common-mk ml ml_benchmark .gn ml_core ml_core/mojo"
 
 PLATFORM_SUBDIR="ml"
 
@@ -90,6 +90,7 @@ RDEPEND="
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
 	internal? ( ondevice_image_content_annotation? ( dev-libs/libica:= ) )
+	dev-libs/ml-core:=
 "
 
 DEPEND="
