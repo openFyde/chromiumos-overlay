@@ -342,7 +342,6 @@ RDEPEND="
 		chromeos-languagepacks/handwriting-te
 		chromeos-languagepacks/handwriting-th
 		chromeos-languagepacks/handwriting-ti
-		chromeos-languagepacks/handwriting-tl
 		chromeos-languagepacks/handwriting-tr
 		chromeos-languagepacks/handwriting-uk
 		chromeos-languagepacks/handwriting-ur
