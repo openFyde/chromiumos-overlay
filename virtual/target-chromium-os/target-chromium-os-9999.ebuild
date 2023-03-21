@@ -297,6 +297,7 @@ RDEPEND="
 		chromeos-languagepacks/handwriting-et
 		chromeos-languagepacks/handwriting-fa
 		chromeos-languagepacks/handwriting-fi
+		chromeos-languagepacks/handwriting-fil
 		chromeos-languagepacks/handwriting-fr
 		chromeos-languagepacks/handwriting-ga
 		chromeos-languagepacks/handwriting-gu
@@ -347,6 +348,7 @@ RDEPEND="
 		chromeos-languagepacks/handwriting-ur
 		chromeos-languagepacks/handwriting-vi
 		chromeos-languagepacks/handwriting-zh
+		chromeos-languagepacks/handwriting-zh-HK
 	)
 	hps? (
 		chromeos-base/hpsd
