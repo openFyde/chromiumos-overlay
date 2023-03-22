@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="bb9afe6773e6b4e0927003b9b85087f875eef03e"
+CROS_WORKON_COMMIT="2b7f738a2ed3f50fbb4799f17271973358819f2d"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "968d7d39629c1a8973486f8c11a3d5de3813e7e1" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -28,6 +28,7 @@ IUSE="cros_host +dbus +device_mapper fuzzer -lvm_stateful_partition +udev usb"
 
 COMMON_DEPEND="
 	chromeos-base/minijail:=
+	>=chromeos-base/protofiles-0.0.75:=
 	dbus? ( dev-libs/dbus-glib:= )
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
@@ -47,7 +48,6 @@ RDEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	>=chromeos-base/protofiles-0.0.75:=
 	dbus? ( chromeos-base/system_api:=[fuzzer?] )
 	dev-libs/modp_b64:=
 "
