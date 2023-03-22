@@ -41,6 +41,7 @@ DEPEND="${RDEPEND}
 	chromeos-base/dlcservice-client:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	media-libs/minigbm:=
+	x11-drivers/opengles-headers:=
 	x11-libs/libdrm:="
 
 src_configure() {
