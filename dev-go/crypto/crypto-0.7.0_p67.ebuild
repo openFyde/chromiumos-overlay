@@ -1,7 +1,7 @@
 # Copyright 2017 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 CROS_GO_SOURCE="go.googlesource.com/crypto:golang.org/x/crypto aa10faf2a1f825c8ba49e90899862da2a0d353ca"
 
