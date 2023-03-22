@@ -8,7 +8,7 @@ CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="hiberman"
 
-inherit cros-workon cros-rust user
+inherit cros-workon cros-rust user udev
 
 DESCRIPTION="The hibernate service manager."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hiberman/"
