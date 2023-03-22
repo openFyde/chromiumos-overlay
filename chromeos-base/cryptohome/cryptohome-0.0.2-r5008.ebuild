@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a97ea9f9e2993b3ea77452082edaf75a52e183b2"
-CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "e5999a37c4187648b3253d0f8cfde289ff1b28df" "f6e104c11c530bd14d044a9d3ea7a03c9d235a7f" "bb0ca75967bdb31658c366e9b7d3b8c8b05a8ed0" "585af077146f2e4daaaec14eb5814cd8507e862c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="1f2045bf9725655b2a5759484d89d5aff4884d3f"
+CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "5a9c98c5924e7554396c908f69d8231002ec2c5c" "f6e104c11c530bd14d044a9d3ea7a03c9d235a7f" "bb0ca75967bdb31658c366e9b7d3b8c8b05a8ed0" "585af077146f2e4daaaec14eb5814cd8507e862c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
@@ -109,7 +109,6 @@ src_install() {
 
 	insinto /etc/dbus-1/system.d
 	doins etc/org.chromium.UserDataAuth.conf
-	doins etc/BootLockbox.conf
 
 	if use direncription_allow_v2 && ( (use !kernel-5_4 && use !kernel-5_10 && use !kernel-5_15 && use !kernel-6_1 && use !kernel-upstream) || use uprev-4-to-5); then
 		die "direncription_allow_v2 is enabled where it shouldn't be. Do you need to change the board overlay? Note, uprev boards should have it disabled!"
