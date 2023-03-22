@@ -18,7 +18,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libcross
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-COMMON_DEPEND=""
+COMMON_DEPEND="
+	chromeos-base/vboot_reference:=
+"
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -26,7 +28,6 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/vboot_reference:=
 "
 
 platform_pkg_test() {
