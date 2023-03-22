@@ -17,7 +17,10 @@ cros_pre_src_prepare_filter_sanitizers() {
 
 cros_pre_src_prepare_patches() {
 	# Not using ${P} to refer to patch to avoid updating it on every _p# change.
-	eapply "${BASHRC_FILESDIR}"/${PN}-4.4-noexec.patch || die
+	eapply "${BASHRC_FILESDIR}/${PN}-4.4-noexec.patch" || die
+
+	# This can be dropped for bash 5.2 and later.
+	eapply "${BASHRC_FILESDIR}/${PN}-5.1-CVE-2022-3715.patch" || die
 
 	# Disable this logic for SDK builds.
 	if [[ $(cros_target) == "cros_host" ]]; then
