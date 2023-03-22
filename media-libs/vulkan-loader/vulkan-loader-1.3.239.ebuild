@@ -35,10 +35,6 @@ DEPEND="
 "
 PDEPEND="layers? ( media-libs/vulkan-layers:=[${MULTILIB_USEDEP}] )"
 
-PATCHES=(
-	"${FILESDIR}"/UPSTREAM-875fa6f35c1b-write-gen_defines-asm.patch
-)
-
 multilib_src_configure() {
 	# Integrated clang assembler doesn't work with x86 - Bug #698164
 	if tc-is-clang && [[ ${ABI} == x86 ]]; then
