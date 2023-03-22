@@ -25,8 +25,8 @@ RDEPEND="
 	>=dev-libs/protobuf-3.18.1:=
 	dev-libs/xxhash
 	>=net-dns/c-ares-1.15.0:=
+	!net-libs/grpc:1.16.1
 	sys-libs/zlib:=
-	net-libs/grpc:1.16.1
 "
 
 DEPEND="${RDEPEND}
