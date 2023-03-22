@@ -11,7 +11,10 @@ KEYWORDS="*"
 IUSE="cros_host"
 
 RDEPEND="chromeos-base/chromeos-cr50-dev
-	!cros_host? ( chromeos-base/chromeos-cr50-scripts )"
+	!cros_host? (
+		chromeos-base/chromeos-cr50-scripts
+		chromeos-base/hwsec-utils
+	)"
 
 # There are two major types of images of Cr50, prod (used on most MP devices)
 # and pre-pvt, used on devices still not fully released.

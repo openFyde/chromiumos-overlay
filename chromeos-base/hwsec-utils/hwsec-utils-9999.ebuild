@@ -45,7 +45,20 @@ src_compile() {
 
 src_install() {
 	cros-rust_src_install
-	dobin "$(cros-rust_get_build_dir)/tpm2_read_board_id"
+
+	exeinto /usr/share/cros/hwsec-utils
+	files=(
+		cr50_flash_log
+		cr50_read_rma_sn_bits
+		cr50_reset
+		cr50_set_board_id
+		cr50_set_sn_bits
+		cr50_update
+		tpm2_read_board_id
+	)
+	for f in "${files[@]}"; do
+		doexe "$(cros-rust_get_build_dir)/${f}"
+	done
 }
 
 src_test() {
