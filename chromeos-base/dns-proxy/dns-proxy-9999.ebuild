@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
+	chromeos-base/session_manager-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/shill-net:=
 	dev-libs/protobuf:=
