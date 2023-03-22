@@ -25,6 +25,7 @@ COMMON_DEPEND="
 	chromeos-base/featured:=
 	chromeos-base/missive:=
 	chromeos-base/tpm_manager-client:=
+	chromeos-base/vboot_reference:=
 	>=dev-libs/libbpf-0.8.1
 "
 
