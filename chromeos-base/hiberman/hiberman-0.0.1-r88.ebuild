@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="fbc480b8f592730796d870c41d0dc847cc28b8fc"
+CROS_WORKON_COMMIT="62175a06ea19ccfa9762f6426bc0e91c72273e56"
 CROS_WORKON_TREE="9c57807fd8948c77ff6645aae9fcbaf69c9e5a88"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -43,6 +43,8 @@ src_install() {
 
 	insinto /usr/share/dbus-1/system-services
 	doins dbus/org.chromium.Hibernate.service
+
+	udev_dorules udev/12-hiberman.rules
 
 	insinto /etc/init
 	doins "${FILESDIR}/hiberman.conf"
