@@ -28,6 +28,9 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/system_api:=
+	dev-libs/marisa-aosp:=
+	dev-libs/libutf:=
 "
 
 platform_pkg_test() {
