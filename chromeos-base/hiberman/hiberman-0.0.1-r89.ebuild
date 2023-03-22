@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="62175a06ea19ccfa9762f6426bc0e91c72273e56"
+CROS_WORKON_COMMIT="ac3badf6c31e88395c1ed7b5e94926fe34d7bfd6"
 CROS_WORKON_TREE="9c57807fd8948c77ff6645aae9fcbaf69c9e5a88"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_SUBTREE="hiberman"
 
-inherit cros-workon cros-rust user
+inherit cros-workon cros-rust user udev
 
 DESCRIPTION="The hibernate service manager."
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/hiberman/"
