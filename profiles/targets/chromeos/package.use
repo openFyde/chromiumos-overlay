@@ -129,6 +129,7 @@ sys-block/parted	device-mapper
 sys-devel/bc		forced-sandbox
 sys-devel/clang		-multitarget
 sys-devel/llvm		-multitarget -ncurses
+sys-fs/cryptsetup	-argon2
 sys-fs/lvm2		-lvm1 -readline -static
 sys-fs/mtools		-X
 sys-fs/ntfs3g		-crypt external-fuse ntfsprogs -suid
