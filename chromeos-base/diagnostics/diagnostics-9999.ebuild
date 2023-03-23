@@ -45,6 +45,7 @@ COMMON_DEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
+	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/debugd-client:=
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/power_manager-client:=
