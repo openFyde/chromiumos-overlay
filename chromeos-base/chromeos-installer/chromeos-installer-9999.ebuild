@@ -31,6 +31,7 @@ IUSE="
 	postinstall_config_efi_and_legacy
 	manage_efi_boot_entries
 	postinst_metrics
+	reven_partition_migration
 "
 
 COMMON_DEPEND="
