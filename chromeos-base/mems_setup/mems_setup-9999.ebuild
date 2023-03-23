@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/mems_set
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
-IUSE="fuzzer iioservice"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
