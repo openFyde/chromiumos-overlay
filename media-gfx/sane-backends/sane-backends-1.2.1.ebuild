@@ -177,6 +177,7 @@ src_prepare() {
 	EOF
 
 	eapply "${FILESDIR}"/${PN}-1.2.1-dlc.patch
+	eapply "${FILESDIR}"/${PN}-1.2.1-epsonds.patch
 	eapply "${FILESDIR}"/${PN}-1.0.24-saned_pidfile_location.patch
 
 	# From Arch
