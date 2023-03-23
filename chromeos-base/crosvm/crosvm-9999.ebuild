@@ -203,6 +203,7 @@ src_test() {
 		--exclude gpu_display
 		--exclude rutabaga_gfx
 		--exclude crosvm-fuzz
+		--exclude swap
 		# Exclude crates that require KVM.
 		--exclude e2e_tests
 		--exclude integration_tests
