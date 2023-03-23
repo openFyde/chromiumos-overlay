@@ -105,6 +105,8 @@ src_prepare() {
 	fi
 	# Fix CVE-2022-0934
 	eapply "${FILESDIR}"/${PN}-2.87-Fix-write-after-free-error-in-DHCPv6-server-code.patch
+	# Fix CVE-2023-28450
+	eapply "${FILESDIR}"/${PN}-2.90-Fix-CVE-2023-28450.patch
 
 	eapply_user
 
