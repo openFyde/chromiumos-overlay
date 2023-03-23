@@ -3,16 +3,18 @@
 
 EAPI=7
 
+CROS_WORKON_COMMIT=("4976c1a60ca660d530e6dcaeb6dbd6fe4403fed7" "3ec149b5a9db03da2a71ed52d445b999f349d1d5")
+CROS_WORKON_TREE=("f3dc4223f38823b051e8ca6c29fcf9c6a142f126" "017dc03acde851b56f342d16fdc94a5f332ff42e")
+PYTHON_COMPAT=( python3_{6..11} )
+
 # platform2 is used purely for the platform2_test.py wrapper
 
-CROS_WORKON_COMMIT=("4976c1a60ca660d530e6dcaeb6dbd6fe4403fed7" "bb9afe6773e6b4e0927003b9b85087f875eef03e")
-CROS_WORKON_TREE=("f3dc4223f38823b051e8ca6c29fcf9c6a142f126" "017dc03acde851b56f342d16fdc94a5f332ff42e")
 CROS_WORKON_PROJECT=("chromiumos/platform/vboot_reference" "chromiumos/platform2")
 CROS_WORKON_LOCALNAME=("platform/vboot_reference" "platform2")
 CROS_WORKON_SUBTREE=("" "common-mk")
 CROS_WORKON_DESTDIR=("${S}/vboot_reference" "${S}/platform2")
 
-inherit cros-debug cros-fuzzer cros-sanitizers cros-workon cros-constants
+inherit cros-debug cros-fuzzer cros-sanitizers cros-workon cros-constants python-any-r1
 
 DESCRIPTION="Chrome OS verified boot tools"
 
@@ -38,6 +40,7 @@ RDEPEND="${COMMON_DEPEND}"
 DEPEND="
 	${COMMON_DEPEND}
 	test? (
+		${PYTHON_DEPS}
 		app-editors/vim-core
 		app-shells/bash
 		dev-libs/openssl
