@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="56cd669ba6f53ac52e6f7bed5e88c814d3d5e095"
+CROS_WORKON_COMMIT="35e6d96a1b4b15cf92029ab3f1794f37b6619931"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "ce426040ae5e05e43f749fe5d98e022915936383" "13fe7b209a655ba42f061a8255d234c8f3b241ab" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -47,6 +47,7 @@ COMMON_DEPEND="
 DEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/attestation-client:=
+	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/debugd-client:=
 	chromeos-base/libiioservice_ipc:=
 	chromeos-base/power_manager-client:=
