@@ -42,7 +42,9 @@ COMMON_DEPEND="
 	dev-util/bsdiff:=
 	dev-util/puffin:=
 	net-misc/curl:=
-	sys-apps/rootdev:="
+	sys-apps/rootdev:=
+	sys-fs/e2fsprogs:=
+"
 
 DEPEND="
 	app-arch/xz-utils:=
