@@ -1,8 +1,8 @@
 diff --git a/clvk/src/device.hpp b/clvk/src/device.hpp
-index 1003500..05ca4b0 100644
+index 83966fd..4a59319 100644
 --- a/clvk/src/device.hpp
 +++ b/clvk/src/device.hpp
-@@ -38,7 +38,7 @@ struct cvk_vulkan_extension_functions {
+@@ -39,7 +39,7 @@ struct cvk_vulkan_extension_functions {
  #define MAKE_NAME_VERSION(major, minor, patch, name)                           \
      cl_name_version { CL_MAKE_VERSION(major, minor, patch), name }
  

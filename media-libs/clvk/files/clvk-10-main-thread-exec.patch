@@ -1,8 +1,8 @@
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index 94ec0c4..9cf66e5 100644
+index 93cd7ec..a19ed6c 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
-@@ -214,6 +214,8 @@ cl_int cvk_command_queue::enqueue_command_with_deps(
+@@ -220,6 +220,8 @@ cl_int cvk_command_queue::enqueue_command_with_deps(
  
  cl_int cvk_command_queue::end_current_command_batch() {
      if (m_command_batch) {
@@ -11,7 +11,7 @@ index 94ec0c4..9cf66e5 100644
          if (!m_command_batch->end()) {
              return CL_OUT_OF_RESOURCES;
          }
-@@ -247,6 +249,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+@@ -253,6 +255,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
          }
      }
  
@@ -26,7 +26,7 @@ index 94ec0c4..9cf66e5 100644
      // Now wait for all the events
      for (cl_uint i = 0; i < num_events; i++) {
          cvk_event* event = icd_downcast(event_list[i]);
-@@ -258,15 +268,102 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+@@ -264,15 +274,102 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
      return ret;
  }
  
@@ -131,7 +131,7 @@ index 94ec0c4..9cf66e5 100644
              TRACE_BEGIN("executor_wait");
              m_cv.wait(lock);
              TRACE_END();
-@@ -286,19 +383,7 @@ void cvk_executor_thread::executor() {
+@@ -292,19 +389,7 @@ void cvk_executor_thread::executor() {
          CVK_ASSERT(group->commands.size() > 0);
          cvk_command_queue_holder queue = group->commands.front()->queue();
  
@@ -152,7 +152,7 @@ index 94ec0c4..9cf66e5 100644
  
          queue->group_completed();
  
-@@ -343,6 +428,10 @@ cl_int cvk_command_queue::flush_no_lock() {
+@@ -349,6 +434,10 @@ cl_int cvk_command_queue::flush_no_lock() {
          m_executor = get_thread_pool()->get_executor();
      }
  
@@ -163,7 +163,7 @@ index 94ec0c4..9cf66e5 100644
      // Submit command group to executor
      m_executor->send_group(std::move(group));
      group_sent();
-@@ -363,8 +452,10 @@ cl_int cvk_command_queue::finish() {
+@@ -369,8 +458,10 @@ cl_int cvk_command_queue::finish() {
          return status;
      }
  
@@ -177,7 +177,7 @@ index 94ec0c4..9cf66e5 100644
  
      return CL_SUCCESS;
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 1402628..d0abdae 100644
+index f2e9cfc..70f1c8c 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -54,15 +54,6 @@ struct cvk_executor_thread {

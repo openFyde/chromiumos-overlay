@@ -1,10 +1,10 @@
 diff --git a/clvk/src/config.def b/clvk/src/config.def
-index fa33748..3c02867 100644
+index 17716c0..fc75971 100644
 --- a/clvk/src/config.def
 +++ b/clvk/src/config.def
-@@ -27,6 +27,9 @@ OPTION(bool, log_colour, false)
- OPTION(std::string, log_dest, "")
- OPTION(uint32_t, spirv_validation, 2u)
+@@ -30,6 +30,9 @@ OPTION(uint32_t, spirv_validation, 2u)
+ OPTION(std::string, spirv_arch, "spir")
+ OPTION(bool, physical_addressing, false)
  
 +OPTION(bool, poll_executor, false)
 +OPTION(bool, poll_main_thread, false)
@@ -13,10 +13,10 @@ index fa33748..3c02867 100644
  OPTION(std::string, clspv_options, "")
  #if !CLSPV_ONLINE_COMPILER
 diff --git a/clvk/src/device.hpp b/clvk/src/device.hpp
-index e60580a..05fda39 100644
+index 6bd10d9..1e69f4f 100644
 --- a/clvk/src/device.hpp
 +++ b/clvk/src/device.hpp
-@@ -233,6 +233,10 @@ struct cvk_device : public _cl_device_id,
+@@ -241,6 +241,10 @@ struct cvk_device : public _cl_device_id,
          return m_clvk_properties->get_num_compute_units();
      }
  
@@ -28,7 +28,7 @@ index e60580a..05fda39 100644
          // There are only 20 different possible samplers in OpenCL 1.2, cap the
          // number of supported samplers to that to help with negative testing of
 diff --git a/clvk/src/device_properties.cpp b/clvk/src/device_properties.cpp
-index 1140497..a4e0687 100644
+index 1140497..f98edb7 100644
 --- a/clvk/src/device_properties.cpp
 +++ b/clvk/src/device_properties.cpp
 @@ -57,6 +57,23 @@ struct cvk_device_properties_intel : public cvk_device_properties {
@@ -170,10 +170,10 @@ index 03d567c..f05105d 100644
  
      uint64_t get_profiling_info(cl_profiling_info pinfo) const override final {
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index 058ef23..5fc9d93 100644
+index 8e012d9..459085d 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
-@@ -298,7 +298,11 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+@@ -304,7 +304,11 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
      // Now wait for all the events
      for (cl_uint i = 0; i < num_events; i++) {
          cvk_event* event = icd_downcast(event_list[i]);
@@ -186,7 +186,7 @@ index 058ef23..5fc9d93 100644
              ret = CL_EXEC_STATUS_ERROR_FOR_EVENTS_IN_WAIT_LIST;
          }
      }
-@@ -306,14 +310,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
+@@ -312,14 +316,14 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
      return ret;
  }
  
@@ -203,7 +203,7 @@ index 058ef23..5fc9d93 100644
          if (status != CL_COMPLETE && global_status == CL_SUCCESS)
              global_status = status;
          cvk_debug_fn("command returned %d", status);
-@@ -333,8 +337,10 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
+@@ -339,8 +343,10 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
      }
  
      m_lock.unlock();
@@ -215,7 +215,7 @@ index 058ef23..5fc9d93 100644
      m_lock.lock();
  
      return ret;
-@@ -421,7 +427,7 @@ void cvk_executor_thread::executor() {
+@@ -427,7 +433,7 @@ void cvk_executor_thread::executor() {
          CVK_ASSERT(group->commands.size() > 0);
          cvk_command_queue_holder queue = group->commands.front()->queue();
  
@@ -224,7 +224,7 @@ index 058ef23..5fc9d93 100644
  
          queue->group_completed();
  
-@@ -493,7 +499,7 @@ cl_int cvk_command_queue::finish() {
+@@ -499,7 +505,7 @@ cl_int cvk_command_queue::finish() {
      if (m_finish_event != nullptr) {
          _cl_event* evt_list = (_cl_event*)&*m_finish_event;
          execute_cmds_dominated_by_no_lock(1, &evt_list);
@@ -234,7 +234,7 @@ index 058ef23..5fc9d93 100644
  
      return CL_SUCCESS;
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index b43a7ae..9c6cca6 100644
+index bdd8376..04683a2 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -411,12 +411,12 @@ struct cvk_command {

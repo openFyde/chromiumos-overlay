@@ -36,10 +36,10 @@ CMAKE_USE_DIR="${CLVK_DIR}"
 DESCRIPTION="Prototype implementation of OpenCL 1.2 on to of Vulkan using clspv as the Compiler"
 HOMEPAGE="https://github.com/kpet/${PN}"
 
-LLVM_FOLDER="llvm-project-88b9d1a49aba54171804da355f00c8fe0483f428"
+LLVM_FOLDER="llvm-project-fc78ebad051ac3e7564efc1a38a5e1faa8f30bf1"
 LLVM_ARCHIVE="${LLVM_FOLDER}.zip"
 
-SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-a836197d52aced43f49b7f9a2386424ce734acba"
+SPIRV_LLVM_TRANSLATOR_FOLDER="SPIRV-LLVM-Translator-9ccf154f3c87922942a14f88ff12deaaeb4b106a"
 SPIRV_LLVM_TRANSLATOR_ARCHIVE="${SPIRV_LLVM_TRANSLATOR_FOLDER}.zip"
 
 SRC_URI="
@@ -54,17 +54,17 @@ IUSE="debug +perfetto"
 
 # target build dependencies
 DEPEND="
-	>=dev-util/vulkan-headers-1.3.211
+	>=dev-util/vulkan-headers-1.3.239
 	>=dev-util/opencl-headers-2021.04.29
-	>=dev-util/spirv-tools-1.3.211
-	>=dev-util/spirv-headers-1.3.211-r1
+	>=dev-util/spirv-tools-1.3.239
+	>=dev-util/spirv-headers-1.3.239-r1
 	>=chromeos-base/perfetto-31.0
 "
 
 # target runtime dependencies
 RDEPEND="
-	>=dev-util/spirv-tools-1.3.211
-	>=media-libs/vulkan-loader-1.3.211
+	>=dev-util/spirv-tools-1.3.239
+	>=media-libs/vulkan-loader-1.3.239
 "
 
 # host build dependencies
@@ -75,12 +75,10 @@ BDEPEND="
 PATCHES=()
 if [[ ${PV} != "9999" ]]; then
 	PATCHES+=("${FILESDIR}/clvk-00-opencl12.patch")
-	# TODO(b/227133185) : To be removed once llvm is updated (once mesa issue is fixed)
-	PATCHES+=("${FILESDIR}/clspv-use-old-llvm.patch")
 	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
 	PATCHES+=("${FILESDIR}/clvk-01-sampledbuffer.patch")
-	# To be remove when updating clvk behond this point
-	PATCHES+=("${FILESDIR}/clvk-02-6d0ac6e-vendorID_deviceID.patch")
+
+	PATCHES+=("${FILESDIR}/clvk-02-enable-opaque-pointers.patch")
 
 	# TODO(b/259217927) : To be remove as soon as they are merged upstream
 	PATCHES+=("${FILESDIR}/clvk-10-main-thread-exec.patch")
@@ -96,12 +94,6 @@ src_unpack() {
 }
 
 src_prepare() {
-	# TODO(b/227133185) : To be removed once Intel fixed the issue in mesa breaking TFlite (and preventing llvm to be updated).
-	pushd "${WORKDIR}/${LLVM_FOLDER}" || die
-	eapply "${FILESDIR}/UPSTREAM-llvm-d8d793f29b4-Fix-compat-with-retroactive-c++23.patch"
-	eapply "${FILESDIR}/UPSTREAM-llvm-b3dae59b9df-Fix-CodeGenAction-for-LLVM-IR-MemBuffers.patch"
-	popd || die
-
 	cmake-utils_src_prepare
 	eapply_user
 }
@@ -133,6 +125,7 @@ build_host_tools() {
 		-DLLVM_BUILD_TOOLS=OFF \
 		-G "Unix Makefiles" \
 		-DLLVM_ENABLE_PROJECTS="clang" \
+		-DCMAKE_BUILD_TYPE=Release \
 		"${LLVM_DIR}" || die
 
 	cd "${HOST_DIR}/utils/TableGen" || die

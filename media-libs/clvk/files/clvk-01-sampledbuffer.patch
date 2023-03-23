@@ -1,8 +1,8 @@
 diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
-index 3df9d3c..ce5e83a 100644
+index be5ea56..0db0f64 100644
 --- a/clvk/src/device.cpp
 +++ b/clvk/src/device.cpp
-@@ -917,6 +917,7 @@ bool cvk_device::supports_capability(spv::Capability capability) const {
+@@ -946,6 +946,7 @@ bool cvk_device::supports_capability(spv::Capability capability) const {
      case spv::CapabilityImage1D:
      case spv::CapabilityImageQuery:
      case spv::CapabilityImageBuffer:

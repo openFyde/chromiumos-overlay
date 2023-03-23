@@ -1,5 +1,5 @@
 diff --git a/clvk/src/CMakeLists.txt b/clvk/src/CMakeLists.txt
-index 46a44a1..cac6069 100644
+index 4dba06d..5efb827 100644
 --- a/clvk/src/CMakeLists.txt
 +++ b/clvk/src/CMakeLists.txt
 @@ -52,6 +52,7 @@ add_library(OpenCL-objects OBJECT
@@ -11,7 +11,7 @@ index 46a44a1..cac6069 100644
    tracing.cpp
    unit.cpp
 diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
-index ce5e83a..7108d98 100644
+index 0db0f64..6374490 100644
 --- a/clvk/src/device.cpp
 +++ b/clvk/src/device.cpp
 @@ -47,6 +47,8 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
@@ -33,34 +33,35 @@ index ce5e83a..7108d98 100644
          };
  #undef VER_EXT_PROP
  
-@@ -217,6 +222,7 @@ bool cvk_device::init_extensions() {
-         VK_KHR_SHADER_FLOAT_CONTROLS_EXTENSION_NAME,
+@@ -218,6 +223,7 @@ bool cvk_device::init_extensions() {
          VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME,
          VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME,
+         VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME,
 +        VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME,
      };
  
      if (m_properties.apiVersion < VK_MAKE_VERSION(1, 2, 0)) {
-@@ -268,6 +274,8 @@ void cvk_device::init_features(VkInstance instance) {
-         VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_EXTENDED_TYPES_FEATURES_KHR;
-     m_features_vulkan_memory_model.sType =
+@@ -271,6 +277,8 @@ void cvk_device::init_features(VkInstance instance) {
          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES;
+     m_features_buffer_device_address.sType =
+         VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_KHR;
 +    m_features_timeline_semaphore.sType =
 +        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES;
  
      std::vector<std::tuple<uint32_t, const char*, VkBaseOutStructure*>>
          coreversion_extension_features = {
-@@ -294,6 +302,9 @@ void cvk_device::init_features(VkInstance instance) {
+@@ -300,7 +308,9 @@ void cvk_device::init_features(VkInstance instance) {
              VER_EXT_FEAT(VK_MAKE_VERSION(1, 2, 0),
-                          VK_KHR_VULKAN_MEMORY_MODEL_EXTENSION_NAME,
-                          m_features_vulkan_memory_model),
+                          VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME,
+                          m_features_buffer_device_address),
+-
 +            VER_EXT_FEAT(VK_MAKE_VERSION(1, 2, 0),
 +                         VK_KHR_TIMELINE_SEMAPHORE_EXTENSION_NAME,
 +                         m_features_timeline_semaphore),
  #undef VER_EXT_FEAT
          };
  
-@@ -340,6 +351,8 @@ void cvk_device::init_features(VkInstance instance) {
+@@ -347,6 +357,8 @@ void cvk_device::init_features(VkInstance instance) {
      cvk_info(
          "subgroup extended types: %d",
          m_features_shader_subgroup_extended_types.shaderSubgroupExtendedTypes);
@@ -70,10 +71,10 @@ index ce5e83a..7108d98 100644
      // Selectively enable core features.
      if (supported_features.features.shaderInt16) {
 diff --git a/clvk/src/device.hpp b/clvk/src/device.hpp
-index 05ca4b0..5eebd12 100644
+index 4a59319..6bd10d9 100644
 --- a/clvk/src/device.hpp
 +++ b/clvk/src/device.hpp
-@@ -431,6 +431,15 @@ struct cvk_device : public _cl_device_id,
+@@ -440,6 +440,15 @@ struct cvk_device : public _cl_device_id,
  
      CHECK_RETURN bool has_timer_support() const { return m_has_timer_support; }
  
@@ -89,7 +90,7 @@ index 05ca4b0..5eebd12 100644
      CHECK_RETURN cl_int get_device_host_timer(cl_ulong* dev_ts,
                                                cl_ulong* host_ts) const;
      cl_ulong device_timer_to_host(cl_ulong dev, cl_ulong sync_dev,
-@@ -538,6 +547,7 @@ private:
+@@ -550,6 +559,7 @@ private:
      VkPhysicalDeviceIDPropertiesKHR m_device_id_properties;
      VkPhysicalDeviceSubgroupProperties m_subgroup_properties{};
      VkPhysicalDevicePCIBusInfoPropertiesEXT m_pci_bus_info_properties;
@@ -97,10 +98,10 @@ index 05ca4b0..5eebd12 100644
      // Vulkan features
      VkPhysicalDeviceFeatures2 m_features{};
      VkPhysicalDeviceVariablePointerFeatures m_features_variable_pointer{};
-@@ -550,6 +560,7 @@ private:
-         m_features_shader_subgroup_extended_types{};
-     VkPhysicalDeviceVulkanMemoryModelFeaturesKHR
+@@ -564,6 +574,7 @@ private:
          m_features_vulkan_memory_model{};
+     VkPhysicalDeviceBufferDeviceAddressFeaturesKHR
+         m_features_buffer_device_address{};
 +    VkPhysicalDeviceTimelineSemaphoreFeatures m_features_timeline_semaphore{};
  
      VkDevice m_dev;
@@ -329,7 +330,7 @@ index 86d85d9..03d567c 100644
      }
  
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index 5faa651..058ef23 100644
+index f80a1cf..8e012d9 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
 @@ -33,11 +33,14 @@ cvk_command_queue::cvk_command_queue(
@@ -361,7 +362,7 @@ index 5faa651..058ef23 100644
      if (m_executor != nullptr) {
          get_thread_pool()->return_executor(m_executor);
      }
-@@ -108,6 +117,23 @@ cl_int cvk_command_queue::satisfy_data_dependencies(cvk_command* cmd) {
+@@ -114,6 +123,23 @@ cl_int cvk_command_queue::satisfy_data_dependencies(cvk_command* cmd) {
      return CL_SUCCESS;
  }
  
@@ -385,7 +386,7 @@ index 5faa651..058ef23 100644
  cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
  
      cl_int err;
-@@ -133,6 +159,9 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
+@@ -139,6 +165,9 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
              return err;
          }
  
@@ -395,7 +396,7 @@ index 5faa651..058ef23 100644
          // End command batch when size limit reached
          if (m_command_batch->batch_size() >= m_max_cmd_batch_size ||
              (m_nb_batch_in_flight == 0 &&
-@@ -156,14 +185,14 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
+@@ -162,14 +191,14 @@ cl_int cvk_command_queue::enqueue_command(cvk_command* cmd, _cl_event** event) {
              }
          }
  
@@ -414,7 +415,7 @@ index 5faa651..058ef23 100644
      if (event != nullptr) {
          // The event will be returned to the app, retain it for the user
          cmd->event()->retain();
-@@ -219,9 +248,18 @@ cl_int cvk_command_queue::end_current_command_batch() {
+@@ -225,9 +254,18 @@ cl_int cvk_command_queue::end_current_command_batch() {
          if (!m_command_batch->end()) {
              return CL_OUT_OF_RESOURCES;
          }
@@ -435,7 +436,7 @@ index 5faa651..058ef23 100644
          batch_enqueued();
      }
      return CL_SUCCESS;
-@@ -295,7 +333,7 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
+@@ -301,7 +339,7 @@ cl_int cvk_command_queue::execute_cmds_dominated_by_no_lock(
      }
  
      m_lock.unlock();
@@ -444,7 +445,7 @@ index 5faa651..058ef23 100644
      auto ret = execute_cmds(cmds);
      m_lock.lock();
  
-@@ -461,6 +499,27 @@ cl_int cvk_command_queue::finish() {
+@@ -467,6 +505,27 @@ cl_int cvk_command_queue::finish() {
      return CL_SUCCESS;
  }
  
@@ -472,7 +473,7 @@ index 5faa651..058ef23 100644
  VkResult cvk_command_pool::allocate_command_buffer(VkCommandBuffer* cmdbuf) {
  
      std::lock_guard<std::mutex> lock(m_lock);
-@@ -502,6 +561,22 @@ bool cvk_command_buffer::begin() {
+@@ -508,6 +567,22 @@ bool cvk_command_buffer::begin() {
      return true;
  }
  
@@ -495,7 +496,7 @@ index 5faa651..058ef23 100644
  bool cvk_command_buffer::submit_and_wait() {
      auto& queue = m_queue->vulkan_queue();
  
-@@ -1043,12 +1118,38 @@ cl_int cvk_command_batchable::do_action() {
+@@ -1062,12 +1137,38 @@ cl_int cvk_command_batchable::do_action() {
      return CL_COMPLETE;
  }
  
@@ -539,7 +540,7 @@ index 5faa651..058ef23 100644
  
      m_queue->batch_completed();
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 838bac5..b43a7ae 100644
+index 4231aa2..bdd8376 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -142,6 +142,11 @@ struct cvk_command_queue : public _cl_command_queue,
