@@ -31,6 +31,7 @@ IUSE="
 	pam
 	+power_management
 	+profile
+	pvs
 	python_targets_python3_6 python_targets_python3_8
 	+shill
 	tpm
@@ -101,6 +102,7 @@ RDEPEND="${RDEPEND}
 	app-editors/nano
 	app-editors/qemacs
 	app-editors/vim
+	pvs? ( dev-util/pvs-host )
 	app-misc/edid-decode
 	app-misc/evtest
 	app-misc/pax-utils
