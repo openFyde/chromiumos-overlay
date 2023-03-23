@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a1a139b5c0c7e900c74c166ed5cce908b8738430"
-CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "4c66ff4827ee0c4a18be8fa4375f700e98c375c2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="3e299e427f5b1e32c29ae297aaaf16bde030cffa"
+CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "e407facf35dca1c11a24f08b59e58839837b065b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"chromiumos/system_api/..."
 )
@@ -59,7 +59,6 @@ src_install() {
 	# include directory. Users will need to include the corresponding client
 	# library to access these files.
 	local dir dirs=(
-		arc-data-snapshotd
 		anomaly_detector
 		attestation
 		biod
