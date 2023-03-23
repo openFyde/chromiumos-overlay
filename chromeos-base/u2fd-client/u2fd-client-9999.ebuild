@@ -29,6 +29,7 @@ COMMON_DEPEND="
 RDEPEND="${COMMON_DEPEND}"
 
 DEPEND="${COMMON_DEPEND}
+	chromeos-base/chromeos-ec-headers:=
 	>=chromeos-base/protofiles-0.0.43:=
 	chromeos-base/system_api:=
 "
