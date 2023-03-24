@@ -31,7 +31,12 @@ COMMON_DEPEND="
 	dev-libs/openssl:0=
 	sys-libs/zlib:=
 	virtual/libusb:1="
-DEPEND="${COMMON_DEPEND}"
+
+# b/274791539: gtest is required because libec includes a libchrome header that
+# requires gtest to be installed when building.
+DEPEND="${COMMON_DEPEND}
+	dev-cpp/gtest
+"
 RDEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
