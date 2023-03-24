@@ -5,6 +5,8 @@
 # linked to the following directories of the Chromium project:
 
 #   - src/components/policy
+#   - src/third_party/private_membership
+#   - src/third_party/shell-encryption
 
 # This project is not cros-work-able: if changes to the protobufs are needed
 # then they should be done in the Chromium repository, and the commits below
@@ -47,19 +49,14 @@ CROS_WORKON_MANUAL_UPREV=1
 #   chromium/src/chrome/VERSION in the Chromium code base.
 #   Only the MAJOR version matters, really. This is necessary so policy
 #   code builders have the right set of policies.
-# - Update authpolicy/policy/device_policy_encoder[_unittest].cc to
-#   include new device policies. The unit test tells you missing ones:
-#     FEATURES=test emerge-$BOARD authpolicy
-#   If you see unrelated test failures, make sure to rebuild the
-#   authpolicy package and its dependencies (in particular, libbrillo
-#   which provides libpolicy for accessing device policy) against the
-#   updated protofiles package.
+#   If you see test failures, make sure to rebuild the libbrillo package
+#   (which provides libpolicy for accessing device policy)
+#   against the updated protofiles package.
 #   User policy is generated and doesn't have to be updated manually.
 # - Bump the package version:
 #     git mv protofiles-0.0.N.ebuild protofiles-0.0.N+1.ebuild
 # - Bump the DEPEND version number for protofiles in all ebuilds for
-#   packages that rely on the new policies. If you added new device
-#   policy encodings above that will at least be authpolicy.
+#   packages that rely on the new policies.
 CROS_WORKON_COMMIT=(
 	"f8be151d441eefdf85db60979da57bc6acb9eb89" # policy
 	"ac0d8f7d4f21a0e56c76feef0eeb4360b52a0b54" # private_membership
@@ -99,8 +96,6 @@ POLICY_DIR_PROTO_FILES=(
 	"policy_signing_key.proto"
 	"secure_connect.proto"
 )
-
-RDEPEND="!<chromeos-base/chromeos-chrome-82.0.4056.0_rc-r1"
 
 src_compile() {
 	# Generate policy_templates.json
