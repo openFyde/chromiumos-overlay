@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/featured:=
 	chromeos-base/libec:=
+	chromeos-base/libiioservice_ipc:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/ml-client:=
 	chromeos-base/mojo_service_manager:=
