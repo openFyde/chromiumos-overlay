@@ -4305,5 +4305,20 @@
       "from": 475826,
       "until": 478121
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "[UPSTREAM] [llvm-objdump] Fix help message for --print-imm-hex"
+    },
+    "platforms": [
+      "android",
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/3d65cd405d64afd86a59c1f58098dfe891841271.patch",
+    "version_range": {
+      "from": 487747,
+      "until": 493488
+    }
   }
 ]
