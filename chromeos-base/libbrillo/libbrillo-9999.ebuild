@@ -28,6 +28,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	>=chromeos-base/protofiles-0.0.75:=
 	dbus? ( dev-libs/dbus-glib:= )
+	dev-cpp/abseil-cpp:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	net-libs/grpc:=

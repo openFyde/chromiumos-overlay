@@ -23,6 +23,7 @@ IUSE=""
 
 DEPEND="
 	chromeos-base/libbrillo:=
+	dev-cpp/abseil-cpp:=
 "
 RDEPEND="
 	net-libs/grpc:=

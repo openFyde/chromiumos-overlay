@@ -20,6 +20,7 @@ KEYWORDS="~*"
 IUSE="fuzzer metrics_uploader +passive_metrics systemd"
 
 COMMON_DEPEND="
+	dev-cpp/abseil-cpp:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
 	sys-apps/rootdev:=
