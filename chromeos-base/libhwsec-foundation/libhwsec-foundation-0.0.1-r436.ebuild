@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="158bbf256995ba67b072012ae09a0cc6e315356d"
+CROS_WORKON_COMMIT="35c00cb0bf100b2b35709461fe1423a21a8c7c79"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "c91a23c94130d75df812716c373392fc8a8f13d8" "5d8ee0def330064cbdc03dbab3a148010a945677" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -23,11 +23,13 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE="profiling test tpm tpm_dynamic tpm2"
 
-RDEPEND="
+DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152
 	chromeos-base/system_api
 	chromeos-base/tpm_manager-client
 	"
+
+RDEPEND="${DEPEND}"
 
 src_install() {
 	platform_src_install

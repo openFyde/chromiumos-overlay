@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="158bbf256995ba67b072012ae09a0cc6e315356d"
+CROS_WORKON_COMMIT="35c00cb0bf100b2b35709461fe1423a21a8c7c79"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "2a61858bc75c8b52e0130aa8644de99fee33c250" "c91a23c94130d75df812716c373392fc8a8f13d8" "83203f5b9d206473c9855327bd9ce899151574c2" "7b1f662ac12fb3f847e74c00cbc10f3cdbcdbdfc" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	chromeos-base/patchpanel:=
 	chromeos-base/patchpanel-client:=
+	chromeos-base/session_manager-client:=
 	chromeos-base/shill-dbus-client:=
 	chromeos-base/shill-net:=
 	dev-libs/protobuf:=

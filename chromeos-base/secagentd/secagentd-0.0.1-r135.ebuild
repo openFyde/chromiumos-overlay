@@ -3,7 +3,7 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="3ec149b5a9db03da2a71ed52d445b999f349d1d5"
+CROS_WORKON_COMMIT="35c00cb0bf100b2b35709461fe1423a21a8c7c79"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "ea1518b35b30b323aa9e558feedc52b9da458169" "14ee030dbe1f5867058e3a4b7cdc817a779a492b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -27,6 +27,7 @@ COMMON_DEPEND="
 	chromeos-base/featured:=
 	chromeos-base/missive:=
 	chromeos-base/tpm_manager-client:=
+	chromeos-base/vboot_reference:=
 	>=dev-libs/libbpf-0.8.1
 "
 

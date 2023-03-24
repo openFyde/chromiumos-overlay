@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="bb9afe6773e6b4e0927003b9b85087f875eef03e"
+CROS_WORKON_COMMIT="35c00cb0bf100b2b35709461fe1423a21a8c7c79"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "4f69dce040c9bf4feac2c175de8d6d87f88df10e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -20,7 +20,9 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/libcross
 LICENSE="BSD-Google"
 KEYWORDS="*"
 
-COMMON_DEPEND=""
+COMMON_DEPEND="
+	chromeos-base/vboot_reference:=
+"
 
 RDEPEND="
 	${COMMON_DEPEND}
@@ -28,7 +30,6 @@ RDEPEND="
 
 DEPEND="
 	${COMMON_DEPEND}
-	chromeos-base/vboot_reference:=
 "
 
 platform_pkg_test() {

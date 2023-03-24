@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("bb9afe6773e6b4e0927003b9b85087f875eef03e" "ac96fad7289de805d98343754f20b2542bcb462e" "84c38b6e3978ab7391ab1a2a696bfd4627401097")
+CROS_WORKON_COMMIT=("35c00cb0bf100b2b35709461fe1423a21a8c7c79" "ac96fad7289de805d98343754f20b2542bcb462e" "84c38b6e3978ab7391ab1a2a696bfd4627401097")
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "a7bc8a3076d532d0586ab87aeb750c42889440ba" "0a19f3a7d964bb9c758c96e942eddf3ec8c127fa")
 inherit cros-constants
 
@@ -55,6 +55,7 @@ RDEPEND="
 	chromeos-base/nnapi:=
 	dev-libs/openssl:=
 	sci-libs/tensorflow[xnnpack?]
+	chromeos-base/session_manager-client:=
 "
 
 DEPEND="
