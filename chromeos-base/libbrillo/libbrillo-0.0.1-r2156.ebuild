@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="a4f165fb09f5fa2442d52a78c4871f42ad5f8164"
+CROS_WORKON_COMMIT="cc9c07dccd2d346eac6dfb91af1830fcacb6abce"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "c6c6e70759d84c7a713ff3387056532cd301adbd" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,6 +30,7 @@ COMMON_DEPEND="
 	chromeos-base/minijail:=
 	>=chromeos-base/protofiles-0.0.75:=
 	dbus? ( dev-libs/dbus-glib:= )
+	dev-cpp/abseil-cpp:=
 	dev-libs/openssl:=
 	dev-libs/protobuf:=
 	net-libs/grpc:=

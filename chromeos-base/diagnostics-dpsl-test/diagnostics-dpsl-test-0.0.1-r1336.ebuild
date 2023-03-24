@@ -3,7 +3,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="736d0f85385139142d389b0262ce7c3f291d4de2"
+CROS_WORKON_COMMIT="cc9c07dccd2d346eac6dfb91af1830fcacb6abce"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "d0fc76d2af346622a3b3555c29c84e6d582855db" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,7 @@ IUSE=""
 
 DEPEND="
 	chromeos-base/libbrillo:=
+	dev-cpp/abseil-cpp:=
 "
 RDEPEND="
 	net-libs/grpc:=
