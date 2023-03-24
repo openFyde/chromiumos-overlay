@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="158bbf256995ba67b072012ae09a0cc6e315356d"
+CROS_WORKON_COMMIT="35c00cb0bf100b2b35709461fe1423a21a8c7c79"
 CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "066fab5d6192a675c64e6c54a4383c13ee6acf01" "4f69dce040c9bf4feac2c175de8d6d87f88df10e" "c91a23c94130d75df812716c373392fc8a8f13d8" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -31,13 +31,13 @@ COMMON_DEPEND="
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/protobuf:=
 	dev-libs/re2:=
+	direncryption? ( sys-apps/keyutils:= )
 	kvm_guest? ( net-libs/grpc:= )
 	net-misc/curl:=
 	sys-libs/zlib:=
 "
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ca-certificates
-	direncryption? ( sys-apps/keyutils:= )
 	cros_ec? ( chromeos-base/ec-utils )
 "
 DEPEND="
