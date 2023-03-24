@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="5689b5813deb9c71c9a276525a619cc199739771"
-CROS_WORKON_TREE=("0de46216f2b1f4d9891e3993f44671a79e020677" "bfb101699df26ca500a50c7b7e6f73c2dfd8b56e")
+CROS_WORKON_COMMIT="d0bbb4bef387ce68bda1836ef44c4c8555893f91"
+CROS_WORKON_TREE=("387c19e26d6f87280049cec23332acf3315ce0cf" "bfb101699df26ca500a50c7b7e6f73c2dfd8b56e")
 CROS_GO_SOURCE=(
 	"github.com/jtolio/gls:github.com/jtolds/gls v4.20.0"
 	"github.com/smartystreets/assertions v1.13.0"
