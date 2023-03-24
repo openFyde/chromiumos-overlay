@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="56cd669ba6f53ac52e6f7bed5e88c814d3d5e095"
-CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "ce426040ae5e05e43f749fe5d98e022915936383" "4d13cefb4b4fcb8f643fb162b2b14867a0d884f0" "6e592a9edf361532eecea6ba4617696ae577b558" "9edcaccb998f9f1dac82dd862beddc2491e8ab68" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="5156a4c837866301993ef6f2e60a56930dd82a72"
+CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "ce426040ae5e05e43f749fe5d98e022915936383" "4d13cefb4b4fcb8f643fb162b2b14867a0d884f0" "1542d9f0d78a34390483f3cf586699e9d473bdd7" "9edcaccb998f9f1dac82dd862beddc2491e8ab68" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD="1"
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -21,7 +21,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/mems_set
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="fuzzer iioservice"
+IUSE="fuzzer"
 
 COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
