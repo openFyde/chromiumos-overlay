@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="85984bf86609d49522802e77684a327c847f8dd3"
+CROS_WORKON_COMMIT="09d3a2ff033d663f034a2f9aa24a8607033dbdcd"
 CROS_WORKON_TREE="8e8006c34aeee0ef14f54c630cdcf7a8353cf79d"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -22,7 +22,10 @@ IUSE="cr50_onboard test ti50_onboard"
 REQUIRED_USE="^^ ( ti50_onboard cr50_onboard )"
 CANDIDATES=( "cr50_onboard" "ti50_onboard" )
 
-DEPEND="dev-rust/third-party-crates-src:="
+DEPEND="
+	dev-rust/third-party-crates-src:=
+	dev-rust/libchromeos:=
+"
 # (crbug.com/1182669): build-time only deps need to be in RDEPEND so they are pulled in when
 # installing binpkgs since the full source tree is required to use the crate.
 RDEPEND="${DEPEND}
