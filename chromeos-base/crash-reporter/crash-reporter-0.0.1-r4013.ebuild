@@ -3,14 +3,14 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="daf73849a28bfc716ba191fcd13653f9d5e74a60"
-CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "620213b7938e8277ebc11bba7e984e99a782a224" "4f69dce040c9bf4feac2c175de8d6d87f88df10e" "0b2b1bb0fd2dee8be8e94f6f6cbd53f493a6bf4c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="58abf8389ade560a1b4210ccb833e29b92c1d7f8"
+CROS_WORKON_TREE=("017dc03acde851b56f342d16fdc94a5f332ff42e" "2cbacc75a70bfa3a9f4fb74dcd3f12e87403146e" "4942eef5528c17979f429ea87a2a3873293638bd" "4f69dce040c9bf4feac2c175de8d6d87f88df10e" "0b2b1bb0fd2dee8be8e94f6f6cbd53f493a6bf4c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
 # TODO(crbug.com/809389): Avoid directly including headers from other packages.
-CROS_WORKON_SUBTREE="common-mk crash-reporter libcrossystem metrics .gn"
+CROS_WORKON_SUBTREE="common-mk crash-reporter libec libcrossystem metrics .gn"
 
 PLATFORM_SUBDIR="crash-reporter"
 
@@ -21,10 +21,11 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/crash-re
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="arcpp arcvm chromeless_tty cros_ec cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers force_breakpad"
+IUSE="arcpp arcvm chromeless_tty cros_embedded -direncryption kvm_guest systemd fuzzer test vm-containers force_breakpad"
 
 COMMON_DEPEND="
 	chromeos-base/libcrossystem:=
+	chromeos-base/libec:=
 	chromeos-base/minijail:=
 	chromeos-base/redaction_tool:=
 	chromeos-base/google-breakpad:=[cros_i686?,cros_arm64?]
@@ -38,7 +39,6 @@ COMMON_DEPEND="
 "
 RDEPEND="${COMMON_DEPEND}
 	chromeos-base/chromeos-ca-certificates
-	cros_ec? ( chromeos-base/ec-utils )
 "
 DEPEND="
 	${COMMON_DEPEND}
