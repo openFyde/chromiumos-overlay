@@ -49,6 +49,7 @@ DEPEND="
 	chromeos-base/perfetto
 	dev-util/meson
 	dev-util/ninja
+	dev-python/jinja
 "
 
 src_install() {
