@@ -21,7 +21,7 @@ KEYWORDS="~*"
 # referenced in BUILD.gn
 IUSE="internal local_ml_core_internal camera_feature_effects"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-headers-20230313.tar.xz"
+SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-headers-20230327.tar.xz"
 
 RDEPEND="
 	chromeos-base/dlcservice-client:=
