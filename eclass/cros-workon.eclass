@@ -684,7 +684,7 @@ cros-workon_src_unpack() {
 					# Needed as `git status` likes to grab a repo lock.
 					addpredict "${PWD}:${CHROOT_SOURCE_ROOT}/.repo"
 					# Ignore untracked files as they (should) be ignored by the build too.
-					git status --porcelain | grep -v '^[?][?]'
+					git --no-optional-locks status --porcelain | grep -v '^[?][?]'
 				)
 				if [[ -z ${changes} ]] ; then
 					fetch_method=local
