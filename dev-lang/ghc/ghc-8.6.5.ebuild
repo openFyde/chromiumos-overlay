@@ -493,7 +493,7 @@ src_prepare() {
 		eapply "${FILESDIR}"/${PN}-7.0.4-CHOST-prefix.patch
 		eapply "${FILESDIR}"/${PN}-8.2.1-darwin.patch
 		eapply "${FILESDIR}"/${PN}-7.8.3-prim-lm.patch
-		eapply "${FILESDIR}"/${PN}-8.0.2-no-relax-everywhere.patch
+		eapply "${FILESDIR}"/${PN}-8.6.5-no-relax-everywhere.patch
 		eapply "${FILESDIR}"/${PN}-8.4.2-allow-cross-bootstrap.patch
 		eapply "${FILESDIR}"/${PN}-8.6.5-numa.patch
 		eapply "${FILESDIR}"/${PN}-8.6.5-m4-take-AR-var-into-consideration.patch
@@ -593,9 +593,18 @@ src_configure() {
 		# Don't allow things like ccache or versioned binary slip.
 		# We use stable thing across gcc upgrades.
 		# User can use EXTRA_ECONF=CC=... to override this default.
+		if use ghcbootstrap; then
+			econf_args+=(
+				AR="$(tc-getAR)"
+				CC="$(tc-getCC)"
+			)
+		else
+			econf_args+=(
+				AR="${CTARGET}-ar"
+				CC="${CTARGET}-gcc"
+			)
+		fi
 		econf_args+=(
-			AR=${CTARGET}-ar
-			CC=${CTARGET}-gcc
 			# these should be inferred by GHC but ghc defaults
 			# to using bundled tools on windows.
 			Windres=${CTARGET}-windres
@@ -618,7 +627,11 @@ src_configure() {
 				econf_args+=(LD=${CTARGET}-ld.bfd)
 			;;
 			*)
-				econf_args+=(LD=${CTARGET}-ld)
+				if use ghcbootstrap; then
+					econf_args+=(LD="$(tc-getLD)")
+				else
+					econf_args+=(LD="${CTARGET}-ld")
+				fi
 		esac
 
 		if [[ ${CBUILD} != ${CHOST} ]]; then
