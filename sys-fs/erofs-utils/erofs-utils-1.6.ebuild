@@ -26,11 +26,6 @@ RDEPEND="
 "
 DEPEND="${RDEPEND}"
 
-PATCHES=(
-	# Make --mount-point option generally available.
-	"${FILESDIR}"/erofs-utils-1.5-mount-point.patch
-)
-
 src_prepare() {
 	default
 	eautoreconf
@@ -41,5 +36,5 @@ src_configure() {
 }
 
 src_install() {
-	dobin mkfs/mkfs.erofs fsck/fsck.erofs
+	dobin mkfs/mkfs.erofs fsck/fsck.erofs dump/dump.erofs
 }
