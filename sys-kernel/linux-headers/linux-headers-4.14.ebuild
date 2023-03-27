@@ -81,6 +81,7 @@ PATCHES+=(
 	"${FILESDIR}/0056-BACKPORT-add-close_range-syscall-definitions.patch"
 	"${FILESDIR}/0057-BACKPORT-fanotify-add-API-to-attach-detach-super-blo.patch"
 	"${FILESDIR}/0058-BACKPORT-kexec-file-load.patch"
+	"${FILESDIR}/0059-BACKPORT-media-v4l2-Add-v4l2-control-IDs-for-HEVC-encoder.patch"
 )
 
 src_unpack() {
