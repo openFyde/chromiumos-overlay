@@ -146,17 +146,26 @@ make_depthcharge() {
 		echo "CONFIG_DETACHABLE=y" >> "${defconfig}"
 	fi
 
-	if [[ -n "${recovery_input}" ]] ; then
-		einfo "Using cros_config_host to configure recovery"
-		if [[ "${recovery_input}" != "KEYBOARD" ]] ; then
-			echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
-		fi
-	else
+	if [[ -z "${recovery_input}" ]] ; then
 		# TODO(b/229906790) Remove this once USE flag support not longer needed
-		einfo "Recovery input method not found in config. Reverting to deprecated use flags"
-		if use physical_presence_power || use physical_presence_recovery ; then
-			echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
+		einfo "Recovery input method not found in config. Reverting to deprecated USE flags"
+		if use physical_presence_power ; then
+			die "physical_presence_power is not supported in firmware UI"
+		elif use physical_presence_recovery ; then
+			recovery_input="RECOVERY_BUTTON"
+		else
+			recovery_input="KEYBOARD"
 		fi
+	fi
+	if [[ "${recovery_input}" == "KEYBOARD" ]] ; then
+		# PHYSICAL_PRESENCE_KEYBOARD=y by default
+		:
+	elif [[ "${recovery_input}" == "RECOVERY_BUTTON" ]] ; then
+		echo "CONFIG_PHYSICAL_PRESENCE_KEYBOARD=n" >> "${defconfig}"
+	elif [[ "${recovery_input}" == "POWER_BUTTON" ]] ; then
+		die "Recovery input POWER_BUTTON is not supported in firmware UI"
+	else
+		die "Unknown recovery_input ${recovery_input}"
 	fi
 
 	dc_make defconfig "${builddir}" "${libpayload}" \
