@@ -28,6 +28,7 @@ IUSE="
 	pam
 	systemd
 	lvm_stateful_partition
+	postinstall_cgpt_repair
 	postinstall_config_efi_and_legacy
 	manage_efi_boot_entries
 	postinst_metrics
