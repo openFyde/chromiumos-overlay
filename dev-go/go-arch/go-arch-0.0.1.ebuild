@@ -1,7 +1,7 @@
 # Copyright 2022 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 CROS_GO_SOURCE="go.googlesource.com/arch:golang.org/x/arch cbf565b21d1e6f86b3114f28f516032b201c97fa"
 

@@ -1,7 +1,7 @@
 # Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 CROS_GO_SOURCE="github.com/census-instrumentation/opencensus-go:go.opencensus.io v${PV}"
 

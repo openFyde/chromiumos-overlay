@@ -1,7 +1,7 @@
 # Copyright 2019 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=6
+EAPI=7
 
 CROS_GO_SOURCE="github.com/mdlayher/kobject b96c97ecd94cb099c51321f651acb576067c960c"
 

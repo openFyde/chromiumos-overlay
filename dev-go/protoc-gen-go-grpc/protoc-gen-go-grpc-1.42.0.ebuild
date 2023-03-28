@@ -1,7 +1,7 @@
 # Copyright 2017 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2.
 
-EAPI=5
+EAPI=7
 
 # The dev-go/grpc* packages are all built from this repo.  They should
 # be updated together.
