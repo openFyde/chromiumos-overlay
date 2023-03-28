@@ -3,7 +3,7 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="2d9622a624880d0b83b1ccfa21d83fc66c0e1a39"
+CROS_WORKON_COMMIT="b2fc5ad8e49752fb09b5b5b5ba09cc58ae75f1c7"
 CROS_WORKON_TREE=("952d2f368a90cdfa98da94394d2a56079cef3597" "8d7d64d7253f297f2f7b9c8ded8ac50b418bc38c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -51,6 +51,10 @@ DEPEND="
 	chromeos-base/perfetto
 	dev-util/meson
 	dev-util/ninja
+"
+
+BDEPEND="
+	${COMMON_DEPEND}
 	dev-python/jinja
 "
 
