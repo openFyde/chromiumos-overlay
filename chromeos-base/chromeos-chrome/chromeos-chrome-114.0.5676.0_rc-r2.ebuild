@@ -163,7 +163,7 @@ RDEPEND="${RDEPEND}
 	x11-libs/libdrm
 	ozone_platform_gbm? ( media-libs/minigbm )
 	v4lplugin? ( media-libs/libv4lplugins )
-	>=media-sound/adhd-0.0.1-r310
+	>=media-sound/adhd-0.0.6-r2908
 	net-print/cups
 	opengl? ( virtual/opengl )
 	opengles? ( virtual/opengles )
