@@ -1,9 +1,6 @@
 # Copyright 2012 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="6"
-
-DESCRIPTION="Install packages that must live in the rootfs in test images"
 # 1) Normally, test image packages are merged into the stateful partition
 # 2) Some test packages require files in the root file system (e.g.
 #    upstart jobs must live in /etc/init).
@@ -11,10 +8,22 @@ DESCRIPTION="Install packages that must live in the rootfs in test images"
 #    build_library/test_image_util.sh that specifically merges this
 #    package into the root before merging the remaining test packages
 #    into stateful.
-HOMEPAGE="http://www.chromium.org/"
-KEYWORDS="*"
-LICENSE="BSD-Google"
+
+EAPI="7"
+
+# This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
+# the canonical empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="platform/empty-project"
+
+inherit cros-workon
+
+DESCRIPTION="Install packages that must live in the rootfs in test images"
+HOMEPAGE="https://dev.chromium.org/"
+
+LICENSE="metapackage"
 SLOT="0"
+KEYWORDS="~*"
 # Include bootchart in the test image unless explicitly disabled. Bootchart is
 # disabled by default and enabled by the "cros_bootchart" kernel arg.
 IUSE="
