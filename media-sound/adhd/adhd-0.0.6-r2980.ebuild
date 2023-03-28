@@ -42,6 +42,7 @@ KEYWORDS="*"
 IUSE="asan +cras-apm cras-debug cras-ml dlc featured fuzzer selinux systemd"
 
 COMMON_DEPEND="
+	chromeos-base/chromeos-config-tools:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	dev-libs/iniparser:=
 	cras-apm? ( media-libs/webrtc-apm:= )

@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="2d9622a624880d0b83b1ccfa21d83fc66c0e1a39"
+CROS_WORKON_COMMIT="d6b9ee67e6ffad7bf61f697917f1bf8ec70e823c"
 CROS_WORKON_TREE=("952d2f368a90cdfa98da94394d2a56079cef3597" "f9c7431caf7b64df59390da12d5015c7b934da90" "96a35809ae6da7664ca46f2da1bf479bc2df283f" "4d13cefb4b4fcb8f643fb162b2b14867a0d884f0" "4942eef5528c17979f429ea87a2a3873293638bd" "22d5274d1e7570d1be474dd10560ef20113f4d3c" "73889d0041bcd8e88b0b6d54e8d40eb99eaac094" "863b1eca0dee2b90bf3c548133b8053916e9a950" "31658d9a500bf7e1a1ab297f32284348b244441b" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_USE_VCSID="1"
 CROS_WORKON_LOCALNAME="platform2"
@@ -29,6 +29,7 @@ COMMON_DEPEND="
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/featured:=
 	chromeos-base/libec:=
+	chromeos-base/libiioservice_ipc:=
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	chromeos-base/ml-client:=
 	chromeos-base/mojo_service_manager:=
