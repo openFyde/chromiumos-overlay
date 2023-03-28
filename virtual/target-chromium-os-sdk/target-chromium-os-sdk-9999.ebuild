@@ -26,7 +26,7 @@ RDEPEND="
 "
 
 # Basic utilities
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-arch/bzip2
 	app-arch/cpio
 	app-arch/gcab
@@ -85,7 +85,7 @@ RDEPEND="${RDEPEND}
 	"
 
 # Needed to run setup crossdev, run build scripts, and make a bootable image.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-arch/lbzip2
 	app-arch/lz4
 	app-arch/lzop
@@ -113,7 +113,7 @@ RDEPEND="${RDEPEND}
 	"
 
 # Needed to build Android/ARC userland code.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-misc/jq
 	chromeos-base/mk-payload
 	sys-devel/aapt
@@ -124,12 +124,12 @@ RDEPEND="${RDEPEND}
 	"
 
 # Needed to run 'repo selfupdate'
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-crypt/gnupg
 	"
 
 # Host dependencies for building cross-compiled packages.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-admin/eselect-opengl
 	app-admin/eselect-mesa
 	app-arch/cabextract
@@ -248,26 +248,26 @@ RDEPEND="${RDEPEND}
 
 # TODO(toolchain): Remove this libxcrypt dep after all packages directly depend
 # on it and it is not installed as a system library anymore
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-libs/libxcrypt
 	"
 
 # Multiple versions of Bazel are provided for long-term compatibility.
 # Slot 0 corresponds to the version packaged by upstream Gentoo, while
 # other slots correspond to LTS releases packaged by us.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/bazel:0
 	dev-util/bazel:5
 	"
 
 # Various fonts are needed in order to generate messages for the
 # chromeos-initramfs package.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/chromeos-fonts
 	"
 
 # Host dependencies for bitmap block (chromeos-bmpblk) to to render messages.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	gnome-base/librsvg
 	"
 
@@ -276,7 +276,7 @@ RDEPEND="${RDEPEND}
 # into chromium, need these packages to be present in the host environment in
 # order to successfully build.
 # See: http://codereview.chromium.org/7550002/
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-libs/atk
 	dev-libs/glib
 	media-libs/fontconfig
@@ -290,17 +290,17 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies that create usernames/groups we need to pull over to target.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-apps/dbus
 	"
 
 # Host dependencies that are needed by mod_image_for_test.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-process/lsof
 	"
 
 # Useful utilities for developers.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-arch/zip
 	app-editors/nano
 	app-editors/qemacs
@@ -326,7 +326,7 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies used by chromite on build servers
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/google-cloud-logging
 	dev-python/mysqlclient
 	dev-python/pyparsing
@@ -334,12 +334,12 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies that are needed for unit tests
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	x11-misc/xkeyboard-config
 	"
 
 # Host dependencies that are needed for autotests.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/btsocket
 	dev-python/selenium
 	sys-apps/iproute2
@@ -348,12 +348,12 @@ RDEPEND="${RDEPEND}
 
 # Host dependencies that are needed for media applications (ex, mplayer) used in
 # factory.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	media-video/ffmpeg
 	"
 
 # Host dependencies that are needed to create and sign images
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	>=chromeos-base/vboot_reference-1.0-r174
 	chromeos-base/verity
 	!dev-python/ahocorasick
@@ -361,20 +361,20 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies that are needed for cros_generate_update_payload.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/update_engine-client
 	chromeos-base/update_engine
 	sys-fs/e2tools
 	"
 
 # Host dependencies to run unit tests within the chroot
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-cpp/gflags
 	dev-go/mock
 	dev-go/test
 	"
 # Host dependencies to run autotest's unit tests within the chroot.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/httplib2
 	dev-python/pyshark
 	dev-python/python-dateutil
@@ -382,25 +382,25 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies to scp binaries from the binary component server
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	net-misc/openssh
 	net-misc/socat
 	net-misc/wget
 	"
 
 # Host dependencies for HWID processing
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/pyyaml
 	"
 
 # Tools for working with compiler generated profile information
 # (such as coverage analysis in common.mk)
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/lcov
 	"
 
 # Host dependencies for building Platform2
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/chromeos-dbus-bindings
 	chromeos-base/sirenia-tools
 	dev-rust/bindgen
@@ -412,28 +412,28 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies for building eBPFs.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/bpftool
 	"
 
 # Host dependencies for converting sparse into raw images (simg2img).
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	brillo-base/libsparse
 	"
 
 # Host dependencies for building Chromium code (libmojo)
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/ply
 	dev-util/gn
 	"
 
 # Uninstall these packages.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	!net-misc/dhcpcd
 	"
 
 # Host dependencies for building/testing factory software
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-libs/closure-library
 	dev-libs/closure_linter
 	dev-python/crcmod
@@ -451,28 +451,28 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies for running integration tests
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/tast-cmd
 	chromeos-base/tast-remote-tests
 	"
 
 # Host dependencies for building harfbuzz
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/ragel
 	"
 
 # Host dependencies for building chromeos-bootimage
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-apps/coreboot-utils
 	"
 
 # Host dependencies for building chromeos-firmware-*
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/ec-utils
 	"
 
 # Host dependencies for the chromeos-ec workflow
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/chromeos-ec-headers
 	dev-libs/libprotobuf-mutator
 	dev-libs/openssl
@@ -480,16 +480,16 @@ RDEPEND="${RDEPEND}
 	"
 
 # Host dependencies for the AP/EC/GSC firmware release testing workflow
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-firmware/fw-engprod-tools
 	"
 
 # Host dependencies for audio topology generation
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	media-sound/alsa-utils"
 
 # Host dependency for managing SELinux
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/sepolicy-analyze
 	sys-apps/checkpolicy
 	sys-apps/restorecon
@@ -497,71 +497,71 @@ RDEPEND="${RDEPEND}
 	sys-apps/selinux-python"
 
 # Host dependencies that are needed for chromite/bin/cros_generate_android_breakpad_symbols
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/android-relocation-packer"
 
 # Host dependencies for generating and testing update payloads
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/update_payload"
 
 # Needed to compile moblab mobmonitor ui
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	net-libs/nodejs"
 
 # Needed to compile img-ddk
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/clang-python"
 
 # Moblab's new RPC server backend will use grpc
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/grpcio-tools
 	net-libs/grpc-web"
 
 # Autotest's new RPC server will use grpc
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/grpcio"
 
 # Needed for unit tests of tast-local-tests-cros
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/strace"
 
 # Host dependencies for termina_build_image
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-misc/fdupes"
 
 # Host dependencies that lets us boost to performance governor
 # to speed up builds.  https://crbug.com/1008932
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-power/cpupower"
 
 # Base layout for java that installs cacerts
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-apps/baselayout-java"
 
 # CTS P depends on Java 8 or 9, CTS R depends on Java 9 or later.
 # Include android-sdk to contain both JDK8 and JDK11 in the chroot.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/android-sdk"
 
 # Needed to optimise Android APKs shipped in demo_mode_resources.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-devel/zipalign"
 
 # Needed to build IPA interface in libcamera.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/jinja"
 
 # Needed for packages that need older 4.9.2 GCC.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	sys-devel/gcc-bin"
 
 # Needed to build crosvm without ebuild in chroot.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-libs/wayland-protocols
 	dev-util/wayland-scanner"
 
 # Needed for hps-firmware.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	chromeos-base/hps-sign-rom
 	dev-rust/svd2rust
 	sci-electronics/amaranth
@@ -578,54 +578,54 @@ RDEPEND="${RDEPEND}
 	"
 
 # Needed for cvise.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/pebble
 	dev-util/cvise"
 
 # Needed for floss project.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	net-wireless/floss_tools"
 
 # Needed to build net-fs/samba
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-perl/Parse-Yapp"
 
 # Needed to build cros-camera-hal-qti.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-perl/XML-Simple"
 
 # Needed for vkbench.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/glslang"
 
 # Needed for federated-service.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	app-arch/snappy
 	media-libs/giflib"
 
 # Needed by starlark config generation
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-go/lucicfg"
 
 # needed for include what you use.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/iwyu"
 
 # nih-dbus-tool (in libnih package) is needed to build upstart.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	!sys-apps/nih-dbus-tool
 	sys-libs/libnih"
 
 # Needed for cros-llvm.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/dataclasses"
 
 # Needed for app-metrics/node_exporter.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-util/promu"
 
 # Needed for fwupd-efi>=1.4.
-RDEPEND="${RDEPEND}
+RDEPEND+="
 	dev-python/pefile"
 
 # Needed for x11-libs/libxcb.
