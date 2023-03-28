@@ -49,6 +49,10 @@ DEPEND="
 	chromeos-base/perfetto
 	dev-util/meson
 	dev-util/ninja
+"
+
+BDEPEND="
+	${COMMON_DEPEND}
 	dev-python/jinja
 "
 
