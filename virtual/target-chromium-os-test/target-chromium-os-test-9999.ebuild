@@ -43,6 +43,7 @@ IUSE="
 	opengles
 	p2p
 	+perfetto
+	pvs
 	python_targets_python3_6 python_targets_python3_8
 	racc
 	scanner
@@ -159,6 +160,7 @@ CROS_COMMON_RDEPEND="
 		chromeos-base/perfetto
 		chromeos-base/perfetto_simple_producer
 	)
+	pvs? ( dev-util/pvs-host )
 	cr50_onboard? ( dev-util/u2f-ref-code )
 	net-misc/rsync
 	sys-apps/memtester

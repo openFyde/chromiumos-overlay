@@ -22,6 +22,7 @@ IUSE="
 	+bootchart
 	dlc
 	hps
+	pvs
 	ubsan
 "
 
@@ -36,6 +37,7 @@ RDEPEND="
 		)
 	)
 	media-libs/cros-camera-hal-fake
+	pvs? ( chromeos-base/chromeos-docker )
 	virtual/chromeos-test-testauthkeys
 	virtual/chromeos-bsp-test-root
 "
