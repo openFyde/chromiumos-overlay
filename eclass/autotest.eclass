@@ -11,6 +11,7 @@ PYTHON_COMPAT=( python3_{6..9} )
 inherit cros-constants toolchain-funcs python-any-r1
 
 RDEPEND="autotest? ( chromeos-base/autotest )"
+DEPEND="${RDEPEND}"
 
 IUSE="+buildcheck autotest opengles"
 
