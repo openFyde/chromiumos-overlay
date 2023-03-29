@@ -1,17 +1,17 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2021 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="0713cd4f84ea5b4791d10ea62842e1ce9a95f5d9"
-CROS_WORKON_TREE="7e86b1afae06d3c8d3c9a52209b8e51dc1b5999c"
+CROS_WORKON_COMMIT="53eaf2f090416b020f61ba473735772bfb0e050b"
+CROS_WORKON_TREE=("0caeac2bd32d0761b0555a5b823532d83c0b7b12" "5aae614e98707a3d7c9aefccc61036a0affb92d5")
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test"
+CROS_WORKON_SUBTREE="src/chromiumos/test/provision src/chromiumos/test/util"
 
 inherit cros-go cros-workon
 
-DESCRIPTION="cros-servod service for CFT"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/servod/cmd"
+DESCRIPTION="Provision server implementation for installing CrOS on a test device"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/provision"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -22,11 +22,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/servod/cmd/cros-servod"
+	"chromiumos/test/provision/v2/cros-provision"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/servod/cmd/servodserver"
+	"chromiumos/test/provision/cmd/..."
 )
 
 CROS_GO_VET=(
@@ -42,7 +42,6 @@ DEPEND="
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
 	chromeos-base/cros-config-api
-	sys-firmware/ap-firmware-config
 "
 RDEPEND="${DEPEND}"
 
