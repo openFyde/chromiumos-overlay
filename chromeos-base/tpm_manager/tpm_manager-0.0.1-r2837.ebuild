@@ -1,10 +1,10 @@
 # Copyright 2015 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
-CROS_WORKON_COMMIT="de38e71519df92f4d6a1b898f1462819593776d2"
-CROS_WORKON_TREE=("952d2f368a90cdfa98da94394d2a56079cef3597" "e96d8273dec8a25a17acd158d88ce07e859deb51" "4c9a73b6d28fdef2c43f57535eb66e383e16dd60" "22d5274d1e7570d1be474dd10560ef20113f4d3c" "ef0c5742ead35776b4b9d03a47ce87a296b6a9c6" "1d5c44f3442f9d476f8bd7609fe21051ebb05e67" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="2d89f7432d8f231a7ccf957cb4bc3bce73e9d9e4"
+CROS_WORKON_TREE=("952d2f368a90cdfa98da94394d2a56079cef3597" "e96d8273dec8a25a17acd158d88ce07e859deb51" "6e2537c05135db7b7a85da8c801a540c889ce4a0" "22d5274d1e7570d1be474dd10560ef20113f4d3c" "845f668638222eacc4c3c3edff3a600d92bb2a45" "1d5c44f3442f9d476f8bd7609fe21051ebb05e67" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -22,8 +22,8 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/tpm_mana
 LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
-IUSE="cr50_onboard double_extend_pcr_issue pinweaver_csme profiling test tpm tpm_dynamic
-	tpm_insecure_fallback tpm2 tpm2_simulator fuzzer os_install_service
+IUSE="cr50_onboard double_extend_pcr_issue pinweaver_csme profiling test ti50_onboard
+	tpm tpm_dynamic tpm_insecure_fallback tpm2 tpm2_simulator fuzzer os_install_service
 "
 
 REQUIRED_USE="
