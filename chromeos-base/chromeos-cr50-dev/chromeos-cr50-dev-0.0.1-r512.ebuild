@@ -4,25 +4,29 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("521e07ce947f4cb20af6a5c30ff7ad6efbfeafcb" "302248e3d8bd39059235b827055195156bbb8175" "0dd679081b9c8bfa2583d74e3a17a413709ea362")
-CROS_WORKON_TREE=("0b363fb237c40acaca06639db3aa25ba6eb09841" "0863f39408a3f136f0c594aa4df8ba5ad34aedec" "d99abee3f825248f344c0638d5f9fcdce114b744")
+CROS_WORKON_COMMIT=("521e07ce947f4cb20af6a5c30ff7ad6efbfeafcb" "302248e3d8bd39059235b827055195156bbb8175" "0dd679081b9c8bfa2583d74e3a17a413709ea362" "fac03e35d7ab58777d00ff016cfe8048c4dd3d9f")
+CROS_WORKON_TREE=("0b363fb237c40acaca06639db3aa25ba6eb09841" "0863f39408a3f136f0c594aa4df8ba5ad34aedec" "d99abee3f825248f344c0638d5f9fcdce114b744" "5cfa384b8bfe4abfa4d351592f768a3dd96f4939")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/tpm2"
 	"chromiumos/third_party/cryptoc"
+	"chromiumos/platform/pinweaver"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/cr50"
 	"third_party/tpm2"
 	"third_party/cryptoc"
+	"platform/pinweaver"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/third_party/tpm2"
 	"${S}/third_party/cryptoc"
+	"${S}/platform/pinweaver"
 )
 CROS_WORKON_EGIT_BRANCH=(
 	"cr50_stab"
+	"main"
 	"main"
 	"main"
 )
@@ -211,4 +215,3 @@ src_install() {
 
 	install_cr50_signer_aid
 }
-
