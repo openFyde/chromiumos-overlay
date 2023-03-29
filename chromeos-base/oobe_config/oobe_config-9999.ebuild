@@ -50,21 +50,6 @@ pkg_preinst() {
 src_install() {
 	platform_src_install
 
-	# TODO(mpolzer): delete when tcsd dependency has been removed from conf files.
-	if use tpm2; then
-		sed -i 's/ and started tcsd//' \
-			"${D}/etc/init/oobe_config_restore.conf" ||
-			die "Can't remove upstart dependency on tcsd"
-
-		sed -i 's/-b \/run\/tcsd//' \
-			"${D}/etc/init/oobe_config_restore.conf" ||
-			die "Can't remove /run/tcsd bind mount"
-
-		sed -i 's/-b \/run\/tcsd//' \
-			"${D}/etc/init/oobe_config_save.conf" ||
-			die "Can't remove /run/tcsd bind mount"
-	fi
-
 	local fuzzer_component_id="1031231"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/load_oobe_config_rollback_fuzzer \
 		--comp "${fuzzer_component_id}"
