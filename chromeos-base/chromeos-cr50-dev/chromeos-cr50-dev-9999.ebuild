@@ -34,7 +34,7 @@ inherit coreboot-sdk cros-workon toolchain-funcs cros-sanitizers
 DESCRIPTION="Google Security Chip firmware code"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/ec/+/refs/heads/cr50_stab"
 MIRROR_PATH="gs://chromeos-localmirror/distfiles/"
-CR50_ROS=(cr50.prod.ro.A.0.0.11 cr50.prod.ro.B.0.0.11)
+CR50_ROS=(cr50.prod.ro.A.0.0.12 cr50.prod.ro.B.0.0.12)
 SRC_URI="${CR50_ROS[*]/#/${MIRROR_PATH}}"
 
 LICENSE="BSD-Google"
