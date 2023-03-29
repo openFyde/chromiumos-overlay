@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="14d6bcaba80c2233704f072ba4fbbf4f80cfccae"
-CROS_WORKON_TREE="56465102dac1a129b8bbcd9aec01de8ae534fa6b"
+CROS_WORKON_COMMIT="ae5643375c1ccaca6c26fb3bf2d88917a15699ca"
+CROS_WORKON_TREE="245fde07c9b8ecd81a334dd67317bb0162c2e68e"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 
@@ -33,7 +33,12 @@ COMMON_DEPEND="
 	dev-libs/openssl:0=
 	sys-libs/zlib:=
 	virtual/libusb:1="
-DEPEND="${COMMON_DEPEND}"
+
+# b/274791539: gtest is required because libec includes a libchrome header that
+# requires gtest to be installed when building.
+DEPEND="${COMMON_DEPEND}
+	dev-cpp/gtest
+"
 RDEPEND="${COMMON_DEPEND}"
 
 pkg_preinst() {
@@ -76,7 +81,6 @@ src_install_cros_ec_utils() {
 		dobin "build/host/util/cbi-util"
 	else
 		dosbin "build/host/util/ectool"
-		dosbin "build/host/util/ec_parse_panicinfo"
 		dosbin "build/host/util/ec_sb_firmware_update"
 	fi
 }
