@@ -7,7 +7,7 @@ inherit cmake-utils flag-o-matic unpacker
 
 DESCRIPTION="Vulkan API Capture and Replay Tools"
 HOMEPAGE="https://github.com/LunarG/gfxreconstruct"
-GIT_HASH="761837794a1e57f918a85af7000b12e531b178ae"
+GIT_HASH="a4ad90bc1d466f0bb902db6ae321f28362c16429"
 SRC_URI="https://github.com/LunarG/gfxreconstruct/archive/${GIT_HASH}.tar.gz -> gfxreconstruct-${GIT_HASH}.tar.gz"
 
 LICENSE="MIT"
@@ -17,21 +17,21 @@ SLOT="0"
 
 S="${WORKDIR}/gfxreconstruct-${GIT_HASH}"
 
-DEPEND="x11-libs/libxcb
+RDEPEND="
+	x11-libs/libxcb
 	sys-libs/zlib
-	app-arch/zstd"
-RDEPEND="${DEPEND}"
-BDEPEND="
+	app-arch/zstd
+"
+DEPEND="
+	${RDEPEND}
+	>=dev-util/vulkan-headers-1.3.239
 	x11-libs/xcb-util-keysyms
-	dev-util/vulkan-headers"
+"
 
 PATCHES=(
-	# Look for Vulkan headers in the right place during build.
-	"${FILESDIR}/gfxreconstruct-0.9.11-0000-headers.patch"
-	# Update generated code for ChromeOS.
-	"${FILESDIR}/gfxreconstruct-0.9.11-0001-generated.patch"
-	# Fix library path in layer manifest.
-	"${FILESDIR}/gfxreconstruct-0.9.11-0002-layer_config.patch"
+	"${FILESDIR}/0001-ChromeOS-headers.patch"
+	"${FILESDIR}/0002-Fix-library-path-in-layer-manifest.patch"
+	"${FILESDIR}/0003-Fix-subprocess.capture_output-in-python3.6.patch"
 )
 
 src_prepare() {
@@ -48,17 +48,18 @@ src_compile() {
 }
 
 src_install() {
-	local OUTDIR="${WORKDIR}/gfxreconstruct-0.9.11_build"
+	local OUTDIR="${WORKDIR}/gfxreconstruct-${PV}_build"
 	local TOOLSDIR="${OUTDIR}/tools"
 
 	dobin "${TOOLSDIR}/replay/gfxrecon-replay"
 	dobin "${TOOLSDIR}/compress/gfxrecon-compress"
 	dobin "${TOOLSDIR}/optimize/gfxrecon-optimize"
-	dobin "${TOOLSDIR}/replay/gfxrecon-replay"
-	dobin "${TOOLSDIR}/capture/gfxrecon-capture.py"
-	dobin "${TOOLSDIR}/toascii/gfxrecon-toascii"
 	dobin "${TOOLSDIR}/extract/gfxrecon-extract"
+	dobin "${TOOLSDIR}/convert/gfxrecon-convert"
 	dobin "${TOOLSDIR}/info/gfxrecon-info"
+	dobin "${TOOLSDIR}/gfxrecon/gfxrecon.py"
+	dobin "${TOOLSDIR}/capture/gfxrecon-capture.py"
+	dobin "${TOOLSDIR}/capture-vulkan/gfxrecon-capture-vulkan.py"
 
 	dolib.so "${OUTDIR}/layer/libVkLayer_gfxreconstruct.so"
 	insinto /usr/share/vulkan/explicit_layer.d
