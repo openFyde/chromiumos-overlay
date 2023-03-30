@@ -1,5 +1,6 @@
+BDEPEND=dev-lang/go
 DEFINED_PHASES=compile install nofetch postinst test unpack
-DEPEND=dev-go/protobuf-legacy-api !dev-go/genproto-rpc !dev-go/genproto-api-expr !dev-go/genproto-chromeosuidetection dev-lang/go
+DEPEND=dev-go/protobuf-legacy-api !dev-go/genproto-rpc !dev-go/genproto-api-expr !dev-go/genproto-chromeosuidetection
 DESCRIPTION=Go generated proto packages
 EAPI=7
 HOMEPAGE=https://github.com/googleapis/googleapis/
@@ -9,5 +10,5 @@ RDEPEND=dev-go/protobuf-legacy-api !dev-go/genproto-rpc !dev-go/genproto-api-exp
 RESTRICT=binchecks strip
 SLOT=0
 SRC_URI=https://github.com/google/go-genproto/archive/cde4c949918df9c49dc02867603ff16c9054bc96.tar.gz -> github.com-google-go-genproto-cde4c949918df9c49dc02867603ff16c9054bc96.tar.gz
-_eclasses_=cros-go	fa92c4cd24a9ed8f299fe5295d2f5fff	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
+_eclasses_=cros-go	f9fed668704cb8398d685f363cd666c2	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
 _md5_=beca8c77c22900bf16fb5e46eba7b6f3
