@@ -137,10 +137,15 @@ else
 	"
 	DEPEND+=" virtual/os-headers "
 	RDEPEND+="
-		>=net-dns/libidn2-2.3.0
 		vanilla? ( !sys-libs/timezone-data )
 	"
-	PDEPEND+=" !vanilla? ( sys-libs/timezone-data )"
+	# CHROMIUM (b/66979761): Make net-dns/libidn2 a PDEPEND since we don't
+	# actually link against it, and thus it's not required when building any
+	# other packages.
+	PDEPEND+="
+		>=net-dns/libidn2-2.3.0
+		!vanilla? ( sys-libs/timezone-data )
+	"
 fi
 
 # Ignore tests allowlisted below
