@@ -91,15 +91,6 @@ REQUIRED_USE="
 	orderfile_generate? ( !orderfile_use )
 	"
 
-OZONE_PLATFORM_PREFIX=ozone_platform_
-OZONE_PLATFORMS=(gbm cast headless egltest caca)
-IUSE_OZONE_PLATFORMS="${OZONE_PLATFORMS[*]/#/${OZONE_PLATFORM_PREFIX}}"
-IUSE+=" ${IUSE_OZONE_PLATFORMS}"
-OZONE_PLATFORM_DEFAULT_PREFIX=ozone_platform_default_
-IUSE_OZONE_PLATFORM_DEFAULTS="${OZONE_PLATFORMS[*]/#/${OZONE_PLATFORM_DEFAULT_PREFIX}}"
-IUSE+=" ${IUSE_OZONE_PLATFORM_DEFAULTS}"
-REQUIRED_USE+=" ^^ ( ${IUSE_OZONE_PLATFORM_DEFAULTS} )"
-
 # The gclient hooks that run in src_prepare hit the network.
 # https://crbug.com/731905
 RESTRICT="network-sandbox mirror"
@@ -161,7 +152,7 @@ RDEPEND="${RDEPEND}
 	media-libs/fontconfig
 	media-libs/libsync
 	x11-libs/libdrm
-	ozone_platform_gbm? ( media-libs/minigbm )
+	media-libs/minigbm
 	v4lplugin? ( media-libs/libv4lplugins )
 	>=media-sound/adhd-0.0.6-r2908
 	net-print/cups
@@ -325,25 +316,15 @@ set_build_args() {
 	use internal_gles_conform && BUILD_ARGS+=( "internal_gles2_conform_tests=true" )
 
 	# Ozone platforms.
-	local platform
-	for platform in "${OZONE_PLATFORMS[@]}"; do
-		local flag="${OZONE_PLATFORM_DEFAULT_PREFIX}${platform}"
-		if use "${flag}"; then
-			BUILD_STRING_ARGS+=( "ozone_platform=${platform}" )
-		fi
-	done
+	# TODO: Move this to browser side and delete these overrides.
+	BUILD_STRING_ARGS+=( "ozone_platform=gbm" )
 	BUILD_ARGS+=(
 		"ozone_auto_platforms=false"
+		"ozone_platform_gbm=true"
+		"ozone_platform_headless=true"
+		"use_system_minigbm=true"
+		"use_system_libdrm=true"
 	)
-	for platform in ${IUSE_OZONE_PLATFORMS}; do
-		if use "${platform}"; then
-			BUILD_ARGS+=( "${platform}=true" )
-		fi
-	done
-	if use "ozone_platform_gbm"; then
-		BUILD_ARGS+=( "use_system_minigbm=true" )
-		BUILD_ARGS+=( "use_system_libdrm=true" )
-	fi
 	if ! use "subpixel_rendering" || use "touchview"; then
 		BUILD_ARGS+=( "subpixel_font_rendering_disabled=true" )
 	fi
