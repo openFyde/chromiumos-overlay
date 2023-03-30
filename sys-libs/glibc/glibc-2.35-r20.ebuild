@@ -43,7 +43,7 @@ SRC_URI+=" https://gitweb.gentoo.org/proj/locale-gen.git/snapshot/locale-gen-${L
 SRC_URI+=" multilib-bootstrap? ( https://dev.gentoo.org/~dilfridge/distfiles/gcc-multilib-bootstrap-${GCC_BOOTSTRAP_VER}.tar.xz )"
 SRC_URI+=" systemd? ( https://gitweb.gentoo.org/proj/toolchain/glibc-systemd.git/snapshot/glibc-systemd-${GLIBC_SYSTEMD_VER}.tar.gz )"
 
-IUSE="cros_host audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only llvm"
+IUSE="cros_host audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only llvm +nsswitch"
 
 # Minimum kernel version that glibc requires
 MIN_KERN_VER="3.2.0"
@@ -1447,10 +1447,13 @@ glibc_do_src_install() {
 	insinto /etc
 	doins posix/gai.conf
 
-	if use systemd ; then
-		doins "${WORKDIR}/glibc-systemd-${GLIBC_SYSTEMD_VER}/gentoo-config/nsswitch.conf"
-	else
-		doins nss/nsswitch.conf
+	# CHROMIUM: nsswitch.conf is provided by chromeos-base/nsswitch
+	if use nsswitch ; then
+		if use systemd ; then
+			doins "${WORKDIR}/glibc-systemd-${GLIBC_SYSTEMD_VER}/gentoo-config/nsswitch.conf"
+		else
+			doins nss/nsswitch.conf
+		fi
 	fi
 
 	# Gentoo-specific

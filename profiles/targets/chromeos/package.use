@@ -139,6 +139,10 @@ sys-kernel/chromeos-kernel-4_14 -llvm_ias
 sys-kernel/chromeos-kernel-experimental -llvm_ias
 sys-kernel/chromeos-kernel-next -llvm_ias
 sys-kernel/linux-firmware	linux_firmware_keyspan_usb
+
+# We use the chromeos-base/nsswitch package to provide nsswitch.conf.
+sys-libs/glibc -nsswitch
+
 # We disable berkdb in general, but we need gdbm to provide the API.
 sys-libs/gdbm		berkdb
 sys-libs/ldb		ldap -python -lmdb
