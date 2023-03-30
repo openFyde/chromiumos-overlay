@@ -21,6 +21,7 @@ KEYWORDS="*"
 # Note: Do not utilize USE=internal here.  Update virtual/target-chrome-os-dev.
 IUSE="
 	asan
+	cellular
 	chromeless_tty
 	cras
 	diag
@@ -141,6 +142,7 @@ RDEPEND="${RDEPEND}
 	diag? ( net-misc/diag )
 	net-misc/iperf:2
 	net-misc/iputils
+	cellular? ( net-misc/modem-logger-fibocom )
 	net-misc/openssh
 	net-misc/rsync
 	net-wireless/iw
