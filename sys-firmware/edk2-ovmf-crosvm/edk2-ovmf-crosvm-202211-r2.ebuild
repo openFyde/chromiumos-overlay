@@ -33,7 +33,6 @@ BDEPEND=">=dev-lang/nasm-2.0.7
 PATCHES=(
 	"${FILESDIR}/0001-BaseTools-Use-BUILD_CC-when-checking-gcc-version-in-.patch"
 	"${FILESDIR}/0002-crosvm-create-new-dsc-for-Crosvm.patch"
-	"${FILESDIR}/0003-crosvm-remove-RTC-as-a-core-protocol.patch"
 	"${FILESDIR}/0004-crosvm-swap-CR-and-LF-characters-for-serial.patch"
 	"${FILESDIR}/0005-crosvm-always-use-CloudHv-ACPI-tables.patch"
 	"${FILESDIR}/0006-crosvm-search-for-RSD-PTR-manually.patch"
