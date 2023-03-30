@@ -1,9 +1,9 @@
 # Copyright 2014 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="7"
 
-CROS_WORKON_COMMIT="39b06e69da98959707866f167100f8066eddbd8b"
+CROS_WORKON_COMMIT="9805e1d704aa39fcd569a3ef568f259a18bf40ce"
 CROS_WORKON_TREE="7a7aa968eb99ee0692f7160fbd775db6243d5e99"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"

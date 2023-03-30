@@ -1,9 +1,9 @@
 # Copyright 2019 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-CROS_WORKON_COMMIT="2d9622a624880d0b83b1ccfa21d83fc66c0e1a39"
+CROS_WORKON_COMMIT="9805e1d704aa39fcd569a3ef568f259a18bf40ce"
 CROS_WORKON_TREE=("952d2f368a90cdfa98da94394d2a56079cef3597" "cd857fe2b5ecdbe73201e3881c114ccb50ba7a8a" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"chromiumos/wilco_dtc/..."
