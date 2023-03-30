@@ -147,7 +147,6 @@ LC_MESSAGES="C"
 #                    EC_FIRMWARE_EXTRA for compiling other needed EC images
 #                    FPMCU_FIRMWARE for compiling the fingerprint firmware
 #                    LINUX_FIRMWARE for selecting upstream firmware components
-#                    OZONE_PLATFORM for platforms to build into chrome
 #                    TESTS USE_EXPAND for autotest
 #                    TTY_CONSOLE for enabling tty consoles
 #                    U_BOOT_CONFIG_USE for selecting U-Boot config
@@ -175,8 +174,6 @@ USE_EXPAND="
 	EC_FIRMWARE_EXTRA
 	FPMCU_FIRMWARE
 	LINUX_FIRMWARE
-	OZONE_PLATFORM
-	OZONE_PLATFORM_DEFAULT
 	TESTS
 	TTY_CONSOLE
 	U_BOOT_CONFIG_USE

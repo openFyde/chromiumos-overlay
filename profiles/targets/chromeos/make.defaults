@@ -170,12 +170,6 @@ USE="${USE} direncryption"
 # Disable tty2 console.
 TTY_CONSOLE="-tty2"
 
-# Ozone platforms to build into Chrome.
-OZONE_PLATFORM="gbm headless"
-
-# Of the above, platform to use by default at runtime.
-OZONE_PLATFORM_DEFAULT="gbm"
-
 # Most targets will override these.
 VIDEO_CARDS="-*"
 INPUT_DEVICES="-* evdev cmt"
