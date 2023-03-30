@@ -1,7 +1,7 @@
 # Copyright 2018 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
 CROS_GO_SOURCE="github.com/catapult-project/catapult 35457f076227dce062ece5b51f3655223af1788f"
 
