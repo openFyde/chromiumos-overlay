@@ -45,12 +45,14 @@ RDEPEND="
 
 DEPEND="
 	sys-kernel/linux-headers
+	sys-libs/glibc
 	${RDEPEND}
 "
 
 if [[ "${CATEGORY}" == cross-*-linux* ]]; then
 	DEPEND+="
 		${CATEGORY}/linux-headers
+		${CATEGORY}/glibc
 	"
 fi
 
