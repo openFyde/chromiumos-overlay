@@ -32,6 +32,7 @@ IUSE="
 	arc-launched-32bit-abi
 	arcpp
 	arcvm
+	arcvm_data_migration
 	arcvm_virtio_blk_data
 	arm
 	arm64
