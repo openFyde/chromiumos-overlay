@@ -59,11 +59,13 @@ DEPEND="
 # it is very large. It is currently only a dependency of wilco as it is
 # currently the only client.
 # TODO(b/273184171): Remove chromeos-base/ec-utils once we don't rely on ectool.
+# TODO(b/271544868): Remove net-wireless/iw once we find alternatives.
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/ec-utils
 	chromeos-base/iioservice
 	dev-util/stressapptest
+	net-wireless/iw
 	wilco? (
 		sys-block/fio
 		chromeos-base/chromeos-dtc-vm
