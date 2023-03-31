@@ -65,9 +65,11 @@ src_install() {
 	insinto \
 		"$(dlc_add_path /gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical)"
 	doins \
-		gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical/LabelMap.pb
-	doins \
 		gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical/model.fb
+    insinto \
+		"$(dlc_add_path /gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical/assets.extra)"
+	doins \
+		gocr/gocr_models/line_recognition_mobile_convnext320/Latn_ctc/optical//assets.extra/LabelMap.pb
 	insinto "$(dlc_add_path /layout)"
 	insinto "$(dlc_add_path /gocr/layout/line_splitting_custom_ops)"
 	doins gocr/layout/line_splitting_custom_ops/model.tflite
