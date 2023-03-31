@@ -4,12 +4,12 @@ DEPEND=>=chromeos-base/metrics-0.0.1-r3152:= chromeos-base/libhwsec:=[test?] sys
 DESCRIPTION=Provides utilities to save and restore OOBE config.
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/oobe_config/
-IUSE=test tpm tpm_dynamic tpm2 fuzzer cros_host cros_workon_tree_952d2f368a90cdfa98da94394d2a56079cef3597_15f6a3895369dcf58ef0c7b7d4505eb3a0516bfc_22d5274d1e7570d1be474dd10560ef20113f4d3c_cd99f60efa1abdfe04cd4e2ebe5b092f50d3c3c5_300a0f13961978d92feb2a2051d0606ae7407e53_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
+IUSE=test tpm tpm_dynamic tpm2 fuzzer cros_host cros_workon_tree_952d2f368a90cdfa98da94394d2a56079cef3597_590bf902fbbbea664a845dfe474128a6f0dc896e_22d5274d1e7570d1be474dd10560ef20113f4d3c_cd99f60efa1abdfe04cd4e2ebe5b092f50d3c3c5_300a0f13961978d92feb2a2051d0606ae7407e53_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=>=chromeos-base/metrics-0.0.1-r3152:= chromeos-base/libhwsec:=[test?] sys-apps/dbus:= >=chromeos-base/libchrome-0.0.1-r625:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2157:= virtual/tmpfiles sys-apps/baselayout
 REQUIRED_USE=tpm_dynamic? ( tpm tpm2 ) !tpm_dynamic? ( ?? ( tpm tpm2 ) )
-SLOT=0/0.0.1-r803
+SLOT=0/0.0.1-r804
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c286b70ed045cd0c9488c299b7c0859d	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	52aab3980423d811b55c110a16554c64	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	f156b63c6afb281c772a28e3f5d842b5	tmpfiles	216aa76c3a6fcb5d893c23a0de86048f	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
-_md5_=8569708bab7e12fe64ecfd9dcb1b6377
+_md5_=2dabf0fc302466c24e0ac06533760308
