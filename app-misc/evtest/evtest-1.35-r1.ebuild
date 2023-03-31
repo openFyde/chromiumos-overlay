@@ -14,7 +14,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE="+xml"
 
-BDEPEND="virtual/pkgconfig"
+BDEPEND="
+	virtual/pkgconfig
+	app-text/docbook-xml-dtd:4.5
+"
 
 S=${WORKDIR}/${PN}-${P}
 
