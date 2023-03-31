@@ -26,6 +26,9 @@ RDEPEND="
 	sys-apps/gentoo-functions
 "
 BDEPEND="app-arch/xz-utils"
+PATCHES=(
+	"${FILESDIR}/Allow-ex-pkg-flags-to-append-version-info.patch"
+)
 
 src_install() {
 	default
