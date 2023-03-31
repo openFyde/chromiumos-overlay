@@ -23,7 +23,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="~*"
 
-RDEPEND="!chromeos-base/gmerge"
+RDEPEND="${PYTHON_DEPS}
+	!chromeos-base/gmerge"
+DEPEND="${PYTHON_DEPS}"
 
 # Add an empty src_compile() so we bypass compile stage.
 src_compile() { :; }

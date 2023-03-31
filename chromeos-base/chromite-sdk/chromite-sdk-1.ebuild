@@ -21,6 +21,9 @@ IUSE=""
 
 S="${WORKDIR}"
 
+RDEPEND="${PYTHON_DEPS}"
+DEPEND="${PYTHON_DEPS}"
+
 src_install() {
 	install_python() {
 		# TODO(crbug.com/771085): Figure out this SYSROOT business.

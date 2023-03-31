@@ -15,8 +15,10 @@ SLOT="0"
 KEYWORDS="*"
 
 # Ensure the telemetry dep tarball is created already.
-DEPEND="chromeos-base/chromeos-chrome"
-RDEPEND="dev-python/psutil[${PYTHON_USEDEP}]"
+DEPEND="${PYTHON_DEPS}
+	chromeos-base/chromeos-chrome"
+RDEPEND="${PYTHON_DEPS}
+	dev-python/psutil[${PYTHON_USEDEP}]"
 
 S=${WORKDIR}
 

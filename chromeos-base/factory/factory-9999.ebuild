@@ -24,7 +24,9 @@ KEYWORDS="~*"
 # TODO(b/263836581) We will propose to inline virtual packages when calculating
 # reverse dependency. We can remove duplicate dependencies, for example
 # chromeos-base/factory-board, if the proposal is accepted.
-DEPEND="virtual/chromeos-bsp-factory:=
+RDEPEND="${PYTHON_DEPS}"
+DEPEND="${PYTHON_DEPS}
+	virtual/chromeos-bsp-factory:=
 	|| (
 		chromeos-base/factory-board
 		chromeos-base/chromeos-factory-board
