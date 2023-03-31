@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk missive .gn"
+CROS_WORKON_SUBTREE="common-mk featured missive .gn"
 
 PLATFORM_SUBDIR="missive"
 
@@ -30,6 +30,7 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/featured:=
 	chromeos-base/system_api:=
 "
 
