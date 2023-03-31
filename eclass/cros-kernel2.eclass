@@ -1002,6 +1002,7 @@ CONFIG_USB_CONFIGFS_NCM=y
 usbip_desc="Virtual USB support"
 usbip_config="
 CONFIG_USBIP_CORE=m
+CONFIG_USBIP_HOST=m
 CONFIG_USBIP_VHCI_HCD=m
 "
 
