@@ -20,11 +20,11 @@ HOMEPAGE="https://chromium.googlesource.com/aosp/platform/system/update_engine"
 LICENSE="Apache-2.0"
 KEYWORDS="*"
 
-RDEPEND="
+RDEPEND="${PYTHON_DEPS}
 	dev-python/protobuf-python[${PYTHON_USEDEP}]
 	!<chromeos-base/devserver-0.0.3
 "
-DEPEND=""
+DEPEND="${PYTHON_DEPS}"
 
 src_install() {
 	# Install update_payload scripts.

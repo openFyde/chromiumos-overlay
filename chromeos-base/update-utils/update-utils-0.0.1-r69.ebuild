@@ -6,7 +6,7 @@
 
 EAPI=6
 
-CROS_WORKON_COMMIT="cfa71669ba634d2aa6201438efd06641b5dd7d83"
+CROS_WORKON_COMMIT="0b83dd091e7843e72cd531ce9ee2de84aaf5b1e1"
 CROS_WORKON_TREE="ee50c6e65353dc3ca8aff8b43c1c634c5973f37f"
 PYTHON_COMPAT=( python3_{6..9} )
 
@@ -25,7 +25,9 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-RDEPEND="!chromeos-base/gmerge"
+RDEPEND="${PYTHON_DEPS}
+	!chromeos-base/gmerge"
+DEPEND="${PYTHON_DEPS}"
 
 # Add an empty src_compile() so we bypass compile stage.
 src_compile() { :; }

@@ -20,9 +20,10 @@ LICENSE="BSD-Google"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND="
+RDEPEND="${PYTHON_DEPS}
 	dev-python/jinja[${PYTHON_USEDEP}]
 "
+DEPEND="${PYTHON_DEPS}"
 
 src_install() {
 	install_python() {
