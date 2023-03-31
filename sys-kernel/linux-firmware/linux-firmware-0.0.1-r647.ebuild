@@ -103,6 +103,7 @@ IUSE_LINUX_FIRMWARE=(
 	ibt_9560
 	ibt_ax200
 	ibt_ax201
+	ibt_ax203
 	ibt_ax211
 	ibt-hw
 	ice
@@ -200,6 +201,7 @@ LICENSE="
 	linux_firmware_ibt_9560? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax200? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax201? ( LICENCE.ibt_firmware )
+	linux_firmware_ibt_ax203? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt_ax211? ( LICENCE.ibt_firmware )
 	linux_firmware_ibt-hw? ( LICENCE.ibt_firmware )
 	linux_firmware_ice? ( LICENSE.ice )
@@ -407,6 +409,7 @@ src_install() {
 	use_fw ibt_9560 && doins_subdir intel/ibt-17-16-1.*
 	use_fw ibt_ax200 && doins_subdir intel/ibt-20-*.*
 	use_fw ibt_ax201 && doins_subdir intel/ibt-19-*.*
+	use_fw ibt_ax203 && doins_subdir intel/ibt-0040-4150.*
 	use_fw ibt_ax211 && doins_subdir intel/ibt-0040-0041.*
 	use_fw ibt-hw && doins_subdir intel/ibt-hw-*.bseq
 	use_fw ice && doins_subdir intel/ice/ddp/*
