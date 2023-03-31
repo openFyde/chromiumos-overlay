@@ -43,7 +43,7 @@ SRC_URI+=" https://gitweb.gentoo.org/proj/locale-gen.git/snapshot/locale-gen-${L
 SRC_URI+=" multilib-bootstrap? ( https://dev.gentoo.org/~dilfridge/distfiles/gcc-multilib-bootstrap-${GCC_BOOTSTRAP_VER}.tar.xz )"
 SRC_URI+=" systemd? ( https://gitweb.gentoo.org/proj/toolchain/glibc-systemd.git/snapshot/glibc-systemd-${GLIBC_SYSTEMD_VER}.tar.gz )"
 
-IUSE="audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only llvm"
+IUSE="cros_host audit caps cet clone3 compile-locales +crypt custom-cflags doc gd headers-only +multiarch multilib multilib-bootstrap nscd profile selinux +ssp stack-realign +static-libs static-pie suid systemd systemtap test vanilla crosscompile_opts_headers-only llvm"
 
 # Minimum kernel version that glibc requires
 MIN_KERN_VER="3.2.0"
@@ -276,11 +276,13 @@ setup_target_flags() {
 	# http://code.google.com/p/chromium-os/issues/detail?id=20792
 	append-cflags "-ggdb"
 
-	# ChromiumOS: Need to unset the SYSROOT value so that the
-	# compiler uses the default sysroot when building glibc. This
-	# is because the glibc startup objects are needed to configure
-	# glibc. We don't want to bootstrap libc again.
-	export SYSROOT=""
+	if use cros_host; then
+		# ChromiumOS: Need to unset the SYSROOT value so that the
+		# compiler uses the default sysroot when building glibc. This
+		# is because the glibc startup objects are needed to configure
+		# glibc. We don't want to bootstrap libc again.
+		export SYSROOT=""
+	fi
 
 	case $(tc-arch) in
 		x86)
