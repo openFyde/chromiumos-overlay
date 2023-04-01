@@ -3,10 +3,10 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="d20d5b698120c56e62bcbdb6b4370171bb0309e5"
-CROS_WORKON_TREE="b489999857168e915a90758b948ddcdb727ea25f"
+CROS_WORKON_COMMIT="fc50a64bbfa295ed2663a04ffeff4659e46074e7"
+CROS_WORKON_TREE="730de51e3174da284bfb2923964f8bb43ff6cc8f"
 CROS_WORKON_PROJECT="chromiumos/third_party/fwupd"
-CROS_WORKON_EGIT_BRANCH="fwupd-1.8.12"
+CROS_WORKON_EGIT_BRANCH="fwupd-1.8.13"
 
 inherit cros-workon linux-info meson udev user cros-sanitizers
 
@@ -27,7 +27,7 @@ if [[ ${PV} == "9998" ]] ; then
 	KEYWORDS="*"
 fi
 
-IUSE="agent amt +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma +man minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test uefi"
+IUSE="agent amt +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test uefi"
 REQUIRED_USE="
 	dell? ( uefi )
 	fastboot? ( gusb )
@@ -46,10 +46,6 @@ BDEPEND="
 	gtk-doc? ( >=dev-util/gi-docgen-2021.1 )
 	bash-completion? ( >=app-shells/bash-completion-2.0 )
 	introspection? ( dev-libs/gobject-introspection )
-	man? (
-		app-text/docbook-sgml-utils
-		sys-apps/help2man
-	)
 "
 COMMON_DEPEND="
 	>=app-arch/gcab-1.0
@@ -148,6 +144,7 @@ src_configure() {
 		-Dcurl="enabled"
 		-Defi_binary="false"
 		-Dgudev="enabled"
+		-Dman="true"
 		-Dsupported_build="enabled"
 		-Dudevdir="${EPREFIX}$(get_udevdir)"
 		$(meson_feature archive libarchive)
@@ -159,7 +156,6 @@ src_configure() {
 		$(meson_feature gtk-doc docs)
 		$(meson_feature gusb)
 		$(meson_feature lzma)
-		$(meson_use man)
 		$(meson_feature introspection)
 		$(meson_feature policykit polkit)
 		$(meson_feature sqlite)
