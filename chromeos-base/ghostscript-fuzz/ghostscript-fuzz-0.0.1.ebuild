@@ -41,5 +41,6 @@ src_compile() {
 src_install() {
 	local fuzzer_component_id="167231"
 	fuzzer_install "${S}"/OWNERS gstoraster_fuzzer \
-		--comp "${fuzzer_component_id}"
+		--comp "${fuzzer_component_id}" \
+		--options "${S}/gstoraster_fuzzer.options"
 }
