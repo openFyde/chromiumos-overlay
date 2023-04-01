@@ -4,11 +4,11 @@ DEPEND=chromeos-base/tast-build-deps:= chromeos-base/cros-config-api
 DESCRIPTION=Host executables for running integration tests
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform/tast/
-IUSE=coverage cros_host cros_workon_tree_7bafc9f74042a42b70b5a81fa3d0fa8fe61319ec
+IUSE=coverage cros_host cros_workon_tree_71f1b9f05632dce315d497162db7b191cccc5c98
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=app-arch/tar app-arch/xz-utils chromeos-base/google-breakpad chromeos-base/tast-build-deps chromeos-base/tast-vars net-misc/gsutil !chromeos-base/tast-common
 SLOT=0/0
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-go	f9fed668704cb8398d685f363cd666c2	cros-workon	c286b70ed045cd0c9488c299b7c0859d	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	multilib	2477ebe553d3e4d2c606191fe6c33602	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e
-_md5_=1b53f5c65d7a413bce40c6aead9f0192
+_md5_=9be2192a7b4680fa7178d9a46d8ac7a8
