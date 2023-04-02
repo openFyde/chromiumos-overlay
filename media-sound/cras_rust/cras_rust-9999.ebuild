@@ -3,18 +3,17 @@
 
 EAPI="7"
 
-CROS_RUST_SUBDIR="cras/src/server/rust"
+CROS_RUST_SUBDIR="."
 
 CROS_WORKON_LOCALNAME="adhd"
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 # We don't use CROS_WORKON_OUTOFTREE_BUILD here since cras/src/server/rust is
 # using the `provided by ebuild` macro from the cros-rust eclass
-CROS_WORKON_SUBTREE="cras/src"
 
 inherit cros-workon cros-rust
 
 DESCRIPTION="Rust code which is used within cras"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD/cras/src/server/rust"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/adhd/+/HEAD"
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
@@ -36,8 +35,14 @@ src_compile() {
 	local features=(
 		$(usex dlc cras_dlc "")
 	)
-	cros-rust_src_compile -v --features="${features[*]}" \
-		--package=cras_rust --package=audio_processor
+	cros-rust_src_compile --features="${features[*]}" --workspace
+}
+
+src_test() {
+	local features=(
+		$(usex dlc cras_dlc "")
+	)
+	cros-rust_src_test --features="${features[*]}" --workspace
 }
 
 src_install() {
