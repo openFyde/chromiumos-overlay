@@ -22,11 +22,15 @@ DEPEND="dev-libs/openssl:0=
 	sys-libs/zlib"
 RDEPEND="${DEPEND}"
 
-PATCHES=(
-	"${FILESDIR}/${PN}-signal_handler-fix-ambigous-max-ar.patch"
-)
+PATCHES=()
 
 src_prepare() {
+	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-16.0_pre475826_p20230103-r1000"; then
+		true
+	else
+		eapply "${FILESDIR}/${PN}-revert-fix-code-related-llvm.patch"
+	fi
+	eapply_user
 	cmake_src_prepare
 }
 
