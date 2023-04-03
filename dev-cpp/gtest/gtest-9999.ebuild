@@ -23,6 +23,12 @@ RDEPEND="!dev-cpp/gmock"
 DEPEND="${RDEPEND}
 	test? ( ${PYTHON_DEPS} )"
 
+PATCHES=(
+	# TODO(b/275542846): Remove these when build performance bug is fixed.
+	"${FILESDIR}/0001-Revert-gmock-spec-builders-remove-the-name-for-an-un.patch"
+	"${FILESDIR}/0002-Revert-gmock-spec-builders-add-support-for-non-movea.patch"
+)
+
 pkg_setup() {
 	use test && python-any-r1_pkg_setup
 }
