@@ -27,6 +27,7 @@ IUSE="hammerd"
 DEPEND="virtual/libusb:1=
 	sys-apps/flashmap:=
 	dev-embedded/libftdi:=
+	chromeos-base/libec:=
 	"
 RDEPEND="
 	${DEPEND}
