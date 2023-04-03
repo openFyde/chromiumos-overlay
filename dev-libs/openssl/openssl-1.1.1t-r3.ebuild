@@ -15,7 +15,6 @@ S="${WORKDIR}/${MY_P}"
 
 LICENSE="openssl"
 SLOT="0/1.1" # .so version of libssl/libcrypto
-[[ "${PV}" = *_pre* ]] || \
 KEYWORDS="*"
 IUSE="+asm rfc3779 sctp cpu_flags_x86_sse2 sslv3 static-libs test tls-compression tls-heartbeat vanilla verify-sig weak-ssl-ciphers bindist"
 RESTRICT="!test? ( test )"
@@ -46,6 +45,9 @@ PATCHES=(
 	# If they're Gentoo specific, add to USE=-vanilla logic in src_prepare!
 	"${FILESDIR}"/${PN}-1.1.0j-parallel_install_fix.patch # bug #671602
 	"${FILESDIR}"/${PN}-1.1.1i-riscv32.patch
+	"${FILESDIR}"/openssl-1.1.1t-CVE-2023-0464.patch
+	"${FILESDIR}"/openssl-1.1.1t-CVE-2023-0465.patch
+	"${FILESDIR}"/openssl-1.1.1t-CVE-2023-0466.patch
 	"${FILESDIR}"/${PN}-1.1.1j-blocklist.patch
 	"${FILESDIR}"/${PN}-1.1.1j-chromium-compatibility.patch
 )
