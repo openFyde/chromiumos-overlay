@@ -1,7 +1,7 @@
 # Copyright 2017 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=5
+EAPI=7
 CROS_WORKON_COMMIT="bea19bc62a049aa21166182de41867b43deafb12"
 CROS_WORKON_TREE="ef50c17d3bda62296a90daaf40b20d2cec630855"
 CROS_WORKON_LOCALNAME="platform/firmware"
@@ -48,14 +48,14 @@ cros-firmware_setup_source
 
 # Remove/Adapt script below here when using the template.
 src_unpack() {
-	einfo "Dummy implementation to replace cros-firmware.eclass"
+	einfo "Stub implementation to replace cros-firmware.eclass"
 	cros-workon_src_unpack
 }
 
 src_compile() {
-	einfo "Dummy implementation to replace cros-firmware.eclass"
+	einfo "Stub implementation to replace cros-firmware.eclass"
 }
 
 src_install() {
-	einfo "Dummy implementation to replace cros-firmware.eclass"
+	einfo "Stub implementation to replace cros-firmware.eclass"
 }
