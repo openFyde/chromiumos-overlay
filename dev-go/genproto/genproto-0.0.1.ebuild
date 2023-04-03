@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto cde4c949918df9c49dc02867603ff16c9054bc96"
+CROS_GO_SOURCE="github.com/google/go-genproto:google.golang.org/genproto dcfb400f0633028bb925288e6cd93e22e4946303"
 
 CROS_GO_PACKAGES=(
 	"google.golang.org/genproto/googleapis/api"
