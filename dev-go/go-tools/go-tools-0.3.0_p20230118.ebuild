@@ -73,6 +73,7 @@ IUSE=""
 RESTRICT="binchecks strip"
 
 DEPEND="
+	dev-go/go-sys
 	dev-go/mod
 	dev-go/net
 	dev-go/sync
