@@ -4,15 +4,17 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=(
-	"e2f23619cae2f8959ab56dda946fbf12396d9b95"
-	"59fed7291ba76add00e204a097caa9eab63377a3"
-)
+if [[ ${PV} != "9999" ]]; then
+	CROS_WORKON_COMMIT=(
+		"e2f23619cae2f8959ab56dda946fbf12396d9b95"
+		"59fed7291ba76add00e204a097caa9eab63377a3"
+	)
 
-CROS_WORKON_TREE=(
-	"e2f23619cae2f8959ab56dda946fbf12396d9b95"
-	"59fed7291ba76add00e204a097caa9eab63377a3"
-)
+	CROS_WORKON_TREE=(
+		"e2f23619cae2f8959ab56dda946fbf12396d9b95"
+		"59fed7291ba76add00e204a097caa9eab63377a3"
+	)
+fi
 
 CROS_WORKON_MANUAL_UPREV="1"
 
@@ -59,7 +61,11 @@ https://storage.cloud.google.com/chromeos-localmirror/distfiles/${SPIRV_LLVM_TRA
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="*"
+if [[ ${PV} != "9999" ]]; then
+	KEYWORDS="*"
+else
+	KEYWORDS="~*"
+fi
 IUSE="debug +perfetto"
 
 # target build dependencies
@@ -190,6 +196,12 @@ src_configure() {
 		-DCLVK_PERFETTO_BACKEND=System
 		-DCLVK_PERFETTO_SDK_DIR="${ESYSROOT}/usr/include/perfetto/"
 	)
+
+	if [[ ${PV} == "9999" ]]; then
+		mycmakeargs+=(
+			-DCLVK_ENABLE_ASSERTIONS=ON
+		)
+	fi
 
 	if tc-is-cross-compiler; then
 		local HOST_DIR="${WORKDIR}/host_tools"
