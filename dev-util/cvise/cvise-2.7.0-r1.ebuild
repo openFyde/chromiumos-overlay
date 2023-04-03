@@ -45,13 +45,17 @@ pkg_setup() {
 	python-single-r1_pkg_setup
 }
 
-PATCHES=( "${FILESDIR}"/cvise-2.4-build-cxx17.patch )
+PATCHES=( "${FILESDIR}/cvise-llvm-optional-std-optional.patch" )
 
 src_prepare() {
-	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-15.0_pre458507_p20220602-r1000"; then
-		eapply "${FILESDIR}/0001-refactors-so-that-the-project-is-LLVM-15-compatible.patch"
-		eapply_user
+	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-16.0_pre475826_p20230103-r1000"; then
+		true
+	else
+		eapply "${FILESDIR}/cvise-revert-port-to-llvm-16.patch"
+		eapply "${FILESDIR}/cvise-revert-fix-build-errors-llvm-16.patch"
+		eapply "${FILESDIR}/cvise-revert-fix-build-error-template-llvm-16.patch"
 	fi
+	eapply_user
 	sed -i -e 's:-n auto::' -e 's:--flake8::' setup.cfg || die
 	cmake_src_prepare
 }
