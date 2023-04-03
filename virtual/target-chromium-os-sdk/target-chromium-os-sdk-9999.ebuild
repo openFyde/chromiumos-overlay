@@ -252,11 +252,9 @@ RDEPEND+="
 	sys-libs/libxcrypt
 	"
 
-# Multiple versions of Bazel are provided for long-term compatibility.
-# Slot 0 corresponds to the version packaged by upstream Gentoo, while
-# other slots correspond to LTS releases packaged by us.
+# Multiple versions of Bazel may be provided for long-term compatibility. For
+# now, the default is 5, so we just ship that.
 RDEPEND+="
-	dev-util/bazel:0
 	dev-util/bazel:5
 	"
 

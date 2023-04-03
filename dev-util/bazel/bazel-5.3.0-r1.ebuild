@@ -22,6 +22,11 @@ RDEPEND=">=virtual/jdk-11:*"
 DEPEND="${RDEPEND}
 	app-arch/unzip
 "
+# bazel-4.2.2-r1 installed itself as /usr/bin/bazel. Since this ebuild also does
+# that, we need a soft blocker.
+RDEPEND+="
+	!<=dev-util/bazel-4.2.2-r1
+"
 
 S="${WORKDIR}"
 
@@ -101,6 +106,8 @@ src_test() {
 }
 
 src_install() {
-	newbin output/bazel bazel-"$(ver_cut 1)"
-	newbashcomp bazel-complete.bash "${PN}-$(ver_cut 1)"
+	local ver="$(ver_cut 1)"
+	newbin output/bazel bazel-"${ver}"
+	dosym bazel-"${ver}" /usr/bin/bazel
+	newbashcomp bazel-complete.bash "${PN}-${ver}"
 }
