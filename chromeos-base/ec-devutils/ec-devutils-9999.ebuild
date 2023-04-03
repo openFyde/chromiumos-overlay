@@ -42,6 +42,11 @@ BDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	virtual/pkgconfig
 	"
+# b/274791539: gtest is required because libec includes a libchrome header that
+# requires gtest to be installed when building.
+DEPEND+="
+	dev-cpp/gtest
+"
 
 set_board() {
 	# No need to be board specific, no tools below build code that is
