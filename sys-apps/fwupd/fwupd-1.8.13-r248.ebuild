@@ -75,7 +75,6 @@ COMMON_DEPEND="
 	uefi? (
 		sys-apps/fwupd-efi
 		sys-boot/efibootmgr
-		sys-fs/udisks
 		sys-libs/efivar
 	)
 "
@@ -118,6 +117,9 @@ src_configure() {
 		-Dplugin_pixart_rf="enabled"
 		-Dplugin_powerd="enabled"
 		-Dplugin_realtek_mst="enabled"
+		# TODO(b/276484917): the splash feature doesn't build
+		# successfully yet.
+		-Dplugin_uefi_capsule_splash="false"
 		$(meson_feature amt plugin_intel_me)
 		$(meson_feature dell plugin_dell)
 		$(meson_feature fastboot plugin_fastboot)
@@ -132,7 +134,6 @@ src_configure() {
 		$(meson_feature synaptics plugin_synaptics_mst)
 		$(meson_feature synaptics plugin_synaptics_rmi)
 		$(meson_feature uefi plugin_uefi_capsule)
-		$(meson_use uefi plugin_uefi_capsule_splash)
 		$(meson_feature uefi plugin_uefi_pk)
 	)
 
@@ -164,7 +165,7 @@ src_configure() {
 
 		"${plugins[@]}"
 	)
-	use uefi && emesonargs+=( -Defi_os_dir="gentoo" )
+	use uefi && emesonargs+=( -Defi_os_dir="chromeos" )
 	export CACHE_DIRECTORY="${T}"
 	meson_src_configure
 }
