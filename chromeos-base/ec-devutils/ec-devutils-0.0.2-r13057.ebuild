@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="7"
-CROS_WORKON_COMMIT="c833b0a0ae4bb4e371d796cf0c01b34926d682cc"
-CROS_WORKON_TREE="25fe1891ba06d1f563108f551bde2dcae821bc9a"
+CROS_WORKON_COMMIT="096df9199e102fac34ab23e5cd16ce53f89b2114"
+CROS_WORKON_TREE="222675c25ffbd95776d94e36d2cdffdee5c09b73"
 CROS_WORKON_PROJECT="chromiumos/platform/ec"
 CROS_WORKON_LOCALNAME="platform/ec"
 PYTHON_COMPAT=( python3_{6..9} )
@@ -28,6 +28,8 @@ IUSE="hammerd"
 
 DEPEND="virtual/libusb:1=
 	sys-apps/flashmap:=
+	dev-embedded/libftdi:=
+	chromeos-base/libec:=
 	"
 RDEPEND="
 	${DEPEND}
@@ -42,6 +44,11 @@ BDEPEND="
 	dev-python/setuptools[${PYTHON_USEDEP}]
 	virtual/pkgconfig
 	"
+# b/274791539: gtest is required because libec includes a libchrome header that
+# requires gtest to be installed when building.
+DEPEND+="
+	dev-cpp/gtest
+"
 
 set_board() {
 	# No need to be board specific, no tools below build code that is
