@@ -134,7 +134,9 @@ src_install() {
 		insinto /usr/src/libmojo/mojo
 		doins -r mojo/public/tools/bindings/*
 		doins -r mojo/public/tools/mojom/*
+		doins build/action_helpers.py
 		doins build/gn_helpers.py
+		doins build/zip_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
 		exeinto /usr/src/libmojo/mojo
