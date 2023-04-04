@@ -19,7 +19,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/moun
 LICENSE="BSD-Google"
 KEYWORDS="~*"
 
-IUSE="arcpp"
+IUSE="android-container-pi"
 
 COMMON_DEPEND="=sys-fs/fuse-2*
 	sys-libs/libcap:="
