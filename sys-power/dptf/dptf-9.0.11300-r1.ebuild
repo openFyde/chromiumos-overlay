@@ -23,12 +23,11 @@ ESIF_BUILD_DIR="ESIF/Products/ESIF_UF/Linux"
 ESIFCMP_BUILD_DIR="ESIF/Products/ESIF_CMP/Linux"
 # Makefile for ESIF web server
 ESIFWS_BUILD_DIR="ESIF/Products/ESIF_WS/Linux"
-# Makefile location for IPF
-IPF_BUILD_DIR="IPF/Linux/"
 
 DEPEND="
 	chromeos-base/chromeos-config-tools
-	sys-apps/dbus"
+	sys-apps/dbus
+	sys-libs/ncurses sys-libs/readline"
 RDEPEND="${DEPEND}"
 
 src_configure() {
@@ -46,7 +45,7 @@ src_compile() {
 	local extra_cflags=""
 	use debug && extra_cflags="Debug"
 
-	for build_dir in "${ESIF_BUILD_DIR}" "${ESIFCMP_BUILD_DIR}" "${ESIFWS_BUILD_DIR}" "${IPF_BUILD_DIR}"; do
+	for build_dir in "${ESIF_BUILD_DIR}" "${ESIFCMP_BUILD_DIR}" "${ESIFWS_BUILD_DIR}"; do
 		emake \
 			-C ${build_dir} \
 			CC="$(tc-getCC)" \
@@ -61,19 +60,15 @@ src_compile() {
 src_install() {
 	# Install ESIF daemon and configuration files
 	local startcmd_src_dir="ESIF/Packages/Installers/chrome"
-	dobin "${ESIF_BUILD_DIR}/ipf_ufd"
-	dobin "${IPF_BUILD_DIR}/ipfhostd"
+	dobin "${ESIF_BUILD_DIR}/esif_ufd"
 	insinto "/etc/dptf"
 	doins ESIF/Packages/DSP/dsp.dv
 	insinto "/etc/init"
-	doins "${startcmd_src_dir}/dtt.conf"
-	doins "${startcmd_src_dir}/ipf.conf"
+	doins "${startcmd_src_dir}/dptf.conf"
 
 	# Install ESIF loadable libraries
-	dolib.so "${ESIFCMP_BUILD_DIR}/ipf_cmp.so"
-	dolib.so "${ESIFWS_BUILD_DIR}/ipf_ws.so"
-	dolib.so "${IPF_BUILD_DIR}/ipfsrv.so"
-	dolib.so "${IPF_BUILD_DIR}/ipfipc.so"
+	dolib.so "${ESIFCMP_BUILD_DIR}/esif_cmp.so"
+	dolib.so "${ESIFWS_BUILD_DIR}/esif_ws.so"
 
 	# Install DPTF policy shared libraries
 	local policy_build_dir="${BUILD_DIR}"/$(usex amd64 x64 x32)
