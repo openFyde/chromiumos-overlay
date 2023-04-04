@@ -1,0 +1,46 @@
+# Copyright 2022 The ChromiumOS Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=7
+
+CROS_WORKON_COMMIT="427105b989e24e9cf1c6666a9bf97b6289ff2ecf"
+CROS_WORKON_TREE=("71a6d7914cd13df8d299f6853d4488c5b559fa54" "fef74676a47c56116443f9523927967184a366a9" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_GO_PACKAGES=(
+	"chromiumos/reporting/..."
+)
+
+CROS_WORKON_LOCALNAME="platform2"
+CROS_WORKON_PROJECT="chromiumos/platform2"
+CROS_WORKON_OUTOFTREE_BUILD=1
+CROS_WORKON_SUBTREE="common-mk missive .gn"
+
+PLATFORM_SUBDIR="missive/proto"
+
+inherit cros-workon cros-go platform
+
+DESCRIPTION="reporting/missive go protos for ChromeOS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/missive"
+
+LICENSE="BSD-Google"
+KEYWORDS="*"
+
+RDEPEND="
+	dev-libs/protobuf:=
+"
+
+DEPEND="
+	${RDEPEND}
+	dev-go/protobuf
+	dev-go/protobuf-legacy-api
+"
+
+src_unpack() {
+	platform_src_unpack
+	CROS_GO_WORKSPACE="${OUT}/gen/go"
+}
+
+src_install() {
+	platform_src_install
+
+	cros-go_src_install
+}
