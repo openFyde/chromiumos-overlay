@@ -35,6 +35,13 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-16.0_pre475826_p20230103-r1000"; then
+		true
+	else
+		eapply "${FILESDIR}/${PN}-Revert-clang-compat-Adopt-OptionalFileEntryRef.patch"
+		eapply "${FILESDIR}/${PN}-Revert-clang-compat-Remove-unused-llvm-Optional.patch"
+	fi
+	eapply_user
 	cmake_src_prepare
 	python_fix_shebang .
 }
