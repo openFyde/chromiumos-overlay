@@ -22,6 +22,7 @@ CROS_GO_WORKSPACE=(
 CROS_GO_TEST=(
 	# Also test support packages that live above local/bundles/.
 	"chromiumos/tast/..."
+	"go.chromium.org/tast/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"

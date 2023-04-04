@@ -17,6 +17,7 @@ CROS_GO_TEST=(
 	"chromiumos/tast/cmd/tast/..."
 	# Also test common code.
 	"chromiumos/tast/..."
+	"go.chromium.org/tast/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
