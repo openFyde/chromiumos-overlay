@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT=("53976e946ff67846962c80391d3946561c7f14d1" "b6b887a1ead3e54fb0eb52c60c301418334222bd")
-CROS_WORKON_TREE=("5b87e97f3ddb9634fb1d975839c28e49503e94f8" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "3a09c214ef478c4037039c7ccac5991a7ff60881")
+CROS_WORKON_COMMIT=("f816ec9e88ebcd3316ded82b3e1a0c5987acb1fa" "92b29e81e4246d14246fb194e13ae218f5ec0d1f")
+CROS_WORKON_TREE=("5b87e97f3ddb9634fb1d975839c28e49503e94f8" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "246d1a17a180445c1e6ce0ac73ac70621fbe3d26")
 CROS_WORKON_PROJECT=("chromiumos/platform2" "chromiumos/platform/libchrome")
 CROS_WORKON_LOCALNAME=("platform2" "platform/libchrome")
 CROS_WORKON_EGIT_BRANCH=("main" "main")
@@ -136,7 +136,9 @@ src_install() {
 		insinto /usr/src/libmojo/mojo
 		doins -r mojo/public/tools/bindings/*
 		doins -r mojo/public/tools/mojom/*
+		doins build/action_helpers.py
 		doins build/gn_helpers.py
+		doins build/zip_helpers.py
 		doins -r build/android/gyp/util
 		doins -r build/android/pylib
 		exeinto /usr/src/libmojo/mojo
