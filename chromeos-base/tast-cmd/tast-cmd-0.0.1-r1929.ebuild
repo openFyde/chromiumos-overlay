@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="28ab5eb57b81655cda5bf20cec96f9033cc700b9"
-CROS_WORKON_TREE="4929f5a580f93d518f74d1b3df363bed7723fb02"
+CROS_WORKON_COMMIT="406c185b477e386e7f74a2dd16c6a268c2990f1c"
+CROS_WORKON_TREE="cd2e950da1b6fb7e485206f3645de1e5d0b78bbb"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="platform/tast"
 
@@ -19,6 +19,7 @@ CROS_GO_TEST=(
 	"chromiumos/tast/cmd/tast/..."
 	# Also test common code.
 	"chromiumos/tast/..."
+	"go.chromium.org/tast/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
