@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_GO_SOURCE="chromium.googlesource.com/chromiumos/infra/proto:go.chromium.org/chromiumos/infra/proto 610a652909e31ec02870d61c1d0875ad43c03f2f"
+CROS_GO_SOURCE="chromium.googlesource.com/chromiumos/infra/proto:go.chromium.org/chromiumos/infra/proto 417340dda12046ba5cd92e8e97e25befa7afb70e"
 
 CROS_GO_PACKAGES=(
 	"go.chromium.org/chromiumos/infra/proto/go/chromite/api"
