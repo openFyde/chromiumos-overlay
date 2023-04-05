@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="6d416d5f90755dd76d55c0f33f9ac0de6dd27b5f"
-CROS_WORKON_TREE="f842263b86e1d2c08d288b31b878752f0abd4ee9"
+CROS_WORKON_COMMIT="1a2cab9b712682c08187af5a00d709f33df0ae1b"
+CROS_WORKON_TREE="3ec9e3ab9e4a9fe7407c771d07abc748629210f7"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="external/github.com/include-what-you-use/include-what-you-use"
@@ -37,6 +37,13 @@ pkg_setup() {
 }
 
 src_prepare() {
+	if has_version "sys-devel/llvm[llvm-next]" || has_version ">sys-devel/llvm-16.0_pre475826_p20230103-r1000"; then
+		true
+	else
+		eapply "${FILESDIR}/${PN}-Revert-clang-compat-Adopt-OptionalFileEntryRef.patch"
+		eapply "${FILESDIR}/${PN}-Revert-clang-compat-Remove-unused-llvm-Optional.patch"
+	fi
+	eapply_user
 	cmake_src_prepare
 	python_fix_shebang .
 }
