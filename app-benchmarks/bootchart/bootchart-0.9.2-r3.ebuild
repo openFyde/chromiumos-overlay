@@ -27,7 +27,9 @@ src_unpack() {
 }
 
 src_compile() {
-	$(tc-getCC) ${CFLAGS} ${CPPFLAGS} -o collector collector.c ||
+	# We want CFLAGS and CPPFLAGS to expand to multiple arguments.
+	# shellcheck disable=SC2086
+	"$(tc-getCC)" ${CFLAGS} ${CPPFLAGS} -o collector collector.c ||
 		die "Unable to compile bootchart collector."
 }
 
