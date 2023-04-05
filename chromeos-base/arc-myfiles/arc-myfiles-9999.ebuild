@@ -16,6 +16,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/arc/cont
 
 LICENSE="BSD-Google"
 KEYWORDS="~*"
+IUSE="android-container-rvc"
 
 RDEPEND="chromeos-base/mount-passthrough
 	!<chromeos-base/chromeos-cheets-scripts-0.0.2-r470
@@ -24,7 +25,11 @@ RDEPEND="chromeos-base/mount-passthrough
 src_install() {
 	insinto /etc/init
 	doins arc/container/myfiles/arc-myfiles.conf
-	doins arc/container/myfiles/arc-myfiles-default.conf
-	doins arc/container/myfiles/arc-myfiles-read.conf
-	doins arc/container/myfiles/arc-myfiles-write.conf
+
+	# These mount points are not used in Container-R.
+	if ! use android-container-rvc; then
+		doins arc/container/myfiles/arc-myfiles-default.conf
+		doins arc/container/myfiles/arc-myfiles-read.conf
+		doins arc/container/myfiles/arc-myfiles-write.conf
+	fi
 }
