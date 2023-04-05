@@ -4,7 +4,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="09d3a2ff033d663f034a2f9aa24a8607033dbdcd"
+CROS_WORKON_COMMIT="6324b5ad083f93c5c70d7fc29126e79204701719"
 CROS_WORKON_TREE="8e8006c34aeee0ef14f54c630cdcf7a8353cf79d"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -47,7 +47,20 @@ src_compile() {
 
 src_install() {
 	cros-rust_src_install
-	dobin "$(cros-rust_get_build_dir)/tpm2_read_board_id"
+
+	exeinto /usr/share/cros/hwsec-utils
+	files=(
+		cr50_flash_log
+		cr50_read_rma_sn_bits
+		cr50_reset
+		cr50_set_board_id
+		cr50_set_sn_bits
+		cr50_update
+		tpm2_read_board_id
+	)
+	for f in "${files[@]}"; do
+		doexe "$(cros-rust_get_build_dir)/${f}"
+	done
 }
 
 src_test() {
