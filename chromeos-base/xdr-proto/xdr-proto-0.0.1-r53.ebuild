@@ -1,25 +1,25 @@
-# Copyright 2022 The ChromiumOS Authors
+# Copyright 2023 The ChromiumOS Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8d739fc346bbfff0c28df9f48dc5cb6d3ff32dad"
-CROS_WORKON_TREE=("5b87e97f3ddb9634fb1d975839c28e49503e94f8" "25db267463042e5f725f879e7598d784660e114e" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="2ab65ef094fea97e65b174e01841cedfc148aa2e"
+CROS_WORKON_TREE=("5b87e97f3ddb9634fb1d975839c28e49503e94f8" "1d2e1996dea7daaa749e4939028979f417d9ae9f" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
-	"chromiumos/reporting/..."
+	"chromiumos/xdr/secagentd/..."
 )
 
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk missive .gn"
+CROS_WORKON_SUBTREE="common-mk secagentd .gn"
 
-PLATFORM_SUBDIR="missive/proto"
+PLATFORM_SUBDIR="secagentd/proto"
 
 inherit cros-workon cros-go platform
 
-DESCRIPTION="reporting/missive go protos for ChromeOS"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/missive"
+DESCRIPTION="secagentd xdr go proto for ChromeOS"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform2/+/main/secagentd"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
