@@ -7,7 +7,7 @@ inherit cros-sanitizers eutils autotools
 
 DESCRIPTION="Epson Inkjet Printer Driver (ESC/P-R)"
 HOMEPAGE="http://download.ebz.epson.net/dsc/search/01/search/?OSC=LX"
-SRC_URI="https://download3.ebz.epson.net/dsc/f/03/00/13/43/81/cbdd80826424935cef20d16be8ee5851388977a7/epson-inkjet-printer-escpr-1.7.18-1lsb3.2.tar.gz"
+SRC_URI="https://download3.ebz.epson.net/dsc/f/03/00/14/34/76/47198c0bab357b96ec59490973c492c5d6059604/epson-inkjet-printer-escpr-1.7.25-1lsb3.2.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -21,6 +21,7 @@ PATCHES=(
 	"${FILESDIR}/1.6.5-warnings.patch"
 	"${FILESDIR}/${PN}-1.6.10-search-filter.patch"
 	"${FILESDIR}/${PN}-1.7.6-cupsRasterHeader.patch"
+	"${FILESDIR}/${PN}-1.7.25-lfs-support.patch"
 )
 
 src_prepare() {
