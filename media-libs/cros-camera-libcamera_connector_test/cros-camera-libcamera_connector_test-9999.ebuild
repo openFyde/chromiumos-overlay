@@ -24,6 +24,9 @@ RDEPEND="
 	media-libs/libyuv
 	virtual/jpeg:0"
 
-DEPEND="${RDEPEND}"
+DEPEND="
+	${RDEPEND}
+	media-libs/cros-camera-libcamera_connector_headers
+"
 
 BDEPEND="virtual/pkgconfig"
