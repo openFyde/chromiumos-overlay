@@ -84,7 +84,7 @@ multilib_src_configure() {
 		-Ddri3=disabled
 		-Dgles-lib-suffix=_mesa
 		-Degl-lib-suffix=_mesa
-		-Dfreedreno-virtio=true
+		-Dfreedreno-kmds=msm,virtio
 		-Dplatforms="android"
 		-Dllvm=disabled
 		-Degl=enabled
