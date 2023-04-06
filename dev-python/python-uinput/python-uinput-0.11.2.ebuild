@@ -17,7 +17,10 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND="virtual/udev"
+DEPEND="
+	${PYTHON_DEPS}
+	virtual/udev
+"
 RDEPEND="${DEPEND}"
 
 python_prepare_all() {
