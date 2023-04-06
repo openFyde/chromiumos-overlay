@@ -37,6 +37,7 @@ DEPEND="
 	dev-go/dbus
 	dev-go/docker
 	dev-go/dst
+	dev-go/enterprise-certificate-proxy
 	dev-go/exif
 	dev-go/fscrypt
 	dev-go/gapi
