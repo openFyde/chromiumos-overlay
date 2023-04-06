@@ -24,6 +24,5 @@ RDEPEND="
 	chromeos-base/cros-camera-android-deps:=
 	media-libs/libsync:=
 	media-libs/libyuv:="
-
-BDEPEND="${RDEPEND}
-	virtual/pkgconfig:="
+DEPEND="${RDEPEND}"
+BDEPEND="virtual/pkgconfig:="
