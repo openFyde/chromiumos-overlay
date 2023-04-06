@@ -18,7 +18,7 @@ LICENSE="BSD-Google"
 SLOT="0"
 KEYWORDS="*"
 
-RESTRICT="mirror,strip"
+RESTRICT="mirror strip"
 S="${WORKDIR}"
 
 # All files in ${FILESDIR} (files/) directory will be merged by
