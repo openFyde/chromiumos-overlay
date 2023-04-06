@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="53976e946ff67846962c80391d3946561c7f14d1"
+CROS_WORKON_COMMIT="c043aa04f4223b96b2bb914a3e8b4309ff048a09"
 CROS_WORKON_TREE=("5b87e97f3ddb9634fb1d975839c28e49503e94f8" "717278285b7794be7f759aa9721ff66a3a4033d9" "ead1d6373da456c8d357a38b82158ccc990aa003" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -61,11 +61,13 @@ DEPEND="
 # it is very large. It is currently only a dependency of wilco as it is
 # currently the only client.
 # TODO(b/273184171): Remove chromeos-base/ec-utils once we don't rely on ectool.
+# TODO(b/271544868): Remove net-wireless/iw once we find alternatives.
 RDEPEND="
 	${COMMON_DEPEND}
 	chromeos-base/ec-utils
 	chromeos-base/iioservice
 	dev-util/stressapptest
+	net-wireless/iw
 	wilco? (
 		sys-block/fio
 		chromeos-base/chromeos-dtc-vm
