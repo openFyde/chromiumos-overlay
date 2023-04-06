@@ -132,7 +132,6 @@ src_install() {
 		echo "sae_pwe=2" >> "${D}/${shims_dir}/wpa_supplicant.conf"
 	fi
 
-	dosym /run/shill/resolv.conf /etc/resolv.conf
 	insinto /etc/dbus-1/system.d
 	doins shims/org.chromium.flimflam.conf
 

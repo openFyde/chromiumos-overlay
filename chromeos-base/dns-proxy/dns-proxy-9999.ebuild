@@ -47,6 +47,8 @@ pkg_preinst() {
 src_install() {
 	platform_src_install
 
+	dosym /run/dns-proxy/resolv.conf /etc/resolv.conf
+
 	local fuzzer_component_id="156085"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer \
 		--comp "${fuzzer_component_id}"
