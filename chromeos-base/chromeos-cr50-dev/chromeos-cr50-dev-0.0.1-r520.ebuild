@@ -132,7 +132,27 @@ src_compile() {
 
 	emake clean
 	emake "${EC_OPTS[@]}"
+	emake "out=build/cr50_ct" "CRYPTO_TEST=1" "${EC_OPTS[@]}"
+	emake "out=build/cr50_ct_rb" "CRYPTO_TEST=1" "H1_RED_BOARD=1" \
+			"${EC_OPTS[@]}"
 	prepare_cr50_signer_aid
+}
+
+#
+# Install the build artifacts.
+#
+install_cr50_build_artifacts () {
+	local build_dir="${1}"
+	local dest_dir="${2}"
+	local elf_suffix="${3}"
+
+	einfo "Installing cr50 from ${build_dir} into ${dest_dir}"
+
+	insinto "${dest_dir}"
+	doins "${build_dir}/ec.bin"
+	doins "${build_dir}/RW/board/cr50/dcrypto/fips_module.o"
+	newins "${build_dir}/RW/ec.RW.elf.fips" "ec.RW.elf${elf_suffix}"
+	newins "${build_dir}/RW/ec.RW_B.elf.fips" "ec.RW_B.elf${elf_suffix}"
 }
 
 #
@@ -204,14 +224,20 @@ src_install() {
 		return
 	fi
 
-	build_dir="build/cr50"
-	dest_dir='/firmware/cr50'
-	einfo "Installing cr50 from ${build_dir} into ${dest_dir}"
-
-	insinto "${dest_dir}"
-	doins "${build_dir}/ec.bin"
-	doins "${build_dir}/RW/ec.RW.elf"
-	doins "${build_dir}/RW/ec.RW_B.elf"
+	install_cr50_build_artifacts "build/cr50" "/firmware/cr50" ""
 
 	install_cr50_signer_aid
+
+	# Save the CRYPTO_TEST artifacts, so it's easy to run crypto tests for
+	# this build. CRYPTO_TEST images are only going to be dev signed, so
+	# there's no need to install signer artifacts.
+	# The crypto test build should not be prod signed. Do a couple of things
+	# to make sure the signer ignores it. Rename it to "crypto_test" so "50"
+	# isn't in the name. The signer searches for "50" to find the build
+	# artifacts, so it should ignore crypto_test. Change the elf filenames
+	# too just to be safe.
+	install_cr50_build_artifacts "build/cr50_ct" "/firmware/crypto_test" \
+			".test"
+	install_cr50_build_artifacts "build/cr50_ct_rb" \
+			"/firmware/crypto_test_rb" ".test"
 }
