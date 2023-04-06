@@ -38,6 +38,9 @@ FILENAMES=(
 	# Wacom Graphics Tablets
 	"547e870896a2592c6650a87c985d1e80689cd4c0365078c997fa339aa41e5ade-Wacom-CTL-6100WL-2.7.cab"
 	"c223c580ebaf43884b6efd649152c6cc86496104dd934cc3338447799ae83e27-Wacom-CTL-4100WL-2.7.cab"
+	# Logitech Unifying Receiver
+	"be1b52aa9e112c8f237a517a668da0991a7cd64c7d121c66edab621d4253356f-Logitech-Unifying-RQR12.10_B0032.cab"
+	"5e2d10aa8db1b5a44c796aca53d660c42ddfa2845bfa816093fa0438685a019e-Logitech-Unifying-RQR24.10_B0036.cab"
 )
 SRC_URI="${FILENAMES[*]/#/${CROS_FWUPD_URL}/}"
 LICENSE="LVFS-Vendor-Agreement-v1"
