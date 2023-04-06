@@ -22,6 +22,7 @@ KEYWORDS="~*"
 BDEPEND="virtual/pkgconfig"
 
 RDEPEND="
+	media-libs/libyuv:=
 	media-libs/skia:=
 	chromeos-base/cros-camera-libs:=
 "
