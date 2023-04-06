@@ -52,7 +52,9 @@ DEPEND="
 	dev-go/crypto
 	dev-go/errors
 	dev-go/fogleman-gg
+	dev-go/go-fonts-liberation
 	dev-go/go-image
+	dev-go/go-latex
 	dev-go/go-pdf
 	dev-go/golang-freetype
 	dev-go/gonum-plot
