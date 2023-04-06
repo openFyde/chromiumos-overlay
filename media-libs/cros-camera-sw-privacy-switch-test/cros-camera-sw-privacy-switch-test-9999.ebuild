@@ -33,6 +33,7 @@ RDEPEND="
 "
 
 DEPEND="
+	x11-drivers/opengles-headers:=
 	${RDEPEND}
 "
 
