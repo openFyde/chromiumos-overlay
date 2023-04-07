@@ -28,6 +28,7 @@ RDEPEND="
 	chromeos-base/cros-camera-libs:=
 "
 DEPEND="
+	x11-drivers/opengles-headers:=
 	${RDEPEND}
 "
 
