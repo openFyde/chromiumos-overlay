@@ -13,7 +13,7 @@ inherit cros-workon python-r1 cros-constants cros-factory
 
 # External dependencies
 LOCAL_MIRROR_URL=http://commondatastorage.googleapis.com/chromeos-localmirror/
-WEBGL_AQUARIUM_URI=${LOCAL_MIRROR_URL}/distfiles/webgl-aquarium-20130524.tar.bz2
+WEBGL_AQUARIUM_URI=${LOCAL_MIRROR_URL}/distfiles/webgl-aquarium-20221212.tar.bz2
 
 DESCRIPTION="Chrome OS Factory Software Platform"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/factory/"
