@@ -90,6 +90,8 @@ pkg_setup() {
 	if use nvme ; then
 		kernel_is -ge 4 4 || die "NVMe support requires kernel >= 4.4"
 	fi
+	enewuser fwupd
+	enewgroup fwupd
 }
 
 src_prepare() {
@@ -181,10 +183,12 @@ src_install() {
 	# Enable vendor-directory remote with local firmware
 	sed 's/Enabled=false/Enabled=true/' -i "${ED}"/etc/${PN}/remotes.d/vendor-directory.conf || die
 
-	# Allow chronos to issue installs and cros_healthd to obtain instanceIds and serials
+	# Allow chronos and fwupd to issue installs/updates
+	# Allow cros_healthd to obtain instanceIds and serials
 	local chronos_uid=$(egetent passwd chronos | cut -d: -f3)
 	local cros_healthd_uid=$(egetent passwd cros_healthd | cut -d: -f3)
-	sed "s/TrustedUids=/TrustedUids=${chronos_uid};${cros_healthd_uid}/" -i "${ED}"/etc/${PN}/daemon.conf || die
+	local fwupd_uid=$(egetent passwd fwupd | cut -d: -f3)
+	sed "s/TrustedUids=/TrustedUids=${chronos_uid};${cros_healthd_uid};${fwupd_uid}/" -i "${ED}"/etc/${PN}/daemon.conf || die
 
 	# Install udev rules to fix user permissions.
 	udev_dorules "${FILESDIR}"/90-fwupd.rules
@@ -222,9 +226,4 @@ src_install() {
 	if use cfm ; then
 		sed '/^OnlyTrusted=/s/true/false/' -i "${ED}"/etc/${PN}/daemon.conf || die
 	fi
-}
-
-pkg_preinst() {
-	enewuser fwupd
-	enewgroup fwupd
 }
