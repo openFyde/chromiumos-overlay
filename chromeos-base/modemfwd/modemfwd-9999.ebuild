@@ -47,6 +47,9 @@ src_install() {
 	local fuzzer_component_id="167157"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer \
 		--comp "${fuzzer_component_id}"
+
+	insinto /usr/share/policy
+	newins "seccomp/modemfwd-mbimcli-seccomp-${ARCH}.policy" modemfwd-mbimcli-seccomp.policy
 }
 
 platform_pkg_test() {
