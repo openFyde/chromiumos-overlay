@@ -24,6 +24,7 @@ BDEPEND="virtual/pkgconfig"
 RDEPEND="
 	media-libs/libyuv:=
 	media-libs/skia:=
+	chromeos-base/metrics:=
 	chromeos-base/cros-camera-libs:=
 "
 DEPEND="
