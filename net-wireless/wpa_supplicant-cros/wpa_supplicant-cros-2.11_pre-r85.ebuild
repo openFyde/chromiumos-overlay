@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT=("1d7d07ff316f74c1a2f863d024718e945e4c4eb1" "e6953d6246e548337deff22c45deb3e6c8da9b02")
-CROS_WORKON_TREE=("d8c73397e0b0ed79134d9639bb3453c4c090a676" "68c842f961ee688abbcee91486aed6dc30e59819")
+CROS_WORKON_COMMIT=("e6953d6246e548337deff22c45deb3e6c8da9b02" "e6953d6246e548337deff22c45deb3e6c8da9b02")
+CROS_WORKON_TREE=("68c842f961ee688abbcee91486aed6dc30e59819" "68c842f961ee688abbcee91486aed6dc30e59819")
 CROS_WORKON_PROJECT=("chromiumos/third_party/hostap" "chromiumos/third_party/hostap")
 CROS_WORKON_LOCALNAME=("../third_party/wpa_supplicant-cros/current" "../third_party/wpa_supplicant-cros/next")
-CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.9.1" "wpa_supplicant-2.10.0")
+CROS_WORKON_EGIT_BRANCH=("wpa_supplicant-2.10.0" "wpa_supplicant-2.10.0")
 CROS_WORKON_DESTDIR=("${S}/wpa_supplicant-cros/current" "${S}/wpa_supplicant-cros/next")
 CROS_WORKON_OPTIONAL_CHECKOUT=("use !supplicant-next" "use supplicant-next")
 
