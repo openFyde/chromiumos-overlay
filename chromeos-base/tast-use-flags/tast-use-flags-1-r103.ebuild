@@ -129,6 +129,7 @@ IUSE="
 	pinweaver_csme
 	pita
 	postscript
+	printscanmgr
 	racc
 	rialto
 	rk3399
