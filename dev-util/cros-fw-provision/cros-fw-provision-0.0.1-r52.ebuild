@@ -2,16 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8ece9216ea5ad1719b0b923be318b034fd5a068f"
-CROS_WORKON_TREE="b34a9009b84f70e76a0d78d03d9785cc46e285e2"
+CROS_WORKON_COMMIT="e0f54038d2b2406fd2aa6f7070e9c8ad763c916a"
+CROS_WORKON_TREE="f77b59fef9ab500e96316d604fe374d0e6e15f0d"
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test"
+CROS_WORKON_SUBTREE="src/chromiumos/test/provision"
 
 inherit cros-go cros-workon
 
-DESCRIPTION="cros-servod service for CFT"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/servod/cmd"
+DESCRIPTION="Firmware provisioning implementation for CFT"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/provision/v2/cros-fw-provision"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -22,11 +22,11 @@ CROS_GO_WORKSPACE=(
 )
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/servod/cmd/cros-servod"
+	"chromiumos/test/provision/v2/cros-fw-provision"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/servod/cmd/servodserver"
+	"chromiumos/test/provision/v2/cros-fw-provision"
 )
 
 CROS_GO_VET=(
@@ -34,6 +34,7 @@ CROS_GO_VET=(
 )
 
 DEPEND="
+	!dev-util/fw-provision
 	dev-util/lro-server
 	dev-util/lroold-server
 	dev-go/genproto
