@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2a124641bc0fb0218c75805a5c5b74d6f2ad3c68"
-CROS_WORKON_TREE="13cfb863c033abf47f7a1be54bd70d7d21931ff0"
+CROS_WORKON_COMMIT="e8d3baca2f854d7f4a61d76b9d22f3aeaaf98444"
+CROS_WORKON_TREE="68c105ff07f1a1869f4d24cf62212e086036b7ed"
 inherit cros-constants
 
 # This ebuild is upreved via PuPR, so disable the normal uprev process for
@@ -164,6 +164,12 @@ src_install() {
 	insinto /etc/init
 	doins "${FILESDIR}/init/traced.conf"
 	doins "${FILESDIR}/init/traced_probes.conf"
+
+	if ! use cros_host ; then
+		# Install boot tracing config files.
+		insinto /usr/local/share/boottrace
+		doins "${FILESDIR}/boottrace/boottrace.pbtxt"
+	fi
 
 	insinto /usr/share/policy
 	newins "${FILESDIR}/seccomp/traced-${ARCH}.policy" traced.policy
