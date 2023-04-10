@@ -21,12 +21,12 @@ HOMEPAGE="https://dev.chromium.org/"
 LICENSE="metapackage"
 SLOT="0"
 KEYWORDS="~*"
-IUSE="printscanmgr"
+IUSE="printscanmgr pvs"
 
 # TODO(b/257070388): Remove the printscanmgr package and its IUSE flag once it
 # is being installed in the base image.
 RDEPEND="
-	chromeos-base/openssh-server-init
+	!pvs? ( chromeos-base/openssh-server-init )
 	printscanmgr? ( chromeos-base/printscanmgr )
 	chromeos-base/virtual-usb-printer
 	virtual/chromeos-bsp-dev-root
