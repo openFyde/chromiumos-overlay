@@ -3,11 +3,11 @@
 
 EAPI="7"
 
-CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
-CROS_WORKON_LOCALNAME="platform/dev"
+# This ebuild only cares about its own FILESDIR and ebuild file, so it tracks
+# the canonical empty project.
+CROS_WORKON_PROJECT="chromiumos/infra/build/empty-project"
+CROS_WORKON_LOCALNAME="platform/empty-project"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_INCREMENTAL_BUILD=1
-CROS_WORKON_SUBTREE="host"
 
 inherit cros-workon
 
@@ -25,9 +25,3 @@ RDEPEND="app-portage/gentoolkit
 	"
 # These are all either bash / python scripts.  No actual builds DEPS.
 DEPEND=""
-
-src_compile() { :; }
-
-src_install() {
-	dobin host/cros_workon_make
-}
