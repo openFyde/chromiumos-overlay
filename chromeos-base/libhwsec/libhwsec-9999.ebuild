@@ -22,6 +22,7 @@ KEYWORDS="~*"
 IUSE="test fuzzer tpm tpm2 tpm_dynamic"
 
 COMMON_DEPEND="
+	chromeos-base/chromeos-ec-headers:=
 	chromeos-base/libhwsec-foundation:=
 	chromeos-base/metrics:=
 	chromeos-base/tpm_manager-client:=
