@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="53976e946ff67846962c80391d3946561c7f14d1"
+CROS_WORKON_COMMIT="a2f401d7bfe2a1fd06f4b05e2640c1b2cc561bb8"
 CROS_WORKON_TREE=("5b87e97f3ddb9634fb1d975839c28e49503e94f8" "af2a4053fbb6fafa93f52a6d1d41b43887a33f91" "9ba045590a286ea0a402f35c72f261c4892e4a07" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -30,6 +30,9 @@ RDEPEND="
 
 DEPEND="
 	${RDEPEND}
+	chromeos-base/system_api:=
+	dev-libs/marisa-aosp:=
+	dev-libs/libutf:=
 "
 
 platform_pkg_test() {

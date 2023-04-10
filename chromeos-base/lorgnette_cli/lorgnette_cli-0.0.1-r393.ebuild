@@ -24,6 +24,11 @@ RDEPEND="
 	chromeos-base/lorgnette
 "
 
+DEPEND="${RDEPEND}
+	chromeos-base/permission_broker-client:=
+	chromeos-base/system_api:=
+"
+
 src_install() {
 	# platform_src_install omitted, to avoid conflicts with
 	# chromeos-base/lorgnette.
