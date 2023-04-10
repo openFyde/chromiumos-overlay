@@ -1,4 +1,4 @@
-# Copyright 1999-2022 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -22,7 +22,7 @@ DEPEND=">=media-libs/gmmlib-22.0.0:=
 RDEPEND="${DEPEND}"
 
 PATCHES=(
-        "${FILESDIR}"/${PN}-21.4.2-Remove-unwanted-CFLAGS.patch
+		"${FILESDIR}"/${PN}-21.4.2-Remove-unwanted-CFLAGS.patch
 	"${FILESDIR}"/${PN}-20.4.5_testing_in_src_test.patch
 
 	"${FILESDIR}"/0001-Disable-IPC-usage.patch
@@ -34,6 +34,7 @@ PATCHES=(
 	"${FILESDIR}"/0007-CP-Add-stale-protected-gem-context-check.patch
 	"${FILESDIR}"/0008-Encode-Fix-surface-lock-segment-fault.patch
 	"${FILESDIR}"/0009-Encode-Fix-an-issue-that-GopPicSize-may-be-0.patch
+	"${FILESDIR}"/0010-VP9-Encode-Fix-unaligned-height-static-content-encod.patch
 )
 
 src_configure() {
