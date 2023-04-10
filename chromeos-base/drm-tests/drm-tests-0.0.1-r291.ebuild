@@ -31,7 +31,9 @@ RDEPEND="virtual/opengles
 		virtual/vulkan-icd
 	)"
 DEPEND="${RDEPEND}
-	x11-drivers/opengles-headers"
+	x11-drivers/opengles-headers
+	dev-libs/openssl
+	dev-util/vulkan-headers"
 
 src_configure() {
 	sanitizers-setup-env

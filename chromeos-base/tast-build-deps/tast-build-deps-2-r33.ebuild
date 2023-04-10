@@ -39,6 +39,7 @@ DEPEND="
 	dev-go/dbus
 	dev-go/docker
 	dev-go/dst
+	dev-go/enterprise-certificate-proxy
 	dev-go/exif
 	dev-go/fscrypt
 	dev-go/gapi
@@ -70,6 +71,7 @@ DEPEND="
 	dev-go/sync
 	dev-go/tail
 	dev-go/tarm-serial
+	dev-go/term
 	dev-go/uuid
 	dev-go/vnc2video
 	dev-go/vsock
