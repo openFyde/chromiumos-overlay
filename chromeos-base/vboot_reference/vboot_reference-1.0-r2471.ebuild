@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("39f0d38bcd104fd4d1ffbcc6aa3a754566c97070" "3637ffd027e12abcfaf7be78b4a0d07d6b8577bc")
-CROS_WORKON_TREE=("d511d87ab011e08c6fe1ee98973dedf5a9b0aa04" "5b87e97f3ddb9634fb1d975839c28e49503e94f8")
+CROS_WORKON_COMMIT=("c2491cfab74685fb5a0f30dc3e7c1fadbc47adb3" "02ef5eac318fbda1448b20661ecb5602d8d1c36f")
+CROS_WORKON_TREE=("3cc394f5f556119f0b581ca3516fddbef63955b4" "5b87e97f3ddb9634fb1d975839c28e49503e94f8")
 PYTHON_COMPAT=( python3_{6..11} )
 
 # platform2 is used purely for the platform2_test.py wrapper
