@@ -1,1 +1,0 @@
-cros-camera-document-scanner-dlc-2023.03.20.ebuild

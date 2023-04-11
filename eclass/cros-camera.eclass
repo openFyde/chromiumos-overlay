@@ -125,7 +125,7 @@ cros-camera_generate_document_scanning_package_SRC_URI() {
 	# shellcheck disable=SC2034
 	local document_scanning_flag_src_mappings=(
 		"march_alderlake ${prefix}-x86_64-alderlake-${suffix}"
-		"march_armv8 ${prefix}-armv7-armv8-a+crc-${suffix}"
+		"march_armv8 ${prefix}-armv7-armv8-${suffix}"
 		"march_bdver4 ${prefix}-x86_64-bdver4-${suffix}"
 		"march_corei7 ${prefix}-x86_64-corei7-${suffix}"
 		"march_goldmont ${prefix}-x86_64-goldmont-${suffix}"
