@@ -23,6 +23,8 @@ IUSE="fuzzer wilco mesa_reven diagnostics"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
+	acct-user/cros_healthd
+	acct-group/cros_healthd
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
@@ -75,8 +77,6 @@ RDEPEND="
 
 pkg_preinst() {
 	enewgroup cros_ec-access
-	enewuser cros_healthd
-	enewgroup cros_healthd
 	enewgroup fpdev
 	enewuser healthd_ec
 	enewgroup healthd_ec
