@@ -44,7 +44,9 @@ DEPEND=">=sys-apps/baselayout-2
 			app-shells/dash
 		)
 		sys-libs/timezone-data
-	)"
+	)
+	acct-user/chronos
+	acct-group/chronos"
 RDEPEND="${DEPEND}"
 
 # The user that all user-facing processes will run as.
@@ -108,17 +110,12 @@ pkg_preinst() {
 	enewgroup "serial"           # For owning access to serial devices.
 	enewgroup "tun"              # For access to /dev/net/tun.
 
-	# The user that all user-facing processes will run as.
-	local system_user="${SHARED_USER_NAME}"
-	local system_id="1000"
 	# Add a chronos-access group to provide non-chronos users,
 	# mostly system daemons running as a non-chronos user, group permissions
 	# to access files/directories owned by chronos.
 	local system_access_user="chronos-access"
 	local system_access_id="1001"
 
-	enewgroup "${system_user}" "${system_id}"
-	add_daemon_user "${system_user}"
 	add_daemon_user "${system_access_user}" "${system_access_id}"
 
 	# Some default directories. These are created here rather than at
