@@ -2,16 +2,16 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="8ece9216ea5ad1719b0b923be318b034fd5a068f"
-CROS_WORKON_TREE=("379ddc8b0f80f69217eeef21aa4bbc1f4dfc77b6" "3efc83cf3e430b00e6246bfe693d7bc14672a481" "b327b8134abf76c683b6265768dd6e0f0e1d3290")
+CROS_WORKON_COMMIT="8a243276fdfae507d878c1ca567e285fee3fae76"
+CROS_WORKON_TREE=("25cf1bd1ad47cbf4ca7446d334532359b5972bc3" "3efc83cf3e430b00e6246bfe693d7bc14672a481")
 CROS_WORKON_PROJECT="chromiumos/platform/dev-util"
 CROS_WORKON_LOCALNAME=("../platform/dev")
-CROS_WORKON_SUBTREE="src/chromiumos/test/test_finder src/chromiumos/test/util src/chromiumos/test/execution"
+CROS_WORKON_SUBTREE="src/chromiumos/test/execution src/chromiumos/test/util"
 
 inherit cros-go cros-workon
 
-DESCRIPTION="Test finder for find tests that match the specified test suite tags"
-HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/test_finder"
+DESCRIPTION="Test execution server for running tests and capturing results"
+HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/dev-util/+/HEAD/src/chromiumos/test/execution"
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
@@ -20,11 +20,16 @@ IUSE=""
 CROS_GO_VERSION="${PF}"
 
 CROS_GO_BINARIES=(
-	"chromiumos/test/test_finder/cmd/cros-test-finder"
+	"chromiumos/test/execution/cmd/cros-test"
+)
+
+CROS_GO_PACKAGES=(
+	"chromiumos/test/execution/errors/..."
+	"chromiumos/test/util/..."
 )
 
 CROS_GO_TEST=(
-	"chromiumos/test/test_finder/cmd/cros-test-finder/..."
+	"chromiumos/test/execution/cmd/cros-test/..."
 )
 
 CROS_GO_VET=(
@@ -34,7 +39,9 @@ CROS_GO_VET=(
 DEPEND="
 	chromeos-base/tast-cmd:=
 	chromeos-base/tast-proto
-	dev-util/cros-test
+	dev-go/cmp
+	dev-go/grpc
+	dev-go/protobuf-legacy-api
 	dev-util/lro-server
 "
 RDEPEND="${DEPEND}"
