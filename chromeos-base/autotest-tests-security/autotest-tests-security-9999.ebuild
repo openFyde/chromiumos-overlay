@@ -26,7 +26,6 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_security_NosymfollowMountOption
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

@@ -31,7 +31,6 @@ IUSE_TESTS="
 	+tests_firmware_Cr50VirtualNVRamServer
 	+tests_firmware_Cr50U2fPowerwash
 	+tests_hardware_TPMCheck
-	+tests_kernel_TPMStress
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"

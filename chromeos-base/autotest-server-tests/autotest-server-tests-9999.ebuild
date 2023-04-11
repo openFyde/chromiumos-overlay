@@ -263,7 +263,6 @@ SERVER_IUSE_TESTS="
 	+tests_firmware_WriteProtectFunc
 	+tests_fleet_FirmwareUpdate
 	+tests_hardware_DiskFirmwareUpgrade
-	+tests_hardware_MemoryIntegrity
 	+tests_hardware_StorageQual
 	+tests_hardware_StorageQualBase
 	+tests_hardware_StorageQualCheckSetup
@@ -282,16 +281,13 @@ SERVER_IUSE_TESTS="
 	+tests_p2p_EndToEndTest
 	+tests_platform_BootDevice
 	+tests_platform_BootLockboxServer
-	+tests_platform_CompromisedStatefulPartition
 	+tests_platform_CorruptRootfs
 	+tests_platform_CrashStateful
 	+tests_platform_ExternalUsbPeripherals
 	+tests_platform_FetchCloudConfig
 	+tests_platform_FlashErasers
 	+tests_platform_Flashrom
-	+tests_platform_HWwatchdog
 	+tests_platform_InitLoginPerfServer
-	+tests_platform_KernelErrorPaths
 	+tests_platform_MTBF
 	+tests_platform_SPRITE
 	power_management? (
@@ -299,9 +295,7 @@ SERVER_IUSE_TESTS="
 		+tests_power_WakeSources
 	)
 	+tests_platform_ServoPowerStateController
-	+tests_platform_StageAndRecover
 	+tests_platform_SyncCrash
-	readahead? ( +tests_platform_UReadAheadServer )
 	+tests_policy_DeviceServer
 	+tests_power_BatteryChargeControl
 	+tests_power_BrightnessResetAfterReboot
@@ -311,7 +305,6 @@ SERVER_IUSE_TESTS="
 	+tests_provision_CheetsUpdate
 	+tests_provision_Cr50TOT
 	+tests_provision_Cr50Update
-	+tests_provision_FactoryImage
 	+tests_provision_FirmwareUpdate
 	+tests_provision_QuickProvision
 	+tests_pvs_Sequence

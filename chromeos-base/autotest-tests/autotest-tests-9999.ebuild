@@ -39,10 +39,6 @@ RDEPEND="
 
 RDEPEND="${RDEPEND}
 	tests_dbench? ( dev-libs/libaio )
-	tests_hardware_MemoryLatency? ( app-benchmarks/lmbench )
-	tests_hardware_MemoryThroughput? ( app-benchmarks/lmbench )
-	tests_hardware_MemoryZRAMThroughput? ( app-benchmarks/microbenchmarks )
-	tests_platform_MemCheck? ( sys-apps/mosys )
 	tests_xfsFilesystemTestSuite? ( app-benchmarks/xfstests )
 "
 
@@ -50,7 +46,6 @@ DEPEND="${RDEPEND}"
 
 X86_IUSE_TESTS="
 	+tests_xfsFilesystemTestSuite
-	+tests_hardware_UnsafeMemory
 "
 
 CLIENT_IUSE_TESTS="
@@ -79,7 +74,6 @@ CLIENT_IUSE_TESTS="
 	+tests_blktestsSuiteRealBlk
 	+tests_dummy_Fail
 	+tests_stub_Pass
-	tests_example_UnitTest
 	+tests_firmware_CbfsMcache
 	+tests_firmware_LockedME
 	+tests_firmware_CheckEOPState
@@ -95,26 +89,14 @@ CLIENT_IUSE_TESTS="
 	+tests_hardware_DiskSize
 	+tests_hardware_EC
 	+tests_hardware_EepromWriteProtect
-	+tests_hardware_GobiGPS
-	+tests_hardware_GPIOSwitches
-	+tests_hardware_GPS
 	+tests_hardware_I2CProbe
 	+tests_hardware_Interrupt
-	+tests_hardware_Keyboard
-	+tests_hardware_MemoryLatency
-	+tests_hardware_MemoryThroughput
-	+tests_hardware_MemoryZRAMThroughput
-	+tests_hardware_Memtester
-	+tests_hardware_RamFio
-	+tests_hardware_SAT
 	+tests_hardware_SsdDetection
 	+tests_hardware_StorageFio
 	+tests_hardware_StorageFioOther
 	+tests_hardware_StorageTrim
 	+tests_hardware_StorageWearoutDetect
 	+tests_hardware_TrimIntegrity
-	+tests_infra_FirmwareAutoupdate
-	+tests_kernel_AsyncDriverProbe
 	+tests_kernel_fs_Punybench
 	+tests_kernel_Memory_Ramoop
 	crash_reporting? (
@@ -123,22 +105,17 @@ CLIENT_IUSE_TESTS="
 		+tests_logging_UserCrash
 	)
 	+tests_network_EthernetStressPlug
-	+tests_platform_Crossystem
-	+tests_platform_DaemonsRespawn
 	encrypted_stateful? ( +tests_platform_EncryptedStateful )
 	+tests_platform_FileNum
 	+tests_platform_FileSize
 	biod? ( +tests_platform_Fingerprint )
 	+tests_platform_FullyChargedPowerStatus
-	+tests_platform_HighResTimers
 	+tests_platform_ImageLoader
 	+tests_platform_ImageLoaderServer
-	+tests_platform_MemCheck
 	+tests_platform_MemoryMonitor
 	+tests_platform_NetParms
 	cups? ( +tests_platform_PrinterPpds )
 	+tests_suite_HWConfig
-	+tests_suite_HWQual
 	+tests_touch_HasInput
 	+tests_touch_WakeupSource
 "
