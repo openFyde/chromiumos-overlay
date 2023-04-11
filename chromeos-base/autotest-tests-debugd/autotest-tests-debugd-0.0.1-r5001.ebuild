@@ -2,17 +2,14 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-
-CROS_WORKON_COMMIT="1685f47d9c270ce414036eb0425ddbed678f5026"
-CROS_WORKON_TREE="800251287afdbba64a2f0d0c85ec624c8434d44e"
-PYTHON_COMPAT=( python3_{6..9} )
-
+CROS_WORKON_COMMIT="ad88f91051f3fdcf86ee29ed623fcb43466f92b8"
+CROS_WORKON_TREE="d4f09d1c7907a361e8e0655a99dddc1dd9e029cc"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 CROS_WORKON_LOCALNAME="third_party/autotest/files"
 
-inherit cros-workon autotest libchrome cros-sanitizers python-any-r1
+inherit cros-workon autotest
 
-DESCRIPTION="Security autotests"
+DESCRIPTION="debugd autotests"
 HOMEPAGE="https://chromium.googlesource.com/chromiumos/third_party/autotest/"
 SRC_URI=""
 
@@ -20,21 +17,15 @@ LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="*"
 # Enable autotest by default.
-IUSE="+autotest -chromeless_tests -chromeless_tty containers +seccomp selinux"
+IUSE="+autotest"
 
 RDEPEND="
 	!<chromeos-base/autotest-tests-0.0.3
 "
-DEPEND="${RDEPEND}"
 
 IUSE_TESTS="
-	+tests_security_NosymfollowMountOption
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
 
 AUTOTEST_FILE_MASK="*.a *.tar.bz2 *.tbz2 *.tgz *.tar.gz"
-
-cros_pre_src_configure_use_sanitizers() {
-	sanitizers-setup-env
-}
