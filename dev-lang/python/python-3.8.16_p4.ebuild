@@ -129,6 +129,21 @@ src_prepare() {
 	# Support searching /usr/local for Python on dev/test images.
 	sed -i -e "s:sys.exec_prefix]:sys.exec_prefix, '/usr/local']:g" \
 		Lib/site.py || die "sed failed to add /usr/local to prefixes"
+
+	# Speed up the build and workaround b/240951449 by removing self tests.
+	if [[ $(cros_target) != "cros_host" ]]; then
+		local args=( -type f -iname 'test_*.py' )
+
+		# The ebuild removes these and will fail if they are missing.
+		if ! use sqlite ; then
+			args+=( ! -iname 'test_sqlite*.py' )
+		fi
+		if ! use tk ; then
+			args+=( ! -iname 'test_tk*.py' )
+		fi
+
+		find "${S}/Lib/" "${args[@]}" -delete
+	fi
 	# END: Chromium OS
 
 	sed -i -e "s:@@GENTOO_LIBDIR@@:$(get_libdir):g" \
