@@ -46,6 +46,10 @@ BDEPEND="
 	introspection? ( dev-libs/gobject-introspection )
 "
 COMMON_DEPEND="
+	acct-user/chronos
+	acct-user/fwupd
+	acct-group/fwupd
+	acct-user/cros_healthd
 	>=app-arch/gcab-1.0
 	app-arch/xz-utils
 	>=dev-libs/glib-2.58:2
@@ -90,8 +94,6 @@ pkg_setup() {
 	if use nvme ; then
 		kernel_is -ge 4 4 || die "NVMe support requires kernel >= 4.4"
 	fi
-	enewuser fwupd
-	enewgroup fwupd
 }
 
 src_prepare() {
