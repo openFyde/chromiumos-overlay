@@ -29,6 +29,7 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	!media-sound/audio_processor
+	!<media-sound/adhd-0.0.7
 "
 
 src_compile() {
@@ -47,6 +48,7 @@ src_test() {
 
 src_install() {
 	dolib.a "$(cros-rust_get_build_dir)/libcras_rust.a"
+	dobin "$(cros-rust_get_build_dir)/audio_diagnostics"
 
 	# Install to /usr/local so they are stripped out of the release image.
 	into /usr/local

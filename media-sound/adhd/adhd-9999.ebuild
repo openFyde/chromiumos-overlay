@@ -48,7 +48,7 @@ COMMON_DEPEND="
 	media-libs/ladspa-sdk:=
 	media-libs/sbc:=
 	media-libs/speex:=
-	media-sound/cras_rust:=
+	>=media-sound/cras_rust-0.1.1:=
 	cras-ml? ( sci-libs/tensorflow:= )
 	>=sys-apps/dbus-1.4.12:=
 	selinux? ( sys-libs/libselinux:= )
@@ -63,6 +63,7 @@ RDEPEND="
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
 	featured? ( chromeos-base/featured )
+	!<media-sound/cras_rust-0.1.1
 "
 
 DEPEND="
