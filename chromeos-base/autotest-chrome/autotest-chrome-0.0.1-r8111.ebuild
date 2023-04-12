@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="6f9dfd1c2bbf49d32dc237574d82be1635a7a6b5"
-CROS_WORKON_TREE="1c0498e1be6b2c240d2d250ca46262a135fcbb11"
+CROS_WORKON_COMMIT="a23aa5ddbb18c237f7404fabcd47d841ad5bb083"
+CROS_WORKON_TREE="c7c890da705f58a8513114129af283b0bbfdafd1"
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
 
 inherit cros-workon autotest
@@ -61,19 +61,11 @@ IUSE_TESTS=(
 	+tests_bluetooth_TurnOnOffUI
 	+tests_desktopui_AudioFeedback
 	+tests_desktopui_CheckRlzPingSent
-	+tests_desktopui_ChromeCheck
-	tests_desktopui_ConnectivityDiagnostics
-	+tests_desktopui_MediaAudioFeedback
 	+tests_desktopui_RootfsLacros
-	+tests_desktopui_ScreenLocker
 	+tests_desktopui_SimpleLogin
-	+tests_display_DisplayContainEdid
 	+tests_graphics_Chrome
-	+tests_graphics_VideoRenderingPower
 	+tests_logging_CrashServices
-	+tests_logging_FeedbackReport
 	+tests_login_CryptohomeIncognito
-	+tests_login_GaiaLogin
 	+tests_login_LoginPin
 	+tests_login_LoginSuccess
 	+tests_login_OobeLocalization
@@ -81,11 +73,6 @@ IUSE_TESTS=(
 	+tests_network_CastTDLS
 	+tests_network_ChromeWifiConfigure
 	+tests_platform_InitLoginPerf
-	+tests_platform_InputBrightness
-	+tests_platform_InputBrowserNav
-	+tests_platform_InputNewTab
-	+tests_platform_InputScreenshot
-	+tests_platform_InputVolume
 	+tests_platform_LogoutPerf
 	+tests_policy_WilcoUSBPowershare
 	+tests_power_AudioDetector
@@ -111,7 +98,6 @@ IUSE_TESTS=(
 	+tests_security_BundledExtensions
 	+tests_stub_IdleSuspend
 	+tests_telemetry_AFDOGenerateClient
-	+tests_telemetry_Check
 	+tests_touch_GestureNav
 	+tests_touch_MouseScroll
 	+tests_touch_ScrollDirection

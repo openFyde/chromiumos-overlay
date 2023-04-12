@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2ab9cc2b4f37020a398ebce09a2df42b06fedc25"
-CROS_WORKON_TREE="7adefda4fb743fc92f8f2c1c1807de042faea2fb"
+CROS_WORKON_COMMIT="a23aa5ddbb18c237f7404fabcd47d841ad5bb083"
+CROS_WORKON_TREE="c7c890da705f58a8513114129af283b0bbfdafd1"
 PYTHON_COMPAT=( python3_{6..9} )
 
 CROS_WORKON_PROJECT="chromiumos/third_party/autotest"
@@ -36,7 +36,6 @@ DEPEND="${RDEPEND}"
 # The telemetry dependency comes from the chrome.py import in some of the tests.
 IUSE_TESTS="
 	+tests_login_CryptohomeOwnerQuery
-	+tests_login_MultipleSessions
 "
 
 IUSE="${IUSE} ${IUSE_TESTS}"
