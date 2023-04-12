@@ -77,7 +77,7 @@ src_configure() {
 		"-DCOMPILER_RT_TEST_TARGET_TRIPLE=${CTARGET}"
 
 		# We require gwp_asan as we want it built within the scudo dso
-		"-DCOMPILER_RT_SANITIZERS_TO_BUILD=scudo;gwp_asan"
+		"-DCOMPILER_RT_SANITIZERS_TO_BUILD=scudo_standalone;gwp_asan"
 		"-DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=OFF"
 		"-DCOMPILER_RT_BUILD_ORC=OFF"
 		"-DCOMPILER_RT_INSTALL_PATH=${EPREFIX}$(${CC} --print-resource-dir)"
