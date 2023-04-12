@@ -131,7 +131,7 @@ src_prepare() {
 		Lib/site.py || die "sed failed to add /usr/local to prefixes"
 
 	# Speed up the build and workaround b/240951449 by removing self tests.
-	if [[ $(cros_target) != "cros_host" ]]; then
+	if ! use test ; then
 		local args=( -type f -iname 'test_*.py' )
 
 		# The ebuild removes these and will fail if they are missing.
@@ -142,7 +142,7 @@ src_prepare() {
 			args+=( ! -iname 'test_tk*.py' )
 		fi
 
-		find "${S}/Lib/" "${args[@]}" -delete
+		find "${S}/Lib/" "${args[@]}" -delete || die
 	fi
 	# END: Chromium OS
 
