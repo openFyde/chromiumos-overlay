@@ -115,10 +115,10 @@ ALL_BOARDS=(
 	brya-arc-t
 	brya-hibernate
 	brya-lvm-stateful
-	brya-manatee
-	brya-manatee-kernelnext
-	brya-nopkvm
-	brya-pkvm
+	#brya-manatee
+	#brya-manatee-kernelnext
+	#brya-nopkvm
+	#brya-pkvm
 	bubs
 	buddy
 	buddy-cfm
