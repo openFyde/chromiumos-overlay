@@ -18,7 +18,7 @@ HOMEPAGE="https://chromium.googlesource.com/chromiumos/platform/crosvm/"
 # 'Apache-2.0' and 'BSD-vmm_vhost' are for third_party/vmm_vhost.
 LICENSE="BSD-Google Apache-2.0 BSD-vmm_vhost"
 KEYWORDS="~*"
-IUSE="test cros-debug crosvm-gpu crosvm-swap -crosvm-trace-marker -crosvm-direct -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder -crosvm-video-ffmpeg +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master android-vm-tm arcvm_gce_l1"
+IUSE="test cros-debug crosvm-gpu crosvm-swap -crosvm-trace-marker -crosvm-plugin +crosvm-power-monitor-powerd +crosvm-video-decoder +crosvm-video-encoder -crosvm-video-ffmpeg +crosvm-video-libvda +crosvm-wl-dmabuf fuzzer tpm2 android-vm-master android-vm-tm arcvm_gce_l1"
 
 BDEPEND="dev-libs/protobuf"
 COMMON_DEPEND="
@@ -140,14 +140,6 @@ src_compile() {
 			-p "${pkg}" ||
 			die "cargo build failed"
 	done
-
-	if use crosvm-direct; then
-		ecargo_build -v \
-			--no-default-features \
-			--features="direct,chromeos" \
-			-p "crosvm" --bin crosvm-direct ||
-			die "cargo build failed"
-	fi
 
 	if use fuzzer; then
 		cd crosvm-fuzz || die "failed to move directory"
@@ -298,12 +290,6 @@ src_install() {
 		insinto "${include_dir}"
 		doins "${S}/crosvm_plugin/crosvm.h"
 		dolib.so "${build_dir}/deps/libcrosvm_plugin.so"
-	fi
-
-	# Install crosvm-direct, when requested.
-	if use crosvm-direct; then
-		into /build/manatee
-		dobin "${build_dir}/crosvm-direct"
 	fi
 
 	if use fuzzer; then
