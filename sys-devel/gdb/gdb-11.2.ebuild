@@ -100,6 +100,7 @@ PATCHES=(
 	"${FILESDIR}"/${P}-sigsys.patch
 	"${FILESDIR}"/${P}-inlined-unwind.patch
 	"${FILESDIR}"/${PN}-9.2-iterator-include.patch
+	"${FILESDIR}"/${P}-locale-header.patch
 )
 
 pkg_setup() {
