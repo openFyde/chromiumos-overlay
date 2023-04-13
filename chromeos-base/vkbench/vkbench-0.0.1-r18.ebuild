@@ -31,4 +31,5 @@ RDEPEND="
 	media-libs/vulkan-loader:=
 	virtual/vulkan-icd:=
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	dev-util/vulkan-headers"

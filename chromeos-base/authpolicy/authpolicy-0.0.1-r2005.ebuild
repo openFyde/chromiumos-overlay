@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="1884e3c82b742377769be62d58adeb080e431553"
+CROS_WORKON_COMMIT="baec27526b995eb22201a69b998c3b35ceb15d8e"
 CROS_WORKON_TREE=("9af4067326e0bd0aaade6270a9312a91ca2642ed" "5186ffd48024fc5810d039a4346bb1c918416993" "a2002e5b021a481c966a494642397c400fe65c93" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -30,6 +30,7 @@ COMMMON_DEPEND="
 	chromeos-base/libbrillo:=[asan?,fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
 	>=chromeos-base/minijail-0.0.1-r1477:=
+	dev-libs/libpcre:=
 	dev-libs/protobuf:=
 	samba? ( >=net-fs/samba-4.5.3-r6:= )
 	sys-apps/dbus:=
