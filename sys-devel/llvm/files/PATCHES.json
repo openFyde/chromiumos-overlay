@@ -4502,5 +4502,33 @@
       "from": 484159,
       "until": 484407
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Add -disable-check-noreturn-call for stack protect"
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/593e17648eb217312e224daa38ea4f40ca697b0b.patch",
+    "version_range": {
+      "from": 484197,
+      "until": 486257
+    }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "[StackProtector] don't check stack protector before calling nounwind functions"
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/fc4494dffa5422b2be5442c235554e76bed79c8a.patch",
+    "version_range": {
+      "from": 484197,
+      "until": 495641
+    }
   }
 ]
