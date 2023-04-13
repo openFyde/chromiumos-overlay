@@ -67,7 +67,8 @@ src_install() {
 		synctest swrast_test \
 		udmabuf_create_test \
 		v4l2_stateful_decoder \
-		v4l2_stateful_encoder
+		v4l2_stateful_encoder\
+		yuv_to_rgb_test
 
 	if use vulkan; then
 		dobin vk_glow
