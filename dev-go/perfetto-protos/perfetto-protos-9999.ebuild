@@ -10,6 +10,9 @@ CROS_GO_PACKAGES=(
 
 inherit cros-constants
 
+# This ebuild is upreved via PUpr, so disable the normal uprev process for
+# cros-workon ebuilds.
+CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME=("../aosp/external/perfetto" "../platform2")
 CROS_WORKON_PROJECT=("platform/external/perfetto" "chromiumos/platform2")
 CROS_WORKON_REPO=("${CROS_GIT_AOSP_URL}" "${CROS_GIT_HOST_URL}")
