@@ -75,6 +75,7 @@ DEPEND="
 	>=dev-util/spirv-tools-1.3.239
 	>=dev-util/spirv-headers-1.3.239-r1
 	>=chromeos-base/perfetto-31.0
+	>=media-libs/vulkan-loader-1.3.211
 "
 
 # target runtime dependencies
