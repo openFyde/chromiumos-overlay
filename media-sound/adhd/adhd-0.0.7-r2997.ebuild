@@ -3,8 +3,8 @@
 # found in the LICENSE file.
 
 EAPI=7
-CROS_WORKON_COMMIT="3a91e068b95e74e3b5d4c83d629c1a1699cc07f4"
-CROS_WORKON_TREE="ab39a18d6953d0abc4192c951c01ce3a87ae6d34"
+CROS_WORKON_COMMIT="358c6c5940e7d6b8eb370229527c52ce4ebc0796"
+CROS_WORKON_TREE="f20245b2d7c9c3f86980c3a8303e09aa0bec82c7"
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_PROJECT="chromiumos/third_party/adhd"
 CROS_WORKON_LOCALNAME="adhd"
@@ -50,7 +50,7 @@ COMMON_DEPEND="
 	media-libs/ladspa-sdk:=
 	media-libs/sbc:=
 	media-libs/speex:=
-	media-sound/cras_rust:=
+	>=media-sound/cras_rust-0.1.1:=
 	cras-ml? ( sci-libs/tensorflow:= )
 	>=sys-apps/dbus-1.4.12:=
 	selinux? ( sys-libs/libselinux:= )
@@ -65,6 +65,7 @@ RDEPEND="
 	media-plugins/alsa-plugins
 	chromeos-base/chromeos-config-tools
 	featured? ( chromeos-base/featured )
+	!<media-sound/cras_rust-0.1.1
 "
 
 DEPEND="

@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="3a91e068b95e74e3b5d4c83d629c1a1699cc07f4"
-CROS_WORKON_TREE="ab39a18d6953d0abc4192c951c01ce3a87ae6d34"
+CROS_WORKON_COMMIT="358c6c5940e7d6b8eb370229527c52ce4ebc0796"
+CROS_WORKON_TREE="f20245b2d7c9c3f86980c3a8303e09aa0bec82c7"
 CROS_RUST_SUBDIR="."
 
 CROS_WORKON_LOCALNAME="adhd"
@@ -31,6 +31,7 @@ DEPEND="
 RDEPEND="
 	${DEPEND}
 	!media-sound/audio_processor
+	!<media-sound/adhd-0.0.7
 "
 
 src_compile() {
@@ -49,6 +50,7 @@ src_test() {
 
 src_install() {
 	dolib.a "$(cros-rust_get_build_dir)/libcras_rust.a"
+	dobin "$(cros-rust_get_build_dir)/audio_diagnostics"
 
 	# Install to /usr/local so they are stripped out of the release image.
 	into /usr/local
