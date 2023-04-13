@@ -33,7 +33,7 @@ CONFIG_SPI_FLASH_SMM=y
 
 # Management Engine FW update
 CONFIG_SOC_INTEL_CSE_RW_UPDATE=y
-CONFIG_SOC_INTEL_CSE_RW_VERSION="18.0.0.1656"
+CONFIG_SOC_INTEL_CSE_RW_VERSION="18.0.0.1663"
 
 # FILEPATH is set to blank to prevent any default SAR file from getting added.
 CONFIG_WIFI_SAR_CBFS_FILEPATH=""
