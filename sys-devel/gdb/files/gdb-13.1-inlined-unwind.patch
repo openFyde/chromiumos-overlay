@@ -11,14 +11,10 @@ frame is considered 'bad' and gets thrown out.  This patch updates GDB
 so that, in that case, GDB will stop the backtrace giving the user an
 error message, rather than crash with an internal error.
 
-[Adrian: converted diff to proper patch and rebased on gdb 11.2]
----
- gdb/frame.c        | 14 +++++++++++---
- gdb/inline-frame.c |  8 +++++++-
- 2 files changed, 18 insertions(+), 4 deletions(-)
+[Manoj: rebased on gdb 13.1]
 
 diff --git a/gdb/frame.c b/gdb/frame.c
-index 0e9d040b133..f39fc504233 100644
+index 2f9622a..38fc6ec 100644
 --- a/gdb/frame.c
 +++ b/gdb/frame.c
 @@ -285,7 +285,7 @@ frame_stash_add (frame_info *frame)
@@ -30,15 +26,15 @@ index 0e9d040b133..f39fc504233 100644
      return false;
  
    *slot = frame;
-@@ -628,7 +628,6 @@ get_frame_id (struct frame_info *fi)
+@@ -628,7 +628,6 @@ get_frame_id (frame_info_ptr fi)
        /* Since this is the first frame in the chain, this should
  	 always succeed.  */
-       bool stashed = frame_stash_add (fi);
+       bool stashed = frame_stash_add (fi.get ());
 -      gdb_assert (stashed);
      }
  
    return fi->this_id.value;
-@@ -2076,7 +2075,16 @@ get_prev_frame_if_no_cycle (struct frame_info *this_frame)
+@@ -2144,7 +2143,16 @@ get_prev_frame_maybe_check_cycle (frame_info_ptr this_frame)
  	     detected a cycle.  */
  	  frame_debug_printf ("  -> nullptr // this frame has same ID");
  
@@ -57,22 +53,14 @@ index 0e9d040b133..f39fc504233 100644
  	  prev_frame->next = NULL;
  	  this_frame->prev = NULL;
 diff --git a/gdb/inline-frame.c b/gdb/inline-frame.c
-index 9d8d1f02c32..ace835747ae 100644
+index f02f635..0342e2c 100644
 --- a/gdb/inline-frame.c
 +++ b/gdb/inline-frame.c
-@@ -155,6 +155,7 @@ inline_frame_this_id (struct frame_info *this_frame,
- 		      struct frame_id *this_id)
- {
-   struct symbol *func;
-+  struct frame_info *prev_frame;
- 
-   /* In order to have a stable frame ID for a given inline function,
-      we must get the stack / special addresses from the underlying
-@@ -163,7 +164,12 @@ inline_frame_this_id (struct frame_info *this_frame,
-      function, there must be previous frames, so this is safe - as
-      long as we're careful not to create any cycles.  See related
-      comments in get_prev_frame_always_1.  */
--  *this_id = get_frame_id (get_prev_frame_always (this_frame));
+@@ -166,7 +167,12 @@ inline_frame_this_id (frame_info_ptr this_frame,
+   frame_info_ptr prev_frame = get_prev_frame_always (this_frame);
+   if (prev_frame == nullptr)
+     error (_("failed to find previous frame when computing inline frame id"));
+-  *this_id = get_frame_id (prev_frame);
 +  prev_frame = get_prev_frame_always (this_frame);
 +  if ((prev_frame != NULL)
 +      && (get_frame_unwind_stop_reason (prev_frame) != UNWIND_SAME_ID))
@@ -82,6 +70,3 @@ index 9d8d1f02c32..ace835747ae 100644
  
    /* We need a valid frame ID, so we need to be based on a valid
       frame.  FSF submission NOTE: this would be a good assertion to
--- 
-2.37.2
-

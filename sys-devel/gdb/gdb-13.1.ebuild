@@ -95,12 +95,11 @@ BDEPEND="
 
 PATCHES=(
 	"${FILESDIR}"/${PN}-8.3.1-verbose-build.patch
-	"${FILESDIR}"/${P}-glibc-2.35-fsqrt.patch
-	"${FILESDIR}"/${P}-python.patch
-	"${FILESDIR}"/${P}-sigsys.patch
-	"${FILESDIR}"/${P}-inlined-unwind.patch
-	"${FILESDIR}"/${PN}-9.2-iterator-include.patch
-	"${FILESDIR}"/${P}-locale-header.patch
+	"${FILESDIR}"/${PN}-13.1-python.patch
+	"${FILESDIR}"/${PN}-13.1-sigsys.patch
+	"${FILESDIR}"/${PN}-13.1-inlined-unwind.patch
+	"${FILESDIR}"/${PN}-13.1-locale-header.patch
+	"${FILESDIR}"/${PN}-13.1-var-array-init.patch
 )
 
 pkg_setup() {
@@ -259,13 +258,13 @@ src_install() {
 
 	docinto gdb
 	dodoc gdb/CONTRIBUTE gdb/README gdb/MAINTAINERS \
-		gdb/NEWS gdb/ChangeLog gdb/PROBLEMS
+		gdb/NEWS gdb/PROBLEMS
 	docinto sim
-	dodoc sim/{ChangeLog,MAINTAINERS,README-HACKING}
+	dodoc sim/{MAINTAINERS,README-HACKING}
 
 	if use server ; then
 		docinto gdbserver
-		dodoc gdbserver/{ChangeLog,README}
+		dodoc gdbserver/README
 	fi
 
 	if [[ -n ${PATCH_VER} ]] ; then
