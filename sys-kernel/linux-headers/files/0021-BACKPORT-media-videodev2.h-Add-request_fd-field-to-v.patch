@@ -26,10 +26,9 @@ diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
 index 3ee5ffb..ed8bc83 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -923,6 +923,7 @@ struct v4l2_plane {
+@@ -923,5 +923,6 @@ struct v4l2_plane {
   *		buffers (when type != *_MPLANE); number of elements in the
   *		planes array for multi-plane buffers
-  * @config_store: this buffer should use this configuration store
 + * @request_fd: fd of the request that this buffer should use
   *
   * Contains data exchanged by application and driver using one of the Streaming
@@ -37,7 +36,7 @@ index 3ee5ffb..ed8bc83 100644
 @@ -947,7 +948,10 @@ struct v4l2_buffer {
  	} m;
  	__u32			length;
- 	__u32			config_store;
+ 	__u32			reserved2;
 -	__u32			reserved;
 +	union {
 +		__s32           request_fd;

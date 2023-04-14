@@ -27,8 +27,9 @@ BDEPEND="
 # NOTE: All the patches must be applicable using patch -p1.
 #
 PATCHES+=(
-	"${FILESDIR}/0001-CHROMIUM-media-headers-Import-V4L2-headers-from-Chro.patch"
-	"${FILESDIR}/0002-CHROMIUM-v4l-Add-VP8-low-level-decoder-API-controls.patch"
+	"${FILESDIR}/0001-UPSTREAM-media-videodev2.h-Add-v4l2-definition-for-HEVC.patch"
+	"${FILESDIR}/0002-BACKPORT-media-uapi-Move-parsed-H264-pixel-format-ou.patch"
+	"${FILESDIR}/0003-BACKPORT-media-uapi-Move-parsed-VP8-pixel-format-out.patch"
 	"${FILESDIR}/0004-CHROMIUM-v4l-Add-VP9-low-level-decoder-API-controls.patch"
 	"${FILESDIR}/0007-media-videodev2.h-add-IPU3-raw10-color.patch"
 	"${FILESDIR}/0008-videodev2.h-add-IPU3-meta-buffer-format.patch"
@@ -50,8 +51,6 @@ PATCHES+=(
 	"${FILESDIR}/0024-UPSTREAM-nl80211-mac80211-mesh-add-hop-count-to-mpath.patch"
 	"${FILESDIR}/0025-UPSTREAM-nl80211-mac80211-mesh-add-mesh-path-change-c.patch"
 	"${FILESDIR}/0026-FROMLIST-Input_add_KEY_KBD_LAYOUT_NEXT.patch"
-	"${FILESDIR}/0028-UPSTREAM-media-pixfmt-Add-H264-Slice-format.patch"
-	"${FILESDIR}/0029-BACKPORT-FROMLIST-media-uapi-Add-VP8-stateless-decod.patch"
 	"${FILESDIR}/0030-BACKPORT-sync-nl80211.h-to-v5.8.patch"
 	"${FILESDIR}/0031-FROMLIST-media-pixfmt-Add-Mediatek-ISP-P1-image-meta.patch"
 	"${FILESDIR}/0032-BACKPORT-add-udmabuf-header.patch"
@@ -72,7 +71,6 @@ PATCHES+=(
 	"${FILESDIR}/0047-BACKPORT-drm-add-panfrost_drm.h.patch"
 	"${FILESDIR}/0048-ASoC-SOF-Add-userspace-ABI-support.patch"
 	"${FILESDIR}/0049-CHROMIUM-v4l2-add-finalized-upstream-V4L2-VP9-statel.patch"
-	"${FILESDIR}/0050-BACKPORT-media-videodev2.h-Add-v4l2-definition-for-HEVC.patch"
 	"${FILESDIR}/0051-CHROMIUM-v4l2-add-upstream-work-in-progress-V4L2-AV1.patch"
 	"${FILESDIR}/0052-BACKPORT-add-rseq-syscall-definitions.patch"
 	"${FILESDIR}/0053-BACKPORT-fanotify-add-support-for-create-attrib-move.patch"
@@ -82,6 +80,8 @@ PATCHES+=(
 	"${FILESDIR}/0057-BACKPORT-fanotify-add-API-to-attach-detach-super-blo.patch"
 	"${FILESDIR}/0058-BACKPORT-kexec-file-load.patch"
 	"${FILESDIR}/0059-BACKPORT-media-v4l2-Add-v4l2-control-IDs-for-HEVC-encoder.patch"
+	# Only needed for RK3399 libv4lplugins
+	"${FILESDIR}/0099-CHROMIUM-v4l-Add-config-store-support.patch"
 )
 
 src_unpack() {
