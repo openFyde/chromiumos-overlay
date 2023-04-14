@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="504056768a2e3a70ec6ba30fbcd3ab905a378e18"
+CROS_WORKON_COMMIT="a66a10f0a79a3976a28366c1d66d6af470673f29"
 CROS_WORKON_TREE=("4d05be6aacce39f0ffed0cb00fc7d88926121b65" "f9559bb24ca0c0f08cfd600f978e909fd34f8d4e" "5fffee421416a0650bc135c4ce1983d994681695" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -25,6 +25,8 @@ IUSE="fuzzer wilco mesa_reven diagnostics"
 
 # TODO(204734015): Remove app-arch/zstd:=.
 COMMON_DEPEND="
+	acct-user/cros_healthd
+	acct-group/cros_healthd
 	chromeos-base/bootstat:=
 	chromeos-base/chromeos-config-tools:=
 	chromeos-base/libec:=
@@ -77,8 +79,6 @@ RDEPEND="
 
 pkg_preinst() {
 	enewgroup cros_ec-access
-	enewuser cros_healthd
-	enewgroup cros_healthd
 	enewgroup fpdev
 	enewuser healthd_ec
 	enewgroup healthd_ec
