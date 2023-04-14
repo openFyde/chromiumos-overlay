@@ -58,7 +58,6 @@ PATCHES+=(
 	"${FILESDIR}/0034-UPSTREAM-Input-add-REL_WHEEL_HI_RES-and-REL_HWHEEL_H.patch"
 	"${FILESDIR}/0035-BACKPORT-Input-Add-FULL_SCREEN-ASPECT_RATIO-SELECTIV.patch"
 	"${FILESDIR}/0036-CHROMIUM-Add-fscrypt-header.patch"
-	"${FILESDIR}/0037-BACKPORT-v4l2-add-V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS.patch"
 	"${FILESDIR}/0038-BACKPORT-Add-io_uring-IO-interface.patch"
 	"${FILESDIR}/0039-BACKPORT-net-qualcomm-rmnet-Export-mux_id-and-flags-to-netlink.patch"
 	"${FILESDIR}/0040-CHROMIUM-v4l2-add-upstream-V4L2-H.264-stateless-cont.patch"
