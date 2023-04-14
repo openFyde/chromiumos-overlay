@@ -61,10 +61,7 @@ cros_pre_src_prepare_filter_sanitizers() {
 # in order to support cross compilation.
 cros_pre_src_prepare_cross() {
 	case "${ARCH}" in
-		"amd64")
-			# No need to cross compile for this case.
-			;;
-		"arm" | "arm64")
+		"amd64" | "arm" | "arm64")
 			cp "${BASHRC_FILESDIR}/${ARCH}_waf_config_answers" "${T}" || die
 			local waf="${T}/waf"
 			cat<<EOF>"${waf}"
