@@ -1,10 +1,10 @@
 diff --git a/clvk/src/config.def b/clvk/src/config.def
-index 17716c0..fc75971 100644
+index f1e1766..ff37ee9 100644
 --- a/clvk/src/config.def
 +++ b/clvk/src/config.def
-@@ -30,6 +30,9 @@ OPTION(uint32_t, spirv_validation, 2u)
- OPTION(std::string, spirv_arch, "spir")
- OPTION(bool, physical_addressing, false)
+@@ -32,6 +32,9 @@ OPTION(bool, physical_addressing, false)
+ OPTION(std::string, clspv_native_builtins, "")
+ OPTION(std::string, clspv_library_builtins, "")
  
 +OPTION(bool, poll_executor, false)
 +OPTION(bool, poll_main_thread, false)
@@ -28,10 +28,10 @@ index 6bd10d9..1e69f4f 100644
          // There are only 20 different possible samplers in OpenCL 1.2, cap the
          // number of supported samplers to that to help with negative testing of
 diff --git a/clvk/src/device_properties.cpp b/clvk/src/device_properties.cpp
-index 1140497..f98edb7 100644
+index d0168d6..e5c4ba0 100644
 --- a/clvk/src/device_properties.cpp
 +++ b/clvk/src/device_properties.cpp
-@@ -57,6 +57,23 @@ struct cvk_device_properties_intel : public cvk_device_properties {
+@@ -71,6 +71,23 @@ struct cvk_device_properties_intel : public cvk_device_properties {
      std::string get_compile_options() const override final {
          return "-hack-mul-extended";
      }
@@ -55,7 +55,7 @@ index 1140497..f98edb7 100644
  };
  
  static bool isIntelDevice(const char* name, const uint32_t vendorID) {
-@@ -85,6 +102,10 @@ struct cvk_device_properties_samsung_xclipse_920
+@@ -165,6 +182,10 @@ static bool isNVIDIADevice(const uint32_t vendorID) {
      cvk_info_fn(#x);                                                           \
      return std::make_unique<x>();
  
@@ -66,7 +66,7 @@ index 1140497..f98edb7 100644
  std::unique_ptr<cvk_device_properties>
  create_cvk_device_properties(const char* name, const uint32_t vendorID,
                               const uint32_t deviceID) {
-@@ -118,7 +139,7 @@ create_cvk_device_properties(const char* name, const uint32_t vendorID,
+@@ -198,7 +219,7 @@ create_cvk_device_properties(const char* name, const uint32_t vendorID,
      } else if (strcmp(name, "Adreno (TM) 640") == 0) {
          RETURN(cvk_device_properties_adreno_640);
      } else if (isIntelDevice(name, vendorID)) {
@@ -76,11 +76,11 @@ index 1140497..f98edb7 100644
          RETURN(cvk_device_properties_amd);
      } else if (strcmp(name, "Samsung Xclipse 920") == 0) {
 diff --git a/clvk/src/device_properties.hpp b/clvk/src/device_properties.hpp
-index 1271031..4a93fe8 100644
+index 872e326..afc2a26 100644
 --- a/clvk/src/device_properties.hpp
 +++ b/clvk/src/device_properties.hpp
 @@ -44,6 +44,10 @@ struct cvk_device_properties {
-         return std::vector<std::string>();
+         return std::set<std::string>();
      }
  
 +    virtual bool get_poll_main_thread() const {
@@ -170,7 +170,7 @@ index 03d567c..f05105d 100644
  
      uint64_t get_profiling_info(cl_profiling_info pinfo) const override final {
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index 8e012d9..459085d 100644
+index 4799e8f..e009a66 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
 @@ -304,7 +304,11 @@ cl_int cvk_command_queue::wait_for_events(cl_uint num_events,
@@ -234,7 +234,7 @@ index 8e012d9..459085d 100644
  
      return CL_SUCCESS;
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index bdd8376..04683a2 100644
+index a0b9a3c..395dd93 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -411,12 +411,12 @@ struct cvk_command {

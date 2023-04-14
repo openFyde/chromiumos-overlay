@@ -1,8 +1,8 @@
 diff --git a/clvk/src/api.cpp b/clvk/src/api.cpp
-index 2c40b4c..3b77276 100644
+index 73f0bb2..46d873e 100644
 --- a/clvk/src/api.cpp
 +++ b/clvk/src/api.cpp
-@@ -1174,7 +1174,7 @@ cl_event CLVK_API_CALL clCreateUserEvent(cl_context context,
+@@ -1197,7 +1197,7 @@ cl_event CLVK_API_CALL clCreateUserEvent(cl_context context,
          }
      }
  
@@ -11,7 +11,7 @@ index 2c40b4c..3b77276 100644
  
      if (errcode_ret != nullptr) {
          *errcode_ret = CL_SUCCESS;
-@@ -3733,6 +3733,80 @@ void* CLVK_API_CALL clEnqueueMapBuffer(cl_command_queue cq, cl_mem buf,
+@@ -3756,6 +3756,80 @@ void* CLVK_API_CALL clEnqueueMapBuffer(cl_command_queue cq, cl_mem buf,
      return map_ptr;
  }
  
@@ -92,7 +92,7 @@ index 2c40b4c..3b77276 100644
  cl_int CLVK_API_CALL clEnqueueUnmapMemObject(cl_command_queue cq, cl_mem mem,
                                               void* mapped_ptr,
                                               cl_uint num_events_in_wait_list,
-@@ -3754,25 +3828,18 @@ cl_int CLVK_API_CALL clEnqueueUnmapMemObject(cl_command_queue cq, cl_mem mem,
+@@ -3777,25 +3851,18 @@ cl_int CLVK_API_CALL clEnqueueUnmapMemObject(cl_command_queue cq, cl_mem mem,
          return CL_INVALID_MEM_OBJECT;
      }
  
@@ -125,7 +125,7 @@ index 2c40b4c..3b77276 100644
  }
  
  cl_int cvk_enqueue_ndrange_kernel(cvk_command_queue* command_queue,
-@@ -4753,14 +4820,185 @@ cl_int CLVK_API_CALL clGetSupportedImageFormats(cl_context context,
+@@ -4776,14 +4843,185 @@ cl_int CLVK_API_CALL clGetSupportedImageFormats(cl_context context,
      return CL_SUCCESS;
  }
  
@@ -313,7 +313,7 @@ index 2c40b4c..3b77276 100644
      std::array<size_t, 3> reg = {region[0], region[1], region[2]};
  
      cl_map_flags map_flags;
-@@ -4771,14 +5009,6 @@ cl_int cvk_enqueue_image_copy(
+@@ -4794,14 +5032,6 @@ cl_int cvk_enqueue_image_copy(
      }
  
      auto img = static_cast<cvk_image*>(image);
@@ -328,7 +328,7 @@ index 2c40b4c..3b77276 100644
  
      // Create copy command
      auto rpitch = row_pitch;
-@@ -4791,31 +5021,48 @@ cl_int cvk_enqueue_image_copy(
+@@ -4814,31 +5044,48 @@ cl_int cvk_enqueue_image_copy(
          spitch = region[1] * rpitch;
      }
      const size_t zero_origin[3] = {0, 0, 0};
@@ -391,7 +391,7 @@ index 2c40b4c..3b77276 100644
  }
  
  cl_int CLVK_API_CALL clEnqueueReadImage(
-@@ -5077,15 +5324,16 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
+@@ -5100,15 +5347,16 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
      // TODO use Vulkan clear commands when possible
      // TODO use a shader when better
  
@@ -413,7 +413,7 @@ index 2c40b4c..3b77276 100644
      if (err != CL_SUCCESS) {
          return err;
      }
-@@ -5098,26 +5346,31 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
+@@ -5121,26 +5369,31 @@ cl_int CLVK_API_CALL clEnqueueFillImage(
      auto cmd_fill = std::make_unique<cvk_command_fill_image>(
          command_queue, map_ptr, pattern, pattern_size, reg);
  
@@ -459,7 +459,7 @@ index 2c40b4c..3b77276 100644
  }
  
  cl_int CLVK_API_CALL clEnqueueCopyImageToBuffer(
-@@ -5272,119 +5525,6 @@ cl_int CLVK_API_CALL clEnqueueCopyBufferToImage(
+@@ -5295,119 +5548,6 @@ cl_int CLVK_API_CALL clEnqueueCopyBufferToImage(
          cmd.release(), num_events_in_wait_list, event_wait_list, event);
  }
  
@@ -579,7 +579,7 @@ index 2c40b4c..3b77276 100644
  void* CLVK_API_CALL clEnqueueMapImage(
      cl_command_queue cq, cl_mem image, cl_bool blocking_map,
      cl_map_flags map_flags, const size_t* origin, const size_t* region,
-@@ -5407,17 +5547,17 @@ void* CLVK_API_CALL clEnqueueMapImage(
+@@ -5430,17 +5570,17 @@ void* CLVK_API_CALL clEnqueueMapImage(
  
      auto command_queue = icd_downcast(cq);
  

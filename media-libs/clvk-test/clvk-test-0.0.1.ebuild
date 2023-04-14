@@ -4,9 +4,11 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="e2f23619cae2f8959ab56dda946fbf12396d9b95"
+if [[ ${PV} != "9999" ]]; then
+	CROS_WORKON_COMMIT="e607daf3f868ad84c789d6e072e08373c1af208a"
 
-CROS_WORKON_TREE="e2f23619cae2f8959ab56dda946fbf12396d9b95"
+	CROS_WORKON_TREE="e607daf3f868ad84c789d6e072e08373c1af208a"
+fi
 
 CROS_WORKON_MANUAL_UPREV="1"
 
@@ -29,12 +31,16 @@ HOMEPAGE="https://github.com/kpet/${PN}"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="*"
+if [[ ${PV} != "9999" ]]; then
+	KEYWORDS="*"
+else
+	KEYWORDS="~*"
+fi
 IUSE="debug"
 
 # target build dependencies
 DEPEND="
-	>=dev-util/opencl-headers-2021.04.29
+	>=dev-util/opencl-headers-2023.02.06
 	>=media-libs/clvk-0.0.1
 	>=dev-cpp/gtest-1.10.0
 "

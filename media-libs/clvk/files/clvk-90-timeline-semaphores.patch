@@ -1,17 +1,5 @@
-diff --git a/clvk/src/CMakeLists.txt b/clvk/src/CMakeLists.txt
-index 4dba06d..5efb827 100644
---- a/clvk/src/CMakeLists.txt
-+++ b/clvk/src/CMakeLists.txt
-@@ -52,6 +52,7 @@ add_library(OpenCL-objects OBJECT
-   memory.cpp
-   program.cpp
-   queue.cpp
-+  semaphore.cpp
-   sha1.cpp
-   tracing.cpp
-   unit.cpp
 diff --git a/clvk/src/device.cpp b/clvk/src/device.cpp
-index 0db0f64..6374490 100644
+index 6db8ad2..2f0313c 100644
 --- a/clvk/src/device.cpp
 +++ b/clvk/src/device.cpp
 @@ -47,6 +47,8 @@ void cvk_device::init_vulkan_properties(VkInstance instance) {
@@ -330,7 +318,7 @@ index 86d85d9..03d567c 100644
      }
  
 diff --git a/clvk/src/queue.cpp b/clvk/src/queue.cpp
-index f80a1cf..8e012d9 100644
+index f80a1cf..4799e8f 100644
 --- a/clvk/src/queue.cpp
 +++ b/clvk/src/queue.cpp
 @@ -33,11 +33,14 @@ cvk_command_queue::cvk_command_queue(
@@ -445,11 +433,11 @@ index f80a1cf..8e012d9 100644
      auto ret = execute_cmds(cmds);
      m_lock.lock();
  
-@@ -467,6 +505,27 @@ cl_int cvk_command_queue::finish() {
+@@ -467,6 +505,36 @@ cl_int cvk_command_queue::finish() {
      return CL_SUCCESS;
  }
  
-+void cvk_command_queue::get_next_semaphore_and_value(cvk_semaphore** sem,
++cl_int cvk_command_queue::get_next_semaphore_and_value(cvk_semaphore** sem,
 +                                                     uint64_t* value,
 +                                                     cl_command_type type) {
 +    CVK_ASSERT(m_device->has_timeline_semaphore_support());
@@ -458,7 +446,15 @@ index f80a1cf..8e012d9 100644
 +                                    ? m_semaphore_image_init_timeline
 +                                    : m_semaphore_main_timeline;
 +    if (semaphore == nullptr) {
-+        semaphore = new cvk_semaphore(this);
++        cl_semaphore_type_khr type = 0;
++        std::vector<cl_semaphore_properties_khr> properties;
++        std::vector<cl_device_id> devices;
++        semaphore = new cvk_semaphore(m_context, type, std::move(devices),
++                                      std::move(properties));
++        auto status = semaphore->init();
++        if (status != CL_SUCCESS) {
++            return status;
++        }
 +    }
 +
 +    *sem = semaphore;
@@ -468,12 +464,13 @@ index f80a1cf..8e012d9 100644
 +        semaphore->release();
 +        semaphore = nullptr;
 +    }
++    return CL_SUCCESS;
 +}
 +
  VkResult cvk_command_pool::allocate_command_buffer(VkCommandBuffer* cmdbuf) {
  
      std::lock_guard<std::mutex> lock(m_lock);
-@@ -508,6 +567,22 @@ bool cvk_command_buffer::begin() {
+@@ -508,6 +576,22 @@ bool cvk_command_buffer::begin() {
      return true;
  }
  
@@ -496,7 +493,7 @@ index f80a1cf..8e012d9 100644
  bool cvk_command_buffer::submit_and_wait() {
      auto& queue = m_queue->vulkan_queue();
  
-@@ -1062,12 +1137,38 @@ cl_int cvk_command_batchable::do_action() {
+@@ -1062,12 +1146,38 @@ cl_int cvk_command_batchable::do_action() {
      return CL_COMPLETE;
  }
  
@@ -540,7 +537,7 @@ index f80a1cf..8e012d9 100644
  
      m_queue->batch_completed();
 diff --git a/clvk/src/queue.hpp b/clvk/src/queue.hpp
-index 4231aa2..bdd8376 100644
+index 4231aa2..a0b9a3c 100644
 --- a/clvk/src/queue.hpp
 +++ b/clvk/src/queue.hpp
 @@ -142,6 +142,11 @@ struct cvk_command_queue : public _cl_command_queue,
@@ -571,7 +568,7 @@ index 4231aa2..bdd8376 100644
      cl_int execute_cmds_dominated_by_no_lock(cl_uint num_events,
                                               _cl_event* const* event_list);
  
-+    void get_next_semaphore_and_value(cvk_semaphore** sem, uint64_t* value,
++    cl_int get_next_semaphore_and_value(cvk_semaphore** sem, uint64_t* value,
 +                                      cl_command_type type);
 +
  private:
@@ -714,49 +711,35 @@ index 4231aa2..bdd8376 100644
      std::unique_ptr<cvk_command_buffer> m_command_buffer;
      cl_ulong m_sync_dev, m_sync_host;
 diff --git a/clvk/src/semaphore.cpp b/clvk/src/semaphore.cpp
-new file mode 100644
-index 0000000..a331ab1
---- /dev/null
+index 684e412..a845a1c 100644
+--- a/clvk/src/semaphore.cpp
 +++ b/clvk/src/semaphore.cpp
-@@ -0,0 +1,127 @@
-+// Copyright 2022 The clvk authors.
-+//
-+// Licensed under the Apache License, Version 2.0 (the "License");
-+// you may not use this file except in compliance with the License.
-+// You may obtain a copy of the License at
-+//
-+//     http://www.apache.org/licenses/LICENSE-2.0
-+//
-+// Unless required by applicable law or agreed to in writing, software
-+// distributed under the License is distributed on an "AS IS" BASIS,
-+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+// See the License for the specific language governing permissions and
-+// limitations under the License.
-+
-+#include "semaphore.hpp"
-+#include "queue.hpp"
+@@ -13,13 +13,20 @@
+ // limitations under the License.
+ 
+ #include "semaphore.hpp"
 +#include "tracing.hpp"
-+
-+cvk_semaphore::cvk_semaphore(cvk_command_queue* queue)
-+    : m_queue((uintptr_t)queue), m_device(queue->device()), m_next_value(0),
-+      m_current_value(0) {
-+
+ 
+ cl_int cvk_semaphore::init() {
+ 
+     auto vkdev = m_context->device()->vulkan_device();
+ 
 +    VkSemaphoreTypeCreateInfo timelineCreateInfo;
 +    timelineCreateInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO;
 +    timelineCreateInfo.pNext = NULL;
 +    timelineCreateInfo.semaphoreType = VK_SEMAPHORE_TYPE_TIMELINE;
 +    timelineCreateInfo.initialValue = m_next_value;
 +
-+    VkSemaphoreCreateInfo createInfo;
-+    createInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-+    createInfo.pNext = &timelineCreateInfo;
-+    createInfo.flags = 0;
-+
-+    vkCreateSemaphore(m_device->vulkan_device(), &createInfo, NULL, &m_sem);
-+}
-+cvk_semaphore::~cvk_semaphore() {
-+    vkDestroySemaphore(m_device->vulkan_device(), m_sem, NULL);
-+}
+     VkSemaphoreCreateInfo info = {
+-        VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO, nullptr,
++        VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO, &timelineCreateInfo,
+         0 // flags
+     };
+ 
+@@ -30,3 +37,93 @@ cl_int cvk_semaphore::init() {
+ 
+     return CL_SUCCESS;
+ }
 +
 +void cvk_semaphore::notify(uint64_t value) {
 +    std::unique_lock<std::mutex> lock(m_lock);
@@ -767,9 +750,10 @@ index 0000000..a331ab1
 +    VkSemaphoreSignalInfo signalInfo;
 +    signalInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_SIGNAL_INFO;
 +    signalInfo.pNext = NULL;
-+    signalInfo.semaphore = m_sem;
++    signalInfo.semaphore = m_semaphore;
 +    signalInfo.value = value;
-+    VkResult res = vkSignalSemaphore(m_device->vulkan_device(), &signalInfo);
++    VkResult res =
++        vkSignalSemaphore(m_context->device()->vulkan_device(), &signalInfo);
 +    if (res != VK_SUCCESS) {
 +        cvk_error("vkSignalSemaphore failed (%d %s)", res,
 +                  vulkan_error_string(res));
@@ -789,13 +773,13 @@ index 0000000..a331ab1
 +        waitInfo.pNext = NULL;
 +        waitInfo.flags = 0;
 +        waitInfo.semaphoreCount = 1;
-+        waitInfo.pSemaphores = &m_sem;
++        waitInfo.pSemaphores = &m_semaphore;
 +        waitInfo.pValues = &value;
 +
-+        TRACE_BEGIN("vkWaitSemaphore", "queue", m_queue);
++        TRACE_BEGIN("vkWaitSemaphore");
 +        m_lock.unlock();
-+        res =
-+            vkWaitSemaphores(m_device->vulkan_device(), &waitInfo, 1000000);
++        res = vkWaitSemaphores(m_context->device()->vulkan_device(), &waitInfo,
++                               1000000);
 +        m_lock.lock();
 +        TRACE_END();
 +
@@ -811,10 +795,10 @@ index 0000000..a331ab1
 +
 +bool cvk_semaphore::poll(uint64_t value) {
 +    uint64_t counter_value;
-+    TRACE_BEGIN("vkPollSemaphore", "queue", m_queue);
++    TRACE_BEGIN("vkPollSemaphore");
 +    do {
-+        VkResult res = vkGetSemaphoreCounterValue(m_device->vulkan_device(),
-+                                                  m_sem, &counter_value);
++        VkResult res = vkGetSemaphoreCounterValue(
++            m_context->device()->vulkan_device(), m_semaphore, &counter_value);
 +        if (res != VK_SUCCESS) {
 +            cvk_error("vkGetSemaphoreCounterValue failed (%d %s)", res,
 +                      vulkan_error_string(res));
@@ -831,9 +815,9 @@ index 0000000..a331ab1
 +
 +bool cvk_semaphore::poll_once(uint64_t value) {
 +    uint64_t counter_value;
-+    TRACE_BEGIN("vkPollOnceSemaphore", "queue", m_queue);
-+    VkResult res = vkGetSemaphoreCounterValue(m_device->vulkan_device(), m_sem,
-+                                              &counter_value);
++    TRACE_BEGIN("vkPollOnceSemaphore");
++    VkResult res = vkGetSemaphoreCounterValue(
++        m_context->device()->vulkan_device(), m_semaphore, &counter_value);
 +    if (res != VK_SUCCESS) {
 +        cvk_error("vkGetSemaphoreCounterValue failed (%d %s)", res,
 +                  vulkan_error_string(res));
@@ -847,54 +831,44 @@ index 0000000..a331ab1
 +    return m_current_value >= value;
 +}
 diff --git a/clvk/src/semaphore.hpp b/clvk/src/semaphore.hpp
-new file mode 100644
-index 0000000..350f422
---- /dev/null
+index 31d055a..d3bf48e 100644
+--- a/clvk/src/semaphore.hpp
 +++ b/clvk/src/semaphore.hpp
-@@ -0,0 +1,43 @@
-+// Copyright 2022 The clvk authors.
-+//
-+// Licensed under the Apache License, Version 2.0 (the "License");
-+// you may not use this file except in compliance with the License.
-+// You may obtain a copy of the License at
-+//
-+//     http://www.apache.org/licenses/LICENSE-2.0
-+//
-+// Unless required by applicable law or agreed to in writing, software
-+// distributed under the License is distributed on an "AS IS" BASIS,
-+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+// See the License for the specific language governing permissions and
-+// limitations under the License.
-+
-+#pragma once
-+
-+#include "utils.hpp"
-+#include "device.hpp"
-+
-+struct cvk_command_queue;
-+
-+struct cvk_semaphore : public refcounted {
-+    cvk_semaphore(cvk_command_queue* queue);
-+    ~cvk_semaphore();
-+
+@@ -28,7 +28,8 @@ struct cvk_semaphore : public _cl_semaphore_khr,
+                   std::vector<cl_device_id>&& devices,
+                   std::vector<cl_semaphore_properties_khr>&& properties)
+         : api_object(context), m_type(type), m_devices(std::move(devices)),
+-          m_properties(std::move(properties)), m_semaphore(VK_NULL_HANDLE) {}
++          m_properties(std::move(properties)), m_semaphore(VK_NULL_HANDLE),
++          m_next_value(0), m_current_value(0) {}
+ 
+     CHECK_RETURN cl_int init();
+ 
+@@ -63,11 +64,24 @@ struct cvk_semaphore : public _cl_semaphore_khr,
+         return 0; // TODO return 1 when signaled
+     }
+ 
 +    CHECK_RETURN bool poll_once(uint64_t value);
 +    CHECK_RETURN bool poll(uint64_t value);
 +    CHECK_RETURN bool wait(uint64_t value);
 +    void notify(uint64_t value);
 +
-+    VkSemaphore get_vk_semaphore() { return m_sem; }
++    VkSemaphore get_vk_semaphore() { return m_semaphore; }
 +    uint64_t get_next_value() { return ++m_next_value; }
 +
-+private:
-+    uintptr_t m_queue;
-+    cvk_device* m_device;
-+    VkSemaphore m_sem;
+ private:
+     cl_semaphore_type_khr m_type;
+     std::vector<cl_device_id> m_devices;
+     std::vector<cl_semaphore_properties_khr> m_properties;
+     VkSemaphore m_semaphore;
++
 +    uint64_t m_next_value;
 +    uint64_t m_current_value;
 +
 +    std::mutex m_lock;
-+};
-+
+ };
+ 
+ static inline cvk_semaphore* icd_downcast(cl_semaphore_khr sem) {
 diff --git a/clvk/src/vkutils.hpp b/clvk/src/vkutils.hpp
 index b26a5bd..6ca89e5 100644
 --- a/clvk/src/vkutils.hpp

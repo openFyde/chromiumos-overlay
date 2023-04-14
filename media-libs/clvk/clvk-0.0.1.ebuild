@@ -6,13 +6,13 @@ EAPI=7
 
 if [[ ${PV} != "9999" ]]; then
 	CROS_WORKON_COMMIT=(
-		"e2f23619cae2f8959ab56dda946fbf12396d9b95"
-		"59fed7291ba76add00e204a097caa9eab63377a3"
+		"e607daf3f868ad84c789d6e072e08373c1af208a"
+		"9166d32256ea0cd79054c6e3f2c12bd6a961555b"
 	)
 
 	CROS_WORKON_TREE=(
-		"e2f23619cae2f8959ab56dda946fbf12396d9b95"
-		"59fed7291ba76add00e204a097caa9eab63377a3"
+		"e607daf3f868ad84c789d6e072e08373c1af208a"
+		"9166d32256ea0cd79054c6e3f2c12bd6a961555b"
 	)
 fi
 
@@ -71,11 +71,11 @@ IUSE="debug +perfetto"
 # target build dependencies
 DEPEND="
 	>=dev-util/vulkan-headers-1.3.239
-	>=dev-util/opencl-headers-2021.04.29
+	>=dev-util/opencl-headers-2023.02.06
 	>=dev-util/spirv-tools-1.3.239
 	>=dev-util/spirv-headers-1.3.239-r1
 	>=chromeos-base/perfetto-31.0
-	>=media-libs/vulkan-loader-1.3.211
+	>=media-libs/vulkan-loader-1.3.239
 "
 
 # target runtime dependencies
@@ -95,7 +95,7 @@ if [[ ${PV} != "9999" ]]; then
 	# TODO(b/241788717) : To be remove once we have a proper implementation for it in clvk
 	PATCHES+=("${FILESDIR}/clvk-01-sampledbuffer.patch")
 
-	PATCHES+=("${FILESDIR}/clvk-02-enable-opaque-pointers.patch")
+	PATCHES+=("${FILESDIR}/clvk-02-spirv-headers.patch")
 
 	# TODO(b/259217927) : To be remove as soon as they are merged upstream
 	PATCHES+=("${FILESDIR}/clvk-10-main-thread-exec.patch")
