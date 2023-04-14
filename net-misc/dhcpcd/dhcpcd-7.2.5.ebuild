@@ -52,6 +52,7 @@ src_prepare()
 	eapply "${FILESDIR}"/patches/${P}-Drop-ARP-on-DHCP-drop.patch
 	eapply "${FILESDIR}"/patches/${P}-Implement-IPv6-Only-Preferred-option-RFC-8925.patch
 	eapply "${FILESDIR}"/patches/${P}-Notify-dbus-upon-receiving-RFC8925-option-108.patch
+	eapply "${FILESDIR}"/patches/${P}-Protect-against-crash-in-get_lease.patch
 
 	default
 }
