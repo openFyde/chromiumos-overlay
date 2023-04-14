@@ -1928,6 +1928,20 @@
     "rel_patch_path": "llvm-11.0-invocation.patch",
     "version_range": {
       "from": 420001,
+      "until": 489485
+    }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Fixes clang.elf calling clang.elf because direct\ncalls to clang.elf misses all environment setup in clang\nwrapper. Calls to clang wrapper instead of clang.elf binary"
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "llvm-17.0-invocation.patch",
+    "version_range": {
+      "from": 489485,
       "until": null
     }
   },
@@ -3679,7 +3693,7 @@
     "rel_patch_path": "cmake/llvm-90dcdc4b6e7d-allow_custom_cmake_build_types.patch",
     "version_range": {
       "from": 471474,
-      "until": null
+      "until": 491678
     }
   },
   {
