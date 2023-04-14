@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("75c6500b8dabe5344ac0255cb3d33182b4fd161f" "1c8aaaaf15c957a5ec44b42ec9a6164dea6e66f0")
-CROS_WORKON_TREE=("60ec9daa155796c8dd823794195bc6e2601bce5f" "8fad85aa9518e1a0f04272ae9e077c4a4036297d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT=("73a3aa98dc279a67a513bfd62aadad0872f715ad" "0aca4a085543806aa2be6bc603abc4cd9dffba65")
+CROS_WORKON_TREE=("953a79a2c0f0be892b1dbbbec388950d00183eb8" "9af4067326e0bd0aaade6270a9312a91ca2642ed" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_GO_PACKAGES=(
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/metrics/github.com/google/perfetto/perfetto_proto"
 	"android.googlesource.com/platform/external/perfetto/protos/perfetto/trace/github.com/google/perfetto/perfetto_proto"
@@ -12,6 +12,9 @@ CROS_GO_PACKAGES=(
 
 inherit cros-constants
 
+# This ebuild is upreved via PUpr, so disable the normal uprev process for
+# cros-workon ebuilds.
+CROS_WORKON_MANUAL_UPREV=1
 CROS_WORKON_LOCALNAME=("../aosp/external/perfetto" "../platform2")
 CROS_WORKON_PROJECT=("platform/external/perfetto" "chromiumos/platform2")
 CROS_WORKON_REPO=("${CROS_GIT_AOSP_URL}" "${CROS_GIT_HOST_URL}")
