@@ -10,7 +10,7 @@ inherit cros-go cros-workon
 CROS_GO_VERSION="${PF}"
 
 CROS_GO_PACKAGES=(
-	"chromiumos/tast/framework/protocol/..."
+	"go.chromium.org/tast/core/framework/protocol/..."
 )
 
 CROS_GO_TEST=(
