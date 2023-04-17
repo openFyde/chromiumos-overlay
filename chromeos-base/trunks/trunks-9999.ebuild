@@ -24,7 +24,6 @@ IUSE="
 	fuzzer
 	ftdi_tpm
 	generic_tpm2
-	hibernate
 	pinweaver_csme
 	profiling
 	test
@@ -78,14 +77,6 @@ src_install() {
 		sed -i '/env TPM_DYNAMIC=/s:=.*:=true:' \
 			"${D}/etc/init/trunksd.conf" ||
 			die "Can't activate tpm_dynamic in trunksd.conf"
-	fi
-
-	if use hibernate; then
-		# Replace the start on line with waiting on hiberman to either
-		# signal all clear or exit (eg crash).
-		sed -i 's/^start on .*/start on hibernate-tpm-done or stopped hiberman/' \
-			"${D}/etc/init/trunksd.conf" ||
-			die "Can't depend on hibernate in trunksd.conf"
 	fi
 
 	if use pinweaver_csme && use generic_tpm2; then
