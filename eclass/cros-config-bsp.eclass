@@ -153,4 +153,5 @@ cros-config-bsp_src_install() {
 	unibuild_install_files thermal-files "${WORKDIR}/project-config.json"
 	unibuild_install_touch_files "${WORKDIR}/project-config.json"
 	unibuild_install_files intel-wifi-sar-files "${WORKDIR}/project-config.json"
+	unibuild_install_files proximity-sensor-files "${WORKDIR}/project-config.json"
 }
