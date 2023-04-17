@@ -92,7 +92,7 @@ index 8d60b0a..56abf20 100644
  
  NIH_END_EXTERN
 diff --git a/src/ureadahead.c b/src/ureadahead.c
-index b91aefe..4fa2473 100644
+index b91aefe..1fdd169 100644
 --- a/src/ureadahead.c
 +++ b/src/ureadahead.c
 @@ -111,12 +111,14 @@ static char *pack_file = NULL;
@@ -114,15 +114,7 @@ index b91aefe..4fa2473 100644
  
  /**
   * force_ssd_mode:
-@@ -208,6 +210,7 @@ sort_option (NihOption  *option,
-  * options:
-  *
-  * Command-line options accepted by this tool.
-+ * TODO(b/274173707): Remove --no-debug-tracing option once ARCVM migrates.
-  **/
- static NihOption options[] = {
- 	{ 0, "daemon", N_("detach and run in the background"),
-@@ -218,7 +221,7 @@ static NihOption options[] = {
+@@ -218,7 +220,7 @@ static NihOption options[] = {
  	  NULL, "SECONDS", &timeout, nih_option_int },
  	{ 0, "dump", N_("dump the current pack file"),
  	  NULL, NULL, &dump_pack, NULL },
@@ -131,19 +123,18 @@ index b91aefe..4fa2473 100644
  	  NULL, "SORT", &sort_pack, sort_option },
  	{ 0, "path-prefix", N_("pathname to prepend for files on the device"),
  	  NULL, "PREFIX", &path_prefix, path_prefix_option },
-@@ -227,8 +230,10 @@ static NihOption options[] = {
+@@ -227,8 +229,8 @@ static NihOption options[] = {
  	  NULL, "PREFIX_FILTER", &path_prefix_filter, dup_string_handler },
  	{ 0, "pack-file", N_("Path of the pack file to use"),
  	  NULL, "PACK_FILE", &pack_file, dup_string_handler },
-+	{ 0, "use-existing-trace-events", N_("do not enable or disable trace events"),
-+	  NULL, NULL, &use_existing_trace_events, NULL },
- 	{ 0, "no-debug-tracing", N_("do not enable debug tracing events"),
+-	{ 0, "no-debug-tracing", N_("do not enable debug tracing events"),
 -	  NULL, NULL, &no_debug_tracing, NULL },
++	{ 0, "use-existing-trace-events", N_("do not enable or disable trace events"),
 +	  NULL, NULL, &use_existing_trace_events, NULL },
  	{ 0, "force-ssd-mode", N_("force ssd setting in pack file during tracing"),
  	  NULL, NULL, &force_ssd_mode, NULL },
  
-@@ -321,7 +326,7 @@ main (int   argc,
+@@ -321,7 +323,7 @@ main (int   argc,
  
  	/* Trace to generate new pack files */
  	if (trace (daemonise, timeout, filename, pack_file,
