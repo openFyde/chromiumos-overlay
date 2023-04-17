@@ -631,3 +631,8 @@ RDEPEND+=" x11-base/xcb-proto"
 
 # Needed for dev-libs/boost.
 RDEPEND+=" dev-util/b2"
+
+# Needed for chromite telemetry
+RDEPEND+="
+	dev-python/opentelemetry-api
+	dev-python/opentelemetry-sdk"
