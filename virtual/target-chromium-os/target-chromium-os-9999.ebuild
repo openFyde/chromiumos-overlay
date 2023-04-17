@@ -405,6 +405,9 @@ RDEPEND="
 		chromeos-base/vm_host_tools
 		chromeos-base/termina-dlc
 		chromeos-base/termina-tools-dlc
+		amd64? (
+			chromeos-base/edk2-ovmf-dlc
+		)
 	)
 	sys-kernel/linux-firmware
 	virtual/chromeos-bsp
