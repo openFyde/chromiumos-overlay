@@ -46,6 +46,7 @@ src_install() {
 
 	insinto /usr/include/trunks/cr50_headers/
 	doins "${dir_cr50}"/include/u2f.h
+	doins "${dir_cr50}"/include/ap_ro_status.h
 	doins "${dir_cr50}"/board/cr50/tpm2/virtual_nvmem.h
 	insinto /usr/include/chromeos/ec/
 	doins "${dir_ec}"/include/ec_commands.h
