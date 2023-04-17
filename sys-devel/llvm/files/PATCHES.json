@@ -4544,5 +4544,19 @@
       "from": 484197,
       "until": 495641
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Revert \"[VPlan] Switch to checking sinking legality for recurrences in VPlan.\""
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/3d8ed8b5192a59104bfbd5bf7ac84d035ee0a4a5.patch",
+    "version_range": {
+      "from": 495681,
+      "until": 496062
+    }
   }
 ]
