@@ -13,16 +13,19 @@ CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
 	"external/gitlab.com/libeigen/eigen"
+	"external/gob/boringssl/boringssl"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/ec"
 	"third_party/cryptoc"
 	"third_party/eigen3"
+	"third_party/boringssl"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/third_party/cryptoc"
 	"${S}/third_party/eigen3"
+	"${S}/third_party/boringssl"
 )
 
 inherit coreboot-sdk cros-ec cros-workon cros-sanitizers
