@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="04a32bb7679c756da6530cd54f661cf7f231c58b"
-CROS_WORKON_TREE=("6350979dbc8b7aa70c83ad8a03dded778848025d" "e209d50170b271ed0094b23107aedfb313c9cfc9" "9ba045590a286ea0a402f35c72f261c4892e4a07" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="13bd521b1f2c37357ab3a77464ba672d28ccc9ac"
+CROS_WORKON_TREE=("6350979dbc8b7aa70c83ad8a03dded778848025d" "e209d50170b271ed0094b23107aedfb313c9cfc9" "9ba045590a286ea0a402f35c72f261c4892e4a07" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "530aad55e0d4e774c14ac82608f49886f5de773e")
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 # TODO(amoylan): Set CROS_WORKON_OUTOFTREE_BUILD=1 after crbug.com/833675.
 CROS_WORKON_DESTDIR="${S}/platform2"
-CROS_WORKON_SUBTREE="common-mk ml ml_benchmark .gn"
+CROS_WORKON_SUBTREE="common-mk ml ml_benchmark .gn ml_core ml_core/mojo"
 
 PLATFORM_SUBDIR="ml"
 
@@ -92,6 +92,7 @@ RDEPEND="
 	>=dev-libs/libtextclassifier-0.0.1-r79:=
 	sci-libs/tensorflow:=
 	internal? ( ondevice_image_content_annotation? ( dev-libs/libica:= ) )
+	dev-libs/ml-core:=
 "
 
 DEPEND="
