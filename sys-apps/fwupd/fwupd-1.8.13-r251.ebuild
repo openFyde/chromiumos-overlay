@@ -219,6 +219,10 @@ src_install() {
 	exeinto /usr/share/cros/init
 	doexe "${FILESDIR}"/fwupd-at-boot.sh
 
+	# Install rsyslog config.
+	insinto /etc/rsyslog.d
+	doins "${FILESDIR}"/rsyslog.fwupd.conf
+
 	if ! use minimal ; then
 		if ! use systemd ; then
 			# Don't timeout when fwupd is running (#673140)
