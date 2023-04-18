@@ -71,6 +71,7 @@ IUSE="
 	+orderfile_use
 	orderfile_verify
 	protected_av1
+	+runhooks
 	strict_toolchain_checks
 	subpixel_rendering
 	+thinlto
@@ -888,12 +889,16 @@ src_configure() {
 
 	export DEPOT_TOOLS_GSUTIL_BIN_DIR="${CHROME_CACHE_DIR}/gsutil_bin"
 
-	local cmd=( "${EGCLIENT}" runhooks --force )
-	echo "${cmd[@]}"
-	CFLAGS="${CFLAGS} ${EBUILD_CFLAGS[*]}" \
-	CXXFLAGS="${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}" \
-	LDFLAGS="${LDFLAGS} ${EBUILD_LDFLAGS[*]}" \
-	"${cmd[@]}" || die
+	# TODO(rcui): crosbug.com/20435. Investigate removal of runhooks
+	# useflag when chrome build switches to Ninja inside the chroot.
+	if use runhooks; then
+		local cmd=( "${EGCLIENT}" runhooks --force )
+		echo "${cmd[@]}"
+		CFLAGS="${CFLAGS} ${EBUILD_CFLAGS[*]}" \
+		CXXFLAGS="${CXXFLAGS} ${EBUILD_CXXFLAGS[*]}" \
+		LDFLAGS="${LDFLAGS} ${EBUILD_LDFLAGS[*]}" \
+		"${cmd[@]}" || die
+	fi
 
 	BUILD_STRING_ARGS+=(
 		"cros_target_ar=${AR}"
