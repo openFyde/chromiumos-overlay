@@ -57,7 +57,8 @@ REQUIRED_USE="^^ ( ${PLATFORM_NAME_USE_FLAGS[*]} )"
 
 RDEPEND="
 	dev-util/cmocka
-	chromeos-base/minijail:="
+	!unibuild? ( chromeos-base/minijail:= )
+"
 DEPEND="${RDEPEND}"
 
 src_unpack() {
@@ -112,7 +113,8 @@ platform_pkg_test() {
 src_install() {
 	dosbin "${BUILD_DIR}/mains/mosys"
 
-	insinto /usr/share/policy
-	newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
-	dodoc README
+	if ! use unibuild; then
+		insinto /usr/share/policy
+		newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
+	fi
 }
