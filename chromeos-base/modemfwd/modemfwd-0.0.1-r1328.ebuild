@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="8753db580474608c9a317d2089ef38658e0ee7f3"
-CROS_WORKON_TREE=("6350979dbc8b7aa70c83ad8a03dded778848025d" "f9559bb24ca0c0f08cfd600f978e909fd34f8d4e" "a2002e5b021a481c966a494642397c400fe65c93" "561bcc05765480e8dc10a5a0a3a5e061b24bd83d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="82313d97f9ce8208babe02d19d757ddb70728b0e"
+CROS_WORKON_TREE=("6350979dbc8b7aa70c83ad8a03dded778848025d" "f9559bb24ca0c0f08cfd600f978e909fd34f8d4e" "a2002e5b021a481c966a494642397c400fe65c93" "c02753f02828f41722716be374b8c62a0e74e9b2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -49,6 +49,9 @@ src_install() {
 	local fuzzer_component_id="167157"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/firmware_manifest_v2_fuzzer \
 		--comp "${fuzzer_component_id}"
+
+	insinto /usr/share/policy
+	newins "seccomp/modemfwd-mbimcli-seccomp-${ARCH}.policy" modemfwd-mbimcli-seccomp.policy
 }
 
 platform_pkg_test() {
