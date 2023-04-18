@@ -4558,5 +4558,33 @@
       "from": 495681,
       "until": 496062
     }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Do not move \"auto-init\" instruction if they're volatile"
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/ad9ad3735c4821ff4651fab7537a75b8f0bb60f8.patch",
+    "version_range": {
+      "from": 494586,
+      "until": 494685
+    }
+  },
+  {
+    "metadata": {
+      "info": [],
+      "title": "Revert \"Move \"auto-init\" instructions to the dominator of their users\""
+    },
+    "platforms": [
+      "chromiumos"
+    ],
+    "rel_patch_path": "cherry/a6d9730f403afa8b591f278101996ecca9ad2dd2.patch",
+    "version_range": {
+      "from": 494586,
+      "until": 495448
+    }
   }
 ]
