@@ -296,7 +296,7 @@ multilib_src_install_all() {
 	fi
 
 	# Install permission file to declare opengles aep support.
-	if use android_aep; then
+	if use android_aep || use angle; then
 		einfo "Using android aep."
 		insinto "${ARC_VM_PREFIX}/vendor/etc/permissions"
 		doins "${FILESDIR}/android.hardware.opengles.aep.xml"
