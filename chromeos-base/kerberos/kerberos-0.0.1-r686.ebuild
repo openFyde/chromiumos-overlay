@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="2141e2530f682948bec0e8a6276eb48ef23048ac"
+CROS_WORKON_COMMIT="f181ea707a73f23209c46bcd884cdba303cc1dac"
 CROS_WORKON_TREE=("6350979dbc8b7aa70c83ad8a03dded778848025d" "29b4512565d3934351b4b9f52ef2c43c9f877471" "083569b82e5bcbfefd8700a2cd52ea619e712f7a" "71b6668ea23fdcf5ce2c3889e3a3cc703e8cd6df" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-# TODO(crbug.com/809389): Avoid directly including headers from other packages.
+# TODO(b/187784160): Avoid directly including headers from other packages.
 CROS_WORKON_SUBTREE="common-mk kerberos libpasswordprovider metrics .gn"
 
 PLATFORM_SUBDIR="kerberos"
