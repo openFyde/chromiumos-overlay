@@ -6,11 +6,11 @@ CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="platform/tast"
 
 CROS_GO_BINARIES=(
-	"chromiumos/tast/cmd/local_test_runner"
+	"go.chromium.org/tast/core/cmd/local_test_runner"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/tast/cmd/local_test_runner/..."
+	"go.chromium.org/tast/core/cmd/local_test_runner/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
