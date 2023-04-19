@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="de58051cd90482bf1df31846687f496df0c7436e"
+CROS_WORKON_COMMIT="3a8bad7d5ae3082031e6a20859cd37085d907336"
 CROS_WORKON_TREE=("6350979dbc8b7aa70c83ad8a03dded778848025d" "c2ae901283e8bccc749553aaa986ddf56e1b4aa2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_LOCALNAME="../platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
@@ -23,7 +23,7 @@ KEYWORDS="*"
 # referenced in BUILD.gn
 IUSE="internal local_ml_core_internal camera_feature_effects"
 
-SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-headers-20230327.tar.xz"
+SRC_URI="gs://chromeos-localmirror/distfiles/ml-core-headers-20230419.tar.xz"
 
 RDEPEND="
 	chromeos-base/dlcservice-client:=
