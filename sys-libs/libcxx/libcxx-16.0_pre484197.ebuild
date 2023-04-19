@@ -254,5 +254,11 @@ multilib_src_install() {
 multilib_src_install_all() {
 	if [[ ${CATEGORY} == cross-* ]]; then
 		rm -r "${ED}/usr/share/doc"
+		if is_baremetal_abi; then
+			# Override libc++ abort to do nothing for baremetal as it increases
+			# flash size (b/277967012).
+			sed -i '/#define\ _LIBCPP___CONFIG_SITE/a #define\ _LIBCPP_VERBOSE_ABORT\(\.\.\.\)' \
+				"${ED}/${PREFIX}/include/c++/v1/__config_site" || die
+		fi
 	fi
 }
