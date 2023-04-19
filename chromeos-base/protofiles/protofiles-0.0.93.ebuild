@@ -58,13 +58,13 @@ CROS_WORKON_MANUAL_UPREV=1
 # - Bump the DEPEND version number for protofiles in all ebuilds for
 #   packages that rely on the new policies.
 CROS_WORKON_COMMIT=(
-	"3a71ad32e3aaac385430c4058f2b600b26e03c08" # policy
+	"29b1258a9346476297a243f765d78937c28c893e" # policy
 	"ac0d8f7d4f21a0e56c76feef0eeb4360b52a0b54" # private_membership
 	"5b67b0d68d1e343bb9c9065f8464ad5abfac7972" # shell-encryption
 )
 # git rev-parse $HASH:./
 CROS_WORKON_TREE=(
-	"c1dd4972e12ddbc55dbcd3943e8a6c4fdb4432be" # policy
+	"0483335931ce172673dee4025229662ebed1de0c" # policy
 	"cd5e79a48988a577fb7ae769f3f46ec0bc53babd" # private_membership
 	"2f51c91330d3725cb19001e73a1bd4c378a8f3b7" # shell-encryption
 )
