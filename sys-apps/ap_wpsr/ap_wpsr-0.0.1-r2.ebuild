@@ -3,8 +3,8 @@
 # $Header:
 
 EAPI=7
-CROS_WORKON_COMMIT="ef9bc26d70b829a528dced13acba8097b59e7a96"
-CROS_WORKON_TREE="57cd15cc8f184ab52d5777b2481683dbabc4ee24"
+CROS_WORKON_COMMIT="4da2c21328c6513a2c96f2901cb48c2c6033a1e4"
+CROS_WORKON_TREE="edd9eafea016f31fa6d587ce1239969556e6a8ba"
 CROS_WORKON_PROJECT="chromiumos/third_party/ap_wpsr"
 
 inherit cros-workon toolchain-funcs meson cros-sanitizers
