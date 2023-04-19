@@ -57,6 +57,7 @@ DEPEND="
 	dev-go/genproto
 	dev-go/luci-go-cipd
 	dev-go/mock
+	dev-go/opencensus
 	dev-go/protobuf
 	dev-go/protobuf-legacy-api
 	chromeos-base/cros-config-api
