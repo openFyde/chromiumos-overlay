@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("05ab294b418ff95d6328e9f63cb8857cbabb9ff4" "025fc00246e4acf3a6f48c5255b7ba5fc96bdae3")
-CROS_WORKON_TREE=("b22d37072ba4d5aec5ad10140a826f42281ddd3e" "2d954e923b5d7c6622300028f84a5b77760bee7a")
+CROS_WORKON_COMMIT=("91d241463abd921f2b14df2e12e5c9042fdbb5ea" "9b67474779be950433774d573b6cbe40c637878e")
+CROS_WORKON_TREE=("b22d37072ba4d5aec5ad10140a826f42281ddd3e" "a13f5bbedd4fab9597e94d9a5e93585349e4eb83")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform2"
 	"chromiumos/platform/mosys"
@@ -59,7 +59,8 @@ REQUIRED_USE="^^ ( ${PLATFORM_NAME_USE_FLAGS[*]} )"
 
 RDEPEND="
 	dev-util/cmocka
-	chromeos-base/minijail:="
+	!unibuild? ( chromeos-base/minijail:= )
+"
 DEPEND="${RDEPEND}"
 
 src_unpack() {
@@ -114,7 +115,8 @@ platform_pkg_test() {
 src_install() {
 	dosbin "${BUILD_DIR}/mains/mosys"
 
-	insinto /usr/share/policy
-	newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
-	dodoc README
+	if ! use unibuild; then
+		insinto /usr/share/policy
+		newins "seccomp/mosys-seccomp-${ARCH}.policy" mosys-seccomp.policy
+	fi
 }
