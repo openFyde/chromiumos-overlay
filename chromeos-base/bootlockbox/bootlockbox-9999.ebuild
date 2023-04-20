@@ -7,7 +7,7 @@ CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk bootlockbox libhwsec libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk bootlockbox libhwsec libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="bootlockbox"
 
@@ -26,6 +26,7 @@ RDEPEND="
 	!<chromeos-base/cryptohome-0.0.2
 	chromeos-base/bootlockbox-client:=
 	chromeos-base/libhwsec:=[test?]
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
