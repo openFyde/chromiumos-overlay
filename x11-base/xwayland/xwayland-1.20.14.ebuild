@@ -75,6 +75,11 @@ PATCHES=(
 	"${FILESDIR}"/0007-xkb-reset-the-radio_groups-pointer-to-NULL-after-fre.patch
 	# Fix for buggy patch to CVE-2022-46340
 	"${FILESDIR}"/0008-Xext-fix-invalid-event-type-mask-in-XTestSwapFakeInp.patch
+
+	# CVE-2023-1393
+	"${FILESDIR}"/0001-composite-Fix-use-after-free-of-the-COW.patch
+	# CVE-2023-0494
+	"${FILESDIR}"/0001-Xi-fix-potential-use-after-free-in-DeepCopyPointerCl.patch
 )
 
 src_prepare() {
