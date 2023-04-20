@@ -3,13 +3,13 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="b93371edd9eb56f35e314711c9c7c2fa4e5c7650"
-CROS_WORKON_TREE=("b22d37072ba4d5aec5ad10140a826f42281ddd3e" "c12bee47c4641d7ea542d527c69a3ae77489e5bc" "c0264ace18f901db759964a1f346331f593daaf7" "bdc2fe06e72f494e59d3000e9c660943df59f82c" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
+CROS_WORKON_COMMIT="5f4fee603c6528d6a0b4e4f3798049ccdd58caa9"
+CROS_WORKON_TREE=("b22d37072ba4d5aec5ad10140a826f42281ddd3e" "832b95fdd35ad449c0ffaa3030788240d99bfc22" "c0264ace18f901db759964a1f346331f593daaf7" "bdc2fe06e72f494e59d3000e9c660943df59f82c" "71b6668ea23fdcf5ce2c3889e3a3cc703e8cd6df" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_OUTOFTREE_BUILD=1
-CROS_WORKON_SUBTREE="common-mk bootlockbox libhwsec libhwsec-foundation .gn"
+CROS_WORKON_SUBTREE="common-mk bootlockbox libhwsec libhwsec-foundation metrics .gn"
 
 PLATFORM_SUBDIR="bootlockbox"
 
@@ -28,6 +28,7 @@ RDEPEND="
 	!<chromeos-base/cryptohome-0.0.2
 	chromeos-base/bootlockbox-client:=
 	chromeos-base/libhwsec:=[test?]
+	chromeos-base/metrics:=
 	chromeos-base/minijail:=
 	chromeos-base/system_api:=[fuzzer?]
 	>=chromeos-base/metrics-0.0.1-r3152:=
