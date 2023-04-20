@@ -4,11 +4,11 @@ DEPEND=dev-libs/protobuf:= chromeos-base/metrics:= chromeos-base/shill-net:= chr
 DESCRIPTION=Patchpanel network connectivity management daemon
 EAPI=7
 HOMEPAGE=https://chromium.googlesource.com/chromiumos/platform2/+/HEAD/patchpanel/
-IUSE=fuzzer arcvm cros_host cros_workon_tree_b22d37072ba4d5aec5ad10140a826f42281ddd3e_71b6668ea23fdcf5ce2c3889e3a3cc703e8cd6df_a8c45cd6ab7bca38759da1ad12bfd9b27101fb81_ee2eeefe5989cabc67a818840edb8169d64e5b3d_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
+IUSE=fuzzer arcvm cros_host cros_workon_tree_b22d37072ba4d5aec5ad10140a826f42281ddd3e_71b6668ea23fdcf5ce2c3889e3a3cc703e8cd6df_c9b952322f07993a14cb134bd0e542dc190fe8dd_ee2eeefe5989cabc67a818840edb8169d64e5b3d_f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6 cros-debug cros-debug fuzzer asan coverage fuzzer msan tsan ubsan cros-debug compdb_only compilation_database cros_host test
 KEYWORDS=*
 LICENSE=BSD-Google
 PROPERTIES=live
 RDEPEND=dev-libs/protobuf:= chromeos-base/metrics:= chromeos-base/shill-net:= chromeos-base/system_api:=[fuzzer?] chromeos-base/shill net-dns/dnsmasq net-firewall/conntrack-tools net-firewall/iptables net-misc/bridge-utils net-misc/radvd sys-apps/iproute2 >=chromeos-base/libchrome-0.0.1-r655:0=[cros-debug=] >=chromeos-base/libchrome-0.0.1-r655:0=[cros-debug=] >=chromeos-base/libbrillo-0.0.1-r2179:= sys-apps/baselayout
-SLOT=0/0.0.2-r781
+SLOT=0/0.0.2-r782
 _eclasses_=cros-constants	8cfa3f3127717bb5ada2312a7260d3ee	cros-credentials	ef8a3235b87d518a12e7677c66ff520e	cros-debug	d0e1d9e5135150f29e4a5131ceedfb74	cros-fuzzer	096b05318c521490cb43334560da8fb9	cros-sanitizers	02391973ba1e60a0fca5b96f94f4beff	cros-workon	c286b70ed045cd0c9488c299b7c0859d	eutils	fcb2aa98e1948b835b5ae66ca52868c5	flag-o-matic	b3ead43a6957a00bec2e415bd5c52d27	git-2	d6a1d7d3b4c4fff2fba86e3f53beeb0f	libchrome	5f988319be80adc37f7b0f2a24da74f9	libchrome-version	897f624ee0c7131d3e3b5fe7e0bdc5ab	multilib	2477ebe553d3e4d2c606191fe6c33602	multiprocessing	c3cf317581e5bd068a4b851f03dd8cba	platform	f156b63c6afb281c772a28e3f5d842b5	toolchain-funcs	528ab0a9e1ee02c57524ad3bede3c57e	user	4e2ffee100481639425c80355dd60c7b
-_md5_=3ae1f6df49455be7f5c061e2fc861b4d
+_md5_=460fb363012bec2f3d0c69923a633533
