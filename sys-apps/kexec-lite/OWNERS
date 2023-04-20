@@ -1,1 +1,1 @@
-include chromiumos/owners:v1:/kernel/OWNERS.build
+include chromiumos/platform2:/kexec-lite/OWNERS
