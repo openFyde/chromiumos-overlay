@@ -79,7 +79,9 @@ src_prepare() {
 }
 
 should_enable_asserts() {
-	if use debug || use llvm-tot; then
+	if is_baremetal_abi; then
+		echo no
+	elif use debug || use llvm-tot; then
 		echo yes
 	else
 		echo no
