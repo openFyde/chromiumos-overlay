@@ -54,6 +54,7 @@ DEPEND="
 	dev-go/go-matroska
 	dev-go/go-serial
 	dev-go/go-sys
+	dev-go/go-tpm
 	dev-go/go-webcam
 	dev-go/grpc
 	dev-go/mdns
