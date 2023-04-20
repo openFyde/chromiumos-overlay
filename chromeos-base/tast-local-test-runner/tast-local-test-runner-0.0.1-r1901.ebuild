@@ -2,17 +2,17 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="53c35edc5c5b5abd2e4d4d559ab6a5c50f5536ee"
-CROS_WORKON_TREE="dd8128d8f249d6b1524c88458b1972a747337c0e"
+CROS_WORKON_COMMIT="fd2ab962a85415d3d0602dad5622e3e06e765f12"
+CROS_WORKON_TREE="fb621e019cc0edd9a967dd3a242f2362aa088389"
 CROS_WORKON_PROJECT="chromiumos/platform/tast"
 CROS_WORKON_LOCALNAME="platform/tast"
 
 CROS_GO_BINARIES=(
-	"chromiumos/tast/cmd/local_test_runner"
+	"go.chromium.org/tast/core/cmd/local_test_runner"
 )
 
 CROS_GO_TEST=(
-	"chromiumos/tast/cmd/local_test_runner/..."
+	"go.chromium.org/tast/core/cmd/local_test_runner/..."
 )
 CROS_GO_VET=(
 	"${CROS_GO_TEST[@]}"
