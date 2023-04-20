@@ -24,11 +24,6 @@ IUSE="acl dbus debug kerberos pam
 	+seccomp selinux +ssl static-libs systemd test +threads upstart usb X xinetd zeroconf
 	asan fuzzer"
 
-LANGS="ca cs de es fr it ja ru"
-for X in ${LANGS} ; do
-	IUSE="${IUSE} +linguas_${X}"
-done
-
 CDEPEND="
 	app-text/libpaper
 	acl? (

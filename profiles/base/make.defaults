@@ -196,3 +196,7 @@ CROS_WORKON_TREE=""
 # We don't use the news feature anywhere.  Disable it to avoid useless runtime
 # overhead (especially with locking checks).
 FEATURES="-news"
+
+# Languages are handled by Chrome, and localization is not required
+# from individual packages.
+LINGUAS="en"
