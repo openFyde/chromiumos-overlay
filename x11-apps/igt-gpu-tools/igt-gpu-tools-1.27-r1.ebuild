@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CROS_WORKON_COMMIT="c0cc1de7b2f4041ca68960362aa55f881d416bac"
-CROS_WORKON_TREE="5b48be944232032307805f0adf09990455c81f51"
+CROS_WORKON_COMMIT="55fa959aad79b3771350a801c1c2dbd4e5034102"
+CROS_WORKON_TREE="ae16a0a46fd7faa1821b749c1134635649766efa"
 EGIT_REPO_URI="https://gitlab.freedesktop.org/drm/${PN}.git"
 GIT_ECLASS="git-r3"
 
@@ -20,7 +20,7 @@ KEYWORDS="*"
 SRC_URI=""
 LICENSE="MIT"
 SLOT="0"
-IUSE="+chamelium doc man overlay runner tests unwind valgrind video_cards_amdgpu video_cards_intel video_cards_nouveau video_cards_mediatek video_cards_msm X xv"
+IUSE="+chamelium -doc -man overlay runner -testplan tests unwind valgrind video_cards_amdgpu video_cards_intel video_cards_nouveau video_cards_mediatek video_cards_msm X xv"
 REQUIRED_USE="
 	|| ( video_cards_amdgpu video_cards_intel video_cards_nouveau video_cards_mediatek video_cards_msm )
 	overlay? (
@@ -94,6 +94,7 @@ src_configure() {
 		$(meson_feature man)
 		$(meson_feature overlay)
 		$(meson_feature runner)
+		$(meson_feature testplan)
 		$(meson_feature tests)
 		$(meson_feature valgrind)
 		$(meson_feature unwind libunwind)
