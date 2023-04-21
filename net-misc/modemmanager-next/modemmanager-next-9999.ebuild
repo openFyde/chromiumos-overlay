@@ -76,7 +76,6 @@ src_configure() {
 	local -x PKG_CONFIG_FDO_SYSROOT_RULES=1
 
 	sanitizers-setup-env
-	append-flags -Xclang-only=-Wno-unneeded-internal-declaration
 	# TODO(b/183029202): Remove this once we have support for IPv6 only network
 	append-flags -DSUPPORT_MBIM_IPV6_WITH_IPV4_ROAMING
 	append-flags -DMBIM_FIBOCOM_SAR_HACK
