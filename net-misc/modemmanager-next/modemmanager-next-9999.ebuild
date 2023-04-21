@@ -82,6 +82,8 @@ src_configure() {
 	append-flags -DMBIM_FIBOCOM_SAR_HACK
 
 	append-flags -DMM_DISABLE_DEPRECATED
+	append-flags -DQMI_DISABLE_DEPRECATED
+	append-flags -DMBIM_DISABLE_DEPRECATED
 
 	local plugins=(
 		-Dplugin_fibocom="enabled"
