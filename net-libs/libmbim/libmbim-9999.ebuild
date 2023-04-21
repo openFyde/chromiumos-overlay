@@ -24,7 +24,7 @@ DEPEND="${RDEPEND}
 src_configure() {
 	sanitizers-setup-env
 
-	append-flags -DMBIM_DISABLE_DEPRECATED
+	append-cppflags -DMBIM_DISABLE_DEPRECATED
 
 	local emesonargs=(
 		--prefix='/usr'
