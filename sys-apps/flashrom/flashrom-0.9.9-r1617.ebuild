@@ -122,7 +122,6 @@ src_configure() {
 	programmers=${programmers%,}
 
 	local emesonargs=(
-		-Ddefault_library="$(usex static static shared)"
 		-Ddefault_programmer_name=internal
 		-Dprogrammer="${programmers}"
 		$(meson_feature cli classic_cli)
