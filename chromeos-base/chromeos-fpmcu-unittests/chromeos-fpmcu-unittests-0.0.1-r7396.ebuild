@@ -9,22 +9,25 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT=("b5e2ea8b0dfa7a190783978153bcafb1ae87a3d0" "0dd679081b9c8bfa2583d74e3a17a413709ea362" "3564668908afc66351c1c3cc47dca2fcdb91dc12")
-CROS_WORKON_TREE=("fc686f17ba43c1cb4e48cb499dc19e011630adb3" "d99abee3f825248f344c0638d5f9fcdce114b744" "0797c8b1cea2a671b81642618c279994d2275cc6")
+CROS_WORKON_COMMIT=("f97df4fc01a01ee50dbceca3ee4066e121fbc60e" "0dd679081b9c8bfa2583d74e3a17a413709ea362" "3564668908afc66351c1c3cc47dca2fcdb91dc12" "e0d601a57fde7d67a1c771e7d87468faf1f8fe55")
+CROS_WORKON_TREE=("c5b71b406f14d9c69fb708d6d435e3eb3d726e30" "d99abee3f825248f344c0638d5f9fcdce114b744" "0797c8b1cea2a671b81642618c279994d2275cc6" "307ef78893e2eb0851e7d09bb2fd535748bbccf7")
 CROS_WORKON_PROJECT=(
 	"chromiumos/platform/ec"
 	"chromiumos/third_party/cryptoc"
 	"external/gitlab.com/libeigen/eigen"
+	"external/gob/boringssl/boringssl"
 )
 CROS_WORKON_LOCALNAME=(
 	"platform/ec"
 	"third_party/cryptoc"
 	"third_party/eigen3"
+	"third_party/boringssl"
 )
 CROS_WORKON_DESTDIR=(
 	"${S}/platform/ec"
 	"${S}/third_party/cryptoc"
 	"${S}/third_party/eigen3"
+	"${S}/third_party/boringssl"
 )
 
 inherit coreboot-sdk cros-ec cros-workon cros-sanitizers
