@@ -3,8 +3,8 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="635ba60101db69c49eee7ba1d90c812f2a7eb858"
-CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "6a208d3bace261bf98c78f08d147fe0e348a362d" "db263a10cec3fc724e82e1f6615e51abad77eae7" "964ef2d3cec6990d08322f30c3ba818723271eec" "56d11be3eee2e1ae4822f70f73b6e8cc7a4082c8" "0a20327640fb9dc6d822d2882ab3f9eb8a4aa94c" "a333187a3b8476f9b9c18aa8e98fb3ccf8826534" "a9a0ffa59bdd3d5f4dbcef883804d59c3b909b69" "42d4c946578d8a8457ffbcc4ce9125341f8f42f1" "c5a3f846afdfb5f37be5520c63a756807a6b31c4" "cc439eaa02b1a03ca68f9de6ecf4a4df82029bc6")
+CROS_WORKON_COMMIT="c96fb35743ca5bbc56bf8ba4fd3ac45658dff670"
+CROS_WORKON_TREE=("f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "6c6fe21162ea08ec90c2c7d7674913fa726d72af" "db263a10cec3fc724e82e1f6615e51abad77eae7" "964ef2d3cec6990d08322f30c3ba818723271eec" "56d11be3eee2e1ae4822f70f73b6e8cc7a4082c8" "0a20327640fb9dc6d822d2882ab3f9eb8a4aa94c" "faca440c92bce6b88fee8f8f27acd6cb706a676d" "a9a0ffa59bdd3d5f4dbcef883804d59c3b909b69" "42d4c946578d8a8457ffbcc4ce9125341f8f42f1" "c5a3f846afdfb5f37be5520c63a756807a6b31c4" "cc439eaa02b1a03ca68f9de6ecf4a4df82029bc6")
 CROS_WORKON_PROJECT="chromiumos/platform2"
 CROS_WORKON_LOCALNAME="platform2"
 # TODO(crbug.com/914263): camera/hal is unnecessary for this build but is
@@ -22,7 +22,7 @@ camera device. It uses unix domain socket to build a synchronous channel."
 
 LICENSE="BSD-Google"
 KEYWORDS="*"
-IUSE="cheets camera_feature_face_detection -libcamera"
+IUSE="cheets camera_feature_face_detection arcvm -libcamera"
 
 BDEPEND="virtual/pkgconfig"
 
