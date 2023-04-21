@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="cdf2b9b0f564ce4067edc298e12998715b4c0e17"
+CROS_WORKON_COMMIT="2babf67b71c9ff4d05a7701b13b64e2cc8f734cf"
 CROS_WORKON_TREE=("c5a3f846afdfb5f37be5520c63a756807a6b31c4" "2e9626fb905c5e175862574dfccb2ea3e7c6ddf5" "083569b82e5bcbfefd8700a2cd52ea619e712f7a" "71b6668ea23fdcf5ce2c3889e3a3cc703e8cd6df" "3402a6407dc61b80c7e1af82f3b870d7c609e0a2" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6" "66d9ece0c55ff21826b4962ffd402f0927467387")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_OUTOFTREE_BUILD=1
@@ -134,6 +134,7 @@ src_install() {
 		echo "sae_pwe=2" >> "${D}/${shims_dir}/wpa_supplicant.conf"
 	fi
 
+	dosym /run/shill/resolv.conf /etc/resolv.conf
 	insinto /etc/dbus-1/system.d
 	doins shims/org.chromium.flimflam.conf
 

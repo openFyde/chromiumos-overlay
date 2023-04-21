@@ -3,7 +3,7 @@
 
 EAPI=7
 
-CROS_WORKON_COMMIT="635ba60101db69c49eee7ba1d90c812f2a7eb858"
+CROS_WORKON_COMMIT="2babf67b71c9ff4d05a7701b13b64e2cc8f734cf"
 CROS_WORKON_TREE=("c5a3f846afdfb5f37be5520c63a756807a6b31c4" "cd3847e9811748c376351ef35f77c212012e2e94" "71b6668ea23fdcf5ce2c3889e3a3cc703e8cd6df" "f74f32e76e5f0463b8473657c06db9cbb493b16a" "ee2eeefe5989cabc67a818840edb8169d64e5b3d" "f91b6afd5f2ae04ee9a2c19109a3a4a36f7659e6")
 CROS_WORKON_INCREMENTAL_BUILD=1
 CROS_WORKON_LOCALNAME="platform2"
@@ -48,8 +48,6 @@ pkg_preinst() {
 
 src_install() {
 	platform_src_install
-
-	dosym /run/dns-proxy/resolv.conf /etc/resolv.conf
 
 	local fuzzer_component_id="156085"
 	platform_fuzzer_install "${S}"/OWNERS "${OUT}"/ares_client_fuzzer \
