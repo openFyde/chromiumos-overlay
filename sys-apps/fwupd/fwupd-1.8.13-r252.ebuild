@@ -17,6 +17,7 @@ HOMEPAGE="https://fwupd.org"
 LICENSE="LGPL-2.1+"
 SLOT="0"
 KEYWORDS="*"
+CONFIG_FILE="daemon.conf"
 
 if [[ ${PV} == "9998" ]] ; then
 	EGIT_REPO_URI="https://github.com/fwupd/fwupd"
@@ -25,6 +26,7 @@ if [[ ${PV} == "9998" ]] ; then
 	# shellcheck disable=SC5000 # This is only for the non-cros-workon 9998
 	# revision, not for a true cros-workon.
 	KEYWORDS="*"
+	CONFIG_FILE="fwupd.conf"
 fi
 
 IUSE="agent amt +archive bash-completion bluetooth cbor cfm dell +dummy elogind fastboot flashrom +gnutls gtk-doc +gusb +gpg gpio introspection logitech lzma minimal modemmanager nls nvme pkcs7 policykit spi +sqlite synaptics systemd test uefi"
@@ -192,7 +194,7 @@ src_install() {
 	local chronos_uid=$(egetent passwd chronos | cut -d: -f3)
 	local cros_healthd_uid=$(egetent passwd cros_healthd | cut -d: -f3)
 	local fwupd_uid=$(egetent passwd fwupd | cut -d: -f3)
-	sed "s/TrustedUids=/TrustedUids=${chronos_uid};${cros_healthd_uid};${fwupd_uid}/" -i "${ED}"/etc/${PN}/daemon.conf || die
+	sed "s/TrustedUids=/TrustedUids=${chronos_uid};${cros_healthd_uid};${fwupd_uid}/" -i "${ED}"/etc/${PN}/${CONFIG_FILE} || die
 
 	# Install udev rules to fix user permissions.
 	udev_dorules "${FILESDIR}"/90-fwupd.rules
@@ -227,11 +229,11 @@ src_install() {
 		if ! use systemd ; then
 			# Don't timeout when fwupd is running (#673140)
 			sed '/^IdleTimeout=/s@=[[:digit:]]\+@=0@' \
-				-i "${ED}"/etc/${PN}/daemon.conf || die
+				-i "${ED}"/etc/${PN}/${CONFIG_FILE} || die
 		fi
 	fi
 
 	if use cfm ; then
-		sed '/^OnlyTrusted=/s/true/false/' -i "${ED}"/etc/${PN}/daemon.conf || die
+		sed '/^OnlyTrusted=/s/true/false/' -i "${ED}"/etc/${PN}/${CONFIG_FILE} || die
 	fi
 }
