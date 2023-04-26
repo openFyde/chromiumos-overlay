@@ -43,6 +43,13 @@ DEPEND="${RDEPEND}
 
 PATCHES=(
 	"${FILESDIR}"/0001-vrend-disable-GL_EXT_external_object_fd-path-on-GLES.patch
+	"${FILESDIR}"/0002-UPSTREAM-renderer-Ensure-to-only-consider-a-certain-.patch
+	"${FILESDIR}"/0003-UPSTREAM-renderer-Unbind-the-sampler-state-from-the-.patch
+	"${FILESDIR}"/0004-UPSTREAM-p_state-Decrease-the-size-of-pipe_stream_ou.patch
+	"${FILESDIR}"/0005-UPSTREAM-shader-Use-strdup-in-rewrite_1d_image_coord.patch
+	"${FILESDIR}"/0006-UPSTREAM-decode-Use-size_t-when-dealing-with-memory-.patch
+	"${FILESDIR}"/0007-UPSTREAM-renderer-Make-abo-and-ssbo-take-a-strong-re.patch
+	"${FILESDIR}"/0008-UPSTREAM-renderer-Avoid-out-of-bound-access-when-rel.patch
 )
 
 src_prepare() {
