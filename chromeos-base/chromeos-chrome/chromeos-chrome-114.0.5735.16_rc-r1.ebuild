@@ -1385,9 +1385,7 @@ src_install() {
 	# Keep the .dwp files with debug fission.
 	if use chrome_debug && use debug_fission; then
 		# TODO(b/279648466): Replace GNU dwp with llvm-dwp.
-		if use amd64; then
-			DWP="${CHOST}-dwp"
-		fi
+		DWP="${CHOST}-dwp"
 		mkdir -p "${D}/usr/lib/debug/${CHROME_DIR}"
 		cd "${D}/${CHROME_DIR}" || die
 		# Iterate over all ELF files in current directory
