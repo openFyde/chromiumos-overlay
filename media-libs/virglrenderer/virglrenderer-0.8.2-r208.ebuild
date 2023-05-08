@@ -50,6 +50,15 @@ PATCHES=(
 	"${FILESDIR}"/0006-UPSTREAM-decode-Use-size_t-when-dealing-with-memory-.patch
 	"${FILESDIR}"/0007-UPSTREAM-renderer-Make-abo-and-ssbo-take-a-strong-re.patch
 	"${FILESDIR}"/0008-UPSTREAM-renderer-Avoid-out-of-bound-access-when-rel.patch
+	"${FILESDIR}"/0009-UPSTREAM-shader-Check-the-bias-and-offset-after-the-.patch
+	"${FILESDIR}"/0010-UPSTREAM-shader-Extract-the-string-after-last-reallo.patch
+	"${FILESDIR}"/0011-UPSTREAM-shader-Properly-check-string-length.patch
+	"${FILESDIR}"/0012-UPSTREAM-renderer-Take-a-reference-of-the-resource-w.patch
+	"${FILESDIR}"/0013-UPSTREAM-shader-tgsi-check-array-access-and-report-f.patch
+	"${FILESDIR}"/0014-UPSTREAM-renderer-Check-the-the-format-is-valid-befo.patch
+	"${FILESDIR}"/0015-UPSTREAM-renderer-Take-a-reference-of-the-resource-w.patch
+	"${FILESDIR}"/0016-UPSTREAM-tgsi-Add-sanity-checks-to-avoid-out-of-boun.patch
+	"${FILESDIR}"/0017-UPSTREAM-renderer-Make-sure-to-unbind-the-sampler-st.patch
 )
 
 src_prepare() {
