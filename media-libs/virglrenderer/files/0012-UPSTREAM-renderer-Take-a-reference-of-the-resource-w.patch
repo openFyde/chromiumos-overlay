@@ -1,7 +1,7 @@
-From b4be976e0bd89a6092661913fca8490cd9d6df1c Mon Sep 17 00:00:00 2001
+From d72c70e42da8af604dc9369f6ae622577083bf34 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Corentin=20No=C3=ABl?= <corentin.noel@collabora.com>
 Date: Thu, 27 Apr 2023 15:08:46 +0200
-Subject: [PATCH 12/17] UPSTREAM: renderer: Take a reference of the resource
+Subject: [PATCH 12/20] UPSTREAM: renderer: Take a reference of the resource
  when assigning it to the image view
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -19,7 +19,7 @@ Part-of: <https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/11
  1 file changed, 41 insertions(+), 2 deletions(-)
 
 diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-index f3f5fe98..5ee1b82a 100644
+index a8cd61c7..cf8b0a88 100644
 --- a/src/vrend_renderer.c
 +++ b/src/vrend_renderer.c
 @@ -3702,7 +3702,7 @@ void vrend_set_single_image_view(struct vrend_context *ctx,
@@ -40,9 +40,9 @@ index f3f5fe98..5ee1b82a 100644
        iview->format = 0;
        ctx->sub->images_used_mask[shader_type] &= ~(1u << index);
     }
-@@ -7391,6 +7391,45 @@ static void vrend_destroy_sub_context(struct vrend_sub_context *sub)
- 
-    vrend_clicbs->make_current(sub->gl_context);
+@@ -7419,6 +7419,45 @@ static void vrend_destroy_sub_context(struct vrend_sub_context *sub)
+       }
+    }
  
 +   if (has_feature(feat_images)) {
 +      for (int shader_type = PIPE_SHADER_VERTEX;
@@ -87,5 +87,5 @@ index f3f5fe98..5ee1b82a 100644
        glDeleteFramebuffers(1, &sub->fb_id);
  
 -- 
-2.39.2
+2.40.1.606.ga4b1b128d6-goog
 
