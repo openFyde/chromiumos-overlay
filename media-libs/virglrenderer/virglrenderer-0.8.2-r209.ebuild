@@ -59,6 +59,9 @@ PATCHES=(
 	"${FILESDIR}"/0015-UPSTREAM-renderer-Take-a-reference-of-the-resource-w.patch
 	"${FILESDIR}"/0016-UPSTREAM-tgsi-Add-sanity-checks-to-avoid-out-of-boun.patch
 	"${FILESDIR}"/0017-UPSTREAM-renderer-Make-sure-to-unbind-the-sampler-st.patch
+	"${FILESDIR}"/0018-UPSTREAM-gallium-fix-tgsi-error-debug-outputs.patch
+	"${FILESDIR}"/0019-UPSTREAM-tgsi-catch-sampler-out-of-range-early.patch
+	"${FILESDIR}"/0020-UPSTREAM-shader-bail-out-early-if-sampler-id-is-out-.patch
 )
 
 src_prepare() {
