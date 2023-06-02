@@ -41,6 +41,7 @@ DEPEND="sys-kernel/linux-firmware
 	builtin_fw_x86_intel_ucode? ( sys-firmware/intel-ucode-firmware )
 	builtin_fw_x86_jsl_ucode? ( chromeos-base/jsl-ucode-firmware-private )
 	builtin_fw_x86_kbl_ucode? ( chromeos-base/kbl-ucode-firmware-private )
+	builtin_fw_x86_mdn_ucode? ( sys-firmware/mdn-ucode-firmware-private )
 	builtin_fw_x86_mtl_ucode? ( sys-firmware/mtl-ucode-firmware-private )
 	builtin_fw_x86_rpl_ucode? ( sys-firmware/brya-kernel-ucode )
 	builtin_fw_x86_skl_ucode? ( chromeos-base/skl-ucode-firmware-private )
@@ -1297,6 +1298,7 @@ FIRMWARE_BINARIES=(
 	builtin_fw_x86_intel_ucode
 	builtin_fw_x86_jsl_ucode
 	builtin_fw_x86_kbl_ucode
+	builtin_fw_x86_mdn_ucode
 	builtin_fw_x86_mtl_ucode
 	builtin_fw_x86_rpl_ucode
 	builtin_fw_x86_skl_ucode
@@ -1754,6 +1756,11 @@ builtin_fw_x86_kbl_ucode_desc="Intel ucode for KBL"
 builtin_fw_x86_kbl_ucode_files=(
 	intel-ucode/06-8e-09
 	intel-ucode/06-8e-0a
+)
+
+builtin_fw_x86_mdn_ucode_desc="AMD ucode for Mendocino"
+builtin_fw_x86_mdn_ucode_files=(
+	amd-ucode/microcode_amd_fam17h.bin
 )
 
 builtin_fw_x86_mtl_ucode_desc="Intel ucode for MTL"
