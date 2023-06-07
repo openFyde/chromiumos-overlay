@@ -3,8 +3,8 @@
 
 EAPI="7"
 
-CROS_WORKON_COMMIT="758715ce4c448f6824160a0e904aa966c9b951d8"
-CROS_WORKON_TREE="58e3a387b9a0237a9272e0812b071bc7a74109b3"
+CROS_WORKON_COMMIT="730a6a99708871259058da3ea50cc1f5e513e391"
+CROS_WORKON_TREE="5202b7547d18f0708394941320d7e21f70d71fe9"
 CROS_WORKON_PROJECT="chromiumos/third_party/mesa"
 CROS_WORKON_LOCALNAME="mesa-freedreno"
 CROS_WORKON_EGIT_BRANCH="chromeos-freedreno"
@@ -86,7 +86,7 @@ multilib_src_configure() {
 		-Ddri3=disabled
 		-Dgles-lib-suffix=_mesa
 		-Degl-lib-suffix=_mesa
-		-Dfreedreno-kmds=msm,virtio
+		-Dfreedreno-virtio=true
 		-Dplatforms="android"
 		-Dllvm=disabled
 		-Degl=enabled
