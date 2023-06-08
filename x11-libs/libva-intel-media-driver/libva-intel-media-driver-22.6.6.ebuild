@@ -13,7 +13,7 @@ HOMEPAGE="https://github.com/intel/media-driver"
 
 LICENSE="MIT BSD"
 SLOT="0"
-IUSE="ihd_cmrtlib video_cards_iHD_g8 video_cards_iHD_g9 video_cards_iHD_g11 video_cards_iHD_g12"
+IUSE="ihd_cmrtlib video_cards_iHD_g8 video_cards_iHD_g9 video_cards_iHD_g11 video_cards_iHD_g12 disable_VP9_dec"
 REQUIRED_USE="|| ( video_cards_iHD_g8 video_cards_iHD_g9 video_cards_iHD_g11 video_cards_iHD_g12 )"
 
 DEPEND=">=media-libs/gmmlib-22.0.0:=
@@ -36,6 +36,16 @@ PATCHES=(
 	"${FILESDIR}"/0009-Encode-Fix-an-issue-that-GopPicSize-may-be-0.patch
 	"${FILESDIR}"/0010-VP9-Encode-Fix-unaligned-height-static-content-encod.patch
 )
+
+src_prepare() {
+	# Ideally we would like to just define configure setting
+	# -DVP9_Decode_Supported=$(usex VP9_disable_dec no yes)
+	# but that is seriously broken in upstream intel-media-23.1.
+	if use disable_VP9_dec; then
+		PATCHES+=( "${FILESDIR}"/0001-Remove-VP9-decode-from-media_interfaces.patch )
+	fi
+	cmake_src_prepare
+}
 
 src_configure() {
 	local mycmakeargs=(
