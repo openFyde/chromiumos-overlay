@@ -60,6 +60,8 @@ PATCHES=(
 	"${FILESDIR}"/0018-UPSTREAM-gallium-fix-tgsi-error-debug-outputs.patch
 	"${FILESDIR}"/0019-UPSTREAM-tgsi-catch-sampler-out-of-range-early.patch
 	"${FILESDIR}"/0020-UPSTREAM-shader-bail-out-early-if-sampler-id-is-out-.patch
+	"${FILESDIR}"/0021-UPSTREAM-shader-Specify-the-size-of-the-front_back_c.patch
+	"${FILESDIR}"/0022-UPSTREAM-shader-Do-some-basic-sanity-checks-in-emit_.patch
 )
 
 src_prepare() {
