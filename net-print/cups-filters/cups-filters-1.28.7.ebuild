@@ -19,7 +19,7 @@ HOMEPAGE="https://wiki.linuxfoundation.org/openprinting/cups-filters"
 
 LICENSE="MIT GPL-2"
 SLOT="0"
-IUSE="dbus exif +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
+IUSE="dbus +foomatic ipp_autosetup jpeg ldap pclm pdf perl png +postscript static-libs test tiff zeroconf"
 
 RESTRICT="!test? ( test )"
 
@@ -35,7 +35,6 @@ RDEPEND="
 	!<=net-print/cups-1.5.9999
 	sys-devel/bc
 	sys-libs/zlib
-	exif? ( media-libs/libexif )
 	dbus? ( sys-apps/dbus )
 	foomatic? ( !net-print/foomatic-filters )
 	jpeg? ( virtual/jpeg:0 )
@@ -69,8 +68,6 @@ src_prepare() {
 
 src_configure() {
 	sanitizers-setup-env
-	# See https://github.com/gentoo/gentoo/pull/29958 and associated bug report
-	append-lfs-flags
 
 	# These two variables are required to configure cups-filters.
 	# Without them, ./configure script tries to run $PKG_CONFIG to
@@ -93,7 +90,6 @@ src_configure() {
 		--without-php
 		--disable-braille
 		$(use_enable !postscript poppler)
-		$(use_enable exif)
 		$(use_enable dbus)
 		$(use_enable foomatic)
 		$(use_enable ipp_autosetup auto-setup-driverless)
@@ -108,8 +104,6 @@ src_configure() {
 		$(use_with png)
 		$(use_with tiff)
 	)
-
-	CUPSCONFIG="${CHOST}-cups-config" \
 	econf "${myeconfargs[@]}"
 }
 

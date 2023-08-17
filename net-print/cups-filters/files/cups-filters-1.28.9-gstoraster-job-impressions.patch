@@ -1,32 +1,46 @@
-From 63b5edeb289b8b0c988c3e4f3657198a8dd7af24 Mon Sep 17 00:00:00 2001
+From ec89219791b806a26b68044cbc0a5f48037f6bce Mon Sep 17 00:00:00 2001
 From: Sean Kau <skau@chromium.org>
 Date: Thu, 8 Jul 2021 16:00:28 -0700
 Subject: [PATCH] Set the counted pages for PDFs as job-impressions
 
-pwgraster is always == 0 so the code which sets job-impressions
-never runs. Remove the test condition to ensure this code runs
-for both pwg and PDFs.
-
-[Adrian Ratiu: rebased to v1.28.17]
 ---
- filter/gstoraster.c | 2 --
- 1 file changed, 2 deletions(-)
+ filter/gstoraster.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/filter/gstoraster.c b/filter/gstoraster.c
-index 87ff948e6..42dd3f42c 100644
+index c26e04e6a..2a3a5a286 100644
 --- a/filter/gstoraster.c
 +++ b/filter/gstoraster.c
-@@ -761,10 +761,8 @@ main (int argc, char **argv, char *envp[])
+@@ -713,21 +713,25 @@ main (int argc, char **argv, char *envp[])
      goto out;
    }
  
--  if (pwgraster) {
-     // Set job-impressions for later embedding as TotalPageCount.
-     num_options = cupsAddIntegerOption("job-impressions", pagecount, num_options, &options);
--  }
- 
+-  if (doc_type == GS_DOC_TYPE_PDF) {  
+-    int pages = pdf_pages(filename);
+-
+-    if (pages == 0) {
++  if (doc_type == GS_DOC_TYPE_PDF) {
++    // Determine how many pages we have and if we have something valid to print.
++    int pagecount = pdf_pages(filename);
++    if (pagecount == 0) {
+       fprintf(stderr, "DEBUG: No pages left, outputting empty file.\n");
+       status = 0;
+       if (outformat == OUTPUT_FORMAT_RASTER)
+         fprintf(stdout, "RaS2");
+       goto out;
+     }
+-    if (pages < 0) {
++    if (pagecount < 0) {
+       fprintf(stderr, "DEBUG: Unexpected page count\n");
+       goto out;
+     }
++
++    // Set job-impressions for later embedding as TotalPageCount.
++    num_options = cupsAddIntegerOption("job-impressions", pagecount, num_options, &options);
+   }
++
    if (argc == 6) {
      /* input from stdin */
--- 
-2.39.2
+     /* remove name of temp file*/
+2.32.0.93.g670b81a890-goog
 

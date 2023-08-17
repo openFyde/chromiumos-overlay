@@ -1,22 +1,14 @@
-From 3473bf2776982e672044bd5354207465a2760654 Mon Sep 17 00:00:00 2001
 From: Pranav Batra <batrapranav@chromium.org>
-Date: Tue, 4 Apr 2023 18:53:51 +0300
 Subject: [PATCH] Remove bbox Ghostscript device
 
 The bbox device is used to count the number of pages in a postscript
 file very inefficiently to make sure at least one page exists before
 attempting to render the file. Currently we do not build ghostscript
 with support for the bbox device hence the need for this patch.
----
- filter/foomatic-rip/postscript.c | 35 -------------------
- filter/gstoraster.c              | 59 ++++++++------------------------
- 2 files changed, 14 insertions(+), 80 deletions(-)
 
-diff --git a/filter/foomatic-rip/postscript.c b/filter/foomatic-rip/postscript.c
-index f68860cc7..ac8e8d954 100644
 --- a/filter/foomatic-rip/postscript.c
 +++ b/filter/foomatic-rip/postscript.c
-@@ -168,45 +168,10 @@ int stream_next_line(dstr_t *line, stream_t *s)
+@@ -168,42 +168,10 @@ int stream_next_line(dstr_t *line, stream_t *s)
      return cnt;
  }
  
@@ -26,10 +18,7 @@ index f68860cc7..ac8e8d954 100644
 -    char output[31] = "";
 -    int pagecount;
 -    size_t bytes;
--    /* Ghostscript runs too long while printing PDF fikes converted from
--       djvu files. Using -dDEVICEWIDTHPOINTS=1 -dDEVICEHEIGHTPOINTS=1
--       solves the problem */
--    snprintf(gscommand, 65536, "%s -q -dNOPAUSE -dBATCH -sDEVICE=bbox -dDEVICEWIDTHPOINTS=1 -dDEVICEHEIGHTPOINTS=1 %s 2>&1 | grep -c HiResBoundingBox",
+-    snprintf(gscommand, 65536, "%s -q -dNOPAUSE -dBATCH -sDEVICE=bbox %s 2>&1 | grep -c HiResBoundingBox",
 -              CUPS_GHOSTSCRIPT, filename);
 -    FILE *pd = popen(gscommand, "r");
 -    bytes = fread(output, 1, 31, pd);
@@ -62,83 +51,44 @@ index f68860cc7..ac8e8d954 100644
      stream.pos = 0;
      stream.file = file;
      stream.alreadyread = alreadyread;
-diff --git a/filter/gstoraster.c b/filter/gstoraster.c
-index 87ff948e6..bf28ea20b 100644
 --- a/filter/gstoraster.c
 +++ b/filter/gstoraster.c
-@@ -582,40 +582,6 @@ out:
- }
- #endif
- 
--// Returns the number of pages in the document |filename|. Returns -1 if there was an error.
--static int
--count_pages(char* filename, GsDocType doc_type) {
--  int pagecount = 0;
--
--  if (doc_type == GS_DOC_TYPE_PDF) {
--    return pdf_pages(filename);
--  }
--
--  // All other content needs to be rendered.
--  char gscommand[65536];
--  char output[31] = "";
--  size_t bytes;
--  /* Ghostscript runs too long while printing PDF fikes converted from
--     djvu files. Using -dDEVICEWIDTHPOINTS=1 -dDEVICEHEIGHTPOINTS=1
--     solves the problem */
--  snprintf(gscommand, 65536, "%s -q -dNOPAUSE -dBATCH -sDEVICE=bbox -dDEVICEWIDTHPOINTS=1 -dDEVICEHEIGHTPOINTS=1 %s 2>&1 | grep -c HiResBoundingBox",
--      CUPS_GHOSTSCRIPT, filename);
--
--  FILE *pd = popen(gscommand, "r");
--  if (!pd) {
--    fprintf(stderr, "Failed to execute ghostscript to determine number of input pages!\n");
--    return -1;
--  }
--
--  bytes = fread(output, 1, 31, pd);
--  pclose(pd);
--
--  if (bytes <= 0 || sscanf(output, "%d", &pagecount) < 1)
--    return -1;
--
--  return pagecount;
--}
--
- int
- main (int argc, char **argv, char *envp[])
- {
-@@ -748,17 +714,20 @@ main (int argc, char **argv, char *envp[])
+@@ -728,38 +728,6 @@ main (int argc, char **argv, char *envp[])
+       goto out;
+     }
    }
- 
-   // Determine how many pages we have and if we have something valid to print.
--  int pagecount = count_pages(filename, doc_type);
--  if (pagecount == 0) {
--    fprintf(stderr, "DEBUG: No pages left, outputting empty file.\n");
--    status = 0;
--    if (outformat == OUTPUT_FORMAT_RASTER)
--      fprintf(stdout, "RaS2");
--    goto out;
+-  else {
+-    char gscommand[65536];
+-    char output[31] = "";
+-    int pagecount;
+-    size_t bytes;
+-    snprintf(gscommand, 65536, "%s -q -dNOPAUSE -dBATCH -sDEVICE=bbox %s 2>&1 | grep -c HiResBoundingBox",
+-	     CUPS_GHOSTSCRIPT, filename);
+-
+-    FILE *pd = popen(gscommand, "r");
+-    if (!pd) {
+-      fprintf(stderr, "Failed to execute ghostscript to determine number of input pages!\n");
+-      goto out;
+-    }
+-
+-    bytes = fread(output, 1, 31, pd);
+-    pclose(pd);
+-
+-    if (bytes <= 0 || sscanf(output, "%d", &pagecount) < 1)
+-      pagecount = -1;
+-
+-    if (pagecount == 0) {
+-      fprintf(stderr, "DEBUG: No pages left, outputting empty file.\n");
+-      status = 0;
+-      if (outformat == OUTPUT_FORMAT_RASTER)
+-        fprintf(stdout, "RaS2");
+-      goto out;
+-    }
+-    if (pagecount < 0) {
+-      fprintf(stderr, "DEBUG: Unexpected page count\n");
+-      goto out;
+-    }
 -  }
--  if (pagecount < 0) {
--    fprintf(stderr, "DEBUG: Unexpected page count\n");
--    goto out;
-+  int pagecount = 0;
-+  if (doc_type == GS_DOC_TYPE_PDF) {
-+    pagecount = pdf_pages(filename);
-+    if (pagecount == 0) {
-+      fprintf(stderr, "DEBUG: No pages left, outputting empty file.\n");
-+      status = 0;
-+      if (outformat == OUTPUT_FORMAT_RASTER)
-+        fprintf(stdout, "RaS2");
-+      goto out;
-+    }
-+    if (pagecount < 0) {
-+      fprintf(stderr, "DEBUG: Unexpected page count\n");
-+      goto out;
-+    }
-   }
- 
-   if (pwgraster) {
--- 
-2.40.0
-
+   if (argc == 6) {
+     /* input from stdin */
+     /* remove name of temp file*/
