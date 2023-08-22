@@ -64,6 +64,7 @@ PATCHES=(
 	"${FILESDIR}"/0020-UPSTREAM-shader-bail-out-early-if-sampler-id-is-out-.patch
 	"${FILESDIR}"/0021-UPSTREAM-shader-Specify-the-size-of-the-front_back_c.patch
 	"${FILESDIR}"/0022-UPSTREAM-shader-Do-some-basic-sanity-checks-in-emit_.patch
+	"${FILESDIR}"/0006-UPSTREAM-decode-Reduce-the-size-of-the-buffer-copy.patch
 	"${FILESDIR}"/0007-UPSTREAM-renderer-Plug-a-leak-on-query-creation-failure.patch
 	"${FILESDIR}"/0008-UPSTREAM-decode-verify-the-presence-of-constant-buffer-data-b.patch
 	"${FILESDIR}"/0009-UPSTREAM-decode-verify-the-presence-of-handles-before-use.patch
