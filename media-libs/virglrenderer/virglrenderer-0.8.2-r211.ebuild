@@ -64,6 +64,7 @@ PATCHES=(
 	"${FILESDIR}"/0020-UPSTREAM-shader-bail-out-early-if-sampler-id-is-out-.patch
 	"${FILESDIR}"/0021-UPSTREAM-shader-Specify-the-size-of-the-front_back_c.patch
 	"${FILESDIR}"/0022-UPSTREAM-shader-Do-some-basic-sanity-checks-in-emit_.patch
+	"${FILESDIR}"/0007-UPSTREAM-renderer-Plug-a-leak-on-query-creation-failure.patch
 )
 
 src_prepare() {
