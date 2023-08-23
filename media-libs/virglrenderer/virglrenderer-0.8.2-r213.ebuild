@@ -65,6 +65,8 @@ PATCHES=(
 	"${FILESDIR}"/0021-UPSTREAM-shader-Specify-the-size-of-the-front_back_c.patch
 	"${FILESDIR}"/0022-UPSTREAM-shader-Do-some-basic-sanity-checks-in-emit_.patch
 	"${FILESDIR}"/0007-UPSTREAM-renderer-Plug-a-leak-on-query-creation-failure.patch
+	"${FILESDIR}"/0008-UPSTREAM-decode-verify-the-presence-of-constant-buffer-data-b.patch
+	"${FILESDIR}"/0009-UPSTREAM-decode-verify-the-presence-of-handles-before-use.patch
 	"${FILESDIR}"/0012-renderer-Make-vrend_alpha_test_enable-take-a-sub_ctx.patch
 	"${FILESDIR}"/0013-renderer-Make-vrend_depth_test_enable-take-a-sub_ctx.patch
 	"${FILESDIR}"/0014-renderer-Make-vrend_hw_emit_dsa-take-a-sub_ctx.patch
