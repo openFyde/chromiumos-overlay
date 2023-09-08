@@ -73,6 +73,7 @@ PATCHES=(
 	"${FILESDIR}"/0014-renderer-Make-vrend_hw_emit_dsa-take-a-sub_ctx.patch
 	"${FILESDIR}"/0015-renderer-Add-vrend_object_bind_dsa_to_sub_context.patch
 	"${FILESDIR}"/0016-renderer-Change-the-current-subcontext-to-the-curren.patch
+	"${FILESDIR}"/0008-UPSTREAM-vrend-check-IOV-and-its-size-before-writing.patch
 )
 
 src_prepare() {
